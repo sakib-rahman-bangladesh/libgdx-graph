@@ -84,10 +84,12 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
             fragmentShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = " + emission + ".rgb + u_ambientLight * " + albedo + ".rgb;");
             fragmentShaderBuilder.addMainLine(name + " += " + lightingVariable + ".diffuse * " + albedo + ".rgb + " + lightingVariable + ".specular * " + specular + ".rgb;");
             result.put("output", new DefaultFieldOutput(resultType, name));
-        } else if (producedOutputs.contains("diffuse")) {
+        }
+        if (producedOutputs.contains("diffuse")) {
             result.put("diffuse", new DefaultFieldOutput(resultType, lightingVariable + ".diffuse"));
-        } else if (producedOutputs.contains("specular")) {
-            result.put("specular", new DefaultFieldOutput(resultType, lightingVariable + ".specular"));
+        }
+        if (producedOutputs.contains("specularOut")) {
+            result.put("specularOut", new DefaultFieldOutput(resultType, lightingVariable + ".specular"));
         }
 
         return result;

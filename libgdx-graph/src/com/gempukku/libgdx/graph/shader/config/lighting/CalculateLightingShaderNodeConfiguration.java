@@ -25,6 +25,6 @@ public class CalculateLightingShaderNodeConfiguration extends NodeConfigurationI
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("diffuse", "Diffuse", ShaderFieldType.Vector3));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("specular", "Specular", ShaderFieldType.Vector3));
+                new GraphNodeOutputImpl<ShaderFieldType>("specularOut", "Specular", ShaderFieldType.Vector3));
     }
 }

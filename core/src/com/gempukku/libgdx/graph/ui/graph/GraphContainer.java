@@ -143,6 +143,8 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         canvasX = x;
         canvasY = y;
         navigating = false;
+
+        windowsMoved();
     }
 
     @Override
@@ -387,13 +389,16 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
                 }
             }
 
-            recreateClickableShapes();
-            updateCanvas(true);
-            fire(new GraphChangedEvent(false, false));
-
+            windowsMoved();
             movingSelected = false;
         }
         windowPositions.get(visWindow).set(visWindow.getX(), visWindow.getY());
+    }
+
+    private void windowsMoved() {
+        recreateClickableShapes();
+        updateCanvas(true);
+        fire(new GraphChangedEvent(false, false));
     }
 
     private void addToSelection(String nodeId) {
@@ -428,6 +433,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
         boxWindows.remove(graphBox.getId());
         graphBoxes.remove(graphBox.getId());
+        selectedNodes.remove(graphBox.getId());
         graphBox.dispose();
 
         fire(new GraphChangedEvent(true, false));
