@@ -23,6 +23,7 @@ import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphValidator;
+import com.gempukku.libgdx.graph.data.NodeGroup;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
@@ -78,7 +79,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         this.uiGraphConfiguration = uiGraphConfiguration;
         this.saveCallback = saveCallback;
 
-        graphContainer = new GraphContainer<T>(
+        graphContainer = new GraphContainer<T>(skin,
                 new PopupMenuProducer() {
                     @Override
                     public PopupMenu createPopupMenu(float x, float y) {
@@ -382,7 +383,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     }
 
     public JSONObject serializeGraph() {
-        JSONObject pipeline = new JSONObject();
+        JSONObject graph = new JSONObject();
 
         JSONArray objects = new JSONArray();
         Vector2 tmp = new Vector2();
@@ -401,7 +402,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
 
             objects.add(object);
         }
-        pipeline.put("nodes", objects);
+        graph.put("nodes", objects);
 
         JSONArray connections = new JSONArray();
         for (GraphConnection connection : graphContainer.getConnections()) {
@@ -412,7 +413,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
             conn.put("toField", connection.getFieldTo());
             connections.add(conn);
         }
-        pipeline.put("connections", connections);
+        graph.put("connections", connections);
 
         JSONArray properties = new JSONArray();
         for (PropertyBox propertyBox : propertyBoxes) {
@@ -426,8 +427,19 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
 
             properties.add(property);
         }
-        pipeline.put("properties", properties);
+        graph.put("properties", properties);
 
-        return pipeline;
+        JSONArray groups = new JSONArray();
+        for (NodeGroup nodeGroup : graphContainer.getNodeGroups()) {
+            JSONObject group = new JSONObject();
+            group.put("name", nodeGroup.getName());
+            JSONArray nodes = new JSONArray();
+            nodes.addAll(nodeGroup.getNodeIds());
+            group.put("nodes", nodes);
+            groups.add(group);
+        }
+        graph.put("groups", groups);
+
+        return graph;
     }
 }

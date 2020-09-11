@@ -50,6 +50,7 @@ public class LibgdxGraphScreen extends Table {
     private MenuItem saveAs;
     private MenuItem exportShader;
     private MenuItem close;
+    private MenuItem createGroup;
 
     public LibgdxGraphScreen(Skin skin) {
         this.skin = skin;
@@ -67,6 +68,7 @@ public class LibgdxGraphScreen extends Table {
                         save.setDisabled(false);
                         saveAs.setDisabled(false);
                         close.setDisabled(false);
+                        createGroup.setDisabled(false);
 
                         GraphDesignTab<?> designTab = (GraphDesignTab<?>) tab;
                         boolean graphShaderTab = designTab.getType() == GraphDesignTab.Type.Graph_Shader;
@@ -78,6 +80,7 @@ public class LibgdxGraphScreen extends Table {
                         save.setDisabled(true);
                         saveAs.setDisabled(true);
                         close.setDisabled(true);
+                        createGroup.setDisabled(true);
                         exportShader.setDisabled(true);
                     }
                 });
@@ -117,10 +120,38 @@ public class LibgdxGraphScreen extends Table {
 
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
-        Menu fileMenu = createFileMenu();
+        menuBar.addMenu(createFileMenu());
+        menuBar.addMenu(createGraphMenu());
 
-        menuBar.addMenu(fileMenu);
         return menuBar;
+    }
+
+    private Menu createGraphMenu() {
+        Menu graphMenu = new Menu("Graph");
+
+        createGroup = new MenuItem("Create group");
+        createGroup.setDisabled(true);
+        createGroup.addListener(
+                new ClickListener(Input.Buttons.LEFT) {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        createGroup();
+                    }
+                });
+        graphMenu.addItem(createGroup);
+
+        exportShader = new MenuItem("Export shader");
+        exportShader.setDisabled(true);
+        exportShader.addListener(
+                new ClickListener(Input.Buttons.LEFT) {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        exportShader();
+                    }
+                });
+        graphMenu.addItem(exportShader);
+
+        return graphMenu;
     }
 
     private Menu createFileMenu() {
@@ -162,19 +193,6 @@ public class LibgdxGraphScreen extends Table {
                     }
                 });
         fileMenu.addItem(saveAs);
-
-        fileMenu.addSeparator();
-
-        exportShader = new MenuItem("Export shader");
-        exportShader.setDisabled(true);
-        exportShader.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        exportShader();
-                    }
-                });
-        fileMenu.addItem(exportShader);
 
         fileMenu.addSeparator();
 
@@ -281,6 +299,10 @@ public class LibgdxGraphScreen extends Table {
             });
             getStage().addActor(fileChooser.fadeIn());
         }
+    }
+
+    private void createGroup() {
+        ((GraphDesignTab<?>) tabbedPane.getActiveTab()).getGraphContainer().createNodeGroup();
     }
 
     private void exportShader() {

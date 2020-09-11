@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class GraphDataLoaderCallback<T, U extends FieldType> implements GraphLoaderCallback<T>, Graph<GraphNode<U>, GraphConnection, GraphProperty<U>, U> {
     private Map<String, GraphNodeData<U>> graphNodes = new HashMap<>();
@@ -31,6 +32,11 @@ public abstract class GraphDataLoaderCallback<T, U extends FieldType> implements
     @Override
     public void addPipelineProperty(String type, String name, JSONObject data) {
         graphProperties.put(name, new GraphPropertyData<U>(name, getFieldType(type), data));
+    }
+
+    @Override
+    public void addNodeGroup(String name, Set<String> nodeIds) {
+        // Ignore - used only in UI
     }
 
     @Override

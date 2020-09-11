@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -7,7 +8,9 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GraphLoader {
     public static <T> T loadGraph(InputStream inputStream, GraphLoaderCallback<T> graphLoaderCallback) throws IOException {
@@ -42,6 +45,15 @@ public class GraphLoader {
             String name = (String) property.get("name");
             JSONObject data = (JSONObject) property.get("data");
             graphLoaderCallback.addPipelineProperty(type, name, data);
+        }
+        List<JSONObject> groups = (List<JSONObject>) graph.get("groups");
+        if (groups != null) {
+            for (JSONObject group : groups) {
+                String name = (String) group.get("name");
+                JSONArray nodes = (JSONArray) group.get("nodes");
+                Set<String> nodeIds = new HashSet<>(nodes);
+                graphLoaderCallback.addNodeGroup(name, nodeIds);
+            }
         }
 
         return graphLoaderCallback.end();

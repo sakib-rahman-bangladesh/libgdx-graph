@@ -4,25 +4,34 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.utils.Align;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNodeInput;
 import com.gempukku.libgdx.graph.data.GraphNodeOutput;
 import com.gempukku.libgdx.graph.data.GraphValidator;
 import com.gempukku.libgdx.graph.data.NodeConnector;
+import com.gempukku.libgdx.graph.data.NodeGroup;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.preview.NavigableCanvas;
 import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.util.InputValidator;
+import com.kotcrab.vis.ui.util.dialog.Dialogs;
+import com.kotcrab.vis.ui.util.dialog.InputDialogListener;
+import com.kotcrab.vis.ui.widget.MenuItem;
 import com.kotcrab.vis.ui.widget.PopupMenu;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
@@ -41,8 +50,20 @@ import java.util.Set;
 
 public class GraphContainer<T extends FieldType> extends Table implements NavigableCanvas {
     private static final float CANVAS_GAP = 50f;
+    private static final float GROUP_GAP = 10f;
+    private static final float GROUP_LABEL_HEIGHT = 20f;
     private static final float CONNECTOR_LENGTH = 10;
     private static final float CONNECTOR_RADIUS = 5;
+
+    private static final Color GROUP_BACKGROUND_COLOR = new Color(0.3f, 0.3f, 0.3f, 1f);
+    private static final Color LINE_COLOR = Color.WHITE;
+    private static final Color VALID_CONNECTOR_COLOR = Color.WHITE;
+    private static final Color INVALID_CONNECTOR_COLOR = Color.RED;
+
+    private static final Color INVALID_LABEL_COLOR = Color.RED;
+    private static final Color WARNING_LABEL_COLOR = Color.GOLDENROD;
+    private static final Color VALID_LABEL_COLOR = Color.WHITE;
+    private static final float NODE_GROUP_PADDING = 4f;
 
     private float canvasX;
     private float canvasY;
@@ -57,6 +78,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
     private Map<NodeConnector, Shape> connectionNodeMap = new HashMap<>();
     private Map<GraphConnection, Shape> connections = new HashMap<>();
+    private Map<NodeGroupImpl, Rectangle> nodeGroups = new HashMap<>();
 
     private ShapeRenderer shapeRenderer;
 
@@ -65,8 +87,10 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
     private Set<String> selectedNodes = new HashSet<>();
     private boolean movingSelected = false;
+    private Skin skin;
 
-    public GraphContainer(final PopupMenuProducer popupMenuProducer) {
+    public GraphContainer(Skin skin, final PopupMenuProducer popupMenuProducer) {
+        this.skin = skin;
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
 
@@ -78,8 +102,34 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if (!containedInWindow(x, y)) {
-                            PopupMenu popupMenu = popupMenuProducer.createPopupMenu(x, y);
-                            popupMenu.showMenu(getStage(), x + getX(), y + getY());
+                            NodeGroupImpl nodeGroup = null;
+                            for (Map.Entry<NodeGroupImpl, Rectangle> nodeGroupEntry : nodeGroups.entrySet()) {
+                                Rectangle rectangle = nodeGroupEntry.getValue();
+                                if (rectangle.contains(x, y) && y > rectangle.y + rectangle.height - GROUP_LABEL_HEIGHT) {
+                                    // Hit the label
+                                    nodeGroup = nodeGroupEntry.getKey();
+                                    break;
+                                }
+                            }
+                            if (nodeGroup != null) {
+                                final NodeGroupImpl finalNodeGroup = nodeGroup;
+
+                                PopupMenu popupMenu = new PopupMenu();
+                                MenuItem remove = new MenuItem("Remove group");
+                                remove.addListener(
+                                        new ClickListener(Input.Buttons.LEFT) {
+                                            @Override
+                                            public void clicked(InputEvent event, float x, float y) {
+                                                nodeGroups.remove(finalNodeGroup);
+                                                fire(new GraphChangedEvent(false, false));
+                                            }
+                                        });
+                                popupMenu.addItem(remove);
+                                popupMenu.showMenu(getStage(), x + getX(), y + getY());
+                            } else {
+                                PopupMenu popupMenu = popupMenuProducer.createPopupMenu(x, y);
+                                popupMenu.showMenu(getStage(), x + getX(), y + getY());
+                            }
                         }
                     }
                 });
@@ -90,24 +140,55 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
                         processLeftClick(x, y);
                     }
                 });
-        addListener(
-                new DragListener() {
-                    private float canvasXStart;
-                    private float canvasYStart;
+        DragListener dragListener = new DragListener() {
+            private float canvasXStart;
+            private float canvasYStart;
+            private NodeGroup dragGroup;
+            private float movedByX = 0;
+            private float movedByY = 0;
 
-                    @Override
-                    public void dragStart(InputEvent event, float x, float y, int pointer) {
-                        canvasXStart = canvasX;
-                        canvasYStart = canvasY;
-                    }
-
-                    @Override
-                    public void drag(InputEvent event, float x, float y, int pointer) {
-                        if (event.getTarget() == GraphContainer.this) {
-                            navigateTo(canvasXStart + getDragStartX() - x, canvasYStart + getDragStartY() - y);
+            @Override
+            public void dragStart(InputEvent event, float x, float y, int pointer) {
+                if (event.getTarget() == GraphContainer.this) {
+                    canvasXStart = canvasX;
+                    canvasYStart = canvasY;
+                    movedByX = 0;
+                    movedByY = 0;
+                    dragGroup = null;
+                    for (Map.Entry<NodeGroupImpl, Rectangle> nodeGroupEntry : nodeGroups.entrySet()) {
+                        Rectangle rectangle = nodeGroupEntry.getValue();
+                        if (rectangle.contains(x, y) && y > rectangle.y + rectangle.height - GROUP_LABEL_HEIGHT) {
+                            // Hit the label
+                            dragGroup = nodeGroupEntry.getKey();
+                            break;
                         }
                     }
-                });
+                }
+            }
+
+            @Override
+            public void drag(InputEvent event, float x, float y, int pointer) {
+                if (event.getTarget() == GraphContainer.this) {
+                    if (dragGroup != null) {
+                        movingSelected = true;
+                        float moveByX = x - getDragStartX() - movedByX;
+                        float moveByY = y - getDragStartY() - movedByY;
+                        for (String nodeId : dragGroup.getNodeIds()) {
+                            getBoxWindow(nodeId).moveBy(moveByX, moveByY);
+                        }
+                        movedByX += moveByX;
+                        movedByY += moveByY;
+                        windowsMoved();
+                        updateNodeGroups();
+                        movingSelected = false;
+                    } else {
+                        navigateTo(canvasXStart + getDragStartX() - x, canvasYStart + getDragStartY() - y);
+                    }
+                }
+            }
+        };
+        dragListener.setTapSquareSize(0f);
+        addListener(dragListener);
     }
 
     public void centerCanvas() {
@@ -202,11 +283,11 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         for (GraphBox<T> value : graphBoxes.values()) {
             VisWindow window = boxWindows.get(value.getId());
             if (validationResult.getErrorNodes().contains(value)) {
-                window.getTitleLabel().setColor(Color.RED);
+                window.getTitleLabel().setColor(INVALID_LABEL_COLOR);
             } else if (validationResult.getWarningNodes().contains(value)) {
-                window.getTitleLabel().setColor(Color.GOLDENROD);
+                window.getTitleLabel().setColor(WARNING_LABEL_COLOR);
             } else {
-                window.getTitleLabel().setColor(Color.WHITE);
+                window.getTitleLabel().setColor(VALID_LABEL_COLOR);
             }
         }
     }
@@ -357,10 +438,14 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
             @Override
             public void toFront() {
                 super.toFront();
+                String nodeId = graphBox.getId();
                 if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                    addToSelection(graphBox.getId());
+                    if (selectedNodes.contains(nodeId))
+                        removeFromSelection(nodeId);
+                    else
+                        addToSelection(nodeId);
                 } else {
-                    setSelection(graphBox.getId());
+                    setSelection(nodeId);
                 }
             }
         };
@@ -375,6 +460,12 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         window.setSize(Math.max(150, window.getPrefWidth()), window.getPrefHeight());
         boxWindows.put(graphBox.getId(), window);
         fire(new GraphChangedEvent(true, false));
+    }
+
+    public void addNodeGroup(String name, Set<String> nodeIds) {
+        nodeGroups.put(new NodeGroupImpl(name, nodeIds), new Rectangle());
+        updateNodeGroups();
+        fire(new GraphChangedEvent(false, false));
     }
 
     private void graphWindowMoved(VisWindow visWindow, String nodeId) {
@@ -397,8 +488,14 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
     private void windowsMoved() {
         recreateClickableShapes();
+        updateNodeGroups();
         updateCanvas(true);
         fire(new GraphChangedEvent(false, false));
+    }
+
+    private void removeFromSelection(String nodeId) {
+        selectedNodes.remove(nodeId);
+        updateSelectedVisuals();
     }
 
     private void addToSelection(String nodeId) {
@@ -424,16 +521,26 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
     private void removeGraphBox(GraphBox<T> graphBox) {
         Iterator<GraphConnection> graphConnectionIterator = graphConnections.iterator();
+        String nodeId = graphBox.getId();
         while (graphConnectionIterator.hasNext()) {
             GraphConnection graphConnectionImpl = graphConnectionIterator.next();
-            if (graphConnectionImpl.getNodeFrom().equals(graphBox.getId())
-                    || graphConnectionImpl.getNodeTo().equals(graphBox.getId()))
+            if (graphConnectionImpl.getNodeFrom().equals(nodeId)
+                    || graphConnectionImpl.getNodeTo().equals(nodeId))
                 graphConnectionIterator.remove();
         }
 
-        boxWindows.remove(graphBox.getId());
-        graphBoxes.remove(graphBox.getId());
-        selectedNodes.remove(graphBox.getId());
+        boxWindows.remove(nodeId);
+        graphBoxes.remove(nodeId);
+        selectedNodes.remove(nodeId);
+        for (NodeGroupImpl nodeGroupImpl : nodeGroups.keySet()) {
+            if (nodeGroupImpl.getNodeIds().remove(nodeId)) {
+                if (nodeGroupImpl.getNodeIds().size() == 0) {
+                    nodeGroups.remove(nodeGroupImpl);
+                }
+                break;
+            }
+        }
+
         graphBox.dispose();
 
         fire(new GraphChangedEvent(true, false));
@@ -454,7 +561,36 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         super.layout();
         updateShadeRenderer();
         recreateClickableShapes();
+        updateNodeGroups();
         updateCanvas(false);
+    }
+
+    private void updateNodeGroups() {
+        for (Map.Entry<NodeGroupImpl, Rectangle> nodeGroupEntry : nodeGroups.entrySet()) {
+            float minX = Float.MAX_VALUE;
+            float minY = Float.MAX_VALUE;
+            float maxX = Float.MIN_VALUE;
+            float maxY = Float.MIN_VALUE;
+
+            NodeGroupImpl nodeGroupImpl = nodeGroupEntry.getKey();
+            for (String nodeId : nodeGroupImpl.getNodeIds()) {
+                VisWindow window = boxWindows.get(nodeId);
+                float windowX = window.getX();
+                float windowY = window.getY();
+                float windowWidth = window.getWidth();
+                float windowHeight = window.getHeight();
+                minX = Math.min(minX, windowX);
+                minY = Math.min(minY, windowY);
+                maxX = Math.max(maxX, windowX + windowWidth);
+                maxY = Math.max(maxY, windowY + windowHeight);
+            }
+
+            minX -= GROUP_GAP;
+            minY -= GROUP_GAP;
+            maxX += GROUP_GAP;
+            maxY += GROUP_GAP + GROUP_LABEL_HEIGHT;
+            nodeGroupEntry.getValue().set(minX, minY, maxX - minX, maxY - minY);
+        }
     }
 
     private void recreateClickableShapes() {
@@ -529,9 +665,36 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
     public void draw(Batch batch, float parentAlpha) {
         validate();
         batch.end();
+        drawGroups(batch);
         drawConnections();
         batch.begin();
         super.draw(batch, parentAlpha);
+    }
+
+    private void drawGroups(Batch batch) {
+        if (!nodeGroups.isEmpty()) {
+            float x = getX();
+            float y = getY();
+
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(GROUP_BACKGROUND_COLOR);
+            for (Map.Entry<NodeGroupImpl, Rectangle> nodeGroupEntry : nodeGroups.entrySet()) {
+                Rectangle rectangle = nodeGroupEntry.getValue();
+                shapeRenderer.rect(x + rectangle.x, y + rectangle.y, rectangle.width, rectangle.height);
+            }
+            shapeRenderer.end();
+
+            BitmapFont font = skin.getFont("default-font");
+            batch.begin();
+            for (Map.Entry<NodeGroupImpl, Rectangle> nodeGroupEntry : nodeGroups.entrySet()) {
+                NodeGroupImpl nodeGroupImpl = nodeGroupEntry.getKey();
+                Rectangle rectangle = nodeGroupEntry.getValue();
+                String name = nodeGroupImpl.getName();
+                font.draw(batch, name, x + rectangle.x + NODE_GROUP_PADDING, y + rectangle.y + rectangle.height - NODE_GROUP_PADDING,
+                        0, name.length(), rectangle.width - NODE_GROUP_PADDING * 2, Align.center, false, "...");
+            }
+            batch.end();
+        }
     }
 
     private void drawConnections() {
@@ -542,7 +705,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         Vector2 to = new Vector2();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.setColor(LINE_COLOR);
 
         for (Map.Entry<String, VisWindow> windowEntry : boxWindows.entrySet()) {
             String nodeId = windowEntry.getKey();
@@ -581,7 +744,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
             calculateConnection(to, toWindow, input);
 
             boolean error = validationResult.getErrorConnections().contains(graphConnection);
-            shapeRenderer.setColor(error ? Color.RED : Color.WHITE);
+            shapeRenderer.setColor(error ? INVALID_CONNECTOR_COLOR : VALID_CONNECTOR_COLOR);
 
             from.add(x, y);
             to.add(x, y);
@@ -590,7 +753,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         }
 
         if (drawingFromConnector != null) {
-            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.setColor(LINE_COLOR);
             GraphBox<T> drawingFromNode = getGraphBoxById(drawingFromConnector.getNodeId());
             Window fromWindow = getBoxWindow(drawingFromConnector.getNodeId());
             if (drawingFromNode.isInputField(drawingFromConnector.getFieldId())) {
@@ -624,7 +787,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
                             break;
                         }
                     }
-                    shapeRenderer.setColor(isErrorous ? Color.RED : Color.WHITE);
+                    shapeRenderer.setColor(isErrorous ? INVALID_CONNECTOR_COLOR : VALID_CONNECTOR_COLOR);
 
                     shapeRenderer.line(from, to);
                     shapeRenderer.circle(from.x, from.y, CONNECTOR_RADIUS);
@@ -685,6 +848,10 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         return graphConnections;
     }
 
+    public Iterable<? extends NodeGroup> getNodeGroups() {
+        return nodeGroups.keySet();
+    }
+
     private void updateShadeRenderer() {
         shapeRenderer.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         shapeRenderer.updateMatrices();
@@ -725,5 +892,61 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
     public Window getBoxWindow(String nodeId) {
         return boxWindows.get(nodeId);
+    }
+
+    public void createNodeGroup() {
+        if (selectedNodes.size() > 0) {
+            for (String selectedNode : selectedNodes) {
+                if (groupsContain(selectedNode))
+                    return;
+            }
+
+            Dialogs.showInputDialog(getStage(), "Enter group name", "Name",
+                    new InputValidator() {
+                        @Override
+                        public boolean validateInput(String input) {
+                            return !input.trim().isEmpty();
+                        }
+                    },
+                    new InputDialogListener() {
+                        @Override
+                        public void finished(String input) {
+                            addNodeGroup(input.trim(), new HashSet<String>(selectedNodes));
+                        }
+
+                        @Override
+                        public void canceled() {
+
+                        }
+                    });
+        }
+    }
+
+    private boolean groupsContain(String selectedNode) {
+        for (NodeGroupImpl nodeGroupImpl : nodeGroups.keySet()) {
+            if (nodeGroupImpl.getNodeIds().contains(selectedNode))
+                return true;
+        }
+        return false;
+    }
+
+    private static class NodeGroupImpl implements NodeGroup {
+        private String name;
+        private Set<String> nodes;
+
+        public NodeGroupImpl(String name, Set<String> nodes) {
+            this.name = name;
+            this.nodes = nodes;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public Set<String> getNodeIds() {
+            return nodes;
+        }
     }
 }

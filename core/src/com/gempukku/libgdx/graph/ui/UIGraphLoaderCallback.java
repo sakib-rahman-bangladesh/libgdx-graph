@@ -10,6 +10,8 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import org.json.simple.JSONObject;
 
+import java.util.Set;
+
 public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCallback<GraphDesignTab<T>> {
     private Skin skin;
     private GraphDesignTab<T> graphDesignTab;
@@ -49,9 +51,13 @@ public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCa
     }
 
     @Override
+    public void addNodeGroup(String name, Set<String> nodeIds) {
+        graphDesignTab.getGraphContainer().addNodeGroup(name, nodeIds);
+    }
+
+    @Override
     public GraphDesignTab<T> end() {
         graphDesignTab.finishedLoading();
-        ;
         return graphDesignTab;
     }
 
