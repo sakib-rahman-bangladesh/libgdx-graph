@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
@@ -384,6 +385,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
 
     public JSONObject serializeGraph() {
         JSONObject graph = new JSONObject();
+        graph.put("version", GraphLoader.VERSION);
 
         JSONArray objects = new JSONArray();
         Vector2 tmp = new Vector2();
