@@ -6,10 +6,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntMap;
 import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -19,6 +21,7 @@ import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
 import com.gempukku.libgdx.graph.ui.graph.SaveCallback;
 import com.gempukku.libgdx.graph.ui.pipeline.UIPipelineConfiguration;
 import com.gempukku.libgdx.graph.ui.shader.UIShaderConfiguration;
+import com.kotcrab.vis.ui.util.OsUtils;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
 import com.kotcrab.vis.ui.widget.Menu;
@@ -51,6 +54,8 @@ public class LibgdxGraphScreen extends Table {
     private MenuItem exportShader;
     private MenuItem close;
     private MenuItem createGroup;
+
+    private IntMap<Runnable> shortcuts = new IntMap<>();
 
     public LibgdxGraphScreen(Skin skin) {
         this.skin = skin;
@@ -89,6 +94,35 @@ public class LibgdxGraphScreen extends Table {
         add(menuBar.getTable()).growX().row();
         add(tabbedPane.getTable()).left().growX().row();
         add(insideTable).grow().row();
+
+        addListener(
+                new InputListener() {
+                    @Override
+                    public boolean keyDown(InputEvent event, int keycode) {
+                        boolean ctrlPressed = OsUtils.isMac() ?
+                                Gdx.input.isKeyPressed(Input.Keys.SYM) :
+                                Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT);
+                        if (ctrlPressed) {
+                            Runnable runnable = shortcuts.get(keycode);
+                            if (runnable != null) {
+                                runnable.run();
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
+    }
+
+    private void addControlShortcut(int key, final MenuItem menuItem, final ClickListener listener) {
+        menuItem.setShortcut(Input.Keys.CONTROL_LEFT, key);
+        shortcuts.put(key, new Runnable() {
+            @Override
+            public void run() {
+                if (!menuItem.isDisabled())
+                    listener.clicked(null, 0, 0);
+            }
+        });
     }
 
     private void openShaderTab(String id, JSONObject shader) {
@@ -129,15 +163,17 @@ public class LibgdxGraphScreen extends Table {
     private Menu createGraphMenu() {
         Menu graphMenu = new Menu("Graph");
 
+        ClickListener createGroupListener = new ClickListener(Input.Buttons.LEFT) {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                createGroup();
+            }
+        };
+
         createGroup = new MenuItem("Create group");
+        addControlShortcut(Input.Keys.G, createGroup, createGroupListener);
         createGroup.setDisabled(true);
-        createGroup.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        createGroup();
-                    }
-                });
+        createGroup.addListener(createGroupListener);
         graphMenu.addItem(createGroup);
 
         exportShader = new MenuItem("Export shader");
@@ -171,16 +207,16 @@ public class LibgdxGraphScreen extends Table {
                 });
         fileMenu.addItem(open);
 
+        ClickListener saveListener = new ClickListener(Input.Buttons.LEFT) {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                save();
+            }
+        };
         save = new MenuItem("Save");
         save.setDisabled(true);
-        save.setShortcut(Input.Keys.CONTROL_LEFT, Input.Keys.S);
-        save.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        save();
-                    }
-                });
+        addControlShortcut(Input.Keys.S, save, saveListener);
+        save.addListener(saveListener);
         fileMenu.addItem(save);
 
         saveAs = new MenuItem("Save As");
