@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.ui.graph;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -55,7 +56,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
     private static final float CONNECTOR_LENGTH = 10;
     private static final float CONNECTOR_RADIUS = 5;
 
-    private static final Color GROUP_BACKGROUND_COLOR = new Color(0.3f, 0.3f, 0.3f, 1f);
+    private static final Color GROUP_BACKGROUND_COLOR = new Color(1f, 1f, 1f, 0.3f);
     private static final Color LINE_COLOR = Color.WHITE;
     private static final Color VALID_CONNECTOR_COLOR = Color.WHITE;
     private static final Color INVALID_CONNECTOR_COLOR = Color.RED;
@@ -676,6 +677,8 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
             float x = getX();
             float y = getY();
 
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(GROUP_BACKGROUND_COLOR);
             for (Map.Entry<NodeGroupImpl, Rectangle> nodeGroupEntry : nodeGroups.entrySet()) {
