@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GLTexture;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.utils.TextureDescriptor;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
@@ -13,6 +14,10 @@ import java.util.Map;
 
 public abstract class UniformCachingShader extends BasicShader {
     private Map<Integer, Object> uniformCache = new HashMap<Integer, Object>();
+
+    public UniformCachingShader(Texture defaultTexture) {
+        super(defaultTexture);
+    }
 
     private boolean shouldSet(int location, Object value) {
         Object oldValue = uniformCache.get(location);

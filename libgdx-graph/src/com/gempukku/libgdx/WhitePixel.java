@@ -19,7 +19,7 @@ public class WhitePixel {
     public Texture texture;
     public TextureRegion textureRegion;
 
-    private WhitePixel() {
+    public WhitePixel() {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();

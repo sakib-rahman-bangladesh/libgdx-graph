@@ -100,8 +100,14 @@ public class UniformSetters {
 
         @Override
         public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
-            final int unit = shader.getContext().textureBinder.bind(((TextureAttribute) (renderable.material.get(type))).textureDescription);
-            shader.setUniform(location, unit);
+            TextureAttribute ta = (TextureAttribute) (renderable.material.get(type));
+            if (ta != null) {
+                final int unit = shader.getContext().textureBinder.bind(ta.textureDescription);
+                shader.setUniform(location, unit);
+            } else {
+                int unit = shader.getContext().textureBinder.bind(shader.getDefaultTexture());
+                shader.setUniform(location, unit);
+            }
         }
     }
 
@@ -115,7 +121,11 @@ public class UniformSetters {
         @Override
         public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
             final TextureAttribute ta = (TextureAttribute) (renderable.material.get(type));
-            shader.setUniform(location, ta.offsetU, ta.offsetV, ta.scaleU, ta.scaleV);
+            if (ta != null) {
+                shader.setUniform(location, ta.offsetU, ta.offsetV, ta.scaleU, ta.scaleV);
+            } else {
+                shader.setUniform(location, 0f, 0f, 1f, 1f);
+            }
         }
     }
 }

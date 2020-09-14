@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.shader;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.gempukku.libgdx.graph.GraphDataLoaderCallback;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
@@ -9,6 +10,12 @@ import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import org.json.simple.JSONObject;
 
 public class ShaderLoaderCallback extends GraphDataLoaderCallback<GraphShader, ShaderFieldType> {
+    private Texture defaultTexture;
+
+    public ShaderLoaderCallback(Texture defaultTexture) {
+        this.defaultTexture = defaultTexture;
+    }
+
     @Override
     public void start() {
 
@@ -21,7 +28,7 @@ public class ShaderLoaderCallback extends GraphDataLoaderCallback<GraphShader, S
         if (result.hasErrors())
             throw new IllegalStateException("The graph contains errors, open it in the graph designer and correct them");
 
-        return GraphShaderBuilder.buildShader(this);
+        return GraphShaderBuilder.buildShader(defaultTexture, this);
     }
 
     @Override

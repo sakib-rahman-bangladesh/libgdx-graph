@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Disposable;
+import com.gempukku.libgdx.WhitePixel;
 import com.gempukku.libgdx.graph.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
@@ -87,7 +88,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
     private void createShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
         try {
             timeKeeper = new DefaultTimeKeeper();
-            graphShader = GraphShaderBuilder.buildShader(timeKeeper, graph, true);
+            graphShader = GraphShaderBuilder.buildShader(timeKeeper, WhitePixel.sharedInstance.texture, graph, true);
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
             createModel();
 

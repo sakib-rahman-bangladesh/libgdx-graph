@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.gempukku.libgdx.graph.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.TimeProvider;
@@ -23,20 +24,20 @@ import java.util.Map;
 import java.util.Set;
 
 public class GraphShaderBuilder {
-    public static GraphShader buildShader(
-            Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
-        return buildShader(new DefaultTimeKeeper(), graph);
-    }
-
-    public static GraphShader buildShader(TimeProvider timeProvider,
+    public static GraphShader buildShader(Texture defaultTexture,
                                           Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
-        return buildShader(timeProvider, graph, false);
+        return buildShader(new DefaultTimeKeeper(), defaultTexture, graph);
     }
 
-    public static GraphShader buildShader(TimeProvider timeProvider,
+    public static GraphShader buildShader(TimeProvider timeProvider, Texture defaultTexture,
+                                          Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
+        return buildShader(timeProvider, defaultTexture, graph, false);
+    }
+
+    public static GraphShader buildShader(TimeProvider timeProvider, Texture defaultTexture,
                                           Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
                                           boolean designTime) {
-        GraphShader graphShader = new GraphShader();
+        GraphShader graphShader = new GraphShader(defaultTexture);
 
         Map<String, PropertySource> propertyMap = new HashMap<>();
         for (GraphProperty<ShaderFieldType> property : graph.getProperties()) {

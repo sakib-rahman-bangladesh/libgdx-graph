@@ -1,9 +1,11 @@
 package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.gempukku.libgdx.WhitePixel;
 import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.GraphShaderRendererPipelineNodeConfiguration;
@@ -30,11 +32,12 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
     @Override
     public PipelineNode createNode(JSONObject data, Map<String, PipelineNode.FieldOutput<?>> inputFields) {
+        final WhitePixel whitePixel = new WhitePixel();
         final List<JSONObject> shaderDefinitions = (List<JSONObject>) data.get("shaders");
         final Map<String, GraphShader> shaders = new LinkedHashMap<>();
         for (JSONObject shaderDefinition : shaderDefinitions) {
             String tag = (String) shaderDefinition.get("tag");
-            shaders.put(tag, createShader(shaderDefinition));
+            shaders.put(tag, createShader(shaderDefinition, whitePixel.texture));
         }
 
         final PipelineNode.FieldOutput<GraphShaderModels> modelsInput = (PipelineNode.FieldOutput<GraphShaderModels>) inputFields.get("models");
@@ -131,12 +134,13 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 for (GraphShader shader : shaders.values()) {
                     shader.dispose();
                 }
+                whitePixel.dispose();
             }
         };
     }
 
-    private GraphShader createShader(JSONObject shaderDefinition) {
+    private GraphShader createShader(JSONObject shaderDefinition, Texture defaultTexture) {
         JSONObject shaderGraph = (JSONObject) shaderDefinition.get("shader");
-        return GraphLoader.loadGraph(shaderGraph, new ShaderLoaderCallback());
+        return GraphLoader.loadGraph(shaderGraph, new ShaderLoaderCallback(defaultTexture));
     }
 }

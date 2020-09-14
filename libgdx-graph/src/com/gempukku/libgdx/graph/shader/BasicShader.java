@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GLTexture;
 import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.graphics.g3d.model.MeshPart;
@@ -132,6 +133,7 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     private ShaderProgram program;
     private RenderContext context;
     private GraphShaderEnvironment environment;
+    private Texture defaultTexture;
     private Camera camera;
     private Mesh currentMesh;
     private Culling culling = Culling.back;
@@ -144,6 +146,14 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
      * list of Renderables to be rendered in the current batch
      **/
     protected final Array<Renderable> renderables = new Array<Renderable>();
+
+    public BasicShader(Texture defaultTexture) {
+        this.defaultTexture = defaultTexture;
+    }
+
+    public Texture getDefaultTexture() {
+        return defaultTexture;
+    }
 
     @Override
     public void registerAttribute(String alias) {
