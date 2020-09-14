@@ -74,6 +74,7 @@ import com.gempukku.libgdx.graph.ui.shader.attribute.AttributePositionBoxProduce
 import com.gempukku.libgdx.graph.ui.shader.attribute.AttributeTangentBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.attribute.AttributeUVBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.material.ColorAttributeBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.material.FloatAttributeBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.material.TextureAttributeBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.property.PropertyColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.property.PropertyFloatBoxProducer;
@@ -98,6 +99,9 @@ public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldTy
         graphBoxProducers.add(new AttributeNormalBoxProducer());
         graphBoxProducers.add(new AttributeTangentBoxProducer());
         graphBoxProducers.add(new AttributeUVBoxProducer());
+
+        graphBoxProducers.add(new FloatAttributeBoxProducer("Shininess", "Shininess"));
+        graphBoxProducers.add(new FloatAttributeBoxProducer("AlphaTest", "Alpha test"));
 
         graphBoxProducers.add(new TextureAttributeBoxProducer("AmbientTexture", "Ambient texture"));
         graphBoxProducers.add(new ColorAttributeBoxProducer("AmbientColor", "Ambient color"));

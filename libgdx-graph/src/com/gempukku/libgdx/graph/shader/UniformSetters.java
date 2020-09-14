@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.math.Matrix4;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
@@ -69,6 +70,25 @@ public class UniformSetters {
                     System.arraycopy(modelBones[idx].val, 0, bones, i, 16);
             }
             shader.setUniformMatrixArray(location, bones);
+        }
+    }
+
+    public static class MaterialFloat implements UniformRegistry.UniformSetter {
+        private long type;
+        private float defaultValue;
+
+        public MaterialFloat(long type, float defaultValue) {
+            this.type = type;
+            this.defaultValue = defaultValue;
+        }
+
+        @Override
+        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+            float value = defaultValue;
+            FloatAttribute attribute = (FloatAttribute) renderable.material.get(type);
+            if (attribute != null)
+                value = attribute.value;
+            shader.setUniform(location, value);
         }
     }
 

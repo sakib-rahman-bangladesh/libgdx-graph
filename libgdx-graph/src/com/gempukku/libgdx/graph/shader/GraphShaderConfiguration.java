@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.gempukku.libgdx.graph.shader.node.EndGraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
@@ -17,6 +18,7 @@ import com.gempukku.libgdx.graph.shader.node.lighting.DirectionalLightShaderNode
 import com.gempukku.libgdx.graph.shader.node.lighting.PointLightShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.lighting.SpotLightShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.material.ColorAttributeShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.material.FloatAttributeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.material.TextureAttributeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.arithmetic.AddShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.arithmetic.DivideShaderNodeBuilder;
@@ -160,6 +162,8 @@ public class GraphShaderConfiguration {
         addGraphShaderNodeBuilder(new AttributeUVShaderNodeBuilder());
 
         // Material
+        addGraphShaderNodeBuilder(new FloatAttributeShaderNodeBuilder("Shininess", "Shininess", FloatAttribute.ShininessAlias));
+        addGraphShaderNodeBuilder(new FloatAttributeShaderNodeBuilder("AlphaTest", "Alpha test", FloatAttribute.AlphaTestAlias));
         addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("AmbientTexture", "Ambient texture", TextureAttribute.AmbientAlias));
         addGraphShaderNodeBuilder(new ColorAttributeShaderNodeBuilder("AmbientColor", "Ambient color", ColorAttribute.AmbientAlias));
         addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("BumpTexture", "Bump texture", TextureAttribute.BumpAlias));

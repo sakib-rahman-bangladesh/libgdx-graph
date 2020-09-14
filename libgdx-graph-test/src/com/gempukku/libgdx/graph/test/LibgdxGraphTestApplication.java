@@ -76,7 +76,7 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         lights.setAmbientColor(new Color(ambientBrightness, ambientBrightness, ambientBrightness, 1f));
         DirectionalLight directionalLight = new DirectionalLight();
         directionalLight.setColor(directionalBrightness, directionalBrightness, directionalBrightness, 1f);
-        directionalLight.setDirection(-1f, 0, 0);
+        directionalLight.setDirection(-1f, -0.3f, 0);
         lights.addDirectionalLight(directionalLight);
         return lights;
     }
