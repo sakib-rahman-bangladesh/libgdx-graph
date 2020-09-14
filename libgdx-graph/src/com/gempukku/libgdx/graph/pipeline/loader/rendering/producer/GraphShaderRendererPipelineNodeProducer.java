@@ -69,7 +69,6 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
                 models.prepareForRendering(camera);
 
-
                 // Initialize shaders for drawing
                 for (GraphShader shader : shaders.values()) {
                     shader.setTimeProvider(pipelineRenderingContext.getTimeProvider());

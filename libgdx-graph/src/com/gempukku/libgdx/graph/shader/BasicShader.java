@@ -47,7 +47,17 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     }
 
     public enum Transparency {
-        opaque, transparent;
+        opaque(true), transparent(false);
+
+        private boolean depthMask;
+
+        Transparency(boolean depthMask) {
+            this.depthMask = depthMask;
+        }
+
+        void setDepthMask(RenderContext renderContext) {
+            renderContext.setDepthMask(depthMask);
+        }
     }
 
     public enum Blending {
@@ -268,9 +278,9 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         this.environment = environment;
         program.begin();
 
-        // Enable depth testing
-        context.setDepthMask(true);
+        // Set depth mask/testing
         context.setDepthTest(GL20.GL_LEQUAL, camera.near, camera.far);
+        transparency.setDepthMask(context);
         culling.run(context);
         setBlending(context, transparency, blending);
 
