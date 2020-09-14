@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
+import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
@@ -24,7 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.UBJsonReader;
+import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
@@ -48,9 +49,10 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private Skin skin;
     private GraphShaderModelInstance modelInstance;
     private GraphShaderEnvironment lights;
-    private float cameraSpeed = -0.2f;
+    private float cameraSpeed = -0.6f;
     private float cameraAngle = 0f;
     private float cameraDistance = 1.7f;
+    private AnimationController animationController;
 
     @Override
     public void create() {
@@ -89,16 +91,18 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private GraphShaderModels createModels() {
-        UBJsonReader jsonReader = new UBJsonReader();
+        JsonReader jsonReader = new JsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-        model = modelLoader.loadModel(Gdx.files.internal("model/fighter/fighter.g3db"));
+        model = modelLoader.loadModel(Gdx.files.internal("model/gold-robot/gold-robot.g3dj"));
 
         GraphShaderModels models = new GraphShaderModels();
         String modelId = models.registerModel(model);
-        float scale = 0.0008f;
+        float scale = 0.008f;
         modelInstance = models.createModelInstance(modelId);
-        modelInstance.getTransformMatrix().scale(scale, scale, scale).rotate(-1, 0, 0f, 90);
+        modelInstance.getTransformMatrix().scale(scale, scale, scale);//.rotate(-1, 0, 0f, 90);
         modelInstance.addTag("Default");
+        animationController = models.createAnimationController(modelInstance.getId());
+        animationController.animate("Root|jog", -1, null, 0f);
         return models;
     }
 
@@ -138,11 +142,14 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
+        animationController.update(delta);
+
         cameraAngle += delta * cameraSpeed;
 
-        camera.position.set(cameraDistance * MathUtils.sin(cameraAngle), 0.3f, cameraDistance * MathUtils.cos(cameraAngle));
+        float y = 0.8f;
+        camera.position.set(cameraDistance * MathUtils.sin(cameraAngle), y, cameraDistance * MathUtils.cos(cameraAngle));
         camera.up.set(0f, 1f, 0f);
-        camera.lookAt(0, 0f, 0f);
+        camera.lookAt(0, y, 0f);
         camera.update();
 
         reloadRendererIfNeeded();
