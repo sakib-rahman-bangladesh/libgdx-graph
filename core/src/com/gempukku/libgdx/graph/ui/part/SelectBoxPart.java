@@ -25,7 +25,7 @@ public class SelectBoxPart<T extends FieldType> extends Table implements GraphBo
     private static String[] convertToStrings(Enum<?>[] values) {
         String[] result = new String[values.length];
         for (int i = 0; i < values.length; i++) {
-            result[i] = values[i].name();
+            result[i] = values[i].name().replace('_', ' ');
         }
         return result;
     }

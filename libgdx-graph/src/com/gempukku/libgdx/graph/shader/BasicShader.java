@@ -41,7 +41,7 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
             this.cullFace = cullFace;
         }
 
-        public void run(RenderContext renderContext) {
+        public void setCullFace(RenderContext renderContext) {
             renderContext.setCullFace(cullFace);
         }
     }
@@ -79,6 +79,23 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
         public int getDestinationFactor() {
             return destinationFactor;
+        }
+    }
+
+    public enum DepthTesting {
+        less(GL20.GL_LESS), less_or_equal(GL20.GL_LEQUAL),
+        equal(GL20.GL_EQUAL), not_equal(GL20.GL_NOTEQUAL), greater_or_equal(GL20.GL_GEQUAL),
+        greater(GL20.GL_GREATER), never(GL20.GL_NEVER), always(GL20.GL_ALWAYS),
+        disabled(0);
+
+        private int depthFunction;
+
+        DepthTesting(int depthFunction) {
+            this.depthFunction = depthFunction;
+        }
+
+        void setDepthTest(RenderContext renderContext, float depthNear, float depthFar) {
+            renderContext.setDepthTest(depthFunction, depthNear, depthFar);
         }
     }
 
@@ -149,6 +166,7 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     private Culling culling = Culling.back;
     private Transparency transparency = Transparency.opaque;
     private Blending blending = Blending.alpha;
+    private DepthTesting depthTesting = DepthTesting.less;
 
     private boolean initialized = false;
     protected final RenderablePool renderablesPool = new RenderablePool();
@@ -272,6 +290,10 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         this.blending = blending;
     }
 
+    public void setDepthTesting(DepthTesting depthTesting) {
+        this.depthTesting = depthTesting;
+    }
+
     public void begin(Camera camera, GraphShaderEnvironment environment, RenderContext context) {
         this.camera = camera;
         this.context = context;
@@ -279,9 +301,10 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         program.begin();
 
         // Set depth mask/testing
-        context.setDepthTest(GL20.GL_LEQUAL, camera.near, camera.far);
+
         transparency.setDepthMask(context);
-        culling.run(context);
+        depthTesting.setDepthTest(context, camera.near, camera.far);
+        culling.setCullFace(context);
         setBlending(context, transparency, blending);
 
         for (Uniform uniform : uniforms.values()) {

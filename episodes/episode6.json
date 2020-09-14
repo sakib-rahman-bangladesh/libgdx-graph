@@ -76,7 +76,8 @@
                   "data": {
                     "culling": "back",
                     "transparency": "opaque",
-                    "blending": "alpha"
+                    "blending": "alpha",
+                    "depthTest": "less"
                   },
                   "x": 643.0,
                   "y": 50.0,
@@ -232,7 +233,8 @@
                   "data": {
                     "culling": "back",
                     "transparency": "transparent",
-                    "blending": "alpha"
+                    "blending": "alpha",
+                    "depthTest": "less"
                   },
                   "x": 2094.0,
                   "y": 192.0,

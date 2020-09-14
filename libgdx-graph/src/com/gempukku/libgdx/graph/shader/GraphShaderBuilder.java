@@ -59,6 +59,7 @@ public class GraphShaderBuilder {
         graphShader.setCulling(BasicShader.Culling.valueOf((String) data.get("culling")));
         graphShader.setTransparency(BasicShader.Transparency.valueOf((String) data.get("transparency")));
         graphShader.setBlending(BasicShader.Blending.valueOf((String) data.get("blending")));
+        graphShader.setDepthTesting(BasicShader.DepthTesting.valueOf(((String) data.get("depthTest")).replace(' ', '_')));
 
         // Vertex part
         int boneCount = GraphShaderConfig.getMaxNumberOfBonesPerMesh();

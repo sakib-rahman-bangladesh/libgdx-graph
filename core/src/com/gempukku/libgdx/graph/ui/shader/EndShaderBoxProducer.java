@@ -73,6 +73,9 @@ public class EndShaderBoxProducer implements GraphBoxProducer<ShaderFieldType> {
         SelectBoxPart<ShaderFieldType> blendingBox = new SelectBoxPart<>(skin, "Blending", "blending", BasicShader.Blending.values());
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);
+        SelectBoxPart<ShaderFieldType> depthTestBox = new SelectBoxPart<>(skin, "DepthTest", "depthTest", BasicShader.DepthTesting.values());
+        depthTestBox.initialize(data);
+        result.addGraphBoxPart(depthTestBox);
 
         result.addGraphBoxPart(previewBoxPart);
         return result;
