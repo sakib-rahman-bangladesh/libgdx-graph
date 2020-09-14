@@ -102,7 +102,11 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
                     new UniformRegistry.UniformSetter() {
                         @Override
                         public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
-                            shader.setUniform(location, environment.getSpotLights().size);
+                            if (environment != null) {
+                                shader.setUniform(location, environment.getSpotLights().size);
+                            } else {
+                                shader.setUniform(location, 0);
+                            }
                         }
                     });
             fragmentShaderBuilder.addStructure("SpotLight",
@@ -165,7 +169,11 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
                     new UniformRegistry.UniformSetter() {
                         @Override
                         public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
-                            shader.setUniform(location, environment.getPointLights().size);
+                            if (environment != null) {
+                                shader.setUniform(location, environment.getPointLights().size);
+                            } else {
+                                shader.setUniform(location, 0);
+                            }
                         }
                     });
             fragmentShaderBuilder.addStructure("PointLight",
@@ -218,7 +226,11 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
                     new UniformRegistry.UniformSetter() {
                         @Override
                         public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
-                            shader.setUniform(location, environment.getDirectionalLights().size);
+                            if (environment != null) {
+                                shader.setUniform(location, environment.getDirectionalLights().size);
+                            } else {
+                                shader.setUniform(location, 0);
+                            }
                         }
                     });
             fragmentShaderBuilder.addStructure("DirectionalLight",

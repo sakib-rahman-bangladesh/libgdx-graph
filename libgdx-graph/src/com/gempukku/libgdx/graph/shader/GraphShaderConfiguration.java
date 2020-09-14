@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.shader;
 
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.gempukku.libgdx.graph.shader.node.EndGraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
@@ -15,6 +16,7 @@ import com.gempukku.libgdx.graph.shader.node.lighting.CalculateLightingShaderNod
 import com.gempukku.libgdx.graph.shader.node.lighting.DirectionalLightShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.lighting.PointLightShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.lighting.SpotLightShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.material.ColorAttributeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.material.TextureAttributeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.arithmetic.AddShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.arithmetic.DivideShaderNodeBuilder;
@@ -159,12 +161,17 @@ public class GraphShaderConfiguration {
 
         // Material
         addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("AmbientTexture", "Ambient texture", TextureAttribute.AmbientAlias));
+        addGraphShaderNodeBuilder(new ColorAttributeShaderNodeBuilder("AmbientColor", "Ambient color", ColorAttribute.AmbientAlias));
         addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("BumpTexture", "Bump texture", TextureAttribute.BumpAlias));
         addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("DiffuseTexture", "Diffuse texture", TextureAttribute.DiffuseAlias));
+        addGraphShaderNodeBuilder(new ColorAttributeShaderNodeBuilder("DiffuseColor", "Diffuse color", ColorAttribute.DiffuseAlias));
         addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("EmissiveTexture", "Emissive texture", TextureAttribute.EmissiveAlias));
+        addGraphShaderNodeBuilder(new ColorAttributeShaderNodeBuilder("EmissiveColor", "Emissive color", ColorAttribute.EmissiveAlias));
         addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("NormalTexture", "Normal texture", TextureAttribute.NormalAlias));
         addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("ReflectionTexture", "Reflection texture", TextureAttribute.ReflectionAlias));
+        addGraphShaderNodeBuilder(new ColorAttributeShaderNodeBuilder("ReflectionColor", "Reflection color", ColorAttribute.ReflectionAlias));
         addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("SpecularTexture", "Specular texture", TextureAttribute.SpecularAlias));
+        addGraphShaderNodeBuilder(new ColorAttributeShaderNodeBuilder("SpecularColor", "Specular color", ColorAttribute.SpecularAlias));
 
         // Texture
         addGraphShaderNodeBuilder(new Sampler2DShaderNodeBuilder());

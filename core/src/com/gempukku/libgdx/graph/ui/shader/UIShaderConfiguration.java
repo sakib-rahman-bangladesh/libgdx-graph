@@ -73,6 +73,7 @@ import com.gempukku.libgdx.graph.ui.shader.attribute.AttributeNormalBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.attribute.AttributePositionBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.attribute.AttributeTangentBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.attribute.AttributeUVBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.material.ColorAttributeBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.material.TextureAttributeBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.property.PropertyColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.property.PropertyFloatBoxProducer;
@@ -99,12 +100,23 @@ public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldTy
         graphBoxProducers.add(new AttributeUVBoxProducer());
 
         graphBoxProducers.add(new TextureAttributeBoxProducer("AmbientTexture", "Ambient texture"));
+        graphBoxProducers.add(new ColorAttributeBoxProducer("AmbientColor", "Ambient color"));
+
         graphBoxProducers.add(new TextureAttributeBoxProducer("BumpTexture", "Bump texture"));
+
         graphBoxProducers.add(new TextureAttributeBoxProducer("DiffuseTexture", "Diffuse texture"));
+        graphBoxProducers.add(new ColorAttributeBoxProducer("DiffuseColor", "Diffuse color"));
+
         graphBoxProducers.add(new TextureAttributeBoxProducer("EmissiveTexture", "Emissive texture"));
+        graphBoxProducers.add(new ColorAttributeBoxProducer("EmissiveColor", "Emissive color"));
+
         graphBoxProducers.add(new TextureAttributeBoxProducer("NormalTexture", "Normal texture"));
+
         graphBoxProducers.add(new TextureAttributeBoxProducer("ReflectionTexture", "Reflection texture"));
+        graphBoxProducers.add(new ColorAttributeBoxProducer("ReflectionColor", "Reflection color"));
+
         graphBoxProducers.add(new TextureAttributeBoxProducer("SpecularTexture", "Specular texture"));
+        graphBoxProducers.add(new ColorAttributeBoxProducer("SpecularColor", "Specular color"));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CalculateLightingShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new AmbientLightShaderNodeConfiguration()));

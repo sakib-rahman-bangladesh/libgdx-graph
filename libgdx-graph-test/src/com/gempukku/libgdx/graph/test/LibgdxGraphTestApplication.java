@@ -5,17 +5,18 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cubemap;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
-import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -23,12 +24,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.UBJsonReader;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 
@@ -44,8 +46,11 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private Camera camera;
     private Stage stage;
     private Skin skin;
-    private AnimationController animationController;
     private GraphShaderModelInstance modelInstance;
+    private GraphShaderEnvironment lights;
+    private float cameraSpeed = -0.2f;
+    private float cameraAngle = 0f;
+    private float cameraDistance = 1.7f;
 
     @Override
     public void create() {
@@ -53,6 +58,7 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
 
         WhitePixel.initialize();
 
+        lights = createLights();
         stage = createStage();
 
         models = createModels();
@@ -63,32 +69,35 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         Gdx.input.setInputProcessor(stage);
     }
 
+    private GraphShaderEnvironment createLights() {
+        float ambientBrightness = 0.3f;
+        float directionalBrightness = 0.8f;
+        GraphShaderEnvironment lights = new GraphShaderEnvironment();
+        lights.setAmbientColor(new Color(ambientBrightness, ambientBrightness, ambientBrightness, 1f));
+        DirectionalLight directionalLight = new DirectionalLight();
+        directionalLight.setColor(directionalBrightness, directionalBrightness, directionalBrightness, 1f);
+        directionalLight.setDirection(-1f, 0, 0);
+        lights.addDirectionalLight(directionalLight);
+        return lights;
+    }
+
     private Camera createCamera() {
         PerspectiveCamera camera = new PerspectiveCamera();
         camera.near = 0.5f;
         camera.far = 100f;
-        camera.position.set(0.8f, 0.5f, 0.8f);
-        camera.up.set(0f, 1f, 0f);
-        camera.lookAt(0, 0.3f, 0f);
-        camera.update();
         return camera;
     }
 
     private GraphShaderModels createModels() {
-        JsonReader jsonReader = new JsonReader();
+        UBJsonReader jsonReader = new UBJsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-        model = modelLoader.loadModel(Gdx.files.internal("model/duke/duke.g3dj"));
+        model = modelLoader.loadModel(Gdx.files.internal("model/fighter/fighter.g3db"));
 
         GraphShaderModels models = new GraphShaderModels();
         String modelId = models.registerModel(model);
+        float scale = 0.0008f;
         modelInstance = models.createModelInstance(modelId);
-
-        float scale = 0.08f;
-        Matrix4 transformMatrix = modelInstance.getTransformMatrix();
-        transformMatrix.scale(scale, scale, scale);
-
-        animationController = models.createAnimationController(modelInstance.getId());
-        animationController.animate("Armature|walk", -1, 1f, null, 0.2f);
+        modelInstance.getTransformMatrix().scale(scale, scale, scale).rotate(-1, 0, 0f, 90);
         modelInstance.addTag("Default");
         return models;
     }
@@ -96,14 +105,14 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private Stage createStage() {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        final TextButton switchButton = new TextButton("Normal/Hologram", skin, "toggle");
+        final TextButton switchButton = new TextButton("Normal/Toon", skin, "toggle");
         switchButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         boolean checked = switchButton.isChecked();
-                        String removeTag = checked ? "Default" : "Hologram";
-                        String tag = checked ? "Hologram" : "Default";
+                        String removeTag = checked ? "Default" : "Toon";
+                        String tag = checked ? "Toon" : "Default";
                         modelInstance.removeTag(removeTag);
                         modelInstance.addTag(tag);
                     }
@@ -129,9 +138,15 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
-        animationController.update(delta);
+        cameraAngle += delta * cameraSpeed;
+
+        camera.position.set(cameraDistance * MathUtils.sin(cameraAngle), 0.3f, cameraDistance * MathUtils.cos(cameraAngle));
+        camera.up.set(0f, 1f, 0f);
+        camera.lookAt(0, 0f, 0f);
+        camera.update();
+
         reloadRendererIfNeeded();
-        stage.act();
+        stage.act(delta);
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
     }
@@ -182,6 +197,7 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
         pipelineRenderer.setPipelineProperty("Models", models);
         pipelineRenderer.setPipelineProperty("Camera", camera);
+        pipelineRenderer.setPipelineProperty("Lights", lights);
         pipelineRenderer.setPipelineProperty("Stage", stage);
     }
 }

@@ -16,101 +16,30 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.WhitePixel;
-import com.gempukku.libgdx.graph.data.GraphNodeInput;
-import com.gempukku.libgdx.graph.data.GraphNodeOutput;
-import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.config.material.TextureAttributeShaderNodeConfiguration;
-import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
-import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
+import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
 import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
 import org.json.simple.JSONObject;
 
-import java.util.Iterator;
-
-public class TextureAttributeBoxProducer implements GraphBoxProducer<ShaderFieldType> {
-    private NodeConfiguration<ShaderFieldType> configuration;
-
+public class TextureAttributeBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
     public TextureAttributeBoxProducer(String type, String name) {
-        configuration = new TextureAttributeShaderNodeConfiguration(type, name);
+        super(new TextureAttributeShaderNodeConfiguration(type, name));
     }
 
     @Override
-    public String getType() {
-        return configuration.getType();
-    }
-
-    @Override
-    public boolean isCloseable() {
-        return true;
-    }
-
-    @Override
-    public String getName() {
-        return configuration.getName();
-    }
-
-    @Override
-    public String getMenuLocation() {
-        return configuration.getMenuLocation();
-    }
-
-    @Override
-    public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JSONObject data) {
-        GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, configuration, skin);
-        addInputsAndOutputs(result, skin);
+    public GraphBoxImpl<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JSONObject data) {
+        GraphBoxImpl<ShaderFieldType> result = super.createPipelineGraphBox(skin, id, data);
         TextureBoxPart normalBoxPart = new TextureBoxPart(skin);
-        normalBoxPart.initialize(data);
+        if (data != null)
+            normalBoxPart.initialize(data);
         result.addGraphBoxPart(normalBoxPart);
-        return result;
-    }
-
-    private void addInputsAndOutputs(GraphBoxImpl<ShaderFieldType> graphBox, Skin skin) {
-        Iterator<GraphNodeInput<ShaderFieldType>> inputIterator = configuration.getNodeInputs().values().iterator();
-        Iterator<GraphNodeOutput<ShaderFieldType>> outputIterator = configuration.getNodeOutputs().values().iterator();
-        while (inputIterator.hasNext() || outputIterator.hasNext()) {
-            GraphNodeInput<ShaderFieldType> input = null;
-            GraphNodeOutput<ShaderFieldType> output = null;
-            while (inputIterator.hasNext()) {
-                input = inputIterator.next();
-                if (input.isMainConnection()) {
-                    graphBox.addTopConnector(input);
-                    input = null;
-                } else {
-                    break;
-                }
-            }
-            while (outputIterator.hasNext()) {
-                output = outputIterator.next();
-                if (output.isMainConnection()) {
-                    graphBox.addBottomConnector(output);
-                    output = null;
-                } else {
-                    break;
-                }
-            }
-
-            if (input != null && output != null) {
-                graphBox.addTwoSideGraphPart(skin, input, output);
-            } else if (input != null) {
-                graphBox.addInputGraphPart(skin, input);
-            } else if (output != null) {
-                graphBox.addOutputGraphPart(skin, output);
-            }
-        }
-    }
-
-    @Override
-    public GraphBox<ShaderFieldType> createDefault(Skin skin, String id) {
-        GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, configuration, skin);
-        addInputsAndOutputs(result, skin);
-        result.addGraphBoxPart(new TextureBoxPart(skin));
         return result;
     }
 
@@ -159,11 +88,9 @@ public class TextureAttributeBoxProducer implements GraphBoxProducer<ShaderField
         }
 
         public void initialize(JSONObject data) {
-            if (data != null) {
-                String previewPath = (String) data.get("previewPath");
-                if (previewPath != null) {
-                    attemptToLoadTexture(Gdx.files.absolute(previewPath));
-                }
+            String previewPath = (String) data.get("previewPath");
+            if (previewPath != null) {
+                attemptToLoadTexture(Gdx.files.absolute(previewPath));
             }
         }
 

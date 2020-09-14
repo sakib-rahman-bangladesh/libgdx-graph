@@ -4,8 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
+import com.gempukku.libgdx.graph.ui.part.IndexBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
-import com.gempukku.libgdx.graph.ui.shader.ui.IndexBoxPart;
 import org.json.simple.JSONObject;
 
 public class IndexedBoxProducer<T extends FieldType> extends GraphBoxProducerImpl<T> {

@@ -8,8 +8,8 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.config.attribute.AttributeTangentShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
+import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.ui.SelectBoxPart;
 import org.json.simple.JSONObject;
 
 import java.util.Iterator;

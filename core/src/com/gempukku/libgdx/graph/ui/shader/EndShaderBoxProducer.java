@@ -19,8 +19,8 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
+import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.ui.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.shader.ui.ShaderPreviewWidget;
 import org.json.simple.JSONObject;
 

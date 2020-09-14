@@ -570,8 +570,8 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         for (Map.Entry<NodeGroupImpl, Rectangle> nodeGroupEntry : nodeGroups.entrySet()) {
             float minX = Float.MAX_VALUE;
             float minY = Float.MAX_VALUE;
-            float maxX = Float.MIN_VALUE;
-            float maxY = Float.MIN_VALUE;
+            float maxX = -Float.MAX_VALUE;
+            float maxY = -Float.MAX_VALUE;
 
             NodeGroupImpl nodeGroupImpl = nodeGroupEntry.getKey();
             for (String nodeId : nodeGroupImpl.getNodeIds()) {

@@ -1,7 +1,8 @@
-package com.gempukku.libgdx.graph.ui.shader.ui;
+package com.gempukku.libgdx.graph.ui.part;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -10,26 +11,36 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
-import com.kotcrab.vis.ui.util.Validators;
-import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 import org.json.simple.JSONObject;
 
-public class IndexBoxPart<T extends FieldType> extends Table implements GraphBoxPart<T> {
-    private final VisValidatableTextField indexField;
+public class SelectBoxPart<T extends FieldType> extends Table implements GraphBoxPart<T> {
+    private final SelectBox<String> selectBox;
 
     private String property;
 
-    public IndexBoxPart(Skin skin, String label, String property) {
+    public SelectBoxPart(Skin skin, String label, String property, Enum<?>... values) {
+        this(skin, label, property, convertToStrings(values));
+    }
+
+    private static String[] convertToStrings(Enum<?>[] values) {
+        String[] result = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            result[i] = values[i].name();
+        }
+        return result;
+    }
+
+    public SelectBoxPart(Skin skin, String label, String property, String... values) {
         super(skin);
         this.property = property;
 
-        indexField = new VisValidatableTextField(Validators.INTEGERS, new Validators.GreaterThanValidator(0, true));
-        indexField.setText("0");
+        selectBox = new SelectBox<String>(skin);
+        selectBox.setItems(values);
         add(new Label(label + " ", skin));
-        add(indexField).growX();
+        add(selectBox).growX();
         row();
 
-        indexField.addListener(
+        selectBox.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -55,14 +66,14 @@ public class IndexBoxPart<T extends FieldType> extends Table implements GraphBox
 
     public void initialize(JSONObject data) {
         if (data != null) {
-            int value = ((Number) data.get(property)).intValue();
-            indexField.setText(String.valueOf(value));
+            String value = (String) data.get(property);
+            selectBox.setSelected(value);
         }
     }
 
     @Override
     public void serializePart(JSONObject object) {
-        object.put(property, Integer.parseInt(indexField.getText()));
+        object.put(property, selectBox.getSelected());
     }
 
     @Override
