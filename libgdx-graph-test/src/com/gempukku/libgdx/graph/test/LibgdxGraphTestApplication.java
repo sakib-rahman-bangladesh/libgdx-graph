@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -118,10 +119,22 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
                     }
                 });
 
+        final Slider normalStrength = new Slider(0.01f, 2.0f, 0.01f, false, skin);
+        normalStrength.setValue(1.0f);
+        normalStrength.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        modelInstance.setProperty("Normal Map Strength", normalStrength.getValue());
+                    }
+                });
+
         Stage stage = new Stage(new ScreenViewport());
 
-        Table tbl = new Table();
+        Table tbl = new Table(skin);
         tbl.add(switchButton).row();
+        tbl.add("Normal strength").row();
+        tbl.add(normalStrength).row();
 
         tbl.setFillParent(true);
         tbl.align(Align.topLeft);
