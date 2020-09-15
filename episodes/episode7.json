@@ -1,0 +1,850 @@
+{
+  "nodes": [
+    {
+      "data": {
+        "name": "Camera",
+        "type": "Camera"
+      },
+      "x": 50.0,
+      "y": 408.0,
+      "id": "72be9695e45949ccb5f449dbacdfd619",
+      "type": "Property"
+    },
+    {
+      "data": {
+        "name": "Stage",
+        "type": "Stage"
+      },
+      "x": 180.0,
+      "y": 126.0,
+      "id": "a9ef339d56654f4c8f7445b45b3bed0b",
+      "type": "Property"
+    },
+    {
+      "data": {
+        "name": "Lights",
+        "type": "GraphLights"
+      },
+      "x": 52.0,
+      "y": 342.0,
+      "id": "50f414bd4ecb4a01a52ae1e8be315763",
+      "type": "Property"
+    },
+    {
+      "x": 385.0,
+      "y": 126.0,
+      "id": "dffb152d405a49d38792e850749129b2",
+      "type": "UIRenderer"
+    },
+    {
+      "data": {
+        "name": "Models",
+        "type": "GraphModels"
+      },
+      "x": 50.0,
+      "y": 481.0,
+      "id": "1995a8bfe5054beeab0fb8d051c80506",
+      "type": "Property"
+    },
+    {
+      "x": 385.0,
+      "y": 50.0,
+      "id": "end",
+      "type": "PipelineEnd"
+    },
+    {
+      "data": {
+        "color": "000000ff"
+      },
+      "x": 163.0,
+      "y": 601.0,
+      "id": "d54b356d4a1242cab5e6cb3f836b1930",
+      "type": "ValueColor"
+    },
+    {
+      "data": {
+        "shaders": [
+          {
+            "shader": {
+              "nodes": [
+                {
+                  "data": {
+                    "default": "ffffffff"
+                  },
+                  "x": 488.0,
+                  "y": 989.0,
+                  "id": "7dd083b41fc045a692c535c8728abba2",
+                  "type": "DiffuseColor"
+                },
+                {
+                  "data": {
+                    "default": "ffffffff"
+                  },
+                  "x": 497.0,
+                  "y": 357.0,
+                  "id": "8bffcef66bb5498ea570e3f43f7f34b7",
+                  "type": "SpecularColor"
+                },
+                {
+                  "x": 680.0,
+                  "y": 319.0,
+                  "id": "36e710d2263e4b998bf404930b8db882",
+                  "type": "Multiply"
+                },
+                {
+                  "data": {
+                    "channel": "UV0"
+                  },
+                  "x": 50.0,
+                  "y": 739.0,
+                  "id": "d96277ecf114425aadcf84b428477745",
+                  "type": "AttributeUV"
+                },
+                {
+                  "data": {
+                    "coordinates": "world"
+                  },
+                  "x": 565.0,
+                  "y": 1212.0,
+                  "id": "20f3d9b5646a42f28870b4f25456f6df",
+                  "type": "AttributePosition"
+                },
+                {
+                  "x": 490.0,
+                  "y": 531.0,
+                  "id": "456cdc704f4e49e8b7b6115b5804473d",
+                  "type": "Sampler2D"
+                },
+                {
+                  "x": 680.0,
+                  "y": 637.0,
+                  "id": "2019351e62264cd6b45ad8c3781eb2d2",
+                  "type": "Multiply"
+                },
+                {
+                  "data": {
+                    "coordinates": "world"
+                  },
+                  "x": 565.0,
+                  "y": 1126.0,
+                  "id": "95d14973e49b4795a859c183ea4a687c",
+                  "type": "AttributeNormal"
+                },
+                {
+                  "data": {
+                    "previewPath": null
+                  },
+                  "x": 241.0,
+                  "y": 809.0,
+                  "id": "e12ee5febbba4d2fa88ea5fb7ac58e10",
+                  "type": "DiffuseTexture"
+                },
+                {
+                  "data": {
+                    "previewPath": null
+                  },
+                  "x": 236.0,
+                  "y": 154.0,
+                  "id": "a00c7ff2f6cc4168a14f53cb403d8d72",
+                  "type": "SpecularTexture"
+                },
+                {
+                  "x": 681.0,
+                  "y": 963.0,
+                  "id": "ed1d588e101a40fb953a3f2efe70abca",
+                  "type": "Multiply"
+                },
+                {
+                  "x": 494.0,
+                  "y": 198.0,
+                  "id": "af7e7313f5424b55954d6a16eafcb27f",
+                  "type": "Sampler2D"
+                },
+                {
+                  "x": 487.0,
+                  "y": 837.0,
+                  "id": "ffd366ddd51246b29171086b39f91ace",
+                  "type": "Sampler2D"
+                },
+                {
+                  "data": {
+                    "default": "000000ff"
+                  },
+                  "x": 489.0,
+                  "y": 680.0,
+                  "id": "4e7271158c61419786d1884080ccba41",
+                  "type": "EmissiveColor"
+                },
+                {
+                  "data": {
+                    "culling": "back",
+                    "transparency": "opaque",
+                    "depthTest": "less",
+                    "blending": "alpha"
+                  },
+                  "x": 1271.0,
+                  "y": 879.0,
+                  "id": "end",
+                  "type": "ShaderEnd"
+                },
+                {
+                  "x": 1033.0,
+                  "y": 908.0,
+                  "id": "49ad39d6e184499ebec92228552e5873",
+                  "type": "Lighting"
+                },
+                {
+                  "data": {
+                    "previewPath": null
+                  },
+                  "x": 235.0,
+                  "y": 480.0,
+                  "id": "04a099c60cc8431ead655c88a3744884",
+                  "type": "EmissiveTexture"
+                },
+                {
+                  "data": {
+                    "default": 32.0
+                  },
+                  "x": 690.0,
+                  "y": 50.0,
+                  "id": "7dd098c55c264fcdbb2a91168e6f0215",
+                  "type": "Shininess"
+                },
+                {
+                  "data": {
+                    "default": 0.0
+                  },
+                  "x": 1036.0,
+                  "y": 817.0,
+                  "id": "3f45d18ca6b24459acd5bfc680c8d34c",
+                  "type": "AlphaTest"
+                }
+              ],
+              "groups": [
+                {
+                  "nodes": [
+                    "a00c7ff2f6cc4168a14f53cb403d8d72",
+                    "8bffcef66bb5498ea570e3f43f7f34b7",
+                    "af7e7313f5424b55954d6a16eafcb27f",
+                    "36e710d2263e4b998bf404930b8db882"
+                  ],
+                  "name": "Specular"
+                },
+                {
+                  "nodes": [
+                    "e12ee5febbba4d2fa88ea5fb7ac58e10",
+                    "7dd083b41fc045a692c535c8728abba2",
+                    "ed1d588e101a40fb953a3f2efe70abca",
+                    "ffd366ddd51246b29171086b39f91ace"
+                  ],
+                  "name": "Diffuse"
+                },
+                {
+                  "nodes": [
+                    "4e7271158c61419786d1884080ccba41",
+                    "456cdc704f4e49e8b7b6115b5804473d",
+                    "04a099c60cc8431ead655c88a3744884",
+                    "2019351e62264cd6b45ad8c3781eb2d2"
+                  ],
+                  "name": "Emissive"
+                }
+              ],
+              "version": "0.1.0",
+              "connections": [
+                {
+                  "fromNode": "d96277ecf114425aadcf84b428477745",
+                  "toField": "uv",
+                  "fromField": "uv",
+                  "toNode": "ffd366ddd51246b29171086b39f91ace"
+                },
+                {
+                  "fromNode": "20f3d9b5646a42f28870b4f25456f6df",
+                  "toField": "position",
+                  "fromField": "position",
+                  "toNode": "49ad39d6e184499ebec92228552e5873"
+                },
+                {
+                  "fromNode": "95d14973e49b4795a859c183ea4a687c",
+                  "toField": "normal",
+                  "fromField": "normal",
+                  "toNode": "49ad39d6e184499ebec92228552e5873"
+                },
+                {
+                  "fromNode": "e12ee5febbba4d2fa88ea5fb7ac58e10",
+                  "toField": "texture",
+                  "fromField": "texture",
+                  "toNode": "ffd366ddd51246b29171086b39f91ace"
+                },
+                {
+                  "fromNode": "49ad39d6e184499ebec92228552e5873",
+                  "toField": "color",
+                  "fromField": "output",
+                  "toNode": "end"
+                },
+                {
+                  "fromNode": "7dd083b41fc045a692c535c8728abba2",
+                  "toField": "a",
+                  "fromField": "color",
+                  "toNode": "ed1d588e101a40fb953a3f2efe70abca"
+                },
+                {
+                  "fromNode": "ffd366ddd51246b29171086b39f91ace",
+                  "toField": "b",
+                  "fromField": "color",
+                  "toNode": "ed1d588e101a40fb953a3f2efe70abca"
+                },
+                {
+                  "fromNode": "ed1d588e101a40fb953a3f2efe70abca",
+                  "toField": "albedo",
+                  "fromField": "output",
+                  "toNode": "49ad39d6e184499ebec92228552e5873"
+                },
+                {
+                  "fromNode": "04a099c60cc8431ead655c88a3744884",
+                  "toField": "texture",
+                  "fromField": "texture",
+                  "toNode": "456cdc704f4e49e8b7b6115b5804473d"
+                },
+                {
+                  "fromNode": "d96277ecf114425aadcf84b428477745",
+                  "toField": "uv",
+                  "fromField": "uv",
+                  "toNode": "456cdc704f4e49e8b7b6115b5804473d"
+                },
+                {
+                  "fromNode": "4e7271158c61419786d1884080ccba41",
+                  "toField": "a",
+                  "fromField": "color",
+                  "toNode": "2019351e62264cd6b45ad8c3781eb2d2"
+                },
+                {
+                  "fromNode": "456cdc704f4e49e8b7b6115b5804473d",
+                  "toField": "b",
+                  "fromField": "color",
+                  "toNode": "2019351e62264cd6b45ad8c3781eb2d2"
+                },
+                {
+                  "fromNode": "2019351e62264cd6b45ad8c3781eb2d2",
+                  "toField": "emission",
+                  "fromField": "output",
+                  "toNode": "49ad39d6e184499ebec92228552e5873"
+                },
+                {
+                  "fromNode": "a00c7ff2f6cc4168a14f53cb403d8d72",
+                  "toField": "texture",
+                  "fromField": "texture",
+                  "toNode": "af7e7313f5424b55954d6a16eafcb27f"
+                },
+                {
+                  "fromNode": "d96277ecf114425aadcf84b428477745",
+                  "toField": "uv",
+                  "fromField": "uv",
+                  "toNode": "af7e7313f5424b55954d6a16eafcb27f"
+                },
+                {
+                  "fromNode": "8bffcef66bb5498ea570e3f43f7f34b7",
+                  "toField": "a",
+                  "fromField": "color",
+                  "toNode": "36e710d2263e4b998bf404930b8db882"
+                },
+                {
+                  "fromNode": "af7e7313f5424b55954d6a16eafcb27f",
+                  "toField": "b",
+                  "fromField": "color",
+                  "toNode": "36e710d2263e4b998bf404930b8db882"
+                },
+                {
+                  "fromNode": "36e710d2263e4b998bf404930b8db882",
+                  "toField": "specular",
+                  "fromField": "output",
+                  "toNode": "49ad39d6e184499ebec92228552e5873"
+                },
+                {
+                  "fromNode": "ffd366ddd51246b29171086b39f91ace",
+                  "toField": "alpha",
+                  "fromField": "a",
+                  "toNode": "end"
+                },
+                {
+                  "fromNode": "7dd098c55c264fcdbb2a91168e6f0215",
+                  "toField": "shininess",
+                  "fromField": "value",
+                  "toNode": "49ad39d6e184499ebec92228552e5873"
+                },
+                {
+                  "fromNode": "3f45d18ca6b24459acd5bfc680c8d34c",
+                  "toField": "alphaClip",
+                  "fromField": "value",
+                  "toNode": "end"
+                }
+              ],
+              "properties": []
+            },
+            "id": "728c1b5a29f94be991cf761219dfef75",
+            "tag": "Default"
+          },
+          {
+            "shader": {
+              "nodes": [
+                {
+                  "data": {
+                    "v1": 0.25
+                  },
+                  "x": 499.0,
+                  "y": 951.0,
+                  "id": "5b533a7b65e040bba8732cffd31de770",
+                  "type": "ValueFloat"
+                },
+                {
+                  "data": {
+                    "v1": 0.0,
+                    "v2": 1.0
+                  },
+                  "x": 679.0,
+                  "y": 746.0,
+                  "id": "a8464d1aea104448a2d1070a659296ac",
+                  "type": "ValueVector2"
+                },
+                {
+                  "x": 688.0,
+                  "y": 1057.0,
+                  "id": "d9ae573aa5bc49dca86e21b450ceb935",
+                  "type": "AmbientLight"
+                },
+                {
+                  "data": {
+                    "channel": "UV0"
+                  },
+                  "x": 669.0,
+                  "y": 277.0,
+                  "id": "a9e2670bcfd2450fae5aae385e439ff6",
+                  "type": "AttributeUV"
+                },
+                {
+                  "data": {
+                    "v1": 0.0,
+                    "v2": 0.6
+                  },
+                  "x": 681.0,
+                  "y": 687.0,
+                  "id": "f697a20bb24c4d74a29902cdc4a34d73",
+                  "type": "ValueVector2"
+                },
+                {
+                  "data": {
+                    "v1": 0.02
+                  },
+                  "x": 671.0,
+                  "y": 108.0,
+                  "id": "9e25fcf9e9e24ff8b02a3449ad31fc83",
+                  "type": "ValueFloat"
+                },
+                {
+                  "data": {
+                    "default": 32.0
+                  },
+                  "x": 70.0,
+                  "y": 633.0,
+                  "id": "1f189c0b4dc94685b459f4e1af1ed1fc",
+                  "type": "Shininess"
+                },
+                {
+                  "x": 1500.0,
+                  "y": 486.0,
+                  "id": "f7e4f8db05ae4f6db0395a2125e1e0c3",
+                  "type": "Multiply"
+                },
+                {
+                  "x": 881.0,
+                  "y": 493.0,
+                  "id": "e6cbde8a560a4547b300f2bdec6b929c",
+                  "type": "Sampler2D"
+                },
+                {
+                  "data": {
+                    "previewPath": null
+                  },
+                  "x": 615.0,
+                  "y": 359.0,
+                  "id": "1f1b1f4d08c34fe48cd0550aba443531",
+                  "type": "DiffuseTexture"
+                },
+                {
+                  "x": 670.0,
+                  "y": 50.0,
+                  "id": "8ec2f572137f472aada20ae60dc6b50b",
+                  "type": "Intensity"
+                },
+                {
+                  "data": {
+                    "v1": 0.015
+                  },
+                  "x": 672.0,
+                  "y": 165.0,
+                  "id": "c4d12aca727d41a79b924948e59de74b",
+                  "type": "ValueFloat"
+                },
+                {
+                  "x": 880.0,
+                  "y": 120.0,
+                  "id": "3b05b7659b7a4cff82514ed67ce48afb",
+                  "type": "Smoothstep"
+                },
+                {
+                  "x": 881.0,
+                  "y": 758.0,
+                  "id": "8d52242d8bee450db12dde875c5c541b",
+                  "type": "Remap"
+                },
+                {
+                  "x": 1083.0,
+                  "y": 901.0,
+                  "id": "23e2b3e464fd458bb5d877e369bcbc30",
+                  "type": "Add"
+                },
+                {
+                  "x": 693.0,
+                  "y": 812.0,
+                  "id": "fd1f0e66d34840598413728704f7519f",
+                  "type": "Smoothstep"
+                },
+                {
+                  "x": 1276.0,
+                  "y": 433.0,
+                  "id": "e184b0ce4412425090d3228edf807e58",
+                  "type": "Add"
+                },
+                {
+                  "x": 498.0,
+                  "y": 809.0,
+                  "id": "fa2dbfc3a7644123becd6bcce8fcbf9f",
+                  "type": "Intensity"
+                },
+                {
+                  "x": 282.0,
+                  "y": 679.0,
+                  "id": "4ad0ac346dda47bbbd4c595bb8660616",
+                  "type": "Lighting"
+                },
+                {
+                  "data": {
+                    "coordinates": "world"
+                  },
+                  "x": 50.0,
+                  "y": 730.0,
+                  "id": "ec3d3f2c976b4addaf1f331a2e509bb0",
+                  "type": "AttributeNormal"
+                },
+                {
+                  "data": {
+                    "culling": "back",
+                    "transparency": "opaque",
+                    "depthTest": "less",
+                    "blending": "alpha"
+                  },
+                  "x": 1698.0,
+                  "y": 118.0,
+                  "id": "end",
+                  "type": "ShaderEnd"
+                },
+                {
+                  "x": 882.0,
+                  "y": 1057.0,
+                  "id": "86f4b607e6924e4eade3deaf6bf61e7e",
+                  "type": "Intensity"
+                },
+                {
+                  "data": {
+                    "coordinates": "world"
+                  },
+                  "x": 52.0,
+                  "y": 812.0,
+                  "id": "857200959c3d4a5889acf3159003d2a7",
+                  "type": "AttributePosition"
+                },
+                {
+                  "data": {
+                    "v1": 0.251
+                  },
+                  "x": 497.0,
+                  "y": 885.0,
+                  "id": "ee4f7d5f3dcd46f4ae6665451bd4f2c8",
+                  "type": "ValueFloat"
+                }
+              ],
+              "groups": [
+                {
+                  "nodes": [
+                    "8d52242d8bee450db12dde875c5c541b",
+                    "fd1f0e66d34840598413728704f7519f",
+                    "5b533a7b65e040bba8732cffd31de770",
+                    "a8464d1aea104448a2d1070a659296ac",
+                    "fa2dbfc3a7644123becd6bcce8fcbf9f",
+                    "f697a20bb24c4d74a29902cdc4a34d73",
+                    "ee4f7d5f3dcd46f4ae6665451bd4f2c8"
+                  ],
+                  "name": "Diffuse lighting"
+                },
+                {
+                  "nodes": [
+                    "d9ae573aa5bc49dca86e21b450ceb935",
+                    "86f4b607e6924e4eade3deaf6bf61e7e"
+                  ],
+                  "name": "Ambient lighting"
+                },
+                {
+                  "nodes": [
+                    "9e25fcf9e9e24ff8b02a3449ad31fc83",
+                    "8ec2f572137f472aada20ae60dc6b50b",
+                    "c4d12aca727d41a79b924948e59de74b",
+                    "3b05b7659b7a4cff82514ed67ce48afb"
+                  ],
+                  "name": "Specular lighting"
+                },
+                {
+                  "nodes": [
+                    "a9e2670bcfd2450fae5aae385e439ff6",
+                    "e6cbde8a560a4547b300f2bdec6b929c",
+                    "1f1b1f4d08c34fe48cd0550aba443531"
+                  ],
+                  "name": "Base color"
+                }
+              ],
+              "version": "0.1.0",
+              "connections": [
+                {
+                  "fromNode": "857200959c3d4a5889acf3159003d2a7",
+                  "toField": "position",
+                  "fromField": "position",
+                  "toNode": "4ad0ac346dda47bbbd4c595bb8660616"
+                },
+                {
+                  "fromNode": "ec3d3f2c976b4addaf1f331a2e509bb0",
+                  "toField": "normal",
+                  "fromField": "normal",
+                  "toNode": "4ad0ac346dda47bbbd4c595bb8660616"
+                },
+                {
+                  "fromNode": "1f1b1f4d08c34fe48cd0550aba443531",
+                  "toField": "texture",
+                  "fromField": "texture",
+                  "toNode": "e6cbde8a560a4547b300f2bdec6b929c"
+                },
+                {
+                  "fromNode": "a9e2670bcfd2450fae5aae385e439ff6",
+                  "toField": "uv",
+                  "fromField": "uv",
+                  "toNode": "e6cbde8a560a4547b300f2bdec6b929c"
+                },
+                {
+                  "fromNode": "4ad0ac346dda47bbbd4c595bb8660616",
+                  "toField": "color",
+                  "fromField": "diffuse",
+                  "toNode": "fa2dbfc3a7644123becd6bcce8fcbf9f"
+                },
+                {
+                  "fromNode": "fa2dbfc3a7644123becd6bcce8fcbf9f",
+                  "toField": "input",
+                  "fromField": "output",
+                  "toNode": "fd1f0e66d34840598413728704f7519f"
+                },
+                {
+                  "fromNode": "5b533a7b65e040bba8732cffd31de770",
+                  "toField": "edge0",
+                  "fromField": "value",
+                  "toNode": "fd1f0e66d34840598413728704f7519f"
+                },
+                {
+                  "fromNode": "ee4f7d5f3dcd46f4ae6665451bd4f2c8",
+                  "toField": "edge1",
+                  "fromField": "value",
+                  "toNode": "fd1f0e66d34840598413728704f7519f"
+                },
+                {
+                  "fromNode": "d9ae573aa5bc49dca86e21b450ceb935",
+                  "toField": "color",
+                  "fromField": "ambient",
+                  "toNode": "86f4b607e6924e4eade3deaf6bf61e7e"
+                },
+                {
+                  "fromNode": "fd1f0e66d34840598413728704f7519f",
+                  "toField": "input",
+                  "fromField": "output",
+                  "toNode": "8d52242d8bee450db12dde875c5c541b"
+                },
+                {
+                  "fromNode": "a8464d1aea104448a2d1070a659296ac",
+                  "toField": "from",
+                  "fromField": "value",
+                  "toNode": "8d52242d8bee450db12dde875c5c541b"
+                },
+                {
+                  "fromNode": "f697a20bb24c4d74a29902cdc4a34d73",
+                  "toField": "to",
+                  "fromField": "value",
+                  "toNode": "8d52242d8bee450db12dde875c5c541b"
+                },
+                {
+                  "fromNode": "4ad0ac346dda47bbbd4c595bb8660616",
+                  "toField": "color",
+                  "fromField": "specularOut",
+                  "toNode": "8ec2f572137f472aada20ae60dc6b50b"
+                },
+                {
+                  "fromNode": "8ec2f572137f472aada20ae60dc6b50b",
+                  "toField": "input",
+                  "fromField": "output",
+                  "toNode": "3b05b7659b7a4cff82514ed67ce48afb"
+                },
+                {
+                  "fromNode": "c4d12aca727d41a79b924948e59de74b",
+                  "toField": "edge0",
+                  "fromField": "value",
+                  "toNode": "3b05b7659b7a4cff82514ed67ce48afb"
+                },
+                {
+                  "fromNode": "9e25fcf9e9e24ff8b02a3449ad31fc83",
+                  "toField": "edge1",
+                  "fromField": "value",
+                  "toNode": "3b05b7659b7a4cff82514ed67ce48afb"
+                },
+                {
+                  "fromNode": "8d52242d8bee450db12dde875c5c541b",
+                  "toField": "b",
+                  "fromField": "output",
+                  "toNode": "23e2b3e464fd458bb5d877e369bcbc30"
+                },
+                {
+                  "fromNode": "86f4b607e6924e4eade3deaf6bf61e7e",
+                  "toField": "a",
+                  "fromField": "output",
+                  "toNode": "23e2b3e464fd458bb5d877e369bcbc30"
+                },
+                {
+                  "fromNode": "3b05b7659b7a4cff82514ed67ce48afb",
+                  "toField": "b",
+                  "fromField": "output",
+                  "toNode": "e184b0ce4412425090d3228edf807e58"
+                },
+                {
+                  "fromNode": "1f189c0b4dc94685b459f4e1af1ed1fc",
+                  "toField": "shininess",
+                  "fromField": "value",
+                  "toNode": "4ad0ac346dda47bbbd4c595bb8660616"
+                },
+                {
+                  "fromNode": "23e2b3e464fd458bb5d877e369bcbc30",
+                  "toField": "a",
+                  "fromField": "output",
+                  "toNode": "e184b0ce4412425090d3228edf807e58"
+                },
+                {
+                  "fromNode": "f7e4f8db05ae4f6db0395a2125e1e0c3",
+                  "toField": "color",
+                  "fromField": "output",
+                  "toNode": "end"
+                },
+                {
+                  "fromNode": "e6cbde8a560a4547b300f2bdec6b929c",
+                  "toField": "a",
+                  "fromField": "color",
+                  "toNode": "f7e4f8db05ae4f6db0395a2125e1e0c3"
+                },
+                {
+                  "fromNode": "e184b0ce4412425090d3228edf807e58",
+                  "toField": "b",
+                  "fromField": "output",
+                  "toNode": "f7e4f8db05ae4f6db0395a2125e1e0c3"
+                }
+              ],
+              "properties": []
+            },
+            "id": "2b380a7d97174c5ba7ce7bd69e69972e",
+            "tag": "Toon"
+          }
+        ]
+      },
+      "x": 306.0,
+      "y": 225.0,
+      "id": "ff6f63af3181472da525343236652acd",
+      "type": "GraphShaderRenderer"
+    },
+    {
+      "x": 385.0,
+      "y": 576.0,
+      "id": "746da9b276d442f0bc74ed9847a26a4b",
+      "type": "PipelineStart"
+    }
+  ],
+  "groups": [],
+  "version": "0.1.0",
+  "connections": [
+    {
+      "fromNode": "72be9695e45949ccb5f449dbacdfd619",
+      "toField": "camera",
+      "fromField": "value",
+      "toNode": "ff6f63af3181472da525343236652acd"
+    },
+    {
+      "fromNode": "746da9b276d442f0bc74ed9847a26a4b",
+      "toField": "input",
+      "fromField": "output",
+      "toNode": "ff6f63af3181472da525343236652acd"
+    },
+    {
+      "fromNode": "d54b356d4a1242cab5e6cb3f836b1930",
+      "toField": "background",
+      "fromField": "value",
+      "toNode": "746da9b276d442f0bc74ed9847a26a4b"
+    },
+    {
+      "fromNode": "ff6f63af3181472da525343236652acd",
+      "toField": "input",
+      "fromField": "output",
+      "toNode": "dffb152d405a49d38792e850749129b2"
+    },
+    {
+      "fromNode": "dffb152d405a49d38792e850749129b2",
+      "toField": "input",
+      "fromField": "output",
+      "toNode": "end"
+    },
+    {
+      "fromNode": "a9ef339d56654f4c8f7445b45b3bed0b",
+      "toField": "stage",
+      "fromField": "value",
+      "toNode": "dffb152d405a49d38792e850749129b2"
+    },
+    {
+      "fromNode": "1995a8bfe5054beeab0fb8d051c80506",
+      "toField": "models",
+      "fromField": "value",
+      "toNode": "ff6f63af3181472da525343236652acd"
+    },
+    {
+      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
+      "toField": "lights",
+      "fromField": "value",
+      "toNode": "ff6f63af3181472da525343236652acd"
+    }
+  ],
+  "properties": [
+    {
+      "name": "Camera",
+      "type": "Camera"
+    },
+    {
+      "name": "Stage",
+      "type": "Stage"
+    },
+    {
+      "name": "Models",
+      "type": "GraphModels"
+    },
+    {
+      "name": "Lights",
+      "type": "GraphLights"
+    }
+  ]
+}
