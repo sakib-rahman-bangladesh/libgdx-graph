@@ -13,6 +13,7 @@ import com.gempukku.libgdx.graph.shader.node.attribute.AttributeUVShaderNodeBuil
 import com.gempukku.libgdx.graph.shader.node.effect.FresnelEffectShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.effect.IntensityShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.lighting.AmbientLightShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.lighting.ApplyBumpMapShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.lighting.CalculateLightingShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.lighting.DirectionalLightShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.lighting.PointLightShaderNodeBuilder;
@@ -146,6 +147,7 @@ public class GraphShaderConfiguration {
 
         // Lighting
         addGraphShaderNodeBuilder(new CalculateLightingShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new ApplyBumpMapShaderNodeBuilder());
         addGraphShaderNodeBuilder(new AmbientLightShaderNodeBuilder());
         addGraphShaderNodeBuilder(new DirectionalLightShaderNodeBuilder());
         addGraphShaderNodeBuilder(new PointLightShaderNodeBuilder());

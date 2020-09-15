@@ -104,7 +104,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
         Material material = new Material(new GraphShaderAttribute());
         model = modelBuilder.createSphere(1, 1, 1, 50, 50,
                 material,
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates);
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
         graphShaderModel = new GraphShaderModel(model);
         modelInstance = graphShaderModel.createInstance();
     }

@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
-import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
@@ -49,10 +48,9 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private Skin skin;
     private GraphShaderModelInstance modelInstance;
     private GraphShaderEnvironment lights;
-    private float cameraSpeed = -0.8f;
+    private float cameraSpeed = -0.1f;
     private float cameraAngle = 0f;
     private float cameraDistance = 1.7f;
-    private AnimationController animationController;
 
     @Override
     public void create() {
@@ -93,16 +91,14 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private GraphShaderModels createModels() {
         JsonReader jsonReader = new JsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-        model = modelLoader.loadModel(Gdx.files.internal("model/gold-robot/gold-robot.g3dj"));
+        model = modelLoader.loadModel(Gdx.files.internal("model/luminaris/luminaris.g3dj"));
 
         GraphShaderModels models = new GraphShaderModels();
         String modelId = models.registerModel(model);
-        float scale = 0.008f;
+        float scale = 0.025f;
         modelInstance = models.createModelInstance(modelId);
         modelInstance.getTransformMatrix().scale(scale, scale, scale);//.rotate(-1, 0, 0f, 90);
         modelInstance.addTag("Default");
-        animationController = models.createAnimationController(modelInstance.getId());
-        animationController.animate("Root|jog", -1, null, 0f);
         return models;
     }
 
@@ -142,11 +138,10 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
-        animationController.update(delta);
 
         cameraAngle += delta * cameraSpeed;
 
-        float y = 0.8f;
+        float y = 0.2f;
         camera.position.set(cameraDistance * MathUtils.sin(cameraAngle), y, cameraDistance * MathUtils.cos(cameraAngle));
         camera.up.set(0f, 1f, 0f);
         camera.lookAt(0, y, 0f);

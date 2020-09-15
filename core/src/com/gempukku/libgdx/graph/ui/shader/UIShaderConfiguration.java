@@ -4,6 +4,7 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.config.effect.FresnelEffectShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.effect.IntensityShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.lighting.AmbientLightShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.lighting.ApplyBumpMapShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.lighting.CalculateLightingShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.lighting.DirectionalLightShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.lighting.PointLightShaderNodeConfiguration;
@@ -123,6 +124,7 @@ public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldTy
         graphBoxProducers.add(new ColorAttributeBoxProducer("SpecularColor", "Specular color"));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CalculateLightingShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ApplyBumpMapShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new AmbientLightShaderNodeConfiguration()));
         graphBoxProducers.add(new IndexedBoxProducer<ShaderFieldType>(new DirectionalLightShaderNodeConfiguration()));
         graphBoxProducers.add(new IndexedBoxProducer<ShaderFieldType>(new PointLightShaderNodeConfiguration()));
