@@ -25,6 +25,7 @@ import org.json.simple.JSONObject;
 public class ColorBoxPart<T extends FieldType> extends Table implements GraphBoxPart<T> {
     private String property;
     private final Image image;
+    private final ColorPicker picker;
 
     public ColorBoxPart(Skin skin, String label, String property) {
         super(skin);
@@ -44,7 +45,7 @@ public class ColorBoxPart<T extends FieldType> extends Table implements GraphBox
         image = new Image(baseDrawable);
         image.setColor(color);
 
-        final ColorPicker picker = new ColorPicker(new ColorPickerAdapter() {
+        picker = new ColorPicker(new ColorPickerAdapter() {
             @Override
             public void finished(Color newColor) {
                 image.setColor(newColor);
@@ -96,6 +97,6 @@ public class ColorBoxPart<T extends FieldType> extends Table implements GraphBox
 
     @Override
     public void dispose() {
-
+        picker.dispose();
     }
 }
