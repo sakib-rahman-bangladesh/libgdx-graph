@@ -11,14 +11,25 @@ import com.badlogic.gdx.graphics.g3d.model.NodePart;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class GraphShaderModel implements Disposable {
     private static VertexAttributes attributes;
     private Model internalModel;
+    private Set<String> defaultTags = new HashSet<>();
 
     public GraphShaderModel(Model model) {
         init(model);
+    }
+
+    public void addDefaultTag(String tag) {
+        defaultTags.add(tag);
+    }
+
+    public void removeDefaultTag(String tag) {
+        defaultTags.remove(tag);
     }
 
     private void init(Model model) {
@@ -117,7 +128,6 @@ public class GraphShaderModel implements Disposable {
         return -1;
     }
 
-
     private Animation copyAnimation(Animation animation) {
         return animation;
     }
@@ -128,7 +138,10 @@ public class GraphShaderModel implements Disposable {
 
     public GraphShaderModelInstanceImpl createInstance() {
         String id = UUID.randomUUID().toString().replace("-", "");
-        return new GraphShaderModelInstanceImpl(id, this, new ModelInstance(internalModel));
+        GraphShaderModelInstanceImpl graphShaderModelInstance = new GraphShaderModelInstanceImpl(id, this, new ModelInstance(internalModel));
+        for (String defaultTag : defaultTags)
+            graphShaderModelInstance.addTag(defaultTag);
+        return graphShaderModelInstance;
     }
 
     @Override
