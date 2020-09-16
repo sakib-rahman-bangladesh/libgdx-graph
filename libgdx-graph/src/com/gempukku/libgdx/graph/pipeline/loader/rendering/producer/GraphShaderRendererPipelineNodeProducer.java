@@ -72,45 +72,54 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 models.prepareForRendering(camera);
 
                 for (RenderPass renderPass : renderPasses) {
-                    Map<String, GraphShader> shaders = renderPass.getShaders();
+                    Map<String, GraphShader> opaqueShaders = renderPass.getOpaqueShaders();
+                    Map<String, GraphShader> transparentShaders = renderPass.getTransparentShaders();
                     // Initialize shaders for drawing
-                    for (GraphShader shader : shaders.values()) {
+                    for (GraphShader shader : opaqueShaders.values()) {
+                        shader.setTimeProvider(pipelineRenderingContext.getTimeProvider());
+                        shader.setEnvironment(environment);
+                    }
+                    for (GraphShader shader : transparentShaders.values()) {
                         shader.setTimeProvider(pipelineRenderingContext.getTimeProvider());
                         shader.setEnvironment(environment);
                     }
 
                     // First render opaque models
-                    models.orderFrontToBack();
-                    for (Map.Entry<String, GraphShader> shaderEntry : shaders.entrySet()) {
-                        String tag = shaderEntry.getKey();
-                        GraphShader shader = shaderEntry.getValue();
-                        if (shader.getTransparency() == BasicShader.Transparency.opaque) {
-                            renderWithShaderOpaquePass(tag, shader, models, camera, environment);
+                    if (!opaqueShaders.isEmpty()) {
+                        models.orderFrontToBack();
+                        for (Map.Entry<String, GraphShader> shaderEntry : opaqueShaders.entrySet()) {
+                            String tag = shaderEntry.getKey();
+                            GraphShader shader = shaderEntry.getValue();
+                            if (shader.getTransparency() == BasicShader.Transparency.opaque) {
+                                renderWithShaderOpaquePass(tag, shader, models, camera, environment);
+                            }
                         }
                     }
 
                     // Then render transparent models
-                    models.orderBackToFront();
-                    GraphShader lastShader = null;
-                    for (GraphShaderModelInstanceImpl graphShaderModelInstance : models.getModels()) {
-                        for (Map.Entry<String, GraphShader> shaderEntry : shaders.entrySet()) {
-                            String tag = shaderEntry.getKey();
-                            GraphShader shader = shaderEntry.getValue();
-                            if (shader.getTransparency() == BasicShader.Transparency.transparent) {
-                                if (graphShaderModelInstance.hasTag(tag)) {
-                                    if (lastShader != shader) {
-                                        if (lastShader != null)
-                                            lastShader.end();
-                                        shader.begin(camera, environment, renderContext);
+                    if (!transparentShaders.isEmpty()) {
+                        models.orderBackToFront();
+                        GraphShader lastShader = null;
+                        for (GraphShaderModelInstanceImpl graphShaderModelInstance : models.getModels()) {
+                            for (Map.Entry<String, GraphShader> shaderEntry : transparentShaders.entrySet()) {
+                                String tag = shaderEntry.getKey();
+                                GraphShader shader = shaderEntry.getValue();
+                                if (shader.getTransparency() == BasicShader.Transparency.transparent) {
+                                    if (graphShaderModelInstance.hasTag(tag)) {
+                                        if (lastShader != shader) {
+                                            if (lastShader != null)
+                                                lastShader.end();
+                                            shader.begin(camera, environment, renderContext);
+                                        }
+                                        shader.render(graphShaderModelInstance);
+                                        lastShader = shader;
                                     }
-                                    shader.render(graphShaderModelInstance);
-                                    lastShader = shader;
                                 }
                             }
                         }
+                        if (lastShader != null)
+                            lastShader.end();
                     }
-                    if (lastShader != null)
-                        lastShader.end();
                 }
 
                 currentBuffer.end();
@@ -149,23 +158,35 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
     }
 
     private class RenderPass implements Disposable {
-        private Map<String, GraphShader> shaders = new LinkedHashMap<>();
+        private Map<String, GraphShader> opaqueShaders = new LinkedHashMap<>();
+        private Map<String, GraphShader> transparentShaders = new LinkedHashMap<>();
 
         public RenderPass(JSONObject data, WhitePixel whitePixel) {
             final List<JSONObject> shaderDefinitions = (List<JSONObject>) data.get("shaders");
             for (JSONObject shaderDefinition : shaderDefinitions) {
                 String tag = (String) shaderDefinition.get("tag");
-                shaders.put(tag, createShader(shaderDefinition, whitePixel.texture));
+                GraphShader shader = createShader(shaderDefinition, whitePixel.texture);
+                if (shader.getTransparency() == BasicShader.Transparency.opaque)
+                    opaqueShaders.put(tag, shader);
+                else
+                    transparentShaders.put(tag, shader);
             }
         }
 
-        public Map<String, GraphShader> getShaders() {
-            return shaders;
+        public Map<String, GraphShader> getOpaqueShaders() {
+            return opaqueShaders;
+        }
+
+        public Map<String, GraphShader> getTransparentShaders() {
+            return transparentShaders;
         }
 
         @Override
         public void dispose() {
-            for (GraphShader shader : shaders.values()) {
+            for (GraphShader shader : opaqueShaders.values()) {
+                shader.dispose();
+            }
+            for (GraphShader shader : transparentShaders.values()) {
                 shader.dispose();
             }
         }
