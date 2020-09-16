@@ -16,7 +16,11 @@ import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
+import com.gempukku.libgdx.graph.ui.graph.GraphRemoved;
 import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
+import com.kotcrab.vis.ui.util.dialog.Dialogs;
+import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
+import com.kotcrab.vis.ui.widget.Separator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -30,68 +34,52 @@ import java.util.List;
 import java.util.UUID;
 
 public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineFieldType> {
-    private static final int GRAPH_WIDTH = 50;
-    private static final int ACTIONS_WIDTH = 50;
-    private final VerticalGroup shadersGroup;
+    private static final int EDIT_WIDTH = 50;
+    private static final int REMOVE_WIDTH = 80;
+    private final VerticalGroup renderPasses;
     private final Skin skin;
-    private List<ShaderInfo> shaders = new LinkedList<>();
+    private List<RenderPassInfo> passes = new LinkedList<>();
 
     public GraphShadersBoxPart(Skin skin) {
         this.skin = skin;
 
-        shadersGroup = new VerticalGroup();
-        shadersGroup.top();
-        shadersGroup.grow();
+        renderPasses = new VerticalGroup();
+        renderPasses.top();
+        renderPasses.grow();
 
         Table table = new Table(skin);
         table.add("Tag").growX();
-        table.add("Graph").width(GRAPH_WIDTH);
-        table.add("Actions").width(ACTIONS_WIDTH);
+        table.add("Edit").width(EDIT_WIDTH);
+        table.add("Remove").width(REMOVE_WIDTH);
         table.row();
-        shadersGroup.addActor(table);
+        renderPasses.addActor(table);
 
-        ScrollPane scrollPane = new ScrollPane(shadersGroup);
+        ScrollPane scrollPane = new ScrollPane(renderPasses);
         scrollPane.setFadeScrollBars(false);
         scrollPane.setForceScroll(false, true);
 
         add(scrollPane).grow().row();
 
-        TextButton newShader = new TextButton("New Shader", skin);
-        newShader.addListener(
+        TextButton newRenderPass = new TextButton("New Render Pass", skin);
+        newRenderPass.addListener(
                 new ClickListener(Input.Buttons.LEFT) {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        String id = UUID.randomUUID().toString().replace("-", "");
-                        try {
-                            JSONParser parser = new JSONParser();
-                            InputStream is = Gdx.files.internal("template/empty-shader.json").read();
-                            try {
-                                JSONObject shader = (JSONObject) parser.parse(new InputStreamReader(is));
-                                addShaderGraph(id, "", shader);
-                            } finally {
-                                is.close();
-                            }
-                        } catch (IOException exp) {
-
-                        } catch (ParseException exp) {
-
-                        }
+                        addRenderPass();
                     }
                 });
 
         Table buttonTable = new Table(skin);
-        buttonTable.add(newShader);
+        buttonTable.add(newRenderPass);
 
         add(buttonTable).growX().row();
     }
 
     public void initialize(JSONObject data) {
-        JSONArray shaderArray = (JSONArray) data.get("shaders");
-        for (JSONObject shaderObject : (List<JSONObject>) shaderArray) {
-            String id = (String) shaderObject.get("id");
-            String tag = (String) shaderObject.get("tag");
-            JSONObject shader = (JSONObject) shaderObject.get("shader");
-            addShaderGraph(id, tag, shader);
+        JSONArray renderPasses = (JSONArray) data.get("renderPasses");
+        for (JSONObject renderPass : (List<JSONObject>) renderPasses) {
+            RenderPassInfo renderPassInfo = addRenderPass();
+            renderPassInfo.initialize(renderPass);
         }
     }
 
@@ -105,10 +93,16 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
         return 200;
     }
 
-    public void addShaderGraph(String id, String tag, JSONObject shader) {
-        ShaderInfo shaderInfo = new ShaderInfo(id, tag, shader);
-        shaders.add(shaderInfo);
-        shadersGroup.addActor(shaderInfo.getTable());
+    private RenderPassInfo addRenderPass() {
+        RenderPassInfo renderPassInfo = new RenderPassInfo();
+        passes.add(renderPassInfo);
+        renderPasses.addActor(renderPassInfo.getActor());
+        return renderPassInfo;
+    }
+
+    private void removeRenderPass(RenderPassInfo renderPassInfo) {
+        passes.remove(renderPassInfo);
+        renderPasses.removeActor(renderPassInfo.getActor());
     }
 
     @Override
@@ -128,26 +122,128 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
 
     @Override
     public void serializePart(JSONObject object) {
-        JSONArray shaderArray = new JSONArray();
-        for (ShaderInfo shader : shaders) {
-            JSONObject shaderObject = new JSONObject();
-            shaderObject.put("id", shader.getId());
-            shaderObject.put("tag", shader.getTag());
-            GetSerializedGraph event = new GetSerializedGraph(shader.getId());
-            fire(event);
-            JSONObject shaderGraph = event.getGraph();
-            if (shaderGraph == null)
-                shaderGraph = shader.getInitialShaderJson();
-            shaderObject.put("shader", shaderGraph);
-            shaderArray.add(shaderObject);
+        JSONArray passArray = new JSONArray();
+        for (RenderPassInfo pass : passes) {
+            JSONObject passObject = new JSONObject();
+            pass.serializePass(passObject);
+            passArray.add(passObject);
         }
-
-        object.put("shaders", shaderArray);
+        object.put("renderPasses", passArray);
     }
 
     @Override
     public void dispose() {
 
+    }
+
+    private class RenderPassInfo {
+        private Table table;
+        private VerticalGroup shaderGroup = new VerticalGroup();
+        private List<ShaderInfo> shaders = new LinkedList<>();
+
+        public RenderPassInfo() {
+            table = new Table();
+            table.add(new Separator()).growX().row();
+            table.add(shaderGroup).growX().row();
+
+            TextButton newShader = new TextButton("New Shader", skin);
+            newShader.addListener(
+                    new ClickListener(Input.Buttons.LEFT) {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            String id = UUID.randomUUID().toString().replace("-", "");
+                            try {
+                                JSONParser parser = new JSONParser();
+                                InputStream is = Gdx.files.internal("template/empty-shader.json").read();
+                                try {
+                                    JSONObject shader = (JSONObject) parser.parse(new InputStreamReader(is));
+                                    addShaderGraph(id, "", shader);
+                                } finally {
+                                    is.close();
+                                }
+                            } catch (IOException exp) {
+
+                            } catch (ParseException exp) {
+
+                            }
+                        }
+                    });
+
+            TextButton removePass = new TextButton("Remove Pass", skin);
+            removePass.addListener(
+                    new ClickListener(Input.Buttons.LEFT) {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            Dialogs.showOptionDialog(getStage(), "Confirm", "Would you like to remove the render pass?",
+                                    Dialogs.OptionDialogType.YES_CANCEL, new OptionDialogListener() {
+                                        @Override
+                                        public void yes() {
+                                            for (ShaderInfo shader : shaders) {
+                                                fire(new GraphRemoved(shader.getId()));
+                                            }
+                                            removeRenderPass(RenderPassInfo.this);
+                                        }
+
+                                        @Override
+                                        public void no() {
+
+                                        }
+
+                                        @Override
+                                        public void cancel() {
+
+                                        }
+                                    });
+                        }
+                    });
+
+            Table buttons = new Table(skin);
+            buttons.add(newShader);
+            table.add(buttons).growX().row();
+        }
+
+        private void addShaderGraph(String id, String tag, JSONObject shader) {
+            ShaderInfo shaderInfo = new ShaderInfo(this, id, tag, shader);
+            shaders.add(shaderInfo);
+            shaderGroup.addActor(shaderInfo.getActor());
+        }
+
+        private void removeShaderGraph(ShaderInfo shaderInfo) {
+            shaders.remove(shaderInfo);
+            shaderGroup.removeActor(shaderInfo.getActor());
+        }
+
+        public void initialize(JSONObject data) {
+            JSONArray shaderArray = (JSONArray) data.get("shaders");
+            for (JSONObject shaderObject : (List<JSONObject>) shaderArray) {
+                String id = (String) shaderObject.get("id");
+                String tag = (String) shaderObject.get("tag");
+                JSONObject shader = (JSONObject) shaderObject.get("shader");
+                addShaderGraph(id, tag, shader);
+            }
+        }
+
+        public void serializePass(JSONObject object) {
+            JSONArray shaderArray = new JSONArray();
+            for (ShaderInfo shader : shaders) {
+                JSONObject shaderObject = new JSONObject();
+                shaderObject.put("id", shader.getId());
+                shaderObject.put("tag", shader.getTag());
+                GetSerializedGraph event = new GetSerializedGraph(shader.getId());
+                fire(event);
+                JSONObject shaderGraph = event.getGraph();
+                if (shaderGraph == null)
+                    shaderGraph = shader.getInitialShaderJson();
+                shaderObject.put("shader", shaderGraph);
+                shaderArray.add(shaderObject);
+            }
+
+            object.put("shaders", shaderArray);
+        }
+
+        public Actor getActor() {
+            return table;
+        }
     }
 
     private class ShaderInfo {
@@ -156,23 +252,48 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
         private Table table;
         private TextField textField;
 
-        public ShaderInfo(final String id, String tag, final JSONObject initialShaderJson) {
+        public ShaderInfo(final RenderPassInfo renderPass, final String id, String tag, final JSONObject initialShaderJson) {
             this.id = id;
             this.initialShaderJson = initialShaderJson;
             table = new Table(skin);
             textField = new TextField(tag, skin);
             textField.setMessageText("Shader Tag");
             table.add(textField).growX();
-            final TextButton textButton = new TextButton("Edit", skin);
-            textButton.addListener(
+            final TextButton editButton = new TextButton("Edit", skin);
+            editButton.addListener(
                     new ClickListener(Input.Buttons.LEFT) {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            textButton.fire(new RequestGraphOpen(id, initialShaderJson));
+                            editButton.fire(new RequestGraphOpen(id, initialShaderJson));
                         }
                     });
-            table.add(textButton).width(ACTIONS_WIDTH);
-            table.add().width(ACTIONS_WIDTH);
+            table.add(editButton).width(EDIT_WIDTH);
+            final TextButton deleteButton = new TextButton("Remove", skin);
+            deleteButton.addListener(
+                    new ClickListener(Input.Buttons.LEFT) {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            Dialogs.showOptionDialog(getStage(), "Confirm", "Would you like to remove the shader?",
+                                    Dialogs.OptionDialogType.YES_CANCEL, new OptionDialogListener() {
+                                        @Override
+                                        public void yes() {
+                                            fire(new GraphRemoved(id));
+                                            renderPass.removeShaderGraph(ShaderInfo.this);
+                                        }
+
+                                        @Override
+                                        public void no() {
+
+                                        }
+
+                                        @Override
+                                        public void cancel() {
+
+                                        }
+                                    });
+                        }
+                    });
+            table.add(deleteButton).width(REMOVE_WIDTH);
             table.row();
         }
 
@@ -180,7 +301,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
             return id;
         }
 
-        public Table getTable() {
+        public Table getActor() {
             return table;
         }
 

@@ -17,6 +17,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
 import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
+import com.gempukku.libgdx.graph.ui.graph.GraphRemoved;
 import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
 import com.gempukku.libgdx.graph.ui.graph.SaveCallback;
 import com.gempukku.libgdx.graph.ui.pipeline.UIPipelineConfiguration;
@@ -473,6 +474,13 @@ public class LibgdxGraphScreen extends Table {
                                         GetSerializedGraph request = (GetSerializedGraph) event;
                                         request.setGraph(savedGraphs.get(request.getId()));
                                         return true;
+                                    }
+                                    if (event instanceof GraphRemoved) {
+                                        GraphRemoved removed = (GraphRemoved) event;
+                                        Tab tab = findTabByGraphId(removed.getId());
+                                        if (tab != null) {
+                                            tabbedPane.remove(tab);
+                                        }
                                     }
                                     return false;
                                 }

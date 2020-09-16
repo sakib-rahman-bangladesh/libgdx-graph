@@ -22,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonReader;
@@ -106,19 +105,6 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private Stage createStage() {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        final TextButton switchButton = new TextButton("Normal/Toon", skin, "toggle");
-        switchButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        boolean checked = switchButton.isChecked();
-                        String removeTag = checked ? "Default" : "Toon";
-                        String tag = checked ? "Toon" : "Default";
-                        modelInstance.removeTag(removeTag);
-                        modelInstance.addTag(tag);
-                    }
-                });
-
         final Slider normalStrength = new Slider(0.01f, 2.0f, 0.01f, false, skin);
         normalStrength.setValue(1.0f);
         normalStrength.addListener(
@@ -132,7 +118,6 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         Stage stage = new Stage(new ScreenViewport());
 
         Table tbl = new Table(skin);
-        tbl.add(switchButton).row();
         tbl.add("Normal strength").row();
         tbl.add(normalStrength).row();
 
