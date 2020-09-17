@@ -23,8 +23,7 @@ public class UniformSetters {
     public final static UniformRegistry.UniformSetter cameraPosition = new UniformRegistry.UniformSetter() {
         @Override
         public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
-            shader.setUniform(location, camera.position.x, camera.position.y, camera.position.z,
-                    1.1881f / (camera.far * camera.far));
+            shader.setUniform(location, camera.position.x, camera.position.y, camera.position.z);
         }
     };
     public final static UniformRegistry.UniformSetter cameraDirection = new UniformRegistry.UniformSetter() {

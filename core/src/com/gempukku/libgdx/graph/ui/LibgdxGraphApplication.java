@@ -29,7 +29,7 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
 
         VisUI.load();
         WhitePixel.initializeShared();
-        ;
+
         FileChooser.setDefaultPrefsName("com.gempukku.libgdx.graph.ui.filechooser");
 
         skin = new Skin(VisUI.SkinScale.X1.getSkinFile());//Gdx.files.internal("uiskin.json"));

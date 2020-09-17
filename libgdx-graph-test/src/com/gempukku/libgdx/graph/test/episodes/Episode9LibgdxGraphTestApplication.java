@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.test;
+package com.gempukku.libgdx.graph.test.episodes;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -32,11 +32,12 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class LibgdxGraphTestApplication extends ApplicationAdapter {
+public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
     private long lastProcessedInput;
 
     private PipelineRenderer pipelineRenderer;

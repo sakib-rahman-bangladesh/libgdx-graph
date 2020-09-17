@@ -199,6 +199,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
 
             Table buttons = new Table(skin);
             buttons.add(newShader);
+            buttons.add(removePass);
             table.add(buttons).growX().row();
         }
 

@@ -53,6 +53,7 @@ import com.gempukku.libgdx.graph.shader.config.noise.SimplexNoise3DNodeConfigura
 import com.gempukku.libgdx.graph.shader.config.noise.VoronoiDistanceNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.CameraDirectionShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.CameraPositionShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.provided.FragmentCoordinateShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.InstanceIdShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.TimeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.texture.Sampler2DShaderNodeConfiguration;
@@ -187,6 +188,7 @@ public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldTy
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new TimeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CameraPositionShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CameraDirectionShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new FragmentCoordinateShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new InstanceIdShaderNodeConfiguration()));
 
         graphBoxProducers.add(new ValueColorBoxProducer<ShaderFieldType>(new ValueColorShaderNodeConfiguration()));
