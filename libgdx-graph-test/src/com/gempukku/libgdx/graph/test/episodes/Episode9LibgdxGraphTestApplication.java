@@ -4,13 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cubemap;
-import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureArray;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
@@ -52,7 +46,7 @@ public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
     private float cameraAngle = 0f;
     private float cameraDistance = 1.6f;
     private float robotScale = 0.0008f;
-    private float robotDistance = 0.78f;
+    private float robotDistance = 0.9f;
     private float robotAngle = 0f;
     private float robotSpeed = -0.4f;
     private AnimationController robotAnimation;
@@ -168,7 +162,7 @@ public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
 
         robotAngle += delta * robotSpeed;
         robotInstance.getTransformMatrix().idt()
-                .translate(0.9f * robotDistance * MathUtils.sin(robotAngle), 0, 0.3f + robotDistance * MathUtils.cos(robotAngle))
+                .translate(0.9f * robotDistance * MathUtils.sin(robotAngle), 0, 0.2f + robotDistance * MathUtils.cos(robotAngle))
                 .rotate(0, 1f, 0, MathUtils.radiansToDegrees * robotAngle - 90)
                 .scale(robotScale, robotScale, robotScale);
 
@@ -209,7 +203,7 @@ public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
 
     private PipelineRenderer loadPipelineRenderer() {
         try {
-            InputStream stream = Gdx.files.local("test.json").read();
+            InputStream stream = Gdx.files.local("episodes/episode9.json").read();
             try {
                 PipelineRenderer pipelineRenderer = GraphLoader.loadGraph(stream, new PipelineLoaderCallback());
                 setupPipeline(pipelineRenderer);
