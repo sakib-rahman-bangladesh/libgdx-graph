@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.pipeline;
 
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.GraphDataLoaderCallback;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
@@ -13,7 +14,6 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.property.PipelinePropertyProducer;
-import org.json.simple.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +49,7 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
     }
 
     @Override
-    protected NodeConfiguration<PipelineFieldType> getNodeConfiguration(String type, JSONObject data) {
+    protected NodeConfiguration<PipelineFieldType> getNodeConfiguration(String type, JsonValue data) {
         return RendererPipelineConfiguration.pipelineNodeProducers.get(type).getConfiguration(data);
     }
 

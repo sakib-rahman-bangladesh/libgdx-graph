@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -34,7 +36,6 @@ import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
-import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,7 +44,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LibgdxGraphScreen extends Table {
-    private Map<String, JSONObject> savedGraphs = new HashMap<>();
+    private Map<String, JsonValue> savedGraphs = new HashMap<>();
     private FileHandle editedFile;
     private final TabbedPane tabbedPane;
     private GraphDesignTab<PipelineFieldType> graphDesignTab;
@@ -126,7 +127,7 @@ public class LibgdxGraphScreen extends Table {
         });
     }
 
-    private void openShaderTab(String id, JSONObject shader) {
+    private void openShaderTab(String id, JsonValue shader) {
         UIShaderConfiguration shaderConfiguration = new UIShaderConfiguration();
         final GraphDesignTab<ShaderFieldType> shaderTab = GraphLoader.loadGraph(shader, new UIGraphLoaderCallback<ShaderFieldType>(
                 skin, new GraphDesignTab<ShaderFieldType>(true, GraphDesignTab.Type.Graph_Shader, id, "Shader", skin,
@@ -405,18 +406,18 @@ public class LibgdxGraphScreen extends Table {
         for (Tab tab : tabbedPane.getTabs()) {
             tab.save();
         }
-        JSONObject graph = graphDesignTab.serializeGraph();
+        JsonValue graph = graphDesignTab.serializeGraph();
 
         writeGraph(editedFile, graph);
 
         graphDesignTab.setDirty(false);
     }
 
-    private void writeGraph(FileHandle editedFile, JSONObject graph) {
+    private void writeGraph(FileHandle editedFile, JsonValue graph) {
         try {
             OutputStreamWriter out = new OutputStreamWriter(editedFile.write(false));
             try {
-                graph.writeJSONString(out);
+                graph.prettyPrint(JsonWriter.OutputType.json, out);
                 out.flush();
             } finally {
                 out.close();
@@ -463,7 +464,7 @@ public class LibgdxGraphScreen extends Table {
                                         if (tab != null) {
                                             tabbedPane.switchTab(tab);
                                         } else {
-                                            JSONObject graph = savedGraphs.get(request.getId());
+                                            JsonValue graph = savedGraphs.get(request.getId());
                                             if (graph == null)
                                                 graph = request.getJsonObject();
                                             openShaderTab(request.getId(), graph);

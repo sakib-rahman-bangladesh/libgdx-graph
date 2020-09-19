@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.WhitePixel;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
@@ -21,7 +22,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxPartImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.kotcrab.vis.ui.widget.color.ColorPicker;
 import com.kotcrab.vis.ui.widget.color.ColorPickerAdapter;
-import org.json.simple.JSONObject;
+
 
 public class ValueColorBoxProducer<T extends FieldType> extends ValueGraphBoxProducer<T> {
     public ValueColorBoxProducer(NodeConfiguration<T> configuration) {
@@ -29,8 +30,8 @@ public class ValueColorBoxProducer<T extends FieldType> extends ValueGraphBoxPro
     }
 
     @Override
-    public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JSONObject data) {
-        String value = (String) data.get("color");
+    public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+        String value = data.getString("color");
 
         return createGraphBox(skin, id, value);
     }
@@ -89,8 +90,8 @@ public class ValueColorBoxProducer<T extends FieldType> extends ValueGraphBoxPro
         GraphBoxPartImpl<T> colorPart = new GraphBoxPartImpl<T>(table,
                 new GraphBoxPartImpl.Callback() {
                     @Override
-                    public void serialize(JSONObject object) {
-                        object.put("color", image.getColor().toString());
+                    public void serialize(JsonValue object) {
+                        object.addChild("color", new JsonValue(image.getColor().toString()));
                     }
                 }) {
             @Override

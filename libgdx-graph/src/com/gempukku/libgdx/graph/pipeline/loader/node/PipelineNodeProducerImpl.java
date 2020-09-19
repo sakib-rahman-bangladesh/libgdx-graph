@@ -1,8 +1,8 @@
 package com.gempukku.libgdx.graph.pipeline.loader.node;
 
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
-import org.json.simple.JSONObject;
 
 public abstract class PipelineNodeProducerImpl implements PipelineNodeProducer {
     protected NodeConfiguration<PipelineFieldType> configuration;
@@ -17,7 +17,7 @@ public abstract class PipelineNodeProducerImpl implements PipelineNodeProducer {
     }
 
     @Override
-    public final NodeConfiguration<PipelineFieldType> getConfiguration(JSONObject data) {
+    public final NodeConfiguration<PipelineFieldType> getConfiguration(JsonValue data) {
         return configuration;
     }
 }

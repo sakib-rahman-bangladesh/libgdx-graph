@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.ui.shader;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
@@ -22,7 +23,6 @@ import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.ui.ShaderPreviewWidget;
-import org.json.simple.JSONObject;
 
 import java.util.Iterator;
 
@@ -50,7 +50,7 @@ public class EndShaderBoxProducer implements GraphBoxProducer<ShaderFieldType> {
     }
 
     @Override
-    public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JSONObject data) {
+    public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         final ShaderPreviewBoxPart previewBoxPart = new ShaderPreviewBoxPart(skin);
         previewBoxPart.initialize(data);
 
@@ -129,7 +129,7 @@ public class EndShaderBoxProducer implements GraphBoxProducer<ShaderFieldType> {
             add(shaderPreviewWidget).grow().row();
         }
 
-        public void initialize(JSONObject data) {
+        public void initialize(JsonValue data) {
         }
 
         @Override
@@ -148,7 +148,7 @@ public class EndShaderBoxProducer implements GraphBoxProducer<ShaderFieldType> {
         }
 
         @Override
-        public void serializePart(JSONObject object) {
+        public void serializePart(JsonValue object) {
         }
 
         public void graphChanged(boolean hasErrors, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {

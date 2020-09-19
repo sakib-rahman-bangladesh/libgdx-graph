@@ -3,12 +3,13 @@ package com.gempukku.libgdx.graph.ui.shader.property;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyDefaultBox;
-import org.json.simple.JSONObject;
+
 
 public class PropertyTextureBoxProducer implements PropertyBoxProducer<ShaderFieldType> {
     @Override
@@ -17,7 +18,7 @@ public class PropertyTextureBoxProducer implements PropertyBoxProducer<ShaderFie
     }
 
     @Override
-    public PropertyBox<ShaderFieldType> createPropertyBox(Skin skin, String name, JSONObject jsonObject) {
+    public PropertyBox<ShaderFieldType> createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
         return createPropertyBoxDefault(skin, name);
     }
 
@@ -39,7 +40,7 @@ public class PropertyTextureBoxProducer implements PropertyBoxProducer<ShaderFie
                     }
 
                     @Override
-                    public JSONObject serializeData() {
+                    public JsonValue serializeData() {
                         return null;
                     }
                 });

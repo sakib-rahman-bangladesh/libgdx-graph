@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.WhitePixel;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
@@ -21,7 +22,7 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyDefaultBox;
 import com.kotcrab.vis.ui.widget.color.ColorPicker;
 import com.kotcrab.vis.ui.widget.color.ColorPickerAdapter;
-import org.json.simple.JSONObject;
+
 
 public class PropertyColorBoxProducer implements PropertyBoxProducer<ShaderFieldType> {
     @Override
@@ -30,8 +31,8 @@ public class PropertyColorBoxProducer implements PropertyBoxProducer<ShaderField
     }
 
     @Override
-    public PropertyBox<ShaderFieldType> createPropertyBox(Skin skin, String name, JSONObject jsonObject) {
-        String color = ((String) jsonObject.get("color"));
+    public PropertyBox<ShaderFieldType> createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
+        String color = jsonObject.getString("color");
         return createPropertyBoxDefault(skin, name, color);
     }
 
@@ -92,9 +93,9 @@ public class PropertyColorBoxProducer implements PropertyBoxProducer<ShaderField
                     }
 
                     @Override
-                    public JSONObject serializeData() {
-                        JSONObject result = new JSONObject();
-                        result.put("color", image.getColor().toString());
+                    public JsonValue serializeData() {
+                        JsonValue result = new JsonValue(JsonValue.ValueType.object);
+                        result.addChild("color", new JsonValue(image.getColor().toString()));
                         return result;
                     }
                 }) {

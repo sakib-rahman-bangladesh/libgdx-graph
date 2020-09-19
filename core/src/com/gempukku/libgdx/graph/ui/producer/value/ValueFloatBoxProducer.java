@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
@@ -14,7 +15,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxPartImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.kotcrab.vis.ui.util.Validators;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
-import org.json.simple.JSONObject;
+
 
 public class ValueFloatBoxProducer<T extends FieldType> extends ValueGraphBoxProducer<T> {
     public ValueFloatBoxProducer(NodeConfiguration<T> configuration) {
@@ -22,8 +23,8 @@ public class ValueFloatBoxProducer<T extends FieldType> extends ValueGraphBoxPro
     }
 
     @Override
-    public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JSONObject data) {
-        float v1 = ((Number) data.get("v1")).floatValue();
+    public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+        float v1 = data.getFloat("v1");
 
         return createGraphBox(skin, id, v1);
     }
@@ -63,8 +64,8 @@ public class ValueFloatBoxProducer<T extends FieldType> extends ValueGraphBoxPro
         GraphBoxPartImpl<T> colorPart = new GraphBoxPartImpl<T>(horizontalGroup,
                 new GraphBoxPartImpl.Callback() {
                     @Override
-                    public void serialize(JSONObject object) {
-                        object.put("v1", Float.parseFloat(v1Input.getText()));
+                    public void serialize(JsonValue object) {
+                        object.addChild("v1", new JsonValue(Float.parseFloat(v1Input.getText())));
                     }
                 });
         colorPart.setOutputConnector(GraphBoxOutputConnector.Side.Right, configuration.getNodeOutputs().get("value"));

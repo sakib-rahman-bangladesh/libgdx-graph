@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.WhitePixel;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.config.material.TextureAttributeShaderNodeConfiguration;
@@ -26,7 +27,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
 import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
-import org.json.simple.JSONObject;
+
 
 public class TextureAttributeBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
     public TextureAttributeBoxProducer(String type, String name) {
@@ -34,7 +35,7 @@ public class TextureAttributeBoxProducer extends GraphBoxProducerImpl<ShaderFiel
     }
 
     @Override
-    public GraphBoxImpl<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JSONObject data) {
+    public GraphBoxImpl<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         GraphBoxImpl<ShaderFieldType> result = super.createPipelineGraphBox(skin, id, data);
         TextureBoxPart normalBoxPart = new TextureBoxPart(skin);
         if (data != null)
@@ -87,8 +88,8 @@ public class TextureAttributeBoxProducer extends GraphBoxProducerImpl<ShaderFiel
             }
         }
 
-        public void initialize(JSONObject data) {
-            String previewPath = (String) data.get("previewPath");
+        public void initialize(JsonValue data) {
+            String previewPath = data.getString("previewPath");
             if (previewPath != null) {
                 attemptToLoadTexture(Gdx.files.absolute(previewPath));
             }
@@ -122,8 +123,8 @@ public class TextureAttributeBoxProducer extends GraphBoxProducerImpl<ShaderFiel
         }
 
         @Override
-        public void serializePart(JSONObject object) {
-            object.put("previewPath", path);
+        public void serializePart(JsonValue object) {
+            object.addChild("previewPath", new JsonValue(path));
         }
 
         @Override

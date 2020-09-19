@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
@@ -21,10 +23,6 @@ import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
 import com.kotcrab.vis.ui.widget.Separator;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,9 +73,9 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
         add(buttonTable).growX().row();
     }
 
-    public void initialize(JSONObject data) {
-        JSONArray renderPasses = (JSONArray) data.get("renderPasses");
-        for (JSONObject renderPass : (List<JSONObject>) renderPasses) {
+    public void initialize(JsonValue data) {
+        JsonValue renderPasses = data.get("renderPasses");
+        for (JsonValue renderPass : renderPasses) {
             RenderPassInfo renderPassInfo = addRenderPass();
             renderPassInfo.initialize(renderPass);
         }
@@ -121,14 +119,14 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
     }
 
     @Override
-    public void serializePart(JSONObject object) {
-        JSONArray passArray = new JSONArray();
+    public void serializePart(JsonValue object) {
+        JsonValue passArray = new JsonValue(JsonValue.ValueType.array);
         for (RenderPassInfo pass : passes) {
-            JSONObject passObject = new JSONObject();
+            JsonValue passObject = new JsonValue(JsonValue.ValueType.object);
             pass.serializePass(passObject);
-            passArray.add(passObject);
+            passArray.addChild(passObject);
         }
-        object.put("renderPasses", passArray);
+        object.addChild("renderPasses", passArray);
     }
 
     @Override
@@ -153,17 +151,15 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
                         public void clicked(InputEvent event, float x, float y) {
                             String id = UUID.randomUUID().toString().replace("-", "");
                             try {
-                                JSONParser parser = new JSONParser();
+                                JsonReader parser = new JsonReader();
                                 InputStream is = Gdx.files.internal("template/empty-shader.json").read();
                                 try {
-                                    JSONObject shader = (JSONObject) parser.parse(new InputStreamReader(is));
+                                    JsonValue shader = parser.parse(new InputStreamReader(is));
                                     addShaderGraph(id, "", shader);
                                 } finally {
                                     is.close();
                                 }
                             } catch (IOException exp) {
-
-                            } catch (ParseException exp) {
 
                             }
                         }
@@ -203,7 +199,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
             table.add(buttons).growX().row();
         }
 
-        private void addShaderGraph(String id, String tag, JSONObject shader) {
+        private void addShaderGraph(String id, String tag, JsonValue shader) {
             ShaderInfo shaderInfo = new ShaderInfo(this, id, tag, shader);
             shaders.add(shaderInfo);
             shaderGroup.addActor(shaderInfo.getActor());
@@ -214,32 +210,32 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
             shaderGroup.removeActor(shaderInfo.getActor());
         }
 
-        public void initialize(JSONObject data) {
-            JSONArray shaderArray = (JSONArray) data.get("shaders");
-            for (JSONObject shaderObject : (List<JSONObject>) shaderArray) {
-                String id = (String) shaderObject.get("id");
-                String tag = (String) shaderObject.get("tag");
-                JSONObject shader = (JSONObject) shaderObject.get("shader");
+        public void initialize(JsonValue data) {
+            JsonValue shaderArray = data.get("shaders");
+            for (JsonValue shaderObject : shaderArray) {
+                String id = shaderObject.getString("id");
+                String tag = shaderObject.getString("tag");
+                JsonValue shader = shaderObject.get("shader");
                 addShaderGraph(id, tag, shader);
             }
         }
 
-        public void serializePass(JSONObject object) {
-            JSONArray shaderArray = new JSONArray();
+        public void serializePass(JsonValue object) {
+            JsonValue shaderArray = new JsonValue(JsonValue.ValueType.array);
             for (ShaderInfo shader : shaders) {
-                JSONObject shaderObject = new JSONObject();
-                shaderObject.put("id", shader.getId());
-                shaderObject.put("tag", shader.getTag());
+                JsonValue shaderObject = new JsonValue(JsonValue.ValueType.object);
+                shaderObject.addChild("id", new JsonValue(shader.getId()));
+                shaderObject.addChild("tag", new JsonValue(shader.getTag()));
                 GetSerializedGraph event = new GetSerializedGraph(shader.getId());
                 fire(event);
-                JSONObject shaderGraph = event.getGraph();
+                JsonValue shaderGraph = event.getGraph();
                 if (shaderGraph == null)
                     shaderGraph = shader.getInitialShaderJson();
-                shaderObject.put("shader", shaderGraph);
-                shaderArray.add(shaderObject);
+                shaderObject.addChild("shader", shaderGraph);
+                shaderArray.addChild(shaderObject);
             }
 
-            object.put("shaders", shaderArray);
+            object.addChild("shaders", shaderArray);
         }
 
         public Actor getActor() {
@@ -249,11 +245,11 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
 
     private class ShaderInfo {
         private String id;
-        private JSONObject initialShaderJson;
+        private JsonValue initialShaderJson;
         private Table table;
         private TextField textField;
 
-        public ShaderInfo(final RenderPassInfo renderPass, final String id, String tag, final JSONObject initialShaderJson) {
+        public ShaderInfo(final RenderPassInfo renderPass, final String id, String tag, final JsonValue initialShaderJson) {
             this.id = id;
             this.initialShaderJson = initialShaderJson;
             table = new Table(skin);
@@ -310,7 +306,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
             return textField.getText();
         }
 
-        public JSONObject getInitialShaderJson() {
+        public JsonValue getInitialShaderJson() {
             return initialShaderJson;
         }
     }

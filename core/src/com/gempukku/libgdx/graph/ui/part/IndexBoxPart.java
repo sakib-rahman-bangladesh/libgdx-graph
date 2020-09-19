@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
@@ -12,7 +13,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.kotcrab.vis.ui.util.Validators;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
-import org.json.simple.JSONObject;
+
 
 public class IndexBoxPart<T extends FieldType> extends Table implements GraphBoxPart<T> {
     private final VisValidatableTextField indexField;
@@ -53,16 +54,16 @@ public class IndexBoxPart<T extends FieldType> extends Table implements GraphBox
         return null;
     }
 
-    public void initialize(JSONObject data) {
+    public void initialize(JsonValue data) {
         if (data != null) {
-            int value = ((Number) data.get(property)).intValue();
+            int value = data.getInt(property);
             indexField.setText(String.valueOf(value));
         }
     }
 
     @Override
-    public void serializePart(JSONObject object) {
-        object.put(property, Integer.parseInt(indexField.getText()));
+    public void serializePart(JsonValue object) {
+        object.addChild(property, new JsonValue(Integer.parseInt(indexField.getText())));
     }
 
     @Override

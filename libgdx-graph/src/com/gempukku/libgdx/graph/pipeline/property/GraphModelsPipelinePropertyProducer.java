@@ -1,9 +1,9 @@
 package com.gempukku.libgdx.graph.pipeline.property;
 
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.impl.WritablePipelineProperty;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
-import org.json.simple.JSONObject;
 
 import java.util.function.Supplier;
 
@@ -14,7 +14,7 @@ public class GraphModelsPipelinePropertyProducer implements PipelinePropertyProd
     }
 
     @Override
-    public WritablePipelineProperty createProperty(JSONObject data) {
+    public WritablePipelineProperty createProperty(JsonValue data) {
         return new WritablePipelineProperty(PipelineFieldType.GraphModels,
                 new Supplier<GraphShaderModels>() {
                     @Override

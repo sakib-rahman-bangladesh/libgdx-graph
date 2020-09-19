@@ -1,8 +1,8 @@
 package com.gempukku.libgdx.graph.pipeline.property;
 
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.impl.WritablePipelineProperty;
-import org.json.simple.JSONObject;
 
 import java.util.function.Supplier;
 
@@ -13,8 +13,8 @@ public class FloatPipelinePropertyProducer implements PipelinePropertyProducer {
     }
 
     @Override
-    public WritablePipelineProperty createProperty(JSONObject data) {
-        final float x = ((Number) data.get("x")).floatValue();
+    public WritablePipelineProperty createProperty(JsonValue data) {
+        final float x = data.getFloat("x");
         return new WritablePipelineProperty(PipelineFieldType.Float,
                 new Supplier<Float>() {
                     @Override

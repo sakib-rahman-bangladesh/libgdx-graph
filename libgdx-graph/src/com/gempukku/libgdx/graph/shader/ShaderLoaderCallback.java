@@ -1,13 +1,13 @@
 package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.GraphDataLoaderCallback;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.data.GraphValidator;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
-import org.json.simple.JSONObject;
 
 public class ShaderLoaderCallback extends GraphDataLoaderCallback<GraphShader, ShaderFieldType> {
     private Texture defaultTexture;
@@ -46,7 +46,7 @@ public class ShaderLoaderCallback extends GraphDataLoaderCallback<GraphShader, S
     }
 
     @Override
-    protected NodeConfiguration<ShaderFieldType> getNodeConfiguration(String type, JSONObject data) {
+    protected NodeConfiguration<ShaderFieldType> getNodeConfiguration(String type, JsonValue data) {
         return GraphShaderConfiguration.graphShaderNodeBuilders.get(type).getConfiguration(data);
     }
 }

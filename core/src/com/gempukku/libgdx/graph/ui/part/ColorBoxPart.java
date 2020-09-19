@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.WhitePixel;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
@@ -20,7 +21,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.kotcrab.vis.ui.widget.color.ColorPicker;
 import com.kotcrab.vis.ui.widget.color.ColorPickerAdapter;
-import org.json.simple.JSONObject;
+
 
 public class ColorBoxPart<T extends FieldType> extends Table implements GraphBoxPart<T> {
     private String property;
@@ -84,15 +85,15 @@ public class ColorBoxPart<T extends FieldType> extends Table implements GraphBox
         return null;
     }
 
-    public void initialize(JSONObject data) {
-        String value = (String) data.get(property);
+    public void initialize(JsonValue data) {
+        String value = data.getString(property);
         Color color = Color.valueOf(value);
         image.setColor(color);
     }
 
     @Override
-    public void serializePart(JSONObject object) {
-        object.put(property, image.getColor().toString());
+    public void serializePart(JsonValue object) {
+        object.addChild(property, new JsonValue(image.getColor().toString()));
     }
 
     @Override

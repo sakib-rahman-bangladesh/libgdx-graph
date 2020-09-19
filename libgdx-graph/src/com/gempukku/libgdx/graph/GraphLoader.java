@@ -1,16 +1,13 @@
 package com.gempukku.libgdx.graph;
 
 import com.badlogic.gdx.Gdx;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class GraphLoader {
@@ -21,16 +18,16 @@ public class GraphLoader {
 
     public static <T> T loadGraph(InputStream inputStream, GraphLoaderCallback<T> graphLoaderCallback) throws IOException {
         try {
-            JSONParser parser = new JSONParser();
-            JSONObject graph = (JSONObject) parser.parse(new InputStreamReader(inputStream));
+            JsonReader parser = new JsonReader();
+            JsonValue graph = (JsonValue) parser.parse(new InputStreamReader(inputStream));
             return loadGraph(graph, graphLoaderCallback);
-        } catch (ParseException exp) {
+        } catch (Exception exp) {
             throw new IOException("Unable to parse graph", exp);
         }
     }
 
-    public static <T> T loadGraph(JSONObject graph, GraphLoaderCallback<T> graphLoaderCallback) {
-        String version = (String) graph.get("version");
+    public static <T> T loadGraph(JsonValue graph, GraphLoaderCallback<T> graphLoaderCallback) {
+        String version = graph.getString("version");
         if (version == null) {
             // Assuming default
             version = "0.1.0";
@@ -42,33 +39,36 @@ public class GraphLoader {
             Gdx.app.debug("GraphLoader", "Reading a graph from different version " + VERSION + " != " + version);
 
         graphLoaderCallback.start();
-        for (JSONObject object : (List<JSONObject>) graph.get("nodes")) {
-            String type = (String) object.get("type");
-            String id = (String) object.get("id");
-            float x = ((Number) object.get("x")).floatValue();
-            float y = ((Number) object.get("y")).floatValue();
-            JSONObject data = (JSONObject) object.get("data");
+        for (JsonValue object : graph.get("nodes")) {
+            String type = object.getString("type");
+            String id = object.getString("id");
+            float x = object.getFloat("x");
+            float y = object.getFloat("y");
+            JsonValue data = object.get("data");
             graphLoaderCallback.addPipelineNode(id, type, x, y, data);
         }
-        for (JSONObject connection : (List<JSONObject>) graph.get("connections")) {
-            String fromNode = (String) connection.get("fromNode");
-            String fromField = (String) connection.get("fromField");
-            String toNode = (String) connection.get("toNode");
-            String toField = (String) connection.get("toField");
+        for (JsonValue connection : graph.get("connections")) {
+            String fromNode = connection.getString("fromNode");
+            String fromField = connection.getString("fromField");
+            String toNode = connection.getString("toNode");
+            String toField = connection.getString("toField");
             graphLoaderCallback.addPipelineVertex(fromNode, fromField, toNode, toField);
         }
-        for (JSONObject property : (List<JSONObject>) graph.get("properties")) {
-            String type = (String) property.get("type");
-            String name = (String) property.get("name");
-            JSONObject data = (JSONObject) property.get("data");
+        for (JsonValue property : graph.get("properties")) {
+            String type = property.getString("type");
+            String name = property.getString("name");
+            JsonValue data = (JsonValue) property.get("data");
             graphLoaderCallback.addPipelineProperty(type, name, data);
         }
-        List<JSONObject> groups = (List<JSONObject>) graph.get("groups");
+        JsonValue groups = graph.get("groups");
         if (groups != null) {
-            for (JSONObject group : groups) {
-                String name = (String) group.get("name");
-                JSONArray nodes = (JSONArray) group.get("nodes");
-                Set<String> nodeIds = new HashSet<>(nodes);
+            for (JsonValue group : groups) {
+                String name = group.getString("name");
+                JsonValue nodes = group.get("nodes");
+                Set<String> nodeIds = new HashSet<>();
+                for (JsonValue node : nodes) {
+                    nodeIds.add(node.asString());
+                }
                 graphLoaderCallback.addNodeGroup(name, nodeIds);
             }
         }

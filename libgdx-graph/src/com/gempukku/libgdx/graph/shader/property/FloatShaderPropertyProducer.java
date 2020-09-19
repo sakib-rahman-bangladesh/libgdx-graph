@@ -1,8 +1,8 @@
 package com.gempukku.libgdx.graph.shader.property;
 
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.PropertySource;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
-import org.json.simple.JSONObject;
 
 public class FloatShaderPropertyProducer implements GraphShaderPropertyProducer {
     @Override
@@ -11,8 +11,8 @@ public class FloatShaderPropertyProducer implements GraphShaderPropertyProducer 
     }
 
     @Override
-    public PropertySource createProperty(String name, JSONObject data, boolean designTime) {
-        final float x = ((Number) data.get("x")).floatValue();
+    public PropertySource createProperty(String name, JsonValue data, boolean designTime) {
+        final float x = data.getFloat("x");
         return new PropertySource(name, ShaderFieldType.Float, x);
     }
 }

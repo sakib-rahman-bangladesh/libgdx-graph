@@ -1,11 +1,12 @@
 package com.gempukku.libgdx.graph.ui.pipeline.property;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
-import org.json.simple.JSONObject;
+
 
 public class PropertyLightsBoxProducer implements PropertyBoxProducer<PipelineFieldType> {
     @Override
@@ -14,7 +15,7 @@ public class PropertyLightsBoxProducer implements PropertyBoxProducer<PipelineFi
     }
 
     @Override
-    public PropertyBox<PipelineFieldType> createPropertyBox(Skin skin, String name, JSONObject jsonObject) {
+    public PropertyBox<PipelineFieldType> createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
         return createPropertyBoxDefault(skin, name);
     }
 

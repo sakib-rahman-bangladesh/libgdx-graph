@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.shader.node.value;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -8,7 +9,6 @@ import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.config.value.ValueColorShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
-import org.json.simple.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -24,8 +24,8 @@ public class ValueColorShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
     }
 
     @Override
-    protected Map<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JSONObject data, Map<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        final Color color = Color.valueOf((String) data.get("color"));
+    protected Map<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, Map<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
+        final Color color = Color.valueOf(data.getString("color"));
 
         String value = "vec4(" + format(color.r) + ", " + format(color.g) + ", " + format(color.b) + ", " + format(color.a) + ")";
         return Collections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Color, value));

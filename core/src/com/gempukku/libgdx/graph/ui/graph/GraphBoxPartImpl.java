@@ -1,10 +1,11 @@
 package com.gempukku.libgdx.graph.ui.graph;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphNodeInput;
 import com.gempukku.libgdx.graph.data.GraphNodeOutput;
-import org.json.simple.JSONObject;
+
 
 public class GraphBoxPartImpl<T extends FieldType> implements GraphBoxPart<T> {
     private Actor actor;
@@ -41,7 +42,7 @@ public class GraphBoxPartImpl<T extends FieldType> implements GraphBoxPart<T> {
     }
 
     @Override
-    public void serializePart(JSONObject object) {
+    public void serializePart(JsonValue object) {
         if (callback != null)
             callback.serialize(object);
     }
@@ -52,6 +53,6 @@ public class GraphBoxPartImpl<T extends FieldType> implements GraphBoxPart<T> {
     }
 
     public interface Callback {
-        void serialize(JSONObject object);
+        void serialize(JsonValue object);
     }
 }

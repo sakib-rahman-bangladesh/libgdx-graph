@@ -1,9 +1,9 @@
 package com.gempukku.libgdx.graph.pipeline.property;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.impl.WritablePipelineProperty;
-import org.json.simple.JSONObject;
 
 import java.util.function.Supplier;
 
@@ -14,7 +14,7 @@ public class CameraPipelinePropertyProducer implements PipelinePropertyProducer 
     }
 
     @Override
-    public WritablePipelineProperty createProperty(JSONObject data) {
+    public WritablePipelineProperty createProperty(JsonValue data) {
         return new WritablePipelineProperty(PipelineFieldType.Camera,
                 new Supplier<Camera>() {
                     @Override

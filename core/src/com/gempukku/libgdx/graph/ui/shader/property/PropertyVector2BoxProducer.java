@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
@@ -13,7 +14,7 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyDefaultBox;
 import com.kotcrab.vis.ui.util.Validators;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
-import org.json.simple.JSONObject;
+
 
 public class PropertyVector2BoxProducer implements PropertyBoxProducer<ShaderFieldType> {
     @Override
@@ -22,9 +23,9 @@ public class PropertyVector2BoxProducer implements PropertyBoxProducer<ShaderFie
     }
 
     @Override
-    public PropertyBox<ShaderFieldType> createPropertyBox(Skin skin, String name, JSONObject jsonObject) {
-        float x = ((Number) jsonObject.get("x")).floatValue();
-        float y = ((Number) jsonObject.get("y")).floatValue();
+    public PropertyBox<ShaderFieldType> createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
+        float x = jsonObject.getFloat("x");
+        float y = jsonObject.getFloat("y");
         return createPropertyBoxDefault(skin, name, x, y);
     }
 
@@ -79,10 +80,10 @@ public class PropertyVector2BoxProducer implements PropertyBoxProducer<ShaderFie
                     }
 
                     @Override
-                    public JSONObject serializeData() {
-                        JSONObject result = new JSONObject();
-                        result.put("x", Float.parseFloat(v1Input.getText()));
-                        result.put("y", Float.parseFloat(v2Input.getText()));
+                    public JsonValue serializeData() {
+                        JsonValue result = new JsonValue(JsonValue.ValueType.object);
+                        result.addChild("x", new JsonValue(Float.parseFloat(v1Input.getText())));
+                        result.addChild("y", new JsonValue(Float.parseFloat(v2Input.getText())));
                         return result;
                     }
                 });

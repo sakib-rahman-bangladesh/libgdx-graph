@@ -1,9 +1,9 @@
 package com.gempukku.libgdx.graph.pipeline.property;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.impl.WritablePipelineProperty;
-import org.json.simple.JSONObject;
 
 import java.util.function.Supplier;
 
@@ -14,8 +14,8 @@ public class ColorPipelinePropertyProducer implements PipelinePropertyProducer {
     }
 
     @Override
-    public WritablePipelineProperty createProperty(JSONObject data) {
-        final Color color = Color.valueOf((String) data.get("color"));
+    public WritablePipelineProperty createProperty(JsonValue data) {
+        final Color color = Color.valueOf(data.getString("color"));
         return new WritablePipelineProperty(PipelineFieldType.Color,
                 new Supplier<Color>() {
                     @Override

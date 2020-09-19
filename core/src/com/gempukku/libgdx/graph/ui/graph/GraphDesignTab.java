@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.Graph;
@@ -35,8 +36,6 @@ import com.kotcrab.vis.ui.widget.PopupMenu;
 import com.kotcrab.vis.ui.widget.VisImageButton;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -383,64 +382,66 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         return contentTable;
     }
 
-    public JSONObject serializeGraph() {
-        JSONObject graph = new JSONObject();
-        graph.put("version", GraphLoader.VERSION);
+    public JsonValue serializeGraph() {
+        JsonValue graph = new JsonValue(JsonValue.ValueType.object);
+        graph.addChild("version", new JsonValue(GraphLoader.VERSION));
 
-        JSONArray objects = new JSONArray();
+        JsonValue objects = new JsonValue(JsonValue.ValueType.array);
         Vector2 tmp = new Vector2();
         graphContainer.getCanvasPosition(tmp);
         for (GraphBox<T> graphBox : graphContainer.getGraphBoxes()) {
             Window window = graphContainer.getBoxWindow(graphBox.getId());
-            JSONObject object = new JSONObject();
-            object.put("id", graphBox.getId());
-            object.put("type", graphBox.getType());
-            object.put("x", tmp.x + window.getX());
-            object.put("y", tmp.y + window.getY());
+            JsonValue object = new JsonValue(JsonValue.ValueType.object);
+            object.addChild("id", new JsonValue(graphBox.getId()));
+            object.addChild("type", new JsonValue(graphBox.getType()));
+            object.addChild("x", new JsonValue(tmp.x + window.getX()));
+            object.addChild("y", new JsonValue(tmp.y + window.getY()));
 
-            JSONObject data = graphBox.getData();
+            JsonValue data = graphBox.getData();
             if (data != null)
-                object.put("data", data);
+                object.addChild("data", data);
 
-            objects.add(object);
+            objects.addChild(object);
         }
-        graph.put("nodes", objects);
+        graph.addChild("nodes", objects);
 
-        JSONArray connections = new JSONArray();
+        JsonValue connections = new JsonValue(JsonValue.ValueType.array);
         for (GraphConnection connection : graphContainer.getConnections()) {
-            JSONObject conn = new JSONObject();
-            conn.put("fromNode", connection.getNodeFrom());
-            conn.put("fromField", connection.getFieldFrom());
-            conn.put("toNode", connection.getNodeTo());
-            conn.put("toField", connection.getFieldTo());
-            connections.add(conn);
+            JsonValue conn = new JsonValue(JsonValue.ValueType.object);
+            conn.addChild("fromNode", new JsonValue(connection.getNodeFrom()));
+            conn.addChild("fromField", new JsonValue(connection.getFieldFrom()));
+            conn.addChild("toNode", new JsonValue(connection.getNodeTo()));
+            conn.addChild("toField", new JsonValue(connection.getFieldTo()));
+            connections.addChild(conn);
         }
-        graph.put("connections", connections);
+        graph.addChild("connections", connections);
 
-        JSONArray properties = new JSONArray();
+        JsonValue properties = new JsonValue(JsonValue.ValueType.array);
         for (PropertyBox propertyBox : propertyBoxes) {
-            JSONObject property = new JSONObject();
-            property.put("name", propertyBox.getName());
-            property.put("type", propertyBox.getType().name());
+            JsonValue property = new JsonValue(JsonValue.ValueType.object);
+            property.addChild("name", new JsonValue(propertyBox.getName()));
+            property.addChild("type", new JsonValue(propertyBox.getType().name()));
 
-            JSONObject data = propertyBox.getData();
+            JsonValue data = propertyBox.getData();
             if (data != null)
-                property.put("data", data);
+                property.addChild("data", data);
 
-            properties.add(property);
+            properties.addChild(property);
         }
-        graph.put("properties", properties);
+        graph.addChild("properties", properties);
 
-        JSONArray groups = new JSONArray();
+        JsonValue groups = new JsonValue(JsonValue.ValueType.array);
         for (NodeGroup nodeGroup : graphContainer.getNodeGroups()) {
-            JSONObject group = new JSONObject();
-            group.put("name", nodeGroup.getName());
-            JSONArray nodes = new JSONArray();
-            nodes.addAll(nodeGroup.getNodeIds());
-            group.put("nodes", nodes);
-            groups.add(group);
+            JsonValue group = new JsonValue(JsonValue.ValueType.object);
+            group.addChild("name", new JsonValue(nodeGroup.getName()));
+            JsonValue nodes = new JsonValue(JsonValue.ValueType.array);
+            for (String nodeId : nodeGroup.getNodeIds()) {
+                nodes.addChild(new JsonValue(nodeId));
+            }
+            group.addChild("nodes", nodes);
+            groups.addChild(group);
         }
-        graph.put("groups", groups);
+        graph.addChild("groups", groups);
 
         return graph;
     }

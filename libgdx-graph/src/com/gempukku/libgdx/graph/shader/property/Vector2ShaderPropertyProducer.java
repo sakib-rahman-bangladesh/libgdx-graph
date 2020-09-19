@@ -1,9 +1,9 @@
 package com.gempukku.libgdx.graph.shader.property;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.PropertySource;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
-import org.json.simple.JSONObject;
 
 public class Vector2ShaderPropertyProducer implements GraphShaderPropertyProducer {
     @Override
@@ -12,9 +12,9 @@ public class Vector2ShaderPropertyProducer implements GraphShaderPropertyProduce
     }
 
     @Override
-    public PropertySource createProperty(String name, JSONObject data, boolean designTime) {
-        final float x = ((Number) data.get("x")).floatValue();
-        final float y = ((Number) data.get("y")).floatValue();
+    public PropertySource createProperty(String name, JsonValue data, boolean designTime) {
+        final float x = data.getFloat("x");
+        final float y = data.getFloat("y");
         return new PropertySource(name, ShaderFieldType.Vector2, new Vector2(x, y));
     }
 }

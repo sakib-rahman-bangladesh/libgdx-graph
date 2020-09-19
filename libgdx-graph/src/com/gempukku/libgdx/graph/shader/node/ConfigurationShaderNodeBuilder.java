@@ -1,8 +1,8 @@
 package com.gempukku.libgdx.graph.shader.node;
 
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
-import org.json.simple.JSONObject;
 
 public abstract class ConfigurationShaderNodeBuilder implements GraphShaderNodeBuilder {
     private NodeConfiguration<ShaderFieldType> configuration;
@@ -17,7 +17,7 @@ public abstract class ConfigurationShaderNodeBuilder implements GraphShaderNodeB
     }
 
     @Override
-    public NodeConfiguration<ShaderFieldType> getConfiguration(JSONObject data) {
+    public NodeConfiguration<ShaderFieldType> getConfiguration(JsonValue data) {
         return configuration;
     }
 }

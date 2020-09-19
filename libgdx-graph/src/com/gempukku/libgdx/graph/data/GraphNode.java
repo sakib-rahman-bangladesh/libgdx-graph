@@ -1,13 +1,13 @@
 package com.gempukku.libgdx.graph.data;
 
-import org.json.simple.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
 
 public interface GraphNode<T extends FieldType> {
     String getId();
 
     String getType();
 
-    JSONObject getData();
+    JsonValue getData();
 
     boolean isInputField(String fieldId);
 

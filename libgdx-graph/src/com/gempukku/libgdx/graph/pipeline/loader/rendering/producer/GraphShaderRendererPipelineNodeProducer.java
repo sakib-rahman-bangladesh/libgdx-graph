@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.WhitePixel;
 import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
@@ -22,7 +23,6 @@ import com.gempukku.libgdx.graph.shader.ShaderLoaderCallback;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstanceImpl;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
-import org.json.simple.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,15 +34,15 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
     }
 
     @Override
-    public PipelineNode createNode(JSONObject data, Map<String, PipelineNode.FieldOutput<?>> inputFields) {
+    public PipelineNode createNode(JsonValue data, Map<String, PipelineNode.FieldOutput<?>> inputFields) {
         final WhitePixel whitePixel = new WhitePixel();
 
         final ShaderContextImpl shaderContext = new ShaderContextImpl();
 
-        List<JSONObject> renderPassDefinitions = (List<JSONObject>) data.get("renderPasses");
+        JsonValue renderPassDefinitions = data.get("renderPasses");
 
         final List<RenderPass> renderPasses = new LinkedList<>();
-        for (JSONObject renderPassDefinition : renderPassDefinitions) {
+        for (JsonValue renderPassDefinition : renderPassDefinitions) {
             renderPasses.add(new RenderPass(renderPassDefinition, whitePixel));
         }
 
@@ -175,13 +175,13 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         };
     }
 
-    private GraphShader createShader(JSONObject shaderDefinition, Texture defaultTexture) {
-        JSONObject shaderGraph = (JSONObject) shaderDefinition.get("shader");
+    private GraphShader createShader(JsonValue shaderDefinition, Texture defaultTexture) {
+        JsonValue shaderGraph = shaderDefinition.get("shader");
         return GraphLoader.loadGraph(shaderGraph, new ShaderLoaderCallback(defaultTexture));
     }
 
-    private GraphShader createDepthShader(JSONObject shaderDefinition, Texture defaultTexture) {
-        JSONObject shaderGraph = (JSONObject) shaderDefinition.get("shader");
+    private GraphShader createDepthShader(JsonValue shaderDefinition, Texture defaultTexture) {
+        JsonValue shaderGraph = shaderDefinition.get("shader");
         return GraphLoader.loadGraph(shaderGraph, new ShaderLoaderCallback(defaultTexture, true));
     }
 
@@ -190,10 +190,10 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         private Array<GraphShader> depthShaders = new Array<>();
         private Array<GraphShader> transparentShaders = new Array<>();
 
-        public RenderPass(JSONObject data, WhitePixel whitePixel) {
-            final List<JSONObject> shaderDefinitions = (List<JSONObject>) data.get("shaders");
-            for (JSONObject shaderDefinition : shaderDefinitions) {
-                String tag = (String) shaderDefinition.get("tag");
+        public RenderPass(JsonValue data, WhitePixel whitePixel) {
+            final JsonValue shaderDefinitions = data.get("shaders");
+            for (JsonValue shaderDefinition : shaderDefinitions) {
+                String tag = shaderDefinition.getString("tag");
                 GraphShader shader = createShader(shaderDefinition, whitePixel.texture);
                 shader.setTag(tag);
                 if (shader.getTransparency() == BasicShader.Transparency.opaque) {

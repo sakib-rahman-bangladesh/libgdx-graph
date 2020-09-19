@@ -1,12 +1,12 @@
 package com.gempukku.libgdx.graph.ui.producer;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphNodeInput;
 import com.gempukku.libgdx.graph.data.GraphNodeOutput;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
-import org.json.simple.JSONObject;
 
 import java.util.Iterator;
 
@@ -38,7 +38,7 @@ public class GraphBoxProducerImpl<T extends FieldType> implements GraphBoxProduc
     }
 
     @Override
-    public GraphBoxImpl<T> createPipelineGraphBox(Skin skin, String id, JSONObject data) {
+    public GraphBoxImpl<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         GraphBoxImpl<T> start = new GraphBoxImpl<T>(id, configuration, skin);
         Iterator<GraphNodeInput<T>> inputIterator = configuration.getNodeInputs().values().iterator();
         Iterator<GraphNodeOutput<T>> outputIterator = configuration.getNodeOutputs().values().iterator();

@@ -1,11 +1,12 @@
 package com.gempukku.libgdx.graph.ui.graph;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
-import org.json.simple.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
+
 
 public class GetSerializedGraph extends Event {
     private String id;
-    private JSONObject graph;
+    private JsonValue graph;
 
     public GetSerializedGraph(String id) {
         this.id = id;
@@ -15,11 +16,11 @@ public class GetSerializedGraph extends Event {
         return id;
     }
 
-    public JSONObject getGraph() {
+    public JsonValue getGraph() {
         return graph;
     }
 
-    public void setGraph(JSONObject graph) {
+    public void setGraph(JsonValue graph) {
         this.graph = graph;
     }
 }

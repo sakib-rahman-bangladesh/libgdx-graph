@@ -6,12 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
-import org.json.simple.JSONObject;
+
 
 public class SelectBoxPart<T extends FieldType> extends Table implements GraphBoxPart<T> {
     private final SelectBox<String> selectBox;
@@ -64,16 +65,16 @@ public class SelectBoxPart<T extends FieldType> extends Table implements GraphBo
         return null;
     }
 
-    public void initialize(JSONObject data) {
+    public void initialize(JsonValue data) {
         if (data != null) {
-            String value = (String) data.get(property);
+            String value = data.getString(property);
             selectBox.setSelected(value);
         }
     }
 
     @Override
-    public void serializePart(JSONObject object) {
-        object.put(property, selectBox.getSelected());
+    public void serializePart(JsonValue object) {
+        object.addChild(property, new JsonValue(selectBox.getSelected()));
     }
 
     @Override

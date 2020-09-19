@@ -1,11 +1,11 @@
 package com.gempukku.libgdx.graph.shader.property;
 
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.PropertySource;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
-import org.json.simple.JSONObject;
 
 public interface GraphShaderPropertyProducer {
     ShaderFieldType getType();
 
-    PropertySource createProperty(String name, JSONObject data, boolean designTime);
+    PropertySource createProperty(String name, JsonValue data, boolean designTime);
 }

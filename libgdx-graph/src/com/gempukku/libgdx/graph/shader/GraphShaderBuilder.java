@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.shader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
@@ -15,7 +16,6 @@ import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.attribute.AttributePositionShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.CameraPositionShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
-import org.json.simple.JSONObject;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -43,12 +43,12 @@ public class GraphShaderBuilder {
         graphShader.setPropertySourceMap(propertyMap);
 
         GraphNode<ShaderFieldType> endNode = graph.getNodeById("end");
-        JSONObject data = endNode.getData();
+        JsonValue data = endNode.getData();
 
-        graphShader.setCulling(BasicShader.Culling.valueOf((String) data.get("culling")));
-        graphShader.setTransparency(BasicShader.Transparency.valueOf((String) data.get("transparency")));
-        graphShader.setBlending(BasicShader.Blending.valueOf((String) data.get("blending")));
-        graphShader.setDepthTesting(BasicShader.DepthTesting.valueOf(((String) data.get("depthTest")).replace(' ', '_')));
+        graphShader.setCulling(BasicShader.Culling.valueOf(data.getString("culling")));
+        graphShader.setTransparency(BasicShader.Transparency.valueOf(data.getString("transparency")));
+        graphShader.setBlending(BasicShader.Blending.valueOf(data.getString("blending")));
+        graphShader.setDepthTesting(BasicShader.DepthTesting.valueOf((data.getString("depthTest")).replace(' ', '_')));
 
         buildVertexShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
         buildFragmentShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
@@ -91,18 +91,18 @@ public class GraphShaderBuilder {
         graphShader.setPropertySourceMap(propertyMap);
 
         GraphNode<ShaderFieldType> endNode = graph.getNodeById("end");
-        JSONObject data = endNode.getData();
+        JsonValue data = endNode.getData();
 
-        graphShader.setCulling(BasicShader.Culling.valueOf((String) data.get("culling")));
-        graphShader.setTransparency(BasicShader.Transparency.valueOf((String) data.get("transparency")));
-        graphShader.setBlending(BasicShader.Blending.valueOf((String) data.get("blending")));
-        graphShader.setDepthTesting(BasicShader.DepthTesting.valueOf(((String) data.get("depthTest")).replace(' ', '_')));
+        graphShader.setCulling(BasicShader.Culling.valueOf(data.getString("culling")));
+        graphShader.setTransparency(BasicShader.Transparency.valueOf(data.getString("transparency")));
+        graphShader.setBlending(BasicShader.Blending.valueOf(data.getString("blending")));
+        graphShader.setDepthTesting(BasicShader.DepthTesting.valueOf((data.getString("depthTest")).replace(' ', '_')));
 
         buildVertexShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
 
         AttributePositionShaderNodeBuilder position = new AttributePositionShaderNodeBuilder();
-        JSONObject positionData = new JSONObject();
-        positionData.put("coordinates", "world");
+        JsonValue positionData = new JsonValue(JsonValue.ValueType.object);
+        positionData.addChild("coordinates", new JsonValue("world"));
         GraphShaderNodeBuilder.FieldOutput positionField = position.buildFragmentNode(false, "defaultPositionAttribute", positionData, Collections.<String, GraphShaderNodeBuilder.FieldOutput>emptyMap(),
                 Collections.singleton("position"), vertexShaderBuilder, fragmentShaderBuilder, graphShader, graphShader).get("position");
 
@@ -188,8 +188,8 @@ public class GraphShaderBuilder {
                 designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder);
         if (positionField == null) {
             AttributePositionShaderNodeBuilder position = new AttributePositionShaderNodeBuilder();
-            JSONObject positionData = new JSONObject();
-            positionData.put("coordinates", "world");
+            JsonValue positionData = new JsonValue(JsonValue.ValueType.object);
+            positionData.addChild("coordinates", new JsonValue("world"));
             positionField = position.buildVertexNode(false, "defaultPositionAttribute", positionData, Collections.<String, GraphShaderNodeBuilder.FieldOutput>emptyMap(),
                     Collections.singleton("position"), vertexShaderBuilder, graphShader, graphShader).get("position");
         }

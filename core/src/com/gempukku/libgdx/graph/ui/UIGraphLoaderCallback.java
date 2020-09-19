@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.ui;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.GraphLoaderCallback;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
@@ -8,7 +9,6 @@ import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
-import org.json.simple.JSONObject;
 
 import java.util.Set;
 
@@ -28,7 +28,7 @@ public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCa
     }
 
     @Override
-    public void addPipelineNode(String id, String type, float x, float y, JSONObject data) {
+    public void addPipelineNode(String id, String type, float x, float y, JsonValue data) {
         GraphBoxProducer<T> producer = findProducerByType(type);
         if (producer == null)
             throw new IllegalArgumentException("Unable to find pipeline producer for type: " + type);
@@ -42,7 +42,7 @@ public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCa
     }
 
     @Override
-    public void addPipelineProperty(String type, String name, JSONObject data) {
+    public void addPipelineProperty(String type, String name, JsonValue data) {
         PropertyBoxProducer<T> producer = findPropertyProducerByType(type);
         if (producer == null)
             throw new IllegalArgumentException("Unable to find property producer for type: " + type);

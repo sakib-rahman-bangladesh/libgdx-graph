@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
@@ -13,7 +14,6 @@ import com.gempukku.libgdx.graph.data.GraphNodeInput;
 import com.gempukku.libgdx.graph.data.GraphNodeOutput;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
-import org.json.simple.JSONObject;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -164,8 +164,8 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
     }
 
     @Override
-    public JSONObject getData() {
-        JSONObject result = new JSONObject();
+    public JsonValue getData() {
+        JsonValue result = new JsonValue(JsonValue.ValueType.object);
 
         for (GraphBoxPart<T> graphBoxPart : graphBoxParts)
             graphBoxPart.serializePart(result);

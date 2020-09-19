@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
@@ -12,7 +13,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.kotcrab.vis.ui.util.Validators;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
-import org.json.simple.JSONObject;
+
 
 public class FloatBoxPart<T extends FieldType> extends Table implements GraphBoxPart<T> {
     private String property;
@@ -58,14 +59,14 @@ public class FloatBoxPart<T extends FieldType> extends Table implements GraphBox
         return null;
     }
 
-    public void initialize(JSONObject data) {
-        float value = ((Number) data.get(property)).floatValue();
+    public void initialize(JsonValue data) {
+        float value = data.getFloat(property);
         v1Input.setText(String.valueOf(value));
     }
 
     @Override
-    public void serializePart(JSONObject object) {
-        object.put(property, Float.parseFloat(v1Input.getText()));
+    public void serializePart(JsonValue object) {
+        object.addChild(property, new JsonValue(Float.parseFloat(v1Input.getText())));
     }
 
     @Override

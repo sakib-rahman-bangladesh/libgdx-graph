@@ -1,13 +1,14 @@
 package com.gempukku.libgdx.graph.ui.graph;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
-import org.json.simple.JSONObject;
+import com.badlogic.gdx.utils.JsonValue;
+
 
 public class RequestGraphOpen extends Event {
     private String id;
-    private JSONObject jsonObject;
+    private JsonValue jsonObject;
 
-    public RequestGraphOpen(String id, JSONObject jsonObject) {
+    public RequestGraphOpen(String id, JsonValue jsonObject) {
         this.id = id;
         this.jsonObject = jsonObject;
     }
@@ -16,7 +17,7 @@ public class RequestGraphOpen extends Event {
         return id;
     }
 
-    public JSONObject getJsonObject() {
+    public JsonValue getJsonObject() {
         return jsonObject;
     }
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
@@ -13,7 +14,7 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyDefaultBox;
 import com.kotcrab.vis.ui.util.Validators;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
-import org.json.simple.JSONObject;
+
 
 public class PropertyVector3BoxProducer implements PropertyBoxProducer<PipelineFieldType> {
     @Override
@@ -22,10 +23,10 @@ public class PropertyVector3BoxProducer implements PropertyBoxProducer<PipelineF
     }
 
     @Override
-    public PropertyBox<PipelineFieldType> createPropertyBox(Skin skin, String name, JSONObject jsonObject) {
-        float x = ((Number) jsonObject.get("x")).floatValue();
-        float y = ((Number) jsonObject.get("y")).floatValue();
-        float z = ((Number) jsonObject.get("z")).floatValue();
+    public PropertyBox<PipelineFieldType> createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
+        float x = jsonObject.getFloat("x");
+        float y = jsonObject.getFloat("y");
+        float z = jsonObject.getFloat("z");
         return createPropertyBoxDefault(skin, name, x, y, z);
     }
 
@@ -96,11 +97,11 @@ public class PropertyVector3BoxProducer implements PropertyBoxProducer<PipelineF
                     }
 
                     @Override
-                    public JSONObject serializeData() {
-                        JSONObject result = new JSONObject();
-                        result.put("x", Float.parseFloat(v1Input.getText()));
-                        result.put("y", Float.parseFloat(v2Input.getText()));
-                        result.put("z", Float.parseFloat(v3Input.getText()));
+                    public JsonValue serializeData() {
+                        JsonValue result = new JsonValue(JsonValue.ValueType.object);
+                        result.addChild("x", new JsonValue(Float.parseFloat(v1Input.getText())));
+                        result.addChild("y", new JsonValue(Float.parseFloat(v2Input.getText())));
+                        result.addChild("z", new JsonValue(Float.parseFloat(v3Input.getText())));
                         return result;
                     }
                 });

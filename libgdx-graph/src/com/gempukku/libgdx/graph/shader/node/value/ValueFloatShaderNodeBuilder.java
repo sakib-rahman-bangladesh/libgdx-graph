@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.shader.node.value;
 
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -7,7 +8,6 @@ import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.config.value.ValueFloatShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
-import org.json.simple.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -23,8 +23,8 @@ public class ValueFloatShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
     }
 
     @Override
-    protected Map<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JSONObject data, Map<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        float value = ((Number) data.get("v1")).floatValue();
+    protected Map<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, Map<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
+        float value = data.getFloat("v1");
 
         return Collections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Float, format(value)));
     }

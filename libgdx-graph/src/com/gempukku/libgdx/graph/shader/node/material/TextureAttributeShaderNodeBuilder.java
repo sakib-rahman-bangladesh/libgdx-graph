@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Attribute;
 import com.badlogic.gdx.graphics.g3d.Renderable;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.WhitePixel;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
@@ -17,7 +18,6 @@ import com.gempukku.libgdx.graph.shader.config.material.TextureAttributeShaderNo
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstanceImpl;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
-import org.json.simple.JSONObject;
 
 import java.util.Collections;
 import java.util.Map;
@@ -32,14 +32,14 @@ public class TextureAttributeShaderNodeBuilder extends ConfigurationCommonShader
     }
 
     @Override
-    protected Map<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JSONObject data, Map<String, FieldOutput> inputs, Set<String> producedOutputs,
+    protected Map<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, Map<String, FieldOutput> inputs, Set<String> producedOutputs,
                                                                  CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         String textureName = "u_" + alias;
         String transformName = "u_UV" + alias;
         if (designTime) {
             Texture texture = null;
             if (data != null) {
-                String previewPath = (String) data.get("previewPath");
+                String previewPath = data.getString("previewPath");
                 if (previewPath != null) {
                     try {
                         texture = new Texture(Gdx.files.absolute(previewPath));

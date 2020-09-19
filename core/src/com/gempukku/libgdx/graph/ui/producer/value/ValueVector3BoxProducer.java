@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
@@ -14,7 +15,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxPartImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.kotcrab.vis.ui.util.Validators;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
-import org.json.simple.JSONObject;
+
 
 public class ValueVector3BoxProducer<T extends FieldType> extends ValueGraphBoxProducer<T> {
     public ValueVector3BoxProducer(NodeConfiguration<T> configuration) {
@@ -22,10 +23,10 @@ public class ValueVector3BoxProducer<T extends FieldType> extends ValueGraphBoxP
     }
 
     @Override
-    public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JSONObject data) {
-        float v1 = ((Number) data.get("v1")).floatValue();
-        float v2 = ((Number) data.get("v2")).floatValue();
-        float v3 = ((Number) data.get("v3")).floatValue();
+    public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+        float v1 = data.getFloat("v1");
+        float v2 = data.getFloat("v2");
+        float v3 = data.getFloat("v3");
 
         return createGraphBox(skin, id, v1, v2, v3);
     }
@@ -97,10 +98,10 @@ public class ValueVector3BoxProducer<T extends FieldType> extends ValueGraphBoxP
         GraphBoxPartImpl<T> colorPart = new GraphBoxPartImpl<T>(horizontalGroup,
                 new GraphBoxPartImpl.Callback() {
                     @Override
-                    public void serialize(JSONObject object) {
-                        object.put("v1", Float.parseFloat(v1Input.getText()));
-                        object.put("v2", Float.parseFloat(v2Input.getText()));
-                        object.put("v3", Float.parseFloat(v3Input.getText()));
+                    public void serialize(JsonValue object) {
+                        object.addChild("v1", new JsonValue(Float.parseFloat(v1Input.getText())));
+                        object.addChild("v2", new JsonValue(Float.parseFloat(v2Input.getText())));
+                        object.addChild("v3", new JsonValue(Float.parseFloat(v3Input.getText())));
                     }
                 });
         colorPart.setOutputConnector(GraphBoxOutputConnector.Side.Right, configuration.getNodeOutputs().get("value"));
