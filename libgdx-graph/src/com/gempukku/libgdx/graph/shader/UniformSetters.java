@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
@@ -16,31 +17,33 @@ public class UniformSetters {
 
     public final static UniformRegistry.UniformSetter projViewTrans = new UniformRegistry.UniformSetter() {
         @Override
-        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
-            shader.setUniform(location, camera.combined);
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+            shader.setUniform(location, shaderContext.getCamera().combined);
         }
     };
     public final static UniformRegistry.UniformSetter cameraPosition = new UniformRegistry.UniformSetter() {
         @Override
-        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+            Camera camera = shaderContext.getCamera();
             shader.setUniform(location, camera.position.x, camera.position.y, camera.position.z);
         }
     };
     public final static UniformRegistry.UniformSetter cameraDirection = new UniformRegistry.UniformSetter() {
         @Override
-        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
-            shader.setUniform(location, camera.direction);
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+            shader.setUniform(location, shaderContext.getCamera().direction);
         }
     };
     public final static UniformRegistry.UniformSetter worldTrans = new UniformRegistry.UniformSetter() {
         @Override
-        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
             shader.setUniform(location, renderable.worldTransform);
         }
     };
     public final static UniformRegistry.UniformSetter ambientLight = new UniformRegistry.UniformSetter() {
         @Override
-        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+            GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
             if (environment != null && environment.getAmbientColor() != null) {
                 Color ambientColor = environment.getAmbientColor();
                 shader.setUniform(location, ambientColor.r, ambientColor.g, ambientColor.b);
@@ -59,7 +62,7 @@ public class UniformSetters {
         }
 
         @Override
-        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
             Matrix4[] modelBones = renderable.bones;
             for (int i = 0; i < bones.length; i += 16) {
                 final int idx = i / 16;
@@ -82,7 +85,7 @@ public class UniformSetters {
         }
 
         @Override
-        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
             float value = defaultValue;
             FloatAttribute attribute = (FloatAttribute) renderable.material.get(type);
             if (attribute != null)
@@ -101,7 +104,7 @@ public class UniformSetters {
         }
 
         @Override
-        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
             Color color = defaultColor;
             ColorAttribute attribute = (ColorAttribute) renderable.material.get(type);
             if (attribute != null)
@@ -109,6 +112,15 @@ public class UniformSetters {
             shader.setUniform(location, color);
         }
     }
+
+    public final static UniformRegistry.UniformSetter depthTexture = new UniformRegistry.UniformSetter() {
+        @Override
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+            Texture depthTexture = shaderContext.getDepthTexture();
+            final int unit = shader.getContext().textureBinder.bind(depthTexture);
+            shader.setUniform(location, unit);
+        }
+    };
 
     public static class MaterialTexture implements UniformRegistry.UniformSetter {
         private long type;
@@ -118,7 +130,7 @@ public class UniformSetters {
         }
 
         @Override
-        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
             TextureAttribute ta = (TextureAttribute) (renderable.material.get(type));
             if (ta != null) {
                 final int unit = shader.getContext().textureBinder.bind(ta.textureDescription);
@@ -138,7 +150,7 @@ public class UniformSetters {
         }
 
         @Override
-        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
             final TextureAttribute ta = (TextureAttribute) (renderable.material.get(type));
             if (ta != null) {
                 shader.setUniform(location, ta.offsetU, ta.offsetV, ta.scaleU, ta.scaleV);

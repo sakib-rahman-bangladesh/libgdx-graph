@@ -13,8 +13,10 @@ buildscript {
 }
 
 allprojects {
+    apply plugin: "maven"
     apply plugin: "eclipse"
 
+    group = "com.gempukku.libgdx.graph"
     version = '0.1.0'
     ext {
         appName = "Libgdx Graph"
@@ -32,6 +34,7 @@ allprojects {
         google()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url 'https://jitpack.io' }
     }
 }
 

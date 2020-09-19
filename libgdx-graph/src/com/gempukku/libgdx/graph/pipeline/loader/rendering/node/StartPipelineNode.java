@@ -54,7 +54,7 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
                 }
             };
         }
-        renderPipeline = new RenderPipelineImpl();
+        renderPipeline = new RenderPipelineImpl(true);
     }
 
     @Override
@@ -62,7 +62,11 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
         Vector2 bufferSize = size.getValue(pipelineRenderingContext);
         Color backgroundColor = color.getValue(pipelineRenderingContext);
 
-        FrameBuffer frameBuffer = renderPipeline.getNewFrameBuffer(MathUtils.round(bufferSize.x), MathUtils.round(bufferSize.y), Pixmap.Format.RGBA8888);
+        int width = MathUtils.round(bufferSize.x);
+        int height = MathUtils.round(bufferSize.y);
+        renderPipeline.startFrame(width, height);
+
+        FrameBuffer frameBuffer = renderPipeline.getNewFrameBuffer(width, height, Pixmap.Format.RGBA8888);
         renderPipeline.setCurrentBuffer(frameBuffer);
 
         frameBuffer.begin();
@@ -77,7 +81,7 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
 
     @Override
     public void endFrame() {
-        renderPipeline.ageOutBuffers();
+        renderPipeline.endFrame();
         super.endFrame();
     }
 

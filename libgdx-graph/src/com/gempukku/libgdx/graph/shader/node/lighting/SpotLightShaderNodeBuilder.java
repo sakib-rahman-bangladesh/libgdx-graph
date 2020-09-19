@@ -1,12 +1,12 @@
 package com.gempukku.libgdx.graph.shader.node.lighting;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.graphics.g3d.environment.SpotLight;
 import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
+import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.UniformRegistry;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
@@ -36,7 +36,8 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
             commonShaderBuilder.addUniformVariable(name, "vec3", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                            GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
                                 Array<SpotLight> spotLights = environment.getSpotLights();
                                 SpotLight spotLight = spotLights.get(index);
@@ -53,7 +54,8 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
             commonShaderBuilder.addUniformVariable(name, "vec3", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                            GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
                                 Array<SpotLight> spotLights = environment.getSpotLights();
                                 SpotLight spotLight = spotLights.get(index);
@@ -70,7 +72,8 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
             commonShaderBuilder.addUniformVariable(name, "vec4", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                            GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
                                 Array<SpotLight> spotLights = environment.getSpotLights();
                                 SpotLight spotLight = spotLights.get(index);
@@ -87,7 +90,8 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
             commonShaderBuilder.addUniformVariable(name, "float", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                            GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
                                 Array<SpotLight> spotLights = environment.getSpotLights();
                                 SpotLight spotLight = spotLights.get(index);
@@ -104,7 +108,8 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
             commonShaderBuilder.addUniformVariable(name, "float", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                            GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
                                 Array<SpotLight> spotLights = environment.getSpotLights();
                                 SpotLight spotLight = spotLights.get(index);
@@ -121,7 +126,8 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
             commonShaderBuilder.addUniformVariable(name, "float", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, Camera camera, GraphShaderEnvironment environment, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                            GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
                                 Array<SpotLight> spotLights = environment.getSpotLights();
                                 SpotLight spotLight = spotLights.get(index);

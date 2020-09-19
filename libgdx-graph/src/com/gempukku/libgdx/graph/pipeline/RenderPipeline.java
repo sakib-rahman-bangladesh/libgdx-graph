@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.gempukku.libgdx.graph.pipeline.impl.BufferCopyHelper;
 
 public interface RenderPipeline {
+    FrameBuffer getDepthFrameBuffer();
+
     FrameBuffer getCurrentBuffer();
 
     void setCurrentBuffer(FrameBuffer frameBuffer);

@@ -25,6 +25,7 @@ import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderAttribute;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
@@ -47,6 +48,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
     private DefaultTimeKeeper timeKeeper;
     private GraphShaderModel graphShaderModel;
     private GraphShaderEnvironment graphShaderEnvironment;
+    private ShaderContextImpl shaderContext;
 
     public ShaderPreviewWidget(int width, int height) {
         this.width = width;
@@ -65,6 +67,10 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
         PointLight pointLight = new PointLight();
         pointLight.set(Color.WHITE, -2f, 1f, 1f, 2f);
         graphShaderEnvironment.addPointLight(pointLight);
+
+        shaderContext = new ShaderContextImpl();
+        shaderContext.setGraphShaderEnvironment(graphShaderEnvironment);
+        shaderContext.setCamera(camera);
     }
 
     @Override
@@ -88,7 +94,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
     private void createShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
         try {
             timeKeeper = new DefaultTimeKeeper();
-            graphShader = GraphShaderBuilder.buildShader(timeKeeper, WhitePixel.sharedInstance.texture, graph, true);
+            graphShader = GraphShaderBuilder.buildShader(WhitePixel.sharedInstance.texture, graph, true);
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
             createModel();
 
@@ -139,11 +145,13 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
                 camera.viewportHeight = height;
                 camera.update();
 
+                graphShader.setTimeProvider(timeKeeper);
+
                 renderContext.begin();
                 Gdx.gl.glClearColor(0, 0, 0, 1);
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-                graphShader.begin(camera, graphShaderEnvironment, renderContext);
-                graphShader.render(modelInstance);
+                graphShader.begin(shaderContext, renderContext);
+                graphShader.render(shaderContext, modelInstance);
                 graphShader.end();
                 frameBuffer.end();
                 renderContext.end();

@@ -1,5 +1,7 @@
 package com.gempukku.libgdx.graph.pipeline.impl;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
@@ -10,13 +12,38 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RenderPipelineImpl implements RenderPipeline {
+    private FrameBuffer depthBuffer;
     private BufferCopyHelper bufferCopyHelper = new BufferCopyHelper();
     private FrameBuffer mainBuffer;
 
     private List<FrameBuffer> oldFrameBuffers = new LinkedList<FrameBuffer>();
     private List<FrameBuffer> newFrameBuffers = new LinkedList<FrameBuffer>();
+    private boolean needsDepthBuffer;
 
-    public void ageOutBuffers() {
+    public RenderPipelineImpl(boolean needsDepthBuffer) {
+        this.needsDepthBuffer = needsDepthBuffer;
+    }
+
+    @Override
+    public FrameBuffer getDepthFrameBuffer() {
+        return depthBuffer;
+    }
+
+    public void startFrame(int width, int height) {
+        if (needsDepthBuffer) {
+            depthBuffer = getNewFrameBuffer(width, height, Pixmap.Format.RGBA8888);
+            depthBuffer.begin();
+            Gdx.gl.glClearColor(0, 0, 0, 1f);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+            depthBuffer.end();
+        }
+    }
+
+    public void endFrame() {
+        if (depthBuffer != null) {
+            returnFrameBuffer(depthBuffer);
+            depthBuffer = null;
+        }
         for (FrameBuffer freeFrameBuffer : oldFrameBuffers) {
             freeFrameBuffer.dispose();
         }

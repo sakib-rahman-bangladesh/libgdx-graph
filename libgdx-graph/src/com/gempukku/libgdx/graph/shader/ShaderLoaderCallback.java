@@ -11,9 +11,15 @@ import org.json.simple.JSONObject;
 
 public class ShaderLoaderCallback extends GraphDataLoaderCallback<GraphShader, ShaderFieldType> {
     private Texture defaultTexture;
+    private boolean depthShader;
 
     public ShaderLoaderCallback(Texture defaultTexture) {
+        this(defaultTexture, false);
+    }
+
+    public ShaderLoaderCallback(Texture defaultTexture, boolean depthShader) {
         this.defaultTexture = defaultTexture;
+        this.depthShader = depthShader;
     }
 
     @Override
@@ -28,7 +34,10 @@ public class ShaderLoaderCallback extends GraphDataLoaderCallback<GraphShader, S
         if (result.hasErrors())
             throw new IllegalStateException("The graph contains errors, open it in the graph designer and correct them");
 
-        return GraphShaderBuilder.buildShader(defaultTexture, this);
+        if (depthShader)
+            return GraphShaderBuilder.buildDepthShader(defaultTexture, this, false);
+        else
+            return GraphShaderBuilder.buildShader(defaultTexture, this, false);
     }
 
     @Override

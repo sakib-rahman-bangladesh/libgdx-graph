@@ -21,7 +21,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.FlushablePool;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.IntArray;
-import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstanceImpl;
 
 import java.util.HashMap;
@@ -159,9 +158,7 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
     private ShaderProgram program;
     private RenderContext context;
-    private GraphShaderEnvironment environment;
     private Texture defaultTexture;
-    private Camera camera;
     private Mesh currentMesh;
     private Culling culling = Culling.back;
     private Transparency transparency = Transparency.opaque;
@@ -206,10 +203,6 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
     public RenderContext getContext() {
         return context;
-    }
-
-    public Camera getCamera() {
-        return camera;
     }
 
     private void validateNewAttribute(String alias) {
@@ -294,13 +287,13 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         this.depthTesting = depthTesting;
     }
 
-    public void begin(Camera camera, GraphShaderEnvironment environment, RenderContext context) {
-        this.camera = camera;
+    public void begin(ShaderContext shaderContext, RenderContext context) {
         this.context = context;
-        this.environment = environment;
         program.begin();
 
         // Set depth mask/testing
+
+        Camera camera = shaderContext.getCamera();
 
         transparency.setDepthMask(context);
         depthTesting.setDepthTest(context, camera.near, camera.far);
@@ -309,11 +302,11 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
         for (Uniform uniform : uniforms.values()) {
             if (uniform.global && uniform.location != -1)
-                uniform.setter.set(this, uniform.location, camera, environment, null, null);
+                uniform.setter.set(this, uniform.location, shaderContext, null, null);
         }
         for (StructArrayUniform uniform : structArrayUniforms.values()) {
             if (uniform.global && uniform.startIndex != -1)
-                uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, camera, environment, null, null);
+                uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext, null, null);
         }
     }
 
@@ -322,16 +315,16 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         context.setBlending(enabled, blending.getSourceFactor(), blending.getDestinationFactor());
     }
 
-    public void render(GraphShaderModelInstanceImpl graphShaderModelInstance) {
+    public void render(ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance) {
         graphShaderModelInstance.getRenderables(renderables, renderablesPool);
         for (Renderable renderable : renderables) {
             for (Uniform uniform : uniforms.values()) {
                 if (!uniform.global)
-                    uniform.setter.set(this, uniform.location, camera, environment, graphShaderModelInstance, renderable);
+                    uniform.setter.set(this, uniform.location, shaderContext, graphShaderModelInstance, renderable);
             }
             for (StructArrayUniform uniform : structArrayUniforms.values()) {
                 if (!uniform.global)
-                    uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, camera, environment, graphShaderModelInstance, renderable);
+                    uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext, graphShaderModelInstance, renderable);
             }
             MeshPart meshPart = renderable.meshPart;
             Mesh mesh = meshPart.mesh;
