@@ -2,12 +2,11 @@ package com.gempukku.libgdx.graph.pipeline.loader.node;
 
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphNodeOutput;
-import com.google.common.base.Function;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public class GraphNodeOutputImpl<T extends FieldType> implements GraphNodeOutput<T> {
     private String id;
@@ -23,7 +22,7 @@ public class GraphNodeOutputImpl<T extends FieldType> implements GraphNodeOutput
     public GraphNodeOutputImpl(String id, String name, boolean mainConnection, final T producedType) {
         this(id, name, mainConnection, new Function<Map<String, T>, T>() {
             @Override
-            public T apply(@Nullable Map<String, T> stringTMap) {
+            public T apply(Map<String, T> stringTMap) {
                 return producedType;
             }
         }, producedType);

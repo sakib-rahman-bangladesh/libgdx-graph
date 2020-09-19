@@ -1,10 +1,9 @@
 package com.gempukku.libgdx.graph;
 
 import com.gempukku.libgdx.graph.data.FieldType;
-import com.google.common.base.Function;
 
-import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.function.Function;
 
 public class MathCommonOutputTypeFunction<T extends FieldType> implements Function<Map<String, T>, T> {
     private T floatType;
@@ -18,7 +17,7 @@ public class MathCommonOutputTypeFunction<T extends FieldType> implements Functi
     }
 
     @Override
-    public T apply(@Nullable Map<String, T> map) {
+    public T apply(Map<String, T> map) {
         T resolvedType = null;
         for (String input : types) {
             T type = map.get(input);

@@ -3,7 +3,8 @@ package com.gempukku.libgdx.graph.pipeline.impl;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.PipelineProperty;
-import com.google.common.base.Supplier;
+
+import java.util.function.Supplier;
 
 public class WritablePipelineProperty implements PipelineProperty {
     private boolean useDefault = true;

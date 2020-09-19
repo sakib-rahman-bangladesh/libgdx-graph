@@ -13,13 +13,13 @@ import com.gempukku.libgdx.graph.data.GraphNodeInput;
 import com.gempukku.libgdx.graph.data.GraphNodeOutput;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
-import com.google.common.base.Supplier;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
     private String id;

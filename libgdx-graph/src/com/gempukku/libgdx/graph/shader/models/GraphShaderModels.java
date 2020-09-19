@@ -7,14 +7,14 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 
-import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class GraphShaderModels implements Disposable {
     private enum Order {
@@ -102,12 +102,13 @@ public class GraphShaderModels implements Disposable {
     }
 
     public Iterable<? extends GraphShaderModelInstanceImpl> getModelsWithTag(final String tag) {
-        return Iterables.filter(models, new Predicate<GraphShaderModelInstanceImpl>() {
-            @Override
-            public boolean apply(@Nullable GraphShaderModelInstanceImpl graphShaderModelInstance) {
-                return graphShaderModelInstance.hasTag(tag);
-            }
-        });
+        return StreamSupport.stream(models.spliterator(), false)
+                .filter(new Predicate<GraphShaderModelInstanceImpl>() {
+                    @Override
+                    public boolean test(GraphShaderModelInstanceImpl graphShaderModelInstance) {
+                        return graphShaderModelInstance.hasTag(tag);
+                    }
+                }).collect(Collectors.<GraphShaderModelInstanceImpl>toList());
     }
 
     @Override

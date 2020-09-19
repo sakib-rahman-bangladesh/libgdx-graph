@@ -1,7 +1,8 @@
 package com.gempukku.libgdx.graph.ui.graph;
 
 import com.gempukku.libgdx.graph.data.FieldType;
-import com.google.common.base.Supplier;
+
+import java.util.function.Supplier;
 
 public class GraphBoxOutputConnectorImpl<T extends FieldType> implements GraphBoxOutputConnector<T> {
     private Side side;

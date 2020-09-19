@@ -38,11 +38,16 @@ allprojects {
     }
 }
 
+configure(subprojects) {
+    apply plugin: 'java-library'
+    sourceCompatibility = 8.0
+    compileJava {
+        options.incremental = true
+    }
+}
+
 project(":desktop") {
     apply plugin: "java-library"
-
-    sourceCompatibility = 1.11
-    targetCompatibility = 1.7
 
     dependencies {
         implementation project(":core")
@@ -56,9 +61,6 @@ project(":desktop") {
 project(":core") {
     apply plugin: "java-library"
 
-    sourceCompatibility = 1.11
-    targetCompatibility = 1.7
-
     dependencies {
         implementation project(":libgdx-graph")
         // https://mvnrepository.com/artifact/com.kotcrab.vis/vis-ui
@@ -68,9 +70,6 @@ project(":core") {
 
 project(":libgdx-graph-test") {
     apply plugin: "java-library"
-
-    sourceCompatibility = 1.11
-    targetCompatibility = 1.7
 
     dependencies {
         implementation project(":libgdx-graph")
@@ -84,11 +83,7 @@ project(":libgdx-graph-test") {
 project(":libgdx-graph") {
     apply plugin: "java-library"
 
-    sourceCompatibility = 1.11
-    targetCompatibility = 1.7
-
     dependencies {
-        api "com.google.guava:guava:11.0.2"
         api "com.googlecode.json-simple:json-simple:1.1.1"
 
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
