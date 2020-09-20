@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.shader.node.value;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.JsonValue;
+import com.gempukku.libgdx.graph.SimpleNumberFormatter;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -10,15 +11,11 @@ import com.gempukku.libgdx.graph.shader.config.value.ValueColorShaderNodeConfigu
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 public class ValueColorShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
-    private static NumberFormat numberFormat = new DecimalFormat("0.0######");
-
     public ValueColorShaderNodeBuilder() {
         super(new ValueColorShaderNodeConfiguration());
     }
@@ -32,6 +29,6 @@ public class ValueColorShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
     }
 
     private String format(float component) {
-        return numberFormat.format(component);
+        return SimpleNumberFormatter.format(component);
     }
 }

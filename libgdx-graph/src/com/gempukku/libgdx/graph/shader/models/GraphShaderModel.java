@@ -9,18 +9,20 @@ import com.badlogic.gdx.graphics.g3d.model.Animation;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.model.NodePart;
 import com.badlogic.gdx.utils.Disposable;
+import com.gempukku.libgdx.graph.IdGenerator;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 public class GraphShaderModel implements Disposable {
     private static VertexAttributes attributes;
     private Model internalModel;
     private Set<String> defaultTags = new HashSet<>();
+    private IdGenerator idGenerator;
 
-    public GraphShaderModel(Model model) {
+    public GraphShaderModel(IdGenerator idGenerator, Model model) {
+        this.idGenerator = idGenerator;
         init(model);
     }
 
@@ -137,7 +139,7 @@ public class GraphShaderModel implements Disposable {
     }
 
     public GraphShaderModelInstanceImpl createInstance() {
-        String id = UUID.randomUUID().toString().replace("-", "");
+        String id = idGenerator.generateId();
         GraphShaderModelInstanceImpl graphShaderModelInstance = new GraphShaderModelInstanceImpl(id, this, new ModelInstance(internalModel));
         for (String defaultTag : defaultTags)
             graphShaderModelInstance.addTag(defaultTag);

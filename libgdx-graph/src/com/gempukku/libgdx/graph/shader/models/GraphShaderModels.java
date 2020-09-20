@@ -7,11 +7,12 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.gempukku.libgdx.graph.IdGenerator;
+import com.gempukku.libgdx.graph.RandomIdGenerator;
 
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -35,9 +36,11 @@ public class GraphShaderModels implements Disposable {
     private Map<String, GraphShaderModel> graphShaderModels = new HashMap<>();
     private Array<GraphShaderModelInstanceImpl> models = new Array<>();
 
+    private IdGenerator idGenerator = new RandomIdGenerator(16);
+
     public String registerModel(Model model) {
-        String id = UUID.randomUUID().toString().replace("-", "");
-        GraphShaderModel graphShaderModel = new GraphShaderModel(model);
+        String id = idGenerator.generateId();
+        GraphShaderModel graphShaderModel = new GraphShaderModel(idGenerator, model);
         graphShaderModels.put(id, graphShaderModel);
         return id;
     }
