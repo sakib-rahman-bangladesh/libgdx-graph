@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.RandomIdGenerator;
 import com.gempukku.libgdx.graph.WhitePixel;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
@@ -111,7 +112,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
         model = modelBuilder.createSphere(1, 1, 1, 50, 50,
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        graphShaderModel = new GraphShaderModel(model);
+        graphShaderModel = new GraphShaderModel(new RandomIdGenerator(16), model);
         modelInstance = graphShaderModel.createInstance();
     }
 

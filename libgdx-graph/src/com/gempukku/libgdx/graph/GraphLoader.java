@@ -27,11 +27,8 @@ public class GraphLoader {
     }
 
     public static <T> T loadGraph(JsonValue graph, GraphLoaderCallback<T> graphLoaderCallback) {
-        String version = graph.getString("version");
-        if (version == null) {
-            // Assuming default
-            version = "0.1.0";
-        }
+        // Assuming default
+        String version = graph.has("version") ? graph.getString("version") : "0.1.0";
         if (!canReadVersion(version)) {
             throw new IllegalArgumentException("Unable to read a graph of version " + version);
         }

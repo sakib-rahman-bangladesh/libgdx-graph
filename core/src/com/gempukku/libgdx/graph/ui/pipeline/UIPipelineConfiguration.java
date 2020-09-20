@@ -7,6 +7,7 @@ import com.gempukku.libgdx.graph.pipeline.config.math.SubtractPipelineNodeConfig
 import com.gempukku.libgdx.graph.pipeline.config.part.MergePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.part.SplitPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.BloomPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.postprocessor.ColorTintPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.GammaCorrectionPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.GaussianBlurPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.provided.RenderSizePipelineNodeConfiguration;
@@ -86,6 +87,7 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new BloomPipelineNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new GaussianBlurPipelineNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new GammaCorrectionPipelineNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new ColorTintPipelineNodeConfiguration()));
 
         propertyProducers.put("Float", new PropertyFloatBoxProducer());
         propertyProducers.put("Vector2", new PropertyVector2BoxProducer());

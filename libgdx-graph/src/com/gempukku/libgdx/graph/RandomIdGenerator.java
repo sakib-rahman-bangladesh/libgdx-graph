@@ -14,7 +14,7 @@ public class RandomIdGenerator implements IdGenerator {
     public String generateId() {
         char[] result = new char[length];
         for (int i = 0; i < length; i++) {
-            result[i] = characters[MathUtils.random(characters.length)];
+            result[i] = characters[MathUtils.random(characters.length - 1)];
         }
         return new String(result);
     }
