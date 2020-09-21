@@ -44,8 +44,6 @@ public class SplitShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder
             throw new UnsupportedOperationException();
         }
 
-        commonShaderBuilder.addMainLine("// Split Node");
-
         Map<String, DefaultFieldOutput> result = new HashMap<>();
         if (producedOutputs.contains("x")) {
             result.put("x", new DefaultFieldOutput(ShaderFieldType.Float, x));
