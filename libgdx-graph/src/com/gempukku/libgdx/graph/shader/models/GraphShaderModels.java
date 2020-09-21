@@ -56,6 +56,14 @@ public class GraphShaderModels implements Disposable {
         model.dispose();
     }
 
+    public void addModelDefaultTag(String modelId, String tag) {
+        graphShaderModels.get(modelId).addDefaultTag(tag);
+    }
+
+    public void removeModelDefaultTag(String modelId, String tag) {
+        graphShaderModels.get(modelId).removeDefaultTag(tag);
+    }
+
     public GraphShaderModelInstance createModelInstance(String modelId) {
         GraphShaderModelInstanceImpl graphShaderModelInstance = graphShaderModels.get(modelId).createInstance();
         models.add(graphShaderModelInstance);

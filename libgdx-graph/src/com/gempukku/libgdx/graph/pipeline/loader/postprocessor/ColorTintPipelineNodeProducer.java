@@ -1,6 +1,8 @@
 package com.gempukku.libgdx.graph.pipeline.loader.postprocessor;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.JsonValue;
@@ -57,6 +59,10 @@ public class ColorTintPipelineNodeProducer extends PipelineNodeProducerImpl {
 
                     FrameBuffer currentBuffer = renderPipeline.getCurrentBuffer();
                     currentBuffer.begin();
+
+                    Gdx.gl.glEnable(GL20.GL_BLEND);
+                    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     shapeRenderer.setColor(colorValue.r, colorValue.g, colorValue.b, colorValue.a * strengthValue);
                     shapeRenderer.rect(0, 0, currentBuffer.getWidth(), currentBuffer.getHeight());
