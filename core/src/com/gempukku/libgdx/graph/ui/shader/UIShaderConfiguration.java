@@ -58,6 +58,7 @@ import com.gempukku.libgdx.graph.shader.config.provided.FragmentCoordinateShader
 import com.gempukku.libgdx.graph.shader.config.provided.InstanceIdShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.PixelSizeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.SceneDepthShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.provided.ScreenPositionShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.TimeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.texture.Sampler2DShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.value.ValueBooleanShaderNodeConfiguration;
@@ -193,6 +194,7 @@ public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldTy
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CameraPositionShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CameraDirectionShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SceneDepthShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ScreenPositionShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new PixelSizeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new FragmentCoordinateShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new InstanceIdShaderNodeConfiguration()));
