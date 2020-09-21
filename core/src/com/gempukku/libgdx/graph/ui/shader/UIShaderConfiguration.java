@@ -22,6 +22,7 @@ import com.gempukku.libgdx.graph.shader.config.math.common.LerpShaderNodeConfigu
 import com.gempukku.libgdx.graph.shader.config.math.common.MaximumShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.common.MinimumShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.common.ModuloShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.math.common.SaturateShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.common.SignShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.common.SmoothstepShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.common.StepShaderNodeConfiguration;
@@ -166,6 +167,7 @@ public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldTy
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new MinimumShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new MaximumShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ClampShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SaturateShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new LerpShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new StepShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SmoothstepShaderNodeConfiguration()));
