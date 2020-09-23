@@ -95,6 +95,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
     private void createShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
         try {
             timeKeeper = new DefaultTimeKeeper();
+            shaderContext.setTimeProvider(timeKeeper);
             graphShader = GraphShaderBuilder.buildShader(WhitePixel.sharedInstance.texture, graph, true);
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
             createModel();
