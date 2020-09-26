@@ -33,7 +33,7 @@ import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModel;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstanceImpl;
+import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 
 public class ShaderPreviewWidget extends Widget implements Disposable {
     private boolean shaderInitialized;
@@ -44,7 +44,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
     private GraphShader graphShader;
     private RenderContext renderContext;
     private Model model;
-    private GraphShaderModelInstanceImpl modelInstance;
+    private GraphShaderModelInstance modelInstance;
     private Camera camera;
     private DefaultTimeKeeper timeKeeper;
     private GraphShaderModel graphShaderModel;

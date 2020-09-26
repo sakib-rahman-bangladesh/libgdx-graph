@@ -17,7 +17,7 @@ import com.gempukku.libgdx.graph.shader.UniformRegistry;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstanceImpl;
+import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 
 import java.util.Collections;
 import java.util.Map;
@@ -76,7 +76,7 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
         commonShaderBuilder.addUniformVariable(variableName, "vec4", false,
                 new UniformRegistry.UniformSetter() {
                     @Override
-                    public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                    public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                         Object value = graphShaderModelInstance.getProperty(name);
                         if (!(value instanceof Color))
                             value = graphShaderContext.getPropertySource(name).getDefaultValue();
@@ -93,7 +93,7 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
         commonShaderBuilder.addUniformVariable(variableName, "float", false,
                 new UniformRegistry.UniformSetter() {
                     @Override
-                    public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                    public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                         Object value = graphShaderModelInstance.getProperty(name);
                         if (!(value instanceof Number))
                             value = graphShaderContext.getPropertySource(name).getDefaultValue();
@@ -110,7 +110,7 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
         commonShaderBuilder.addUniformVariable(variableName, "vec2", false,
                 new UniformRegistry.UniformSetter() {
                     @Override
-                    public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                    public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                         Object value = graphShaderModelInstance.getProperty(name);
                         if (!(value instanceof Vector2))
                             value = graphShaderContext.getPropertySource(name).getDefaultValue();
@@ -127,7 +127,7 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
         commonShaderBuilder.addUniformVariable(variableName, "vec3", false,
                 new UniformRegistry.UniformSetter() {
                     @Override
-                    public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                    public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                         Object value = graphShaderModelInstance.getProperty(name);
                         if (!(value instanceof Vector3))
                             value = graphShaderContext.getPropertySource(name).getDefaultValue();
@@ -145,7 +145,7 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
         commonShaderBuilder.addUniformVariable(textureVariableName, "sampler2D", false,
                 new UniformRegistry.UniformSetter() {
                     @Override
-                    public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                    public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                         Object value = graphShaderModelInstance.getProperty(name);
                         if (!(value instanceof TextureRegion))
                             value = graphShaderContext.getPropertySource(name).getDefaultValue();
@@ -155,7 +155,7 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
         commonShaderBuilder.addUniformVariable(uvTransformVariableName, "vec4", false,
                 new UniformRegistry.UniformSetter() {
                     @Override
-                    public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                    public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                         Object value = graphShaderModelInstance.getProperty(name);
                         if (!(value instanceof TextureRegion))
                             value = graphShaderContext.getPropertySource(name).getDefaultValue();

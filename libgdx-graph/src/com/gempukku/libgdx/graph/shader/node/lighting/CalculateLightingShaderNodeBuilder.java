@@ -19,7 +19,7 @@ import com.gempukku.libgdx.graph.shader.builder.GLSLFragmentReader;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
 import com.gempukku.libgdx.graph.shader.config.lighting.CalculateLightingShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstanceImpl;
+import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 
@@ -101,7 +101,7 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
             fragmentShaderBuilder.addUniformVariable("u_spotLightCount", "int", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null) {
                                 shader.setUniform(location, environment.getSpotLights().size);
@@ -119,7 +119,7 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
             fragmentShaderBuilder.addStructArrayUniformVariable("u_spotLights", new String[]{"color", "position", "direction", "cutoffAngle", "exponent"}, numSpotLights, "SpotLight", true,
                     new UniformRegistry.StructArrayUniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int startingLocation, int[] fieldOffsets, int structSize, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int startingLocation, int[] fieldOffsets, int structSize, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                             Array<SpotLight> spots = null;
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null) {
@@ -170,7 +170,7 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
             fragmentShaderBuilder.addUniformVariable("u_pointLightCount", "int", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null) {
                                 shader.setUniform(location, environment.getPointLights().size);
@@ -185,7 +185,7 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
             fragmentShaderBuilder.addStructArrayUniformVariable("u_pointLights", new String[]{"color", "position"}, numPointLights, "PointLight", true,
                     new UniformRegistry.StructArrayUniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int startingLocation, int[] fieldOffsets, int structSize, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int startingLocation, int[] fieldOffsets, int structSize, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                             Array<PointLight> points = null;
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null) {
@@ -229,7 +229,7 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
             fragmentShaderBuilder.addUniformVariable("u_directionalLightCount", "int", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null) {
                                 shader.setUniform(location, environment.getDirectionalLights().size);
@@ -244,7 +244,7 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
             fragmentShaderBuilder.addStructArrayUniformVariable("u_dirLights", new String[]{"color", "direction"}, numDirectionalLights, "DirectionalLight", true,
                     new UniformRegistry.StructArrayUniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int startingLocation, int[] fieldOffsets, int structSize, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int startingLocation, int[] fieldOffsets, int structSize, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                             Array<DirectionalLight> dirs = null;
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null) {

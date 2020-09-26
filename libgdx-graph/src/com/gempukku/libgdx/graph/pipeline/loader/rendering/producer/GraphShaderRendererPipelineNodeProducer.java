@@ -21,7 +21,7 @@ import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderLoaderCallback;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstanceImpl;
+import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 
 import java.util.LinkedList;
@@ -111,7 +111,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                     if (!transparentShaders.isEmpty()) {
                         models.orderBackToFront();
                         GraphShader lastShader = null;
-                        for (GraphShaderModelInstanceImpl graphShaderModelInstance : models.getModels()) {
+                        for (GraphShaderModelInstance graphShaderModelInstance : models.getModels()) {
                             for (GraphShader shader : transparentShaders) {
                                 String tag = shader.getTag();
                                 if (graphShaderModelInstance.hasTag(tag)) {
@@ -155,7 +155,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
             private void renderWithShaderOpaquePass(String tag, GraphShader shader, GraphShaderModels models, ShaderContext shaderContext) {
                 boolean begun = false;
-                for (GraphShaderModelInstanceImpl graphShaderModelInstance : models.getModelsWithTag(tag)) {
+                for (GraphShaderModelInstance graphShaderModelInstance : models.getModelsWithTag(tag)) {
                     if (!begun) {
                         shader.begin(shaderContext, renderContext);
                         begun = true;

@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.FlushablePool;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.IntArray;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstanceImpl;
+import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -324,7 +324,7 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         context.setBlending(enabled, blending.getSourceFactor(), blending.getDestinationFactor());
     }
 
-    public void render(ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance) {
+    public void render(ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance) {
         graphShaderModelInstance.getRenderables(renderables, renderablesPool);
         for (Renderable renderable : renderables) {
             for (Uniform uniform : uniforms.values()) {

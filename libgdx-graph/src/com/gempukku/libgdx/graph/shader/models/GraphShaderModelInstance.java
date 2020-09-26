@@ -1,23 +1,74 @@
 package com.gempukku.libgdx.graph.shader.models;
 
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 
-public interface GraphShaderModelInstance {
-    String getId();
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-    void addTag(String tag);
+public class GraphShaderModelInstance {
+    private String id;
+    private GraphShaderModel model;
+    private ModelInstance modelInstance;
+    private Set<String> tags = new HashSet<>();
+    private Map<String, Object> properties = new HashMap<>();
 
-    void removeTag(String tag);
+    public GraphShaderModelInstance(String id, GraphShaderModel model, ModelInstance modelInstance) {
+        this.id = id;
+        this.model = model;
+        this.modelInstance = modelInstance;
+    }
 
-    void removeAllTags();
+    public String getId() {
+        return id;
+    }
 
-    void setProperty(String name, Object value);
+    public void addTag(String tag) {
+        tags.add(tag);
+    }
 
-    void unsetProperty(String name);
+    public void removeTag(String tag) {
+        tags.remove(tag);
+    }
 
-    boolean hasTag(String tag);
+    public void removeAllTags() {
+        tags.clear();
+    }
 
-    Object getProperty(String name);
+    public void setProperty(String name, Object value) {
+        properties.put(name, value);
+    }
 
-    Matrix4 getTransformMatrix();
+    public void unsetProperty(String name) {
+        properties.remove(name);
+    }
+
+    public boolean hasTag(String tag) {
+        return tags.contains(tag);
+    }
+
+    public Object getProperty(String name) {
+        return properties.get(name);
+    }
+
+    public Matrix4 getTransformMatrix() {
+        return modelInstance.transform;
+    }
+
+    public GraphShaderModel getModel() {
+        return model;
+    }
+
+    public ModelInstance getModelInstance() {
+        return modelInstance;
+    }
+
+    public void getRenderables(Array<Renderable> renderables, Pool<Renderable> pool) {
+        modelInstance.getRenderables(renderables, pool);
+    }
 }

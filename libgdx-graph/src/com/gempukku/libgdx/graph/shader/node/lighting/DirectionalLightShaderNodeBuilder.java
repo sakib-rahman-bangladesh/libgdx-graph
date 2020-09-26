@@ -13,7 +13,7 @@ import com.gempukku.libgdx.graph.shader.UniformRegistry;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.config.lighting.DirectionalLightShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstanceImpl;
+import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 
@@ -36,7 +36,7 @@ public class DirectionalLightShaderNodeBuilder extends ConfigurationCommonShader
             commonShaderBuilder.addUniformVariable(name, "vec3", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getDirectionalLights().size > index && environment.getDirectionalLights().get(index) != null) {
                                 Array<DirectionalLight> directionalLights = environment.getDirectionalLights();
@@ -54,7 +54,7 @@ public class DirectionalLightShaderNodeBuilder extends ConfigurationCommonShader
             commonShaderBuilder.addUniformVariable(name, "vec4", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstanceImpl graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getDirectionalLights().size > index && environment.getDirectionalLights().get(index) != null) {
                                 Array<DirectionalLight> directionalLights = environment.getDirectionalLights();

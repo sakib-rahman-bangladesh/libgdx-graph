@@ -138,9 +138,9 @@ public class GraphShaderModel implements Disposable {
         return node.copy();
     }
 
-    public GraphShaderModelInstanceImpl createInstance() {
+    public GraphShaderModelInstance createInstance() {
         String id = idGenerator.generateId();
-        GraphShaderModelInstanceImpl graphShaderModelInstance = new GraphShaderModelInstanceImpl(id, this, new ModelInstance(internalModel));
+        GraphShaderModelInstance graphShaderModelInstance = new GraphShaderModelInstance(id, this, new ModelInstance(internalModel));
         for (String defaultTag : defaultTags)
             graphShaderModelInstance.addTag(defaultTag);
         return graphShaderModelInstance;
