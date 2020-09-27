@@ -5,16 +5,14 @@ import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.Pool;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class GraphShaderModelInstance {
     private String id;
     private GraphShaderModel model;
     private ModelInstance modelInstance;
-    private Set<String> tags = new HashSet<>();
+    private ObjectSet<String> tags = new ObjectSet<>();
     private ObjectMap<String, Object> properties = new ObjectMap<>();
 
     public GraphShaderModelInstance(String id, GraphShaderModel model, ModelInstance modelInstance) {

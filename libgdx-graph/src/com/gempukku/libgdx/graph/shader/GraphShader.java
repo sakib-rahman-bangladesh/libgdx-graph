@@ -2,16 +2,14 @@ package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.TimeProvider;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class GraphShader extends UniformCachingShader implements GraphShaderContext {
-    private List<Disposable> disposableList = new LinkedList<>();
+    private Array<Disposable> disposableList = new Array<>();
     private ObjectMap<String, PropertySource> propertySourceMap;
     private ShaderProgram shaderProgram;
     private TimeProvider timeProvider;

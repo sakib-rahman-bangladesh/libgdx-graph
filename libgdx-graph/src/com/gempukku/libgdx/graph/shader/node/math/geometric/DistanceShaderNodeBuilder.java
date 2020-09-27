@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.shader.node.math.geometric;
 
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.LibGDXCollections;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
@@ -11,15 +12,13 @@ import com.gempukku.libgdx.graph.shader.config.math.geometric.DistanceShaderNode
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 
-import java.util.Set;
-
 public class DistanceShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
     public DistanceShaderNodeBuilder() {
         super(new DistanceShaderNodeConfiguration());
     }
 
     @Override
-    protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
+    protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         FieldOutput p0Value = inputs.get("p0");
         FieldOutput p1Value = inputs.get("p1");
         ShaderFieldType resultType = ShaderFieldType.Float;

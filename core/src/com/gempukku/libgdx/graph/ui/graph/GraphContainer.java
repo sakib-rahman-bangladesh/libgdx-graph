@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNodeInput;
@@ -43,12 +44,10 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class GraphContainer<T extends FieldType> extends Table implements NavigableCanvas {
     private static final float CANVAS_GAP = 50f;
@@ -87,7 +86,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
     private NodeConnector drawingFromConnector;
     private GraphValidator.ValidationResult<GraphBox<T>, GraphConnection, PropertyBox<T>, T> validationResult = new GraphValidator.ValidationResult<>();
 
-    private Set<String> selectedNodes = new HashSet<>();
+    private ObjectSet<String> selectedNodes = new ObjectSet<>();
     private boolean movingSelected = false;
     private Skin skin;
 
@@ -464,7 +463,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         fire(new GraphChangedEvent(true, false));
     }
 
-    public void addNodeGroup(String name, Set<String> nodeIds) {
+    public void addNodeGroup(String name, ObjectSet<String> nodeIds) {
         nodeGroups.put(new NodeGroupImpl(name, nodeIds), new Rectangle());
         updateNodeGroups();
         fire(new GraphChangedEvent(false, false));
@@ -536,7 +535,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         selectedNodes.remove(nodeId);
         for (NodeGroupImpl nodeGroupImpl : nodeGroups.keySet()) {
             if (nodeGroupImpl.getNodeIds().remove(nodeId)) {
-                if (nodeGroupImpl.getNodeIds().size() == 0) {
+                if (nodeGroupImpl.getNodeIds().size == 0) {
                     nodeGroups.remove(nodeGroupImpl);
                 }
                 break;
@@ -899,7 +898,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
     }
 
     public void createNodeGroup() {
-        if (selectedNodes.size() > 0) {
+        if (selectedNodes.size > 0) {
             for (String selectedNode : selectedNodes) {
                 if (groupsContain(selectedNode))
                     return;
@@ -915,7 +914,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
                     new InputDialogListener() {
                         @Override
                         public void finished(String input) {
-                            addNodeGroup(input.trim(), new HashSet<String>(selectedNodes));
+                            addNodeGroup(input.trim(), new ObjectSet<String>(selectedNodes));
                         }
 
                         @Override
@@ -936,9 +935,9 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
     private static class NodeGroupImpl implements NodeGroup {
         private String name;
-        private Set<String> nodes;
+        private ObjectSet<String> nodes;
 
-        public NodeGroupImpl(String name, Set<String> nodes) {
+        public NodeGroupImpl(String name, ObjectSet<String> nodes) {
             this.name = name;
             this.nodes = nodes;
         }
@@ -949,7 +948,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         }
 
         @Override
-        public Set<String> getNodeIds() {
+        public ObjectSet<String> getNodeIds() {
             return nodes;
         }
     }

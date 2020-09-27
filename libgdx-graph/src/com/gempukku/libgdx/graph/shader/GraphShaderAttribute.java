@@ -2,15 +2,13 @@ package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.graphics.g3d.Attribute;
 import com.badlogic.gdx.utils.ObjectMap;
-
-import java.util.HashSet;
-import java.util.Set;
+import com.badlogic.gdx.utils.ObjectSet;
 
 public class GraphShaderAttribute extends Attribute {
     public static final String GraphShaderAlias = "graphShader";
     public static final long GraphShader = register(GraphShaderAlias);
 
-    private Set<String> tags = new HashSet<>();
+    private ObjectSet<String> tags = new ObjectSet<>();
     private ObjectMap<String, Object> properties = new ObjectMap<>();
 
     public GraphShaderAttribute() {
@@ -44,7 +42,7 @@ public class GraphShaderAttribute extends Attribute {
     @Override
     public Attribute copy() {
         GraphShaderAttribute result = new GraphShaderAttribute();
-        result.tags = new HashSet<>(tags);
+        result.tags = new ObjectSet<>(tags);
         result.properties = new ObjectMap<>(properties);
         return result;
     }

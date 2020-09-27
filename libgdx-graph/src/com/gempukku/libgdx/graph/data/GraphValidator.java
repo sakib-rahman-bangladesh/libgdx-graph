@@ -2,11 +2,7 @@ package com.gempukku.libgdx.graph.data;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import com.badlogic.gdx.utils.ObjectSet;
 
 public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V extends GraphProperty<W>, W extends FieldType> {
     public ValidationResult<T, U, V, W> validateGraph(Graph<T, U, V, W> graph, String nodeEnd) {
@@ -43,7 +39,7 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
             return outputs;
 
         T thisNode = graph.getNodeById(nodeId);
-        Set<String> validatedFields = new HashSet<>();
+        ObjectSet<String> validatedFields = new ObjectSet<>();
         ObjectMap<String, W> inputsTypes = new ObjectMap<>();
         for (U incomingConnection : getIncomingConnections(graph, nodeId)) {
             String fieldTo = incomingConnection.getFieldTo();
@@ -83,7 +79,7 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
     }
 
     private Iterable<U> getIncomingConnections(Graph<T, U, V, W> graph, String nodeId) {
-        List<U> result = new LinkedList<>();
+        Array<U> result = new Array<>();
         for (U connection : graph.getConnections()) {
             if (connection.getNodeTo().equals(nodeId))
                 result.add(connection);
@@ -102,8 +98,8 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
 
     // This function is a variation of DFSUtil() in
     // https://www.geeksforgeeks.org/archives/18212
-    private boolean isCyclicUtil(ValidationResult<T, U, V, W> validationResult, Graph<T, U, V, W> graph, String nodeId, Set<String> visited,
-                                 Set<String> recStack) {
+    private boolean isCyclicUtil(ValidationResult<T, U, V, W> validationResult, Graph<T, U, V, W> graph, String nodeId, ObjectSet<String> visited,
+                                 ObjectSet<String> recStack) {
         // Mark the current node as visited and
         // part of recursion stack
         if (recStack.contains(nodeId)) {
@@ -117,7 +113,7 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
         visited.add(nodeId);
         recStack.add(nodeId);
 
-        Set<String> connectedNodes = new HashSet<>();
+        ObjectSet<String> connectedNodes = new ObjectSet<>();
         for (U incomingConnection : getIncomingConnections(graph, nodeId)) {
             connectedNodes.add(incomingConnection.getNodeFrom());
         }
@@ -133,8 +129,8 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
     }
 
     private boolean isCyclic(ValidationResult<T, U, V, W> validationResult, Graph<T, U, V, W> graph, String start) {
-        Set<String> visited = new HashSet<>();
-        Set<String> recStack = new HashSet<>();
+        ObjectSet<String> visited = new ObjectSet<>();
+        ObjectSet<String> recStack = new ObjectSet<>();
 
         // Call the recursive helper function to
         // detect cycle in different DFS trees
@@ -160,11 +156,11 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
     }
 
     public static class ValidationResult<T extends GraphNode<W>, U extends GraphConnection, V extends GraphProperty<W>, W extends FieldType> {
-        private final Set<T> errorNodes = new HashSet<>();
-        private final Set<T> warningNodes = new HashSet<>();
-        private final Set<U> errorConnections = new HashSet<>();
-        private final Set<NodeConnector> errorConnectors = new HashSet<>();
-        private final Set<V> errorProperties = new HashSet<>();
+        private final ObjectSet<T> errorNodes = new ObjectSet<>();
+        private final ObjectSet<T> warningNodes = new ObjectSet<>();
+        private final ObjectSet<U> errorConnections = new ObjectSet<>();
+        private final ObjectSet<NodeConnector> errorConnectors = new ObjectSet<>();
+        private final ObjectSet<V> errorProperties = new ObjectSet<>();
 
         public void addErrorNode(T node) {
             errorNodes.add(node);
@@ -186,23 +182,23 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
             errorProperties.add(property);
         }
 
-        public Set<T> getErrorNodes() {
+        public ObjectSet<T> getErrorNodes() {
             return errorNodes;
         }
 
-        public Set<T> getWarningNodes() {
+        public ObjectSet<T> getWarningNodes() {
             return warningNodes;
         }
 
-        public Set<U> getErrorConnections() {
+        public ObjectSet<U> getErrorConnections() {
             return errorConnections;
         }
 
-        public Set<NodeConnector> getErrorConnectors() {
+        public ObjectSet<NodeConnector> getErrorConnectors() {
             return errorConnectors;
         }
 
-        public Set<V> getErrorProperties() {
+        public ObjectSet<V> getErrorProperties() {
             return errorProperties;
         }
 

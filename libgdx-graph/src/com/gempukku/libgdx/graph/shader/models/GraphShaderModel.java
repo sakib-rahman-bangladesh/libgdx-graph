@@ -9,16 +9,14 @@ import com.badlogic.gdx.graphics.g3d.model.Animation;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.model.NodePart;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.IdGenerator;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class GraphShaderModel implements Disposable {
     private static VertexAttributes attributes;
     private Model internalModel;
-    private Set<String> defaultTags = new HashSet<>();
+    private ObjectSet<String> defaultTags = new ObjectSet<>();
     private IdGenerator idGenerator;
 
     public GraphShaderModel(IdGenerator idGenerator, Model model) {

@@ -25,9 +25,6 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     public GraphShaderRendererPipelineNodeProducer() {
         super(new GraphShaderRendererPipelineNodeConfiguration());
@@ -41,7 +38,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
         JsonValue renderPassDefinitions = data.get("renderPasses");
 
-        final List<RenderPass> renderPasses = new LinkedList<>();
+        final Array<RenderPass> renderPasses = new Array<>();
         for (JsonValue renderPassDefinition : renderPassDefinitions) {
             renderPasses.add(new RenderPass(renderPassDefinition, whitePixel));
         }

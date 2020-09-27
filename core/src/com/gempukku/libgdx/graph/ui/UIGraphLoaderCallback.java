@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.ui;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.GraphLoaderCallback;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
@@ -9,8 +10,6 @@ import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
-
-import java.util.Set;
 
 public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCallback<GraphDesignTab<T>> {
     private Skin skin;
@@ -51,7 +50,7 @@ public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCa
     }
 
     @Override
-    public void addNodeGroup(String name, Set<String> nodeIds) {
+    public void addNodeGroup(String name, ObjectSet<String> nodeIds) {
         graphDesignTab.getGraphContainer().addNodeGroup(name, nodeIds);
     }
 
