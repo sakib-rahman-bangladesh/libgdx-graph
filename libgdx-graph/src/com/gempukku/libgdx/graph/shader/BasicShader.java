@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.FlushablePool;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
+import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 
 import static com.badlogic.gdx.graphics.GL20.GL_BACK;
 import static com.badlogic.gdx.graphics.GL20.GL_FRONT;

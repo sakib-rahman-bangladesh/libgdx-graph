@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
+import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 
 public class UniformSetters {
     private UniformSetters() {

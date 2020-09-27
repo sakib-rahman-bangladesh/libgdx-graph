@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.models;
+package com.gempukku.libgdx.graph.shader.models.impl;
 
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;

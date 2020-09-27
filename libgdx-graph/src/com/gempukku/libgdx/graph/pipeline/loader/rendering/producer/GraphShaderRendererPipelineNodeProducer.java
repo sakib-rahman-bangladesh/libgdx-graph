@@ -22,8 +22,8 @@ import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderLoaderCallback;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
+import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelsImpl;
 
 public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     public GraphShaderRendererPipelineNodeProducer() {
@@ -43,7 +43,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             renderPasses.add(new RenderPass(renderPassDefinition, whitePixel));
         }
 
-        final PipelineNode.FieldOutput<GraphShaderModels> modelsInput = (PipelineNode.FieldOutput<GraphShaderModels>) inputFields.get("models");
+        final PipelineNode.FieldOutput<GraphShaderModelsImpl> modelsInput = (PipelineNode.FieldOutput<GraphShaderModelsImpl>) inputFields.get("models");
         final PipelineNode.FieldOutput<GraphShaderEnvironment> lightsInput = (PipelineNode.FieldOutput<GraphShaderEnvironment>) inputFields.get("lights");
         final PipelineNode.FieldOutput<Camera> cameraInput = (PipelineNode.FieldOutput<Camera>) inputFields.get("camera");
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
@@ -54,7 +54,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
-                GraphShaderModels models = modelsInput.getValue(pipelineRenderingContext);
+                GraphShaderModelsImpl models = modelsInput.getValue(pipelineRenderingContext);
                 Camera camera = cameraInput.getValue(pipelineRenderingContext);
                 FrameBuffer currentBuffer = renderPipeline.getCurrentBuffer();
                 int width = currentBuffer.getWidth();
@@ -150,7 +150,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                     output.setValue(renderPipeline);
             }
 
-            private void renderWithShaderOpaquePass(String tag, GraphShader shader, GraphShaderModels models, ShaderContext shaderContext) {
+            private void renderWithShaderOpaquePass(String tag, GraphShader shader, GraphShaderModelsImpl models, ShaderContext shaderContext) {
                 boolean begun = false;
                 for (GraphShaderModelInstance graphShaderModelInstance : models.getModelsWithTag(tag)) {
                     if (!begun) {

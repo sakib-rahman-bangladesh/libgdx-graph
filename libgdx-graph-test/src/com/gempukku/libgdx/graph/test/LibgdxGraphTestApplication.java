@@ -32,6 +32,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.Models;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 
 import java.io.IOException;
@@ -106,7 +107,7 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         this.shipModel = loadShipModel();
         this.robotModel = loadRobotModel();
 
-        GraphShaderModels models = new GraphShaderModels();
+        GraphShaderModels models = Models.create();
         String shipModelId = models.registerModel(this.shipModel);
         final float shipScale = 0.0008f;
         String shipModelInstance = models.createModelInstance(shipModelId);

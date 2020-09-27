@@ -32,8 +32,8 @@ import com.gempukku.libgdx.graph.shader.GraphShaderAttribute;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModel;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
+import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModel;
+import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 
 public class ShaderPreviewWidget extends Widget implements Disposable {
     private boolean shaderInitialized;

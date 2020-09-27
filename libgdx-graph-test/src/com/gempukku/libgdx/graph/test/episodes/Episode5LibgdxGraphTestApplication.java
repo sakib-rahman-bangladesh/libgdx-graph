@@ -32,6 +32,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.Models;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
@@ -84,7 +85,7 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private GraphShaderModels createModels() {
-        GraphShaderModels models = new GraphShaderModels();
+        GraphShaderModels models = Models.create();
         String modelId = models.registerModel(sphereModel);
         sphereModelInstance = models.createModelInstance(modelId);
         models.addTag(sphereModelInstance, "Cover");

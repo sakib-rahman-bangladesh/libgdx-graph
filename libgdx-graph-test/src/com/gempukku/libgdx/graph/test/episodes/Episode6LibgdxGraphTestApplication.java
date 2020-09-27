@@ -29,6 +29,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.Models;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
@@ -78,7 +79,7 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.internal("model/fighter/fighter.g3db"));
 
-        GraphShaderModels models = new GraphShaderModels();
+        GraphShaderModels models = Models.create();
         String modelId = models.registerModel(model);
         final float scale = 0.0008f;
         shipInstance = models.createModelInstance(modelId);

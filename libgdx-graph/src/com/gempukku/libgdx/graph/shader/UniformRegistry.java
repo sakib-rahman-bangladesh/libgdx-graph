@@ -1,7 +1,7 @@
 package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.graphics.g3d.Renderable;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
+import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 
 public interface UniformRegistry {
     void registerAttribute(final String alias);
