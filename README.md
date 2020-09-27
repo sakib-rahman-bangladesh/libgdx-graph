@@ -5,6 +5,8 @@ libGDX-graph is undery heavy development at the moment. The devlogs are availabl
 ## Goal
 The goal is to make game development using libGDX much easier for people who are not very experienced with 2d and 3d graphics. The project's goal is to not only
 make game development faster, but also much easier, and remove one of the biggest barriers of entry into game development - the complexity of efficient rendering.
+## Documentation
+Documentation is available [here on Github](https://github.com/MarcinSc/libgdx-graph/wiki).
 ## Plans
 The plan is to cover and abstract out from your game development things like - post-processing effects, efficient and optimized rendering, as well as advanced
 particle effects, while allowing for high quality rendering using physically based rendering or stylized rendering, as well as highly-customizable particle effects.
