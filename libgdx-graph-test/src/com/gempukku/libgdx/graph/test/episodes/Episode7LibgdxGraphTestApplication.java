@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -32,8 +33,8 @@ import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
     private Camera camera;
     private Stage stage;
     private Skin skin;
-    private GraphShaderModelInstance modelInstance;
+    private String modelInstance;
     private GraphShaderEnvironment lights;
     private float cameraSpeed = -0.8f;
     private float cameraAngle = 0f;
@@ -98,11 +99,17 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
 
         GraphShaderModels models = new GraphShaderModels();
         String modelId = models.registerModel(model);
-        float scale = 0.008f;
+        final float scale = 0.008f;
         modelInstance = models.createModelInstance(modelId);
-        modelInstance.getTransformMatrix().scale(scale, scale, scale);//.rotate(-1, 0, 0f, 90);
-        modelInstance.addTag("Default");
-        animationController = models.createAnimationController(modelInstance.getId());
+        models.updateTransform(modelInstance,
+                new TransformUpdate() {
+                    @Override
+                    public void updateTransform(Matrix4 transform) {
+                        transform.scale(scale, scale, scale);//.rotate(-1, 0, 0f, 90);
+                    }
+                });
+        models.addTag(modelInstance, "Default");
+        animationController = models.createAnimationController(modelInstance);
         animationController.animate("Root|jog", -1, null, 0f);
         return models;
     }
@@ -118,8 +125,8 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
                         boolean checked = switchButton.isChecked();
                         String removeTag = checked ? "Default" : "Toon";
                         String tag = checked ? "Toon" : "Default";
-                        modelInstance.removeTag(removeTag);
-                        modelInstance.addTag(tag);
+                        models.removeTag(modelInstance, removeTag);
+                        models.addTag(modelInstance, tag);
                     }
                 });
 

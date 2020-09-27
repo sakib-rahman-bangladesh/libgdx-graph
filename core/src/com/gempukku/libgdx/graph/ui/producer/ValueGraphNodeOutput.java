@@ -1,11 +1,9 @@
 package com.gempukku.libgdx.graph.ui.producer;
 
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphNodeOutput;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
 
 public class ValueGraphNodeOutput<T extends FieldType> implements GraphNodeOutput<T> {
     private String fieldName;
@@ -32,8 +30,10 @@ public class ValueGraphNodeOutput<T extends FieldType> implements GraphNodeOutpu
     }
 
     @Override
-    public Collection<? extends T> getProducableFieldTypes() {
-        return Collections.singleton(fieldType);
+    public Array<T> getProducableFieldTypes() {
+        Array<T> result = new Array<T>();
+        result.add(fieldType);
+        return result;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ValueGraphNodeOutput<T extends FieldType> implements GraphNodeOutpu
     }
 
     @Override
-    public T determineFieldType(Map<String, T> inputs) {
+    public T determineFieldType(ObjectMap<String, T> inputs) {
         return fieldType;
     }
 }

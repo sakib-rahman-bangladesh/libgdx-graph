@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNodeInput;
@@ -399,9 +400,9 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
     }
 
     private boolean connectorsMatch(GraphNodeInput<T> input, GraphNodeOutput<T> output) {
-        Collection<? extends T> producablePropertyTypes = output.getProducableFieldTypes();
+        Array<T> producablePropertyTypes = output.getProducableFieldTypes();
         for (T acceptedPropertyType : input.getAcceptedPropertyTypes()) {
-            if (producablePropertyTypes.contains(acceptedPropertyType))
+            if (producablePropertyTypes.contains(acceptedPropertyType, true))
                 return true;
         }
 

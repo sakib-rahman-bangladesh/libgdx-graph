@@ -1,11 +1,11 @@
 package com.gempukku.libgdx.graph.data;
 
-import java.util.Collection;
-import java.util.HashMap;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V extends GraphProperty<W>, W extends FieldType> {
@@ -17,7 +17,7 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
             return result;
 
         // Check duplicate property names
-        Map<String, V> propertyNames = new HashMap<>();
+        ObjectMap<String, V> propertyNames = new ObjectMap<>();
         for (V property : graph.getProperties()) {
             String propertyName = property.getName();
             if (propertyNames.containsKey(propertyName)) {
@@ -30,13 +30,13 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
         boolean cyclic = isCyclic(result, graph, nodeEnd);
         if (!cyclic) {
             // Do other Validation
-            validateNode(result, graph, nodeEnd, new HashMap<String, NodeOutputs<W>>());
+            validateNode(result, graph, nodeEnd, new ObjectMap<String, NodeOutputs<W>>());
         }
         return result;
     }
 
     private NodeOutputs<W> validateNode(ValidationResult<T, U, V, W> result, Graph<T, U, V, W> graph, String nodeId,
-                                        Map<String, NodeOutputs<W>> nodeOutputs) {
+                                        ObjectMap<String, NodeOutputs<W>> nodeOutputs) {
         // Check if already validated
         NodeOutputs<W> outputs = nodeOutputs.get(nodeId);
         if (outputs != null)
@@ -44,7 +44,7 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
 
         T thisNode = graph.getNodeById(nodeId);
         Set<String> validatedFields = new HashSet<>();
-        Map<String, W> inputsTypes = new HashMap<>();
+        ObjectMap<String, W> inputsTypes = new ObjectMap<>();
         for (U incomingConnection : getIncomingConnections(graph, nodeId)) {
             String fieldTo = incomingConnection.getFieldTo();
             GraphNodeInput<W> input = thisNode.getConfiguration().getNodeInputs().get(fieldTo);
@@ -52,7 +52,7 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
             GraphNodeOutput<W> output = remoteNode.getConfiguration().getNodeOutputs().get(incomingConnection.getFieldFrom());
 
             // Validate the actual output is accepted by the input
-            List<? extends W> acceptedPropertyTypes = input.getAcceptedPropertyTypes();
+            Array<W> acceptedPropertyTypes = input.getAcceptedPropertyTypes();
             if (!outputAcceptsPropertyType(output, acceptedPropertyTypes)) {
                 result.addErrorConnection(incomingConnection);
             }
@@ -72,7 +72,7 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
         if (!valid)
             result.addErrorNode(thisNode);
 
-        Map<String, W> nodeOutputMap = new HashMap<>();
+        ObjectMap<String, W> nodeOutputMap = new ObjectMap<>();
         for (GraphNodeOutput<W> value : thisNode.getConfiguration().getNodeOutputs().values()) {
             nodeOutputMap.put(value.getFieldId(), value.determineFieldType(inputsTypes));
         }
@@ -91,10 +91,10 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
         return result;
     }
 
-    private boolean outputAcceptsPropertyType(GraphNodeOutput<? extends FieldType> output, List<? extends FieldType> acceptedPropertyTypes) {
-        Collection<? extends FieldType> producablePropertyTypes = output.getProducableFieldTypes();
-        for (FieldType acceptedFieldType : acceptedPropertyTypes) {
-            if (producablePropertyTypes.contains(acceptedFieldType))
+    private <W extends FieldType> boolean outputAcceptsPropertyType(GraphNodeOutput<W> output, Array<W> acceptedPropertyTypes) {
+        Array<W> producablePropertyTypes = output.getProducableFieldTypes();
+        for (W acceptedFieldType : acceptedPropertyTypes) {
+            if (producablePropertyTypes.contains(acceptedFieldType, true))
                 return true;
         }
         return false;
@@ -152,9 +152,9 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
     }
 
     private static class NodeOutputs<W> {
-        private Map<String, W> outputs;
+        private ObjectMap<String, W> outputs;
 
-        public NodeOutputs(Map<String, W> outputs) {
+        public NodeOutputs(ObjectMap<String, W> outputs) {
             this.outputs = outputs;
         }
     }

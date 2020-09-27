@@ -1,6 +1,8 @@
 package com.gempukku.libgdx.graph.shader.node.provided;
 
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.LibGDXCollections;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -9,8 +11,6 @@ import com.gempukku.libgdx.graph.shader.config.provided.InstanceIdShaderNodeConf
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 
-import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 public class InstanceIdShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
@@ -19,7 +19,7 @@ public class InstanceIdShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
     }
 
     @Override
-    protected Map<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, Map<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        return Collections.singletonMap("id", new DefaultFieldOutput(ShaderFieldType.Float, "float(gl_InstanceID)"));
+    protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
+        return LibGDXCollections.singletonMap("id", new DefaultFieldOutput(ShaderFieldType.Float, "float(gl_InstanceID)"));
     }
 }

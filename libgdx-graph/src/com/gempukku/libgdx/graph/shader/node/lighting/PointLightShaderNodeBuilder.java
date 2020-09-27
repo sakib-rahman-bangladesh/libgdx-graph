@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
@@ -17,8 +18,6 @@ import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 public class PointLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
@@ -27,10 +26,10 @@ public class PointLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
     }
 
     @Override
-    protected Map<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, Map<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
+    protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         final int index = data.getInt("index");
 
-        Map<String, DefaultFieldOutput> result = new HashMap<>();
+        ObjectMap<String, DefaultFieldOutput> result = new ObjectMap<>();
         if (producedOutputs.contains("position")) {
             String name = "u_pointLightPosition" + index;
             commonShaderBuilder.addUniformVariable(name, "vec3", true,

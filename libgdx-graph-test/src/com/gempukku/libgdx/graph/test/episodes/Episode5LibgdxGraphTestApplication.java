@@ -31,7 +31,6 @@ import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
@@ -44,7 +43,7 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
     private PipelineRenderer pipelineRenderer;
     private GraphShaderModels models;
     private Model sphereModel;
-    private GraphShaderModelInstance sphereModelInstance;
+    private String sphereModelInstance;
     private Camera camera;
     private Texture rockTexture;
     private Stage stage;
@@ -88,7 +87,7 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
         GraphShaderModels models = new GraphShaderModels();
         String modelId = models.registerModel(sphereModel);
         sphereModelInstance = models.createModelInstance(modelId);
-        sphereModelInstance.addTag("Cover");
+        models.addTag(sphereModelInstance, "Cover");
         return models;
     }
 
@@ -101,7 +100,7 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        sphereModelInstance.setProperty("Amount", amount.getValue());
+                        models.setProperty(sphereModelInstance, "Amount", amount.getValue());
                     }
                 });
         final Slider scale = new Slider(1, 50, 1f, false, skin);
@@ -110,7 +109,7 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        sphereModelInstance.setProperty("Scale", scale.getValue());
+                        models.setProperty(sphereModelInstance, "Scale", scale.getValue());
                     }
                 });
         final Slider x = new Slider(-1, 1, 0.01f, false, skin);
@@ -122,7 +121,7 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
         ChangeListener directionListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                sphereModelInstance.setProperty("Direction", new Vector3(x.getValue(), y.getValue(), z.getValue()));
+                models.setProperty(sphereModelInstance, "Direction", new Vector3(x.getValue(), y.getValue(), z.getValue()));
             }
         };
         x.addListener(directionListener);

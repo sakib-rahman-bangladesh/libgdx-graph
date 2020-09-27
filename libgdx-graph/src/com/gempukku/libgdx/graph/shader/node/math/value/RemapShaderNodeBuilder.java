@@ -1,6 +1,8 @@
 package com.gempukku.libgdx.graph.shader.node.math.value;
 
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.LibGDXCollections;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -9,8 +11,6 @@ import com.gempukku.libgdx.graph.shader.config.math.value.RemapShaderNodeConfigu
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 
-import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 public class RemapShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
@@ -19,7 +19,7 @@ public class RemapShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder
     }
 
     @Override
-    protected Map<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, Map<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
+    protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         FieldOutput inputValue = inputs.get("input");
         FieldOutput fromValue = inputs.get("from");
         FieldOutput toValue = inputs.get("to");
@@ -36,6 +36,6 @@ public class RemapShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder
         String name = "result_" + nodeId;
         commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = " + functionName + "(" + inputValue.getRepresentation() + ", " + fromValue.getRepresentation() + ", " + toValue.getRepresentation() + ");");
 
-        return Collections.singletonMap("output", new DefaultFieldOutput(resultType, name));
+        return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(resultType, name));
     }
 }

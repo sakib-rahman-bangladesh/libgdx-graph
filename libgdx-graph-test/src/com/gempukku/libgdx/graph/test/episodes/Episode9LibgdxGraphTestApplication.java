@@ -4,7 +4,13 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cubemap;
+import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
@@ -12,6 +18,7 @@ import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -24,8 +31,8 @@ import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
@@ -50,7 +57,7 @@ public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
     private float robotAngle = 0f;
     private float robotSpeed = -0.4f;
     private AnimationController robotAnimation;
-    private GraphShaderModelInstance robotInstance;
+    private String robotInstance;
     private AnimationController robot2Animation;
 
     @Override
@@ -102,22 +109,34 @@ public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
 
         GraphShaderModels models = new GraphShaderModels();
         String shipModelId = models.registerModel(this.shipModel);
-        float shipScale = 0.0008f;
-        GraphShaderModelInstance shipModelInstance = models.createModelInstance(shipModelId);
-        shipModelInstance.getTransformMatrix().scale(shipScale, shipScale, shipScale).rotate(-1, 0, 0f, 90);
-        shipModelInstance.addTag("Environment");
+        final float shipScale = 0.0008f;
+        String shipModelInstance = models.createModelInstance(shipModelId);
+        models.updateTransform(shipModelInstance,
+                new TransformUpdate() {
+                    @Override
+                    public void updateTransform(Matrix4 transform) {
+                        transform.scale(shipScale, shipScale, shipScale).rotate(-1, 0, 0f, 90);
+                    }
+                });
+        models.addTag(shipModelInstance, "Environment");
 
         String robotModelId = models.registerModel(this.robotModel);
 
         robotInstance = models.createModelInstance(robotModelId);
-        robotInstance.addTag("Seen-through");
-        robotAnimation = models.createAnimationController(robotInstance.getId());
+        models.addTag(robotInstance, "Seen-through");
+        robotAnimation = models.createAnimationController(robotInstance);
         robotAnimation.animate("Root|jog", -1, null, 0f);
 
-        GraphShaderModelInstance robot2 = models.createModelInstance(robotModelId);
-        robot2.getTransformMatrix().translate(0.25f, 0, 0.9f).scale(robotScale, robotScale, robotScale);
-        robot2.addTag("Seen-through");
-        robot2Animation = models.createAnimationController(robot2.getId());
+        String robot2 = models.createModelInstance(robotModelId);
+        models.updateTransform(robot2,
+                new TransformUpdate() {
+                    @Override
+                    public void updateTransform(Matrix4 transform) {
+                        transform.translate(0.25f, 0, 0.9f).scale(robotScale, robotScale, robotScale);
+                    }
+                });
+        models.addTag(robot2, "Seen-through");
+        robot2Animation = models.createAnimationController(robot2);
         robot2Animation.animate("Root|idle", -1, null, 0f);
 
         return models;
@@ -161,10 +180,16 @@ public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
         robot2Animation.update(delta);
 
         robotAngle += delta * robotSpeed;
-        robotInstance.getTransformMatrix().idt()
-                .translate(0.9f * robotDistance * MathUtils.sin(robotAngle), 0, 0.2f + robotDistance * MathUtils.cos(robotAngle))
-                .rotate(0, 1f, 0, MathUtils.radiansToDegrees * robotAngle - 90)
-                .scale(robotScale, robotScale, robotScale);
+        models.updateTransform(robotInstance,
+                new TransformUpdate() {
+                    @Override
+                    public void updateTransform(Matrix4 transform) {
+                        transform.idt()
+                                .translate(0.9f * robotDistance * MathUtils.sin(robotAngle), 0, 0.2f + robotDistance * MathUtils.cos(robotAngle))
+                                .rotate(0, 1f, 0, MathUtils.radiansToDegrees * robotAngle - 90)
+                                .scale(robotScale, robotScale, robotScale);
+                    }
+                });
 
         reloadRendererIfNeeded();
         stage.act(delta);

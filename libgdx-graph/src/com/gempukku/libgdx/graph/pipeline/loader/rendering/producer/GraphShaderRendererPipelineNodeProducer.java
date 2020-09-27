@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.WhitePixel;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
@@ -26,7 +27,6 @@ import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     public GraphShaderRendererPipelineNodeProducer() {
@@ -34,7 +34,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
     }
 
     @Override
-    public PipelineNode createNode(JsonValue data, Map<String, PipelineNode.FieldOutput<?>> inputFields) {
+    public PipelineNode createNode(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final WhitePixel whitePixel = new WhitePixel();
 
         final ShaderContextImpl shaderContext = new ShaderContextImpl();
@@ -55,7 +55,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             private final RenderContext renderContext = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.LRU, 1));
 
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, Map<String, ? extends OutputValue> outputValues) {
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
                 GraphShaderModels models = modelsInput.getValue(pipelineRenderingContext);
                 Camera camera = cameraInput.getValue(pipelineRenderingContext);

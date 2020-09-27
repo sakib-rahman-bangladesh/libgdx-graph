@@ -6,7 +6,7 @@ public class Transforms {
     private Transforms() {
     }
 
-    public static TransformUpdate translate(float x, float y, float z) {
+    public static TransformUpdate translate(final float x, final float y, final float z) {
         return new TransformUpdate() {
             @Override
             public void updateTransform(Matrix4 transform) {
@@ -15,7 +15,7 @@ public class Transforms {
         };
     }
 
-    public static TransformUpdate rotate(float axisX, float axisY, float axisZ, float degrees) {
+    public static TransformUpdate rotate(final float axisX, final float axisY, final float axisZ, final float degrees) {
         return new TransformUpdate() {
             @Override
             public void updateTransform(Matrix4 transform) {
@@ -24,7 +24,7 @@ public class Transforms {
         };
     }
 
-    public static TransformUpdate scale(float scaleX, float scaleY, float scaleZ) {
+    public static TransformUpdate scale(final float scaleX, final float scaleY, final float scaleZ) {
         return new TransformUpdate() {
             @Override
             public void updateTransform(Matrix4 transform) {

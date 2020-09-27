@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -27,8 +28,8 @@ import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
     private Model model;
     private Camera camera;
     private Stage stage;
-    private GraphShaderModelInstance shipInstance;
+    private String shipInstance;
     private Skin skin;
 
     @Override
@@ -79,10 +80,16 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
 
         GraphShaderModels models = new GraphShaderModels();
         String modelId = models.registerModel(model);
-        float scale = 0.0008f;
+        final float scale = 0.0008f;
         shipInstance = models.createModelInstance(modelId);
-        shipInstance.getTransformMatrix().scale(scale, scale, scale).rotate(-1, 0, 0f, 90);
-        shipInstance.addTag("Default");
+        models.updateTransform(shipInstance,
+                new TransformUpdate() {
+                    @Override
+                    public void updateTransform(Matrix4 transform) {
+                        transform.scale(scale, scale, scale).rotate(-1, 0, 0f, 90);
+                    }
+                });
+        models.addTag(shipInstance, "Default");
         return models;
     }
 
@@ -97,8 +104,8 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
                         boolean checked = switchButton.isChecked();
                         String removeTag = checked ? "Default" : "Hologram";
                         String tag = checked ? "Hologram" : "Default";
-                        shipInstance.removeTag(removeTag);
-                        shipInstance.addTag(tag);
+                        models.removeTag(shipInstance, removeTag);
+                        models.addTag(shipInstance, tag);
                     }
                 });
 

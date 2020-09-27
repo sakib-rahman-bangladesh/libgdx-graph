@@ -1,6 +1,8 @@
 package com.gempukku.libgdx.graph.shader.node.math.trigonometry;
 
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.LibGDXCollections;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -9,8 +11,6 @@ import com.gempukku.libgdx.graph.shader.config.math.trigonometry.TanShaderNodeCo
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 
-import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 public class TanShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
@@ -19,7 +19,7 @@ public class TanShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
     }
 
     @Override
-    protected Map<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, Map<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
+    protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, Set<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         FieldOutput inputValue = inputs.get("input");
         ShaderFieldType resultType = inputValue.getFieldType();
 
@@ -27,6 +27,6 @@ public class TanShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
         String name = "result_" + nodeId;
         commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = tan(" + inputValue.getRepresentation() + ");");
 
-        return Collections.singletonMap("output", new DefaultFieldOutput(resultType, name));
+        return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(resultType, name));
     }
 }
