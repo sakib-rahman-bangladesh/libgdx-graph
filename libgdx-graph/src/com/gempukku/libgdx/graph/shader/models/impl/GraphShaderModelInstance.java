@@ -6,27 +6,30 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
-import com.gempukku.libgdx.graph.shader.models.TagPerformanceHint;
+import com.gempukku.libgdx.graph.shader.models.ModelInstanceOptimizationHints;
+import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 
 public class GraphShaderModelInstance {
     private String id;
     private GraphShaderModel model;
     private ModelInstance modelInstance;
-    private ObjectMap<String, TagPerformanceHint> tags = new ObjectMap<>();
+    private ModelInstanceOptimizationHints modelInstanceOptimizationHints;
+    private ObjectMap<String, TagOptimizationHint> tags = new ObjectMap<>();
     private ObjectMap<String, Object> properties = new ObjectMap<>();
 
-    public GraphShaderModelInstance(String id, GraphShaderModel model, ModelInstance modelInstance) {
+    public GraphShaderModelInstance(String id, GraphShaderModel model, ModelInstance modelInstance, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
         this.id = id;
         this.model = model;
         this.modelInstance = modelInstance;
+        this.modelInstanceOptimizationHints = modelInstanceOptimizationHints;
     }
 
     public String getId() {
         return id;
     }
 
-    public void addTag(String tag, TagPerformanceHint tagPerformanceHint) {
-        tags.put(tag, tagPerformanceHint);
+    public void addTag(String tag, TagOptimizationHint tagOptimizationHint) {
+        tags.put(tag, tagOptimizationHint);
     }
 
     public void removeTag(String tag) {

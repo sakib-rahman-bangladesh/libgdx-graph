@@ -34,7 +34,7 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.models.Models;
-import com.gempukku.libgdx.graph.shader.models.TagPerformanceHint;
+import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
@@ -109,7 +109,7 @@ public class Episode8LibgdxGraphTestApplication extends ApplicationAdapter {
                     }
                 }
         );
-        models.addTag(modelInstance, "Default", TagPerformanceHint.Always);
+        models.addTag(modelInstance, "Default", TagOptimizationHint.Always);
         return models;
     }
 

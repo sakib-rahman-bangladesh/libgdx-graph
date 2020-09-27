@@ -12,12 +12,13 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.IdGenerator;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
-import com.gempukku.libgdx.graph.shader.models.TagPerformanceHint;
+import com.gempukku.libgdx.graph.shader.models.ModelInstanceOptimizationHints;
+import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 
 public class GraphShaderModel implements Disposable {
     private static VertexAttributes attributes;
     private Model internalModel;
-    private ObjectMap<String, TagPerformanceHint> defaultTags = new ObjectMap<>();
+    private ObjectMap<String, TagOptimizationHint> defaultTags = new ObjectMap<>();
     private IdGenerator idGenerator;
 
     public GraphShaderModel(IdGenerator idGenerator, Model model) {
@@ -25,8 +26,8 @@ public class GraphShaderModel implements Disposable {
         init(model);
     }
 
-    public void addDefaultTag(String tag, TagPerformanceHint tagPerformanceHint) {
-        defaultTags.put(tag, tagPerformanceHint);
+    public void addDefaultTag(String tag, TagOptimizationHint tagOptimizationHint) {
+        defaultTags.put(tag, tagOptimizationHint);
     }
 
     public void removeDefaultTag(String tag) {
@@ -137,10 +138,10 @@ public class GraphShaderModel implements Disposable {
         return node.copy();
     }
 
-    public GraphShaderModelInstance createInstance() {
+    public GraphShaderModelInstance createInstance(ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
         String id = idGenerator.generateId();
-        GraphShaderModelInstance graphShaderModelInstance = new GraphShaderModelInstance(id, this, new ModelInstance(internalModel));
-        for (ObjectMap.Entry<String, TagPerformanceHint> defaultTag : defaultTags.entries())
+        GraphShaderModelInstance graphShaderModelInstance = new GraphShaderModelInstance(id, this, new ModelInstance(internalModel), modelInstanceOptimizationHints);
+        for (ObjectMap.Entry<String, TagOptimizationHint> defaultTag : defaultTags.entries())
             graphShaderModelInstance.addTag(defaultTag.key, defaultTag.value);
         return graphShaderModelInstance;
     }

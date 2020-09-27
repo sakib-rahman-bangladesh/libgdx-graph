@@ -32,6 +32,7 @@ import com.gempukku.libgdx.graph.shader.GraphShaderAttribute;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.models.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModel;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 
@@ -114,7 +115,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
         graphShaderModel = new GraphShaderModel(new RandomIdGenerator(16), model);
-        modelInstance = graphShaderModel.createInstance();
+        modelInstance = graphShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
     }
 
     private void destroyShader() {

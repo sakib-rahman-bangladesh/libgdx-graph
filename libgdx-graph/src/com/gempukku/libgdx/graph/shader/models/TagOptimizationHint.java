@@ -3,7 +3,7 @@ package com.gempukku.libgdx.graph.shader.models;
 /**
  * Used to specify what a relationship between a model instance and a tag is.
  */
-public enum TagPerformanceHint {
+public enum TagOptimizationHint {
     /**
      * Specifies, that this tag will be on the model instance pretty much permanently. This allows for greatest amount
      * of performance optimization, however removal of the tag might be costly.
@@ -22,7 +22,7 @@ public enum TagPerformanceHint {
 
     private int value;
 
-    TagPerformanceHint(int value) {
+    TagOptimizationHint(int value) {
         this.value = value;
     }
 

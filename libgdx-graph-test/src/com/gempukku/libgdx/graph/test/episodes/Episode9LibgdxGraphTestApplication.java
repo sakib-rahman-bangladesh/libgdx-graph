@@ -33,7 +33,7 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.models.Models;
-import com.gempukku.libgdx.graph.shader.models.TagPerformanceHint;
+import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
@@ -120,12 +120,12 @@ public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
                         transform.scale(shipScale, shipScale, shipScale).rotate(-1, 0, 0f, 90);
                     }
                 });
-        models.addTag(shipModelInstance, "Environment", TagPerformanceHint.Always);
+        models.addTag(shipModelInstance, "Environment", TagOptimizationHint.Always);
 
         String robotModelId = models.registerModel(this.robotModel);
 
         robotInstance = models.createModelInstance(robotModelId);
-        models.addTag(robotInstance, "Seen-through", TagPerformanceHint.Always);
+        models.addTag(robotInstance, "Seen-through", TagOptimizationHint.Always);
         robotAnimation = models.createAnimationController(robotInstance);
         robotAnimation.animate("Root|jog", -1, null, 0f);
 
@@ -137,7 +137,7 @@ public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
                         transform.translate(0.25f, 0, 0.9f).scale(robotScale, robotScale, robotScale);
                     }
                 });
-        models.addTag(robot2, "Seen-through", TagPerformanceHint.Always);
+        models.addTag(robot2, "Seen-through", TagOptimizationHint.Always);
         robot2Animation = models.createAnimationController(robot2);
         robot2Animation.animate("Root|idle", -1, null, 0f);
 

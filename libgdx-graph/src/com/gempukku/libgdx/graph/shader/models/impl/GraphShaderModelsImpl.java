@@ -11,7 +11,8 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.IdGenerator;
 import com.gempukku.libgdx.graph.RandomIdGenerator;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
-import com.gempukku.libgdx.graph.shader.models.TagPerformanceHint;
+import com.gempukku.libgdx.graph.shader.models.ModelInstanceOptimizationHints;
+import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 
 import java.util.Comparator;
@@ -62,8 +63,8 @@ public class GraphShaderModelsImpl implements GraphShaderModels {
     }
 
     @Override
-    public void addModelDefaultTag(String modelId, String tag, TagPerformanceHint tagPerformanceHint) {
-        graphShaderModels.get(modelId).addDefaultTag(tag, tagPerformanceHint);
+    public void addModelDefaultTag(String modelId, String tag, TagOptimizationHint tagOptimizationHint) {
+        graphShaderModels.get(modelId).addDefaultTag(tag, tagOptimizationHint);
     }
 
     @Override
@@ -73,7 +74,12 @@ public class GraphShaderModelsImpl implements GraphShaderModels {
 
     @Override
     public String createModelInstance(String modelId) {
-        GraphShaderModelInstance graphShaderModelInstance = graphShaderModels.get(modelId).createInstance();
+        return createModelInstance(modelId, ModelInstanceOptimizationHints.unoptimized);
+    }
+
+    @Override
+    public String createModelInstance(String modelId, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
+        GraphShaderModelInstance graphShaderModelInstance = graphShaderModels.get(modelId).createInstance(modelInstanceOptimizationHints);
         models.add(graphShaderModelInstance);
         return graphShaderModelInstance.getId();
     }
@@ -109,8 +115,8 @@ public class GraphShaderModelsImpl implements GraphShaderModels {
     }
 
     @Override
-    public void addTag(String modelInstanceId, String tag, TagPerformanceHint tagPerformanceHint) {
-        getModelInstance(modelInstanceId).addTag(tag, tagPerformanceHint);
+    public void addTag(String modelInstanceId, String tag, TagOptimizationHint tagOptimizationHint) {
+        getModelInstance(modelInstanceId).addTag(tag, tagOptimizationHint);
     }
 
     @Override
