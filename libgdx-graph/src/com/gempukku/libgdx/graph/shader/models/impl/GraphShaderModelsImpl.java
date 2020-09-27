@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.IdGenerator;
 import com.gempukku.libgdx.graph.RandomIdGenerator;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.TagPerformanceHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 
 import java.util.Comparator;
@@ -61,8 +62,8 @@ public class GraphShaderModelsImpl implements GraphShaderModels {
     }
 
     @Override
-    public void addModelDefaultTag(String modelId, String tag) {
-        graphShaderModels.get(modelId).addDefaultTag(tag);
+    public void addModelDefaultTag(String modelId, String tag, TagPerformanceHint tagPerformanceHint) {
+        graphShaderModels.get(modelId).addDefaultTag(tag, tagPerformanceHint);
     }
 
     @Override
@@ -108,8 +109,8 @@ public class GraphShaderModelsImpl implements GraphShaderModels {
     }
 
     @Override
-    public void addTag(String modelInstanceId, String tag) {
-        getModelInstance(modelInstanceId).addTag(tag);
+    public void addTag(String modelInstanceId, String tag, TagPerformanceHint tagPerformanceHint) {
+        getModelInstance(modelInstanceId).addTag(tag, tagPerformanceHint);
     }
 
     @Override

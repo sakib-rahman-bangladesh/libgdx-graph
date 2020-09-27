@@ -30,6 +30,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.models.Models;
+import com.gempukku.libgdx.graph.shader.models.TagPerformanceHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
@@ -90,7 +91,7 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
                         transform.scale(scale, scale, scale).rotate(-1, 0, 0f, 90);
                     }
                 });
-        models.addTag(shipInstance, "Default");
+        models.addTag(shipInstance, "Default", TagPerformanceHint.Temporary);
         return models;
     }
 
@@ -106,7 +107,7 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
                         String removeTag = checked ? "Default" : "Hologram";
                         String tag = checked ? "Hologram" : "Default";
                         models.removeTag(shipInstance, removeTag);
-                        models.addTag(shipInstance, tag);
+                        models.addTag(shipInstance, tag, TagPerformanceHint.Temporary);
                     }
                 });
 

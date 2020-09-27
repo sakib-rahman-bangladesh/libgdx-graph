@@ -35,6 +35,7 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.models.Models;
+import com.gempukku.libgdx.graph.shader.models.TagPerformanceHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
@@ -109,7 +110,7 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
                         transform.scale(scale, scale, scale);//.rotate(-1, 0, 0f, 90);
                     }
                 });
-        models.addTag(modelInstance, "Default");
+        models.addTag(modelInstance, "Default", TagPerformanceHint.Temporary);
         animationController = models.createAnimationController(modelInstance);
         animationController.animate("Root|jog", -1, null, 0f);
         return models;
@@ -127,7 +128,7 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
                         String removeTag = checked ? "Default" : "Toon";
                         String tag = checked ? "Toon" : "Default";
                         models.removeTag(modelInstance, removeTag);
-                        models.addTag(modelInstance, tag);
+                        models.addTag(modelInstance, tag, TagPerformanceHint.Temporary);
                     }
                 });
 

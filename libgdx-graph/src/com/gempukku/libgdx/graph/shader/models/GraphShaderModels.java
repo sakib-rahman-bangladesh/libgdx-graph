@@ -27,11 +27,14 @@ public interface GraphShaderModels extends Disposable {
 
     /**
      * Adds tag that will be added to every model instance that is subsequently created from the model.
+     * Note, that adding the same tag multiple times with different TagPerformanceHint will result in using only the
+     * last setting.
      *
-     * @param modelId ModelId that was returned from the registerModel call.
-     * @param tag     Tag that should be added to each subsequently created model instance.
+     * @param modelId            ModelId that was returned from the registerModel call.
+     * @param tag                Tag that should be added to each subsequently created model instance.
+     * @param tagPerformanceHint Specifies, how this tag will be used with model instances subsequently created.
      */
-    void addModelDefaultTag(String modelId, String tag);
+    void addModelDefaultTag(String modelId, String tag, TagPerformanceHint tagPerformanceHint);
 
     /**
      * Removes tag from list of tags that would be added to every model instance that is subsequently created from
@@ -77,11 +80,15 @@ public interface GraphShaderModels extends Disposable {
 
     /**
      * Adds tag to the model instance. These tags are used to specify, which shaders should render this model instance.
+     * Note, that adding the same tag multiple times with different TagPerformanceHint will result in using only the
+     * last setting, and adding a tag with different hint than is currently in use by the model instance, effectively
+     * means that the "cost" of removal of the tag has to be "paid", based on the previous setting.
      *
-     * @param modelInstanceId ModelInstanceId that was returned from the createModelInstance call.
-     * @param tag             Tag to add.
+     * @param modelInstanceId    ModelInstanceId that was returned from the createModelInstance call.
+     * @param tag                Tag to add.
+     * @param tagPerformanceHint
      */
-    void addTag(String modelInstanceId, String tag);
+    void addTag(String modelInstanceId, String tag, TagPerformanceHint tagPerformanceHint);
 
     /**
      * Removes tag from the model instance.

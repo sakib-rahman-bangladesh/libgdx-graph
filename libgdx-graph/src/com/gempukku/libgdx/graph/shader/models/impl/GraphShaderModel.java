@@ -9,14 +9,15 @@ import com.badlogic.gdx.graphics.g3d.model.Animation;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.model.NodePart;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.IdGenerator;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
+import com.gempukku.libgdx.graph.shader.models.TagPerformanceHint;
 
 public class GraphShaderModel implements Disposable {
     private static VertexAttributes attributes;
     private Model internalModel;
-    private ObjectSet<String> defaultTags = new ObjectSet<>();
+    private ObjectMap<String, TagPerformanceHint> defaultTags = new ObjectMap<>();
     private IdGenerator idGenerator;
 
     public GraphShaderModel(IdGenerator idGenerator, Model model) {
@@ -24,8 +25,8 @@ public class GraphShaderModel implements Disposable {
         init(model);
     }
 
-    public void addDefaultTag(String tag) {
-        defaultTags.add(tag);
+    public void addDefaultTag(String tag, TagPerformanceHint tagPerformanceHint) {
+        defaultTags.put(tag, tagPerformanceHint);
     }
 
     public void removeDefaultTag(String tag) {
@@ -139,8 +140,8 @@ public class GraphShaderModel implements Disposable {
     public GraphShaderModelInstance createInstance() {
         String id = idGenerator.generateId();
         GraphShaderModelInstance graphShaderModelInstance = new GraphShaderModelInstance(id, this, new ModelInstance(internalModel));
-        for (String defaultTag : defaultTags)
-            graphShaderModelInstance.addTag(defaultTag);
+        for (ObjectMap.Entry<String, TagPerformanceHint> defaultTag : defaultTags.entries())
+            graphShaderModelInstance.addTag(defaultTag.key, defaultTag.value);
         return graphShaderModelInstance;
     }
 

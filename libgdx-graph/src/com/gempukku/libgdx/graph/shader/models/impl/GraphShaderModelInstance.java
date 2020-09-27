@@ -5,14 +5,14 @@ import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.Pool;
+import com.gempukku.libgdx.graph.shader.models.TagPerformanceHint;
 
 public class GraphShaderModelInstance {
     private String id;
     private GraphShaderModel model;
     private ModelInstance modelInstance;
-    private ObjectSet<String> tags = new ObjectSet<>();
+    private ObjectMap<String, TagPerformanceHint> tags = new ObjectMap<>();
     private ObjectMap<String, Object> properties = new ObjectMap<>();
 
     public GraphShaderModelInstance(String id, GraphShaderModel model, ModelInstance modelInstance) {
@@ -25,8 +25,8 @@ public class GraphShaderModelInstance {
         return id;
     }
 
-    public void addTag(String tag) {
-        tags.add(tag);
+    public void addTag(String tag, TagPerformanceHint tagPerformanceHint) {
+        tags.put(tag, tagPerformanceHint);
     }
 
     public void removeTag(String tag) {
@@ -46,7 +46,7 @@ public class GraphShaderModelInstance {
     }
 
     public boolean hasTag(String tag) {
-        return tags.contains(tag);
+        return tags.containsKey(tag);
     }
 
     public Object getProperty(String name) {
