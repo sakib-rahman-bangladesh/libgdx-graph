@@ -114,7 +114,7 @@ public interface GraphShaderModels extends Disposable {
      *
      * @param modelInstanceId     ModelInstanceId that was returned from the createModelInstance call.
      * @param tag                 Tag to add.
-     * @param tagOptimizationHint
+     * @param tagOptimizationHint Specifies, how this tag will be used with this model instance.
      */
     void addTag(String modelInstanceId, String tag, TagOptimizationHint tagOptimizationHint);
 
