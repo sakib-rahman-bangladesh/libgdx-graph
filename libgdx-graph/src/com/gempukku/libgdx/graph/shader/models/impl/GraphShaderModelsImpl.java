@@ -63,6 +63,11 @@ public class GraphShaderModelsImpl implements GraphShaderModels {
     }
 
     @Override
+    public void addModelDefaultTag(String modelId, String tag) {
+        addModelDefaultTag(modelId, tag, TagOptimizationHint.Flash);
+    }
+
+    @Override
     public void addModelDefaultTag(String modelId, String tag, TagOptimizationHint tagOptimizationHint) {
         graphShaderModels.get(modelId).addDefaultTag(tag, tagOptimizationHint);
     }
@@ -112,6 +117,11 @@ public class GraphShaderModelsImpl implements GraphShaderModels {
                 return model;
         }
         return null;
+    }
+
+    @Override
+    public void addTag(String modelInstanceId, String tag) {
+        addTag(modelInstanceId, tag, TagOptimizationHint.Flash);
     }
 
     @Override

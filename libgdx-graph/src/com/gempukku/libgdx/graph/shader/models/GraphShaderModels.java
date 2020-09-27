@@ -27,6 +27,15 @@ public interface GraphShaderModels extends Disposable {
 
     /**
      * Adds tag that will be added to every model instance that is subsequently created from the model.
+     * Rendering with shaders with this tag will not be optimized by the engine.
+     *
+     * @param modelId ModelId that was returned from the registerModel call.
+     * @param tag     Tag that should be added to each subsequently created model instance.
+     */
+    void addModelDefaultTag(String modelId, String tag);
+
+    /**
+     * Adds tag that will be added to every model instance that is subsequently created from the model.
      * Note, that adding the same tag multiple times with different TagPerformanceHint will result in using only the
      * last setting.
      *
@@ -87,6 +96,15 @@ public interface GraphShaderModels extends Disposable {
      * @return AnimationController used to animate the model instance.
      */
     AnimationController createAnimationController(String modelInstanceId);
+
+    /**
+     * Adds tag to the model instance. These tags are used to specify, which shaders should render this model instance.
+     * Rendering with shaders with this tag will not be optimized by the engine.
+     *
+     * @param modelInstanceId ModelInstanceId that was returned from the createModelInstance call.
+     * @param tag             Tag to add.
+     */
+    void addTag(String modelInstanceId, String tag);
 
     /**
      * Adds tag to the model instance. These tags are used to specify, which shaders should render this model instance.
