@@ -224,6 +224,8 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
     /**
      * Initialize this shader, causing all registered uniforms/attributes to be fetched.
+     *
+     * @param program ShaderProgram to initialize
      */
     protected void init(final ShaderProgram program) {
         if (initialized) throw new GdxRuntimeException("Already initialized");
