@@ -88,23 +88,4 @@ project(":libgdx-graph") {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     }
-
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                from components.java
-            }
-        }
-
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = "https://maven.pkg.github.com/MarcinSc/libgdx-graph"
-                credentials {
-                    username = System.getenv("GITHUB_ACTOR")
-                    password = System.getenv("GITHUB_TOKEN")
-                }
-            }
-        }
-    }
 }
