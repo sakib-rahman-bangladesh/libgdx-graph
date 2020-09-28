@@ -9,39 +9,6 @@ sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = ["src/"]
 sourceSets.main.resources.srcDirs = ["resources/"]
 
-// add all the info required by Maven Central to the pom
-configure(install.repositories.mavenInstaller) {
-    pom.project {
-        inceptionYear "2020"
-        name "libgdx-graph"
-        packaging "jar"
-        description "libGDX-graph runtime library for pipeline rendering"
-
-        url "https://github.com/MarcinSc/libgdx-graph"
-
-        scm {
-            connection "git@github.com:MarcinSc/libgdx-graph.git"
-            developerConnection "git@github.com:MarcinSc/libgdx-graph.git"
-            url "https://github.com/MarcinSc/libgdx-graph"
-        }
-
-        licenses {
-            license {
-                name "The MIT License (MIT)"
-                url "https://mit-license.org/"
-            }
-        }
-
-        developers {
-            developer {
-                id "MarcinSc"
-                name "Marcin Sciesinski"
-                email "marcins78@gmail.com"
-            }
-        }
-    }
-}
-
 archivesBaseName = "libgdx-graph"
 
 eclipse.project.name = "libgdx-graph"
@@ -63,6 +30,30 @@ artifacts {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            pom {
+                name = "libgdx-graph"
+                description = "libGDX-graph runtime library for pipeline rendering"
+                url = "https://github.com/MarcinSc/libgdx-graph"
+                licenses {
+                    license {
+                        name = "The MIT License (MIT)"
+                        url = "https://mit-license.org/"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "MarcinSc"
+                        name = "Marcin Sciesinski"
+                        email = "marcins78@gmail.com"
+                    }
+                }
+                scm {
+                    connection = "git@github.com:MarcinSc/libgdx-graph.git"
+                    developerConnection = "git@github.com:MarcinSc/libgdx-graph.git"
+                    url = "https://github.com/MarcinSc/libgdx-graph"
+                }
+            }
+
             from components.java
             artifact javadocJar
             artifact sourcesJar
@@ -79,6 +70,10 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
 
 //signing {
