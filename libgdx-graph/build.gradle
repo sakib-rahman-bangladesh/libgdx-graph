@@ -1,4 +1,6 @@
 apply plugin: "java"
+apply plugin: "maven"
+apply plugin: "signing"
 apply plugin: "maven-publish"
 
 sourceCompatibility = 1.7
@@ -7,21 +9,29 @@ sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["resources/"]
 
+archivesBaseName = "libgdx-graph"
+
 eclipse.project.name = "libgdx-graph"
 
-task sourcesJar(type: Jar, dependsOn: classes) {
+task javadocJar(type: Jar) {
+    classifier 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
     classifier 'sources'
     from sourceSets.main.allSource
 }
 
 artifacts {
-    archives sourcesJar
+    archives javadocJar, sourcesJar
 }
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+            artifact javadocJar
             artifact sourcesJar
         }
     }
@@ -38,3 +48,51 @@ publishing {
     }
 }
 
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name "libGDX-graph"
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'libGDX-graph runtime library for pipeline rendering'
+                url 'https://github.com/MarcinSc/libgdx-graph'
+
+                scm {
+                    connection 'https://github.com/MarcinSc/libgdx-graph.git'
+                    developerConnection 'https://github.com/MarcinSc/libgdx-graph.git'
+                    url 'https://github.com/MarcinSc/libgdx-graph'
+                }
+
+                licenses {
+                    license {
+                        name "The MIT License (MIT)"
+                        url 'https://mit-license.org/'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'MarcinSc'
+                        name 'Marcin Sciesinski'
+                        email 'marcins78@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}
