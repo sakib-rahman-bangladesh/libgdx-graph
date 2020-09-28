@@ -6,25 +6,39 @@ apply plugin: "maven-publish"
 sourceCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.java.srcDirs = ["src/"]
 sourceSets.main.resources.srcDirs = ["resources/"]
 
-project.name = "libgdx-graph"
-project.description = "libGDX-graph runtime library for pipeline rendering"
-project.uri = "https://github.com/MarcinSc/libgdx-graph"
+// add all the info required by Maven Central to the pom
+configure(install.repositories.mavenInstaller) {
+    pom.project {
+        inceptionYear "2020"
+        name "libgdx-graph"
+        packaging "jar"
+        description "libGDX-graph runtime library for pipeline rendering"
 
-licenses {
-    license {
-        name "The MIT License (MIT)"
-        url 'https://mit-license.org/'
-    }
-}
+        url "https://github.com/MarcinSc/libgdx-graph"
 
-developers {
-    developer {
-        id 'MarcinSc'
-        name 'Marcin Sciesinski'
-        email 'marcins78@gmail.com'
+        scm {
+            connection "git@github.com:MarcinSc/libgdx-graph.git"
+            developerConnection "git@github.com:MarcinSc/libgdx-graph.git"
+            url "https://github.com/MarcinSc/libgdx-graph"
+        }
+
+        licenses {
+            license {
+                name "The MIT License (MIT)"
+                url "https://mit-license.org/"
+            }
+        }
+
+        developers {
+            developer {
+                id "MarcinSc"
+                name "Marcin Sciesinski"
+                email "marcins78@gmail.com"
+            }
+        }
     }
 }
 
