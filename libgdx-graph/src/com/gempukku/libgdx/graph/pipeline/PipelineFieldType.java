@@ -27,16 +27,16 @@ public enum PipelineFieldType implements FieldType {
                 return value instanceof com.gempukku.libgdx.graph.pipeline.RenderPipeline;
             case Stage:
                 return value instanceof com.badlogic.gdx.scenes.scene2d.Stage;
-            case Models:
-                return value instanceof PipelineRendererModels;
-            case GraphModels:
-                return value instanceof GraphShaderModelsImpl;
-            case Lights:
-                return value instanceof Environment;
-            case GraphLights:
-                return value instanceof GraphShaderEnvironment;
             case Camera:
                 return value instanceof com.badlogic.gdx.graphics.Camera;
+            case Models:
+                return value instanceof PipelineRendererModels;
+            case Lights:
+                return value instanceof Environment;
+            case GraphModels:
+                return value instanceof GraphShaderModelsImpl;
+            case GraphLights:
+                return value instanceof GraphShaderEnvironment;
         }
         return false;
     }
