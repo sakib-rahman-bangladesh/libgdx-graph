@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gempukku.libgdx.graph.WhitePixel;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
@@ -25,7 +25,7 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
     private Skin skin;
 
     private LibgdxGraphScreen libgdxGraphScreen;
-    private ExtendViewport viewport;
+    private ScreenViewport viewport;
     private float scale = 1f;
 
     @Override
@@ -38,7 +38,8 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
         FileChooser.setDefaultPrefsName("com.gempukku.libgdx.graph.ui.filechooser");
 
         skin = new Skin(VisUI.SkinScale.X1.getSkinFile());
-        viewport = new ExtendViewport(Gdx.graphics.getWidth() * scale, Gdx.graphics.getHeight() * scale);
+        viewport = new ScreenViewport();
+        viewport.setUnitsPerPixel(scale);
         stage = new Stage(viewport);
 
         libgdxGraphScreen = new LibgdxGraphScreen(skin);
@@ -50,6 +51,7 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
                     public boolean keyDown(InputEvent event, int keycode) {
                         if (keycode == Input.Keys.F12 && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
                             scale = (scale == 1f) ? 0.5f : 1f;
+                            viewport.setUnitsPerPixel(scale);
                             resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
                             return true;
                         }
@@ -62,8 +64,6 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        viewport.setMinWorldWidth(width * scale);
-        viewport.setMinWorldHeight(height * scale);
         viewport.update(width, height, true);
     }
 
