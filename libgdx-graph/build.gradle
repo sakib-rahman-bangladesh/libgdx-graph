@@ -73,54 +73,8 @@ publishing {
 }
 
 signing {
-    sign publishing.publications.mavenJava
+    keyId = System.getenv("SIGNING_ID")
+    password = System.getenv("SIGNING_PASSWORD")
+    secretKeyRingFile = new File("~/.gnupg/private.key")
+    sign publishing.publications
 }
-
-//signing {
-//    sign configurations.archives
-//}
-
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-//
-//            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-//                authentication(userName: ${{ secrets.OSSRH_USERNAME }}, password: ${{ secrets.OSSRH_TOKEN }})
-//            }
-//
-//            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-//                authentication(userName: ${{ secrets.OSSRH_USERNAME }}, password: ${{ secrets.OSSRH_TOKEN }})
-//            }
-//
-//            pom.project {
-//                name "libGDX-graph"
-//                packaging 'jar'
-//                // optionally artifactId can be defined here
-//                description 'libGDX-graph runtime library for pipeline rendering'
-//                url 'https://github.com/MarcinSc/libgdx-graph'
-//
-//                scm {
-//                    connection 'https://github.com/MarcinSc/libgdx-graph.git'
-//                    developerConnection 'https://github.com/MarcinSc/libgdx-graph.git'
-//                    url 'https://github.com/MarcinSc/libgdx-graph'
-//                }
-//
-//                licenses {
-//                    license {
-//                        name "The MIT License (MIT)"
-//                        url 'https://mit-license.org/'
-//                    }
-//                }
-//
-//                developers {
-//                    developer {
-//                        id 'MarcinSc'
-//                        name 'Marcin Sciesinski'
-//                        email 'marcins78@gmail.com'
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
