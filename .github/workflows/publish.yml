@@ -19,9 +19,7 @@ jobs:
         env:
           GPG_SIGNING_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY_CONTENTS }}
       - name: Publish package
-        run: gradle publish
+        run: gradle publish -Dsigning.keyId=${{secrets.OSSRH_GPG_SECRET_KEY_ID}} -Dsigning.password=${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}} -Dsigning.secretKeyRingFile=~/.gnupg/private.key
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          SIGNING_ID: ${{ secrets.OSSRH_GPG_SECRET_KEY_ID }}
-          SIGNING_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
