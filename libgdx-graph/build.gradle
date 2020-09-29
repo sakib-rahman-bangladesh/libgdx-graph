@@ -73,8 +73,5 @@ publishing {
 }
 
 signing {
-    keyId = System.getenv("SIGNING_ID")
-    password = System.getenv("SIGNING_PASSWORD")
-    secretKeyRingFile = new File("~/.gnupg/private.key")
     sign publishing.publications
 }

@@ -1,1 +1,5 @@
 include 'desktop', 'core', 'libgdx-graph', 'libgdx-graph-test'
+
+signing.keyId = System.getenv("SIGNING_ID")
+signing.password = System.getenv("SIGNING_PASSWORD")
+signing.secretKeyRingFile = new File("~/.gnupg/private.key")
