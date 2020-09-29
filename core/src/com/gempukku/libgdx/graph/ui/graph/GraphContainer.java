@@ -666,6 +666,8 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
     public void draw(Batch batch, float parentAlpha) {
         validate();
         batch.end();
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         drawGroups(batch);
         drawConnections();
         batch.begin();
@@ -762,11 +764,13 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
             if (drawingFromNode.isInputField(drawingFromConnector.getFieldId())) {
                 GraphBoxInputConnector<T> input = drawingFromNode.getInputs().get(drawingFromConnector.getFieldId());
                 calculateConnection(from, fromWindow, input);
-                shapeRenderer.line(x + from.x, y + from.y, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+                Vector2 mouseLocation = getStage().getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+                shapeRenderer.line(x + from.x, y + from.y, mouseLocation.x, mouseLocation.y);
             } else {
                 GraphBoxOutputConnector<T> output = drawingFromNode.getOutputs().get(drawingFromConnector.getFieldId());
                 calculateConnection(from, fromWindow, output);
-                shapeRenderer.line(x + from.x, y + from.y, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+                Vector2 mouseLocation = getStage().getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+                shapeRenderer.line(x + from.x, y + from.y, mouseLocation.x, mouseLocation.y);
             }
         }
 

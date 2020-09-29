@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.ui;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Cubemap;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
@@ -10,9 +11,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.gempukku.libgdx.graph.WhitePixel;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
@@ -22,6 +25,8 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
     private Skin skin;
 
     private LibgdxGraphScreen libgdxGraphScreen;
+    private ExtendViewport viewport;
+    private float scale = 1f;
 
     @Override
     public void create() {
@@ -32,18 +37,34 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
 
         FileChooser.setDefaultPrefsName("com.gempukku.libgdx.graph.ui.filechooser");
 
-        skin = new Skin(VisUI.SkinScale.X1.getSkinFile());//Gdx.files.internal("uiskin.json"));
-        stage = new Stage(new ScreenViewport());
+        skin = new Skin(VisUI.SkinScale.X1.getSkinFile());
+        viewport = new ExtendViewport(Gdx.graphics.getWidth() * scale, Gdx.graphics.getHeight() * scale);
+        stage = new Stage(viewport);
 
         libgdxGraphScreen = new LibgdxGraphScreen(skin);
         stage.addActor(libgdxGraphScreen);
+        // Support for switching the UI scale
+        stage.addListener(
+                new InputListener() {
+                    @Override
+                    public boolean keyDown(InputEvent event, int keycode) {
+                        if (keycode == Input.Keys.F12 && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+                            scale = (scale == 1f) ? 0.5f : 1f;
+                            resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                            return true;
+                        }
+                        return false;
+                    }
+                });
 
         Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        viewport.setMinWorldWidth(width * scale);
+        viewport.setMinWorldHeight(height * scale);
+        viewport.update(width, height, true);
     }
 
     @Override
