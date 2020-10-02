@@ -78,7 +78,7 @@ public class PropertyBoxImpl<T extends FieldType> extends Table implements Prope
             public JsonValue getData() {
                 JsonValue result = new JsonValue(JsonValue.ValueType.object);
                 result.addChild("name", new JsonValue(name));
-                result.addChild("type", new JsonValue(propertyType.name()));
+                result.addChild("type", new JsonValue(propertyType.getName()));
                 return result;
             }
         };

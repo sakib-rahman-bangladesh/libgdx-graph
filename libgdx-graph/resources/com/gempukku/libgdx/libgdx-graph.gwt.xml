@@ -2,7 +2,7 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN"
 		"http://google-web-toolkit.googlecode.com/svn/trunk/distro-source/core/src/gwt-module.dtd">
 <module>
-	<source path=""/>
+	<source path="graph"/>
 
 	<!-- GLSL fragments -->
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/applyNormalMap.glsl"/>
@@ -20,5 +20,10 @@
 	<extend-configuration-property name="gdx.files.classpath" value="shader/brightnessFilter.frag"/>
 	<extend-configuration-property name="gdx.files.classpath" value="shader/gamma.frag"/>
 	<extend-configuration-property name="gdx.files.classpath" value="shader/gaussianBlur.frag"/>
-	<extend-configuration-property name="gdx.files.classpath" value="shader/viewToScreenCoords.frag"/>
+	<extend-configuration-property name="gdx.files.classpath" value="shader/viewToScreenCoords.vert"/>
+
+	<extend-configuration-property name="gdx.reflect.include" value="com.gempukku.libgdx.graph.data.FieldType"/>
+	<extend-configuration-property name="gdx.reflect.include"
+								   value="com.gempukku.libgdx.graph.pipeline.PipelineFieldType"/>
+	<extend-configuration-property name="gdx.reflect.include" value="com.gempukku.libgdx.graph.shader.ShaderFieldType"/>
 </module>

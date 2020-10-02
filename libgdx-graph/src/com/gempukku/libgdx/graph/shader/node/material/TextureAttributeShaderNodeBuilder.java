@@ -2,8 +2,9 @@ package com.gempukku.libgdx.graph.shader.node.material;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g3d.Attribute;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.Renderable;
+import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -68,7 +69,10 @@ public class TextureAttributeShaderNodeBuilder extends ConfigurationCommonShader
                         }
                     });
         } else {
-            long attributeType = Attribute.getAttributeType(alias);
+            // Need to make sure TextureAttribute class is loaded
+            TextureAttribute dummy = TextureAttribute.createAmbient(new TextureRegion());
+
+            long attributeType = TextureAttribute.getAttributeType(alias);
             commonShaderBuilder.addUniformVariable(textureName, "sampler2D", false, new UniformSetters.MaterialTexture(attributeType));
             commonShaderBuilder.addUniformVariable(transformName, "vec4", false, new UniformSetters.MaterialTextureUV(attributeType));
         }

@@ -1,6 +1,6 @@
 Lighting getSpotLightContribution(vec3 pos, vec3 normal, float shininess, Lighting lighting) {
     vec3 viewVec = normalize(u_cameraPosition.xyz - pos.xyz);
-    for (int i = 0; i < NUM_SPOT_LIGHTS && i < u_spotLightCount; i++) {
+    for (int i = 0; i < NUM_SPOT_LIGHTS; i++) {
         vec3 lightDir = u_spotLights[i].position - pos.xyz;
         float dist2 = dot(lightDir, lightDir);
         lightDir *= inversesqrt(dist2);

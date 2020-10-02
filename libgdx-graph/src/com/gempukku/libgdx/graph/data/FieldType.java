@@ -5,5 +5,5 @@ public interface FieldType {
 
     Object convert(Object value);
 
-    String name();
+    String getName();
 }

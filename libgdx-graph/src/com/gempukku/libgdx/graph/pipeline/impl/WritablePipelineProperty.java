@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.pipeline.impl;
 
-import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.PipelineProperty;
 
@@ -25,11 +24,6 @@ public class WritablePipelineProperty implements PipelineProperty {
     }
 
     public void setValue(Object value) {
-        if (!useDefault) {
-            if (value instanceof Disposable) {
-                ((Disposable) value).dispose();
-            }
-        }
         this.value = value;
         useDefault = false;
     }

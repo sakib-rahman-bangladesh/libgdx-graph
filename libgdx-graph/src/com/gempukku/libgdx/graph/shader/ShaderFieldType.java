@@ -40,4 +40,9 @@ public enum ShaderFieldType implements FieldType {
     public Object convert(Object value) {
         return value;
     }
+
+    @Override
+    public String getName() {
+        return name();
+    }
 }

@@ -13,7 +13,10 @@ varying vec2 v_position;
 void main() {
     vec4 sampleAccum = vec4(0.0, 0.0, 0.0, 0.0);
 
-    for (int i=0; i<=u_blurRadius; i++) {
+    for (int i=0; i<=64; i++) {
+        if (i > u_blurRadius) {
+            break;
+        }
         float kernel = u_kernel[i];
         if (u_vertical == 1) {
             sampleAccum += texture2D(u_sourceTexture, v_position + u_pixelSize * vec2(0, i)) * kernel;

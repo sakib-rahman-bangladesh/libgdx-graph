@@ -1,7 +1,7 @@
 package com.gempukku.libgdx.graph.shader.node.material;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g3d.Attribute;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -30,7 +30,10 @@ public class ColorAttributeShaderNodeBuilder extends ConfigurationCommonShaderNo
 
         Color defaultColor = Color.valueOf(data.getString("default"));
 
-        long attributeType = Attribute.getAttributeType(alias);
+        // Need to make sure ColorAttribute class is loaded
+        ColorAttribute dummy = ColorAttribute.createAmbient(0, 0, 0, 0);
+
+        long attributeType = ColorAttribute.getAttributeType(alias);
         commonShaderBuilder.addUniformVariable(name, "vec4", false, new UniformSetters.MaterialColor(attributeType, defaultColor));
 
         return LibGDXCollections.singletonMap("color", new DefaultFieldOutput(ShaderFieldType.Color, name));

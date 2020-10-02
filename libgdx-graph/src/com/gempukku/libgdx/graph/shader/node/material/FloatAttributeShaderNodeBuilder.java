@@ -1,6 +1,6 @@
 package com.gempukku.libgdx.graph.shader.node.material;
 
-import com.badlogic.gdx.graphics.g3d.Attribute;
+import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -29,7 +29,10 @@ public class FloatAttributeShaderNodeBuilder extends ConfigurationCommonShaderNo
 
         float defaultValue = data.getFloat("default");
 
-        long attributeType = Attribute.getAttributeType(alias);
+        // Need to make sure FloatAttribute class is loaded
+        FloatAttribute dummy = FloatAttribute.createAlphaTest(0f);
+
+        long attributeType = FloatAttribute.getAttributeType(alias);
         commonShaderBuilder.addUniformVariable(name, "float", false, new UniformSetters.MaterialFloat(attributeType, defaultValue));
 
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Float, name));

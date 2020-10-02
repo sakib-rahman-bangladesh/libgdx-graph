@@ -420,7 +420,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         for (PropertyBox propertyBox : propertyBoxes) {
             JsonValue property = new JsonValue(JsonValue.ValueType.object);
             property.addChild("name", new JsonValue(propertyBox.getName()));
-            property.addChild("type", new JsonValue(propertyBox.getType().name()));
+            property.addChild("type", new JsonValue(propertyBox.getType().getName()));
 
             JsonValue data = propertyBox.getData();
             if (data != null)
