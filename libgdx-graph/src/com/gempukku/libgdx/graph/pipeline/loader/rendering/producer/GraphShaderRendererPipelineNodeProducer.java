@@ -50,6 +50,9 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             index++;
         }
 
+        for (int i = 0; i < lastRenderPassUsingDepthTexture; i++) {
+            renderPasses.get(i).initializeDepthShaders();
+        }
 
         final PipelineNode.FieldOutput<GraphShaderModelsImpl> modelsInput = (PipelineNode.FieldOutput<GraphShaderModelsImpl>) inputFields.get("models");
         final PipelineNode.FieldOutput<GraphShaderEnvironment> lightsInput = (PipelineNode.FieldOutput<GraphShaderEnvironment>) inputFields.get("lights");
@@ -201,23 +204,38 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         private boolean usingDepthTexture;
         private Array<ShaderGroup> shaderGroups = new Array<>();
 
-        private Array<GraphShader> opaqueShadersCache = new Array<>();
-        private Array<GraphShader> transparentShadersCache = new Array<>();
+        private Array<GraphShader> opaqueShaders = new Array<>();
+        private Array<GraphShader> transparentShaders = new Array<>();
 
-        private Array<GraphShader> depthShadersCache;
+        private Array<GraphShader> depthShaders = new Array<>();
 
         public RenderPass(JsonValue data, WhitePixel whitePixel) {
             final JsonValue shaderDefinitions = data.get("shaders");
             for (JsonValue shaderDefinition : shaderDefinitions) {
                 ShaderGroup shaderGroup = new ShaderGroup(shaderDefinition, whitePixel);
                 shaderGroups.add(shaderGroup);
+            }
 
+            initializeColorShaders();
+        }
+
+        private void initializeColorShaders() {
+            for (ShaderGroup shaderGroup : shaderGroups) {
                 GraphShader shader = shaderGroup.getColorShader();
                 usingDepthTexture |= shader.isUsingDepthTexture();
                 if (shader.getTransparency() == BasicShader.Transparency.opaque) {
-                    opaqueShadersCache.add(shader);
+                    opaqueShaders.add(shader);
                 } else {
-                    transparentShadersCache.add(shader);
+                    transparentShaders.add(shader);
+                }
+            }
+        }
+
+        public void initializeDepthShaders() {
+            for (int i = 0; i < shaderGroups.size; i++) {
+                ShaderGroup shaderGroup = shaderGroups.get(i);
+                if (shaderGroup.getColorShader().getTransparency() == BasicShader.Transparency.opaque) {
+                    depthShaders.add(shaderGroup.getDepthShader());
                 }
             }
         }
@@ -227,23 +245,15 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         }
 
         public Array<GraphShader> getOpaqueShaders() {
-            return opaqueShadersCache;
+            return opaqueShaders;
         }
 
         public Array<GraphShader> getDepthShaders() {
-            if (depthShadersCache == null) {
-                depthShadersCache = new Array<>();
-                for (int i = 0; i < opaqueShadersCache.size; i++) {
-                    if (opaqueShadersCache.get(i).getTransparency() == BasicShader.Transparency.opaque) {
-                        depthShadersCache.add(shaderGroups.get(i).getDepthShader());
-                    }
-                }
-            }
-            return depthShadersCache;
+            return depthShaders;
         }
 
         public Array<GraphShader> getTransparentShaders() {
-            return transparentShadersCache;
+            return transparentShaders;
         }
 
         @Override
