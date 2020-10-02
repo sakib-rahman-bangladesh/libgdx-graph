@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN"
+		"http://google-web-toolkit.googlecode.com/svn/trunk/distro-source/core/src/gwt-module.dtd">
+<module>
+	<source path=""/>
+
+	<!-- GLSL fragments -->
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/applyNormalMap.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/directionalLightContribution.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/pointLightContribution.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/spotLightContribution.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/simplexNoise2d.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/simplexNoise3d.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/voronoiDistance.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/packFloatToVec3.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/unpackVec3ToFloat.glsl"/>
+
+	<!-- Shader code -->
+	<extend-configuration-property name="gdx.files.classpath" value="shader/bloomSum.frag"/>
+	<extend-configuration-property name="gdx.files.classpath" value="shader/brightnessFilter.frag"/>
+	<extend-configuration-property name="gdx.files.classpath" value="shader/gamma.frag"/>
+	<extend-configuration-property name="gdx.files.classpath" value="shader/gaussianBlur.frag"/>
+	<extend-configuration-property name="gdx.files.classpath" value="shader/viewToScreenCoords.frag"/>
+</module>
