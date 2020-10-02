@@ -53,7 +53,7 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
                 }
             };
         }
-        renderPipeline = new RenderPipelineImpl(true);
+        renderPipeline = new RenderPipelineImpl();
     }
 
     @Override

@@ -12,30 +12,29 @@ import java.util.Iterator;
 
 public class RenderPipelineImpl implements RenderPipeline {
     private FrameBuffer depthBuffer;
+    private int width;
+    private int height;
     private BufferCopyHelper bufferCopyHelper = new BufferCopyHelper();
     private FrameBuffer mainBuffer;
 
     private Array<FrameBuffer> oldFrameBuffers = new Array<FrameBuffer>();
     private Array<FrameBuffer> newFrameBuffers = new Array<FrameBuffer>();
-    private boolean needsDepthBuffer;
-
-    public RenderPipelineImpl(boolean needsDepthBuffer) {
-        this.needsDepthBuffer = needsDepthBuffer;
-    }
 
     @Override
     public FrameBuffer getDepthFrameBuffer() {
-        return depthBuffer;
-    }
-
-    public void startFrame(int width, int height) {
-        if (needsDepthBuffer) {
+        if (depthBuffer == null) {
             depthBuffer = getNewFrameBuffer(width, height, Pixmap.Format.RGBA8888);
             depthBuffer.begin();
             Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
             depthBuffer.end();
         }
+        return depthBuffer;
+    }
+
+    public void startFrame(int width, int height) {
+        this.width = width;
+        this.height = height;
     }
 
     public void endFrame() {
