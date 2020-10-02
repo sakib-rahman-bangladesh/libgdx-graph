@@ -13,6 +13,8 @@ import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
+import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelsImpl;
 
 public class PipelineRendererImpl implements PipelineRenderer {
     private Iterable<PipelineNode> nodes;
@@ -69,6 +71,11 @@ public class PipelineRendererImpl implements PipelineRenderer {
     }
 
     @Override
+    public GraphShaderModels getGraphShaderModels() {
+        return pipelineRenderingContext.getGraphShaderModels();
+    }
+
+    @Override
     public void render(float delta, final RenderOutput renderOutput) {
         timeKeeper.updateTime(delta);
         pipelineRenderingContext.setRenderOutput(renderOutput);
@@ -90,10 +97,12 @@ public class PipelineRendererImpl implements PipelineRenderer {
         for (PipelineNode node : nodes) {
             node.dispose();
         }
+        pipelineRenderingContext.getGraphShaderModels().dispose();
     }
 
     private class PipelineRenderingContextImpl implements PipelineRenderingContext {
         private RenderOutput renderOutput;
+        private GraphShaderModelsImpl graphShaderModels = new GraphShaderModelsImpl();
 
         public void setRenderOutput(RenderOutput renderOutput) {
             this.renderOutput = renderOutput;
@@ -107,6 +116,11 @@ public class PipelineRendererImpl implements PipelineRenderer {
         @Override
         public int getRenderHeight() {
             return renderOutput.getRenderHeight();
+        }
+
+        @Override
+        public GraphShaderModelsImpl getGraphShaderModels() {
+            return graphShaderModels;
         }
 
         @Override

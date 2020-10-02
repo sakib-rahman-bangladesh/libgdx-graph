@@ -29,7 +29,6 @@ import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
-import com.gempukku.libgdx.graph.shader.models.Models;
 import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -41,7 +40,6 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
     private long lastProcessedInput;
 
     private PipelineRenderer pipelineRenderer;
-    private GraphShaderModels models;
     private Model model;
     private Camera camera;
     private Stage stage;
@@ -56,10 +54,10 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
 
         stage = createStage();
 
-        models = createModels();
         camera = createCamera();
 
         pipelineRenderer = loadPipelineRenderer();
+        createModels(pipelineRenderer.getGraphShaderModels());
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -75,12 +73,11 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
         return camera;
     }
 
-    private GraphShaderModels createModels() {
+    private void createModels(GraphShaderModels models) {
         UBJsonReader jsonReader = new UBJsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.classpath("model/fighter/fighter.g3db"));
 
-        GraphShaderModels models = Models.create();
         String modelId = models.registerModel(model);
         final float scale = 0.0008f;
         shipInstance = models.createModelInstance(modelId);
@@ -92,7 +89,6 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
                     }
                 });
         models.addTag(shipInstance, "Default", TagOptimizationHint.Temporary);
-        return models;
     }
 
     private Stage createStage() {
@@ -106,8 +102,8 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
                         boolean checked = switchButton.isChecked();
                         String removeTag = checked ? "Default" : "Hologram";
                         String tag = checked ? "Hologram" : "Default";
-                        models.removeTag(shipInstance, removeTag);
-                        models.addTag(shipInstance, tag, TagOptimizationHint.Temporary);
+                        pipelineRenderer.getGraphShaderModels().removeTag(shipInstance, removeTag);
+                        pipelineRenderer.getGraphShaderModels().addTag(shipInstance, tag, TagOptimizationHint.Temporary);
                     }
                 });
 
@@ -150,7 +146,6 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
 
     @Override
     public void dispose() {
-        models.dispose();
         model.dispose();
         stage.dispose();
         skin.dispose();
@@ -181,7 +176,6 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
-        pipelineRenderer.setPipelineProperty("Models", models);
         pipelineRenderer.setPipelineProperty("Camera", camera);
         pipelineRenderer.setPipelineProperty("Stage", stage);
     }

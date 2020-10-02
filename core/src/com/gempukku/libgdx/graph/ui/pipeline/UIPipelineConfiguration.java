@@ -28,7 +28,6 @@ import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyCameraBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyFloatBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyGraphLightsBoxProducer;
-import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyGraphModelsBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyLightsBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyModelsBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyStageBoxProducer;
@@ -95,7 +94,6 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         propertyProducers.put("Color", new PropertyColorBoxProducer());
         propertyProducers.put("Stage", new PropertyStageBoxProducer());
         propertyProducers.put("Models", new PropertyModelsBoxProducer());
-        propertyProducers.put("GraphModels", new PropertyGraphModelsBoxProducer());
         propertyProducers.put("Lights", new PropertyLightsBoxProducer());
         propertyProducers.put("GraphLights", new PropertyGraphLightsBoxProducer());
         propertyProducers.put("Camera", new PropertyCameraBoxProducer());

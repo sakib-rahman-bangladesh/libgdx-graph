@@ -21,16 +21,6 @@
       "type": "Property"
     },
     {
-      "data": {
-        "name": "Models",
-        "type": "GraphModels"
-      },
-      "x": 50.0,
-      "y": 493.0,
-      "id": "89b8c2f7621446b8878d7b969c471e60",
-      "type": "Property"
-    },
-    {
       "x": 386.0,
       "y": 126.0,
       "id": "dffb152d405a49d38792e850749129b2",
@@ -758,12 +748,6 @@
       "toField": "stage",
       "fromField": "value",
       "toNode": "dffb152d405a49d38792e850749129b2"
-    },
-    {
-      "fromNode": "89b8c2f7621446b8878d7b969c471e60",
-      "toField": "models",
-      "fromField": "value",
-      "toNode": "ff6f63af3181472da525343236652acd"
     }
   ],
   "properties": [
@@ -774,10 +758,6 @@
     {
       "name": "Stage",
       "type": "Stage"
-    },
-    {
-      "name": "Models",
-      "type": "GraphModels"
     }
   ]
 }

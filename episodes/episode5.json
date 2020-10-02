@@ -388,16 +388,6 @@
       "y": 576.0,
       "id": "746da9b276d442f0bc74ed9847a26a4b",
       "type": "PipelineStart"
-    },
-    {
-      "data": {
-        "name": "Models",
-        "type": "GraphModels"
-      },
-      "x": 52.0,
-      "y": 488.0,
-      "id": "3fbb6eb284b3434c98417f4b5acb6f7b",
-      "type": "Property"
     }
   ],
   "connections": [
@@ -436,12 +426,6 @@
       "toField": "stage",
       "fromField": "value",
       "toNode": "dffb152d405a49d38792e850749129b2"
-    },
-    {
-      "fromNode": "3fbb6eb284b3434c98417f4b5acb6f7b",
-      "toField": "models",
-      "fromField": "value",
-      "toNode": "ff6f63af3181472da525343236652acd"
     }
   ],
   "properties": [
@@ -452,10 +436,6 @@
     {
       "name": "Stage",
       "type": "Stage"
-    },
-    {
-      "name": "Models",
-      "type": "GraphModels"
     }
   ]
 }

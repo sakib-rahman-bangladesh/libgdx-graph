@@ -30,7 +30,6 @@ import com.gempukku.libgdx.graph.pipeline.property.CameraPipelinePropertyProduce
 import com.gempukku.libgdx.graph.pipeline.property.ColorPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.FloatPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.GraphLightsPipelinePropertyProducer;
-import com.gempukku.libgdx.graph.pipeline.property.GraphModelsPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.LightsPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.ModelsPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.PipelinePropertyProducer;
@@ -78,7 +77,6 @@ public class RendererPipelineConfiguration {
         pipelinePropertyProducers.add(new ColorPipelinePropertyProducer());
         pipelinePropertyProducers.add(new StagePipelinePropertyProducer());
         pipelinePropertyProducers.add(new ModelsPipelinePropertyProducer());
-        pipelinePropertyProducers.add(new GraphModelsPipelinePropertyProducer());
         pipelinePropertyProducers.add(new LightsPipelinePropertyProducer());
         pipelinePropertyProducers.add(new GraphLightsPipelinePropertyProducer());
         pipelinePropertyProducers.add(new CameraPipelinePropertyProducer());

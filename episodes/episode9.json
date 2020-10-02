@@ -37,16 +37,6 @@
       "type": "UIRenderer"
     },
     {
-      "data": {
-        "name": "Models",
-        "type": "GraphModels"
-      },
-      "x": 50.0,
-      "y": 481.0,
-      "id": "1995a8bfe5054beeab0fb8d051c80506",
-      "type": "Property"
-    },
-    {
       "x": 385.0,
       "y": 50.0,
       "id": "end",
@@ -470,12 +460,6 @@
       "toNode": "dffb152d405a49d38792e850749129b2"
     },
     {
-      "fromNode": "1995a8bfe5054beeab0fb8d051c80506",
-      "toField": "models",
-      "fromField": "value",
-      "toNode": "ff6f63af3181472da525343236652acd"
-    },
-    {
       "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
       "toField": "lights",
       "fromField": "value",
@@ -490,10 +474,6 @@
     {
       "name": "Stage",
       "type": "Stage"
-    },
-    {
-      "name": "Models",
-      "type": "GraphModels"
     },
     {
       "name": "Lights",

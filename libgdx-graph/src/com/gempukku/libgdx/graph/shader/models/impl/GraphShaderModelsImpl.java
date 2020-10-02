@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.IdGenerator;
 import com.gempukku.libgdx.graph.RandomIdGenerator;
@@ -20,7 +21,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class GraphShaderModelsImpl implements GraphShaderModels {
+public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
     private enum Order {
         Front_To_Back, Back_To_Front;
 

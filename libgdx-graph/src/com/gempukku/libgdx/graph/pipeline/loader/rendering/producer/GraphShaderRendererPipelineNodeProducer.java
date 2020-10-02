@@ -50,7 +50,6 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             needsDepthTexture = renderPasses.get(i).initialize(needsDepthTexture);
         }
 
-        final PipelineNode.FieldOutput<GraphShaderModelsImpl> modelsInput = (PipelineNode.FieldOutput<GraphShaderModelsImpl>) inputFields.get("models");
         final PipelineNode.FieldOutput<GraphShaderEnvironment> lightsInput = (PipelineNode.FieldOutput<GraphShaderEnvironment>) inputFields.get("lights");
         final PipelineNode.FieldOutput<Camera> cameraInput = (PipelineNode.FieldOutput<Camera>) inputFields.get("camera");
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
@@ -61,7 +60,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
-                GraphShaderModelsImpl models = modelsInput.getValue(pipelineRenderingContext);
+                GraphShaderModelsImpl models = pipelineRenderingContext.getGraphShaderModels();
                 Camera camera = cameraInput.getValue(pipelineRenderingContext);
                 FrameBuffer currentBuffer = renderPipeline.getCurrentBuffer();
                 int width = currentBuffer.getWidth();

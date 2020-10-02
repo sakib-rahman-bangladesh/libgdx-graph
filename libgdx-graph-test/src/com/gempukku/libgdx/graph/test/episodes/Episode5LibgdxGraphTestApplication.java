@@ -32,7 +32,6 @@ import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
-import com.gempukku.libgdx.graph.shader.models.Models;
 import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
@@ -43,7 +42,6 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
     private long lastProcessedInput;
 
     private PipelineRenderer pipelineRenderer;
-    private GraphShaderModels models;
     private Model sphereModel;
     private String sphereModelInstance;
     private Camera camera;
@@ -66,10 +64,9 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
         skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
         stage = createStage();
 
-        models = createModels();
         camera = createCamera();
-
         pipelineRenderer = loadPipelineRenderer();
+        createModels(pipelineRenderer.getGraphShaderModels());
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -85,12 +82,10 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
         return camera;
     }
 
-    private GraphShaderModels createModels() {
-        GraphShaderModels models = Models.create();
+    private void createModels(GraphShaderModels models) {
         String modelId = models.registerModel(sphereModel);
         sphereModelInstance = models.createModelInstance(modelId);
         models.addTag(sphereModelInstance, "Cover", TagOptimizationHint.Always);
-        return models;
     }
 
     private Stage createStage() {
@@ -102,7 +97,7 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        models.setProperty(sphereModelInstance, "Amount", amount.getValue());
+                        pipelineRenderer.getGraphShaderModels().setProperty(sphereModelInstance, "Amount", amount.getValue());
                     }
                 });
         final Slider scale = new Slider(1, 50, 1f, false, skin);
@@ -111,7 +106,7 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        models.setProperty(sphereModelInstance, "Scale", scale.getValue());
+                        pipelineRenderer.getGraphShaderModels().setProperty(sphereModelInstance, "Scale", scale.getValue());
                     }
                 });
         final Slider x = new Slider(-1, 1, 0.01f, false, skin);
@@ -123,7 +118,7 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
         ChangeListener directionListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                models.setProperty(sphereModelInstance, "Direction", new Vector3(x.getValue(), y.getValue(), z.getValue()));
+                pipelineRenderer.getGraphShaderModels().setProperty(sphereModelInstance, "Direction", new Vector3(x.getValue(), y.getValue(), z.getValue()));
             }
         };
         x.addListener(directionListener);
@@ -208,7 +203,6 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
-        pipelineRenderer.setPipelineProperty("Models", models);
         pipelineRenderer.setPipelineProperty("Camera", camera);
         pipelineRenderer.setPipelineProperty("Stage", stage);
     }

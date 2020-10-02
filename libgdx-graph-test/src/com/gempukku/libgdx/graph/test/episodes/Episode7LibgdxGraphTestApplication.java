@@ -34,7 +34,6 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
-import com.gempukku.libgdx.graph.shader.models.Models;
 import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -46,7 +45,6 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
     private long lastProcessedInput;
 
     private PipelineRenderer pipelineRenderer;
-    private GraphShaderModels models;
     private Model model;
     private Camera camera;
     private Stage stage;
@@ -67,10 +65,10 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
         lights = createLights();
         stage = createStage();
 
-        models = createModels();
         camera = createCamera();
 
         pipelineRenderer = loadPipelineRenderer();
+        createModels(pipelineRenderer.getGraphShaderModels());
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -94,12 +92,11 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
         return camera;
     }
 
-    private GraphShaderModels createModels() {
+    private void createModels(GraphShaderModels models) {
         JsonReader jsonReader = new JsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.classpath("model/gold-robot/gold-robot.g3dj"));
 
-        GraphShaderModels models = Models.create();
         String modelId = models.registerModel(model);
         final float scale = 0.008f;
         modelInstance = models.createModelInstance(modelId);
@@ -113,7 +110,6 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
         models.addTag(modelInstance, "Default", TagOptimizationHint.Temporary);
         animationController = models.createAnimationController(modelInstance);
         animationController.animate("Root|jog", -1, null, 0f);
-        return models;
     }
 
     private Stage createStage() {
@@ -127,8 +123,8 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
                         boolean checked = switchButton.isChecked();
                         String removeTag = checked ? "Default" : "Toon";
                         String tag = checked ? "Toon" : "Default";
-                        models.removeTag(modelInstance, removeTag);
-                        models.addTag(modelInstance, tag, TagOptimizationHint.Temporary);
+                        pipelineRenderer.getGraphShaderModels().removeTag(modelInstance, removeTag);
+                        pipelineRenderer.getGraphShaderModels().addTag(modelInstance, tag, TagOptimizationHint.Temporary);
                     }
                 });
 
@@ -182,7 +178,6 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
     @Override
     public void dispose() {
         model.dispose();
-        models.dispose();
         stage.dispose();
         skin.dispose();
         pipelineRenderer.dispose();
@@ -212,7 +207,6 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
-        pipelineRenderer.setPipelineProperty("Models", models);
         pipelineRenderer.setPipelineProperty("Camera", camera);
         pipelineRenderer.setPipelineProperty("Lights", lights);
         pipelineRenderer.setPipelineProperty("Stage", stage);

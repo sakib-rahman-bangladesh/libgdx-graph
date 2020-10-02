@@ -33,7 +33,6 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
-import com.gempukku.libgdx.graph.shader.models.Models;
 import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -45,7 +44,6 @@ public class Episode8LibgdxGraphTestApplication extends ApplicationAdapter {
     private long lastProcessedInput;
 
     private PipelineRenderer pipelineRenderer;
-    private GraphShaderModels models;
     private Model model;
     private Camera camera;
     private Stage stage;
@@ -65,10 +63,10 @@ public class Episode8LibgdxGraphTestApplication extends ApplicationAdapter {
         lights = createLights();
         stage = createStage();
 
-        models = createModels();
         camera = createCamera();
 
         pipelineRenderer = loadPipelineRenderer();
+        createModels(pipelineRenderer.getGraphShaderModels());
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -92,12 +90,11 @@ public class Episode8LibgdxGraphTestApplication extends ApplicationAdapter {
         return camera;
     }
 
-    private GraphShaderModels createModels() {
+    private void createModels(GraphShaderModels models) {
         JsonReader jsonReader = new JsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.classpath("model/luminaris/luminaris.g3dj"));
 
-        GraphShaderModels models = Models.create();
         String modelId = models.registerModel(model);
         final float scale = 0.025f;
         modelInstance = models.createModelInstance(modelId);
@@ -110,7 +107,6 @@ public class Episode8LibgdxGraphTestApplication extends ApplicationAdapter {
                 }
         );
         models.addTag(modelInstance, "Default", TagOptimizationHint.Always);
-        return models;
     }
 
     private Stage createStage() {
@@ -122,7 +118,7 @@ public class Episode8LibgdxGraphTestApplication extends ApplicationAdapter {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        models.setProperty(modelInstance, "Normal Map Strength", normalStrength.getValue());
+                        pipelineRenderer.getGraphShaderModels().setProperty(modelInstance, "Normal Map Strength", normalStrength.getValue());
                     }
                 });
 
@@ -176,7 +172,6 @@ public class Episode8LibgdxGraphTestApplication extends ApplicationAdapter {
     @Override
     public void dispose() {
         model.dispose();
-        models.dispose();
         stage.dispose();
         skin.dispose();
         pipelineRenderer.dispose();
@@ -206,7 +201,6 @@ public class Episode8LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
-        pipelineRenderer.setPipelineProperty("Models", models);
         pipelineRenderer.setPipelineProperty("Camera", camera);
         pipelineRenderer.setPipelineProperty("Lights", lights);
         pipelineRenderer.setPipelineProperty("Stage", stage);
