@@ -152,7 +152,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
                             String id = UUID.randomUUID().toString().replace("-", "");
                             try {
                                 JsonReader parser = new JsonReader();
-                                InputStream is = Gdx.files.internal("template/empty-shader.json").read();
+                                InputStream is = Gdx.files.classpath("template/empty-shader.json").read();
                                 try {
                                     JsonValue shader = parser.parse(new InputStreamReader(is));
                                     addShaderGraph(id, "", shader);

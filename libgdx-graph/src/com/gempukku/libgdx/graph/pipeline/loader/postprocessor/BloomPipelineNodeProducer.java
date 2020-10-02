@@ -26,18 +26,18 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
     @Override
     public PipelineNode createNode(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final ShaderProgram brightnessFilterPassProgram = new ShaderProgram(
-                Gdx.files.internal("shader/viewToScreenCoords.vert"),
-                Gdx.files.internal("shader/brightnessFilter.frag"));
+                Gdx.files.classpath("shader/viewToScreenCoords.vert"),
+                Gdx.files.classpath("shader/brightnessFilter.frag"));
         if (!brightnessFilterPassProgram.isCompiled())
             throw new IllegalArgumentException("Error compiling shader: " + brightnessFilterPassProgram.getLog());
         final ShaderProgram gaussianBlurPassProgram = new ShaderProgram(
-                Gdx.files.internal("shader/viewToScreenCoords.vert"),
-                Gdx.files.internal("shader/gaussianBlur.frag"));
+                Gdx.files.classpath("shader/viewToScreenCoords.vert"),
+                Gdx.files.classpath("shader/gaussianBlur.frag"));
         if (!gaussianBlurPassProgram.isCompiled())
             throw new IllegalArgumentException("Error compiling shader: " + gaussianBlurPassProgram.getLog());
         final ShaderProgram bloomSumProgram = new ShaderProgram(
-                Gdx.files.internal("shader/viewToScreenCoords.vert"),
-                Gdx.files.internal("shader/bloomSum.frag"));
+                Gdx.files.classpath("shader/viewToScreenCoords.vert"),
+                Gdx.files.classpath("shader/bloomSum.frag"));
         if (!bloomSumProgram.isCompiled())
             throw new IllegalArgumentException("Error compiling shader: " + bloomSumProgram.getLog());
 

@@ -59,7 +59,7 @@ public class Episode4LibgdxGraphTestApplication extends ApplicationAdapter {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
         WhitePixel.initialize();
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
         stage = constructStage();
 
         models = createModels();

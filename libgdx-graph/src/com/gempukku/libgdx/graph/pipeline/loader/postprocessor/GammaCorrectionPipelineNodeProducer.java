@@ -25,8 +25,8 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
     @Override
     public PipelineNode createNode(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final ShaderProgram shaderProgram = new ShaderProgram(
-                Gdx.files.internal("shader/viewToScreenCoords.vert"),
-                Gdx.files.internal("shader/gamma.frag"));
+                Gdx.files.classpath("shader/viewToScreenCoords.vert"),
+                Gdx.files.classpath("shader/gamma.frag"));
         if (!shaderProgram.isCompiled())
             throw new IllegalArgumentException("Error compiling shader: " + shaderProgram.getLog());
 

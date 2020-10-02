@@ -434,7 +434,7 @@ public class LibgdxGraphScreen extends Table {
                 new ClickListener(Input.Buttons.LEFT) {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        loadPipelineFromFile(Gdx.files.internal("template/empty-pipeline.json"));
+                        loadPipelineFromFile(Gdx.files.classpath("template/empty-pipeline.json"));
                     }
                 });
         templateMenu.addItem(menuItem);

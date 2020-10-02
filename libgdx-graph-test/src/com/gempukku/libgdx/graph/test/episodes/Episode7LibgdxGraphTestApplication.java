@@ -97,7 +97,7 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
     private GraphShaderModels createModels() {
         JsonReader jsonReader = new JsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-        model = modelLoader.loadModel(Gdx.files.internal("model/gold-robot/gold-robot.g3dj"));
+        model = modelLoader.loadModel(Gdx.files.classpath("model/gold-robot/gold-robot.g3dj"));
 
         GraphShaderModels models = Models.create();
         String modelId = models.registerModel(model);
@@ -117,7 +117,7 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private Stage createStage() {
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
 
         final TextButton switchButton = new TextButton("Normal/Toon", skin, "toggle");
         switchButton.addListener(

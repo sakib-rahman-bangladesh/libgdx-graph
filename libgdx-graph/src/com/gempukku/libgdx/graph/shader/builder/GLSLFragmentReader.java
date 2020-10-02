@@ -30,7 +30,7 @@ public class GLSLFragmentReader {
         if (result != null)
             return result;
 
-        FileHandle fileHandle = Gdx.files.internal("glsl/fragment/" + fragmentName + ".glsl");
+        FileHandle fileHandle = Gdx.files.classpath("glsl/fragment/" + fragmentName + ".glsl");
         String fragment = new String(fileHandle.readBytes(), Charset.forName("UTF-8"));
         map.put(fragmentName, fragment);
 

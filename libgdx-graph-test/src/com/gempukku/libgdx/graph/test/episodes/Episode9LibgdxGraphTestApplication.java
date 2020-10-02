@@ -147,17 +147,17 @@ public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
     private Model loadRobotModel() {
         JsonReader jsonReader = new JsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-        return modelLoader.loadModel(Gdx.files.internal("model/gold-robot/gold-robot.g3dj"));
+        return modelLoader.loadModel(Gdx.files.classpath("model/gold-robot/gold-robot.g3dj"));
     }
 
     private Model loadShipModel() {
         UBJsonReader jsonReader = new UBJsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-        return modelLoader.loadModel(Gdx.files.internal("model/fighter/fighter.g3db"));
+        return modelLoader.loadModel(Gdx.files.classpath("model/fighter/fighter.g3db"));
     }
 
     private Stage createStage() {
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
 
         Stage stage = new Stage(new ScreenViewport());
 

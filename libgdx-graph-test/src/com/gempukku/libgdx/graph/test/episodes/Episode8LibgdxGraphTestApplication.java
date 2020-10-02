@@ -95,7 +95,7 @@ public class Episode8LibgdxGraphTestApplication extends ApplicationAdapter {
     private GraphShaderModels createModels() {
         JsonReader jsonReader = new JsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-        model = modelLoader.loadModel(Gdx.files.internal("model/luminaris/luminaris.g3dj"));
+        model = modelLoader.loadModel(Gdx.files.classpath("model/luminaris/luminaris.g3dj"));
 
         GraphShaderModels models = Models.create();
         String modelId = models.registerModel(model);
@@ -114,7 +114,7 @@ public class Episode8LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private Stage createStage() {
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
 
         final Slider normalStrength = new Slider(0.01f, 2.0f, 0.01f, false, skin);
         normalStrength.setValue(1.0f);

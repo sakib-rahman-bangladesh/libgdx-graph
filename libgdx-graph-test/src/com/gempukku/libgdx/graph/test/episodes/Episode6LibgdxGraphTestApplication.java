@@ -78,7 +78,7 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
     private GraphShaderModels createModels() {
         UBJsonReader jsonReader = new UBJsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-        model = modelLoader.loadModel(Gdx.files.internal("model/fighter/fighter.g3db"));
+        model = modelLoader.loadModel(Gdx.files.classpath("model/fighter/fighter.g3db"));
 
         GraphShaderModels models = Models.create();
         String modelId = models.registerModel(model);
@@ -96,7 +96,7 @@ public class Episode6LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private Stage createStage() {
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
 
         final TextButton switchButton = new TextButton("Normal/Hologram", skin, "toggle");
         switchButton.addListener(

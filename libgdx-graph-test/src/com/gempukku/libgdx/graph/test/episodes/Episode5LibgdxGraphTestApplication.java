@@ -57,13 +57,13 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
 
         WhitePixel.initialize();
 
-        rockTexture = new Texture(Gdx.files.internal("image/seamless_rock_face_texture_by_hhh316.jpg"));
+        rockTexture = new Texture(Gdx.files.classpath("image/seamless_rock_face_texture_by_hhh316.jpg"));
         ModelBuilder modelBuilder = new ModelBuilder();
         sphereModel = modelBuilder.createSphere(1, 1, 1, 20, 20,
                 new Material(TextureAttribute.createDiffuse(rockTexture)),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates);
 
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
         stage = createStage();
 
         models = createModels();
