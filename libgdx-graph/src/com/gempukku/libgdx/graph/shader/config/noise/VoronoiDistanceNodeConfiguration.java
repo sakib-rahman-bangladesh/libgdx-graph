@@ -14,6 +14,8 @@ public class VoronoiDistanceNodeConfiguration extends NodeConfigurationImpl<Shad
                 new GraphNodeInputImpl<ShaderFieldType>("scale", "Scale", false, ShaderFieldType.Float));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("progress", "Progress", false, ShaderFieldType.Float));
+        addNodeInput(
+                new GraphNodeInputImpl<ShaderFieldType>("range", "Range", false, ShaderFieldType.Vector2));
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("output", "Result", ShaderFieldType.Float));
     }
