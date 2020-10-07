@@ -24,6 +24,15 @@ public class RemapShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder
         FieldOutput toValue = inputs.get("to");
         ShaderFieldType resultType = inputValue.getFieldType();
 
+        String functionName = appendRemapFunction(commonShaderBuilder, resultType);
+        commonShaderBuilder.addMainLine("// Remap node");
+        String name = "result_" + nodeId;
+        commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = " + functionName + "(" + inputValue.getRepresentation() + ", " + fromValue.getRepresentation() + ", " + toValue.getRepresentation() + ");");
+
+        return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(resultType, name));
+    }
+
+    public static String appendRemapFunction(CommonShaderBuilder commonShaderBuilder, ShaderFieldType resultType) {
         String functionName = "remap_" + resultType.getShaderType();
 
         if (!commonShaderBuilder.containsFunction(functionName)) {
@@ -31,10 +40,6 @@ public class RemapShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder
                     "  return to.x + (value - from.x) * (to.y - to.x) / (from.y - from.x);\n" +
                     "}\n");
         }
-        commonShaderBuilder.addMainLine("// Remap node");
-        String name = "result_" + nodeId;
-        commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = " + functionName + "(" + inputValue.getRepresentation() + ", " + fromValue.getRepresentation() + ", " + toValue.getRepresentation() + ");");
-
-        return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(resultType, name));
+        return functionName;
     }
 }

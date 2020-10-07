@@ -117,8 +117,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                         GraphShader lastShader = null;
                         for (GraphShaderModelInstance graphShaderModelInstance : models.getModels()) {
                             for (GraphShader shader : transparentShaders) {
-                                String tag = shader.getTag();
-                                if (graphShaderModelInstance.hasTag(tag)) {
+                                if (graphShaderModelInstance.hasTag(shader.getTag())) {
                                     if (lastShader != shader) {
                                         if (lastShader != null)
                                             lastShader.end();
@@ -161,12 +160,14 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
             private void renderWithShaderOpaquePass(String tag, GraphShader shader, GraphShaderModelsImpl models, ShaderContext shaderContext) {
                 boolean begun = false;
-                for (GraphShaderModelInstance graphShaderModelInstance : models.getModelsWithTag(tag)) {
-                    if (!begun) {
-                        shader.begin(shaderContext, renderContext);
-                        begun = true;
+                for (GraphShaderModelInstance graphShaderModelInstance : models.getModels()) {
+                    if (graphShaderModelInstance.hasTag(tag)) {
+                        if (!begun) {
+                            shader.begin(shaderContext, renderContext);
+                            begun = true;
+                        }
+                        shader.render(shaderContext, graphShaderModelInstance);
                     }
-                    shader.render(shaderContext, graphShaderModelInstance);
                 }
                 if (begun)
                     shader.end();

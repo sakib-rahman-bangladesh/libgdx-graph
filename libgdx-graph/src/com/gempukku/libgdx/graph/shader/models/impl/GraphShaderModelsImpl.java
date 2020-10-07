@@ -17,9 +17,6 @@ import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
 
 import java.util.Comparator;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
     private enum Order {
@@ -183,16 +180,6 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
 
     public Iterable<? extends GraphShaderModelInstance> getModels() {
         return models;
-    }
-
-    public Iterable<? extends GraphShaderModelInstance> getModelsWithTag(final String tag) {
-        return StreamSupport.stream(models.spliterator(), false)
-                .filter(new Predicate<GraphShaderModelInstance>() {
-                    @Override
-                    public boolean test(GraphShaderModelInstance graphShaderModelInstance) {
-                        return graphShaderModelInstance.hasTag(tag);
-                    }
-                }).collect(Collectors.<GraphShaderModelInstance>toList());
     }
 
     @Override
