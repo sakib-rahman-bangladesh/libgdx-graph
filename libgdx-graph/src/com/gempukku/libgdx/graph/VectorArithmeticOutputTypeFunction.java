@@ -1,11 +1,12 @@
 package com.gempukku.libgdx.graph;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.data.FieldType;
 
 import java.util.function.Function;
 
-public class VectorArithmeticOutputTypeFunction<T extends FieldType> implements Function<ObjectMap<String, T>, T> {
+public class VectorArithmeticOutputTypeFunction<T extends FieldType> implements Function<ObjectMap<String, Array<T>>, T> {
     private T floatType;
     private String input1;
     private String input2;
@@ -17,9 +18,9 @@ public class VectorArithmeticOutputTypeFunction<T extends FieldType> implements 
     }
 
     @Override
-    public T apply(ObjectMap<String, T> inputs) {
-        T a = inputs.get(input1);
-        T b = inputs.get(input2);
+    public T apply(ObjectMap<String, Array<T>> inputs) {
+        T a = inputs.get(input1).get(0);
+        T b = inputs.get(input2).get(0);
         if (a == null || b == null)
             return null;
 

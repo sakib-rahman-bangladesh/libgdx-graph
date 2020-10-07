@@ -22,7 +22,7 @@ public class ColorTintPipelineNodeProducer extends PipelineNodeProducerImpl {
     }
 
     @Override
-    public PipelineNode createNode(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
+    public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
         PipelineNode.FieldOutput<Color> color = (PipelineNode.FieldOutput<Color>) inputFields.get("color");

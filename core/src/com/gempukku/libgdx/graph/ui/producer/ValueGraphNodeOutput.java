@@ -42,7 +42,7 @@ public class ValueGraphNodeOutput<T extends FieldType> implements GraphNodeOutpu
     }
 
     @Override
-    public T determineFieldType(ObjectMap<String, T> inputs) {
+    public T determineFieldType(ObjectMap<String, Array<T>> inputs) {
         return fieldType;
     }
 }

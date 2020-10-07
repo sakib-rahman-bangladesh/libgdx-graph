@@ -238,13 +238,13 @@
                       "fromNode": "ace06f23aa9e4a758c5ebbf281f3241d",
                       "fromField": "output",
                       "toNode": "17b77d783a4a4b0f8383f73f3772e9d8",
-                      "toField": "a"
+                      "toField": "inputs"
                     },
                     {
                       "fromNode": "5f68a527dee54d6980ed3f57137e535b",
                       "fromField": "value",
                       "toNode": "17b77d783a4a4b0f8383f73f3772e9d8",
-                      "toField": "b"
+                      "toField": "inputs"
                     },
                     {
                       "fromNode": "e6ffa810e40c42c78b618dfc70d1ee7b",
@@ -268,7 +268,7 @@
                       "fromNode": "17b77d783a4a4b0f8383f73f3772e9d8",
                       "fromField": "output",
                       "toNode": "02fe5b8afc2d4193ad7533dfb9b6b6f2",
-                      "toField": "b"
+                      "toField": "inputs"
                     },
                     {
                       "fromNode": "f92fbab69d69450281723a1b046cd798",
@@ -280,7 +280,7 @@
                       "fromNode": "97663392c66d45f48ed35b74f92e9b3d",
                       "fromField": "output",
                       "toNode": "02fe5b8afc2d4193ad7533dfb9b6b6f2",
-                      "toField": "a"
+                      "toField": "inputs"
                     },
                     {
                       "fromNode": "02fe5b8afc2d4193ad7533dfb9b6b6f2",

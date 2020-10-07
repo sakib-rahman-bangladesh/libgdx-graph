@@ -18,7 +18,7 @@ public class MergePipelineNodeProducer extends PipelineNodeProducerImpl {
     }
 
     @Override
-    public PipelineNode createNode(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
+    public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         PipelineNode.FieldOutput<Float> x = (PipelineNode.FieldOutput<Float>) inputFields.get("x");
         PipelineNode.FieldOutput<Float> y = (PipelineNode.FieldOutput<Float>) inputFields.get("y");
         PipelineNode.FieldOutput<Float> z = (PipelineNode.FieldOutput<Float>) inputFields.get("z");

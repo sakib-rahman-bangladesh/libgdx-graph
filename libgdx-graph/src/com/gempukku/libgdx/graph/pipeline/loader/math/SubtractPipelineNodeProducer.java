@@ -18,7 +18,7 @@ public class SubtractPipelineNodeProducer extends PipelineNodeProducerImpl {
     }
 
     @Override
-    public PipelineNode createNode(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
+    public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final PipelineNode.FieldOutput<?> aFunction = inputFields.get("inputA");
         final PipelineNode.FieldOutput<?> bFunction = inputFields.get("inputB");
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {

@@ -24,7 +24,7 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
     }
 
     @Override
-    public PipelineNode createNode(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
+    public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final ShaderProgram brightnessFilterPassProgram = new ShaderProgram(
                 Gdx.files.classpath("shader/viewToScreenCoords.vert"),
                 Gdx.files.classpath("shader/brightnessFilter.frag"));

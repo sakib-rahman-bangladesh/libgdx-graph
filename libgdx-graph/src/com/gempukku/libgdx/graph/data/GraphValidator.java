@@ -40,22 +40,25 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
 
         T thisNode = graph.getNodeById(nodeId);
         ObjectSet<String> validatedFields = new ObjectSet<>();
-        ObjectMap<String, W> inputsTypes = new ObjectMap<>();
-        for (U incomingConnection : getIncomingConnections(graph, nodeId)) {
-            String fieldTo = incomingConnection.getFieldTo();
-            GraphNodeInput<W> input = thisNode.getConfiguration().getNodeInputs().get(fieldTo);
-            T remoteNode = graph.getNodeById(incomingConnection.getNodeFrom());
-            GraphNodeOutput<W> output = remoteNode.getConfiguration().getNodeOutputs().get(incomingConnection.getFieldFrom());
+        ObjectMap<String, Array<W>> inputsTypes = new ObjectMap<>();
+        for (String fieldTo : getInputFields(graph, nodeId)) {
+            Array<W> inputType = new Array<>();
+            for (U incomingConnection : getIncomingConnections(graph, nodeId, fieldTo)) {
+                GraphNodeInput<W> input = thisNode.getConfiguration().getNodeInputs().get(fieldTo);
+                T remoteNode = graph.getNodeById(incomingConnection.getNodeFrom());
+                GraphNodeOutput<W> output = remoteNode.getConfiguration().getNodeOutputs().get(incomingConnection.getFieldFrom());
 
-            // Validate the actual output is accepted by the input
-            Array<W> acceptedPropertyTypes = input.getAcceptedPropertyTypes();
-            if (!outputAcceptsPropertyType(output, acceptedPropertyTypes)) {
-                result.addErrorConnection(incomingConnection);
+                // Validate the actual output is accepted by the input
+                Array<W> acceptedPropertyTypes = input.getAcceptedPropertyTypes();
+                if (!outputAcceptsPropertyType(output, acceptedPropertyTypes)) {
+                    result.addErrorConnection(incomingConnection);
+                }
+
+                validatedFields.add(fieldTo);
+                NodeOutputs<W> outputFromRemoteNode = validateNode(result, graph, incomingConnection.getNodeFrom(), nodeOutputs);
+                inputType.add(outputFromRemoteNode.outputs.get(incomingConnection.getFieldFrom()));
             }
-
-            validatedFields.add(fieldTo);
-            NodeOutputs<W> outputFromRemoteNode = validateNode(result, graph, incomingConnection.getNodeFrom(), nodeOutputs);
-            inputsTypes.put(fieldTo, outputFromRemoteNode.outputs.get(incomingConnection.getFieldFrom()));
+            inputsTypes.put(fieldTo, inputType);
         }
 
         for (GraphNodeInput<W> input : thisNode.getConfiguration().getNodeInputs().values()) {
@@ -78,10 +81,23 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
         return nodeOutput;
     }
 
+    private Iterable<String> getInputFields(Graph<T, U, V, W> graph, String nodeId) {
+        return new ObjectMap.Keys<>(graph.getNodeById(nodeId).getConfiguration().getNodeInputs());
+    }
+
     private Iterable<U> getIncomingConnections(Graph<T, U, V, W> graph, String nodeId) {
         Array<U> result = new Array<>();
         for (U connection : graph.getConnections()) {
             if (connection.getNodeTo().equals(nodeId))
+                result.add(connection);
+        }
+        return result;
+    }
+
+    private Iterable<U> getIncomingConnections(Graph<T, U, V, W> graph, String nodeId, String fieldTo) {
+        Array<U> result = new Array<>();
+        for (U connection : graph.getConnections()) {
+            if (connection.getNodeTo().equals(nodeId) && connection.getFieldTo().equals(fieldTo))
                 result.add(connection);
         }
         return result;

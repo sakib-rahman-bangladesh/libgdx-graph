@@ -31,7 +31,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
     }
 
     @Override
-    public PipelineNode createNode(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
+    public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final WhitePixel whitePixel = new WhitePixel();
 
         final ShaderContextImpl shaderContext = new ShaderContextImpl();

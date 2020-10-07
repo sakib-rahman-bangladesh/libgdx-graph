@@ -23,7 +23,7 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
     }
 
     @Override
-    public PipelineNode createNode(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
+    public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final ShaderProgram shaderProgram = new ShaderProgram(
                 Gdx.files.classpath("shader/viewToScreenCoords.vert"),
                 Gdx.files.classpath("shader/gamma.frag"));

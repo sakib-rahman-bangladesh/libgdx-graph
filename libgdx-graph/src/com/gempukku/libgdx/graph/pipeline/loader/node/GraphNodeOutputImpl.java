@@ -11,7 +11,7 @@ public class GraphNodeOutputImpl<T extends FieldType> implements GraphNodeOutput
     private String id;
     private String name;
     private boolean mainConnection;
-    private Function<ObjectMap<String, T>, T> outputTypeFunction;
+    private Function<ObjectMap<String, Array<T>>, T> outputTypeFunction;
     private Array<T> propertyTypes;
 
     public GraphNodeOutputImpl(String id, String name, final T producedType) {
@@ -19,19 +19,19 @@ public class GraphNodeOutputImpl<T extends FieldType> implements GraphNodeOutput
     }
 
     public GraphNodeOutputImpl(String id, String name, boolean mainConnection, final T producedType) {
-        this(id, name, mainConnection, new Function<ObjectMap<String, T>, T>() {
+        this(id, name, mainConnection, new Function<ObjectMap<String, Array<T>>, T>() {
             @Override
-            public T apply(ObjectMap<String, T> stringTMap) {
+            public T apply(ObjectMap<String, Array<T>> stringTMap) {
                 return producedType;
             }
         }, producedType);
     }
 
-    public GraphNodeOutputImpl(String id, String name, Function<ObjectMap<String, T>, T> outputTypeFunction, T... producedType) {
+    public GraphNodeOutputImpl(String id, String name, Function<ObjectMap<String, Array<T>>, T> outputTypeFunction, T... producedType) {
         this(id, name, false, outputTypeFunction, producedType);
     }
 
-    public GraphNodeOutputImpl(String id, String name, boolean mainConnection, Function<ObjectMap<String, T>, T> outputTypeFunction, T... producedType) {
+    public GraphNodeOutputImpl(String id, String name, boolean mainConnection, Function<ObjectMap<String, Array<T>>, T> outputTypeFunction, T... producedType) {
         this.id = id;
         this.name = name;
         this.mainConnection = mainConnection;
@@ -65,7 +65,8 @@ public class GraphNodeOutputImpl<T extends FieldType> implements GraphNodeOutput
     }
 
     @Override
-    public T determineFieldType(ObjectMap<String, T> inputs) {
+    public T determineFieldType(ObjectMap<String, Array<T>> inputs) {
         return outputTypeFunction.apply(inputs);
     }
 }
+

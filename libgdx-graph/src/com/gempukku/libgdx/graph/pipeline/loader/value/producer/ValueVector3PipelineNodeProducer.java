@@ -14,7 +14,7 @@ public class ValueVector3PipelineNodeProducer extends PipelineNodeProducerImpl {
     }
 
     @Override
-    public PipelineNode createNode(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
+    public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         return new ValuePipelineNode(configuration, "value", new Vector3(
                 data.getFloat("v1"), data.getFloat("v2"), data.getFloat("v3")));
     }

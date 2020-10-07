@@ -12,7 +12,7 @@ public interface GraphNodeOutput<T extends FieldType> {
 
     Array<T> getProducableFieldTypes();
 
-    T determineFieldType(ObjectMap<String, T> inputs);
+    T determineFieldType(ObjectMap<String, Array<T>> inputs);
 
     boolean supportsMultiple();
 }

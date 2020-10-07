@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.pipeline;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.GraphDataLoaderCallback;
@@ -69,31 +70,37 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
         PipelineNodeProducer nodeProducer = RendererPipelineConfiguration.pipelineNodeProducers.get(nodeInfoType);
         if (nodeProducer == null)
             throw new IllegalStateException("Unable to find node producer for type: " + nodeInfoType);
-        ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields = new ObjectMap<>();
+        ObjectMap<String, Array<PipelineNode.FieldOutput<?>>> inputFields = new ObjectMap<>();
         for (GraphNodeInput<PipelineFieldType> nodeInput : new ObjectMap.Values<>(nodeProducer.getConfiguration(nodeInfo.getData()).getNodeInputs())) {
             String inputName = nodeInput.getFieldId();
-            GraphConnection vertexInfo = findInputProducer(nodeId, inputName);
-            if (vertexInfo == null && nodeInput.isRequired())
+            Array<GraphConnection> vertexInfos = findInputProducers(nodeId, inputName);
+            if (vertexInfos.size == 0 && nodeInput.isRequired())
                 throw new IllegalStateException("Required input not provided");
-            if (vertexInfo != null) {
+
+            Array<PipelineFieldType> fieldTypes = new Array<>();
+            Array<PipelineNode.FieldOutput<?>> fieldOutputs = new Array<>();
+            for (GraphConnection vertexInfo : vertexInfos) {
                 PipelineNode vertexNode = populatePipelineNodes(vertexInfo.getNodeFrom(), pipelineNodeMap);
                 PipelineNode.FieldOutput<?> fieldOutput = vertexNode.getFieldOutput(vertexInfo.getFieldFrom());
                 PipelineFieldType fieldType = fieldOutput.getPropertyType();
-                if (!nodeInput.getAcceptedPropertyTypes().contains(fieldType, true))
-                    throw new IllegalStateException("Producer produces a field of value not compatible with consumer");
-                inputFields.put(inputName, fieldOutput);
+                fieldTypes.add(fieldType);
+                fieldOutputs.add(fieldOutput);
             }
+            if (!nodeInput.acceptsInputTypes(fieldTypes))
+                throw new IllegalStateException("Producer produces a field of value not compatible with consumer");
+            inputFields.put(inputName, fieldOutputs);
         }
         pipelineNode = nodeProducer.createNode(nodeInfo.getData(), inputFields);
         pipelineNodeMap.put(nodeId, pipelineNode);
         return pipelineNode;
     }
 
-    private GraphConnection findInputProducer(String nodeId, String nodeField) {
+    private Array<GraphConnection> findInputProducers(String nodeId, String nodeField) {
+        Array<GraphConnection> result = new Array<>();
         for (GraphConnection vertex : getConnections()) {
             if (vertex.getNodeTo().equals(nodeId) && vertex.getFieldTo().equals(nodeField))
-                return vertex;
+                result.add(vertex);
         }
-        return null;
+        return result;
     }
 }

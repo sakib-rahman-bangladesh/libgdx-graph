@@ -258,13 +258,13 @@
     },
     {
       "fromNode": "57a65262b7ae4af88c785d0bc3266370",
-      "toField": "inputA",
+      "toField": "inputs",
       "fromField": "size",
       "toNode": "f224bb6d66bc49ff8afb042af8ebad87"
     },
     {
       "fromNode": "60e0e984bdf04eb189480a5b958dee87",
-      "toField": "inputB",
+      "toField": "inputs",
       "fromField": "value",
       "toNode": "f224bb6d66bc49ff8afb042af8ebad87"
     },
@@ -282,13 +282,13 @@
     },
     {
       "fromNode": "c7ffaa988eff4769a3062072b7a4985a",
-      "toField": "inputA",
+      "toField": "inputs",
       "fromField": "value",
       "toNode": "b2ebce3c61a44676ba80022969f1f778"
     },
     {
       "fromNode": "57a65262b7ae4af88c785d0bc3266370",
-      "toField": "inputB",
+      "toField": "inputs",
       "fromField": "size",
       "toNode": "b2ebce3c61a44676ba80022969f1f778"
     }

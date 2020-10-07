@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.gempukku.libgdx.graph.data.FieldType;
@@ -55,7 +56,7 @@ public class NodeConfigurationImpl<T extends FieldType> implements NodeConfigura
     }
 
     @Override
-    public boolean isValid(ObjectMap<String, T> inputTypes, Iterable<? extends GraphProperty<T>> properties) {
+    public boolean isValid(ObjectMap<String, Array<T>> inputTypes, Iterable<? extends GraphProperty<T>> properties) {
         for (GraphNodeOutput<T> nodeOutput : nodeOutputs.values()) {
             T output = nodeOutput.determineFieldType(inputTypes);
             if (output == null)

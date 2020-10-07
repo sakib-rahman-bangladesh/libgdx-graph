@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.data;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public interface NodeConfiguration<T extends FieldType> {
@@ -13,5 +14,5 @@ public interface NodeConfiguration<T extends FieldType> {
 
     ObjectMap<String, GraphNodeOutput<T>> getNodeOutputs();
 
-    boolean isValid(ObjectMap<String, T> inputTypes, Iterable<? extends GraphProperty<T>> properties);
+    boolean isValid(ObjectMap<String, Array<T>> inputTypes, Iterable<? extends GraphProperty<T>> properties);
 }

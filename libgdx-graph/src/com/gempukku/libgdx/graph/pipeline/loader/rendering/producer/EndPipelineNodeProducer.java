@@ -14,7 +14,7 @@ public class EndPipelineNodeProducer extends PipelineNodeProducerImpl {
     }
 
     @Override
-    public PipelineNode createNode(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
+    public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         return new EndPipelineNode(
                 (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input"));
     }

@@ -6,13 +6,13 @@ import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 
-public abstract class OncePerFrameJobPipelineNode implements PipelineNode {
+public abstract class OncePerFrameMultipleInputsJobPipelineNode implements PipelineNode {
     private boolean executedInFrame;
     private NodeConfiguration<PipelineFieldType> configuration;
-    private ObjectMap<String, FieldOutput<?>> inputFields;
+    private ObjectMap<String, Array<FieldOutput<?>>> inputFields;
     private ObjectMap<String, WorkerFieldOutput<Object>> workerFieldOutputs = new ObjectMap<>();
 
-    public OncePerFrameJobPipelineNode(NodeConfiguration<PipelineFieldType> configuration, ObjectMap<String, FieldOutput<?>> inputFields) {
+    public OncePerFrameMultipleInputsJobPipelineNode(NodeConfiguration<PipelineFieldType> configuration, ObjectMap<String, Array<FieldOutput<?>>> inputFields) {
         this.configuration = configuration;
         this.inputFields = inputFields;
     }
@@ -29,12 +29,14 @@ public abstract class OncePerFrameJobPipelineNode implements PipelineNode {
         return fieldOutput;
     }
 
-    private PipelineFieldType determineOutputType(String name, ObjectMap<String, FieldOutput<?>> inputFields) {
+    private PipelineFieldType determineOutputType(String name, ObjectMap<String, Array<FieldOutput<?>>> inputFields) {
         ObjectMap<String, Array<PipelineFieldType>> inputs = new ObjectMap<>();
-        for (ObjectMap.Entry<String, FieldOutput<?>> stringFieldOutputEntry : inputFields.entries()) {
-            Array<PipelineFieldType> fieldTypes = new Array<>();
-            fieldTypes.add(stringFieldOutputEntry.value.getPropertyType());
-            inputs.put(stringFieldOutputEntry.key, fieldTypes);
+        for (String field : inputFields.keys()) {
+            Array<PipelineFieldType> types = new Array<>();
+            for (FieldOutput<?> fieldOutput : inputFields.get(field)) {
+                types.add(fieldOutput.getPropertyType());
+            }
+            inputs.put(field, types);
         }
 
         return configuration.getNodeOutputs().get(name).determineFieldType(inputs);

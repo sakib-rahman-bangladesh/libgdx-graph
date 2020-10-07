@@ -360,8 +360,10 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
                         drawingFromConnector = null;
                     } else {
                         // Remove conflicting connections if needed
-                        for (GraphConnection oldConnection : findNodeConnections(connectorTo)) {
-                            removeConnection(oldConnection);
+                        if (!input.isAcceptingMultiple()) {
+                            for (GraphConnection oldConnection : findNodeConnections(connectorTo)) {
+                                removeConnection(oldConnection);
+                            }
                         }
                         if (!output.supportsMultiple()) {
                             for (GraphConnection oldConnection : findNodeConnections(connectorFrom)) {
@@ -378,8 +380,9 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
                 drawingFromConnector = null;
             }
         } else {
-            if (clickedNode.isInputField(clickedNodeConnector.getFieldId())
-                    || !clickedNode.getConfiguration().getNodeOutputs().get(clickedNodeConnector.getFieldId()).supportsMultiple()) {
+            boolean input = clickedNode.isInputField(clickedNodeConnector.getFieldId());
+            if ((input && !clickedNode.getConfiguration().getNodeInputs().get(clickedNodeConnector.getFieldId()).isAcceptingMultiple())
+                    || (!input && !clickedNode.getConfiguration().getNodeOutputs().get(clickedNodeConnector.getFieldId()).supportsMultiple())) {
                 List<GraphConnection> nodeConnections = findNodeConnections(clickedNodeConnector);
                 if (nodeConnections.size() > 0) {
                     GraphConnection oldConnection = nodeConnections.get(0);

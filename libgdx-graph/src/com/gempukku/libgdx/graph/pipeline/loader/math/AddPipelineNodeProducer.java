@@ -1,52 +1,39 @@
 package com.gempukku.libgdx.graph.pipeline.loader.math;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.pipeline.config.math.MultiplyPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.config.math.AddPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
-import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
+import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameMultipleInputsJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 
 public class AddPipelineNodeProducer extends PipelineNodeProducerImpl {
     public AddPipelineNodeProducer() {
-        super(new MultiplyPipelineNodeConfiguration());
+        super(new AddPipelineNodeConfiguration());
     }
 
     @Override
-    public PipelineNode createNode(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
-        final PipelineNode.FieldOutput<?> aFunction = inputFields.get("inputA");
-        final PipelineNode.FieldOutput<?> bFunction = inputFields.get("inputB");
-        return new OncePerFrameJobPipelineNode(configuration, inputFields) {
+    protected PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
+        return null;
+    }
+
+    @Override
+    public PipelineNode createNode(JsonValue data, ObjectMap<String, Array<PipelineNode.FieldOutput<?>>> inputFields) {
+        final Array<PipelineNode.FieldOutput<?>> inputs = inputFields.get("inputs");
+        final PipelineFieldType resultType = determineOutputType(inputs);
+        return new OncePerFrameMultipleInputsJobPipelineNode(configuration, inputFields) {
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                Object aValue = aFunction.getValue(pipelineRenderingContext);
-                Object bValue = bFunction.getValue(pipelineRenderingContext);
-
-                Object result;
-                if (aValue instanceof Float && bValue instanceof Float) {
-                    result = (float) aValue + (float) bValue;
-                } else if (aValue instanceof Float) {
-                    result = addFloat((float) aValue, bValue);
-                } else if (bValue instanceof Float) {
-                    result = addFloat((float) bValue, aValue);
-                } else {
-                    if (aValue.getClass() != bValue.getClass())
-                        throw new IllegalArgumentException("Not matching types for add");
-                    if (aValue instanceof Color) {
-                        Color a = (Color) aValue;
-                        result = a.cpy().add((Color) bValue);
-                    } else if (aValue instanceof Vector2) {
-                        Vector2 a = (Vector2) aValue;
-                        result = add(a, (Vector2) bValue);
-                    } else {
-                        Vector3 a = (Vector3) aValue;
-                        result = add(a, (Vector3) bValue);
-                    }
+                Object result = createDefaultValue(resultType);
+                for (FieldOutput<?> input : inputs) {
+                    Object value = input.getValue(pipelineRenderingContext);
+                    result = add(result, value);
                 }
 
                 OutputValue output = outputValues.get("output");
@@ -56,17 +43,51 @@ public class AddPipelineNodeProducer extends PipelineNodeProducerImpl {
         };
     }
 
-    private <T extends Vector<T>> T add(Vector<T> a, T b) {
-        return a.cpy().add(b);
+    private Object add(Object obj, Object value) {
+        if (value instanceof Float) {
+            float f = (float) value;
+            if (obj instanceof Float)
+                return (float) obj + f;
+            if (obj instanceof Color) {
+                return ((Color) obj).add(f, f, f, f);
+            }
+            if (obj instanceof Vector2) {
+                return ((Vector2) obj).add(f, f);
+            }
+            if (obj instanceof Vector3) {
+                return ((Vector3) obj).add(f);
+            }
+        } else {
+            if (obj instanceof Color)
+                return ((Color) obj).add((Color) value);
+            if (obj instanceof Vector2)
+                return ((Vector2) obj).add((Vector2) value);
+            if (obj instanceof Vector3)
+                return ((Vector3) obj).add((Vector3) value);
+        }
+        return null;
     }
 
-    private Object addFloat(float aValue, Object bValue) {
-        if (bValue instanceof Color) {
-            return ((Color) bValue).cpy().add(aValue, aValue, aValue, aValue);
-        } else if (bValue instanceof Vector2) {
-            return ((Vector2) bValue).cpy().add(aValue, aValue);
-        } else {
-            return ((Vector3) bValue).cpy().add(aValue, aValue, aValue);
+    private Object createDefaultValue(PipelineFieldType type) {
+        if (type == PipelineFieldType.Float)
+            return 0f;
+        else if (type == PipelineFieldType.Vector2)
+            return new Vector2();
+        else if (type == PipelineFieldType.Vector3)
+            return new Vector3();
+        else
+            return new Color(0, 0, 0, 0);
+    }
+
+    private PipelineFieldType determineOutputType(Array<PipelineNode.FieldOutput<?>> inputs) {
+        PipelineFieldType result = PipelineFieldType.Float;
+        for (PipelineNode.FieldOutput<?> input : inputs) {
+            PipelineFieldType fieldType = input.getPropertyType();
+            if (fieldType != result && (result != PipelineFieldType.Float && fieldType != PipelineFieldType.Float))
+                throw new IllegalStateException("Invalid mix of input field types");
+            if (fieldType != PipelineFieldType.Float)
+                result = fieldType;
         }
+        return result;
     }
 }
