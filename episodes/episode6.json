@@ -1,15 +1,18 @@
 {
-"version": "0.1.0",
-"nodes": [
-	{
-		"id": "72be9695e45949ccb5f449dbacdfd619",
-		"type": "Property",
-		"x": 50.0,
-		"y": 430.0,
-		"data": { "name": "Camera", "type": "Camera" }
-	},
-	{
-		"id": "a9ef339d56654f4c8f7445b45b3bed0b",
+	"version": "0.1.2",
+	"nodes": [
+		{
+			"id": "72be9695e45949ccb5f449dbacdfd619",
+			"type": "Property",
+			"x": 50.0,
+			"y": 430.0,
+			"data": {
+				"name": "Camera",
+				"type": "Camera"
+			}
+		},
+		{
+			"id": "a9ef339d56654f4c8f7445b45b3bed0b",
 		"type": "Property",
 		"x": 180.0,
 		"y": 126.0,
@@ -75,16 +78,29 @@
 							"id": "2b380a7d97174c5ba7ce7bd69e69972e",
 							"tag": "Hologram",
 							"shader": {
-								"version": "0.1.0",
+								"version": "0.1.2",
 								"nodes": [
-									{ "id": "a9ae5a3841fc4d65b3dc50275994f01f", "type": "SimplexNoise2D", "x": 680.0, "y": 952.0 },
-									{ "id": "0866129cbaa14a02af6ec7d56b89e57f", "type": "Split", "x": 279.0, "y": 50.0 },
+									{
+										"id": "a9ae5a3841fc4d65b3dc50275994f01f",
+										"type": "SimplexNoise2D",
+										"x": 680.0,
+										"y": 952.0
+									},
+									{
+										"id": "0866129cbaa14a02af6ec7d56b89e57f",
+										"type": "Split",
+										"x": 279.0,
+										"y": 50.0
+									},
 									{
 										"id": "4e79e309218245df825046e1b3909ace",
 										"type": "Property",
 										"x": 1163.0,
 										"y": 968.0,
-										"data": { "name": "Distortion Amplitude", "type": "Float" }
+										"data": {
+											"name": "Distortion Amplitude",
+											"type": "Float"
+										}
 									},
 									{ "id": "9afa3fb960a04291814a1c47247c1bf0", "type": "Intensity", "x": 704.0, "y": 330.0 },
 									{ "id": "e8fad503d7cf49d2af6ba8593769aae0", "type": "Multiply", "x": 903.0, "y": 354.0 },

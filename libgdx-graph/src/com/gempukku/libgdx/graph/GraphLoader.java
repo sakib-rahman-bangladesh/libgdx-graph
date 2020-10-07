@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 public class GraphLoader {
     private static final int VERSION_MAJOR = 0;
     private static final int VERSION_MINOR = 1;
-    private static final int VERSION_PATCH = 0;
+    private static final int VERSION_PATCH = 2;
     public static final String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
 
     public static <T> T loadGraph(InputStream inputStream, GraphLoaderCallback<T> graphLoaderCallback) throws IOException {

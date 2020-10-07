@@ -97,7 +97,7 @@
                     }
                   ],
                   "groups": [],
-                  "version": "0.1.0",
+                  "version": "0.1.2",
                   "connections": [
                     {
                       "fromNode": "ae38eb85cfd94057a9d2893cc7941aa9",
@@ -235,7 +235,7 @@
                     }
                   ],
                   "groups": [],
-                  "version": "0.1.0",
+                  "version": "0.1.2",
                   "connections": [
                     {
                       "fromNode": "967c65cf2cec4d91b7e2201d41ad5620",
@@ -378,7 +378,7 @@
                     }
                   ],
                   "groups": [],
-                  "version": "0.1.0",
+                  "version": "0.1.2",
                   "connections": [
                     {
                       "fromNode": "276582bdc9e9469795f4a8f0ff5beb3c",
@@ -421,7 +421,7 @@
     }
   ],
   "groups": [],
-  "version": "0.1.0",
+  "version": "0.1.2",
   "connections": [
     {
       "fromNode": "72be9695e45949ccb5f449dbacdfd619",
