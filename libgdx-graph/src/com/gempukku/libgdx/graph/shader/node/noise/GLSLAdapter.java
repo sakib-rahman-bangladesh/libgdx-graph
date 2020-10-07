@@ -26,8 +26,23 @@ public class GLSLAdapter {
         return new Vector3(Math.abs(v.x), Math.abs(v.y), Math.abs(v.z));
     }
 
+    public static Vector2 max(Vector2 v1, Vector2 v2) {
+        return new Vector2(Math.max(v1.x, v2.x), Math.max(v1.y, v2.y));
+    }
+
     public static float dot(Vector2 v1, Vector2 v2) {
         return v1.dot(v2);
+    }
+
+    public static float dot(Vector3 v1, Vector3 v2) {
+        return v1.dot(v2);
+    }
+
+    public static Vector3 step(Vector3 edge, Vector3 v) {
+        return new Vector3(
+                v.x < edge.x ? 0f : 1f,
+                v.y < edge.y ? 0f : 1f,
+                v.z < edge.z ? 0f : 1f);
     }
 
 }

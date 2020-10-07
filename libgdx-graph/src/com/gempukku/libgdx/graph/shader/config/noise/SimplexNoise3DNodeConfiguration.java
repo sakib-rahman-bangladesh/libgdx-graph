@@ -12,6 +12,8 @@ public class SimplexNoise3DNodeConfiguration extends NodeConfigurationImpl<Shade
                 new GraphNodeInputImpl<ShaderFieldType>("point", "Point", true, ShaderFieldType.Vector3));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("scale", "Scale", true, ShaderFieldType.Float));
+        addNodeInput(
+                new GraphNodeInputImpl<ShaderFieldType>("range", "Range", false, ShaderFieldType.Vector2));
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("output", "Result", ShaderFieldType.Float));
     }
