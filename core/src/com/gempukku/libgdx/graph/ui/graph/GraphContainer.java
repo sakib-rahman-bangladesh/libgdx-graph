@@ -116,6 +116,34 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
                                 final NodeGroupImpl finalNodeGroup = nodeGroup;
 
                                 PopupMenu popupMenu = new PopupMenu();
+                                MenuItem rename = new MenuItem("Rename group");
+                                rename.addListener(
+                                        new ClickListener(Input.Buttons.LEFT) {
+                                            @Override
+                                            public void clicked(InputEvent event, float x, float y) {
+                                                Dialogs.showInputDialog(getStage(), "Enter group name", "Name",
+                                                        new InputValidator() {
+                                                            @Override
+                                                            public boolean validateInput(String input) {
+                                                                return !input.trim().isEmpty();
+                                                            }
+                                                        },
+                                                        new InputDialogListener() {
+                                                            @Override
+                                                            public void finished(String input) {
+                                                                finalNodeGroup.setName(input.trim());
+                                                                fire(new GraphChangedEvent(false, false));
+                                                            }
+
+                                                            @Override
+                                                            public void canceled() {
+
+                                                            }
+                                                        });
+                                            }
+                                        });
+                                popupMenu.addItem(rename);
+
                                 MenuItem remove = new MenuItem("Remove group");
                                 remove.addListener(
                                         new ClickListener(Input.Buttons.LEFT) {
@@ -126,6 +154,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
                                             }
                                         });
                                 popupMenu.addItem(remove);
+
                                 popupMenu.showMenu(getStage(), x + getX(), y + getY());
                             } else {
                                 PopupMenu popupMenu = popupMenuProducer.createPopupMenu(x, y);
@@ -952,6 +981,10 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         @Override
         public String getName() {
             return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
 
         @Override
