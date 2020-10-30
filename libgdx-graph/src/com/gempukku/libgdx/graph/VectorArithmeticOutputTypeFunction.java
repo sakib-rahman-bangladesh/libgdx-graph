@@ -19,10 +19,13 @@ public class VectorArithmeticOutputTypeFunction<T extends FieldType> implements 
 
     @Override
     public T apply(ObjectMap<String, Array<T>> inputs) {
-        T a = inputs.get(input1).get(0);
-        T b = inputs.get(input2).get(0);
-        if (a == null || b == null)
+        Array<T> inputA = inputs.get(input1);
+        Array<T> inputB = inputs.get(input2);
+        if (inputA.size < 1 || inputB.size < 1)
             return null;
+
+        T a = inputA.get(0);
+        T b = inputB.get(0);
 
         if (a == floatType)
             return b;

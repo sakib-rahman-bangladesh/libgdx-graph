@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.test;
+package com.gempukku.libgdx.graph.test.episodes;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -35,11 +35,12 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.models.Transforms;
+import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class LibgdxGraphTestApplication extends ApplicationAdapter {
+public class Episode11LibgdxGraphTestApplication extends ApplicationAdapter {
     private long lastProcessedInput;
 
     private Array<Disposable> disposables = new Array<>();
@@ -192,7 +193,7 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
 
     private PipelineRenderer loadPipelineRenderer() {
         try {
-            InputStream stream = Gdx.files.local("test.json").read();
+            InputStream stream = Gdx.files.local("episodes/episode11.json").read();
             try {
                 PipelineRenderer pipelineRenderer = GraphLoader.loadGraph(stream, new PipelineLoaderCallback());
                 setupPipeline(pipelineRenderer);

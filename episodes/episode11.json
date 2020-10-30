@@ -1,0 +1,348 @@
+{
+  "version": "0.1.2",
+  "nodes": [
+    {
+      "id": "72be9695e45949ccb5f449dbacdfd619",
+      "type": "Property",
+      "x": 50.0,
+      "y": 408.0,
+      "data": {
+        "name": "Camera",
+        "type": "Camera"
+      }
+    },
+    {
+      "id": "a9ef339d56654f4c8f7445b45b3bed0b",
+      "type": "Property",
+      "x": 180.0,
+      "y": 126.0,
+      "data": {
+        "name": "Stage",
+        "type": "Stage"
+      }
+    },
+    {
+      "id": "50f414bd4ecb4a01a52ae1e8be315763",
+      "type": "Property",
+      "x": 52.0,
+      "y": 342.0,
+      "data": {
+        "name": "Lights",
+        "type": "GraphLights"
+      }
+    },
+    {
+      "id": "dffb152d405a49d38792e850749129b2",
+      "type": "UIRenderer",
+      "x": 385.0,
+      "y": 126.0
+    },
+    {
+      "id": "end",
+      "type": "PipelineEnd",
+      "x": 385.0,
+      "y": 50.0
+    },
+    {
+      "id": "d54b356d4a1242cab5e6cb3f836b1930",
+      "type": "ValueColor",
+      "x": 163.0,
+      "y": 601.0,
+      "data": {
+        "color": "000000ff"
+      }
+    },
+    {
+      "id": "ff6f63af3181472da525343236652acd",
+      "type": "GraphShaderRenderer",
+      "x": 306.0,
+      "y": 225.0,
+      "data": {
+        "renderPasses": [
+          {
+            "shaders": [
+              {
+                "id": "e5fdf60cf0b748f1a7e7c6fe434a459b",
+                "tag": "default",
+                "shader": {
+                  "version": "0.1.2",
+                  "nodes": [
+                    {
+                      "id": "f5ef97f386a44afda8f88a7cdc09147d",
+                      "type": "ValueColor",
+                      "x": 50.0,
+                      "y": 392.0,
+                      "data": {
+                        "color": "ffffffff"
+                      }
+                    },
+                    {
+                      "id": "end",
+                      "type": "ShaderEnd",
+                      "x": 367.0,
+                      "y": 50.0,
+                      "data": {
+                        "culling": "back",
+                        "transparency": "opaque",
+                        "blending": "alpha",
+                        "depthTest": "less"
+                      }
+                    }
+                  ],
+                  "connections": [
+                    {
+                      "fromNode": "f5ef97f386a44afda8f88a7cdc09147d",
+                      "fromField": "value",
+                      "toNode": "end",
+                      "toField": "color"
+                    }
+                  ],
+                  "properties": [],
+                  "groups": []
+                }
+              }
+            ]
+          },
+          {
+            "shaders": [
+              {
+                "id": "6f24d928d2a34b0086660402de7da94a",
+                "tag": "force-field",
+                "shader": {
+                  "version": "0.1.2",
+                  "nodes": [
+                    {
+                      "id": "980ea652f1164fc98bc42962aa87ce4b",
+                      "type": "ValueFloat",
+                      "x": 655.0,
+                      "y": 175.0,
+                      "data": {
+                        "v1": 0.20000000298023224
+                      }
+                    },
+                    {
+                      "id": "fd2fcee3e24a4e81bb773befe643da4f",
+                      "type": "Distance",
+                      "x": 274.0,
+                      "y": 102.0
+                    },
+                    {
+                      "id": "85b84467d2cc419da4796a8bf8000c44",
+                      "type": "Subtract",
+                      "x": 635.0,
+                      "y": 278.0
+                    },
+                    {
+                      "id": "331ff6ae09cd447983b4382196e51604",
+                      "type": "Subtract",
+                      "x": 455.0,
+                      "y": 201.0
+                    },
+                    {
+                      "id": "9caf2257003a4854876fd704b203f08e",
+                      "type": "CameraPosition",
+                      "x": 76.0,
+                      "y": 50.0
+                    },
+                    {
+                      "id": "73ddde03d1bd4f8c836f73e898f2615a",
+                      "type": "AttributePosition",
+                      "x": 59.0,
+                      "y": 116.0,
+                      "data": {
+                        "coordinates": "world"
+                      }
+                    },
+                    {
+                      "id": "a9e83b9dd6b84ea4a6642a7e913ad51d",
+                      "type": "ValueColor",
+                      "x": 305.0,
+                      "y": 434.0,
+                      "data": {
+                        "color": "707affff"
+                      }
+                    },
+                    {
+                      "id": "end",
+                      "type": "ShaderEnd",
+                      "x": 1099.0,
+                      "y": 92.0,
+                      "data": {
+                        "culling": "none",
+                        "transparency": "transparent",
+                        "blending": "alpha",
+                        "depthTest": "less"
+                      }
+                    },
+                    {
+                      "id": "8181d12b6fd446529132951c007f4323",
+                      "type": "ScreenPosition",
+                      "x": 50.0,
+                      "y": 223.0
+                    },
+                    {
+                      "id": "e6d4f6ba848f44718262dbd945f49d58",
+                      "type": "ValueFloat",
+                      "x": 342.0,
+                      "y": 299.0,
+                      "data": {
+                        "v1": 1.0
+                      }
+                    },
+                    {
+                      "id": "c84608bb082345ffb3b23b0f507efe3e",
+                      "type": "Maximum",
+                      "x": 874.0,
+                      "y": 265.0
+                    },
+                    {
+                      "id": "d234447645504b10a6bcc735213fe690",
+                      "type": "SceneDepth",
+                      "x": 251.0,
+                      "y": 227.0
+                    }
+                  ],
+                  "connections": [
+                    {
+                      "fromNode": "a9e83b9dd6b84ea4a6642a7e913ad51d",
+                      "fromField": "value",
+                      "toNode": "end",
+                      "toField": "color"
+                    },
+                    {
+                      "fromNode": "e6d4f6ba848f44718262dbd945f49d58",
+                      "fromField": "value",
+                      "toNode": "85b84467d2cc419da4796a8bf8000c44",
+                      "toField": "a"
+                    },
+                    {
+                      "fromNode": "85b84467d2cc419da4796a8bf8000c44",
+                      "fromField": "output",
+                      "toNode": "c84608bb082345ffb3b23b0f507efe3e",
+                      "toField": "a"
+                    },
+                    {
+                      "fromNode": "980ea652f1164fc98bc42962aa87ce4b",
+                      "fromField": "value",
+                      "toNode": "c84608bb082345ffb3b23b0f507efe3e",
+                      "toField": "b"
+                    },
+                    {
+                      "fromNode": "8181d12b6fd446529132951c007f4323",
+                      "fromField": "output",
+                      "toNode": "d234447645504b10a6bcc735213fe690",
+                      "toField": "screenPosition"
+                    },
+                    {
+                      "fromNode": "9caf2257003a4854876fd704b203f08e",
+                      "fromField": "position",
+                      "toNode": "fd2fcee3e24a4e81bb773befe643da4f",
+                      "toField": "p1"
+                    },
+                    {
+                      "fromNode": "73ddde03d1bd4f8c836f73e898f2615a",
+                      "fromField": "position",
+                      "toNode": "fd2fcee3e24a4e81bb773befe643da4f",
+                      "toField": "p0"
+                    },
+                    {
+                      "fromNode": "d234447645504b10a6bcc735213fe690",
+                      "fromField": "depth",
+                      "toNode": "331ff6ae09cd447983b4382196e51604",
+                      "toField": "a"
+                    },
+                    {
+                      "fromNode": "fd2fcee3e24a4e81bb773befe643da4f",
+                      "fromField": "output",
+                      "toNode": "331ff6ae09cd447983b4382196e51604",
+                      "toField": "b"
+                    },
+                    {
+                      "fromNode": "c84608bb082345ffb3b23b0f507efe3e",
+                      "fromField": "output",
+                      "toNode": "end",
+                      "toField": "alpha"
+                    },
+                    {
+                      "fromNode": "331ff6ae09cd447983b4382196e51604",
+                      "fromField": "output",
+                      "toNode": "85b84467d2cc419da4796a8bf8000c44",
+                      "toField": "b"
+                    }
+                  ],
+                  "properties": [],
+                  "groups": []
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "746da9b276d442f0bc74ed9847a26a4b",
+      "type": "PipelineStart",
+      "x": 385.0,
+      "y": 576.0
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "72be9695e45949ccb5f449dbacdfd619",
+      "fromField": "value",
+      "toNode": "ff6f63af3181472da525343236652acd",
+      "toField": "camera"
+    },
+    {
+      "fromNode": "746da9b276d442f0bc74ed9847a26a4b",
+      "fromField": "output",
+      "toNode": "ff6f63af3181472da525343236652acd",
+      "toField": "input"
+    },
+    {
+      "fromNode": "d54b356d4a1242cab5e6cb3f836b1930",
+      "fromField": "value",
+      "toNode": "746da9b276d442f0bc74ed9847a26a4b",
+      "toField": "background"
+    },
+    {
+      "fromNode": "ff6f63af3181472da525343236652acd",
+      "fromField": "output",
+      "toNode": "dffb152d405a49d38792e850749129b2",
+      "toField": "input"
+    },
+    {
+      "fromNode": "dffb152d405a49d38792e850749129b2",
+      "fromField": "output",
+      "toNode": "end",
+      "toField": "input"
+    },
+    {
+      "fromNode": "a9ef339d56654f4c8f7445b45b3bed0b",
+      "fromField": "value",
+      "toNode": "dffb152d405a49d38792e850749129b2",
+      "toField": "stage"
+    },
+    {
+      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
+      "fromField": "value",
+      "toNode": "ff6f63af3181472da525343236652acd",
+      "toField": "lights"
+    }
+  ],
+  "properties": [
+    {
+      "name": "Camera",
+      "type": "Camera"
+    },
+    {
+      "name": "Stage",
+      "type": "Stage"
+    },
+    {
+      "name": "Lights",
+      "type": "GraphLights"
+    }
+  ],
+  "groups": []
+}
