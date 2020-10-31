@@ -4,14 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cubemap;
-import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureArray;
-import com.badlogic.gdx.graphics.VertexAttributes;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
@@ -117,7 +110,7 @@ public class Episode11LibgdxGraphTestApplication extends ApplicationAdapter {
 
         models.createModelInstance(forceFieldId);
         sphereInstanceId = models.createModelInstance(sphereId);
-        models.updateTransform(sphereInstanceId, Transforms.create().idt().translate(-5f, 0, 0));
+        models.updateTransform(sphereInstanceId, Transforms.create().idt().translate(-3f, 0, 0));
     }
 
     private Stage createStage() {
@@ -131,7 +124,7 @@ public class Episode11LibgdxGraphTestApplication extends ApplicationAdapter {
         tbl.setFillParent(true);
         tbl.align(Align.topLeft);
 
-        final Slider slider = new Slider(-5, 5, 0.01f, false, skin);
+        final Slider slider = new Slider(-3, 3, 0.01f, false, skin);
         slider.addListener(
                 new ChangeListener() {
                     @Override
