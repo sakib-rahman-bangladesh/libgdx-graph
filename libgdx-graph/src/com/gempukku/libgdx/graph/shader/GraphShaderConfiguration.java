@@ -60,6 +60,7 @@ import com.gempukku.libgdx.graph.shader.node.math.trigonometry.DegreesShaderNode
 import com.gempukku.libgdx.graph.shader.node.math.trigonometry.RadiansShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.trigonometry.SinShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.trigonometry.TanShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.math.utility.DistanceFromPlaneShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.value.MergeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.value.RemapShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.value.SplitShaderNodeBuilder;
@@ -147,6 +148,9 @@ public class GraphShaderConfiguration {
         addGraphShaderNodeBuilder(new ArctanShaderNodeBuilder());
         addGraphShaderNodeBuilder(new RadiansShaderNodeBuilder());
         addGraphShaderNodeBuilder(new DegreesShaderNodeBuilder());
+
+        // Math - utilities
+        addGraphShaderNodeBuilder(new DistanceFromPlaneShaderNodeBuilder());
 
         // Lighting
         addGraphShaderNodeBuilder(new CalculateLightingShaderNodeBuilder());

@@ -104,7 +104,8 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
             shaderInitialized = true;
         } catch (Exception exp) {
             exp.printStackTrace();
-            graphShader.dispose();
+            if (graphShader != null)
+                graphShader.dispose();
         }
     }
 

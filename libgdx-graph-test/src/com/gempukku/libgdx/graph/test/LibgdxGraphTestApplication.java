@@ -34,7 +34,6 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
-import com.gempukku.libgdx.graph.shader.models.Transforms;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -86,7 +85,7 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         camera.near = 0.5f;
         camera.far = 100f;
 
-        camera.position.set(8, 0, 5);
+        camera.position.set(5, 2, 5);
         camera.up.set(0f, 1f, 0f);
         camera.lookAt(0, 0, 0f);
         camera.update();
@@ -95,28 +94,17 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private void createModels(GraphShaderModels models) {
+        float radius = 3.5f;
         ModelBuilder modelBuilder = new ModelBuilder();
-        Model forceField = modelBuilder.createRect(
-                0, 10, 10,
-                0, -10, 10,
-                0, -10, -10,
-                0, 10, -10,
-                0, 0, 1,
-                new Material(), VertexAttributes.Usage.Position);
-        disposables.add(forceField);
-
-        Model sphere = modelBuilder.createSphere(4f, 4f, 4f, 50, 50, new Material(), VertexAttributes.Usage.Position);
+        Model sphere = modelBuilder.createSphere(radius * 2, radius * 2, radius * 2, 50, 50, new Material(),
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
         disposables.add(sphere);
 
-        String forceFieldId = models.registerModel(forceField);
         String sphereId = models.registerModel(sphere);
 
-        models.addModelDefaultTag(forceFieldId, "force-field");
         models.addModelDefaultTag(sphereId, "default");
 
-        models.createModelInstance(forceFieldId);
         sphereInstanceId = models.createModelInstance(sphereId);
-        models.updateTransform(sphereInstanceId, Transforms.create().idt().translate(-5f, 0, 0));
     }
 
     private Stage createStage() {
@@ -130,18 +118,27 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         tbl.setFillParent(true);
         tbl.align(Align.topLeft);
 
-        final Slider slider = new Slider(-5, 5, 0.01f, false, skin);
-        slider.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        GraphShaderModels models = pipelineRenderer.getGraphShaderModels();
-                        models.updateTransform(sphereInstanceId,
-                                Transforms.create().idt().translate(slider.getValue(), 0, 0));
-                    }
-                });
-        tbl.add("Sphere translation").padRight(5f);
-        tbl.add(slider).width(300f);
+        final Slider dissolve = new Slider(-5, 5, 0.01f, false, skin);
+        dissolve.setValue(0f);
+        addListener(dissolve, "Dissolve");
+        final Slider noiseScale = new Slider(0, 10, 0.01f, false, skin);
+        noiseScale.setValue(3f);
+        addListener(noiseScale, "Noise Scale");
+        final Slider noiseValue = new Slider(0, 10, 0.01f, false, skin);
+        noiseValue.setValue(1.5f);
+        addListener(noiseValue, "Noise Value");
+
+        tbl.add("Dissolve").padRight(5f);
+        tbl.add(dissolve).width(300f);
+        tbl.row();
+
+        tbl.add("Noise Scale").padRight(5f);
+        tbl.add(noiseScale).width(300f);
+        tbl.row();
+
+        tbl.add("Noise Value").padRight(5f);
+        tbl.add(noiseValue).width(300f);
+        tbl.row();
 
         stage.addActor(tbl);
         return stage;
@@ -209,5 +206,16 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         pipelineRenderer.setPipelineProperty("Camera", camera);
         pipelineRenderer.setPipelineProperty("Lights", lights);
         pipelineRenderer.setPipelineProperty("Stage", stage);
+    }
+
+    private void addListener(final Slider slider, final String propertyName) {
+        slider.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        GraphShaderModels models = pipelineRenderer.getGraphShaderModels();
+                        models.setProperty(sphereInstanceId, propertyName, slider.getValue());
+                    }
+                });
     }
 }

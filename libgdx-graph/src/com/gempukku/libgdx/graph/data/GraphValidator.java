@@ -45,18 +45,13 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
             Array<W> inputType = new Array<>();
             for (U incomingConnection : getIncomingConnections(graph, nodeId, fieldTo)) {
                 GraphNodeInput<W> input = thisNode.getConfiguration().getNodeInputs().get(fieldTo);
-                T remoteNode = graph.getNodeById(incomingConnection.getNodeFrom());
-                GraphNodeOutput<W> output = remoteNode.getConfiguration().getNodeOutputs().get(incomingConnection.getFieldFrom());
-
-                // Validate the actual output is accepted by the input
-                Array<W> acceptedPropertyTypes = input.getAcceptedPropertyTypes();
-                if (!outputAcceptsPropertyType(output, acceptedPropertyTypes)) {
-                    result.addErrorConnection(incomingConnection);
-                }
-
                 validatedFields.add(fieldTo);
+
                 NodeOutputs<W> outputFromRemoteNode = validateNode(result, graph, incomingConnection.getNodeFrom(), nodeOutputs);
-                inputType.add(outputFromRemoteNode.outputs.get(incomingConnection.getFieldFrom()));
+                W outputType = outputFromRemoteNode.outputs.get(incomingConnection.getFieldFrom());
+                if (!input.getAcceptedPropertyTypes().contains(outputType, true))
+                    result.addErrorConnection(incomingConnection);
+                inputType.add(outputType);
             }
             inputsTypes.put(fieldTo, inputType);
         }

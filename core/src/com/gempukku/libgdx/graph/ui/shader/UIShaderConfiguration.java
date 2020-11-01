@@ -46,6 +46,7 @@ import com.gempukku.libgdx.graph.shader.config.math.trigonometry.DegreesShaderNo
 import com.gempukku.libgdx.graph.shader.config.math.trigonometry.RadiansShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.trigonometry.SinShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.trigonometry.TanShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.math.utility.DistanceFromPlaneShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.value.MergeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.value.RemapShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.value.SplitShaderNodeConfiguration;
@@ -178,6 +179,8 @@ public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldTy
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new DotProductShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CrossProductShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new NormalizeShaderNodeConfiguration()));
+
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new DistanceFromPlaneShaderNodeConfiguration()));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SplitShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new MergeShaderNodeConfiguration()));
