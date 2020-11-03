@@ -21,7 +21,7 @@ allprojects {
     version = '0.1.2'
     ext {
         appName = "Libgdx Graph"
-        gdxVersion = '1.9.11'
+        gdxVersion = '1.9.12'
         roboVMVersion = '2.3.8'
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
