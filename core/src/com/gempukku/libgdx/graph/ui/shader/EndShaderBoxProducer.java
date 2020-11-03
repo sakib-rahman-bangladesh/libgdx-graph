@@ -1,8 +1,10 @@
 package com.gempukku.libgdx.graph.ui.shader;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
@@ -125,8 +127,21 @@ public class EndShaderBoxProducer implements GraphBoxProducer<ShaderFieldType> {
         private final ShaderPreviewWidget shaderPreviewWidget;
 
         public ShaderPreviewBoxPart(Skin skin) {
+            super(skin);
             shaderPreviewWidget = new ShaderPreviewWidget(200, 200);
-            add(shaderPreviewWidget).grow().row();
+            final SelectBox<ShaderPreviewWidget.ShaderPreviewModel> selectBox = new SelectBox<ShaderPreviewWidget.ShaderPreviewModel>(skin);
+            selectBox.setItems(ShaderPreviewWidget.ShaderPreviewModel.values());
+            add("Preview model: ");
+            add(selectBox).growX().row();
+            add(shaderPreviewWidget).colspan(2).grow().row();
+
+            selectBox.addListener(
+                    new ChangeListener() {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor) {
+                            shaderPreviewWidget.setModel(selectBox.getSelected());
+                        }
+                    });
         }
 
         public void initialize(JsonValue data) {

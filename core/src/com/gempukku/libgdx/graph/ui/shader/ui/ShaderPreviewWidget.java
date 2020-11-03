@@ -37,6 +37,10 @@ import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModel;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 
 public class ShaderPreviewWidget extends Widget implements Disposable {
+    public enum ShaderPreviewModel {
+        Sphere, Rectangle
+    }
+
     private boolean shaderInitialized;
     private int width;
     private int height;
@@ -44,13 +48,19 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
     private FrameBuffer frameBuffer;
     private GraphShader graphShader;
     private RenderContext renderContext;
-    private Model model;
-    private GraphShaderModelInstance modelInstance;
+
+    private Model rectangleModel;
+    private GraphShaderModel rectangleShaderModel;
+    private GraphShaderModelInstance rectangleModelInstance;
+    private Model sphereModel;
+    private GraphShaderModel sphereShaderModel;
+    private GraphShaderModelInstance sphereModelInstance;
+
     private Camera camera;
     private DefaultTimeKeeper timeKeeper;
-    private GraphShaderModel graphShaderModel;
     private GraphShaderEnvironment graphShaderEnvironment;
     private ShaderContextImpl shaderContext;
+    private ShaderPreviewModel model = ShaderPreviewModel.Sphere;
 
     public ShaderPreviewWidget(int width, int height) {
         this.width = width;
@@ -73,6 +83,10 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
         shaderContext = new ShaderContextImpl();
         shaderContext.setGraphShaderEnvironment(graphShaderEnvironment);
         shaderContext.setCamera(camera);
+    }
+
+    public void setModel(ShaderPreviewModel model) {
+        this.model = model;
     }
 
     @Override
@@ -112,7 +126,8 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
     private void createModel() {
         ModelBuilder modelBuilder = new ModelBuilder();
         Material material = new Material(new GraphShaderAttribute());
-        model = modelBuilder.createRect(
+
+        rectangleModel = modelBuilder.createRect(
                 0, -0.5f, -0.5f,
                 0, -0.5f, 0.5f,
                 0, 0.5f, 0.5f,
@@ -120,16 +135,21 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
                 1, 0, 0,
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-//        model = modelBuilder.createSphere(1, 1, 1, 50, 50,
-//                material,
-//                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        graphShaderModel = new GraphShaderModel(new RandomIdGenerator(16), model);
-        modelInstance = graphShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
+        rectangleShaderModel = new GraphShaderModel(new RandomIdGenerator(16), rectangleModel);
+        rectangleModelInstance = rectangleShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
+
+        sphereModel = modelBuilder.createSphere(1, 1, 1, 50, 50,
+                material,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
+        sphereShaderModel = new GraphShaderModel(new RandomIdGenerator(16), sphereModel);
+        sphereModelInstance = sphereShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
     }
 
     private void destroyShader() {
-        model.dispose();
-        graphShaderModel.dispose();
+        sphereModel.dispose();
+        sphereShaderModel.dispose();
+        rectangleModel.dispose();
+        rectangleShaderModel.dispose();
         frameBuffer.dispose();
         frameBuffer = null;
         graphShader.dispose();
@@ -163,7 +183,10 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
                 Gdx.gl.glClearColor(0, 0, 0, 1);
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
                 graphShader.begin(shaderContext, renderContext);
-                graphShader.render(shaderContext, modelInstance);
+                if (model == ShaderPreviewModel.Sphere)
+                    graphShader.render(shaderContext, sphereModelInstance);
+                else if (model == ShaderPreviewModel.Rectangle)
+                    graphShader.render(shaderContext, rectangleModelInstance);
                 graphShader.end();
                 frameBuffer.end();
                 renderContext.end();
