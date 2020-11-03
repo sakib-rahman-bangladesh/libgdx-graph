@@ -62,6 +62,7 @@ import com.gempukku.libgdx.graph.shader.config.provided.SceneDepthShaderNodeConf
 import com.gempukku.libgdx.graph.shader.config.provided.ScreenPositionShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.TimeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.shape.CheckerboardShapeShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.shape.EllipseShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.texture.Sampler2DShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.value.ValueBooleanShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.value.ValueColorShaderNodeConfiguration;
@@ -195,6 +196,7 @@ public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldTy
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new VoronoiDistanceNodeConfiguration()));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CheckerboardShapeShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new EllipseShapeShaderNodeConfiguration()));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new TimeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CameraPositionShaderNodeConfiguration()));

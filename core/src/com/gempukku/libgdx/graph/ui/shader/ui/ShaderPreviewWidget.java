@@ -112,17 +112,17 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
     private void createModel() {
         ModelBuilder modelBuilder = new ModelBuilder();
         Material material = new Material(new GraphShaderAttribute());
-//        model = modelBuilder.createRect(
-//                0, -0.5f, -0.5f,
-//                0, -0.5f, 0.5f,
-//                0, 0.5f, 0.5f,
-//                0, 0.5f, -0.5f,
-//                1, 0, 0,
-//                material,
-//                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        model = modelBuilder.createSphere(1, 1, 1, 50, 50,
+        model = modelBuilder.createRect(
+                0, -0.5f, -0.5f,
+                0, -0.5f, 0.5f,
+                0, 0.5f, 0.5f,
+                0, 0.5f, -0.5f,
+                1, 0, 0,
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
+//        model = modelBuilder.createSphere(1, 1, 1, 50, 50,
+//                material,
+//                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
         graphShaderModel = new GraphShaderModel(new RandomIdGenerator(16), model);
         modelInstance = graphShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
     }
