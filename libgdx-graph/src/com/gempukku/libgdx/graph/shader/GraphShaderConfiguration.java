@@ -75,6 +75,7 @@ import com.gempukku.libgdx.graph.shader.node.provided.PixelSizeShaderNodeBuilder
 import com.gempukku.libgdx.graph.shader.node.provided.SceneDepthShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.ScreenPositionShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.TimeGraphShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.shape.CheckerboardShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.texture.Sampler2DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.value.ValueBooleanShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.value.ValueColorShaderNodeBuilder;
@@ -193,6 +194,9 @@ public class GraphShaderConfiguration {
         addGraphShaderNodeBuilder(new SimplexNoise2DShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SimplexNoise3DShaderNodeBuilder());
         addGraphShaderNodeBuilder(new VoronoiDistanceShaderNodeBuilder());
+
+        // Shape
+        addGraphShaderNodeBuilder(new CheckerboardShapeShaderNodeBuilder());
 
         // Provided
         addGraphShaderNodeBuilder(new TimeGraphShaderNodeBuilder());
