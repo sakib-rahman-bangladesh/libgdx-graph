@@ -166,6 +166,15 @@ public class UniformSetters {
         }
     };
 
+    public final static UniformRegistry.UniformSetter colorTexture = new UniformRegistry.UniformSetter() {
+        @Override
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+            Texture colorTexture = shaderContext.getColorTexture();
+            final int unit = shader.getContext().textureBinder.bind(colorTexture);
+            shader.setUniform(location, unit);
+        }
+    };
+
     public static class MaterialTexture implements UniformRegistry.UniformSetter {
         private long type;
 

@@ -12,6 +12,7 @@ import java.util.Iterator;
 
 public class RenderPipelineImpl implements RenderPipeline {
     private FrameBuffer depthBuffer;
+    private FrameBuffer sceneColorBuffer;
     private int width;
     private int height;
     private BufferCopyHelper bufferCopyHelper = new BufferCopyHelper();
@@ -19,6 +20,18 @@ public class RenderPipelineImpl implements RenderPipeline {
 
     private Array<FrameBuffer> oldFrameBuffers = new Array<FrameBuffer>();
     private Array<FrameBuffer> newFrameBuffers = new Array<FrameBuffer>();
+
+    @Override
+    public FrameBuffer getSceneColorBuffer() {
+        if (sceneColorBuffer == null) {
+            sceneColorBuffer = getNewFrameBuffer(width, height, Pixmap.Format.RGBA8888);
+            sceneColorBuffer.begin();
+            Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+            sceneColorBuffer.end();
+        }
+        return sceneColorBuffer;
+    }
 
     @Override
     public FrameBuffer getDepthFrameBuffer() {
@@ -41,6 +54,10 @@ public class RenderPipelineImpl implements RenderPipeline {
         if (depthBuffer != null) {
             returnFrameBuffer(depthBuffer);
             depthBuffer = null;
+        }
+        if (sceneColorBuffer != null) {
+            returnFrameBuffer(sceneColorBuffer);
+            sceneColorBuffer = null;
         }
         for (FrameBuffer freeFrameBuffer : oldFrameBuffers) {
             freeFrameBuffer.dispose();

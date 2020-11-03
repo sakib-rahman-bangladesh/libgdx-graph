@@ -18,12 +18,9 @@ import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -34,6 +31,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.Transforms;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,7 +46,6 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private Stage stage;
     private Skin skin;
     private GraphShaderEnvironment lights;
-    private String sphereInstanceId;
 
     @Override
     public void create() {
@@ -85,26 +82,55 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         camera.near = 0.5f;
         camera.far = 100f;
 
-        camera.position.set(5, 2, 5);
+        camera.position.set(15, 4, 0);
         camera.up.set(0f, 1f, 0f);
-        camera.lookAt(0, 0, 0f);
+        camera.lookAt(0, 3, 0f);
         camera.update();
 
         return camera;
     }
 
     private void createModels(GraphShaderModels models) {
-        float radius = 3.5f;
         ModelBuilder modelBuilder = new ModelBuilder();
-        Model sphere = modelBuilder.createSphere(radius * 2, radius * 2, radius * 2, 50, 50, new Material(),
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
-        disposables.add(sphere);
 
-        String sphereId = models.registerModel(sphere);
+        float x = -5f;
+        Model tiledWall = modelBuilder.createRect(
+                x, 20, 10,
+                x, 0, 10,
+                x, 0, -10,
+                x, 20, -10,
+                1, 0, 0,
+                new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
+        disposables.add(tiledWall);
 
-        models.addModelDefaultTag(sphereId, "default");
+        String tiledWallId = models.registerModel(tiledWall);
+        models.addModelDefaultTag(tiledWallId, "tiled-wall");
+        models.createModelInstance(tiledWallId);
 
-        sphereInstanceId = models.createModelInstance(sphereId);
+        float y = 0f;
+        Model burner = modelBuilder.createRect(
+                x, y, 5,
+                -x, y, 5,
+                -x, y, -5,
+                x, y, -5,
+                0, 1, 0,
+                new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
+        disposables.add(burner);
+
+        String burnerId = models.registerModel(burner);
+        models.addModelDefaultTag(burnerId, "burner");
+        models.createModelInstance(burnerId);
+
+        float cylinderHeight = 8f;
+        float cylinderSize = 7f;
+        Model cylinder = modelBuilder.createCylinder(cylinderSize, cylinderHeight, cylinderSize, 50,
+                new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates | VertexAttributes.Usage.Normal);
+        disposables.add(cylinder);
+
+        String cylinderId = models.registerModel(cylinder);
+        models.addModelDefaultTag(cylinderId, "heat-displacement");
+        String cylinderInstanceId = models.createModelInstance(cylinderId);
+        models.updateTransform(cylinderInstanceId, Transforms.create().translate(0, 0.05f + cylinderHeight / 2f, 0f));
     }
 
     private Stage createStage() {
@@ -117,28 +143,6 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
 
         tbl.setFillParent(true);
         tbl.align(Align.topLeft);
-
-        final Slider dissolve = new Slider(-5, 5, 0.01f, false, skin);
-        dissolve.setValue(0f);
-        addListener(dissolve, "Dissolve");
-        final Slider noiseScale = new Slider(0, 10, 0.01f, false, skin);
-        noiseScale.setValue(3f);
-        addListener(noiseScale, "Noise Scale");
-        final Slider noiseValue = new Slider(0, 10, 0.01f, false, skin);
-        noiseValue.setValue(1.5f);
-        addListener(noiseValue, "Noise Value");
-
-        tbl.add("Dissolve").padRight(5f);
-        tbl.add(dissolve).width(300f);
-        tbl.row();
-
-        tbl.add("Noise Scale").padRight(5f);
-        tbl.add(noiseScale).width(300f);
-        tbl.row();
-
-        tbl.add("Noise Value").padRight(5f);
-        tbl.add(noiseValue).width(300f);
-        tbl.row();
 
         stage.addActor(tbl);
         return stage;
@@ -206,16 +210,5 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         pipelineRenderer.setPipelineProperty("Camera", camera);
         pipelineRenderer.setPipelineProperty("Lights", lights);
         pipelineRenderer.setPipelineProperty("Stage", stage);
-    }
-
-    private void addListener(final Slider slider, final String propertyName) {
-        slider.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        GraphShaderModels models = pipelineRenderer.getGraphShaderModels();
-                        models.setProperty(sphereInstanceId, propertyName, slider.getValue());
-                    }
-                });
     }
 }

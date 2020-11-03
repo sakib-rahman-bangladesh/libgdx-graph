@@ -8,6 +8,8 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 public interface ShaderContext {
     Texture getDepthTexture();
 
+    Texture getColorTexture();
+
     Camera getCamera();
 
     GraphShaderEnvironment getGraphShaderEnvironment();

@@ -164,6 +164,7 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     private DepthTesting depthTesting = DepthTesting.less;
 
     private boolean usingDepthTexture;
+    private boolean usingColorTexture;
 
     private boolean initialized = false;
     protected final RenderablePool renderablesPool = new RenderablePool();
@@ -186,6 +187,14 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
     public void setUsingDepthTexture(boolean usingDepthTexture) {
         this.usingDepthTexture = usingDepthTexture;
+    }
+
+    public boolean isUsingColorTexture() {
+        return usingColorTexture;
+    }
+
+    public void setUsingColorTexture(boolean usingColorTexture) {
+        this.usingColorTexture = usingColorTexture;
     }
 
     @Override

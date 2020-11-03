@@ -10,6 +10,7 @@ public class ShaderContextImpl implements ShaderContext {
     private Camera camera;
     private GraphShaderEnvironment graphShaderEnvironment;
     private Texture depthTexture;
+    private Texture colorTexture;
     private TimeProvider timeProvider;
 
     @Override
@@ -37,6 +38,15 @@ public class ShaderContextImpl implements ShaderContext {
 
     public void setDepthTexture(Texture depthTexture) {
         this.depthTexture = depthTexture;
+    }
+
+    @Override
+    public Texture getColorTexture() {
+        return colorTexture;
+    }
+
+    public void setColorTexture(Texture colorTexture) {
+        this.colorTexture = colorTexture;
     }
 
     @Override
