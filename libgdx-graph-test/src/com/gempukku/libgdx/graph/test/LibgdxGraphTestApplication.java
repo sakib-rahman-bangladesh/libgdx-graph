@@ -46,6 +46,10 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private Stage stage;
     private Skin skin;
     private GraphShaderEnvironment lights;
+    
+    private Model tiledWall;
+    private Model burner;
+    private Model cylinder;
 
     @Override
     public void create() {
@@ -94,7 +98,7 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         ModelBuilder modelBuilder = new ModelBuilder();
 
         float x = -5f;
-        Model tiledWall = modelBuilder.createRect(
+        tiledWall = modelBuilder.createRect(
                 x, 20, 10,
                 x, 0, 10,
                 x, 0, -10,
@@ -103,12 +107,8 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
                 new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
         disposables.add(tiledWall);
 
-        String tiledWallId = models.registerModel(tiledWall);
-        models.addModelDefaultTag(tiledWallId, "tiled-wall");
-        models.createModelInstance(tiledWallId);
-
         float y = 0f;
-        Model burner = modelBuilder.createRect(
+        burner = modelBuilder.createRect(
                 x, y, 5,
                 -x, y, 5,
                 -x, y, -5,
@@ -117,15 +117,24 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
                 new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
         disposables.add(burner);
 
+        float cylinderHeight = 8f;
+        float cylinderSize = 7f;
+        cylinder = modelBuilder.createCylinder(cylinderSize, cylinderHeight, cylinderSize, 50,
+                new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates | VertexAttributes.Usage.Normal);
+        disposables.add(cylinder);
+
+        registerModels(models);
+    }
+
+    private void registerModels(GraphShaderModels models) {
+        float cylinderHeight = 8f;
+        String tiledWallId = models.registerModel(tiledWall);
+        models.addModelDefaultTag(tiledWallId, "tiled-wall");
+        models.createModelInstance(tiledWallId);
+
         String burnerId = models.registerModel(burner);
         models.addModelDefaultTag(burnerId, "burner");
         models.createModelInstance(burnerId);
-
-        float cylinderHeight = 8f;
-        float cylinderSize = 7f;
-        Model cylinder = modelBuilder.createCylinder(cylinderSize, cylinderHeight, cylinderSize, 50,
-                new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates | VertexAttributes.Usage.Normal);
-        disposables.add(cylinder);
 
         String cylinderId = models.registerModel(cylinder);
         models.addModelDefaultTag(cylinderId, "heat-displacement");
@@ -170,7 +179,7 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
                 lastProcessedInput = currentTime;
                 pipelineRenderer.dispose();
                 pipelineRenderer = loadPipelineRenderer();
-                createModels(pipelineRenderer.getGraphShaderModels());
+                registerModels(pipelineRenderer.getGraphShaderModels());
             }
         }
     }
