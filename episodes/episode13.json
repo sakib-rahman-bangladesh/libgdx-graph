@@ -1,0 +1,868 @@
+{
+  "version": "0.1.2",
+  "nodes": [
+    {
+      "id": "72be9695e45949ccb5f449dbacdfd619",
+      "type": "Property",
+      "x": 50.0,
+      "y": 408.0,
+      "data": {
+        "name": "Camera",
+        "type": "Camera"
+      }
+    },
+    {
+      "id": "a9ef339d56654f4c8f7445b45b3bed0b",
+      "type": "Property",
+      "x": 180.0,
+      "y": 126.0,
+      "data": {
+        "name": "Stage",
+        "type": "Stage"
+      }
+    },
+    {
+      "id": "50f414bd4ecb4a01a52ae1e8be315763",
+      "type": "Property",
+      "x": 52.0,
+      "y": 342.0,
+      "data": {
+        "name": "Lights",
+        "type": "GraphLights"
+      }
+    },
+    {
+      "id": "dffb152d405a49d38792e850749129b2",
+      "type": "UIRenderer",
+      "x": 385.0,
+      "y": 126.0
+    },
+    {
+      "id": "end",
+      "type": "PipelineEnd",
+      "x": 385.0,
+      "y": 50.0
+    },
+    {
+      "id": "d54b356d4a1242cab5e6cb3f836b1930",
+      "type": "ValueColor",
+      "x": 163.0,
+      "y": 601.0,
+      "data": {
+        "color": "000000ff"
+      }
+    },
+    {
+      "id": "ff6f63af3181472da525343236652acd",
+      "type": "GraphShaderRenderer",
+      "x": 306.0,
+      "y": 225.0,
+      "data": {
+        "renderPasses": [
+          {
+            "shaders": [
+              {
+                "id": "2daebbc484de449d95bebc71b39fa6c0",
+                "tag": "tiled-wall",
+                "shader": {
+                  "version": "0.1.2",
+                  "nodes": [
+                    {
+                      "id": "fe89242b93514b40841bf847352b8b5a",
+                      "type": "ValueColor",
+                      "x": 302.0,
+                      "y": 574.0,
+                      "data": {
+                        "color": "000000ff"
+                      }
+                    },
+                    {
+                      "id": "210c5de818fd4ba4983c9d747077f320",
+                      "type": "CheckerboardShape",
+                      "x": 263.0,
+                      "y": 458.0
+                    },
+                    {
+                      "id": "52b56b03ba6e4e22bf0418e61421bc4d",
+                      "type": "AttributeUV",
+                      "x": 50.0,
+                      "y": 502.0,
+                      "data": {
+                        "channel": "UV0"
+                      }
+                    },
+                    {
+                      "id": "7beeab44e092449688eb89427083bd3a",
+                      "type": "Mix",
+                      "x": 538.0,
+                      "y": 565.0
+                    },
+                    {
+                      "id": "end",
+                      "type": "ShaderEnd",
+                      "x": 727.0,
+                      "y": 50.0,
+                      "data": {
+                        "culling": "back",
+                        "transparency": "opaque",
+                        "blending": "alpha",
+                        "depthTest": "less"
+                      }
+                    },
+                    {
+                      "id": "a3536fb248cd47e2931ee33db5a54209",
+                      "type": "ValueColor",
+                      "x": 344.0,
+                      "y": 648.0,
+                      "data": {
+                        "color": "ffffffff"
+                      }
+                    },
+                    {
+                      "id": "beaa7ece343241e3964451b4d25b4509",
+                      "type": "ValueVector2",
+                      "x": 58.0,
+                      "y": 403.0,
+                      "data": {
+                        "v1": 5.0,
+                        "v2": 5.0
+                      }
+                    }
+                  ],
+                  "connections": [
+                    {
+                      "fromNode": "52b56b03ba6e4e22bf0418e61421bc4d",
+                      "fromField": "uv",
+                      "toNode": "210c5de818fd4ba4983c9d747077f320",
+                      "toField": "uv"
+                    },
+                    {
+                      "fromNode": "beaa7ece343241e3964451b4d25b4509",
+                      "fromField": "value",
+                      "toNode": "210c5de818fd4ba4983c9d747077f320",
+                      "toField": "repeat"
+                    },
+                    {
+                      "fromNode": "a3536fb248cd47e2931ee33db5a54209",
+                      "fromField": "value",
+                      "toNode": "7beeab44e092449688eb89427083bd3a",
+                      "toField": "a"
+                    },
+                    {
+                      "fromNode": "fe89242b93514b40841bf847352b8b5a",
+                      "fromField": "value",
+                      "toNode": "7beeab44e092449688eb89427083bd3a",
+                      "toField": "b"
+                    },
+                    {
+                      "fromNode": "210c5de818fd4ba4983c9d747077f320",
+                      "fromField": "output",
+                      "toNode": "7beeab44e092449688eb89427083bd3a",
+                      "toField": "t"
+                    },
+                    {
+                      "fromNode": "7beeab44e092449688eb89427083bd3a",
+                      "fromField": "output",
+                      "toNode": "end",
+                      "toField": "color"
+                    }
+                  ],
+                  "properties": [],
+                  "groups": []
+                }
+              },
+              {
+                "id": "67c4fc773c1e4cd188ecd0fc7fa9c80a",
+                "tag": "burner",
+                "shader": {
+                  "version": "0.1.2",
+                  "nodes": [
+                    {
+                      "id": "fb0e83e7b49a458a927fd57746b3cd7d",
+                      "type": "ValueVector2",
+                      "x": 50.0,
+                      "y": 389.0,
+                      "data": {
+                        "v1": 0.6000000238418579,
+                        "v2": 0.6000000238418579
+                      }
+                    },
+                    {
+                      "id": "e5ddd5e8a6e24b3786b742e7a7df1b79",
+                      "type": "AttributeUV",
+                      "x": 65.0,
+                      "y": 469.0,
+                      "data": {
+                        "channel": "UV0"
+                      }
+                    },
+                    {
+                      "id": "668c716428694f83aec6e564cf8ab069",
+                      "type": "Mix",
+                      "x": 601.0,
+                      "y": 474.0
+                    },
+                    {
+                      "id": "4df2c8033b0f4726a382e4c5c3de46af",
+                      "type": "ValueColor",
+                      "x": 418.0,
+                      "y": 579.0,
+                      "data": {
+                        "color": "2e1f1fff"
+                      }
+                    },
+                    {
+                      "id": "49fc61ac94a34961bdc7dcb4003bcd2c",
+                      "type": "EllipseShape",
+                      "x": 318.0,
+                      "y": 412.0
+                    },
+                    {
+                      "id": "1fc6c02b3b9542ddb51181dad5dd955e",
+                      "type": "ValueFloat",
+                      "x": 84.0,
+                      "y": 294.0,
+                      "data": {
+                        "v1": 0.05000000074505806
+                      }
+                    },
+                    {
+                      "id": "end",
+                      "type": "ShaderEnd",
+                      "x": 820.0,
+                      "y": 50.0,
+                      "data": {
+                        "culling": "back",
+                        "transparency": "opaque",
+                        "blending": "alpha",
+                        "depthTest": "less"
+                      }
+                    },
+                    {
+                      "id": "8470a1d45832430bacb25b16256ce1b8",
+                      "type": "ValueColor",
+                      "x": 385.0,
+                      "y": 528.0,
+                      "data": {
+                        "color": "a61111ff"
+                      }
+                    }
+                  ],
+                  "connections": [
+                    {
+                      "fromNode": "e5ddd5e8a6e24b3786b742e7a7df1b79",
+                      "fromField": "uv",
+                      "toNode": "49fc61ac94a34961bdc7dcb4003bcd2c",
+                      "toField": "uv"
+                    },
+                    {
+                      "fromNode": "fb0e83e7b49a458a927fd57746b3cd7d",
+                      "fromField": "value",
+                      "toNode": "49fc61ac94a34961bdc7dcb4003bcd2c",
+                      "toField": "size"
+                    },
+                    {
+                      "fromNode": "1fc6c02b3b9542ddb51181dad5dd955e",
+                      "fromField": "value",
+                      "toNode": "49fc61ac94a34961bdc7dcb4003bcd2c",
+                      "toField": "width"
+                    },
+                    {
+                      "fromNode": "4df2c8033b0f4726a382e4c5c3de46af",
+                      "fromField": "value",
+                      "toNode": "668c716428694f83aec6e564cf8ab069",
+                      "toField": "a"
+                    },
+                    {
+                      "fromNode": "8470a1d45832430bacb25b16256ce1b8",
+                      "fromField": "value",
+                      "toNode": "668c716428694f83aec6e564cf8ab069",
+                      "toField": "b"
+                    },
+                    {
+                      "fromNode": "49fc61ac94a34961bdc7dcb4003bcd2c",
+                      "fromField": "output",
+                      "toNode": "668c716428694f83aec6e564cf8ab069",
+                      "toField": "t"
+                    },
+                    {
+                      "fromNode": "668c716428694f83aec6e564cf8ab069",
+                      "fromField": "output",
+                      "toNode": "end",
+                      "toField": "color"
+                    }
+                  ],
+                  "properties": [],
+                  "groups": []
+                }
+              }
+            ]
+          },
+          {
+            "shaders": [
+              {
+                "id": "a71e58b2d22b42eab7accbbc25f3adb7",
+                "tag": "heat-displacement",
+                "shader": {
+                  "version": "0.1.2",
+                  "nodes": [
+                    {
+                      "id": "389b41356e8d40c6b2d42589724d0162",
+                      "type": "ValueFloat",
+                      "x": 959.0,
+                      "y": 217.99998474121094,
+                      "data": {
+                        "v1": 0.5
+                      }
+                    },
+                    {
+                      "id": "f66126121a3949188245d683239703c3",
+                      "type": "AttributePosition",
+                      "x": 714.0,
+                      "y": 223.99998474121094,
+                      "data": {
+                        "coordinates": "world"
+                      }
+                    },
+                    {
+                      "id": "be6c135a0a144c68ab844600ef617fc3",
+                      "type": "SimplexNoise3D",
+                      "x": 1332.0,
+                      "y": 888.0
+                    },
+                    {
+                      "id": "8a18804be92a460786ba4ba0c802b987",
+                      "type": "Add",
+                      "x": 1947.0,
+                      "y": 562.0
+                    },
+                    {
+                      "id": "bd73ed87a3a14cfba0da9f29dc51bbec",
+                      "type": "Add",
+                      "x": 1138.0,
+                      "y": 710.0
+                    },
+                    {
+                      "id": "cd444f3a441a4b5caf23959f4012fca4",
+                      "type": "Add",
+                      "x": 1137.0,
+                      "y": 934.0
+                    },
+                    {
+                      "id": "fa5a106ef3ed4deabb5fb047fa486afc",
+                      "type": "ValueFloat",
+                      "x": 50.0,
+                      "y": 651.0,
+                      "data": {
+                        "v1": 20.0
+                      }
+                    },
+                    {
+                      "id": "700a3a6d62f54da18287a56c0b894f74",
+                      "type": "AttributeUV",
+                      "x": 1347.0,
+                      "y": 95.0,
+                      "data": {
+                        "channel": "UV0"
+                      }
+                    },
+                    {
+                      "id": "70a5e125bcef4c89ba8da434711fd190",
+                      "type": "SimplexNoise3D",
+                      "x": 1331.0,
+                      "y": 664.0
+                    },
+                    {
+                      "id": "dd388ba3e5a04ba3a3ef3a9df7059584",
+                      "type": "ScreenPosition",
+                      "x": 50.0,
+                      "y": 561.0
+                    },
+                    {
+                      "id": "cd34ecdcc9f54acdaeb6f263f999fcd6",
+                      "type": "ValueVector2",
+                      "x": 1138.0,
+                      "y": 588.0,
+                      "data": {
+                        "v1": -0.05000000074505806,
+                        "v2": 0.05000000074505806
+                      }
+                    },
+                    {
+                      "id": "45bc22cff5754314955718ea0ffa33be",
+                      "type": "ValueFloat",
+                      "x": 1361.0,
+                      "y": 443.0,
+                      "data": {
+                        "v1": 1.0
+                      }
+                    },
+                    {
+                      "id": "6f1bc1b4104d4e6db374d7c7da225cfe",
+                      "type": "ValueVector3",
+                      "x": 906.0,
+                      "y": 709.0,
+                      "data": {
+                        "v1": 5.0,
+                        "v2": 5.0,
+                        "v3": 5.0
+                      }
+                    },
+                    {
+                      "id": "end",
+                      "type": "ShaderEnd",
+                      "x": 2346.0,
+                      "y": 219.99998474121094,
+                      "data": {
+                        "culling": "back",
+                        "transparency": "opaque",
+                        "blending": "alpha",
+                        "depthTest": "less"
+                      }
+                    },
+                    {
+                      "id": "fb88a2f915a3433db0c8d18db7801fca",
+                      "type": "SceneColor",
+                      "x": 2141.0,
+                      "y": 562.0
+                    },
+                    {
+                      "id": "a5bd82dafba44504b2ef28f22f917d2e",
+                      "type": "Multiply",
+                      "x": 1742.0,
+                      "y": 474.0
+                    },
+                    {
+                      "id": "d40fad20fdc145b2ba10a569a49ffcba",
+                      "type": "ValueVector3",
+                      "x": 905.0,
+                      "y": 933.0,
+                      "data": {
+                        "v1": 1.0,
+                        "v2": 1.0,
+                        "v3": 1.0
+                      }
+                    },
+                    {
+                      "id": "94c0307a70264cb6b78e46fe4dd90c4d",
+                      "type": "ValueVector2",
+                      "x": 1137.0,
+                      "y": 814.0,
+                      "data": {
+                        "v1": -0.05000000074505806,
+                        "v2": 0.05000000074505806
+                      }
+                    },
+                    {
+                      "id": "7acd300b670744d3ae1accf9f4ae56e3",
+                      "type": "Split",
+                      "x": 1546.0,
+                      "y": 50.0
+                    },
+                    {
+                      "id": "8519715599f3415ca9da109cbe0d1042",
+                      "type": "Subtract",
+                      "x": 1547.0,
+                      "y": 450.0
+                    },
+                    {
+                      "id": "05214654ec374d5e9791eab3ef8c124c",
+                      "type": "ValueFloat",
+                      "x": 1138.0,
+                      "y": 649.0,
+                      "data": {
+                        "v1": 1.0
+                      }
+                    },
+                    {
+                      "id": "3ca441880748437a90e1b1d5dd724b5b",
+                      "type": "Merge",
+                      "x": 1550.0,
+                      "y": 754.0
+                    },
+                    {
+                      "id": "83e163afbb17402bb84295f6edae7447",
+                      "type": "Split",
+                      "x": 466.0,
+                      "y": 808.0
+                    },
+                    {
+                      "id": "ccf2df3bbd074312b4b500487f5f6271",
+                      "type": "Multiply",
+                      "x": 258.0,
+                      "y": 652.0
+                    },
+                    {
+                      "id": "5ca137fa1b244b1aa7c3c7af8a786bf0",
+                      "type": "FresnelEffect",
+                      "x": 1173.0,
+                      "y": 350.0
+                    },
+                    {
+                      "id": "64e58a4438664794ae71de77e66d2b41",
+                      "type": "Subtract",
+                      "x": 958.0,
+                      "y": 283.0
+                    },
+                    {
+                      "id": "b770563f33854f86b809f6b34da74be9",
+                      "type": "Merge",
+                      "x": 685.0,
+                      "y": 808.0
+                    },
+                    {
+                      "id": "41027dd8d52d40758f94cb994396efb2",
+                      "type": "CameraPosition",
+                      "x": 730.0,
+                      "y": 307.0
+                    },
+                    {
+                      "id": "d789b944f3aa41f983d4b70bb9b4fc35",
+                      "type": "Time",
+                      "x": 465.0,
+                      "y": 676.0
+                    },
+                    {
+                      "id": "70ccb4a95f5b48f19bbc0920085da18c",
+                      "type": "ValueFloat",
+                      "x": 1137.0,
+                      "y": 875.0,
+                      "data": {
+                        "v1": 1.0
+                      }
+                    },
+                    {
+                      "id": "07692506874e4f45a3ce53c9271b0939",
+                      "type": "AttributeNormal",
+                      "x": 900.0,
+                      "y": 377.0,
+                      "data": {
+                        "coordinates": "world"
+                      }
+                    }
+                  ],
+                  "connections": [
+                    {
+                      "fromNode": "fb88a2f915a3433db0c8d18db7801fca",
+                      "fromField": "color",
+                      "toNode": "end",
+                      "toField": "color"
+                    },
+                    {
+                      "fromNode": "83e163afbb17402bb84295f6edae7447",
+                      "fromField": "x",
+                      "toNode": "b770563f33854f86b809f6b34da74be9",
+                      "toField": "x"
+                    },
+                    {
+                      "fromNode": "83e163afbb17402bb84295f6edae7447",
+                      "fromField": "y",
+                      "toNode": "b770563f33854f86b809f6b34da74be9",
+                      "toField": "y"
+                    },
+                    {
+                      "fromNode": "d789b944f3aa41f983d4b70bb9b4fc35",
+                      "fromField": "time",
+                      "toNode": "b770563f33854f86b809f6b34da74be9",
+                      "toField": "z"
+                    },
+                    {
+                      "fromNode": "70ccb4a95f5b48f19bbc0920085da18c",
+                      "fromField": "value",
+                      "toNode": "be6c135a0a144c68ab844600ef617fc3",
+                      "toField": "scale"
+                    },
+                    {
+                      "fromNode": "94c0307a70264cb6b78e46fe4dd90c4d",
+                      "fromField": "value",
+                      "toNode": "be6c135a0a144c68ab844600ef617fc3",
+                      "toField": "range"
+                    },
+                    {
+                      "fromNode": "05214654ec374d5e9791eab3ef8c124c",
+                      "fromField": "value",
+                      "toNode": "70a5e125bcef4c89ba8da434711fd190",
+                      "toField": "scale"
+                    },
+                    {
+                      "fromNode": "cd34ecdcc9f54acdaeb6f263f999fcd6",
+                      "fromField": "value",
+                      "toNode": "70a5e125bcef4c89ba8da434711fd190",
+                      "toField": "range"
+                    },
+                    {
+                      "fromNode": "be6c135a0a144c68ab844600ef617fc3",
+                      "fromField": "output",
+                      "toNode": "3ca441880748437a90e1b1d5dd724b5b",
+                      "toField": "x"
+                    },
+                    {
+                      "fromNode": "70a5e125bcef4c89ba8da434711fd190",
+                      "fromField": "output",
+                      "toNode": "3ca441880748437a90e1b1d5dd724b5b",
+                      "toField": "y"
+                    },
+                    {
+                      "fromNode": "dd388ba3e5a04ba3a3ef3a9df7059584",
+                      "fromField": "output",
+                      "toNode": "8a18804be92a460786ba4ba0c802b987",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "8a18804be92a460786ba4ba0c802b987",
+                      "fromField": "output",
+                      "toNode": "fb88a2f915a3433db0c8d18db7801fca",
+                      "toField": "screenPosition"
+                    },
+                    {
+                      "fromNode": "b770563f33854f86b809f6b34da74be9",
+                      "fromField": "v3",
+                      "toNode": "cd444f3a441a4b5caf23959f4012fca4",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "d40fad20fdc145b2ba10a569a49ffcba",
+                      "fromField": "value",
+                      "toNode": "cd444f3a441a4b5caf23959f4012fca4",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "cd444f3a441a4b5caf23959f4012fca4",
+                      "fromField": "output",
+                      "toNode": "be6c135a0a144c68ab844600ef617fc3",
+                      "toField": "point"
+                    },
+                    {
+                      "fromNode": "b770563f33854f86b809f6b34da74be9",
+                      "fromField": "v3",
+                      "toNode": "bd73ed87a3a14cfba0da9f29dc51bbec",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "6f1bc1b4104d4e6db374d7c7da225cfe",
+                      "fromField": "value",
+                      "toNode": "bd73ed87a3a14cfba0da9f29dc51bbec",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "bd73ed87a3a14cfba0da9f29dc51bbec",
+                      "fromField": "output",
+                      "toNode": "70a5e125bcef4c89ba8da434711fd190",
+                      "toField": "point"
+                    },
+                    {
+                      "fromNode": "dd388ba3e5a04ba3a3ef3a9df7059584",
+                      "fromField": "output",
+                      "toNode": "ccf2df3bbd074312b4b500487f5f6271",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "fa5a106ef3ed4deabb5fb047fa486afc",
+                      "fromField": "value",
+                      "toNode": "ccf2df3bbd074312b4b500487f5f6271",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "ccf2df3bbd074312b4b500487f5f6271",
+                      "fromField": "output",
+                      "toNode": "83e163afbb17402bb84295f6edae7447",
+                      "toField": "input"
+                    },
+                    {
+                      "fromNode": "700a3a6d62f54da18287a56c0b894f74",
+                      "fromField": "uv",
+                      "toNode": "7acd300b670744d3ae1accf9f4ae56e3",
+                      "toField": "input"
+                    },
+                    {
+                      "fromNode": "3ca441880748437a90e1b1d5dd724b5b",
+                      "fromField": "v2",
+                      "toNode": "a5bd82dafba44504b2ef28f22f917d2e",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "a5bd82dafba44504b2ef28f22f917d2e",
+                      "fromField": "output",
+                      "toNode": "8a18804be92a460786ba4ba0c802b987",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "7acd300b670744d3ae1accf9f4ae56e3",
+                      "fromField": "y",
+                      "toNode": "a5bd82dafba44504b2ef28f22f917d2e",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "07692506874e4f45a3ce53c9271b0939",
+                      "fromField": "normal",
+                      "toNode": "5ca137fa1b244b1aa7c3c7af8a786bf0",
+                      "toField": "normal"
+                    },
+                    {
+                      "fromNode": "41027dd8d52d40758f94cb994396efb2",
+                      "fromField": "position",
+                      "toNode": "64e58a4438664794ae71de77e66d2b41",
+                      "toField": "a"
+                    },
+                    {
+                      "fromNode": "f66126121a3949188245d683239703c3",
+                      "fromField": "position",
+                      "toNode": "64e58a4438664794ae71de77e66d2b41",
+                      "toField": "b"
+                    },
+                    {
+                      "fromNode": "64e58a4438664794ae71de77e66d2b41",
+                      "fromField": "output",
+                      "toNode": "5ca137fa1b244b1aa7c3c7af8a786bf0",
+                      "toField": "viewDir"
+                    },
+                    {
+                      "fromNode": "389b41356e8d40c6b2d42589724d0162",
+                      "fromField": "value",
+                      "toNode": "5ca137fa1b244b1aa7c3c7af8a786bf0",
+                      "toField": "power"
+                    },
+                    {
+                      "fromNode": "45bc22cff5754314955718ea0ffa33be",
+                      "fromField": "value",
+                      "toNode": "8519715599f3415ca9da109cbe0d1042",
+                      "toField": "a"
+                    },
+                    {
+                      "fromNode": "5ca137fa1b244b1aa7c3c7af8a786bf0",
+                      "fromField": "output",
+                      "toNode": "8519715599f3415ca9da109cbe0d1042",
+                      "toField": "b"
+                    },
+                    {
+                      "fromNode": "8519715599f3415ca9da109cbe0d1042",
+                      "fromField": "output",
+                      "toNode": "a5bd82dafba44504b2ef28f22f917d2e",
+                      "toField": "inputs"
+                    }
+                  ],
+                  "properties": [],
+                  "groups": [
+                    {
+                      "name": "Horizontal displacement",
+                      "nodes": [
+                        "cd444f3a441a4b5caf23959f4012fca4",
+                        "be6c135a0a144c68ab844600ef617fc3",
+                        "70ccb4a95f5b48f19bbc0920085da18c",
+                        "d40fad20fdc145b2ba10a569a49ffcba",
+                        "94c0307a70264cb6b78e46fe4dd90c4d"
+                      ]
+                    },
+                    {
+                      "name": "Vertical reduction",
+                      "nodes": [
+                        "700a3a6d62f54da18287a56c0b894f74",
+                        "7acd300b670744d3ae1accf9f4ae56e3"
+                      ]
+                    },
+                    {
+                      "name": "Vertical displacement",
+                      "nodes": [
+                        "6f1bc1b4104d4e6db374d7c7da225cfe",
+                        "05214654ec374d5e9791eab3ef8c124c",
+                        "bd73ed87a3a14cfba0da9f29dc51bbec",
+                        "70a5e125bcef4c89ba8da434711fd190",
+                        "cd34ecdcc9f54acdaeb6f263f999fcd6"
+                      ]
+                    },
+                    {
+                      "name": "Noise point",
+                      "nodes": [
+                        "83e163afbb17402bb84295f6edae7447",
+                        "d789b944f3aa41f983d4b70bb9b4fc35",
+                        "b770563f33854f86b809f6b34da74be9"
+                      ]
+                    },
+                    {
+                      "name": "Edge reduction",
+                      "nodes": [
+                        "41027dd8d52d40758f94cb994396efb2",
+                        "8519715599f3415ca9da109cbe0d1042",
+                        "389b41356e8d40c6b2d42589724d0162",
+                        "64e58a4438664794ae71de77e66d2b41",
+                        "5ca137fa1b244b1aa7c3c7af8a786bf0",
+                        "45bc22cff5754314955718ea0ffa33be",
+                        "07692506874e4f45a3ce53c9271b0939",
+                        "f66126121a3949188245d683239703c3"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "746da9b276d442f0bc74ed9847a26a4b",
+      "type": "PipelineStart",
+      "x": 385.0,
+      "y": 576.0
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "72be9695e45949ccb5f449dbacdfd619",
+      "fromField": "value",
+      "toNode": "ff6f63af3181472da525343236652acd",
+      "toField": "camera"
+    },
+    {
+      "fromNode": "746da9b276d442f0bc74ed9847a26a4b",
+      "fromField": "output",
+      "toNode": "ff6f63af3181472da525343236652acd",
+      "toField": "input"
+    },
+    {
+      "fromNode": "d54b356d4a1242cab5e6cb3f836b1930",
+      "fromField": "value",
+      "toNode": "746da9b276d442f0bc74ed9847a26a4b",
+      "toField": "background"
+    },
+    {
+      "fromNode": "ff6f63af3181472da525343236652acd",
+      "fromField": "output",
+      "toNode": "dffb152d405a49d38792e850749129b2",
+      "toField": "input"
+    },
+    {
+      "fromNode": "dffb152d405a49d38792e850749129b2",
+      "fromField": "output",
+      "toNode": "end",
+      "toField": "input"
+    },
+    {
+      "fromNode": "a9ef339d56654f4c8f7445b45b3bed0b",
+      "fromField": "value",
+      "toNode": "dffb152d405a49d38792e850749129b2",
+      "toField": "stage"
+    },
+    {
+      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
+      "fromField": "value",
+      "toNode": "ff6f63af3181472da525343236652acd",
+      "toField": "lights"
+    }
+  ],
+  "properties": [
+    {
+      "name": "Camera",
+      "type": "Camera"
+    },
+    {
+      "name": "Stage",
+      "type": "Stage"
+    },
+    {
+      "name": "Lights",
+      "type": "GraphLights"
+    }
+  ],
+  "groups": []
+}
