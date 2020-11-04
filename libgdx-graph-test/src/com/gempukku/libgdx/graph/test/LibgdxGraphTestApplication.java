@@ -44,9 +44,8 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
 
     private Camera camera;
     private Stage stage;
-    private Skin skin;
     private GraphShaderEnvironment lights;
-    
+
     private Model tiledWall;
     private Model burner;
     private Model cylinder;
@@ -143,7 +142,7 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private Stage createStage() {
-        skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
         disposables.add(skin);
 
         Stage stage = new Stage(new ScreenViewport());
