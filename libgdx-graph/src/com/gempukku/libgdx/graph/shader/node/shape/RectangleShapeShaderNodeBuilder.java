@@ -33,7 +33,7 @@ public class RectangleShapeShaderNodeBuilder extends ConfigurationCommonShaderNo
         ShaderFieldType resultType = ShaderFieldType.Float;
 
         commonShaderBuilder.addMainLine("vec2 " + temp1 + " = abs(" + uv + " * 2.0 - 1.0);");
-        commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = 1.0 - (step(1.0, min(1.0 - " + temp1 + ".x + " + size + ".x, 1.0 - " + temp1 + ".y + " + size + ".y)) - step(1.0, min(1.0 - " + temp1 + ".x + " + size + ".x - " + width + "*2.0, 1.0 - " + temp1 + ".y + " + size + ".y - " + width + "*2.0)));");
+        commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = step(0.0, min(" + size + ".x - " + temp1 + ".x, " + size + ".y - " + temp1 + ".y)) - step(0.0, min(" + size + ".x - " + width + " * 2.0 - " + temp1 + ".x, " + size + ".y - " + width + " * 2.0 - " + temp1 + ".y));");
 
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(ShaderFieldType.Float, name));
     }
