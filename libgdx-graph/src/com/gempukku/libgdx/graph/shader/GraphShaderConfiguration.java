@@ -78,6 +78,7 @@ import com.gempukku.libgdx.graph.shader.node.provided.ScreenPositionShaderNodeBu
 import com.gempukku.libgdx.graph.shader.node.provided.TimeGraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.shape.CheckerboardShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.shape.EllipseShapeShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.shape.RectangleShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.texture.Sampler2DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.value.ValueBooleanShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.value.ValueColorShaderNodeBuilder;
@@ -200,6 +201,7 @@ public class GraphShaderConfiguration {
         // Shape
         addGraphShaderNodeBuilder(new CheckerboardShapeShaderNodeBuilder());
         addGraphShaderNodeBuilder(new EllipseShapeShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new RectangleShapeShaderNodeBuilder());
 
         // Provided
         addGraphShaderNodeBuilder(new TimeGraphShaderNodeBuilder());
