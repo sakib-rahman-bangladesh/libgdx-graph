@@ -18,9 +18,15 @@ import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -31,7 +37,6 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
-import com.gempukku.libgdx.graph.shader.models.Transforms;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,10 +50,12 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private Camera camera;
     private Stage stage;
     private GraphShaderEnvironment lights;
+    private Model starfield;
+    private Model blackHole;
 
-    private Model tiledWall;
-    private Model burner;
-    private Model cylinder;
+    private float cameraPositionAngle;
+    private float cameraAngle;
+    private String blackHoleInstance;
 
     @Override
     public void create() {
@@ -66,6 +73,8 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         createModels(pipelineRenderer.getGraphShaderModels());
 
         Gdx.input.setInputProcessor(stage);
+
+        updateCamera();
     }
 
     private GraphShaderEnvironment createLights() {
@@ -85,60 +94,32 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         camera.near = 0.5f;
         camera.far = 100f;
 
-        camera.position.set(15, 4, 0);
-        camera.up.set(0f, 1f, 0f);
-        camera.lookAt(0, 3, 0f);
-        camera.update();
-
         return camera;
     }
 
     private void createModels(GraphShaderModels models) {
         ModelBuilder modelBuilder = new ModelBuilder();
 
-        float x = -5f;
-        tiledWall = modelBuilder.createRect(
-                x, 20, 10,
-                x, 0, 10,
-                x, 0, -10,
-                x, 20, -10,
-                1, 0, 0,
-                new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
-        disposables.add(tiledWall);
+        starfield = modelBuilder.createSphere(100, 100, 100, 50, 50,
+                new Material(), VertexAttributes.Usage.Position);
+        disposables.add(starfield);
 
-        float y = 0f;
-        burner = modelBuilder.createRect(
-                x, y, 5,
-                -x, y, 5,
-                -x, y, -5,
-                x, y, -5,
-                0, 1, 0,
-                new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
-        disposables.add(burner);
-
-        float cylinderHeight = 8f;
-        float cylinderSize = 7f;
-        cylinder = modelBuilder.createCylinder(cylinderSize, cylinderHeight, cylinderSize, 50,
-                new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates | VertexAttributes.Usage.Normal);
-        disposables.add(cylinder);
+        float blackHoleSize = 10f;
+        blackHole = modelBuilder.createSphere(blackHoleSize, blackHoleSize, blackHoleSize, 50, 50,
+                new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+        disposables.add(blackHole);
 
         registerModels(models);
     }
 
     private void registerModels(GraphShaderModels models) {
-        float cylinderHeight = 8f;
-        String tiledWallId = models.registerModel(tiledWall);
-        models.addModelDefaultTag(tiledWallId, "tiled-wall");
-        models.createModelInstance(tiledWallId);
+        String starfieldId = models.registerModel(starfield);
+        models.addModelDefaultTag(starfieldId, "starfield");
+        models.createModelInstance(starfieldId);
 
-        String burnerId = models.registerModel(burner);
-        models.addModelDefaultTag(burnerId, "burner");
-        models.createModelInstance(burnerId);
-
-        String cylinderId = models.registerModel(cylinder);
-        models.addModelDefaultTag(cylinderId, "heat-displacement");
-        String cylinderInstanceId = models.createModelInstance(cylinderId);
-        models.updateTransform(cylinderInstanceId, Transforms.create().translate(0, 0.05f + cylinderHeight / 2f, 0f));
+        String blackHoleId = models.registerModel(blackHole);
+        models.addModelDefaultTag(blackHoleId, "black-hole");
+        blackHoleInstance = models.createModelInstance(blackHoleId);
     }
 
     private Stage createStage() {
@@ -152,8 +133,52 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         tbl.setFillParent(true);
         tbl.align(Align.topLeft);
 
+//        final Slider positionAngle = new Slider(0, MathUtils.PI2, 0.001f, false, skin);
+//        positionAngle.addListener(
+//                new ChangeListener() {
+//                    @Override
+//                    public void changed(ChangeEvent event, Actor actor) {
+//                        cameraPositionAngle = positionAngle.getValue();
+//                        updateCamera();
+//                    }
+//                });
+//
+        final Slider angle = new Slider(0, MathUtils.PI2, 0.001f, false, skin);
+        angle.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        cameraAngle = angle.getValue();
+                        updateCamera();
+                    }
+                });
+
+//        tbl.add("Camera orbit");
+//        tbl.add(positionAngle).width(500);
+//        tbl.row();
+//
+        tbl.add("Camera rotation");
+        tbl.add(angle).width(500);
+        tbl.row();
+
         stage.addActor(tbl);
         return stage;
+    }
+
+    private void updateCamera() {
+        float cameraDistance = 30f;
+
+        camera.position.set(cameraDistance * MathUtils.cos(cameraPositionAngle), 0, cameraDistance * MathUtils.sin(cameraPositionAngle));
+        camera.up.set(0f, 1f, 0f);
+        camera.lookAt(0f, 0f, 0f);
+        camera.rotate(MathUtils.radDeg * cameraAngle, 0, 1, 0);
+        //camera.direction.set(MathUtils.cos(cameraAngle), 0, MathUtils.sin(cameraAngle));
+        camera.update();
+
+        GraphShaderModels models = pipelineRenderer.getGraphShaderModels();
+        Vector3 blackHoleScreenPosition = camera.project(new Vector3(0, 0, 0));
+        Vector2 screenPos = new Vector2(blackHoleScreenPosition.x / camera.viewportWidth, blackHoleScreenPosition.y / camera.viewportHeight);
+        models.setProperty(blackHoleInstance, "Center Screen Position", screenPos);
     }
 
     @Override
@@ -164,6 +189,8 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
+        cameraPositionAngle += delta * 0.02f;
+        updateCamera();
 
         reloadRendererIfNeeded();
         stage.act(delta);

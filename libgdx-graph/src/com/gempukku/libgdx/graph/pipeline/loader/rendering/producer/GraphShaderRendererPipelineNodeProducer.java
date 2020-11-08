@@ -25,6 +25,8 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelsImpl;
 
+import static com.badlogic.gdx.graphics.GL20.GL_BACK;
+
 public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     public GraphShaderRendererPipelineNodeProducer() {
         super(new GraphShaderRendererPipelineNodeConfiguration());
@@ -102,6 +104,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                     RenderPass renderPass = renderPasses.get(i);
                     if (renderPass.isRequiringSceneColor()) {
                         currentBuffer.end();
+                        renderContext.setCullFace(GL_BACK);
                         renderPipeline.getBufferCopyHelper().copy(currentBuffer, sceneColorBuffer);
                         currentBuffer.begin();
                     }
