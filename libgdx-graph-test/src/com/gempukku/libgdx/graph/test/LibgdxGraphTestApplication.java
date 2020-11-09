@@ -37,6 +37,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.Transforms;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,6 +57,10 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private float cameraPositionAngle;
     private float cameraAngle;
     private String blackHoleInstance;
+    private Model star;
+    private Vector3 blackHolePosition = new Vector3(0, 0, 0);
+    private Vector3 starPosition = new Vector3(-10, 0, -10);
+    private String starInstance;
 
     @Override
     public void create() {
@@ -109,6 +114,11 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
                 new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         disposables.add(blackHole);
 
+        float starSize = 5f;
+        star = modelBuilder.createSphere(starSize, starSize, starSize, 50, 50,
+                new Material(), VertexAttributes.Usage.Position);
+        disposables.add(star);
+
         registerModels(models);
     }
 
@@ -120,6 +130,11 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         String blackHoleId = models.registerModel(blackHole);
         models.addModelDefaultTag(blackHoleId, "black-hole");
         blackHoleInstance = models.createModelInstance(blackHoleId);
+
+        String starId = models.registerModel(star);
+        models.addModelDefaultTag(starId, "star-surface");
+        starInstance = models.createModelInstance(starId);
+        models.updateTransform(starInstance, Transforms.create().idt().translate(starPosition.x, starPosition.y, starPosition.z));
     }
 
     private Stage createStage() {
@@ -179,6 +194,16 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         Vector3 blackHoleScreenPosition = camera.project(new Vector3(0, 0, 0));
         Vector2 screenPos = new Vector2(blackHoleScreenPosition.x / camera.viewportWidth, blackHoleScreenPosition.y / camera.viewportHeight);
         models.setProperty(blackHoleInstance, "Center Screen Position", screenPos);
+
+        float distanceToBlackHole = blackHolePosition.dst2(camera.position);
+        float distanceToStar = starPosition.dst2(camera.position);
+        if (distanceToBlackHole < distanceToStar) {
+            models.addTag(starInstance, "star-surface-behind");
+            models.removeTag(starInstance, "star-surface-in-front");
+        } else {
+            models.removeTag(starInstance, "star-surface-behind");
+            models.addTag(starInstance, "star-surface-in-front");
+        }
     }
 
     @Override
@@ -189,7 +214,7 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
-        cameraPositionAngle += delta * 0.02f;
+        cameraPositionAngle += delta * 0.5f;
         updateCamera();
 
         reloadRendererIfNeeded();

@@ -8,7 +8,9 @@ import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
+import com.gempukku.libgdx.graph.shader.builder.GLSLFragmentReader;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
 
 public abstract class ConfigurationShaderNodeBuilder implements GraphShaderNodeBuilder {
@@ -52,4 +54,9 @@ public abstract class ConfigurationShaderNodeBuilder implements GraphShaderNodeB
     }
 
     protected abstract ObjectMap<String, ? extends FieldOutput> buildFragmentNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader);
+
+    protected void loadFragmentIfNotDefined(CommonShaderBuilder shaderBuilder, String fragmentName) {
+        if (!shaderBuilder.containsFunction(fragmentName))
+            shaderBuilder.addFunction(fragmentName, GLSLFragmentReader.getFragment(fragmentName));
+    }
 }

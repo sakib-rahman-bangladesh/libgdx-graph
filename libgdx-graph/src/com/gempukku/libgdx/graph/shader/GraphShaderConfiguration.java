@@ -66,6 +66,7 @@ import com.gempukku.libgdx.graph.shader.node.math.value.RemapShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.value.SplitShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.noise.SimplexNoise2DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.noise.SimplexNoise3DShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.noise.SimplexNoise4DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.noise.VoronoiDistanceShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.CameraDirectionShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.CameraPositionShaderNodeBuilder;
@@ -196,6 +197,7 @@ public class GraphShaderConfiguration {
         // Noise
         addGraphShaderNodeBuilder(new SimplexNoise2DShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SimplexNoise3DShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new SimplexNoise4DShaderNodeBuilder());
         addGraphShaderNodeBuilder(new VoronoiDistanceShaderNodeBuilder());
 
         // Shape

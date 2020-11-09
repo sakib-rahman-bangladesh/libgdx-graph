@@ -1,304 +1,249 @@
 {
+  "version": "0.1.2",
   "nodes": [
     {
+      "id": "4a0dcce2c8b743bda4fe1cf7eeee61f3",
+      "type": "GraphShaderRenderer",
+      "x": 256.0,
+      "y": 431.0,
       "data": {
-        "name": "Min Brightness",
-        "type": "Float"
-      },
-      "x": 52.0,
-      "y": 313.0,
-      "id": "6ccc442cdddd47d7b9c9a6842fdcc836",
-      "type": "Property"
+        "renderPasses": [
+          {
+            "shaders": [
+              {
+                "id": "64c4d64bae49418faf6fa9ffef9f8cb4",
+                "tag": "as",
+                "shader": {
+                  "version": "0.1.2",
+                  "nodes": [
+                    {
+                      "id": "a05d6785672040b595654dbcd7ff7338",
+                      "type": "ValueFloat",
+                      "x": 100.0,
+                      "y": 518.0,
+                      "data": {
+                        "v1": 10.0
+                      }
+                    },
+                    {
+                      "id": "d532b4f6c66c4c26bb799d4125d8e8d1",
+                      "type": "ValueColor",
+                      "x": 359.0,
+                      "y": 813.0,
+                      "data": {
+                        "color": "000000ff"
+                      }
+                    },
+                    {
+                      "id": "27943998b4f0460893a5a732ca089f37",
+                      "type": "AttributeUV",
+                      "x": 50.0,
+                      "y": 609.0,
+                      "data": {
+                        "channel": "UV0"
+                      }
+                    },
+                    {
+                      "id": "bea502d70da04ebabf2a786f2f8bc13e",
+                      "type": "SimplexNoise2D",
+                      "x": 340.0,
+                      "y": 566.0
+                    },
+                    {
+                      "id": "f7c728abd3154acabd5b47b62b32fa5d",
+                      "type": "Mix",
+                      "x": 572.0,
+                      "y": 620.0
+                    },
+                    {
+                      "id": "9bb34add53c641169df7fb450a157088",
+                      "type": "SimplexNoise4D",
+                      "x": 450.0,
+                      "y": 167.0
+                    },
+                    {
+                      "id": "49022dab7e4640d48fef4f09ee22cd3f",
+                      "type": "SimplexNoise3D",
+                      "x": 379.0,
+                      "y": 318.0
+                    },
+                    {
+                      "id": "5763fa4eddb1491ea208ca8173f4bbba",
+                      "type": "Time",
+                      "x": 94.0,
+                      "y": 120.0
+                    },
+                    {
+                      "id": "73af85b50ed14bfdb7756ca2b399a221",
+                      "type": "ValueVector2",
+                      "x": 99.0,
+                      "y": 455.0,
+                      "data": {
+                        "v1": 0.0,
+                        "v2": 1.0
+                      }
+                    },
+                    {
+                      "id": "f5e6d6a8776e4c659b22d5412a796add",
+                      "type": "Multiply",
+                      "x": 350.0,
+                      "y": 97.0
+                    },
+                    {
+                      "id": "end",
+                      "type": "ShaderEnd",
+                      "x": 873.0,
+                      "y": 295.0,
+                      "data": {
+                        "culling": "back",
+                        "transparency": "opaque",
+                        "blending": "alpha",
+                        "depthTest": "less"
+                      }
+                    },
+                    {
+                      "id": "c1abb1a785274c959ddc0abca932600b",
+                      "type": "ValueColor",
+                      "x": 325.0,
+                      "y": 740.0,
+                      "data": {
+                        "color": "ffffffff"
+                      }
+                    },
+                    {
+                      "id": "1cca876315074758a4e85241f1c96083",
+                      "type": "AttributePosition",
+                      "x": 118.0,
+                      "y": 367.0,
+                      "data": {
+                        "coordinates": "world"
+                      }
+                    },
+                    {
+                      "id": "9c69514f841b4c14a371065bce3f49e7",
+                      "type": "ValueFloat",
+                      "x": 172.0,
+                      "y": 50.0,
+                      "data": {
+                        "v1": 0.019999999552965164
+                      }
+                    }
+                  ],
+                  "connections": [
+                    {
+                      "fromNode": "d532b4f6c66c4c26bb799d4125d8e8d1",
+                      "fromField": "value",
+                      "toNode": "f7c728abd3154acabd5b47b62b32fa5d",
+                      "toField": "a"
+                    },
+                    {
+                      "fromNode": "c1abb1a785274c959ddc0abca932600b",
+                      "fromField": "value",
+                      "toNode": "f7c728abd3154acabd5b47b62b32fa5d",
+                      "toField": "b"
+                    },
+                    {
+                      "fromNode": "f7c728abd3154acabd5b47b62b32fa5d",
+                      "fromField": "output",
+                      "toNode": "end",
+                      "toField": "color"
+                    },
+                    {
+                      "fromNode": "27943998b4f0460893a5a732ca089f37",
+                      "fromField": "uv",
+                      "toNode": "bea502d70da04ebabf2a786f2f8bc13e",
+                      "toField": "uv"
+                    },
+                    {
+                      "fromNode": "a05d6785672040b595654dbcd7ff7338",
+                      "fromField": "value",
+                      "toNode": "bea502d70da04ebabf2a786f2f8bc13e",
+                      "toField": "scale"
+                    },
+                    {
+                      "fromNode": "1cca876315074758a4e85241f1c96083",
+                      "fromField": "position",
+                      "toNode": "49022dab7e4640d48fef4f09ee22cd3f",
+                      "toField": "point"
+                    },
+                    {
+                      "fromNode": "a05d6785672040b595654dbcd7ff7338",
+                      "fromField": "value",
+                      "toNode": "49022dab7e4640d48fef4f09ee22cd3f",
+                      "toField": "scale"
+                    },
+                    {
+                      "fromNode": "73af85b50ed14bfdb7756ca2b399a221",
+                      "fromField": "value",
+                      "toNode": "49022dab7e4640d48fef4f09ee22cd3f",
+                      "toField": "range"
+                    },
+                    {
+                      "fromNode": "73af85b50ed14bfdb7756ca2b399a221",
+                      "fromField": "value",
+                      "toNode": "bea502d70da04ebabf2a786f2f8bc13e",
+                      "toField": "range"
+                    },
+                    {
+                      "fromNode": "1cca876315074758a4e85241f1c96083",
+                      "fromField": "position",
+                      "toNode": "9bb34add53c641169df7fb450a157088",
+                      "toField": "point"
+                    },
+                    {
+                      "fromNode": "a05d6785672040b595654dbcd7ff7338",
+                      "fromField": "value",
+                      "toNode": "9bb34add53c641169df7fb450a157088",
+                      "toField": "scale"
+                    },
+                    {
+                      "fromNode": "73af85b50ed14bfdb7756ca2b399a221",
+                      "fromField": "value",
+                      "toNode": "9bb34add53c641169df7fb450a157088",
+                      "toField": "range"
+                    },
+                    {
+                      "fromNode": "9bb34add53c641169df7fb450a157088",
+                      "fromField": "output",
+                      "toNode": "f7c728abd3154acabd5b47b62b32fa5d",
+                      "toField": "t"
+                    },
+                    {
+                      "fromNode": "5763fa4eddb1491ea208ca8173f4bbba",
+                      "fromField": "time",
+                      "toNode": "f5e6d6a8776e4c659b22d5412a796add",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "f5e6d6a8776e4c659b22d5412a796add",
+                      "fromField": "output",
+                      "toNode": "9bb34add53c641169df7fb450a157088",
+                      "toField": "progress"
+                    },
+                    {
+                      "fromNode": "9c69514f841b4c14a371065bce3f49e7",
+                      "fromField": "value",
+                      "toNode": "f5e6d6a8776e4c659b22d5412a796add",
+                      "toField": "inputs"
+                    }
+                  ],
+                  "properties": [],
+                  "groups": []
+                }
+              }
+            ]
+          }
+        ]
+      }
     },
     {
-      "data": {
-        "name": "Background Color",
-        "type": "Color"
-      },
-      "x": 50.0,
-      "y": 717.0,
-      "id": "4ab6e3102e7944d7934007e130d634ec",
-      "type": "Property"
-    },
-    {
-      "data": {
-        "name": "Blur Radius",
-        "type": "Float"
-      },
-      "x": 52.0,
-      "y": 435.0,
-      "id": "3b644dbf333e42b990e44fcd3dba985a",
-      "type": "Property"
-    },
-    {
-      "data": {
-        "name": "Bloom Strength",
-        "type": "Float"
-      },
-      "x": 52.0,
-      "y": 256.0,
-      "id": "209cf4ce86cb4ccf9d99043ce7e1c119",
-      "type": "Property"
-    },
-    {
-      "data": {
-        "name": "Models",
-        "type": "Models"
-      },
-      "x": 51.0,
-      "y": 626.0,
-      "id": "2e50b00d93b6447aa997528949860bce",
-      "type": "Property"
-    },
-    {
-      "x": 271.0,
-      "y": 320.0,
-      "id": "a6a8d16f2f484d25874dd60aede9713a",
-      "type": "Bloom"
-    },
-    {
-      "x": 288.0,
-      "y": 559.0,
-      "id": "42130262552043d1ba8ac6029e4333c6",
-      "type": "DefaultRenderer"
-    },
-    {
-      "x": 284.0,
-      "y": 228.0,
-      "id": "2b6d517c28934ef19d4838d2d8110f1e",
-      "type": "GammaCorrection"
-    },
-    {
-      "data": {
-        "name": "Lights",
-        "type": "Lights"
-      },
-      "x": 51.0,
-      "y": 506.0,
-      "id": "ecda6fb411974804a6cba93be186590a",
-      "type": "Property"
-    },
-    {
-      "x": 290.0,
-      "y": 694.0,
-      "id": "79c4964a2afd4e158e7660c3f5502680",
-      "type": "PipelineStart"
-    },
-    {
-      "x": 290.0,
-      "y": 462.0,
-      "id": "2a82a2a64d0c40c7bfc6c78468ee86f7",
-      "type": "GaussianBlur"
-    },
-    {
-      "data": {
-        "name": "Camera",
-        "type": "Camera"
-      },
-      "x": 51.0,
-      "y": 568.0,
-      "id": "fb241e4a93d44418ab8ffbefd898f5f3",
-      "type": "Property"
-    },
-    {
-      "data": {
-        "name": "Bloom Radius",
-        "type": "Float"
-      },
-      "x": 52.0,
-      "y": 371.0,
-      "id": "ff909af41c324ff49a914753bb3073cb",
-      "type": "Property"
-    },
-    {
-      "x": 291.0,
-      "y": 137.0,
-      "id": "7d2427e384c2498b88779e75f733c0ff",
-      "type": "UIRenderer"
-    },
-    {
-      "data": {
-        "name": "Gamma Correction",
-        "type": "Float"
-      },
-      "x": 52.0,
-      "y": 191.0,
-      "id": "fa8e19ccd38a4affa2bd0286c21f64f6",
-      "type": "Property"
-    },
-    {
-      "x": 291.0,
-      "y": 50.0,
       "id": "end",
-      "type": "PipelineEnd"
-    },
-    {
-      "data": {
-        "name": "Stage",
-        "type": "Stage"
-      },
-      "x": 54.0,
-      "y": 124.0,
-      "id": "cff4d91ba45f499fb5fb55d43e6008f2",
-      "type": "Property"
+      "type": "PipelineEnd",
+      "x": 50.0,
+      "y": 50.0
     }
   ],
-  "connections": [
-    {
-      "fromNode": "cff4d91ba45f499fb5fb55d43e6008f2",
-      "toField": "stage",
-      "fromField": "value",
-      "toNode": "7d2427e384c2498b88779e75f733c0ff"
-    },
-    {
-      "fromNode": "79c4964a2afd4e158e7660c3f5502680",
-      "toField": "input",
-      "fromField": "output",
-      "toNode": "42130262552043d1ba8ac6029e4333c6"
-    },
-    {
-      "fromNode": "2e50b00d93b6447aa997528949860bce",
-      "toField": "models",
-      "fromField": "value",
-      "toNode": "42130262552043d1ba8ac6029e4333c6"
-    },
-    {
-      "fromNode": "ecda6fb411974804a6cba93be186590a",
-      "toField": "lights",
-      "fromField": "value",
-      "toNode": "42130262552043d1ba8ac6029e4333c6"
-    },
-    {
-      "fromNode": "fb241e4a93d44418ab8ffbefd898f5f3",
-      "toField": "camera",
-      "fromField": "value",
-      "toNode": "42130262552043d1ba8ac6029e4333c6"
-    },
-    {
-      "fromNode": "ff909af41c324ff49a914753bb3073cb",
-      "toField": "bloomRadius",
-      "fromField": "value",
-      "toNode": "a6a8d16f2f484d25874dd60aede9713a"
-    },
-    {
-      "fromNode": "6ccc442cdddd47d7b9c9a6842fdcc836",
-      "toField": "minimalBrightness",
-      "fromField": "value",
-      "toNode": "a6a8d16f2f484d25874dd60aede9713a"
-    },
-    {
-      "fromNode": "209cf4ce86cb4ccf9d99043ce7e1c119",
-      "toField": "bloomStrength",
-      "fromField": "value",
-      "toNode": "a6a8d16f2f484d25874dd60aede9713a"
-    },
-    {
-      "fromNode": "2a82a2a64d0c40c7bfc6c78468ee86f7",
-      "toField": "input",
-      "fromField": "output",
-      "toNode": "a6a8d16f2f484d25874dd60aede9713a"
-    },
-    {
-      "fromNode": "3b644dbf333e42b990e44fcd3dba985a",
-      "toField": "blurRadius",
-      "fromField": "value",
-      "toNode": "2a82a2a64d0c40c7bfc6c78468ee86f7"
-    },
-    {
-      "fromNode": "42130262552043d1ba8ac6029e4333c6",
-      "toField": "input",
-      "fromField": "output",
-      "toNode": "2a82a2a64d0c40c7bfc6c78468ee86f7"
-    },
-    {
-      "fromNode": "fa8e19ccd38a4affa2bd0286c21f64f6",
-      "toField": "gamma",
-      "fromField": "value",
-      "toNode": "2b6d517c28934ef19d4838d2d8110f1e"
-    },
-    {
-      "fromNode": "a6a8d16f2f484d25874dd60aede9713a",
-      "toField": "input",
-      "fromField": "output",
-      "toNode": "2b6d517c28934ef19d4838d2d8110f1e"
-    },
-    {
-      "fromNode": "2b6d517c28934ef19d4838d2d8110f1e",
-      "toField": "input",
-      "fromField": "output",
-      "toNode": "7d2427e384c2498b88779e75f733c0ff"
-    },
-    {
-      "fromNode": "7d2427e384c2498b88779e75f733c0ff",
-      "toField": "input",
-      "fromField": "output",
-      "toNode": "end"
-    },
-    {
-      "fromNode": "4ab6e3102e7944d7934007e130d634ec",
-      "toField": "background",
-      "fromField": "value",
-      "toNode": "79c4964a2afd4e158e7660c3f5502680"
-    }
-  ],
-  "properties": [
-    {
-      "data": {
-        "color": "000000ff"
-      },
-      "name": "Background Color",
-      "type": "Color"
-    },
-    {
-      "name": "Stage",
-      "type": "Stage"
-    },
-    {
-      "name": "Models",
-      "type": "Models"
-    },
-    {
-      "name": "Lights",
-      "type": "Lights"
-    },
-    {
-      "name": "Camera",
-      "type": "Camera"
-    },
-    {
-      "data": {
-        "x": 0.0
-      },
-      "name": "Bloom Radius",
-      "type": "Float"
-    },
-    {
-      "data": {
-        "x": 0.0
-      },
-      "name": "Min Brightness",
-      "type": "Float"
-    },
-    {
-      "data": {
-        "x": 0.0
-      },
-      "name": "Bloom Strength",
-      "type": "Float"
-    },
-    {
-      "data": {
-        "x": 0.0
-      },
-      "name": "Blur Radius",
-      "type": "Float"
-    },
-    {
-      "data": {
-        "x": 1.0
-      },
-      "name": "Gamma Correction",
-      "type": "Float"
-    }
-  ]
+  "connections": [],
+  "properties": [],
+  "groups": []
 }

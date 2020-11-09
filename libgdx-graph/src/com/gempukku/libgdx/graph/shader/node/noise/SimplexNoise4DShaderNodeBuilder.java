@@ -8,36 +8,32 @@ import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
-import com.gempukku.libgdx.graph.shader.config.noise.SimplexNoise2DNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.noise.SimplexNoise4DNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.shader.node.math.value.RemapShaderNodeBuilder;
 
-public class SimplexNoise2DShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
-    public SimplexNoise2DShaderNodeBuilder() {
-        super(new SimplexNoise2DNodeConfiguration());
+public class SimplexNoise4DShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
+    public SimplexNoise4DShaderNodeBuilder() {
+        super(new SimplexNoise4DNodeConfiguration());
     }
 
     @Override
     protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs,
                                                                        CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        FieldOutput uvValue = inputs.get("uv");
+        FieldOutput pointValue = inputs.get("point");
+        FieldOutput progressValue = inputs.get("progress");
         FieldOutput scaleValue = inputs.get("scale");
         FieldOutput rangeValue = inputs.get("range");
 
         String scale = scaleValue != null ? scaleValue.getRepresentation() : "1.0";
 
         loadFragmentIfNotDefined(commonShaderBuilder, "noise/common");
-        loadFragmentIfNotDefined(commonShaderBuilder, "noise/simplexNoise2d");
+        loadFragmentIfNotDefined(commonShaderBuilder, "noise/simplexNoise4d");
 
-        commonShaderBuilder.addMainLine("// Simplex noise 2D node");
+        commonShaderBuilder.addMainLine("// Simplex noise 4D node");
         String name = "result_" + nodeId;
-        String output;
-        if (uvValue.getFieldType() == ShaderFieldType.Vector2) {
-            output = "simplexNoise2d(" + uvValue.getRepresentation() + " * " + scale + ")";
-        } else {
-            output = "simplexNoise2d(vec2(" + uvValue.getRepresentation() + ", 0.0) * " + scale + ")";
-        }
+        String output = "simplexNoise4d(vec4(" + pointValue.getRepresentation() + ", " + progressValue.getRepresentation() + ") * " + scale + ")";
 
         String noiseRange = "vec2(-1.0, 1.0)";
         if (rangeValue != null) {
