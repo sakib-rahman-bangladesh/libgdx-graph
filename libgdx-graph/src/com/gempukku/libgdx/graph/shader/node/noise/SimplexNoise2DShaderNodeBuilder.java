@@ -22,21 +22,34 @@ public class SimplexNoise2DShaderNodeBuilder extends ConfigurationCommonShaderNo
     protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs,
                                                                        CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         FieldOutput uvValue = inputs.get("uv");
+        FieldOutput progressValue = inputs.get("progress");
         FieldOutput scaleValue = inputs.get("scale");
         FieldOutput rangeValue = inputs.get("range");
 
         String scale = scaleValue != null ? scaleValue.getRepresentation() : "1.0";
 
-        loadFragmentIfNotDefined(commonShaderBuilder, "noise/common");
-        loadFragmentIfNotDefined(commonShaderBuilder, "noise/simplexNoise2d");
-
-        commonShaderBuilder.addMainLine("// Simplex noise 2D node");
         String name = "result_" + nodeId;
         String output;
-        if (uvValue.getFieldType() == ShaderFieldType.Vector2) {
-            output = "simplexNoise2d(" + uvValue.getRepresentation() + " * " + scale + ")";
+        commonShaderBuilder.addMainLine("// Simplex noise 2D node");
+
+        if (progressValue != null) {
+            loadFragmentIfNotDefined(commonShaderBuilder, "noise/common");
+            loadFragmentIfNotDefined(commonShaderBuilder, "noise/simplexNoise3d");
+
+            if (uvValue.getFieldType() == ShaderFieldType.Vector2) {
+                output = "simplexNoise3d(vec3(" + uvValue.getRepresentation() + " * " + scale + ", " + progressValue.getRepresentation() + "))";
+            } else {
+                output = "simplexNoise3d(vec3(" + uvValue.getRepresentation() + " * " + scale + ", 0.0, " + progressValue.getRepresentation() + "))";
+            }
         } else {
-            output = "simplexNoise2d(vec2(" + uvValue.getRepresentation() + ", 0.0) * " + scale + ")";
+            loadFragmentIfNotDefined(commonShaderBuilder, "noise/common");
+            loadFragmentIfNotDefined(commonShaderBuilder, "noise/simplexNoise2d");
+
+            if (uvValue.getFieldType() == ShaderFieldType.Vector2) {
+                output = "simplexNoise2d(" + uvValue.getRepresentation() + " * " + scale + ")";
+            } else {
+                output = "simplexNoise2d(vec2(" + uvValue.getRepresentation() + ", 0.0) * " + scale + ")";
+            }
         }
 
         String noiseRange = "vec2(-1.0, 1.0)";

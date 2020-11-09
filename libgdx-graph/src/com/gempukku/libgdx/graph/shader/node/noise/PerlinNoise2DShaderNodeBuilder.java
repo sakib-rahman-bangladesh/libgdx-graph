@@ -22,21 +22,34 @@ public class PerlinNoise2DShaderNodeBuilder extends ConfigurationCommonShaderNod
     protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs,
                                                                        CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         FieldOutput uvValue = inputs.get("uv");
+        FieldOutput progressValue = inputs.get("progress");
         FieldOutput scaleValue = inputs.get("scale");
         FieldOutput rangeValue = inputs.get("range");
 
         String scale = scaleValue != null ? scaleValue.getRepresentation() : "1.0";
 
-        loadFragmentIfNotDefined(commonShaderBuilder, "noise/common");
-        loadFragmentIfNotDefined(commonShaderBuilder, "noise/perlinNoise2d");
-
-        commonShaderBuilder.addMainLine("// Perlin noise 2D node");
         String name = "result_" + nodeId;
         String output;
-        if (uvValue.getFieldType() == ShaderFieldType.Vector2) {
-            output = "perlinNoise2d(" + uvValue.getRepresentation() + " * " + scale + ")";
+        commonShaderBuilder.addMainLine("// Perlin noise 2D node");
+
+        if (progressValue != null) {
+            loadFragmentIfNotDefined(commonShaderBuilder, "noise/common");
+            loadFragmentIfNotDefined(commonShaderBuilder, "noise/perlinNoise3d");
+
+            if (uvValue.getFieldType() == ShaderFieldType.Vector2) {
+                output = "perlinNoise3d(vec3(" + uvValue.getRepresentation() + " * " + scale + ", " + progressValue.getRepresentation() + "))";
+            } else {
+                output = "perlinNoise3d(vec3(" + uvValue.getRepresentation() + " * " + scale + ", 0.0, " + progressValue.getRepresentation() + "))";
+            }
         } else {
-            output = "perlinNoise2d(vec2(" + uvValue.getRepresentation() + ", 0.0) * " + scale + ")";
+            loadFragmentIfNotDefined(commonShaderBuilder, "noise/common");
+            loadFragmentIfNotDefined(commonShaderBuilder, "noise/perlinNoise2d");
+
+            if (uvValue.getFieldType() == ShaderFieldType.Vector2) {
+                output = "perlinNoise2d(" + uvValue.getRepresentation() + " * " + scale + ")";
+            } else {
+                output = "perlinNoise2d(vec2(" + uvValue.getRepresentation() + ", 0.0) * " + scale + ")";
+            }
         }
 
         String noiseRange = "vec2(-1.0, 1.0)";

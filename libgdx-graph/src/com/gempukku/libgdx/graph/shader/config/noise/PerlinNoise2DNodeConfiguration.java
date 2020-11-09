@@ -11,6 +11,8 @@ public class PerlinNoise2DNodeConfiguration extends NodeConfigurationImpl<Shader
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("uv", "UV", true, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(
+                new GraphNodeInputImpl<ShaderFieldType>("progress", "Progress", false, ShaderFieldType.Float));
+        addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("scale", "Scale", false, ShaderFieldType.Float));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("range", "Range", false, ShaderFieldType.Vector2));

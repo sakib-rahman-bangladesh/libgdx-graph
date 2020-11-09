@@ -11,6 +11,8 @@ public class PerlinNoise3DNodeConfiguration extends NodeConfigurationImpl<Shader
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("point", "Point", true, ShaderFieldType.Vector3));
         addNodeInput(
+                new GraphNodeInputImpl<ShaderFieldType>("progress", "Progress", false, ShaderFieldType.Float));
+        addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("scale", "Scale", false, ShaderFieldType.Float));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("range", "Range", false, ShaderFieldType.Vector2));
