@@ -148,16 +148,16 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         tbl.setFillParent(true);
         tbl.align(Align.topLeft);
 
-//        final Slider positionAngle = new Slider(0, MathUtils.PI2, 0.001f, false, skin);
-//        positionAngle.addListener(
-//                new ChangeListener() {
-//                    @Override
-//                    public void changed(ChangeEvent event, Actor actor) {
-//                        cameraPositionAngle = positionAngle.getValue();
-//                        updateCamera();
-//                    }
-//                });
-//
+        final Slider positionAngle = new Slider(0, MathUtils.PI2, 0.001f, false, skin);
+        positionAngle.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        cameraPositionAngle = positionAngle.getValue();
+                        updateCamera();
+                    }
+                });
+
         final Slider angle = new Slider(0, MathUtils.PI2, 0.001f, false, skin);
         angle.addListener(
                 new ChangeListener() {
@@ -168,10 +168,10 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
                     }
                 });
 
-//        tbl.add("Camera orbit");
-//        tbl.add(positionAngle).width(500);
-//        tbl.row();
-//
+        tbl.add("Camera orbit");
+        tbl.add(positionAngle).width(500);
+        tbl.row();
+
         tbl.add("Camera rotation");
         tbl.add(angle).width(500);
         tbl.row();
@@ -214,8 +214,8 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
-        cameraPositionAngle += delta * 0.5f;
-        updateCamera();
+//        cameraPositionAngle += delta * 0.1f;
+//        updateCamera();
 
         reloadRendererIfNeeded();
         stage.act(delta);

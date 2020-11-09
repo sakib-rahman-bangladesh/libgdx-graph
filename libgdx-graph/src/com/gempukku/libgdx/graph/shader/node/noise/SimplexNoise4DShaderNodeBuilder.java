@@ -33,7 +33,7 @@ public class SimplexNoise4DShaderNodeBuilder extends ConfigurationCommonShaderNo
 
         commonShaderBuilder.addMainLine("// Simplex noise 4D node");
         String name = "result_" + nodeId;
-        String output = "simplexNoise4d(vec4(" + pointValue.getRepresentation() + ", " + progressValue.getRepresentation() + ") * " + scale + ")";
+        String output = "simplexNoise4d(vec4(" + pointValue.getRepresentation() + " * " + scale + ", " + progressValue.getRepresentation() + "))";
 
         String noiseRange = "vec2(-1.0, 1.0)";
         if (rangeValue != null) {

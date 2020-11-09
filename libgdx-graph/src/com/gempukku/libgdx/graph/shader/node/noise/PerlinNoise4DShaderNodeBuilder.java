@@ -33,7 +33,7 @@ public class PerlinNoise4DShaderNodeBuilder extends ConfigurationCommonShaderNod
 
         commonShaderBuilder.addMainLine("// Perlin noise 4D node");
         String name = "result_" + nodeId;
-        String output = "perlinNoise4d(vec4(" + pointValue.getRepresentation() + ", " + progressValue.getRepresentation() + ") * " + scale + ")";
+        String output = "perlinNoise4d(vec4(" + pointValue.getRepresentation() + " * " + scale + ", " + progressValue.getRepresentation() + "))";
 
         String noiseRange = "vec2(-1.0, 1.0)";
         if (rangeValue != null) {
