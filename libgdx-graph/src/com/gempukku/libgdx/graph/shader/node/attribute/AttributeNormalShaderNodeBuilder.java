@@ -24,17 +24,23 @@ public class AttributeNormalShaderNodeBuilder extends ConfigurationShaderNodeBui
     public ObjectMap<String, ? extends FieldOutput> buildVertexNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         vertexShaderBuilder.addAttributeVariable(ShaderProgram.NORMAL_ATTRIBUTE, "vec3");
 
+        vertexShaderBuilder.addMainLine("// Attribute Normal Node");
+
         String coordinates = data.getString("coordinates");
         if (coordinates.equals("world")) {
-            vertexShaderBuilder.addMainLine("// Attribute Normal Node");
             vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, UniformSetters.worldTrans);
             String name = "result_" + nodeId;
             vertexShaderBuilder.addMainLine("vec3" + " " + name + " = normalize((u_worldTrans * skinning * vec4(a_normal, 0.0)).xyz);");
-
             return LibGDXCollections.singletonMap("normal", new DefaultFieldOutput(ShaderFieldType.Vector3, name));
         } else if (coordinates.equals("object")) {
             String name = "result_" + nodeId;
             vertexShaderBuilder.addMainLine("vec3" + " " + name + " = normalize((skinning * vec4(a_normal, 0.0)).xyz);");
+            return LibGDXCollections.singletonMap("normal", new DefaultFieldOutput(ShaderFieldType.Vector3, name));
+        } else if (coordinates.equals("screen")) {
+            vertexShaderBuilder.addUniformVariable("u_projViewTrans", "mat4", true, UniformSetters.projViewTrans);
+            vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, UniformSetters.worldTrans);
+            String name = "result_" + nodeId;
+            vertexShaderBuilder.addMainLine("vec3" + " " + name + " = normalize((u_projViewTrans * u_worldTrans * skinning * vec4(a_normal, 0.0)).xyz);");
             return LibGDXCollections.singletonMap("normal", new DefaultFieldOutput(ShaderFieldType.Vector3, name));
         }
         throw new IllegalArgumentException();
@@ -47,10 +53,11 @@ public class AttributeNormalShaderNodeBuilder extends ConfigurationShaderNodeBui
                                                                                           graphShaderContext, GraphShader graphShader) {
         vertexShaderBuilder.addAttributeVariable(ShaderProgram.NORMAL_ATTRIBUTE, "vec3");
 
+        vertexShaderBuilder.addMainLine("// Attribute Normal Node");
+
         String coordinates = data.getString("coordinates");
         if (coordinates.equals("world")) {
             if (!vertexShaderBuilder.hasVaryingVariable("v_normal_world")) {
-                vertexShaderBuilder.addMainLine("// Attribute Normal Node");
                 vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, UniformSetters.worldTrans);
                 vertexShaderBuilder.addVaryingVariable("v_normal_world", "vec3");
                 vertexShaderBuilder.addMainLine("v_normal_world = normalize((u_worldTrans * skinning * vec4(a_normal, 0.0)).xyz);");
@@ -61,7 +68,6 @@ public class AttributeNormalShaderNodeBuilder extends ConfigurationShaderNodeBui
             return LibGDXCollections.singletonMap("normal", new DefaultFieldOutput(ShaderFieldType.Vector3, "v_normal_world"));
         } else if (coordinates.equals("object")) {
             if (!vertexShaderBuilder.hasVaryingVariable("v_normal_object")) {
-                vertexShaderBuilder.addMainLine("// Attribute Normal Node");
                 vertexShaderBuilder.addVaryingVariable("v_normal_object", "vec3");
                 vertexShaderBuilder.addMainLine("v_normal_object = normalize((skinning * vec4(a_normal, 0.0)).xyz);");
 
@@ -69,6 +75,17 @@ public class AttributeNormalShaderNodeBuilder extends ConfigurationShaderNodeBui
             }
 
             return LibGDXCollections.singletonMap("normal", new DefaultFieldOutput(ShaderFieldType.Vector3, "v_normal_object"));
+        } else if (coordinates.equals("screen")) {
+            if (!vertexShaderBuilder.hasVaryingVariable("v_normal_screen")) {
+                vertexShaderBuilder.addUniformVariable("u_projViewTrans", "mat4", true, UniformSetters.projViewTrans);
+                vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, UniformSetters.worldTrans);
+                vertexShaderBuilder.addVaryingVariable("v_normal_screen", "vec3");
+                vertexShaderBuilder.addMainLine("v_normal_screen = normalize((u_projViewTrans * u_worldTrans * skinning * vec4(a_normal, 0.0)).xyz);");
+
+                fragmentShaderBuilder.addVaryingVariable("v_normal_screen", "vec3");
+            }
+
+            return LibGDXCollections.singletonMap("normal", new DefaultFieldOutput(ShaderFieldType.Vector3, "v_normal_screen"));
         }
         throw new IllegalArgumentException();
     }

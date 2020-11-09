@@ -9,8 +9,13 @@
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/directionalLightContribution.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/pointLightContribution.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/spotLightContribution.glsl"/>
-	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/simplexNoise2d.glsl"/>
-	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/simplexNoise3d.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/common.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/perlinNoise2d.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/perlinNoise3d.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/perlinNoise4d.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/simplexNoise2d.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/simplexNoise3d.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/simplexNoise4d.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/voronoiDistance.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/packFloatToVec3.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/unpackVec3ToFloat.glsl"/>

@@ -58,9 +58,11 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private float cameraAngle;
     private String blackHoleInstance;
     private Model star;
+    private Model starCorona;
     private Vector3 blackHolePosition = new Vector3(0, 0, 0);
     private Vector3 starPosition = new Vector3(-10, 0, -10);
     private String starInstance;
+    private String starCoronaInstance;
 
     @Override
     public void create() {
@@ -119,6 +121,11 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
                 new Material(), VertexAttributes.Usage.Position);
         disposables.add(star);
 
+        float coronaMultiplier = 1.4f;
+        starCorona = modelBuilder.createSphere(starSize * coronaMultiplier, starSize * coronaMultiplier, starSize * coronaMultiplier, 50, 50,
+                new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+        disposables.add(starCorona);
+
         registerModels(models);
     }
 
@@ -132,9 +139,12 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         blackHoleInstance = models.createModelInstance(blackHoleId);
 
         String starId = models.registerModel(star);
-        models.addModelDefaultTag(starId, "star-surface");
         starInstance = models.createModelInstance(starId);
         models.updateTransform(starInstance, Transforms.create().idt().translate(starPosition.x, starPosition.y, starPosition.z));
+
+        String starCoronaId = models.registerModel(starCorona);
+        starCoronaInstance = models.createModelInstance(starCoronaId);
+        models.updateTransform(starCoronaInstance, Transforms.create().idt().translate(starPosition.x, starPosition.y, starPosition.z));
     }
 
     private Stage createStage() {
@@ -199,10 +209,14 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
         float distanceToStar = starPosition.dst2(camera.position);
         if (distanceToBlackHole < distanceToStar) {
             models.addTag(starInstance, "star-surface-behind");
+            models.addTag(starCoronaInstance, "star-corona-behind");
             models.removeTag(starInstance, "star-surface-in-front");
+            models.removeTag(starCoronaInstance, "star-corona-in-front");
         } else {
             models.removeTag(starInstance, "star-surface-behind");
+            models.removeTag(starCoronaInstance, "star-corona-behind");
             models.addTag(starInstance, "star-surface-in-front");
+            models.addTag(starCoronaInstance, "star-corona-in-front");
         }
     }
 
