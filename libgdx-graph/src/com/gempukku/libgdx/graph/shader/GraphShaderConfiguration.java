@@ -64,6 +64,9 @@ import com.gempukku.libgdx.graph.shader.node.math.utility.DistanceFromPlaneShade
 import com.gempukku.libgdx.graph.shader.node.math.value.MergeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.value.RemapShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.value.SplitShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.noise.PerlinNoise2DShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.noise.PerlinNoise3DShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.noise.PerlinNoise4DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.noise.SimplexNoise2DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.noise.SimplexNoise3DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.noise.SimplexNoise4DShaderNodeBuilder;
@@ -198,6 +201,9 @@ public class GraphShaderConfiguration {
         addGraphShaderNodeBuilder(new SimplexNoise2DShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SimplexNoise3DShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SimplexNoise4DShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new PerlinNoise2DShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new PerlinNoise3DShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new PerlinNoise4DShaderNodeBuilder());
         addGraphShaderNodeBuilder(new VoronoiDistanceShaderNodeBuilder());
 
         // Shape

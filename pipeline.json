@@ -56,10 +56,28 @@
                       "y": 620.0
                     },
                     {
+                      "id": "6da72b48459d4e1aba5bc55f5e546ac6",
+                      "type": "PerlinNoise4D",
+                      "x": 695.0,
+                      "y": 153.0
+                    },
+                    {
                       "id": "9bb34add53c641169df7fb450a157088",
                       "type": "SimplexNoise4D",
                       "x": 450.0,
                       "y": 167.0
+                    },
+                    {
+                      "id": "a000d5d57aad4c32ba66fdbc7231c478",
+                      "type": "PerlinNoise3D",
+                      "x": 647.0,
+                      "y": 331.0
+                    },
+                    {
+                      "id": "1551ee9db5fa49bf825f32cf812efb1d",
+                      "type": "PerlinNoise2D",
+                      "x": 523.0,
+                      "y": 456.0
                     },
                     {
                       "id": "49022dab7e4640d48fef4f09ee22cd3f",
@@ -203,12 +221,6 @@
                       "toField": "range"
                     },
                     {
-                      "fromNode": "9bb34add53c641169df7fb450a157088",
-                      "fromField": "output",
-                      "toNode": "f7c728abd3154acabd5b47b62b32fa5d",
-                      "toField": "t"
-                    },
-                    {
                       "fromNode": "5763fa4eddb1491ea208ca8173f4bbba",
                       "fromField": "time",
                       "toNode": "f5e6d6a8776e4c659b22d5412a796add",
@@ -225,6 +237,72 @@
                       "fromField": "value",
                       "toNode": "f5e6d6a8776e4c659b22d5412a796add",
                       "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "27943998b4f0460893a5a732ca089f37",
+                      "fromField": "uv",
+                      "toNode": "1551ee9db5fa49bf825f32cf812efb1d",
+                      "toField": "uv"
+                    },
+                    {
+                      "fromNode": "a05d6785672040b595654dbcd7ff7338",
+                      "fromField": "value",
+                      "toNode": "1551ee9db5fa49bf825f32cf812efb1d",
+                      "toField": "scale"
+                    },
+                    {
+                      "fromNode": "73af85b50ed14bfdb7756ca2b399a221",
+                      "fromField": "value",
+                      "toNode": "1551ee9db5fa49bf825f32cf812efb1d",
+                      "toField": "range"
+                    },
+                    {
+                      "fromNode": "1cca876315074758a4e85241f1c96083",
+                      "fromField": "position",
+                      "toNode": "a000d5d57aad4c32ba66fdbc7231c478",
+                      "toField": "point"
+                    },
+                    {
+                      "fromNode": "a05d6785672040b595654dbcd7ff7338",
+                      "fromField": "value",
+                      "toNode": "a000d5d57aad4c32ba66fdbc7231c478",
+                      "toField": "scale"
+                    },
+                    {
+                      "fromNode": "73af85b50ed14bfdb7756ca2b399a221",
+                      "fromField": "value",
+                      "toNode": "a000d5d57aad4c32ba66fdbc7231c478",
+                      "toField": "range"
+                    },
+                    {
+                      "fromNode": "1cca876315074758a4e85241f1c96083",
+                      "fromField": "position",
+                      "toNode": "6da72b48459d4e1aba5bc55f5e546ac6",
+                      "toField": "point"
+                    },
+                    {
+                      "fromNode": "f5e6d6a8776e4c659b22d5412a796add",
+                      "fromField": "output",
+                      "toNode": "6da72b48459d4e1aba5bc55f5e546ac6",
+                      "toField": "progress"
+                    },
+                    {
+                      "fromNode": "a05d6785672040b595654dbcd7ff7338",
+                      "fromField": "value",
+                      "toNode": "6da72b48459d4e1aba5bc55f5e546ac6",
+                      "toField": "scale"
+                    },
+                    {
+                      "fromNode": "73af85b50ed14bfdb7756ca2b399a221",
+                      "fromField": "value",
+                      "toNode": "6da72b48459d4e1aba5bc55f5e546ac6",
+                      "toField": "range"
+                    },
+                    {
+                      "fromNode": "9bb34add53c641169df7fb450a157088",
+                      "fromField": "output",
+                      "toNode": "f7c728abd3154acabd5b47b62b32fa5d",
+                      "toField": "t"
                     }
                   ],
                   "properties": [],
