@@ -36,7 +36,8 @@ public class TextureAttributeBoxProducer extends GraphBoxProducerImpl<ShaderFiel
 
     @Override
     public GraphBoxImpl<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = super.createPipelineGraphBox(skin, id, data);
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
+        addConfigurationInputsAndOutputs(skin, result);
         TextureBoxPart normalBoxPart = new TextureBoxPart(skin);
         if (data != null)
             normalBoxPart.initialize(data);

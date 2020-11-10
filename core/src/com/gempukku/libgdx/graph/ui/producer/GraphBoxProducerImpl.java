@@ -6,6 +6,7 @@ import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphNodeInput;
 import com.gempukku.libgdx.graph.data.GraphNodeOutput;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
+import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 
 import java.util.Iterator;
@@ -38,8 +39,19 @@ public class GraphBoxProducerImpl<T extends FieldType> implements GraphBoxProduc
     }
 
     @Override
-    public GraphBoxImpl<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+    public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+        GraphBoxImpl<T> start = createGraphBox(skin, id);
+        addConfigurationInputsAndOutputs(skin, start);
+
+        return start;
+    }
+
+    protected GraphBoxImpl<T> createGraphBox(Skin skin, String id) {
         GraphBoxImpl<T> start = new GraphBoxImpl<T>(id, configuration, skin);
+        return start;
+    }
+
+    protected void addConfigurationInputsAndOutputs(Skin skin, GraphBoxImpl<T> graphBox) {
         Iterator<GraphNodeInput<T>> inputIterator = configuration.getNodeInputs().values().iterator();
         Iterator<GraphNodeOutput<T>> outputIterator = configuration.getNodeOutputs().values().iterator();
         while (inputIterator.hasNext() || outputIterator.hasNext()) {
@@ -48,7 +60,7 @@ public class GraphBoxProducerImpl<T extends FieldType> implements GraphBoxProduc
             while (inputIterator.hasNext()) {
                 input = inputIterator.next();
                 if (input.isMainConnection()) {
-                    start.addTopConnector(input);
+                    graphBox.addTopConnector(input);
                     input = null;
                 } else {
                     break;
@@ -57,7 +69,7 @@ public class GraphBoxProducerImpl<T extends FieldType> implements GraphBoxProduc
             while (outputIterator.hasNext()) {
                 output = outputIterator.next();
                 if (output.isMainConnection()) {
-                    start.addBottomConnector(output);
+                    graphBox.addBottomConnector(output);
                     output = null;
                 } else {
                     break;
@@ -65,19 +77,17 @@ public class GraphBoxProducerImpl<T extends FieldType> implements GraphBoxProduc
             }
 
             if (input != null && output != null) {
-                start.addTwoSideGraphPart(skin, input, output);
+                graphBox.addTwoSideGraphPart(skin, input, output);
             } else if (input != null) {
-                start.addInputGraphPart(skin, input);
+                graphBox.addInputGraphPart(skin, input);
             } else if (output != null) {
-                start.addOutputGraphPart(skin, output);
+                graphBox.addOutputGraphPart(skin, output);
             }
         }
-
-        return start;
     }
 
     @Override
-    public GraphBoxImpl<T> createDefault(Skin skin, String id) {
+    public GraphBox<T> createDefault(Skin skin, String id) {
         return createPipelineGraphBox(skin, id, null);
     }
 }

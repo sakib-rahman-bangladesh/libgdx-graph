@@ -63,26 +63,44 @@ public class UniformSetters {
         }
     };
 
-    public final static UniformRegistry.UniformSetter sinTime = new UniformRegistry.UniformSetter() {
-        @Override
-        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
-            shader.setUniform(location, MathUtils.sin(shaderContext.getTimeProvider().getTime()));
-        }
-    };
+    public static class SinTime implements UniformRegistry.UniformSetter {
+        private float multiplier;
 
-    public final static UniformRegistry.UniformSetter cosTime = new UniformRegistry.UniformSetter() {
-        @Override
-        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
-            shader.setUniform(location, MathUtils.cos(shaderContext.getTimeProvider().getTime()));
+        public SinTime(float multiplier) {
+            this.multiplier = multiplier;
         }
-    };
 
-    public final static UniformRegistry.UniformSetter deltaTime = new UniformRegistry.UniformSetter() {
         @Override
         public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
-            shader.setUniform(location, shaderContext.getTimeProvider().getDelta());
+            shader.setUniform(location, MathUtils.sin(shaderContext.getTimeProvider().getTime() * multiplier));
         }
-    };
+    }
+
+    public static class CosTime implements UniformRegistry.UniformSetter {
+        private float multiplier;
+
+        public CosTime(float multiplier) {
+            this.multiplier = multiplier;
+        }
+
+        @Override
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+            shader.setUniform(location, MathUtils.cos(shaderContext.getTimeProvider().getTime() * multiplier));
+        }
+    }
+
+    public static class DeltaTime implements UniformRegistry.UniformSetter {
+        private float multiplier;
+
+        public DeltaTime(float multiplier) {
+            this.multiplier = multiplier;
+        }
+
+        @Override
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+            shader.setUniform(location, shaderContext.getTimeProvider().getDelta() * multiplier);
+        }
+    }
 
     public final static UniformRegistry.UniformSetter ambientLight = new UniformRegistry.UniformSetter() {
         @Override

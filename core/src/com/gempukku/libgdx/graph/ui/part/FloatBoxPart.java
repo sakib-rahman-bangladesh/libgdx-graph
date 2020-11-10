@@ -64,6 +64,10 @@ public class FloatBoxPart<T extends FieldType> extends Table implements GraphBox
         v1Input.setText(String.valueOf(value));
     }
 
+    public void setValue(float value) {
+        v1Input.setText(String.valueOf(value));
+    }
+
     @Override
     public void serializePart(JsonValue object) {
         object.addChild(property, new JsonValue(Float.parseFloat(v1Input.getText())));

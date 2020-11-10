@@ -63,7 +63,6 @@ import com.gempukku.libgdx.graph.shader.config.provided.PixelSizeShaderNodeConfi
 import com.gempukku.libgdx.graph.shader.config.provided.SceneColorShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.SceneDepthShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.ScreenPositionShaderNodeConfiguration;
-import com.gempukku.libgdx.graph.shader.config.provided.TimeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.shape.CheckerboardShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.shape.EllipseShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.shape.RectangleShapeShaderNodeConfiguration;
@@ -77,6 +76,7 @@ import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
+import com.gempukku.libgdx.graph.ui.producer.provided.TimeShaderBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.value.ValueBooleanBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.value.ValueColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.value.ValueFloatBoxProducer;
@@ -205,7 +205,7 @@ public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldTy
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new EllipseShapeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new RectangleShapeShaderNodeConfiguration()));
 
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new TimeShaderNodeConfiguration()));
+        graphBoxProducers.add(new TimeShaderBoxProducer());//GraphBoxProducerImpl<ShaderFieldType>(new TimeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CameraPositionShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CameraDirectionShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SceneDepthShaderNodeConfiguration()));

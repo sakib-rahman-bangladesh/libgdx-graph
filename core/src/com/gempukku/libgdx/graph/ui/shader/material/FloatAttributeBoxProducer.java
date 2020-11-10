@@ -16,7 +16,8 @@ public class FloatAttributeBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
 
     @Override
     public GraphBoxImpl<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = super.createPipelineGraphBox(skin, id, data);
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
+        addConfigurationInputsAndOutputs(skin, result);
         FloatBoxPart<ShaderFieldType> colorPart = new FloatBoxPart<>(skin, "Default", "default");
         if (data != null)
             colorPart.initialize(data);

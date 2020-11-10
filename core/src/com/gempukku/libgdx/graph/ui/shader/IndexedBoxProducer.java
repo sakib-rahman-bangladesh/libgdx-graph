@@ -16,7 +16,8 @@ public class IndexedBoxProducer<T extends FieldType> extends GraphBoxProducerImp
 
     @Override
     public GraphBoxImpl<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<T> result = super.createPipelineGraphBox(skin, id, data);
+        GraphBoxImpl<T> result = createGraphBox(skin, id);
+        addConfigurationInputsAndOutputs(skin, result);
         IndexBoxPart<T> indexPart = new IndexBoxPart<>(skin, "Index", "index");
         if (data != null)
             indexPart.initialize(data);

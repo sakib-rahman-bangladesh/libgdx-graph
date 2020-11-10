@@ -16,7 +16,8 @@ public class ColorAttributeBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
 
     @Override
     public GraphBoxImpl<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = super.createPipelineGraphBox(skin, id, data);
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
+        addConfigurationInputsAndOutputs(skin, result);
         ColorBoxPart<ShaderFieldType> colorPart = new ColorBoxPart<>(skin, "Default", "default");
         if (data != null)
             colorPart.initialize(data);

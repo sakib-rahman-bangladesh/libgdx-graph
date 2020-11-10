@@ -74,10 +74,12 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
     }
 
     public void initialize(JsonValue data) {
-        JsonValue renderPasses = data.get("renderPasses");
-        for (JsonValue renderPass : renderPasses) {
-            RenderPassInfo renderPassInfo = addRenderPass();
-            renderPassInfo.initialize(renderPass);
+        if (data != null) {
+            JsonValue renderPasses = data.get("renderPasses");
+            for (JsonValue renderPass : renderPasses) {
+                RenderPassInfo renderPassInfo = addRenderPass();
+                renderPassInfo.initialize(renderPass);
+            }
         }
     }
 
