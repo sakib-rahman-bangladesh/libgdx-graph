@@ -83,6 +83,9 @@ public class PropertyBoxImpl<T extends FieldType> extends Table implements Prope
             }
         };
         result.addOutputGraphPart(skin, new ValueGraphNodeOutput<T>(name, propertyType));
+        if (propertyType.isTexture()) {
+            result.addGraphBoxPart(new TextureSettingsGraphBoxPart<T>(skin));
+        }
         return result;
     }
 

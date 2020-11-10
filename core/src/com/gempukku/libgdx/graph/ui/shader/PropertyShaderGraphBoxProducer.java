@@ -6,6 +6,7 @@ import com.gempukku.libgdx.graph.PropertyNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
+import com.gempukku.libgdx.graph.ui.graph.property.TextureSettingsGraphBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.ValueGraphNodeOutput;
 
@@ -38,13 +39,20 @@ public class PropertyShaderGraphBoxProducer implements GraphBoxProducer<ShaderFi
         GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, new PropertyNodeConfiguration<>(name, propertyType), skin) {
             @Override
             public JsonValue getData() {
-                JsonValue result = new JsonValue(JsonValue.ValueType.object);
+                JsonValue result = super.getData();
+                if (result == null)
+                    result = new JsonValue(JsonValue.ValueType.object);
                 result.addChild("name", new JsonValue(name));
                 result.addChild("type", new JsonValue(propertyType.name()));
                 return result;
             }
         };
         result.addOutputGraphPart(skin, new ValueGraphNodeOutput<>(name, propertyType));
+        if (propertyType.isTexture()) {
+            TextureSettingsGraphBoxPart<ShaderFieldType> textureSettings = new TextureSettingsGraphBoxPart<>(skin);
+            textureSettings.initialize(data);
+            result.addGraphBoxPart(textureSettings);
+        }
 
         return result;
     }

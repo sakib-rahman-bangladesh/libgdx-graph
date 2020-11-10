@@ -47,4 +47,9 @@ public enum PipelineFieldType implements FieldType {
     public String getName() {
         return name();
     }
+
+    @Override
+    public boolean isTexture() {
+        return false;
+    }
 }

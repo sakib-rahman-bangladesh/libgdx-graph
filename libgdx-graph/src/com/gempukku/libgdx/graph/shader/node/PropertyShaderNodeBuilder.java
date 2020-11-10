@@ -1,8 +1,10 @@
 package com.gempukku.libgdx.graph.shader.node;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.Renderable;
+import com.badlogic.gdx.graphics.g3d.utils.TextureDescriptor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -63,7 +65,7 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
             case Vector3:
                 return buildVector3PropertyNode(nodeId, name, graphShaderContext, commonShaderBuilder);
             case TextureRegion:
-                return buildTexturePropertyNode(nodeId, name, graphShaderContext, commonShaderBuilder);
+                return buildTexturePropertyNode(nodeId, name, data, graphShaderContext, commonShaderBuilder);
         }
 
         return null;
@@ -138,8 +140,18 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Vector3, variableName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildTexturePropertyNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildTexturePropertyNode(String nodeId, final String name, JsonValue data, final GraphShaderContext graphShaderContext,
                                                                            CommonShaderBuilder commonShaderBuilder) {
+        final TextureDescriptor<Texture> textureDescriptor = new TextureDescriptor<>();
+        if (data.has("minFilter"))
+            textureDescriptor.minFilter = Texture.TextureFilter.valueOf(data.getString("minFilter"));
+        if (data.has("magFilter"))
+            textureDescriptor.magFilter = Texture.TextureFilter.valueOf(data.getString("magFilter"));
+        if (data.has("uWrap"))
+            textureDescriptor.uWrap = Texture.TextureWrap.valueOf(data.getString("uWrap"));
+        if (data.has("vWrap"))
+            textureDescriptor.vWrap = Texture.TextureWrap.valueOf(data.getString("vWrap"));
+
         String textureVariableName = "u_property_" + nodeId;
         String uvTransformVariableName = "u_uvTransform_" + nodeId;
         commonShaderBuilder.addUniformVariable(textureVariableName, "sampler2D", false,
@@ -149,7 +161,8 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
                         Object value = graphShaderModelInstance.getProperty(name);
                         if (!(value instanceof TextureRegion))
                             value = graphShaderContext.getPropertySource(name).getDefaultValue();
-                        shader.setUniform(location, ((TextureRegion) value).getTexture());
+                        textureDescriptor.texture = ((TextureRegion) value).getTexture();
+                        shader.setUniform(location, textureDescriptor);
                     }
                 }, "Texture property - " + name);
         commonShaderBuilder.addUniformVariable(uvTransformVariableName, "vec4", false,

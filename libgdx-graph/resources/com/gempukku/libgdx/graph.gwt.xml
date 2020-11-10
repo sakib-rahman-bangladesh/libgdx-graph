@@ -31,4 +31,6 @@
 	<extend-configuration-property name="gdx.reflect.include"
 								   value="com.gempukku.libgdx.graph.pipeline.PipelineFieldType"/>
 	<extend-configuration-property name="gdx.reflect.include" value="com.gempukku.libgdx.graph.shader.ShaderFieldType"/>
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.Texture.TextureFilter"/>
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.Texture.TextureWrap"/>
 </module>

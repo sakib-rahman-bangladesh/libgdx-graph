@@ -6,4 +6,6 @@ public interface FieldType {
     Object convert(Object value);
 
     String getName();
+
+    boolean isTexture();
 }
