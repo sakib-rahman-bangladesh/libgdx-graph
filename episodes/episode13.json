@@ -328,7 +328,7 @@
                       "id": "be6c135a0a144c68ab844600ef617fc3",
                       "type": "SimplexNoise3D",
                       "x": 1332.0,
-                      "y": 888.0
+                      "y": 902.0
                     },
                     {
                       "id": "8a18804be92a460786ba4ba0c802b987",
@@ -352,7 +352,7 @@
                       "id": "cd444f3a441a4b5caf23959f4012fca4",
                       "type": "Add",
                       "x": 1137.0,
-                      "y": 934.0
+                      "y": 948.0
                     },
                     {
                       "id": "fa5a106ef3ed4deabb5fb047fa486afc",
@@ -436,7 +436,7 @@
                       "id": "d40fad20fdc145b2ba10a569a49ffcba",
                       "type": "ValueVector3",
                       "x": 905.0,
-                      "y": 933.0,
+                      "y": 947.0,
                       "data": {
                         "v1": 1.0,
                         "v2": 1.0,
@@ -447,7 +447,7 @@
                       "id": "94c0307a70264cb6b78e46fe4dd90c4d",
                       "type": "ValueVector2",
                       "x": 1137.0,
-                      "y": 814.0,
+                      "y": 828.0,
                       "data": {
                         "v1": -0.019999999552965164,
                         "v2": 0.019999999552965164
@@ -469,7 +469,11 @@
                       "id": "9c722e33fe3d4871823bf3b2207f830d",
                       "type": "SceneColor",
                       "x": 1952.0,
-                      "y": 637.0
+                      "y": 637.0,
+                      "data": {
+                        "minFilter": "Linear",
+                        "magFilter": "Linear"
+                      }
                     },
                     {
                       "id": "05214654ec374d5e9791eab3ef8c124c",
@@ -535,7 +539,7 @@
                       "id": "70ccb4a95f5b48f19bbc0920085da18c",
                       "type": "ValueFloat",
                       "x": 1137.0,
-                      "y": 875.0,
+                      "y": 889.0,
                       "data": {
                         "v1": 1.0
                       }
@@ -759,33 +763,6 @@
                   "properties": [],
                   "groups": [
                     {
-                      "name": "Vertical reduction",
-                      "nodes": [
-                        "700a3a6d62f54da18287a56c0b894f74",
-                        "7acd300b670744d3ae1accf9f4ae56e3"
-                      ]
-                    },
-                    {
-                      "name": "Vertical displacement",
-                      "nodes": [
-                        "6f1bc1b4104d4e6db374d7c7da225cfe",
-                        "05214654ec374d5e9791eab3ef8c124c",
-                        "bd73ed87a3a14cfba0da9f29dc51bbec",
-                        "70a5e125bcef4c89ba8da434711fd190",
-                        "cd34ecdcc9f54acdaeb6f263f999fcd6"
-                      ]
-                    },
-                    {
-                      "name": "Horizontal displacement",
-                      "nodes": [
-                        "cd444f3a441a4b5caf23959f4012fca4",
-                        "be6c135a0a144c68ab844600ef617fc3",
-                        "70ccb4a95f5b48f19bbc0920085da18c",
-                        "d40fad20fdc145b2ba10a569a49ffcba",
-                        "94c0307a70264cb6b78e46fe4dd90c4d"
-                      ]
-                    },
-                    {
                       "name": "Noise point",
                       "nodes": [
                         "83e163afbb17402bb84295f6edae7447",
@@ -804,6 +781,33 @@
                         "45bc22cff5754314955718ea0ffa33be",
                         "07692506874e4f45a3ce53c9271b0939",
                         "f66126121a3949188245d683239703c3"
+                      ]
+                    },
+                    {
+                      "name": "Vertical displacement",
+                      "nodes": [
+                        "6f1bc1b4104d4e6db374d7c7da225cfe",
+                        "05214654ec374d5e9791eab3ef8c124c",
+                        "bd73ed87a3a14cfba0da9f29dc51bbec",
+                        "70a5e125bcef4c89ba8da434711fd190",
+                        "cd34ecdcc9f54acdaeb6f263f999fcd6"
+                      ]
+                    },
+                    {
+                      "name": "Vertical reduction",
+                      "nodes": [
+                        "700a3a6d62f54da18287a56c0b894f74",
+                        "7acd300b670744d3ae1accf9f4ae56e3"
+                      ]
+                    },
+                    {
+                      "name": "Horizontal displacement",
+                      "nodes": [
+                        "cd444f3a441a4b5caf23959f4012fca4",
+                        "be6c135a0a144c68ab844600ef617fc3",
+                        "70ccb4a95f5b48f19bbc0920085da18c",
+                        "d40fad20fdc145b2ba10a569a49ffcba",
+                        "94c0307a70264cb6b78e46fe4dd90c4d"
                       ]
                     }
                   ]

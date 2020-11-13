@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.shader.node.provided;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Renderable;
+import com.badlogic.gdx.graphics.g3d.utils.TextureDescriptor;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -13,7 +14,6 @@ import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.UniformRegistry;
-import com.gempukku.libgdx.graph.shader.UniformSetters;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
 import com.gempukku.libgdx.graph.shader.config.provided.SceneColorShaderNodeConfiguration;
@@ -56,7 +56,24 @@ public class SceneColorShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
                         }
                     });
         } else {
-            commonShaderBuilder.addUniformVariable(textureName, "sampler2D", true, UniformSetters.colorTexture);
+            final TextureDescriptor<Texture> textureDescriptor = new TextureDescriptor<>();
+            if (data.has("minFilter"))
+                textureDescriptor.minFilter = Texture.TextureFilter.valueOf(data.getString("minFilter"));
+            if (data.has("magFilter"))
+                textureDescriptor.magFilter = Texture.TextureFilter.valueOf(data.getString("magFilter"));
+            if (data.has("uWrap"))
+                textureDescriptor.uWrap = Texture.TextureWrap.valueOf(data.getString("uWrap"));
+            if (data.has("vWrap"))
+                textureDescriptor.vWrap = Texture.TextureWrap.valueOf(data.getString("vWrap"));
+
+            commonShaderBuilder.addUniformVariable(textureName, "sampler2D", true,
+                    new UniformRegistry.UniformSetter() {
+                        @Override
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+                            textureDescriptor.texture = shaderContext.getColorTexture();
+                            shader.setUniform(location, textureDescriptor);
+                        }
+                    });
             commonShaderBuilder.addUniformVariable(transformName, "vec4", false,
                     new UniformRegistry.UniformSetter() {
                         @Override
