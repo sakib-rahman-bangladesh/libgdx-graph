@@ -14,6 +14,7 @@ public class GraphLoader {
     private static final int VERSION_MINOR = 1;
     private static final int VERSION_PATCH = 2;
     public static final String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
+    private static JsonValue emptyData = new JsonValue(JsonValue.ValueType.object);
 
     public static <T> T loadGraph(InputStream inputStream, GraphLoaderCallback<T> graphLoaderCallback) throws IOException {
         try {
@@ -41,6 +42,8 @@ public class GraphLoader {
             float x = object.getFloat("x");
             float y = object.getFloat("y");
             JsonValue data = object.get("data");
+            if (data == null)
+                data = emptyData;
             graphLoaderCallback.addPipelineNode(id, type, x, y, data);
         }
         for (JsonValue connection : graph.get("connections")) {
@@ -53,7 +56,9 @@ public class GraphLoader {
         for (JsonValue property : graph.get("properties")) {
             String type = property.getString("type");
             String name = property.getString("name");
-            JsonValue data = (JsonValue) property.get("data");
+            JsonValue data = property.get("data");
+            if (data == null)
+                data = emptyData;
             graphLoaderCallback.addPipelineProperty(type, name, data);
         }
         JsonValue groups = graph.get("groups");
