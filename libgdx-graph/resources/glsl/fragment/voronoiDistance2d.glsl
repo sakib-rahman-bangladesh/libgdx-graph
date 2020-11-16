@@ -13,7 +13,7 @@ vec2 voronoiDistanceRandom2(vec2 p) {
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
 // OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-float voronoiDistance(vec2 x, float progress)
+float voronoiDistance2d(vec2 x, float progress)
 {
     vec2 n = floor(x);
     vec2 f = fract(x);
@@ -33,32 +33,9 @@ float voronoiDistance(vec2 x, float progress)
             vec2 r = g + o - f;
             float d = dot(r, r);
 
-            if (d<md)
-            {
-                md = d;
-                mr = r;
-                mg = g;
-            }
+            md = min(md, d);
         }
     }
 
-    //----------------------------------
-    // second pass: distance to borders
-    //----------------------------------
-    md = 8.0;
-    for (int j=-2; j<=2; j++) {
-        for (int i=-2; i<=2; i++)
-        {
-            vec2 g = mg + vec2(float(i), float(j));
-            vec2 o = voronoiDistanceRandom2(n + g);
-            o = 0.5 + 0.5 * sin(progress + 6.2831 * o);
-            vec2 r = g + o - f;
-
-            if (dot(mr-r, mr-r)>0.00001) {
-                md = min(md, dot(0.5*(mr+r), normalize(r-mr)));
-            }
-        }
-    }
-
-    return md;
+    return sqrt(md);
 }

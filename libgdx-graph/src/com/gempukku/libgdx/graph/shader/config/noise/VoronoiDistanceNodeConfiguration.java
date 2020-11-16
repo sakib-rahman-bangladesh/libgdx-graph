@@ -7,7 +7,7 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 
 public class VoronoiDistanceNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
     public VoronoiDistanceNodeConfiguration() {
-        super("VoronoiDistance", "Voronoi Distance", "Noise");
+        super("VoronoiDistance", "Voronoi Distance 2D", "Noise");
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("uv", "UV", true, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(

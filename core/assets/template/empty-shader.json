@@ -1,10 +1,16 @@
 {
   "nodes": [
     {
-      "type": "ShaderEnd",
       "id": "end",
-      "x": 50,
-      "y": 50
+      "type": "ShaderEnd",
+      "x": 50.0,
+      "y": 50.0,
+      "data": {
+        "culling": "front",
+        "transparency": "opaque",
+        "blending": "alpha",
+        "depthTest": "less"
+      }
     }
   ],
   "connections": [],

@@ -36,20 +36,20 @@ public class VoronoiDistanceShaderNodeBuilder extends ConfigurationCommonShaderN
         String scale = (scaleValue != null) ? scaleValue.getRepresentation() : "1.0";
         String progress = (progressValue != null) ? progressValue.getRepresentation() : "0.0";
 
-        if (!commonShaderBuilder.containsFunction("voronoiDistance")) {
-            commonShaderBuilder.addFunction("voronoiDistance", GLSLFragmentReader.getFragment("voronoiDistance"));
+        if (!commonShaderBuilder.containsFunction("voronoiDistance2d")) {
+            commonShaderBuilder.addFunction("voronoiDistance2d", GLSLFragmentReader.getFragment("voronoiDistance2d"));
         }
 
         commonShaderBuilder.addMainLine("// Voronoi distance node");
         String name = "result_" + nodeId;
         String output;
         if (uvValue.getFieldType() == ShaderFieldType.Vector2) {
-            output = "voronoiDistance(" + uvValue.getRepresentation() + " * " + scale + ", " + progress + ")";
+            output = "voronoiDistance2d(" + uvValue.getRepresentation() + " * " + scale + ", " + progress + ")";
         } else {
-            output = "voronoiDistance(vec2(" + uvValue.getRepresentation() + ", 0.0) * " + scale + ", " + progress + ")";
+            output = "voronoiDistance2d(vec2(" + uvValue.getRepresentation() + ", 0.0) * " + scale + ", " + progress + ")";
         }
 
-        String noiseRange = "vec2(-0.1, 0.71)";
+        String noiseRange = "vec2(0.0, 2.12)";
         if (rangeValue != null) {
             String functionName = RemapShaderNodeBuilder.appendRemapFunction(commonShaderBuilder, ShaderFieldType.Float);
             commonShaderBuilder.addMainLine("float " + name + " = " + functionName + "(" + output + ", " + noiseRange + ", " + rangeValue.getRepresentation() + ");");
@@ -94,32 +94,11 @@ public class VoronoiDistanceShaderNodeBuilder extends ConfigurationCommonShaderN
                 Vector2 r = new Vector2(g).add(o).sub(f);
                 float d = dot(r, r);
 
-                if (d < md) {
-                    md = d;
-                    mr = r;
-                    mg = g;
-                }
+                md = Math.min(md, d);
             }
         }
 
-        //----------------------------------
-        // second pass: distance to borders
-        //----------------------------------
-        md = 8.0f;
-        for (int j = -2; j <= 2; j++) {
-            for (int i = -2; i <= 2; i++) {
-                Vector2 g = new Vector2(1f * i, 1f * j).add(mg);
-                Vector2 o = voronoiDistanceRandom2(new Vector2(n).add(g));
-                o = sin(new Vector2(o).scl(6.2831f).add(progress, progress)).scl(0.5f).add(0.5f, 0.5f);
-                Vector2 r = new Vector2(g).add(o).sub(f);
-
-                if (dot(new Vector2(mr).sub(r), new Vector2(mr).sub(r)) > 0.00001f) {
-                    md = Math.min(md, dot(new Vector2(mr).add(r).scl(0.5f), new Vector2(r).sub(mr).nor()));
-                }
-            }
-        }
-
-        return md;
+        return (float) Math.sqrt(md);
     }
 
     public static void main(String[] args) {
@@ -128,7 +107,6 @@ public class VoronoiDistanceShaderNodeBuilder extends ConfigurationCommonShaderN
         // Calculate min and max of simplexNoise2d
         float v = 10f;
         for (float x = -v; x < v; x += 0.01f) {
-            System.out.println("x: " + x);
             for (float y = -v; y < v; y += 0.01f) {
                 //for (float z = -v; z < v; z += 0.01f) {
                 float noise = voronoiDistance(new Vector2(x, y), 0);
