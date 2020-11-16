@@ -3,11 +3,11 @@ package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.PipelineRendererModels;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
+import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.DefaultRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
@@ -34,7 +34,7 @@ public class DefaultRendererPipelineNodeProducer extends PipelineNodeProducerImp
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
                 PipelineRendererModels models = modelsInput.getValue(pipelineRenderingContext);
                 Camera camera = cameraInput.getValue(pipelineRenderingContext);
-                FrameBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+                RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
                 int width = currentBuffer.getWidth();
                 int height = currentBuffer.getHeight();
                 float viewportWidth = camera.viewportWidth;
@@ -46,17 +46,17 @@ public class DefaultRendererPipelineNodeProducer extends PipelineNodeProducerImp
                 }
                 Environment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext) : null;
                 if (environment != null) {
-                    currentBuffer.begin();
+                    currentBuffer.beginColor();
                     modelBatch.begin(camera);
                     modelBatch.render(models.getModels(), environment);
                     modelBatch.end();
-                    currentBuffer.end();
+                    currentBuffer.endColor();
                 } else {
-                    currentBuffer.begin();
+                    currentBuffer.beginColor();
                     modelBatch.begin(camera);
                     modelBatch.render(models.getModels());
                     modelBatch.end();
-                    currentBuffer.end();
+                    currentBuffer.endColor();
                 }
                 OutputValue output = outputValues.get("output");
                 if (output != null)

@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.pipeline.loader.postprocessor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
+import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.GaussianBlurPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.FloatFieldOutput;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
@@ -57,7 +57,7 @@ public class GaussianBlurPipelineNodeProducer extends PipelineNodeProducerImpl {
                 int blurRadius = MathUtils.round(finalBlurRadius.getValue(pipelineRenderingContext));
                 if (blurRadius > 0) {
                     float[] kernel = GaussianBlurKernel.getKernel(blurRadius);
-                    FrameBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+                    RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
 
                     shaderProgram.bind();
                     shaderProgram.setUniformi("u_sourceTexture", 0);
@@ -69,10 +69,10 @@ public class GaussianBlurPipelineNodeProducer extends PipelineNodeProducerImpl {
                     indexBufferObject.bind();
 
                     shaderProgram.setUniformi("u_vertical", 1);
-                    FrameBuffer tempBuffer = executeBlur(renderPipeline, currentBuffer, indexBufferObject);
+                    RenderPipelineBuffer tempBuffer = executeBlur(renderPipeline, currentBuffer, indexBufferObject);
                     renderPipeline.returnFrameBuffer(currentBuffer);
                     shaderProgram.setUniformi("u_vertical", 0);
-                    FrameBuffer finalBuffer = executeBlur(renderPipeline, tempBuffer, indexBufferObject);
+                    RenderPipelineBuffer finalBuffer = executeBlur(renderPipeline, tempBuffer, indexBufferObject);
                     renderPipeline.returnFrameBuffer(tempBuffer);
                     renderPipeline.setCurrentBuffer(finalBuffer);
 
@@ -94,17 +94,16 @@ public class GaussianBlurPipelineNodeProducer extends PipelineNodeProducerImpl {
         };
     }
 
-    private FrameBuffer executeBlur(RenderPipeline renderPipeline, FrameBuffer sourceBuffer, IndexBufferObject indexBufferObject) {
-
-        FrameBuffer resultBuffer = renderPipeline.getNewFrameBuffer(sourceBuffer);
-        resultBuffer.begin();
+    private RenderPipelineBuffer executeBlur(RenderPipeline renderPipeline, RenderPipelineBuffer sourceBuffer, IndexBufferObject indexBufferObject) {
+        RenderPipelineBuffer resultBuffer = renderPipeline.getNewFrameBuffer(sourceBuffer);
+        resultBuffer.beginColor();
 
         Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
         Gdx.gl.glBindTexture(GL20.GL_TEXTURE_2D, sourceBuffer.getColorBufferTexture().getTextureObjectHandle());
 
         Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, indexBufferObject.getNumIndices(), GL20.GL_UNSIGNED_SHORT, 0);
 
-        resultBuffer.end();
+        resultBuffer.endColor();
 
         return resultBuffer;
     }

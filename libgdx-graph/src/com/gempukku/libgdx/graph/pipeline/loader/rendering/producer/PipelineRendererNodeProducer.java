@@ -1,10 +1,10 @@
 package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
+import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.PipelineRendererNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
@@ -29,8 +29,8 @@ public class PipelineRendererNodeProducer extends PipelineNodeProducerImpl {
                 RenderPipeline canvasPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
                 RenderPipeline paintPipeline = otherPipelineInput.getValue(pipelineRenderingContext);
 
-                FrameBuffer canvasBuffer = canvasPipeline.getCurrentBuffer();
-                FrameBuffer paintBuffer = paintPipeline.getCurrentBuffer();
+                RenderPipelineBuffer canvasBuffer = canvasPipeline.getCurrentBuffer();
+                RenderPipelineBuffer paintBuffer = paintPipeline.getCurrentBuffer();
 
                 Vector2 position = positionInput.getValue(pipelineRenderingContext);
                 Vector2 size;
@@ -39,7 +39,7 @@ public class PipelineRendererNodeProducer extends PipelineNodeProducerImpl {
                 else
                     size = new Vector2(paintBuffer.getWidth(), paintBuffer.getHeight());
 
-                canvasPipeline.getBufferCopyHelper().copy(paintBuffer, canvasBuffer, position.x, position.y, size.x, size.y);
+                canvasPipeline.getBufferCopyHelper().copy(paintBuffer.getColorBuffer(), canvasBuffer.getColorBuffer(), position.x, position.y, size.x, size.y);
 
                 paintPipeline.returnFrameBuffer(paintBuffer);
 

@@ -1,23 +1,20 @@
 package com.gempukku.libgdx.graph.pipeline;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.gempukku.libgdx.graph.pipeline.impl.BufferCopyHelper;
 
 public interface RenderPipeline {
-    FrameBuffer getSceneColorBuffer();
+    RenderPipelineBuffer getCurrentBuffer();
 
-    FrameBuffer getDepthFrameBuffer();
+    void setCurrentBuffer(RenderPipelineBuffer frameBuffer);
 
-    FrameBuffer getCurrentBuffer();
+    void enrichWithDepthBuffer(RenderPipelineBuffer renderPipelineBuffer);
 
-    void setCurrentBuffer(FrameBuffer frameBuffer);
+    RenderPipelineBuffer getNewFrameBuffer(int width, int height, Pixmap.Format format);
 
-    FrameBuffer getNewFrameBuffer(int width, int height, Pixmap.Format format);
+    RenderPipelineBuffer getNewFrameBuffer(RenderPipelineBuffer takeSettingsFrom);
 
-    FrameBuffer getNewFrameBuffer(FrameBuffer takeSettingsFrom);
-
-    void returnFrameBuffer(FrameBuffer frameBuffer);
+    void returnFrameBuffer(RenderPipelineBuffer frameBuffer);
 
     BufferCopyHelper getBufferCopyHelper();
 }

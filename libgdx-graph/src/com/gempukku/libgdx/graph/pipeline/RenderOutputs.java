@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.gempukku.libgdx.graph.pipeline.impl.BufferCopyHelper;
 
 public class RenderOutputs {
@@ -24,7 +23,7 @@ public class RenderOutputs {
         @Override
         public void output(RenderPipeline renderPipeline) {
             BufferCopyHelper bufferCopyHelper = renderPipeline.getBufferCopyHelper();
-            bufferCopyHelper.copy(renderPipeline.getCurrentBuffer(), null);
+            bufferCopyHelper.copy(renderPipeline.getCurrentBuffer().getColorBuffer(), null);
 
             renderPipeline.returnFrameBuffer(renderPipeline.getCurrentBuffer());
         }
@@ -53,7 +52,7 @@ public class RenderOutputs {
 
         @Override
         public void output(RenderPipeline renderPipeline) {
-            FrameBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+            RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
             TextureData textureData = currentBuffer.getColorBufferTexture().getTextureData();
             textureData.prepare();
             Pixmap pixmap = textureData.consumePixmap();

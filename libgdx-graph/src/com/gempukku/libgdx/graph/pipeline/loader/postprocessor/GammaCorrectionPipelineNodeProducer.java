@@ -3,13 +3,13 @@ package com.gempukku.libgdx.graph.pipeline.loader.postprocessor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
+import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.GammaCorrectionPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.FloatFieldOutput;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
@@ -55,11 +55,11 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
 
                 float gamma = finalGamma.getValue(pipelineRenderingContext);
                 if (gamma != 1) {
-                    FrameBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+                    RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
 
-                    FrameBuffer newBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
+                    RenderPipelineBuffer newBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
 
-                    newBuffer.begin();
+                    newBuffer.beginColor();
 
                     shaderProgram.bind();
 
@@ -76,7 +76,7 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
                     vertexBufferObject.unbind(shaderProgram);
                     indexBufferObject.unbind();
 
-                    newBuffer.end();
+                    newBuffer.endColor();
 
                     renderPipeline.returnFrameBuffer(currentBuffer);
                     renderPipeline.setCurrentBuffer(newBuffer);

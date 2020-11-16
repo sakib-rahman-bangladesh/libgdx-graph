@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.pipeline.loader.postprocessor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
+import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.BloomPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.FloatFieldOutput;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
@@ -77,15 +77,15 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
                 if (bloomStrengthValue > 0 && bloomRadiusValue > 0) {
                     float minimalBrightnessValue = finalMinimalBrightness.getValue(pipelineRenderingContext);
 
-                    FrameBuffer originalBuffer = renderPipeline.getCurrentBuffer();
+                    RenderPipelineBuffer originalBuffer = renderPipeline.getCurrentBuffer();
 
-                    FrameBuffer brightnessFilterBuffer = runBrightnessPass(minimalBrightnessValue, renderPipeline, originalBuffer, brightnessFilterPassProgram, vertexBufferObject, indexBufferObject);
+                    RenderPipelineBuffer brightnessFilterBuffer = runBrightnessPass(minimalBrightnessValue, renderPipeline, originalBuffer, brightnessFilterPassProgram, vertexBufferObject, indexBufferObject);
 
-                    FrameBuffer gaussianBlur = applyGaussianBlur(bloomRadiusValue, renderPipeline,
+                    RenderPipelineBuffer gaussianBlur = applyGaussianBlur(bloomRadiusValue, renderPipeline,
                             brightnessFilterBuffer, gaussianBlurPassProgram, vertexBufferObject, indexBufferObject);
                     renderPipeline.returnFrameBuffer(brightnessFilterBuffer);
 
-                    FrameBuffer result = applyTheBloom(bloomStrengthValue, renderPipeline, originalBuffer, gaussianBlur, bloomSumProgram, vertexBufferObject, indexBufferObject);
+                    RenderPipelineBuffer result = applyTheBloom(bloomStrengthValue, renderPipeline, originalBuffer, gaussianBlur, bloomSumProgram, vertexBufferObject, indexBufferObject);
 
                     renderPipeline.returnFrameBuffer(gaussianBlur);
                     renderPipeline.returnFrameBuffer(originalBuffer);
@@ -108,11 +108,11 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
         };
     }
 
-    private FrameBuffer applyTheBloom(float bloomStrength, RenderPipeline renderPipeline, FrameBuffer sourceBuffer, FrameBuffer gaussianBlur,
-                                      ShaderProgram bloomSumProgram, VertexBufferObject vertexBufferObject, IndexBufferObject indexBufferObject) {
-        FrameBuffer result = renderPipeline.getNewFrameBuffer(sourceBuffer);
+    private RenderPipelineBuffer applyTheBloom(float bloomStrength, RenderPipeline renderPipeline, RenderPipelineBuffer sourceBuffer, RenderPipelineBuffer gaussianBlur,
+                                               ShaderProgram bloomSumProgram, VertexBufferObject vertexBufferObject, IndexBufferObject indexBufferObject) {
+        RenderPipelineBuffer result = renderPipeline.getNewFrameBuffer(sourceBuffer);
 
-        result.begin();
+        result.beginColor();
 
         bloomSumProgram.bind();
 
@@ -131,14 +131,14 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
         vertexBufferObject.unbind(bloomSumProgram);
         indexBufferObject.unbind();
 
-        result.end();
+        result.endColor();
 
         return result;
     }
 
 
-    private FrameBuffer applyGaussianBlur(int bloomRadius, RenderPipeline renderPipeline, FrameBuffer sourceBuffer,
-                                          ShaderProgram blurProgram, VertexBufferObject vertexBufferObject, IndexBufferObject indexBufferObject) {
+    private RenderPipelineBuffer applyGaussianBlur(int bloomRadius, RenderPipeline renderPipeline, RenderPipelineBuffer sourceBuffer,
+                                                   ShaderProgram blurProgram, VertexBufferObject vertexBufferObject, IndexBufferObject indexBufferObject) {
         float[] kernel = GaussianBlurKernel.getKernel(MathUtils.round(bloomRadius));
         blurProgram.bind();
         blurProgram.setUniformi("u_sourceTexture", 0);
@@ -150,9 +150,9 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
         indexBufferObject.bind();
 
         blurProgram.setUniformi("u_vertical", 1);
-        FrameBuffer tempBuffer = executeBlur(renderPipeline, sourceBuffer, indexBufferObject);
+        RenderPipelineBuffer tempBuffer = executeBlur(renderPipeline, sourceBuffer, indexBufferObject);
         blurProgram.setUniformi("u_vertical", 0);
-        FrameBuffer blurredBuffer = executeBlur(renderPipeline, tempBuffer, indexBufferObject);
+        RenderPipelineBuffer blurredBuffer = executeBlur(renderPipeline, tempBuffer, indexBufferObject);
         renderPipeline.returnFrameBuffer(tempBuffer);
 
         indexBufferObject.unbind();
@@ -161,24 +161,24 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
         return blurredBuffer;
     }
 
-    private FrameBuffer executeBlur(RenderPipeline renderPipeline, FrameBuffer sourceBuffer, IndexBufferObject indexBufferObject) {
-        FrameBuffer resultBuffer = renderPipeline.getNewFrameBuffer(sourceBuffer);
-        resultBuffer.begin();
+    private RenderPipelineBuffer executeBlur(RenderPipeline renderPipeline, RenderPipelineBuffer sourceBuffer, IndexBufferObject indexBufferObject) {
+        RenderPipelineBuffer resultBuffer = renderPipeline.getNewFrameBuffer(sourceBuffer);
+        resultBuffer.beginColor();
 
         Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
         Gdx.gl.glBindTexture(GL20.GL_TEXTURE_2D, sourceBuffer.getColorBufferTexture().getTextureObjectHandle());
 
         Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, indexBufferObject.getNumIndices(), GL20.GL_UNSIGNED_SHORT, 0);
 
-        resultBuffer.end();
+        resultBuffer.endColor();
 
         return resultBuffer;
     }
 
-    private FrameBuffer runBrightnessPass(float minimalBrightnessValue, RenderPipeline renderPipeline, FrameBuffer currentBuffer, ShaderProgram brightnessFilterPassProgram, VertexBufferObject vertexBufferObject, IndexBufferObject indexBufferObject) {
-        FrameBuffer brightnessFilterBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
+    private RenderPipelineBuffer runBrightnessPass(float minimalBrightnessValue, RenderPipeline renderPipeline, RenderPipelineBuffer currentBuffer, ShaderProgram brightnessFilterPassProgram, VertexBufferObject vertexBufferObject, IndexBufferObject indexBufferObject) {
+        RenderPipelineBuffer brightnessFilterBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
 
-        brightnessFilterBuffer.begin();
+        brightnessFilterBuffer.beginColor();
 
         brightnessFilterPassProgram.bind();
 
@@ -195,7 +195,7 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
         vertexBufferObject.unbind(brightnessFilterPassProgram);
         indexBufferObject.unbind();
 
-        brightnessFilterBuffer.end();
+        brightnessFilterBuffer.endColor();
 
         return brightnessFilterBuffer;
     }

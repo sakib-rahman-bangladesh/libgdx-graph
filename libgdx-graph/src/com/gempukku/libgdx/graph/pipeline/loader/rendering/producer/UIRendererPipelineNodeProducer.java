@@ -1,10 +1,10 @@
 package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
+import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.UIRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
@@ -26,16 +26,16 @@ public class UIRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
                 Stage stage = stageInput.getValue(pipelineRenderingContext);
                 if (stage != null) {
-                    FrameBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+                    RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
                     int width = currentBuffer.getWidth();
                     int height = currentBuffer.getHeight();
                     int screenWidth = stage.getViewport().getScreenWidth();
                     int screenHeight = stage.getViewport().getScreenHeight();
                     if (screenWidth != width || screenHeight != height)
                         stage.getViewport().update(width, height, true);
-                    currentBuffer.begin();
+                    currentBuffer.beginColor();
                     stage.draw();
-                    currentBuffer.end();
+                    currentBuffer.endColor();
                 }
                 OutputValue output = outputValues.get("output");
                 if (output != null)

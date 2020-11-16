@@ -4,13 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
+import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.impl.RenderPipelineImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
@@ -65,13 +65,13 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
         int height = MathUtils.round(bufferSize.y);
         renderPipeline.startFrame(width, height);
 
-        FrameBuffer frameBuffer = renderPipeline.getNewFrameBuffer(width, height, Pixmap.Format.RGBA8888);
+        RenderPipelineBuffer frameBuffer = renderPipeline.getNewFrameBuffer(width, height, Pixmap.Format.RGBA8888);
         renderPipeline.setCurrentBuffer(frameBuffer);
 
-        frameBuffer.begin();
+        frameBuffer.beginColor();
         Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        frameBuffer.end();
+        frameBuffer.endColor();
 
         OutputValue<RenderPipeline> output = outputValues.get("output");
         if (output != null)

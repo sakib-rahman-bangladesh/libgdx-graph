@@ -1,10 +1,11 @@
 package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonValue;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.WhitePixel;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
+import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.GraphShaderRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
@@ -69,7 +71,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
                 GraphShaderModelsImpl models = pipelineRenderingContext.getGraphShaderModels();
                 Camera camera = cameraInput.getValue(pipelineRenderingContext);
-                FrameBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+                RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
                 int width = currentBuffer.getWidth();
                 int height = currentBuffer.getHeight();
                 float viewportWidth = camera.viewportWidth;
@@ -85,28 +87,31 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 shaderContext.setCamera(camera);
                 shaderContext.setGraphShaderEnvironment(environment);
                 shaderContext.setTimeProvider(pipelineRenderingContext.getTimeProvider());
-                FrameBuffer depthFrameBuffer = null;
-                FrameBuffer sceneColorBuffer = null;
+                RenderPipelineBuffer sceneColorBuffer = null;
 
                 if (finalNeedsDepthTexture) {
-                    depthFrameBuffer = renderPipeline.getDepthFrameBuffer();
-                    shaderContext.setDepthTexture(depthFrameBuffer.getColorBufferTexture());
+                    renderPipeline.enrichWithDepthBuffer(currentBuffer);
+                    shaderContext.setDepthTexture(currentBuffer.getDepthBufferTexture());
                 }
                 if (finalNeedsColorTexture) {
-                    sceneColorBuffer = renderPipeline.getSceneColorBuffer();
+                    sceneColorBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
+                    sceneColorBuffer.beginColor();
+                    Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+                    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+                    sceneColorBuffer.endColor();
                     shaderContext.setColorTexture(sceneColorBuffer.getColorBufferTexture());
                 }
 
                 renderContext.begin();
-                currentBuffer.begin();
+                currentBuffer.beginColor();
 
                 for (int i = 0; i < renderPasses.size; i++) {
                     RenderPass renderPass = renderPasses.get(i);
                     if (renderPass.isRequiringSceneColor()) {
-                        currentBuffer.end();
+                        currentBuffer.endColor();
                         renderContext.setCullFace(GL_BACK);
-                        renderPipeline.getBufferCopyHelper().copy(currentBuffer, sceneColorBuffer);
-                        currentBuffer.begin();
+                        renderPipeline.getBufferCopyHelper().copy(currentBuffer.getColorBuffer(), sceneColorBuffer.getColorBuffer());
+                        currentBuffer.beginColor();
                     }
 
                     Array<GraphShader> opaqueShaders = renderPass.getOpaqueShaders();
@@ -158,8 +163,8 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
                     // Then if depth buffer is needed for later passes - draw to it
                     if (!depthShaders.isEmpty()) {
-                        currentBuffer.end();
-                        depthFrameBuffer.begin();
+                        currentBuffer.endColor();
+                        currentBuffer.beginDepth();
 
                         models.orderFrontToBack();
                         for (GraphShader shader : depthShaders) {
@@ -167,12 +172,15 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                             renderWithShaderOpaquePass(tag, shader, models, shaderContext);
                         }
 
-                        depthFrameBuffer.end();
-                        currentBuffer.begin();
+                        currentBuffer.endDepth();
+                        currentBuffer.beginColor();
                     }
                 }
 
-                currentBuffer.end();
+                if (sceneColorBuffer != null)
+                    renderPipeline.returnFrameBuffer(sceneColorBuffer);
+
+                currentBuffer.endColor();
                 renderContext.end();
                 OutputValue<RenderPipeline> output = outputValues.get("output");
                 if (output != null)
