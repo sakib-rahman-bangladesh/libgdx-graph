@@ -1,23 +1,14 @@
 package com.gempukku.libgdx.graph.test.episodes;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cubemap;
-import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -34,14 +25,14 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.Transforms;
+import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Episode12LibgdxGraphTestApplication extends ApplicationAdapter {
-    private long lastProcessedInput;
-
+public class Episode11Scene implements LibgdxGraphTestScene {
     private Array<Disposable> disposables = new Array<>();
     private PipelineRenderer pipelineRenderer;
 
@@ -52,9 +43,7 @@ public class Episode12LibgdxGraphTestApplication extends ApplicationAdapter {
     private String sphereInstanceId;
 
     @Override
-    public void create() {
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
-
+    public void initializeScene() {
         WhitePixel.initialize();
 
         lights = createLights();
@@ -86,7 +75,7 @@ public class Episode12LibgdxGraphTestApplication extends ApplicationAdapter {
         camera.near = 0.5f;
         camera.far = 100f;
 
-        camera.position.set(5, 2, 5);
+        camera.position.set(8, 0, 5);
         camera.up.set(0f, 1f, 0f);
         camera.lookAt(0, 0, 0f);
         camera.update();
@@ -95,17 +84,28 @@ public class Episode12LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private void createModels(GraphShaderModels models) {
-        float radius = 3.5f;
         ModelBuilder modelBuilder = new ModelBuilder();
-        Model sphere = modelBuilder.createSphere(radius * 2, radius * 2, radius * 2, 50, 50, new Material(),
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
+        Model forceField = modelBuilder.createRect(
+                0, 10, 10,
+                0, -10, 10,
+                0, -10, -10,
+                0, 10, -10,
+                0, 0, 1,
+                new Material(), VertexAttributes.Usage.Position);
+        disposables.add(forceField);
+
+        Model sphere = modelBuilder.createSphere(4f, 4f, 4f, 50, 50, new Material(), VertexAttributes.Usage.Position);
         disposables.add(sphere);
 
+        String forceFieldId = models.registerModel(forceField);
         String sphereId = models.registerModel(sphere);
 
-        models.addModelDefaultTag(sphereId, "dissolve");
+        models.addModelDefaultTag(forceFieldId, "force-field");
+        models.addModelDefaultTag(sphereId, "default");
 
+        models.createModelInstance(forceFieldId);
         sphereInstanceId = models.createModelInstance(sphereId);
+        models.updateTransform(sphereInstanceId, Transforms.create().idt().translate(-3f, 0, 0));
     }
 
     private Stage createStage() {
@@ -119,78 +119,50 @@ public class Episode12LibgdxGraphTestApplication extends ApplicationAdapter {
         tbl.setFillParent(true);
         tbl.align(Align.topLeft);
 
-        final Slider dissolve = new Slider(-5, 5, 0.01f, false, skin);
-        dissolve.setValue(0f);
-        addListener(dissolve, "Dissolve");
-        final Slider noiseScale = new Slider(0, 10, 0.01f, false, skin);
-        noiseScale.setValue(3f);
-        addListener(noiseScale, "Noise Scale");
-        final Slider noiseValue = new Slider(0, 10, 0.01f, false, skin);
-        noiseValue.setValue(1.5f);
-        addListener(noiseValue, "Noise Value");
-
-        tbl.add("Dissolve").padRight(5f);
-        tbl.add(dissolve).width(300f);
-        tbl.row();
-
-        tbl.add("Noise Scale").padRight(5f);
-        tbl.add(noiseScale).width(300f);
-        tbl.row();
-
-        tbl.add("Noise Value").padRight(5f);
-        tbl.add(noiseValue).width(300f);
-        tbl.row();
+        final Slider slider = new Slider(-3, 3, 0.01f, false, skin);
+        slider.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        GraphShaderModels models = pipelineRenderer.getGraphShaderModels();
+                        models.updateTransform(sphereInstanceId,
+                                Transforms.create().idt().translate(slider.getValue(), 0, 0));
+                    }
+                });
+        tbl.add("Sphere translation").padRight(5f);
+        tbl.add(slider).width(300f);
 
         stage.addActor(tbl);
         return stage;
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resizeScene(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
     @Override
-    public void render() {
+    public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
 
-        reloadRendererIfNeeded();
         stage.act(delta);
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
     }
 
-    private void reloadRendererIfNeeded() {
-        long currentTime = System.currentTimeMillis();
-        if (lastProcessedInput + 200 < currentTime) {
-            if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-                lastProcessedInput = currentTime;
-                pipelineRenderer.dispose();
-                pipelineRenderer = loadPipelineRenderer();
-                createModels(pipelineRenderer.getGraphShaderModels());
-            }
-        }
-    }
-
     @Override
-    public void dispose() {
+    public void disposeScene() {
         for (Disposable disposable : disposables) {
             disposable.dispose();
         }
+        disposables.clear();
         pipelineRenderer.dispose();
         WhitePixel.dispose();
-
-        Gdx.app.debug("Unclosed", Cubemap.getManagedStatus());
-        Gdx.app.debug("Unclosed", GLFrameBuffer.getManagedStatus());
-        Gdx.app.debug("Unclosed", Mesh.getManagedStatus());
-        Gdx.app.debug("Unclosed", Texture.getManagedStatus());
-        Gdx.app.debug("Unclosed", TextureArray.getManagedStatus());
-        Gdx.app.debug("Unclosed", ShaderProgram.getManagedStatus());
     }
 
     private PipelineRenderer loadPipelineRenderer() {
         try {
-            InputStream stream = Gdx.files.local("episodes/episode12.json").read();
+            InputStream stream = Gdx.files.local("episodes/episode11.json").read();
             try {
                 PipelineRenderer pipelineRenderer = GraphLoader.loadGraph(stream, new PipelineLoaderCallback());
                 setupPipeline(pipelineRenderer);
@@ -207,16 +179,5 @@ public class Episode12LibgdxGraphTestApplication extends ApplicationAdapter {
         pipelineRenderer.setPipelineProperty("Camera", camera);
         pipelineRenderer.setPipelineProperty("Lights", lights);
         pipelineRenderer.setPipelineProperty("Stage", stage);
-    }
-
-    private void addListener(final Slider slider, final String propertyName) {
-        slider.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        GraphShaderModels models = pipelineRenderer.getGraphShaderModels();
-                        models.setProperty(sphereInstanceId, propertyName, slider.getValue());
-                    }
-                });
     }
 }

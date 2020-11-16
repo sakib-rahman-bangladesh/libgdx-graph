@@ -1,8 +1,6 @@
 package com.gempukku.libgdx.graph.test.episodes;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -29,15 +27,15 @@ import com.gempukku.libgdx.graph.libgdx.LibGDXModels;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Episode3LibgdxGraphTestApplication extends ApplicationAdapter {
+public class Episode3Scene implements LibgdxGraphTestScene {
     private Stage stage;
     private Skin skin;
-    private long lastProcessedInput;
 
     private PipelineRenderer pipelineRenderer;
     private LibGDXModels models;
@@ -46,7 +44,7 @@ public class Episode3LibgdxGraphTestApplication extends ApplicationAdapter {
     private Camera camera;
 
     @Override
-    public void create() {
+    public void initializeScene() {
         WhitePixel.initialize();
         skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
         stage = constructStage();
@@ -163,32 +161,20 @@ public class Episode3LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resizeScene(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
     @Override
-    public void render() {
+    public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
-        reloadRendererIfNeeded();
         stage.act();
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
     }
 
-    private void reloadRendererIfNeeded() {
-        long currentTime = System.currentTimeMillis();
-        if (lastProcessedInput + 200 < currentTime) {
-            if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-                lastProcessedInput = currentTime;
-                pipelineRenderer.dispose();
-                pipelineRenderer = loadPipelineRenderer();
-            }
-        }
-    }
-
     @Override
-    public void dispose() {
+    public void disposeScene() {
         sphereModel.dispose();
         pipelineRenderer.dispose();
         skin.dispose();

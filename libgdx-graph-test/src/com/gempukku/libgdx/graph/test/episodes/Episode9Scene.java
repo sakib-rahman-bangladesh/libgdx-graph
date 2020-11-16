@@ -1,22 +1,13 @@
 package com.gempukku.libgdx.graph.test.episodes;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cubemap;
-import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
-import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -34,14 +25,13 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
+import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
-    private long lastProcessedInput;
-
+public class Episode9Scene implements LibgdxGraphTestScene {
     private PipelineRenderer pipelineRenderer;
     private Model shipModel;
     private Model robotModel;
@@ -61,9 +51,7 @@ public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
     private AnimationController robot2Animation;
 
     @Override
-    public void create() {
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
-
+    public void initializeScene() {
         WhitePixel.initialize();
 
         lights = createLights();
@@ -166,12 +154,12 @@ public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resizeScene(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
     @Override
-    public void render() {
+    public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
         robotAnimation.update(delta);
         robot2Animation.update(delta);
@@ -188,38 +176,19 @@ public class Episode9LibgdxGraphTestApplication extends ApplicationAdapter {
                     }
                 });
 
-        reloadRendererIfNeeded();
         stage.act(delta);
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
     }
 
-    private void reloadRendererIfNeeded() {
-        long currentTime = System.currentTimeMillis();
-        if (lastProcessedInput + 200 < currentTime) {
-            if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-                lastProcessedInput = currentTime;
-                pipelineRenderer.dispose();
-                pipelineRenderer = loadPipelineRenderer();
-            }
-        }
-    }
-
     @Override
-    public void dispose() {
+    public void disposeScene() {
         shipModel.dispose();
         robotModel.dispose();
         stage.dispose();
         skin.dispose();
         pipelineRenderer.dispose();
         WhitePixel.dispose();
-
-        Gdx.app.debug("Unclosed", Cubemap.getManagedStatus());
-        Gdx.app.debug("Unclosed", GLFrameBuffer.getManagedStatus());
-        Gdx.app.debug("Unclosed", Mesh.getManagedStatus());
-        Gdx.app.debug("Unclosed", Texture.getManagedStatus());
-        Gdx.app.debug("Unclosed", TextureArray.getManagedStatus());
-        Gdx.app.debug("Unclosed", ShaderProgram.getManagedStatus());
     }
 
     private PipelineRenderer loadPipelineRenderer() {

@@ -1,23 +1,14 @@
 package com.gempukku.libgdx.graph.test;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cubemap;
-import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -42,9 +33,7 @@ import com.gempukku.libgdx.graph.shader.models.Transforms;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class LibgdxGraphTestApplication extends ApplicationAdapter {
-    private long lastProcessedInput;
-
+public class TestScene implements LibgdxGraphTestScene {
     private Array<Disposable> disposables = new Array<>();
     private PipelineRenderer pipelineRenderer;
 
@@ -65,9 +54,7 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     private String starCoronaInstance;
 
     @Override
-    public void create() {
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
-
+    public void initializeScene() {
         WhitePixel.initialize();
 
         lights = createLights();
@@ -221,48 +208,29 @@ public class LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resizeScene(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
     @Override
-    public void render() {
+    public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
 //        cameraPositionAngle += delta * 0.1f;
 //        updateCamera();
 
-        reloadRendererIfNeeded();
         stage.act(delta);
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
     }
 
-    private void reloadRendererIfNeeded() {
-        long currentTime = System.currentTimeMillis();
-        if (lastProcessedInput + 200 < currentTime) {
-            if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-                lastProcessedInput = currentTime;
-                pipelineRenderer.dispose();
-                pipelineRenderer = loadPipelineRenderer();
-                registerModels(pipelineRenderer.getGraphShaderModels());
-            }
-        }
-    }
-
     @Override
-    public void dispose() {
+    public void disposeScene() {
         for (Disposable disposable : disposables) {
             disposable.dispose();
         }
+        disposables.clear();
         pipelineRenderer.dispose();
         WhitePixel.dispose();
-
-        Gdx.app.debug("Unclosed", Cubemap.getManagedStatus());
-        Gdx.app.debug("Unclosed", GLFrameBuffer.getManagedStatus());
-        Gdx.app.debug("Unclosed", Mesh.getManagedStatus());
-        Gdx.app.debug("Unclosed", Texture.getManagedStatus());
-        Gdx.app.debug("Unclosed", TextureArray.getManagedStatus());
-        Gdx.app.debug("Unclosed", ShaderProgram.getManagedStatus());
     }
 
     private PipelineRenderer loadPipelineRenderer() {

@@ -1,9 +1,8 @@
 package com.gempukku.libgdx.graph.test.episodes;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Environment;
@@ -14,41 +13,50 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.libgdx.LibGDXModels;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Episode2LibgdxGraphTestApplication extends ApplicationAdapter {
+public class Episode4Scene implements LibgdxGraphTestScene {
     private Stage stage;
     private Skin skin;
-    private long lastProcessedInput;
 
     private PipelineRenderer pipelineRenderer;
     private LibGDXModels models;
     private Model sphereModel;
     private Environment environment;
-    private Camera camera;
+    private Camera camera1;
+    private Camera camera2;
 
     @Override
-    public void create() {
+    public void initializeScene() {
         WhitePixel.initialize();
         skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
-        constructStage();
+        stage = constructStage();
 
         models = createModels();
+
         environment = createEnvironment();
-        camera = createCamera();
+
+        camera1 = createCamera();
+        camera2 = createCamera();
 
         pipelineRenderer = loadPipelineRenderer();
 
@@ -57,7 +65,7 @@ public class Episode2LibgdxGraphTestApplication extends ApplicationAdapter {
 
     private Camera createCamera() {
         Camera camera = new PerspectiveCamera();
-        camera.position.set(5f, 5f, 5f);
+        camera.position.set(3f, 3f, 0f);
         camera.lookAt(0, 0, 0);
         camera.update();
         return camera;
@@ -73,7 +81,7 @@ public class Episode2LibgdxGraphTestApplication extends ApplicationAdapter {
     private LibGDXModels createModels() {
         ModelBuilder modelBuilder = new ModelBuilder();
         sphereModel = modelBuilder.createSphere(1, 1, 1, 20, 20,
-                new Material(TextureAttribute.createDiffuse(WhitePixel.texture)),
+                new Material(TextureAttribute.createDiffuse(WhitePixel.texture), ColorAttribute.createDiffuse(new Color(0.5f, 0.5f, 0.5f, 1f))),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates);
 
         LibGDXModels models = new LibGDXModels();
@@ -81,45 +89,50 @@ public class Episode2LibgdxGraphTestApplication extends ApplicationAdapter {
         return models;
     }
 
-    private void constructStage() {
-        stage = new Stage(new ScreenViewport());
+    private Stage constructStage() {
+        Stage stage = new Stage(new ScreenViewport());
 
-        Label label = new Label("This is example label", skin);
-        label.setBounds(0, 0, 200, 20);
-        TextButton textButton = new TextButton("Test", skin);
-        textButton.setBounds(0, 20, 200, 20);
+        final Slider angle = new Slider(0, 360, 1, false, skin);
+        angle.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        float angleValue = angle.getValue();
+                        float x = 3f * MathUtils.sinDeg(angleValue);
+                        float z = 3f * MathUtils.cosDeg(angleValue);
 
-        stage.addActor(label);
-        stage.addActor(textButton);
+                        camera1.position.set(x, 3f, z);
+                        camera1.up.set(0, 1f, 0f);
+                        camera1.lookAt(0, 0, 0);
+                        camera1.update();
+                    }
+                });
+
+        Table tbl = new Table();
+        tbl.add(new Label("Camera angle", skin));
+        tbl.add(angle).row();
+        tbl.setFillParent(true);
+        tbl.align(Align.topLeft);
+
+        stage.addActor(tbl);
+        return stage;
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resizeScene(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
     @Override
-    public void render() {
+    public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
-        reloadRendererIfNeeded();
         stage.act();
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
     }
 
-    private void reloadRendererIfNeeded() {
-        long currentTime = System.currentTimeMillis();
-        if (lastProcessedInput + 200 < currentTime) {
-            if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-                lastProcessedInput = currentTime;
-                pipelineRenderer.dispose();
-                pipelineRenderer = loadPipelineRenderer();
-            }
-        }
-    }
-
     @Override
-    public void dispose() {
+    public void disposeScene() {
         sphereModel.dispose();
         pipelineRenderer.dispose();
         skin.dispose();
@@ -129,7 +142,7 @@ public class Episode2LibgdxGraphTestApplication extends ApplicationAdapter {
 
     private PipelineRenderer loadPipelineRenderer() {
         try {
-            InputStream stream = Gdx.files.local("episodes/episode2.json").read();
+            InputStream stream = Gdx.files.local("episodes/episode4.json").read();
             try {
                 PipelineRenderer pipelineRenderer = GraphLoader.loadGraph(stream, new PipelineLoaderCallback());
                 setupPipeline(pipelineRenderer);
@@ -143,11 +156,11 @@ public class Episode2LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
-        if (pipelineRenderer.hasPipelineProperty("Stage"))
-            pipelineRenderer.setPipelineProperty("Stage", stage);
-
+        //pipelineRenderer.setPipelineProperty("Background Color", Color.RED);
+        pipelineRenderer.setPipelineProperty("Stage", stage);
         pipelineRenderer.setPipelineProperty("Models", models);
         pipelineRenderer.setPipelineProperty("Lights", environment);
-        pipelineRenderer.setPipelineProperty("Camera", camera);
+        pipelineRenderer.setPipelineProperty("Camera1", camera1);
+        pipelineRenderer.setPipelineProperty("Camera2", camera2);
     }
 }

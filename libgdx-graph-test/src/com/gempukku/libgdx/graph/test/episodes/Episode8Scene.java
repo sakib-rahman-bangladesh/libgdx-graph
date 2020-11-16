@@ -1,29 +1,19 @@
 package com.gempukku.libgdx.graph.test.episodes;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cubemap;
-import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
-import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
-import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonReader;
@@ -36,14 +26,13 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
+import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
-    private long lastProcessedInput;
-
+public class Episode8Scene implements LibgdxGraphTestScene {
     private PipelineRenderer pipelineRenderer;
     private Model model;
     private Camera camera;
@@ -51,14 +40,12 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
     private Skin skin;
     private String modelInstance;
     private GraphShaderEnvironment lights;
-    private float cameraSpeed = -0.8f;
+    private float cameraSpeed = -0.1f;
     private float cameraAngle = 0f;
     private float cameraDistance = 1.7f;
-    private AnimationController animationController;
 
     @Override
-    public void create() {
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+    public void initializeScene() {
 
         WhitePixel.initialize();
 
@@ -95,10 +82,10 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
     private void createModels(GraphShaderModels models) {
         JsonReader jsonReader = new JsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-        model = modelLoader.loadModel(Gdx.files.classpath("model/gold-robot/gold-robot.g3dj"));
+        model = modelLoader.loadModel(Gdx.files.classpath("model/luminaris/luminaris.g3dj"));
 
         String modelId = models.registerModel(model);
-        final float scale = 0.008f;
+        final float scale = 0.025f;
         modelInstance = models.createModelInstance(modelId);
         models.updateTransform(modelInstance,
                 new TransformUpdate() {
@@ -106,32 +93,29 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
                     public void updateTransform(Matrix4 transform) {
                         transform.scale(scale, scale, scale);//.rotate(-1, 0, 0f, 90);
                     }
-                });
-        models.addTag(modelInstance, "Default", TagOptimizationHint.Temporary);
-        animationController = models.createAnimationController(modelInstance);
-        animationController.animate("Root|jog", -1, null, 0f);
+                }
+        );
+        models.addTag(modelInstance, "Default", TagOptimizationHint.Always);
     }
 
     private Stage createStage() {
         skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
 
-        final TextButton switchButton = new TextButton("Normal/Toon", skin, "toggle");
-        switchButton.addListener(
+        final Slider normalStrength = new Slider(0.01f, 2.0f, 0.01f, false, skin);
+        normalStrength.setValue(1.0f);
+        normalStrength.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        boolean checked = switchButton.isChecked();
-                        String removeTag = checked ? "Default" : "Toon";
-                        String tag = checked ? "Toon" : "Default";
-                        pipelineRenderer.getGraphShaderModels().removeTag(modelInstance, removeTag);
-                        pipelineRenderer.getGraphShaderModels().addTag(modelInstance, tag, TagOptimizationHint.Temporary);
+                        pipelineRenderer.getGraphShaderModels().setProperty(modelInstance, "Normal Map Strength", normalStrength.getValue());
                     }
                 });
 
         Stage stage = new Stage(new ScreenViewport());
 
-        Table tbl = new Table();
-        tbl.add(switchButton).row();
+        Table tbl = new Table(skin);
+        tbl.add("Normal strength").row();
+        tbl.add(normalStrength).row();
 
         tbl.setFillParent(true);
         tbl.align(Align.topLeft);
@@ -141,59 +125,39 @@ public class Episode7LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resizeScene(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
     @Override
-    public void render() {
+    public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
-        animationController.update(delta);
 
         cameraAngle += delta * cameraSpeed;
 
-        float y = 0.8f;
+        float y = 0.2f;
         camera.position.set(cameraDistance * MathUtils.sin(cameraAngle), y, cameraDistance * MathUtils.cos(cameraAngle));
         camera.up.set(0f, 1f, 0f);
         camera.lookAt(0, y, 0f);
         camera.update();
 
-        reloadRendererIfNeeded();
         stage.act(delta);
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
     }
 
-    private void reloadRendererIfNeeded() {
-        long currentTime = System.currentTimeMillis();
-        if (lastProcessedInput + 200 < currentTime) {
-            if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-                lastProcessedInput = currentTime;
-                pipelineRenderer.dispose();
-                pipelineRenderer = loadPipelineRenderer();
-            }
-        }
-    }
-
     @Override
-    public void dispose() {
+    public void disposeScene() {
         model.dispose();
         stage.dispose();
         skin.dispose();
         pipelineRenderer.dispose();
         WhitePixel.dispose();
-
-        Gdx.app.debug("Unclosed", Cubemap.getManagedStatus());
-        Gdx.app.debug("Unclosed", GLFrameBuffer.getManagedStatus());
-        Gdx.app.debug("Unclosed", Mesh.getManagedStatus());
-        Gdx.app.debug("Unclosed", Texture.getManagedStatus());
-        Gdx.app.debug("Unclosed", TextureArray.getManagedStatus());
-        Gdx.app.debug("Unclosed", ShaderProgram.getManagedStatus());
     }
 
     private PipelineRenderer loadPipelineRenderer() {
         try {
-            InputStream stream = Gdx.files.local("episodes/episode7.json").read();
+            InputStream stream = Gdx.files.local("episodes/episode8.json").read();
             try {
                 PipelineRenderer pipelineRenderer = GraphLoader.loadGraph(stream, new PipelineLoaderCallback());
                 setupPipeline(pipelineRenderer);

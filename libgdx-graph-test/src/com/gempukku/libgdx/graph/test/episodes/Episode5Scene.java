@@ -1,22 +1,14 @@
 package com.gempukku.libgdx.graph.test.episodes;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Cubemap;
-import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -33,14 +25,13 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
+import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
-    private long lastProcessedInput;
-
+public class Episode5Scene implements LibgdxGraphTestScene {
     private PipelineRenderer pipelineRenderer;
     private Model sphereModel;
     private String sphereModelInstance;
@@ -50,9 +41,7 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
     private Skin skin;
 
     @Override
-    public void create() {
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
-
+    public void initializeScene() {
         WhitePixel.initialize();
 
         rockTexture = new Texture(Gdx.files.classpath("image/seamless_rock_face_texture_by_hhh316.jpg"));
@@ -146,45 +135,26 @@ public class Episode5LibgdxGraphTestApplication extends ApplicationAdapter {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resizeScene(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
     @Override
-    public void render() {
+    public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
-        reloadRendererIfNeeded();
         stage.act();
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
     }
 
-    private void reloadRendererIfNeeded() {
-        long currentTime = System.currentTimeMillis();
-        if (lastProcessedInput + 200 < currentTime) {
-            if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-                lastProcessedInput = currentTime;
-                pipelineRenderer.dispose();
-                pipelineRenderer = loadPipelineRenderer();
-            }
-        }
-    }
-
     @Override
-    public void dispose() {
+    public void disposeScene() {
         skin.dispose();
         stage.dispose();
         sphereModel.dispose();
         pipelineRenderer.dispose();
         rockTexture.dispose();
         WhitePixel.dispose();
-
-        Gdx.app.debug("Unclosed", Cubemap.getManagedStatus());
-        Gdx.app.debug("Unclosed", GLFrameBuffer.getManagedStatus());
-        Gdx.app.debug("Unclosed", Mesh.getManagedStatus());
-        Gdx.app.debug("Unclosed", Texture.getManagedStatus());
-        Gdx.app.debug("Unclosed", TextureArray.getManagedStatus());
-        Gdx.app.debug("Unclosed", ShaderProgram.getManagedStatus());
     }
 
     private PipelineRenderer loadPipelineRenderer() {

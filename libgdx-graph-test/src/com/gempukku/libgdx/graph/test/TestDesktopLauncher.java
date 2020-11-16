@@ -8,6 +8,6 @@ public class TestDesktopLauncher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 1440;
         config.height = 810;
-        new LwjglApplication(new LibgdxGraphTestApplication(), config);
+        new LwjglApplication(new ReloadableGraphTestApplication(), config);
     }
 }

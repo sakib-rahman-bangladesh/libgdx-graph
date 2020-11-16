@@ -1,48 +1,38 @@
 package com.gempukku.libgdx.graph.test.episodes;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Episode1LibgdxGraphTestApplication extends ApplicationAdapter {
-    private long lastProcessedInput;
-
+public class Episode1Scene implements LibgdxGraphTestScene {
     private PipelineRenderer pipelineRenderer;
 
     @Override
-    public void create() {
+    public void initializeScene() {
         pipelineRenderer = loadPipelineRenderer();
     }
 
     @Override
-    public void render() {
+    public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
-        reloadRendererIfNeeded();
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
     }
 
-    private void reloadRendererIfNeeded() {
-        long currentTime = System.currentTimeMillis();
-        if (lastProcessedInput + 200 < currentTime) {
-            if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-                lastProcessedInput = currentTime;
-                pipelineRenderer.dispose();
-                pipelineRenderer = loadPipelineRenderer();
-            }
-        }
+    @Override
+    public void resizeScene(int width, int height) {
+
     }
 
     @Override
-    public void dispose() {
+    public void disposeScene() {
         pipelineRenderer.dispose();
     }
 
