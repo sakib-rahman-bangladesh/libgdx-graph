@@ -17,6 +17,7 @@
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/simplexNoise3d.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/simplexNoise4d.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/voronoiDistance2d.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/voronoiDistance3d.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/packFloatToVec3.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/unpackVec3ToFloat.glsl"/>
 
