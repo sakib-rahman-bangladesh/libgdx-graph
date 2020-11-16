@@ -46,9 +46,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
         renderPasses.grow();
 
         Table table = new Table(skin);
-        table.add("Tag").growX();
-        table.add("Edit").width(EDIT_WIDTH);
-        table.add("Remove").width(REMOVE_WIDTH);
+        table.add("Tag").colspan(3).growX();
         table.row();
         renderPasses.addActor(table);
 
