@@ -1,5 +1,5 @@
-vec2 voronoiDistanceRandom2(vec2 p) {
-    return fract(sin(vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3))))*43758.5453);
+vec3 voronoiDistanceRandom3(vec3 p) {
+    return fract(sin(vec3(dot(p, vec3(127.1, 311.7, 415.3)), dot(p, vec3(269.5, 183.3, 116.9)), dot(p, vec3(175.3, 211.5, 386.9))))*43758.5453);
 }
 
 // The MIT License
@@ -13,22 +13,24 @@ vec2 voronoiDistanceRandom2(vec2 p) {
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
 // OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-float voronoiDistance2d(vec2 x, float progress)
+float voronoiDistance3d(vec3 x, float progress)
 {
-    vec2 n = floor(x);
-    vec2 f = fract(x);
+    vec3 n = floor(x);
+    vec3 f = fract(x);
 
     float md = 8.0;
-    for (int j=-1; j<=1; j++) {
-        for (int i=-1; i<=1; i++)
-        {
-            vec2 g = vec2(float(i), float(j));
-            vec2 o = voronoiDistanceRandom2(n + g);
-            o = 0.5 + 0.5 * sin(progress + 6.2831 * o);
-            vec2 r = g + o - f;
-            float d = dot(r, r);
+    for (int k=-1; k<=1; k++) {
+        for (int j=-1; j<=1; j++) {
+            for (int i=-1; i<=1; i++)
+            {
+                vec3 g = vec3(float(i), float(j), float(k));
+                vec3 o = voronoiDistanceRandom3(n + g);
+                o = 0.5 + 0.5 * sin(progress + 6.2831 * o);
+                vec3 r = g + o - f;
+                float d = dot(r, r);
 
-            md = min(md, d);
+                md = min(md, d);
+            }
         }
     }
 

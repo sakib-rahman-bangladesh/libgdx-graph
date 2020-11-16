@@ -10,7 +10,7 @@ import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.GLSLFragmentReader;
-import com.gempukku.libgdx.graph.shader.config.noise.VoronoiDistanceNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.noise.VoronoiDistance3DNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.shader.node.math.value.RemapShaderNodeBuilder;
@@ -20,15 +20,15 @@ import static com.gempukku.libgdx.graph.shader.node.noise.GLSLAdapter.floor;
 import static com.gempukku.libgdx.graph.shader.node.noise.GLSLAdapter.fract;
 import static com.gempukku.libgdx.graph.shader.node.noise.GLSLAdapter.sin;
 
-public class VoronoiDistanceShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
-    public VoronoiDistanceShaderNodeBuilder() {
-        super(new VoronoiDistanceNodeConfiguration());
+public class VoronoiDistance3DShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
+    public VoronoiDistance3DShaderNodeBuilder() {
+        super(new VoronoiDistance3DNodeConfiguration());
     }
 
     @Override
     protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs,
                                                                        CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        FieldOutput uvValue = inputs.get("uv");
+        FieldOutput pointValue = inputs.get("point");
         FieldOutput scaleValue = inputs.get("scale");
         FieldOutput progressValue = inputs.get("progress");
         FieldOutput rangeValue = inputs.get("range");
@@ -36,20 +36,15 @@ public class VoronoiDistanceShaderNodeBuilder extends ConfigurationCommonShaderN
         String scale = (scaleValue != null) ? scaleValue.getRepresentation() : "1.0";
         String progress = (progressValue != null) ? progressValue.getRepresentation() : "0.0";
 
-        if (!commonShaderBuilder.containsFunction("voronoiDistance2d")) {
-            commonShaderBuilder.addFunction("voronoiDistance2d", GLSLFragmentReader.getFragment("voronoiDistance2d"));
+        if (!commonShaderBuilder.containsFunction("voronoiDistance3d")) {
+            commonShaderBuilder.addFunction("voronoiDistance3d", GLSLFragmentReader.getFragment("voronoiDistance3d"));
         }
 
-        commonShaderBuilder.addMainLine("// Voronoi distance node");
+        commonShaderBuilder.addMainLine("// Voronoi distance 3D node");
         String name = "result_" + nodeId;
-        String output;
-        if (uvValue.getFieldType() == ShaderFieldType.Vector2) {
-            output = "voronoiDistance2d(" + uvValue.getRepresentation() + " * " + scale + ", " + progress + ")";
-        } else {
-            output = "voronoiDistance2d(vec2(" + uvValue.getRepresentation() + ", 0.0) * " + scale + ", " + progress + ")";
-        }
+        String output = "voronoiDistance3d(" + pointValue.getRepresentation() + " * " + scale + ", " + progress + ")";
 
-        String noiseRange = "vec2(0.0, 2.12)";
+        String noiseRange = "vec3(0.0, 2.6)";
         if (rangeValue != null) {
             String functionName = RemapShaderNodeBuilder.appendRemapFunction(commonShaderBuilder, ShaderFieldType.Float);
             commonShaderBuilder.addMainLine("float " + name + " = " + functionName + "(" + output + ", " + noiseRange + ", " + rangeValue.getRepresentation() + ");");
