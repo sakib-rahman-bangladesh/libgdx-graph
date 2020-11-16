@@ -68,6 +68,8 @@ import com.gempukku.libgdx.graph.shader.node.noise.PerlinNoise2DShaderNodeBuilde
 import com.gempukku.libgdx.graph.shader.node.noise.PerlinNoise3DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.noise.SimplexNoise2DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.noise.SimplexNoise3DShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.noise.VoronoiBorder2DShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.noise.VoronoiBorder3DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.noise.VoronoiDistance2DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.noise.VoronoiDistance3DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.CameraDirectionShaderNodeBuilder;
@@ -203,6 +205,8 @@ public class GraphShaderConfiguration {
         addGraphShaderNodeBuilder(new PerlinNoise3DShaderNodeBuilder());
         addGraphShaderNodeBuilder(new VoronoiDistance2DShaderNodeBuilder());
         addGraphShaderNodeBuilder(new VoronoiDistance3DShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new VoronoiBorder2DShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new VoronoiBorder3DShaderNodeBuilder());
 
         // Shape
         addGraphShaderNodeBuilder(new CheckerboardShapeShaderNodeBuilder());

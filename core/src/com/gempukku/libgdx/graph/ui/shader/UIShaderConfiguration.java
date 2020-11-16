@@ -54,6 +54,8 @@ import com.gempukku.libgdx.graph.shader.config.noise.PerlinNoise2DNodeConfigurat
 import com.gempukku.libgdx.graph.shader.config.noise.PerlinNoise3DNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.noise.SimplexNoise2DNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.noise.SimplexNoise3DNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.noise.VoronoiBorder2DNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.noise.VoronoiBorder3DNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.noise.VoronoiDistance2DNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.noise.VoronoiDistance3DNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.CameraDirectionShaderNodeConfiguration;
@@ -202,6 +204,8 @@ public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldTy
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new PerlinNoise3DNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new VoronoiDistance2DNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new VoronoiDistance3DNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new VoronoiBorder2DNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new VoronoiBorder3DNodeConfiguration()));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CheckerboardShapeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new EllipseShapeShaderNodeConfiguration()));
