@@ -18,7 +18,7 @@ float voronoiDistance3d(vec3 x, float progress)
     vec3 n = floor(x);
     vec3 f = fract(x);
 
-    float md = 8.0;
+    float res = 16.0;
     for (int k=-1; k<=1; k++) {
         for (int j=-1; j<=1; j++) {
             for (int i=-1; i<=1; i++)
@@ -29,10 +29,10 @@ float voronoiDistance3d(vec3 x, float progress)
                 vec3 r = g + o - f;
                 float d = dot(r, r);
 
-                md = min(md, d);
+                res = min(res, d);
             }
         }
     }
 
-    return sqrt(md);
+    return sqrt(res);
 }

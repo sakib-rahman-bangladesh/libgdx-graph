@@ -18,7 +18,7 @@ float voronoiDistance2d(vec2 x, float progress)
     vec2 n = floor(x);
     vec2 f = fract(x);
 
-    float md = 8.0;
+    float res = 8.0;
     for (int j=-1; j<=1; j++) {
         for (int i=-1; i<=1; i++)
         {
@@ -28,9 +28,9 @@ float voronoiDistance2d(vec2 x, float progress)
             vec2 r = g + o - f;
             float d = dot(r, r);
 
-            md = min(md, d);
+            res = min(res, d);
         }
     }
 
-    return sqrt(md);
+    return sqrt(res);
 }
