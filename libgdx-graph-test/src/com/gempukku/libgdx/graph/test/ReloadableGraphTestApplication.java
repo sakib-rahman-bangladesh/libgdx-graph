@@ -25,7 +25,6 @@ import com.gempukku.libgdx.graph.test.episodes.Episode9Scene;
 
 public class ReloadableGraphTestApplication extends ApplicationAdapter {
     private LibgdxGraphTestScene[] scenes;
-    private long lastProcessedInput;
     private int loadedIndex;
     private int width;
     private int height;
@@ -43,8 +42,8 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
                 new Episode9Scene(),
                 new Episode11Scene(),
                 new Episode12Scene(),
-                new Episode13Scene()/*,
-                new TestScene()*/
+                new Episode13Scene(),
+                new TestScene()
         };
         loadedIndex = scenes.length - 1;
     }
@@ -65,26 +64,20 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
 
     @Override
     public void render() {
-        long currentTime = System.currentTimeMillis();
-        if (lastProcessedInput + 200 < currentTime) {
-            if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-                lastProcessedInput = currentTime;
-                scenes[loadedIndex].disposeScene();
-                scenes[loadedIndex].initializeScene();
-                scenes[loadedIndex].resizeScene(width, height);
-            } else if (Gdx.input.isKeyPressed(Input.Keys.P) && loadedIndex > 0) {
-                lastProcessedInput = currentTime;
-                scenes[loadedIndex].disposeScene();
-                loadedIndex--;
-                scenes[loadedIndex].initializeScene();
-                scenes[loadedIndex].resizeScene(width, height);
-            } else if (Gdx.input.isKeyPressed(Input.Keys.N) && loadedIndex < scenes.length - 1) {
-                lastProcessedInput = currentTime;
-                scenes[loadedIndex].disposeScene();
-                loadedIndex++;
-                scenes[loadedIndex].initializeScene();
-                scenes[loadedIndex].resizeScene(width, height);
-            }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+            scenes[loadedIndex].disposeScene();
+            scenes[loadedIndex].initializeScene();
+            scenes[loadedIndex].resizeScene(width, height);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.P) && loadedIndex > 0) {
+            scenes[loadedIndex].disposeScene();
+            loadedIndex--;
+            scenes[loadedIndex].initializeScene();
+            scenes[loadedIndex].resizeScene(width, height);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.N) && loadedIndex < scenes.length - 1) {
+            scenes[loadedIndex].disposeScene();
+            loadedIndex++;
+            scenes[loadedIndex].initializeScene();
+            scenes[loadedIndex].resizeScene(width, height);
         }
 
         scenes[loadedIndex].renderScene();
