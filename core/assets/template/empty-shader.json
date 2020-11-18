@@ -6,7 +6,7 @@
       "x": 50.0,
       "y": 50.0,
       "data": {
-        "culling": "front",
+        "culling": "back",
         "transparency": "opaque",
         "blending": "alpha",
         "depthTest": "less"

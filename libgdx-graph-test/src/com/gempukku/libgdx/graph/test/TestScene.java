@@ -9,9 +9,6 @@ import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -40,18 +37,10 @@ public class TestScene implements LibgdxGraphTestScene {
     private Camera camera;
     private Stage stage;
     private GraphShaderEnvironment lights;
-    private Model starfield;
-    private Model blackHole;
+    private Model sphere;
 
-    private float cameraPositionAngle;
-    private float cameraAngle;
-    private String blackHoleInstance;
-    private Model star;
-    private Model starCorona;
-    private Vector3 blackHolePosition = new Vector3(0, 0, 0);
-    private Vector3 starPosition = new Vector3(-10, 0, -10);
-    private String starInstance;
-    private String starCoronaInstance;
+    private float cameraPosition;
+    private String sphereId;
 
     @Override
     public void initializeScene() {
@@ -94,44 +83,17 @@ public class TestScene implements LibgdxGraphTestScene {
     private void createModels(GraphShaderModels models) {
         ModelBuilder modelBuilder = new ModelBuilder();
 
-        starfield = modelBuilder.createSphere(100, 100, 100, 50, 50,
+        sphere = modelBuilder.createSphere(1, 1, 1, 50, 50,
                 new Material(), VertexAttributes.Usage.Position);
-        disposables.add(starfield);
-
-        float blackHoleSize = 10f;
-        blackHole = modelBuilder.createSphere(blackHoleSize, blackHoleSize, blackHoleSize, 50, 50,
-                new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-        disposables.add(blackHole);
-
-        float starSize = 5f;
-        star = modelBuilder.createSphere(starSize, starSize, starSize, 50, 50,
-                new Material(), VertexAttributes.Usage.Position);
-        disposables.add(star);
-
-        float coronaMultiplier = 1.4f;
-        starCorona = modelBuilder.createSphere(starSize * coronaMultiplier, starSize * coronaMultiplier, starSize * coronaMultiplier, 50, 50,
-                new Material(), VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-        disposables.add(starCorona);
+        disposables.add(sphere);
 
         registerModels(models);
     }
 
     private void registerModels(GraphShaderModels models) {
-        String starfieldId = models.registerModel(starfield);
-        models.addModelDefaultTag(starfieldId, "starfield");
-        models.createModelInstance(starfieldId);
-
-        String blackHoleId = models.registerModel(blackHole);
-        models.addModelDefaultTag(blackHoleId, "black-hole");
-        blackHoleInstance = models.createModelInstance(blackHoleId);
-
-        String starId = models.registerModel(star);
-        starInstance = models.createModelInstance(starId);
-        models.updateTransform(starInstance, Transforms.create().idt().translate(starPosition.x, starPosition.y, starPosition.z));
-
-        String starCoronaId = models.registerModel(starCorona);
-        starCoronaInstance = models.createModelInstance(starCoronaId);
-        models.updateTransform(starCoronaInstance, Transforms.create().idt().translate(starPosition.x, starPosition.y, starPosition.z));
+        String sphereId = models.registerModel(sphere);
+        models.addModelDefaultTag(sphereId, "default");
+        this.sphereId = models.createModelInstance(sphereId);
     }
 
     private Stage createStage() {
@@ -145,32 +107,34 @@ public class TestScene implements LibgdxGraphTestScene {
         tbl.setFillParent(true);
         tbl.align(Align.topLeft);
 
-        final Slider positionAngle = new Slider(0, MathUtils.PI2, 0.001f, false, skin);
-        positionAngle.addListener(
+        final Slider cameraPositionSlider = new Slider(-3f, 3f, 0.001f, false, skin);
+        cameraPositionSlider.setValue(0f);
+        cameraPositionSlider.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        cameraPositionAngle = positionAngle.getValue();
+                        cameraPosition = cameraPositionSlider.getValue();
                         updateCamera();
                     }
                 });
 
-        final Slider angle = new Slider(0, MathUtils.PI2, 0.001f, false, skin);
-        angle.addListener(
+        final Slider modelPositionSlider = new Slider(-3f, 3f, 0.001f, false, skin);
+        modelPositionSlider.setValue(0f);
+        modelPositionSlider.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        cameraAngle = angle.getValue();
-                        updateCamera();
+                        pipelineRenderer.getGraphShaderModels().updateTransform(
+                                sphereId, Transforms.create().idt().translate(modelPositionSlider.getValue(), 0, 0));
                     }
                 });
 
-        tbl.add("Camera orbit");
-        tbl.add(positionAngle).width(500);
+        tbl.add("Camera position");
+        tbl.add(cameraPositionSlider).width(500);
         tbl.row();
 
-        tbl.add("Camera rotation");
-        tbl.add(angle).width(500);
+        tbl.add("Model position");
+        tbl.add(modelPositionSlider).width(500);
         tbl.row();
 
         stage.addActor(tbl);
@@ -180,31 +144,11 @@ public class TestScene implements LibgdxGraphTestScene {
     private void updateCamera() {
         float cameraDistance = 30f;
 
-        camera.position.set(cameraDistance * MathUtils.cos(cameraPositionAngle), 0, cameraDistance * MathUtils.sin(cameraPositionAngle));
+        camera.position.set(-cameraPosition, 0, 2);
         camera.up.set(0f, 1f, 0f);
-        camera.lookAt(0f, 0f, 0f);
-        camera.rotate(MathUtils.radDeg * cameraAngle, 0, 1, 0);
+        camera.direction.set(0, 0, -1);
         //camera.direction.set(MathUtils.cos(cameraAngle), 0, MathUtils.sin(cameraAngle));
         camera.update();
-
-        GraphShaderModels models = pipelineRenderer.getGraphShaderModels();
-        Vector3 blackHoleScreenPosition = camera.project(new Vector3(0, 0, 0));
-        Vector2 screenPos = new Vector2(blackHoleScreenPosition.x / camera.viewportWidth, blackHoleScreenPosition.y / camera.viewportHeight);
-        models.setProperty(blackHoleInstance, "Center Screen Position", screenPos);
-
-        float distanceToBlackHole = blackHolePosition.dst2(camera.position);
-        float distanceToStar = starPosition.dst2(camera.position);
-        if (distanceToBlackHole < distanceToStar) {
-            models.addTag(starInstance, "star-surface-behind");
-            models.addTag(starCoronaInstance, "star-corona-behind");
-            models.removeTag(starInstance, "star-surface-in-front");
-            models.removeTag(starCoronaInstance, "star-corona-in-front");
-        } else {
-            models.removeTag(starInstance, "star-surface-behind");
-            models.removeTag(starCoronaInstance, "star-corona-behind");
-            models.addTag(starInstance, "star-surface-in-front");
-            models.addTag(starCoronaInstance, "star-corona-in-front");
-        }
     }
 
     @Override
