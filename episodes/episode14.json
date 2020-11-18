@@ -628,6 +628,114 @@
                   "version": "0.1.2",
                   "nodes": [
                     {
+                      "id": "2d84174f3f204a1fb6038966ab4f3093",
+                      "type": "Subtract",
+                      "x": 866.0,
+                      "y": 226.0
+                    },
+                    {
+                      "id": "52a37e7d2ad24e31958460b9edd6e04b",
+                      "type": "AttributePosition",
+                      "x": 52.0,
+                      "y": 50.0,
+                      "data": {
+                        "coordinates": "world"
+                      }
+                    },
+                    {
+                      "id": "4885b491796f4dbf9e2305c42cd1aa9e",
+                      "type": "Mix",
+                      "x": 680.0,
+                      "y": 884.0
+                    },
+                    {
+                      "id": "fb5e156f162341d9a2c5e2c4fa21be89",
+                      "type": "Subtract",
+                      "x": 268.0,
+                      "y": 116.0
+                    },
+                    {
+                      "id": "52413a2fcac548b8acf23ed45ab50859",
+                      "type": "Power",
+                      "x": 1079.0,
+                      "y": 260.0
+                    },
+                    {
+                      "id": "ac5b13dd893b46688bad682c7edad633",
+                      "type": "ValueFloat",
+                      "x": 911.0,
+                      "y": 161.0,
+                      "data": {
+                        "v1": 1.5
+                      }
+                    },
+                    {
+                      "id": "3e911b69bb694cddaaf966fb9369c774",
+                      "type": "Normalize",
+                      "x": 664.0,
+                      "y": 619.0
+                    },
+                    {
+                      "id": "90d3e54548dd453eb1c874bef19f16f5",
+                      "type": "Step",
+                      "x": 754.0,
+                      "y": 73.0
+                    },
+                    {
+                      "id": "df8debc818b94f418a70a210dca0cdcc",
+                      "type": "FresnelEffect",
+                      "x": 473.0,
+                      "y": 182.0
+                    },
+                    {
+                      "id": "b400613808c74e848c933839d0e54da6",
+                      "type": "Merge",
+                      "x": 476.0,
+                      "y": 538.0
+                    },
+                    {
+                      "id": "end",
+                      "type": "ShaderEnd",
+                      "x": 1309.0,
+                      "y": 267.0,
+                      "data": {
+                        "culling": "back",
+                        "transparency": "transparent",
+                        "blending": "alpha",
+                        "depthTest": "less"
+                      }
+                    },
+                    {
+                      "id": "702096db118347b69faf94536f52fdfe",
+                      "type": "ValueColor",
+                      "x": 919.0,
+                      "y": 839.0,
+                      "data": {
+                        "color": "f9ff80ff"
+                      }
+                    },
+                    {
+                      "id": "bf8517c1ae72467fa34aca1a8fd26f58",
+                      "type": "CameraPosition",
+                      "x": 68.0,
+                      "y": 139.0
+                    },
+                    {
+                      "id": "8dc84a91d4dc4660a49270a7659dd24e",
+                      "type": "Subtract",
+                      "x": 675.0,
+                      "y": 500.0
+                    },
+                    {
+                      "id": "897e5f59e13a49718fbb81594c56bcca",
+                      "type": "ValueColor",
+                      "x": 407.0,
+                      "y": 885.0,
+                      "data": {
+                        "color": "ffffffff"
+                      }
+                    },
+                    {
                       "id": "de04008276ca4824b054cf42d63c935f",
                       "type": "Time",
                       "x": 473.0,
@@ -658,21 +766,6 @@
                       "y": 410.0
                     },
                     {
-                      "id": "2d84174f3f204a1fb6038966ab4f3093",
-                      "type": "Subtract",
-                      "x": 866.0,
-                      "y": 226.0
-                    },
-                    {
-                      "id": "52a37e7d2ad24e31958460b9edd6e04b",
-                      "type": "AttributePosition",
-                      "x": 52.0,
-                      "y": 50.0,
-                      "data": {
-                        "coordinates": "world"
-                      }
-                    },
-                    {
                       "id": "7ddba1a4e7c94b6584d480d3a53eb0f4",
                       "type": "ValueFloat",
                       "x": 268.0,
@@ -682,31 +775,13 @@
                       }
                     },
                     {
-                      "id": "fb5e156f162341d9a2c5e2c4fa21be89",
-                      "type": "Subtract",
-                      "x": 268.0,
-                      "y": 116.0
-                    },
-                    {
-                      "id": "52413a2fcac548b8acf23ed45ab50859",
-                      "type": "Power",
-                      "x": 1079.0,
-                      "y": 260.0
-                    },
-                    {
-                      "id": "ac5b13dd893b46688bad682c7edad633",
-                      "type": "ValueFloat",
-                      "x": 911.0,
-                      "y": 161.0,
+                      "id": "a4cab163dcb048e698033ef2596b7f5c",
+                      "type": "ValueColor",
+                      "x": 410.0,
+                      "y": 942.0,
                       "data": {
-                        "v1": 1.5
+                        "color": "000000ff"
                       }
-                    },
-                    {
-                      "id": "3e911b69bb694cddaaf966fb9369c774",
-                      "type": "Normalize",
-                      "x": 664.0,
-                      "y": 619.0
                     },
                     {
                       "id": "e0bb238ccc9f42468197d1dc38b89612",
@@ -716,12 +791,6 @@
                       "data": {
                         "v1": 1.0
                       }
-                    },
-                    {
-                      "id": "90d3e54548dd453eb1c874bef19f16f5",
-                      "type": "Step",
-                      "x": 754.0,
-                      "y": 73.0
                     },
                     {
                       "id": "e446785571ce472b83665f84efa86db3",
@@ -748,12 +817,6 @@
                       "y": 555.0
                     },
                     {
-                      "id": "df8debc818b94f418a70a210dca0cdcc",
-                      "type": "FresnelEffect",
-                      "x": 473.0,
-                      "y": 182.0
-                    },
-                    {
                       "id": "6bcb685d9e26486ba40f8ef8a7d97232",
                       "type": "ValueVector2",
                       "x": 673.0,
@@ -764,33 +827,6 @@
                       }
                     },
                     {
-                      "id": "b400613808c74e848c933839d0e54da6",
-                      "type": "Merge",
-                      "x": 476.0,
-                      "y": 538.0
-                    },
-                    {
-                      "id": "end",
-                      "type": "ShaderEnd",
-                      "x": 1309.0,
-                      "y": 267.0,
-                      "data": {
-                        "culling": "back",
-                        "transparency": "transparent",
-                        "blending": "alpha",
-                        "depthTest": "less"
-                      }
-                    },
-                    {
-                      "id": "702096db118347b69faf94536f52fdfe",
-                      "type": "ValueColor",
-                      "x": 919.0,
-                      "y": 839.0,
-                      "data": {
-                        "color": "f9ff80ff"
-                      }
-                    },
-                    {
                       "id": "870b2d6ddf6d437bbd18e7bd1c365aaf",
                       "type": "ValueFloat",
                       "x": 669.0,
@@ -798,18 +834,6 @@
                       "data": {
                         "v1": 3.0
                       }
-                    },
-                    {
-                      "id": "bf8517c1ae72467fa34aca1a8fd26f58",
-                      "type": "CameraPosition",
-                      "x": 68.0,
-                      "y": 139.0
-                    },
-                    {
-                      "id": "8dc84a91d4dc4660a49270a7659dd24e",
-                      "type": "Subtract",
-                      "x": 675.0,
-                      "y": 500.0
                     }
                   ],
                   "connections": [
@@ -830,12 +854,6 @@
                       "fromField": "y",
                       "toNode": "b400613808c74e848c933839d0e54da6",
                       "toField": "y"
-                    },
-                    {
-                      "fromNode": "702096db118347b69faf94536f52fdfe",
-                      "fromField": "value",
-                      "toNode": "end",
-                      "toField": "color"
                     },
                     {
                       "fromNode": "b400613808c74e848c933839d0e54da6",
@@ -928,12 +946,6 @@
                       "toField": "inputs"
                     },
                     {
-                      "fromNode": "93ab27f7350242bdac6126881d492293",
-                      "fromField": "output",
-                      "toNode": "end",
-                      "toField": "alpha"
-                    },
-                    {
                       "fromNode": "2d84174f3f204a1fb6038966ab4f3093",
                       "fromField": "output",
                       "toNode": "52413a2fcac548b8acf23ed45ab50859",
@@ -974,6 +986,30 @@
                       "fromField": "time",
                       "toNode": "8dc84a91d4dc4660a49270a7659dd24e",
                       "toField": "a"
+                    },
+                    {
+                      "fromNode": "4885b491796f4dbf9e2305c42cd1aa9e",
+                      "fromField": "output",
+                      "toNode": "end",
+                      "toField": "color"
+                    },
+                    {
+                      "fromNode": "a4cab163dcb048e698033ef2596b7f5c",
+                      "fromField": "value",
+                      "toNode": "4885b491796f4dbf9e2305c42cd1aa9e",
+                      "toField": "a"
+                    },
+                    {
+                      "fromNode": "897e5f59e13a49718fbb81594c56bcca",
+                      "fromField": "value",
+                      "toNode": "4885b491796f4dbf9e2305c42cd1aa9e",
+                      "toField": "b"
+                    },
+                    {
+                      "fromNode": "abdba17d28c245999c4d38cc6beaab46",
+                      "fromField": "x",
+                      "toNode": "4885b491796f4dbf9e2305c42cd1aa9e",
+                      "toField": "t"
                     }
                   ],
                   "properties": [],
@@ -1484,6 +1520,114 @@
                   "version": "0.1.2",
                   "nodes": [
                     {
+                      "id": "2d84174f3f204a1fb6038966ab4f3093",
+                      "type": "Subtract",
+                      "x": 866.0,
+                      "y": 226.0
+                    },
+                    {
+                      "id": "52a37e7d2ad24e31958460b9edd6e04b",
+                      "type": "AttributePosition",
+                      "x": 52.0,
+                      "y": 50.0,
+                      "data": {
+                        "coordinates": "world"
+                      }
+                    },
+                    {
+                      "id": "4885b491796f4dbf9e2305c42cd1aa9e",
+                      "type": "Mix",
+                      "x": 680.0,
+                      "y": 884.0
+                    },
+                    {
+                      "id": "fb5e156f162341d9a2c5e2c4fa21be89",
+                      "type": "Subtract",
+                      "x": 268.0,
+                      "y": 116.0
+                    },
+                    {
+                      "id": "52413a2fcac548b8acf23ed45ab50859",
+                      "type": "Power",
+                      "x": 1079.0,
+                      "y": 260.0
+                    },
+                    {
+                      "id": "ac5b13dd893b46688bad682c7edad633",
+                      "type": "ValueFloat",
+                      "x": 911.0,
+                      "y": 161.0,
+                      "data": {
+                        "v1": 1.5
+                      }
+                    },
+                    {
+                      "id": "3e911b69bb694cddaaf966fb9369c774",
+                      "type": "Normalize",
+                      "x": 664.0,
+                      "y": 619.0
+                    },
+                    {
+                      "id": "90d3e54548dd453eb1c874bef19f16f5",
+                      "type": "Step",
+                      "x": 754.0,
+                      "y": 73.0
+                    },
+                    {
+                      "id": "df8debc818b94f418a70a210dca0cdcc",
+                      "type": "FresnelEffect",
+                      "x": 473.0,
+                      "y": 182.0
+                    },
+                    {
+                      "id": "b400613808c74e848c933839d0e54da6",
+                      "type": "Merge",
+                      "x": 476.0,
+                      "y": 538.0
+                    },
+                    {
+                      "id": "end",
+                      "type": "ShaderEnd",
+                      "x": 1309.0,
+                      "y": 267.0,
+                      "data": {
+                        "culling": "back",
+                        "transparency": "transparent",
+                        "blending": "alpha",
+                        "depthTest": "less"
+                      }
+                    },
+                    {
+                      "id": "702096db118347b69faf94536f52fdfe",
+                      "type": "ValueColor",
+                      "x": 919.0,
+                      "y": 839.0,
+                      "data": {
+                        "color": "f9ff80ff"
+                      }
+                    },
+                    {
+                      "id": "bf8517c1ae72467fa34aca1a8fd26f58",
+                      "type": "CameraPosition",
+                      "x": 68.0,
+                      "y": 139.0
+                    },
+                    {
+                      "id": "8dc84a91d4dc4660a49270a7659dd24e",
+                      "type": "Subtract",
+                      "x": 675.0,
+                      "y": 500.0
+                    },
+                    {
+                      "id": "897e5f59e13a49718fbb81594c56bcca",
+                      "type": "ValueColor",
+                      "x": 407.0,
+                      "y": 885.0,
+                      "data": {
+                        "color": "ffffffff"
+                      }
+                    },
+                    {
                       "id": "de04008276ca4824b054cf42d63c935f",
                       "type": "Time",
                       "x": 473.0,
@@ -1514,21 +1658,6 @@
                       "y": 410.0
                     },
                     {
-                      "id": "2d84174f3f204a1fb6038966ab4f3093",
-                      "type": "Subtract",
-                      "x": 866.0,
-                      "y": 226.0
-                    },
-                    {
-                      "id": "52a37e7d2ad24e31958460b9edd6e04b",
-                      "type": "AttributePosition",
-                      "x": 52.0,
-                      "y": 50.0,
-                      "data": {
-                        "coordinates": "world"
-                      }
-                    },
-                    {
                       "id": "7ddba1a4e7c94b6584d480d3a53eb0f4",
                       "type": "ValueFloat",
                       "x": 268.0,
@@ -1538,31 +1667,13 @@
                       }
                     },
                     {
-                      "id": "fb5e156f162341d9a2c5e2c4fa21be89",
-                      "type": "Subtract",
-                      "x": 268.0,
-                      "y": 116.0
-                    },
-                    {
-                      "id": "52413a2fcac548b8acf23ed45ab50859",
-                      "type": "Power",
-                      "x": 1079.0,
-                      "y": 260.0
-                    },
-                    {
-                      "id": "ac5b13dd893b46688bad682c7edad633",
-                      "type": "ValueFloat",
-                      "x": 911.0,
-                      "y": 161.0,
+                      "id": "a4cab163dcb048e698033ef2596b7f5c",
+                      "type": "ValueColor",
+                      "x": 410.0,
+                      "y": 942.0,
                       "data": {
-                        "v1": 1.5
+                        "color": "000000ff"
                       }
-                    },
-                    {
-                      "id": "3e911b69bb694cddaaf966fb9369c774",
-                      "type": "Normalize",
-                      "x": 664.0,
-                      "y": 619.0
                     },
                     {
                       "id": "e0bb238ccc9f42468197d1dc38b89612",
@@ -1572,12 +1683,6 @@
                       "data": {
                         "v1": 1.0
                       }
-                    },
-                    {
-                      "id": "90d3e54548dd453eb1c874bef19f16f5",
-                      "type": "Step",
-                      "x": 754.0,
-                      "y": 73.0
                     },
                     {
                       "id": "e446785571ce472b83665f84efa86db3",
@@ -1604,12 +1709,6 @@
                       "y": 555.0
                     },
                     {
-                      "id": "df8debc818b94f418a70a210dca0cdcc",
-                      "type": "FresnelEffect",
-                      "x": 473.0,
-                      "y": 182.0
-                    },
-                    {
                       "id": "6bcb685d9e26486ba40f8ef8a7d97232",
                       "type": "ValueVector2",
                       "x": 673.0,
@@ -1620,33 +1719,6 @@
                       }
                     },
                     {
-                      "id": "b400613808c74e848c933839d0e54da6",
-                      "type": "Merge",
-                      "x": 476.0,
-                      "y": 538.0
-                    },
-                    {
-                      "id": "end",
-                      "type": "ShaderEnd",
-                      "x": 1309.0,
-                      "y": 267.0,
-                      "data": {
-                        "culling": "back",
-                        "transparency": "transparent",
-                        "blending": "alpha",
-                        "depthTest": "less"
-                      }
-                    },
-                    {
-                      "id": "702096db118347b69faf94536f52fdfe",
-                      "type": "ValueColor",
-                      "x": 919.0,
-                      "y": 839.0,
-                      "data": {
-                        "color": "f9ff80ff"
-                      }
-                    },
-                    {
                       "id": "870b2d6ddf6d437bbd18e7bd1c365aaf",
                       "type": "ValueFloat",
                       "x": 669.0,
@@ -1654,18 +1726,6 @@
                       "data": {
                         "v1": 3.0
                       }
-                    },
-                    {
-                      "id": "bf8517c1ae72467fa34aca1a8fd26f58",
-                      "type": "CameraPosition",
-                      "x": 68.0,
-                      "y": 139.0
-                    },
-                    {
-                      "id": "8dc84a91d4dc4660a49270a7659dd24e",
-                      "type": "Subtract",
-                      "x": 675.0,
-                      "y": 500.0
                     }
                   ],
                   "connections": [
@@ -1686,12 +1746,6 @@
                       "fromField": "y",
                       "toNode": "b400613808c74e848c933839d0e54da6",
                       "toField": "y"
-                    },
-                    {
-                      "fromNode": "702096db118347b69faf94536f52fdfe",
-                      "fromField": "value",
-                      "toNode": "end",
-                      "toField": "color"
                     },
                     {
                       "fromNode": "b400613808c74e848c933839d0e54da6",
@@ -1784,12 +1838,6 @@
                       "toField": "inputs"
                     },
                     {
-                      "fromNode": "93ab27f7350242bdac6126881d492293",
-                      "fromField": "output",
-                      "toNode": "end",
-                      "toField": "alpha"
-                    },
-                    {
                       "fromNode": "2d84174f3f204a1fb6038966ab4f3093",
                       "fromField": "output",
                       "toNode": "52413a2fcac548b8acf23ed45ab50859",
@@ -1830,6 +1878,30 @@
                       "fromField": "time",
                       "toNode": "8dc84a91d4dc4660a49270a7659dd24e",
                       "toField": "a"
+                    },
+                    {
+                      "fromNode": "4885b491796f4dbf9e2305c42cd1aa9e",
+                      "fromField": "output",
+                      "toNode": "end",
+                      "toField": "color"
+                    },
+                    {
+                      "fromNode": "a4cab163dcb048e698033ef2596b7f5c",
+                      "fromField": "value",
+                      "toNode": "4885b491796f4dbf9e2305c42cd1aa9e",
+                      "toField": "a"
+                    },
+                    {
+                      "fromNode": "897e5f59e13a49718fbb81594c56bcca",
+                      "fromField": "value",
+                      "toNode": "4885b491796f4dbf9e2305c42cd1aa9e",
+                      "toField": "b"
+                    },
+                    {
+                      "fromNode": "abdba17d28c245999c4d38cc6beaab46",
+                      "fromField": "x",
+                      "toNode": "4885b491796f4dbf9e2305c42cd1aa9e",
+                      "toField": "t"
                     }
                   ],
                   "properties": [],

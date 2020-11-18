@@ -22,6 +22,42 @@ public class UniformSetters {
             shader.setUniform(location, shaderContext.getCamera().combined);
         }
     };
+    public final static UniformRegistry.UniformSetter normalProjViewTrans = new UniformRegistry.UniformSetter() {
+        private final Matrix4 tmpM = new Matrix4();
+
+        @Override
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+            shader.setUniform(location, tmpM.set(shaderContext.getCamera().combined).toNormalMatrix());
+        }
+    };
+    public final static UniformRegistry.UniformSetter viewTrans = new UniformRegistry.UniformSetter() {
+        @Override
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+            shader.setUniform(location, shaderContext.getCamera().view);
+        }
+    };
+    public final static UniformRegistry.UniformSetter normalViewTrans = new UniformRegistry.UniformSetter() {
+        private final Matrix4 tmpM = new Matrix4();
+
+        @Override
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+            shader.setUniform(location, tmpM.set(shaderContext.getCamera().view).toNormalMatrix());
+        }
+    };
+    public final static UniformRegistry.UniformSetter projTrans = new UniformRegistry.UniformSetter() {
+        @Override
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+            shader.setUniform(location, shaderContext.getCamera().projection);
+        }
+    };
+    public final static UniformRegistry.UniformSetter normalProjTrans = new UniformRegistry.UniformSetter() {
+        private final Matrix4 tmpM = new Matrix4();
+
+        @Override
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+            shader.setUniform(location, tmpM.set(shaderContext.getCamera().projection).toNormalMatrix());
+        }
+    };
     public final static UniformRegistry.UniformSetter cameraPosition = new UniformRegistry.UniformSetter() {
         @Override
         public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
@@ -55,6 +91,15 @@ public class UniformSetters {
             shader.setUniform(location, renderable.worldTransform);
         }
     };
+    public final static UniformRegistry.UniformSetter normalWorldTrans = new UniformRegistry.UniformSetter() {
+        private final Matrix4 tmpM = new Matrix4();
+
+        @Override
+        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+            shader.setUniform(location, tmpM.set(renderable.worldTransform).toNormalMatrix());
+        }
+    };
+
 
     public final static UniformRegistry.UniformSetter time = new UniformRegistry.UniformSetter() {
         @Override
