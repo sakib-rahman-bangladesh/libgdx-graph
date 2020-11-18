@@ -168,8 +168,12 @@ public class GraphShaderBuilder {
             color = "vec4(1.0, 1.0, 1.0, " + alpha + ")";
         } else if (colorField.getFieldType() == ShaderFieldType.Color) {
             color = "vec4(" + colorField.getRepresentation() + ".rgb, " + alpha + ")";
-        } else {
+        } else if (colorField.getFieldType() == ShaderFieldType.Vector3) {
             color = "vec4(" + colorField.getRepresentation() + ", " + alpha + ")";
+        } else if (colorField.getFieldType() == ShaderFieldType.Vector2) {
+            color = "vec4(" + colorField.getRepresentation() + ", 0.0, " + alpha + ")";
+        } else {
+            color = "vec4(vec3(" + colorField.getRepresentation() + "), " + alpha + ")";
         }
         fragmentShaderBuilder.addMainLine("// End Graph Node");
         fragmentShaderBuilder.addMainLine("gl_FragColor = " + color + ";");
