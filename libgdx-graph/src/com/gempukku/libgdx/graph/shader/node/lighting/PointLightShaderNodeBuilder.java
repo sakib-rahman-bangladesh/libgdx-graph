@@ -63,7 +63,7 @@ public class PointLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
                             }
                         }
                     });
-            result.put("color", new DefaultFieldOutput(ShaderFieldType.Color, name));
+            result.put("color", new DefaultFieldOutput(ShaderFieldType.Vector4, name));
         }
         if (producedOutputs.contains("intensity")) {
             String name = "u_pointLightIntensity" + index;

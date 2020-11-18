@@ -21,6 +21,6 @@ public class MergeShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFi
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("v3", "Vector3", ShaderFieldType.Vector3));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("color", "Color", ShaderFieldType.Color));
+                new GraphNodeOutputImpl<ShaderFieldType>("color", "Color", ShaderFieldType.Vector4));
     }
 }

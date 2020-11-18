@@ -11,10 +11,10 @@ public class AddShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFiel
         super("Add", "Add", "Math/Arithmetic");
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("inputs", "Inputs", true, false, true,
-                        ShaderFieldType.Color, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
+                        ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("output", "Result",
                         new MultiParamVectorArithmeticOutputTypeFunction<ShaderFieldType>(ShaderFieldType.Float, "inputs"),
-                        ShaderFieldType.Float, ShaderFieldType.Vector2, ShaderFieldType.Vector3, ShaderFieldType.Color));
+                        ShaderFieldType.Float, ShaderFieldType.Vector2, ShaderFieldType.Vector3, ShaderFieldType.Vector4));
     }
 }

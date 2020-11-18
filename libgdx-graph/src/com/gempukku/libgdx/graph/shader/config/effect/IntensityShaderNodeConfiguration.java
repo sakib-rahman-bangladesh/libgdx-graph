@@ -9,7 +9,7 @@ public class IntensityShaderNodeConfiguration extends NodeConfigurationImpl<Shad
     public IntensityShaderNodeConfiguration() {
         super("Intensity", "Intensity (Luma)", "Effect");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("color", "Color", true, ShaderFieldType.Color, ShaderFieldType.Vector3));
+                new GraphNodeInputImpl<ShaderFieldType>("color", "Color", true, ShaderFieldType.Vector4, ShaderFieldType.Vector3));
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("output", "Intensity", ShaderFieldType.Float));
     }

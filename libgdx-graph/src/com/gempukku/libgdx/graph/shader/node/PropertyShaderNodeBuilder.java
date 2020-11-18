@@ -56,7 +56,7 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
         final ShaderFieldType propertyType = ShaderFieldType.valueOf(data.getString("type"));
 
         switch (propertyType) {
-            case Color:
+            case Vector4:
                 return buildColorPropertyNode(nodeId, name, graphShaderContext, commonShaderBuilder);
             case Float:
                 return buildFloatPropertyNode(nodeId, name, graphShaderContext, commonShaderBuilder);
@@ -86,7 +86,7 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
                     }
                 }, "Property - " + name);
 
-        return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Color, variableName));
+        return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Vector4, variableName));
     }
 
     private ObjectMap<String, DefaultFieldOutput> buildFloatPropertyNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,

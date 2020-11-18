@@ -8,6 +8,6 @@ public class ColorAttributeShaderNodeConfiguration extends NodeConfigurationImpl
     public ColorAttributeShaderNodeConfiguration(String type, String name) {
         super(type, name, "Material");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("color", "Color", ShaderFieldType.Color));
+                new GraphNodeOutputImpl<ShaderFieldType>("color", "Color", ShaderFieldType.Vector4));
     }
 }

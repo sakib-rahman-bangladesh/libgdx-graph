@@ -27,7 +27,7 @@ import com.kotcrab.vis.ui.widget.color.ColorPickerAdapter;
 public class PropertyColorBoxProducer implements PropertyBoxProducer<ShaderFieldType> {
     @Override
     public ShaderFieldType getType() {
-        return ShaderFieldType.Color;
+        return ShaderFieldType.Vector4;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class PropertyColorBoxProducer implements PropertyBoxProducer<ShaderField
 
         return new PropertyBoxImpl<ShaderFieldType>(skin,
                 name,
-                ShaderFieldType.Color,
+                ShaderFieldType.Vector4,
                 new PropertyDefaultBox() {
                     @Override
                     public Actor getActor() {

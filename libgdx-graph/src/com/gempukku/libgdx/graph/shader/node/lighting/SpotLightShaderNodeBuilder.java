@@ -81,7 +81,7 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
                             }
                         }
                     });
-            result.put("color", new DefaultFieldOutput(ShaderFieldType.Color, name));
+            result.put("color", new DefaultFieldOutput(ShaderFieldType.Vector4, name));
         }
         if (producedOutputs.contains("intensity")) {
             String name = "u_spotLightIntensity" + index;

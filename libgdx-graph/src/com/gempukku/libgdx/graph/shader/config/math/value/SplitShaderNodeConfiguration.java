@@ -9,7 +9,7 @@ public class SplitShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFi
     public SplitShaderNodeConfiguration() {
         super("Split", "Split", "Math/Value");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("input", "Input", true, ShaderFieldType.Color, ShaderFieldType.Vector3, ShaderFieldType.Vector2));
+                new GraphNodeInputImpl<ShaderFieldType>("input", "Input", true, ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2));
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("x", "X", ShaderFieldType.Float));
         addNodeOutput(

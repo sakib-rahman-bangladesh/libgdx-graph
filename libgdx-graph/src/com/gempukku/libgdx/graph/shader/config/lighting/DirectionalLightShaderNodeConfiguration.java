@@ -10,6 +10,6 @@ public class DirectionalLightShaderNodeConfiguration extends NodeConfigurationIm
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("direction", "Direction", ShaderFieldType.Vector3));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("color", "Color", ShaderFieldType.Color));
+                new GraphNodeOutputImpl<ShaderFieldType>("color", "Color", ShaderFieldType.Vector4));
     }
 }

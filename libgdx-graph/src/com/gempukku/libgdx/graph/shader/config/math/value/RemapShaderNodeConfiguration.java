@@ -10,7 +10,7 @@ public class RemapShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFi
     public RemapShaderNodeConfiguration() {
         super("Remap", "Remap", "Math/Value");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("input", "Input", true, ShaderFieldType.Color, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
+                new GraphNodeInputImpl<ShaderFieldType>("input", "Input", true, ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("from", "From", true, ShaderFieldType.Vector2));
         addNodeInput(
@@ -18,6 +18,6 @@ public class RemapShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFi
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("output", "Result",
                         new SameTypeOutputTypeFunction<ShaderFieldType>("input"),
-                        ShaderFieldType.Float, ShaderFieldType.Vector2, ShaderFieldType.Vector3, ShaderFieldType.Color));
+                        ShaderFieldType.Float, ShaderFieldType.Vector2, ShaderFieldType.Vector3, ShaderFieldType.Vector4));
     }
 }

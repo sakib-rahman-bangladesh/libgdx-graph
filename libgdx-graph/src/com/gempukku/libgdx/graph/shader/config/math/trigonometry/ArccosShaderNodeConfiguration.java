@@ -10,10 +10,10 @@ public class ArccosShaderNodeConfiguration extends NodeConfigurationImpl<ShaderF
     public ArccosShaderNodeConfiguration() {
         super("Arccos", "Arccosine", "Math/Trigonometry");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("input", "Input", true, ShaderFieldType.Color, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
+                new GraphNodeInputImpl<ShaderFieldType>("input", "Input", true, ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("output", "Result",
                         new SameTypeOutputTypeFunction<ShaderFieldType>("input"),
-                        ShaderFieldType.Float, ShaderFieldType.Vector2, ShaderFieldType.Vector3, ShaderFieldType.Color));
+                        ShaderFieldType.Float, ShaderFieldType.Vector2, ShaderFieldType.Vector3, ShaderFieldType.Vector4));
     }
 }

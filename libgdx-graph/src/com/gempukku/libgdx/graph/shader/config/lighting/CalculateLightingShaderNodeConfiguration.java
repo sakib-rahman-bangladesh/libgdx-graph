@@ -13,11 +13,11 @@ public class CalculateLightingShaderNodeConfiguration extends NodeConfigurationI
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("normal", "Normal", true, ShaderFieldType.Vector3));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("albedo", "Albedo", false, ShaderFieldType.Color, ShaderFieldType.Vector3));
+                new GraphNodeInputImpl<ShaderFieldType>("albedo", "Albedo", false, ShaderFieldType.Vector4, ShaderFieldType.Vector3));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("emission", "Emission", false, ShaderFieldType.Color, ShaderFieldType.Vector3));
+                new GraphNodeInputImpl<ShaderFieldType>("emission", "Emission", false, ShaderFieldType.Vector4, ShaderFieldType.Vector3));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("specular", "Specular", false, ShaderFieldType.Color, ShaderFieldType.Vector3));
+                new GraphNodeInputImpl<ShaderFieldType>("specular", "Specular", false, ShaderFieldType.Vector4, ShaderFieldType.Vector3));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("shininess", "Shininess", false, ShaderFieldType.Float));
         addNodeOutput(

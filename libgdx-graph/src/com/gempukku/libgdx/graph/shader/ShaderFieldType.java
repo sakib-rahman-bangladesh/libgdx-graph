@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.gempukku.libgdx.graph.data.FieldType;
 
 public enum ShaderFieldType implements FieldType {
-    Float("float"), Vector2("vec2"), Vector3("vec3"), Color("vec4"), Boolean("bool"),
+    Float("float"), Vector2("vec2"), Vector3("vec3"), Vector4("vec4"), Boolean("bool"),
     TextureRegion("vec4");
 
     private String shaderType;
@@ -22,7 +22,7 @@ public enum ShaderFieldType implements FieldType {
                 return value instanceof com.badlogic.gdx.math.Vector2;
             case Vector3:
                 return value instanceof com.badlogic.gdx.math.Vector3;
-            case Color:
+            case Vector4:
                 return value instanceof com.badlogic.gdx.graphics.Color;
             case Boolean:
                 return value instanceof Boolean;

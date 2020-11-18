@@ -36,6 +36,6 @@ public class ColorAttributeShaderNodeBuilder extends ConfigurationCommonShaderNo
         long attributeType = ColorAttribute.getAttributeType(alias);
         commonShaderBuilder.addUniformVariable(name, "vec4", false, new UniformSetters.MaterialColor(attributeType, defaultColor));
 
-        return LibGDXCollections.singletonMap("color", new DefaultFieldOutput(ShaderFieldType.Color, name));
+        return LibGDXCollections.singletonMap("color", new DefaultFieldOutput(ShaderFieldType.Vector4, name));
     }
 }

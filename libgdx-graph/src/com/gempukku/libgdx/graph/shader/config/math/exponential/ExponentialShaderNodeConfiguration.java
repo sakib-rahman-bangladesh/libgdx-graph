@@ -10,10 +10,10 @@ public class ExponentialShaderNodeConfiguration extends NodeConfigurationImpl<Sh
     public ExponentialShaderNodeConfiguration() {
         super("Exp", "Exp e", "Math/Exponential");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("input", "Input", true, ShaderFieldType.Color, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
+                new GraphNodeInputImpl<ShaderFieldType>("input", "Input", true, ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("output", "Result",
                         new SameTypeOutputTypeFunction<ShaderFieldType>("input"),
-                        ShaderFieldType.Color, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
+                        ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
     }
 }

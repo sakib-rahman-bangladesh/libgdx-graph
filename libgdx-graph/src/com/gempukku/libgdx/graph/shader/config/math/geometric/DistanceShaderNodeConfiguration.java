@@ -10,9 +10,9 @@ public class DistanceShaderNodeConfiguration extends NodeConfigurationImpl<Shade
     public DistanceShaderNodeConfiguration() {
         super("Distance", "Distance", "Math/Geometric");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("p0", "Point 0", true, ShaderFieldType.Color, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
+                new GraphNodeInputImpl<ShaderFieldType>("p0", "Point 0", true, ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("p1", "Point 1", true, ShaderFieldType.Color, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
+                new GraphNodeInputImpl<ShaderFieldType>("p1", "Point 1", true, ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("output", "Result",
                         new ValidateSameTypeOutputTypeFunction<ShaderFieldType>(ShaderFieldType.Float, "p0", "p1"),

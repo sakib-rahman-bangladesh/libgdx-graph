@@ -45,7 +45,7 @@ public class MergeShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder
         if (producedOutputs.contains("color")) {
             String name = "color_" + nodeId;
             commonShaderBuilder.addMainLine("vec4 " + name + " = vec4(" + x + ", " + y + ", " + z + ", " + w + ");");
-            result.put("color", new DefaultFieldOutput(ShaderFieldType.Color, name));
+            result.put("color", new DefaultFieldOutput(ShaderFieldType.Vector4, name));
         }
         return result;
     }

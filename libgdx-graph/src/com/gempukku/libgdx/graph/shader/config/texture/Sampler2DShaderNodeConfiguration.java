@@ -13,7 +13,7 @@ public class Sampler2DShaderNodeConfiguration extends NodeConfigurationImpl<Shad
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("uv", "UV", true, ShaderFieldType.Vector2));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("color", "Color", ShaderFieldType.Color));
+                new GraphNodeOutputImpl<ShaderFieldType>("color", "Color", ShaderFieldType.Vector4));
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("r", "R", ShaderFieldType.Float));
         addNodeOutput(

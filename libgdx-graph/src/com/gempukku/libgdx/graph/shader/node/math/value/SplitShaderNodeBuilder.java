@@ -23,7 +23,7 @@ public class SplitShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder
         ShaderFieldType fieldType = inputValue.getFieldType();
 
         String x, y, z, w;
-        if (fieldType == ShaderFieldType.Color) {
+        if (fieldType == ShaderFieldType.Vector4) {
             x = inputValue.getRepresentation() + ".r";
             y = inputValue.getRepresentation() + ".g";
             z = inputValue.getRepresentation() + ".b";

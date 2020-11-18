@@ -13,7 +13,7 @@ public class ApplyNormalMapShaderNodeConfiguration extends NodeConfigurationImpl
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("tangent", "Tangent", true, ShaderFieldType.Vector3));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("normalMap", "Normal from map", true, ShaderFieldType.Vector3, ShaderFieldType.Color));
+                new GraphNodeInputImpl<ShaderFieldType>("normalMap", "Normal from map", true, ShaderFieldType.Vector3, ShaderFieldType.Vector4));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("strength", "Strength", false, ShaderFieldType.Float));
         addNodeOutput(

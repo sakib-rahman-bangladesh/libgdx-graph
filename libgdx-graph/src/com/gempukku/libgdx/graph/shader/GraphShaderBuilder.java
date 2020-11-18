@@ -166,7 +166,7 @@ public class GraphShaderBuilder {
         String color;
         if (colorField == null) {
             color = "vec4(1.0, 1.0, 1.0, " + alpha + ")";
-        } else if (colorField.getFieldType() == ShaderFieldType.Color) {
+        } else if (colorField.getFieldType() == ShaderFieldType.Vector4) {
             color = "vec4(" + colorField.getRepresentation() + ".rgb, " + alpha + ")";
         } else if (colorField.getFieldType() == ShaderFieldType.Vector3) {
             color = "vec4(" + colorField.getRepresentation() + ", " + alpha + ")";

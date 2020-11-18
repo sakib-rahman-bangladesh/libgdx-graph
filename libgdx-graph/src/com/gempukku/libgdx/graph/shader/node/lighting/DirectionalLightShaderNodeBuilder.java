@@ -63,7 +63,7 @@ public class DirectionalLightShaderNodeBuilder extends ConfigurationCommonShader
                             }
                         }
                     });
-            result.put("color", new DefaultFieldOutput(ShaderFieldType.Color, name));
+            result.put("color", new DefaultFieldOutput(ShaderFieldType.Vector4, name));
         }
         return result;
     }

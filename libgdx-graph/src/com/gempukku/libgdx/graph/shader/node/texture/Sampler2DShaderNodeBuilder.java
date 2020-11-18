@@ -32,7 +32,7 @@ public class Sampler2DShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
         ObjectMap<String, FieldOutput> result = new ObjectMap<>();
         String colorName = "color_" + nodeId;
         commonShaderBuilder.addMainLine("vec4 " + colorName + " = texture2D(" + textureValue.getSamplerRepresentation() + ", " + textureValue.getRepresentation() + ".xy + " + uvValue.getRepresentation() + " * " + textureValue.getRepresentation() + ".zw);");
-        result.put("color", new DefaultFieldOutput(ShaderFieldType.Color, colorName));
+        result.put("color", new DefaultFieldOutput(ShaderFieldType.Vector4, colorName));
         if (producedOutputs.contains("r")) {
             String name = "r_" + nodeId;
             commonShaderBuilder.addMainLine("float " + name + " = " + colorName + ".r;");

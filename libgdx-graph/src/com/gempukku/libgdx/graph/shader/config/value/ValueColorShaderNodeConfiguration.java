@@ -5,12 +5,12 @@ import com.gempukku.libgdx.graph.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 
-import static com.gempukku.libgdx.graph.shader.ShaderFieldType.Color;
+import static com.gempukku.libgdx.graph.shader.ShaderFieldType.Vector4;
 
 public class ValueColorShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
     public ValueColorShaderNodeConfiguration() {
         super("ValueColor", "Color", "Constant");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("value", "Value", Color));
+                new GraphNodeOutputImpl<ShaderFieldType>("value", "Value", Vector4));
     }
 }

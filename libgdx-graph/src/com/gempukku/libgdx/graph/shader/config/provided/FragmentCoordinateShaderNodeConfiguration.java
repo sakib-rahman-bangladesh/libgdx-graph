@@ -8,6 +8,6 @@ public class FragmentCoordinateShaderNodeConfiguration extends NodeConfiguration
     public FragmentCoordinateShaderNodeConfiguration() {
         super("FragmentCoordinate", "Fragment coordinate", "Provided");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("output", "Output", ShaderFieldType.Color));
+                new GraphNodeOutputImpl<ShaderFieldType>("output", "Output", ShaderFieldType.Vector4));
     }
 }
