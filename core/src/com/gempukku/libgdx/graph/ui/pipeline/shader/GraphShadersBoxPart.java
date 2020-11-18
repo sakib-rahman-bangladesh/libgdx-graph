@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.ui.pipeline.shader;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
@@ -20,13 +18,14 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphRemoved;
 import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
+import com.gempukku.libgdx.graph.ui.pipeline.shader.registry.GraphShaderTemplate;
+import com.gempukku.libgdx.graph.ui.pipeline.shader.registry.GraphShaderTemplateRegistry;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
+import com.kotcrab.vis.ui.widget.MenuItem;
+import com.kotcrab.vis.ui.widget.PopupMenu;
 import com.kotcrab.vis.ui.widget.Separator;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -144,24 +143,31 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
             table.add(new Separator()).growX().row();
             table.add(shaderGroup).growX().row();
 
-            TextButton newShader = new TextButton("New Shader", skin);
+            final TextButton newShader = new TextButton("New Shader", skin);
             newShader.addListener(
                     new ClickListener(Input.Buttons.LEFT) {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            String id = UUID.randomUUID().toString().replace("-", "");
-                            try {
-                                JsonReader parser = new JsonReader();
-                                InputStream is = Gdx.files.classpath("template/empty-shader.json").read();
-                                try {
-                                    JsonValue shader = parser.parse(new InputStreamReader(is));
-                                    addShaderGraph(id, "", shader);
-                                } finally {
-                                    is.close();
-                                }
-                            } catch (IOException exp) {
-
+                            PopupMenu popupMenu = new PopupMenu();
+                            for (final GraphShaderTemplate graphShaderTemplate : GraphShaderTemplateRegistry.graphShaderTemplateList) {
+                                MenuItem menuItem = new MenuItem(graphShaderTemplate.getTitle());
+                                popupMenu.addItem(menuItem);
+                                menuItem.addListener(
+                                        new ClickListener(Input.Buttons.LEFT) {
+                                            @Override
+                                            public void clicked(InputEvent event, float x, float y) {
+                                                graphShaderTemplate.invokeTemplate(getStage(),
+                                                        new GraphShaderTemplate.Callback() {
+                                                            @Override
+                                                            public void addShader(String tag, JsonValue shader) {
+                                                                String id = UUID.randomUUID().toString().replace("-", "");
+                                                                addShaderGraph(id, tag, shader);
+                                                            }
+                                                        });
+                                            }
+                                        });
                             }
+                            popupMenu.showMenu(getStage(), newShader);
                         }
                     });
 
