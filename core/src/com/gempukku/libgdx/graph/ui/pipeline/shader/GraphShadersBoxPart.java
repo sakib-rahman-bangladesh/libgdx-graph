@@ -35,7 +35,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
     private static final int REMOVE_WIDTH = 80;
     private final VerticalGroup renderPasses;
     private final Skin skin;
-    private List<RenderPassInfo> passes = new LinkedList<>();
+    private RenderPassInfo renderPass;
 
     public GraphShadersBoxPart(Skin skin) {
         this.skin = skin;
@@ -55,12 +55,13 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
 
         add(scrollPane).grow().row();
 
-        addRenderPass();
+        renderPass = new RenderPassInfo();
+        renderPasses.addActor(renderPass.getActor());
     }
 
     public void initialize(JsonValue data) {
         if (data != null) {
-            passes.get(0).initialize(data);
+            renderPass.initialize(data);
         }
     }
 
@@ -72,18 +73,6 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
     @Override
     public float getPrefHeight() {
         return 200;
-    }
-
-    private RenderPassInfo addRenderPass() {
-        RenderPassInfo renderPassInfo = new RenderPassInfo();
-        passes.add(renderPassInfo);
-        renderPasses.addActor(renderPassInfo.getActor());
-        return renderPassInfo;
-    }
-
-    private void removeRenderPass(RenderPassInfo renderPassInfo) {
-        passes.remove(renderPassInfo);
-        renderPasses.removeActor(renderPassInfo.getActor());
     }
 
     @Override
@@ -103,13 +92,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
 
     @Override
     public void serializePart(JsonValue object) {
-        JsonValue passArray = new JsonValue(JsonValue.ValueType.array);
-        for (RenderPassInfo pass : passes) {
-            JsonValue passObject = new JsonValue(JsonValue.ValueType.object);
-            pass.serializePass(passObject);
-            passArray.addChild(passObject);
-        }
-        object.addChild("renderPasses", passArray);
+        renderPass.serializePass(object);
     }
 
     @Override
