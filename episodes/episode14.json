@@ -25,7 +25,7 @@
       "id": "a2deec2f5b4448f2bc89fdba9045c0b4",
       "type": "Bloom",
       "x": 359.0,
-      "y": 262.9999694824219
+      "y": 262.0
     },
     {
       "id": "c7274c8066104f9fae86cba6bb9a45dd",
@@ -441,7 +441,7 @@
                     {
                       "id": "992f17f6fbab4d9881fb42b5e1753f78",
                       "type": "Split",
-                      "x": 348.0000305175781,
+                      "x": 348.0,
                       "y": 652.0
                     },
                     {
@@ -476,7 +476,7 @@
                       "id": "end",
                       "type": "ShaderEnd",
                       "x": 1644.0,
-                      "y": 79.00003051757812,
+                      "y": 79.0,
                       "data": {
                         "culling": "back",
                         "transparency": "transparent",
@@ -520,14 +520,14 @@
                     {
                       "id": "3a554e96c9524a4b8a43569b7101a6dc",
                       "type": "ModelFragmentCoordinate",
-                      "x": 474.9999694824219,
+                      "x": 474.0,
                       "y": 493.0
                     },
                     {
                       "id": "b29d2c1df2d74acaa2a6e8a2fe9a4364",
                       "type": "Step",
                       "x": 787.0,
-                      "y": 284.0000305175781
+                      "y": 284.0
                     },
                     {
                       "id": "f0a39c500b2e4af19c3648a182a6c14b",
@@ -539,7 +539,7 @@
                       "id": "8b95a11c34224622859f0a62c7a23e0c",
                       "type": "Subtract",
                       "x": 945.0,
-                      "y": 144.00003051757812
+                      "y": 144.0
                     },
                     {
                       "id": "f6937fe50fe7421bb453a586eb69445d",
@@ -608,7 +608,7 @@
                       "id": "761b74e8f7f542eca650b3a0e2bf089f",
                       "type": "ValueFloat",
                       "x": 726.0,
-                      "y": 217.00003051757812,
+                      "y": 217.0,
                       "data": {
                         "v1": 1.0
                       }
@@ -786,12 +786,6 @@
                     {
                       "fromNode": "d2a4d9ffadd34e0a9bbe413b06faec5c",
                       "fromField": "time",
-                      "toNode": "41a7aedacd064de3a4309208cf81b87e",
-                      "toField": "progress"
-                    },
-                    {
-                      "fromNode": "d2a4d9ffadd34e0a9bbe413b06faec5c",
-                      "fromField": "time",
                       "toNode": "7b2200e7254a4a36895b0bf77600a97a",
                       "toField": "a"
                     },
@@ -800,6 +794,12 @@
                       "fromField": "output",
                       "toNode": "7b2200e7254a4a36895b0bf77600a97a",
                       "toField": "b"
+                    },
+                    {
+                      "fromNode": "7b2200e7254a4a36895b0bf77600a97a",
+                      "fromField": "output",
+                      "toNode": "41a7aedacd064de3a4309208cf81b87e",
+                      "toField": "progress"
                     }
                   ],
                   "properties": [],

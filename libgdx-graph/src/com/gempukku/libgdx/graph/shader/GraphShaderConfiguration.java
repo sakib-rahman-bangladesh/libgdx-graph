@@ -74,7 +74,7 @@ import com.gempukku.libgdx.graph.shader.node.noise.VoronoiDistance2DShaderNodeBu
 import com.gempukku.libgdx.graph.shader.node.noise.VoronoiDistance3DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.CameraDirectionShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.CameraPositionShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.provided.FragmentCoordinatesShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.provided.FragmentCoordinateShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.InstanceIdShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.ModelFragmentCoordinateShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.PixelSizeShaderNodeBuilder;
@@ -219,7 +219,7 @@ public class GraphShaderConfiguration {
         addGraphShaderNodeBuilder(new TimeGraphShaderNodeBuilder());
         addGraphShaderNodeBuilder(new CameraPositionShaderNodeBuilder());
         addGraphShaderNodeBuilder(new CameraDirectionShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new FragmentCoordinatesShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new FragmentCoordinateShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ModelFragmentCoordinateShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SceneDepthShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SceneColorShaderNodeBuilder());

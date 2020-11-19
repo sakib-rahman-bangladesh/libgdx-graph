@@ -13,8 +13,8 @@ import com.gempukku.libgdx.graph.shader.config.provided.FragmentCoordinateShader
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 
-public class FragmentCoordinatesShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
-    public FragmentCoordinatesShaderNodeBuilder() {
+public class FragmentCoordinateShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
+    public FragmentCoordinateShaderNodeBuilder() {
         super(new FragmentCoordinateShaderNodeConfiguration());
     }
 
