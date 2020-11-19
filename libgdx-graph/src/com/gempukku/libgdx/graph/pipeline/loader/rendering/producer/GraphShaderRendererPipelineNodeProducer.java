@@ -28,8 +28,6 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelsImpl;
 
-import static com.badlogic.gdx.graphics.GL20.GL_BACK;
-
 public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     public GraphShaderRendererPipelineNodeProducer() {
         super(new GraphShaderRendererPipelineNodeConfiguration());
@@ -108,26 +106,18 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 shaderContext.setCamera(camera);
                 shaderContext.setGraphShaderEnvironment(environment);
                 shaderContext.setTimeProvider(pipelineRenderingContext.getTimeProvider());
-                RenderPipelineBuffer sceneColorBuffer = null;
 
                 if (needsToDrawDepth || usesDepth) {
                     renderPipeline.enrichWithDepthBuffer(currentBuffer);
                     shaderContext.setDepthTexture(currentBuffer.getDepthBufferTexture());
                 }
 
-                renderContext.begin();
-
+                RenderPipelineBuffer sceneColorBuffer = null;
                 if (needsSceneColor) {
-                    sceneColorBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
-                    sceneColorBuffer.beginColor();
-                    Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-                    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-                    sceneColorBuffer.endColor();
-                    shaderContext.setColorTexture(sceneColorBuffer.getColorBufferTexture());
-
-                    renderContext.setCullFace(GL_BACK);
-                    renderPipeline.getBufferCopyHelper().copy(currentBuffer.getColorBuffer(), sceneColorBuffer.getColorBuffer());
+                    sceneColorBuffer = setupColorTexture(renderPipeline, currentBuffer);
                 }
+
+                renderContext.begin();
 
                 currentBuffer.beginColor();
 
@@ -152,7 +142,6 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                     }
                 }
 
-
                 // Then if depth buffer is needed for later passes - draw to it
                 if (needsToDrawDepth) {
                     currentBuffer.endColor();
@@ -176,7 +165,8 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                     for (ShaderGroup shaderGroup : shaderGroups) {
                         GraphShader colorShader = shaderGroup.getColorShader();
                         if (colorShader.getTransparency() == BasicShader.Transparency.transparent) {
-                            if (graphShaderModelInstance.hasTag(colorShader.getTag())) {
+                            String tag = colorShader.getTag();
+                            if (graphShaderModelInstance.hasTag(tag)) {
                                 if (lastShader != colorShader) {
                                     if (lastShader != null)
                                         lastShader.end();
@@ -199,6 +189,18 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 OutputValue<RenderPipeline> output = outputValues.get("output");
                 if (output != null)
                     output.setValue(renderPipeline);
+            }
+
+            private RenderPipelineBuffer setupColorTexture(final RenderPipeline renderPipeline, final RenderPipelineBuffer currentBuffer) {
+                RenderPipelineBuffer sceneColorBuffer;
+                sceneColorBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
+                sceneColorBuffer.beginColor();
+                Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+                sceneColorBuffer.endColor();
+                shaderContext.setColorTexture(sceneColorBuffer.getColorBufferTexture());
+                renderPipeline.getBufferCopyHelper().copy(currentBuffer.getColorBuffer(), sceneColorBuffer.getColorBuffer());
+                return sceneColorBuffer;
             }
 
             private void updateCamera(final Camera camera, final int width, final int height) {
