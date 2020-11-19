@@ -55,28 +55,12 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
 
         add(scrollPane).grow().row();
 
-        TextButton newRenderPass = new TextButton("New Render Pass", skin);
-        newRenderPass.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        addRenderPass();
-                    }
-                });
-
-        Table buttonTable = new Table(skin);
-        buttonTable.add(newRenderPass);
-
-        add(buttonTable).growX().row();
+        addRenderPass();
     }
 
     public void initialize(JsonValue data) {
         if (data != null) {
-            JsonValue renderPasses = data.get("renderPasses");
-            for (JsonValue renderPass : renderPasses) {
-                RenderPassInfo renderPassInfo = addRenderPass();
-                renderPassInfo.initialize(renderPass);
-            }
+            passes.get(0).initialize(data);
         }
     }
 
@@ -171,37 +155,8 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
                         }
                     });
 
-            TextButton removePass = new TextButton("Remove Pass", skin);
-            removePass.addListener(
-                    new ClickListener(Input.Buttons.LEFT) {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            Dialogs.showOptionDialog(getStage(), "Confirm", "Would you like to remove the render pass?",
-                                    Dialogs.OptionDialogType.YES_CANCEL, new OptionDialogListener() {
-                                        @Override
-                                        public void yes() {
-                                            for (ShaderInfo shader : shaders) {
-                                                fire(new GraphRemoved(shader.getId()));
-                                            }
-                                            removeRenderPass(RenderPassInfo.this);
-                                        }
-
-                                        @Override
-                                        public void no() {
-
-                                        }
-
-                                        @Override
-                                        public void cancel() {
-
-                                        }
-                                    });
-                        }
-                    });
-
             Table buttons = new Table(skin);
             buttons.add(newShader);
-            buttons.add(removePass);
             table.add(buttons).growX().row();
         }
 

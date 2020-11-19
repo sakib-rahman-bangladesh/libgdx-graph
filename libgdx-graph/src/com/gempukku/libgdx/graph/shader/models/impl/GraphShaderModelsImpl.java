@@ -182,6 +182,14 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
         return models;
     }
 
+    public boolean hasModelWithTag(String tag) {
+        for (GraphShaderModelInstance model : models) {
+            if (model.hasTag(tag))
+                return true;
+        }
+        return false;
+    }
+
     @Override
     public void dispose() {
         for (GraphShaderModel model : graphShaderModels.values()) {
