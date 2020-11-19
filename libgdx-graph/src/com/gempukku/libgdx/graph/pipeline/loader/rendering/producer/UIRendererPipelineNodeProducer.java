@@ -26,7 +26,7 @@ public class UIRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
                 Stage stage = stageInput.getValue(pipelineRenderingContext);
                 if (stage != null) {
-                    RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+                    RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
                     int width = currentBuffer.getWidth();
                     int height = currentBuffer.getHeight();
                     int screenWidth = stage.getViewport().getScreenWidth();

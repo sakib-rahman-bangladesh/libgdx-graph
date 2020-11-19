@@ -29,8 +29,8 @@ public class PipelineRendererNodeProducer extends PipelineNodeProducerImpl {
                 RenderPipeline canvasPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
                 RenderPipeline paintPipeline = otherPipelineInput.getValue(pipelineRenderingContext);
 
-                RenderPipelineBuffer canvasBuffer = canvasPipeline.getCurrentBuffer();
-                RenderPipelineBuffer paintBuffer = paintPipeline.getCurrentBuffer();
+                RenderPipelineBuffer canvasBuffer = canvasPipeline.getDefaultBuffer();
+                RenderPipelineBuffer paintBuffer = paintPipeline.getDefaultBuffer();
 
                 Vector2 position = positionInput.getValue(pipelineRenderingContext);
                 Vector2 size;

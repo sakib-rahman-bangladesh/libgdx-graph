@@ -55,7 +55,7 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
 
                 float gamma = finalGamma.getValue(pipelineRenderingContext);
                 if (gamma != 1) {
-                    RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+                    RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
 
                     RenderPipelineBuffer newBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
 
@@ -78,8 +78,8 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
 
                     newBuffer.endColor();
 
-                    renderPipeline.returnFrameBuffer(currentBuffer);
-                    renderPipeline.setCurrentBuffer(newBuffer);
+                    FBOUtil.swapColorBufferTextures(currentBuffer, newBuffer);
+                    renderPipeline.returnFrameBuffer(newBuffer);
                 }
 
                 OutputValue<RenderPipeline> output = outputValues.get("output");

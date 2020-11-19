@@ -71,7 +71,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
                 GraphShaderModelsImpl models = pipelineRenderingContext.getGraphShaderModels();
                 Camera camera = cameraInput.getValue(pipelineRenderingContext);
-                RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+                RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
                 int width = currentBuffer.getWidth();
                 int height = currentBuffer.getHeight();
                 float viewportWidth = camera.viewportWidth;

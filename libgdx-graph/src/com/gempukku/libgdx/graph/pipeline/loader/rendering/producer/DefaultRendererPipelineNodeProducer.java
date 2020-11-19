@@ -34,7 +34,7 @@ public class DefaultRendererPipelineNodeProducer extends PipelineNodeProducerImp
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
                 PipelineRendererModels models = modelsInput.getValue(pipelineRenderingContext);
                 Camera camera = cameraInput.getValue(pipelineRenderingContext);
-                RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+                RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
                 int width = currentBuffer.getWidth();
                 int height = currentBuffer.getHeight();
                 float viewportWidth = camera.viewportWidth;

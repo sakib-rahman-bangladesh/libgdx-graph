@@ -77,7 +77,7 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
                 if (bloomStrengthValue > 0 && bloomRadiusValue > 0) {
                     float minimalBrightnessValue = finalMinimalBrightness.getValue(pipelineRenderingContext);
 
-                    RenderPipelineBuffer originalBuffer = renderPipeline.getCurrentBuffer();
+                    RenderPipelineBuffer originalBuffer = renderPipeline.getDefaultBuffer();
 
                     RenderPipelineBuffer brightnessFilterBuffer = runBrightnessPass(minimalBrightnessValue, renderPipeline, originalBuffer, brightnessFilterPassProgram, vertexBufferObject, indexBufferObject);
 
@@ -88,8 +88,9 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
                     RenderPipelineBuffer result = applyTheBloom(bloomStrengthValue, renderPipeline, originalBuffer, gaussianBlur, bloomSumProgram, vertexBufferObject, indexBufferObject);
 
                     renderPipeline.returnFrameBuffer(gaussianBlur);
-                    renderPipeline.returnFrameBuffer(originalBuffer);
-                    renderPipeline.setCurrentBuffer(result);
+
+                    FBOUtil.swapColorBufferTextures(originalBuffer, result);
+                    renderPipeline.returnFrameBuffer(result);
                 }
 
                 OutputValue<RenderPipeline> output = outputValues.get("output");

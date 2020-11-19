@@ -23,9 +23,9 @@ public class RenderOutputs {
         @Override
         public void output(RenderPipeline renderPipeline) {
             BufferCopyHelper bufferCopyHelper = renderPipeline.getBufferCopyHelper();
-            bufferCopyHelper.copy(renderPipeline.getCurrentBuffer().getColorBuffer(), null);
+            bufferCopyHelper.copy(renderPipeline.getDefaultBuffer().getColorBuffer(), null);
 
-            renderPipeline.returnFrameBuffer(renderPipeline.getCurrentBuffer());
+            renderPipeline.returnFrameBuffer(renderPipeline.getDefaultBuffer());
         }
     }
 
@@ -52,7 +52,7 @@ public class RenderOutputs {
 
         @Override
         public void output(RenderPipeline renderPipeline) {
-            RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+            RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
             TextureData textureData = currentBuffer.getColorBufferTexture().getTextureData();
             textureData.prepare();
             Pixmap pixmap = textureData.consumePixmap();

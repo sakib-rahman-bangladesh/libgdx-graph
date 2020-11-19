@@ -1,21 +1,20 @@
 package com.gempukku.libgdx.graph.pipeline;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 
 public class RenderPipelineBuffer {
-    private FrameBuffer colorBuffer;
-    private FrameBuffer depthBuffer;
+    private TextureFrameBuffer colorBuffer;
+    private TextureFrameBuffer depthBuffer;
 
-    public RenderPipelineBuffer(FrameBuffer colorBuffer) {
+    public RenderPipelineBuffer(TextureFrameBuffer colorBuffer) {
         this.colorBuffer = colorBuffer;
     }
 
-    public FrameBuffer getDepthBuffer() {
+    public TextureFrameBuffer getDepthBuffer() {
         return depthBuffer;
     }
 
-    public void setDepthBuffer(FrameBuffer depthBuffer) {
+    public void setDepthBuffer(TextureFrameBuffer depthBuffer) {
         this.depthBuffer = depthBuffer;
     }
 
@@ -23,7 +22,7 @@ public class RenderPipelineBuffer {
         return depthBuffer.getColorBufferTexture();
     }
 
-    public FrameBuffer getColorBuffer() {
+    public TextureFrameBuffer getColorBuffer() {
         return colorBuffer;
     }
 

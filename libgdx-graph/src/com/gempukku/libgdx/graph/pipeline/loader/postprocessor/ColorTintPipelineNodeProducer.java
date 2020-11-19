@@ -56,7 +56,7 @@ public class ColorTintPipelineNodeProducer extends PipelineNodeProducerImpl {
                 if (strengthValue > 0) {
                     Color colorValue = finalColor.getValue(pipelineRenderingContext);
 
-                    RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+                    RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
                     currentBuffer.beginColor();
 
                     Gdx.gl.glEnable(GL20.GL_BLEND);

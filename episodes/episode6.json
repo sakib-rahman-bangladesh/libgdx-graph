@@ -144,12 +144,15 @@
 									},
 									{ "id": "06b7bcb23286497ea34c84de1e74f9bb", "type": "Remap", "x": 922.0, "y": 138.0 },
 									{
-										"id": "7bd5c10d59ae457b905ef1d2ce239d0b",
-										"type": "Property",
-										"x": 699.0,
-										"y": 396.0,
-										"data": { "name": "Color", "type": "Color" }
-									},
+                                      "id": "7bd5c10d59ae457b905ef1d2ce239d0b",
+                                      "type": "Property",
+                                      "x": 699.0,
+                                      "y": 396.0,
+                                      "data": {
+                                        "name": "Color",
+                                        "type": "Vector4"
+                                      }
+                                    },
 									{ "id": "5a76e969524941f89754be8aba67c575", "type": "Merge", "x": 1560.0, "y": 752.0 },
 									{ "id": "9b756b90ed90448ca1bc4a1f2d8b191d", "type": "Multiply", "x": 1353.0, "y": 823.0 },
 									{ "id": "2a91753cef234fadb05c9b4da1b8dc4c", "type": "Sin", "x": 721.0, "y": 221.0 },
@@ -252,11 +255,13 @@
 										"type": "Float",
 										"data": { "x": 500.0 }
 									},
-									{
-										"name": "Color",
-										"type": "Color",
-										"data": { "color": "6d7cedff" }
-									},
+                                  {
+                                    "name": "Color",
+                                    "type": "Vector4",
+                                    "data": {
+                                      "color": "6d7cedff"
+                                    }
+                                  },
 									{
 										"name": "Distrortion Noise Scale",
 										"type": "Float",

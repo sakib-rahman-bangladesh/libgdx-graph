@@ -57,7 +57,7 @@ public class GaussianBlurPipelineNodeProducer extends PipelineNodeProducerImpl {
                 int blurRadius = MathUtils.round(finalBlurRadius.getValue(pipelineRenderingContext));
                 if (blurRadius > 0) {
                     float[] kernel = GaussianBlurKernel.getKernel(blurRadius);
-                    RenderPipelineBuffer currentBuffer = renderPipeline.getCurrentBuffer();
+                    RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
 
                     shaderProgram.bind();
                     shaderProgram.setUniformi("u_sourceTexture", 0);
@@ -70,11 +70,11 @@ public class GaussianBlurPipelineNodeProducer extends PipelineNodeProducerImpl {
 
                     shaderProgram.setUniformi("u_vertical", 1);
                     RenderPipelineBuffer tempBuffer = executeBlur(renderPipeline, currentBuffer, indexBufferObject);
-                    renderPipeline.returnFrameBuffer(currentBuffer);
                     shaderProgram.setUniformi("u_vertical", 0);
                     RenderPipelineBuffer finalBuffer = executeBlur(renderPipeline, tempBuffer, indexBufferObject);
                     renderPipeline.returnFrameBuffer(tempBuffer);
-                    renderPipeline.setCurrentBuffer(finalBuffer);
+                    FBOUtil.swapColorBufferTextures(currentBuffer, finalBuffer);
+                    renderPipeline.returnFrameBuffer(finalBuffer);
 
                     indexBufferObject.unbind();
                     vertexBufferObject.unbind(shaderProgram);

@@ -63,11 +63,9 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
 
         int width = MathUtils.round(bufferSize.x);
         int height = MathUtils.round(bufferSize.y);
-        renderPipeline.startFrame(width, height);
+        renderPipeline.startFrame();
 
-        RenderPipelineBuffer frameBuffer = renderPipeline.getNewFrameBuffer(width, height, Pixmap.Format.RGBA8888);
-        renderPipeline.setCurrentBuffer(frameBuffer);
-
+        RenderPipelineBuffer frameBuffer = renderPipeline.initializeDefaultBuffer(width, height, Pixmap.Format.RGBA8888);
         frameBuffer.beginColor();
         Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);

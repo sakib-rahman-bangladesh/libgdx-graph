@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.gempukku.libgdx.graph.pipeline.impl.BufferCopyHelper;
 
 public interface RenderPipeline {
-    RenderPipelineBuffer getCurrentBuffer();
+    RenderPipelineBuffer initializeDefaultBuffer(int width, int height, Pixmap.Format format);
 
-    void setCurrentBuffer(RenderPipelineBuffer frameBuffer);
+    RenderPipelineBuffer getDefaultBuffer();
 
     void enrichWithDepthBuffer(RenderPipelineBuffer renderPipelineBuffer);
 
