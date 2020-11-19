@@ -24,7 +24,6 @@ import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
 import com.kotcrab.vis.ui.widget.MenuItem;
 import com.kotcrab.vis.ui.widget.PopupMenu;
-import com.kotcrab.vis.ui.widget.Separator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,36 +32,58 @@ import java.util.UUID;
 public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineFieldType> {
     private static final int EDIT_WIDTH = 50;
     private static final int REMOVE_WIDTH = 80;
-    private final VerticalGroup renderPasses;
+    private final VerticalGroup shaderGroup;
     private final Skin skin;
-    private RenderPassInfo renderPass;
+    private List<ShaderInfo> shaders = new LinkedList<>();
 
     public GraphShadersBoxPart(Skin skin) {
         this.skin = skin;
 
-        renderPasses = new VerticalGroup();
-        renderPasses.top();
-        renderPasses.grow();
+        shaderGroup = new VerticalGroup();
+        shaderGroup.top();
+        shaderGroup.grow();
 
         Table table = new Table(skin);
         table.add("Tag").colspan(3).growX();
         table.row();
-        renderPasses.addActor(table);
 
-        ScrollPane scrollPane = new ScrollPane(renderPasses);
+        ScrollPane scrollPane = new ScrollPane(shaderGroup);
         scrollPane.setFadeScrollBars(false);
         scrollPane.setForceScroll(false, true);
 
         add(scrollPane).grow().row();
 
-        renderPass = new RenderPassInfo();
-        renderPasses.addActor(renderPass.getActor());
-    }
+        final TextButton newShader = new TextButton("New Shader", skin);
+        newShader.addListener(
+                new ClickListener(Input.Buttons.LEFT) {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        PopupMenu popupMenu = new PopupMenu();
+                        for (final GraphShaderTemplate graphShaderTemplate : GraphShaderTemplateRegistry.graphShaderTemplateList) {
+                            MenuItem menuItem = new MenuItem(graphShaderTemplate.getTitle());
+                            popupMenu.addItem(menuItem);
+                            menuItem.addListener(
+                                    new ClickListener(Input.Buttons.LEFT) {
+                                        @Override
+                                        public void clicked(InputEvent event, float x, float y) {
+                                            graphShaderTemplate.invokeTemplate(getStage(),
+                                                    new GraphShaderTemplate.Callback() {
+                                                        @Override
+                                                        public void addShader(String tag, JsonValue shader) {
+                                                            String id = UUID.randomUUID().toString().replace("-", "");
+                                                            addShaderGraph(id, tag, shader);
+                                                        }
+                                                    });
+                                        }
+                                    });
+                        }
+                        popupMenu.showMenu(getStage(), newShader);
+                    }
+                });
 
-    public void initialize(JsonValue data) {
-        if (data != null) {
-            renderPass.initialize(data);
-        }
+        Table buttons = new Table(skin);
+        buttons.add(newShader);
+        table.add(buttons).growX().row();
     }
 
     @Override
@@ -91,70 +112,23 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
     }
 
     @Override
-    public void serializePart(JsonValue object) {
-        renderPass.serializePass(object);
-    }
-
-    @Override
     public void dispose() {
 
     }
 
-    private class RenderPassInfo {
-        private Table table;
-        private VerticalGroup shaderGroup = new VerticalGroup();
-        private List<ShaderInfo> shaders = new LinkedList<>();
+    private void addShaderGraph(String id, String tag, JsonValue shader) {
+        ShaderInfo shaderInfo = new ShaderInfo(id, tag, shader);
+        shaders.add(shaderInfo);
+        shaderGroup.addActor(shaderInfo.getActor());
+    }
 
-        public RenderPassInfo() {
-            table = new Table();
-            table.add(new Separator()).growX().row();
-            table.add(shaderGroup).growX().row();
+    private void removeShaderGraph(ShaderInfo shaderInfo) {
+        shaders.remove(shaderInfo);
+        shaderGroup.removeActor(shaderInfo.getActor());
+    }
 
-            final TextButton newShader = new TextButton("New Shader", skin);
-            newShader.addListener(
-                    new ClickListener(Input.Buttons.LEFT) {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            PopupMenu popupMenu = new PopupMenu();
-                            for (final GraphShaderTemplate graphShaderTemplate : GraphShaderTemplateRegistry.graphShaderTemplateList) {
-                                MenuItem menuItem = new MenuItem(graphShaderTemplate.getTitle());
-                                popupMenu.addItem(menuItem);
-                                menuItem.addListener(
-                                        new ClickListener(Input.Buttons.LEFT) {
-                                            @Override
-                                            public void clicked(InputEvent event, float x, float y) {
-                                                graphShaderTemplate.invokeTemplate(getStage(),
-                                                        new GraphShaderTemplate.Callback() {
-                                                            @Override
-                                                            public void addShader(String tag, JsonValue shader) {
-                                                                String id = UUID.randomUUID().toString().replace("-", "");
-                                                                addShaderGraph(id, tag, shader);
-                                                            }
-                                                        });
-                                            }
-                                        });
-                            }
-                            popupMenu.showMenu(getStage(), newShader);
-                        }
-                    });
-
-            Table buttons = new Table(skin);
-            buttons.add(newShader);
-            table.add(buttons).growX().row();
-        }
-
-        private void addShaderGraph(String id, String tag, JsonValue shader) {
-            ShaderInfo shaderInfo = new ShaderInfo(this, id, tag, shader);
-            shaders.add(shaderInfo);
-            shaderGroup.addActor(shaderInfo.getActor());
-        }
-
-        private void removeShaderGraph(ShaderInfo shaderInfo) {
-            shaders.remove(shaderInfo);
-            shaderGroup.removeActor(shaderInfo.getActor());
-        }
-
-        public void initialize(JsonValue data) {
+    public void initialize(JsonValue data) {
+        if (data != null) {
             JsonValue shaderArray = data.get("shaders");
             for (JsonValue shaderObject : shaderArray) {
                 String id = shaderObject.getString("id");
@@ -163,28 +137,25 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
                 addShaderGraph(id, tag, shader);
             }
         }
+    }
 
-        public void serializePass(JsonValue object) {
-            JsonValue shaderArray = new JsonValue(JsonValue.ValueType.array);
-            for (ShaderInfo shader : shaders) {
-                JsonValue shaderObject = new JsonValue(JsonValue.ValueType.object);
-                shaderObject.addChild("id", new JsonValue(shader.getId()));
-                shaderObject.addChild("tag", new JsonValue(shader.getTag()));
-                GetSerializedGraph event = new GetSerializedGraph(shader.getId());
-                fire(event);
-                JsonValue shaderGraph = event.getGraph();
-                if (shaderGraph == null)
-                    shaderGraph = shader.getInitialShaderJson();
-                shaderObject.addChild("shader", shaderGraph);
-                shaderArray.addChild(shaderObject);
-            }
-
-            object.addChild("shaders", shaderArray);
+    @Override
+    public void serializePart(JsonValue object) {
+        JsonValue shaderArray = new JsonValue(JsonValue.ValueType.array);
+        for (ShaderInfo shader : shaders) {
+            JsonValue shaderObject = new JsonValue(JsonValue.ValueType.object);
+            shaderObject.addChild("id", new JsonValue(shader.getId()));
+            shaderObject.addChild("tag", new JsonValue(shader.getTag()));
+            GetSerializedGraph event = new GetSerializedGraph(shader.getId());
+            fire(event);
+            JsonValue shaderGraph = event.getGraph();
+            if (shaderGraph == null)
+                shaderGraph = shader.getInitialShaderJson();
+            shaderObject.addChild("shader", shaderGraph);
+            shaderArray.addChild(shaderObject);
         }
 
-        public Actor getActor() {
-            return table;
-        }
+        object.addChild("shaders", shaderArray);
     }
 
     private class ShaderInfo {
@@ -193,7 +164,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
         private Table table;
         private TextField textField;
 
-        public ShaderInfo(final RenderPassInfo renderPass, final String id, String tag, final JsonValue initialShaderJson) {
+        public ShaderInfo(final String id, String tag, final JsonValue initialShaderJson) {
             this.id = id;
             this.initialShaderJson = initialShaderJson;
             table = new Table(skin);
@@ -219,7 +190,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
                                         @Override
                                         public void yes() {
                                             fire(new GraphRemoved(id));
-                                            renderPass.removeShaderGraph(ShaderInfo.this);
+                                            removeShaderGraph(ShaderInfo.this);
                                         }
 
                                         @Override
