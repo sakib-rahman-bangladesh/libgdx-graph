@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.ui.pipeline.shader;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -24,6 +23,7 @@ import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
 import com.kotcrab.vis.ui.widget.MenuItem;
 import com.kotcrab.vis.ui.widget.PopupMenu;
+import com.kotcrab.vis.ui.widget.VisScrollPane;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -47,11 +47,11 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
         table.add("Tag").colspan(3).growX();
         table.row();
 
-        ScrollPane scrollPane = new ScrollPane(shaderGroup);
+        VisScrollPane scrollPane = new VisScrollPane(shaderGroup);
         scrollPane.setFadeScrollBars(false);
         scrollPane.setForceScroll(false, true);
 
-        add(scrollPane).grow().row();
+        table.add(scrollPane).grow().row();
 
         final TextButton newShader = new TextButton("New Shader", skin);
         newShader.addListener(
@@ -84,6 +84,8 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
         Table buttons = new Table(skin);
         buttons.add(newShader);
         table.add(buttons).growX().row();
+
+        add(table).grow().row();
     }
 
     @Override
