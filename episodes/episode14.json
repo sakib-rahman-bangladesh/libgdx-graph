@@ -85,8 +85,8 @@
                     {
                       "id": "8dcd5fa9689c4b4f912e0596580f1aab",
                       "type": "ValueColor",
-                      "x": 796.0,
-                      "y": 393.0,
+                      "x": 1682.0,
+                      "y": 421.0,
                       "data": {
                         "color": "ffffffff"
                       }
@@ -94,8 +94,8 @@
                     {
                       "id": "e45fa3e6202b4562a6be46b6c86e392d",
                       "type": "ValueVector2",
-                      "x": 1331.0,
-                      "y": 494.0,
+                      "x": 1046.0,
+                      "y": 430.0,
                       "data": {
                         "v1": -2.0,
                         "v2": 0.800000011920929
@@ -104,14 +104,14 @@
                     {
                       "id": "e3e872ac947f49cd9705e72892755d0e",
                       "type": "Mix",
-                      "x": 1617.0,
-                      "y": 681.0
+                      "x": 1660.0,
+                      "y": 575.0
                     },
                     {
                       "id": "720c5c0a1e234bc882d8f4cde96483e4",
                       "type": "ValueVector2",
-                      "x": 450.0,
-                      "y": 133.0,
+                      "x": 809.0,
+                      "y": 50.0,
                       "data": {
                         "v1": 0.0,
                         "v2": 1.0
@@ -120,8 +120,8 @@
                     {
                       "id": "5554370fb5d947a0b01319053e615193",
                       "type": "ValueFloat",
-                      "x": 856.0,
-                      "y": 501.0,
+                      "x": 581.0,
+                      "y": 386.0,
                       "data": {
                         "v1": 3.0
                       }
@@ -129,26 +129,26 @@
                     {
                       "id": "beade2ea8f4f465cb43a4856a9f987b4",
                       "type": "Normalize",
-                      "x": 450.0,
-                      "y": 264.0
+                      "x": 451.0,
+                      "y": 194.0
                     },
                     {
                       "id": "2fae6e96af1a467d89a83ecbd320425d",
                       "type": "SimplexNoise3D",
-                      "x": 1077.0,
-                      "y": 504.0
+                      "x": 837.0,
+                      "y": 403.0
                     },
                     {
                       "id": "39c17b70781441a886fd7b266ccfb6df",
                       "type": "CameraPosition",
                       "x": 64.0,
-                      "y": 227.0
+                      "y": 111.0
                     },
                     {
                       "id": "e1cb7593a8384adabfa7c762e8a9705a",
                       "type": "ValueColor",
-                      "x": 858.0,
-                      "y": 702.0,
+                      "x": 1441.0,
+                      "y": 684.0,
                       "data": {
                         "color": "3232d1ff"
                       }
@@ -156,14 +156,14 @@
                     {
                       "id": "7eb542b08f1545d2b679a3faf09cbefb",
                       "type": "SimplexNoise3D",
-                      "x": 645.0,
-                      "y": 218.0
+                      "x": 1012.0,
+                      "y": 89.0
                     },
                     {
                       "id": "end",
                       "type": "ShaderEnd",
-                      "x": 1221.0,
-                      "y": 50.0,
+                      "x": 2080.0,
+                      "y": 78.0,
                       "data": {
                         "culling": "front",
                         "transparency": "opaque",
@@ -174,8 +174,8 @@
                     {
                       "id": "4048580a620443c7a3bc01a913608bef",
                       "type": "ValueFloat",
-                      "x": 642.0,
-                      "y": 342.0,
+                      "x": 1020.0,
+                      "y": 220.0,
                       "data": {
                         "v1": 0.9100000262260437
                       }
@@ -183,14 +183,14 @@
                     {
                       "id": "71a354479c5f4fe1beb6422cfa09f2e7",
                       "type": "SimplexNoise3D",
-                      "x": 865.0,
-                      "y": 561.0
+                      "x": 836.0,
+                      "y": 528.0
                     },
                     {
                       "id": "9be0fec7504f478c817020c3deb2d5a8",
                       "type": "ValueColor",
-                      "x": 855.0,
-                      "y": 766.0,
+                      "x": 1442.0,
+                      "y": 745.0,
                       "data": {
                         "color": "0f0f0fff"
                       }
@@ -198,8 +198,8 @@
                     {
                       "id": "1ca5a4f912634272a9b3ffe3dfa5e9a7",
                       "type": "ValueFloat",
-                      "x": 628.0,
-                      "y": 583.0,
+                      "x": 507.0,
+                      "y": 513.0,
                       "data": {
                         "v1": 1.0
                       }
@@ -207,8 +207,8 @@
                     {
                       "id": "b8f9c456f9554fa4b9364141c65259d0",
                       "type": "ValueVector2",
-                      "x": 1306.0,
-                      "y": 555.0,
+                      "x": 1046.0,
+                      "y": 493.0,
                       "data": {
                         "v1": 0.0,
                         "v2": 1.0
@@ -218,7 +218,7 @@
                       "id": "9289214028af4aad865a5e1598472f80",
                       "type": "AttributePosition",
                       "x": 50.0,
-                      "y": 286.0,
+                      "y": 170.0,
                       "data": {
                         "coordinates": "object"
                       }
@@ -226,26 +226,26 @@
                     {
                       "id": "14fa2cfcd7cf4396a476688e572c0834",
                       "type": "Saturate",
-                      "x": 1593.0,
-                      "y": 412.0
+                      "x": 1432.0,
+                      "y": 515.0
                     },
                     {
                       "id": "8a11f86f992c479f97dbe6cb1088aca3",
                       "type": "Mix",
-                      "x": 1020.0,
-                      "y": 370.0
+                      "x": 1887.0,
+                      "y": 398.0
                     },
                     {
                       "id": "76b41f2513264672a5f6394819ebaf33",
                       "type": "Remap",
-                      "x": 1535.0,
-                      "y": 532.0
+                      "x": 1239.0,
+                      "y": 467.0
                     },
                     {
                       "id": "6096bff388624caa800eacff1388327c",
                       "type": "ValueVector2",
-                      "x": 641.0,
-                      "y": 519.0,
+                      "x": 507.0,
+                      "y": 449.0,
                       "data": {
                         "v1": 0.25,
                         "v2": 0.75
@@ -254,20 +254,20 @@
                     {
                       "id": "839a64a900d54e78ab71ebfdfc9a6138",
                       "type": "Subtract",
-                      "x": 265.0,
-                      "y": 241.0
+                      "x": 262.0,
+                      "y": 171.0
                     },
                     {
                       "id": "ce8365be7e474b10b742451eb507881a",
                       "type": "Step",
-                      "x": 853.0,
-                      "y": 264.0
+                      "x": 1213.0,
+                      "y": 198.0
                     },
                     {
                       "id": "7fe9b9074b014b719efe2e22182e3a8f",
                       "type": "ValueVector2",
-                      "x": 862.0,
-                      "y": 430.0,
+                      "x": 584.0,
+                      "y": 326.0,
                       "data": {
                         "v1": -0.25,
                         "v2": 0.25
@@ -276,14 +276,14 @@
                     {
                       "id": "5f480944d71a4d90961457b20150ffd4",
                       "type": "Add",
-                      "x": 1247.0,
-                      "y": 612.0
+                      "x": 1045.0,
+                      "y": 558.0
                     },
                     {
                       "id": "44c67f961e2a4a4ba716ca8b85b291f5",
                       "type": "ValueFloat",
-                      "x": 449.0,
-                      "y": 199.0,
+                      "x": 810.0,
+                      "y": 111.0,
                       "data": {
                         "v1": 150.0
                       }
@@ -454,7 +454,43 @@
                     }
                   ],
                   "properties": [],
-                  "groups": []
+                  "groups": [
+                    {
+                      "name": "Nebula",
+                      "nodes": [
+                        "e45fa3e6202b4562a6be46b6c86e392d",
+                        "2fae6e96af1a467d89a83ecbd320425d",
+                        "5f480944d71a4d90961457b20150ffd4",
+                        "7fe9b9074b014b719efe2e22182e3a8f",
+                        "b8f9c456f9554fa4b9364141c65259d0",
+                        "76b41f2513264672a5f6394819ebaf33",
+                        "6096bff388624caa800eacff1388327c",
+                        "14fa2cfcd7cf4396a476688e572c0834",
+                        "1ca5a4f912634272a9b3ffe3dfa5e9a7",
+                        "71a354479c5f4fe1beb6422cfa09f2e7",
+                        "5554370fb5d947a0b01319053e615193"
+                      ]
+                    },
+                    {
+                      "name": "Sky direction",
+                      "nodes": [
+                        "beade2ea8f4f465cb43a4856a9f987b4",
+                        "9289214028af4aad865a5e1598472f80",
+                        "39c17b70781441a886fd7b266ccfb6df",
+                        "839a64a900d54e78ab71ebfdfc9a6138"
+                      ]
+                    },
+                    {
+                      "name": "Stars",
+                      "nodes": [
+                        "ce8365be7e474b10b742451eb507881a",
+                        "720c5c0a1e234bc882d8f4cde96483e4",
+                        "44c67f961e2a4a4ba716ca8b85b291f5",
+                        "4048580a620443c7a3bc01a913608bef",
+                        "7eb542b08f1545d2b679a3faf09cbefb"
+                      ]
+                    }
+                  ]
                 }
               },
               {
@@ -466,8 +502,8 @@
                     {
                       "id": "f4fe76ee2da64c77bf60383f2228be96",
                       "type": "AttributePosition",
-                      "x": 284.0,
-                      "y": 574.0,
+                      "x": 212.0,
+                      "y": 353.0,
                       "data": {
                         "coordinates": "object"
                       }
@@ -475,8 +511,8 @@
                     {
                       "id": "d2057cbd532c432a8d6de3fe75b1dd1f",
                       "type": "ValueColor",
-                      "x": 781.0,
-                      "y": 591.0,
+                      "x": 426.0,
+                      "y": 431.0,
                       "data": {
                         "color": "f0ff4fff"
                       }
@@ -484,8 +520,8 @@
                     {
                       "id": "6d26847988e54d6886fab5a3c5697e3c",
                       "type": "ValueColor",
-                      "x": 787.0,
-                      "y": 665.0,
+                      "x": 432.0,
+                      "y": 505.0,
                       "data": {
                         "color": "851717ff"
                       }
@@ -493,8 +529,8 @@
                     {
                       "id": "1ced4059613647dcb05fd81a9cb062e1",
                       "type": "ValueVector2",
-                      "x": 382.0,
-                      "y": 340.0,
+                      "x": 225.0,
+                      "y": 171.0,
                       "data": {
                         "v1": 0.4000000059604645,
                         "v2": 2.0
@@ -503,34 +539,31 @@
                     {
                       "id": "5969f37a0ddb4f868474e3f7db829ce8",
                       "type": "SimplexNoise3D",
-                      "x": 719.0,
-                      "y": 345.0
+                      "x": 419.0,
+                      "y": 255.0
                     },
                     {
                       "id": "9057707fb1904e7282ada0fe784015b6",
                       "type": "ValueFloat",
-                      "x": 383.0,
-                      "y": 402.0,
+                      "x": 225.0,
+                      "y": 232.0,
                       "data": {
                         "v1": 2.0
                       }
                     },
                     {
-                      "id": "f8db1890fb4c4f4aa3717eac00c3d3c6",
-                      "type": "Multiply",
-                      "x": 343.0,
-                      "y": 475.0
-                    },
-                    {
                       "id": "8c2ff8a94fd9403c856d78e3ad299582",
                       "type": "Time",
                       "x": 50.0,
-                      "y": 495.0
+                      "y": 232.0,
+                      "data": {
+                        "multiplier": 0.019999999552965164
+                      }
                     },
                     {
                       "id": "end",
                       "type": "ShaderEnd",
-                      "x": 982.0,
+                      "x": 816.0,
                       "y": 50.0,
                       "data": {
                         "culling": "back",
@@ -540,19 +573,10 @@
                       }
                     },
                     {
-                      "id": "99c66d2edf2f44c2bda91ac3f863cef1",
-                      "type": "ValueFloat",
-                      "x": 95.0,
-                      "y": 409.0,
-                      "data": {
-                        "v1": 0.019999999552965164
-                      }
-                    },
-                    {
                       "id": "c36d531e76304420861988e451d88047",
                       "type": "Mix",
-                      "x": 977.0,
-                      "y": 530.0
+                      "x": 622.0,
+                      "y": 370.0
                     }
                   ],
                   "connections": [
@@ -599,22 +623,10 @@
                       "toField": "t"
                     },
                     {
-                      "fromNode": "f8db1890fb4c4f4aa3717eac00c3d3c6",
-                      "fromField": "output",
-                      "toNode": "5969f37a0ddb4f868474e3f7db829ce8",
-                      "toField": "progress"
-                    },
-                    {
                       "fromNode": "8c2ff8a94fd9403c856d78e3ad299582",
                       "fromField": "time",
-                      "toNode": "f8db1890fb4c4f4aa3717eac00c3d3c6",
-                      "toField": "inputs"
-                    },
-                    {
-                      "fromNode": "99c66d2edf2f44c2bda91ac3f863cef1",
-                      "fromField": "value",
-                      "toNode": "f8db1890fb4c4f4aa3717eac00c3d3c6",
-                      "toField": "inputs"
+                      "toNode": "5969f37a0ddb4f868474e3f7db829ce8",
+                      "toField": "progress"
                     }
                   ],
                   "properties": [],
@@ -630,25 +642,25 @@
                     {
                       "id": "1e1a019bf96547bd82e37707cc3735cd",
                       "type": "Normalize",
-                      "x": 854.0,
-                      "y": 1019.0
+                      "x": 918.0,
+                      "y": 621.0
                     },
                     {
                       "id": "5e54967113394a018fd40e3cc5440ca3",
                       "type": "Split",
                       "x": 279.0,
-                      "y": 1165.0
+                      "y": 636.0
                     },
                     {
                       "id": "2d84174f3f204a1fb6038966ab4f3093",
                       "type": "Subtract",
-                      "x": 1285.0,
-                      "y": 226.0
+                      "x": 1007.0,
+                      "y": 118.99996948242188
                     },
                     {
                       "id": "52a37e7d2ad24e31958460b9edd6e04b",
                       "type": "AttributePosition",
-                      "x": 471.0,
+                      "x": 168.0,
                       "y": 50.0,
                       "data": {
                         "coordinates": "world"
@@ -657,41 +669,41 @@
                     {
                       "id": "fb5e156f162341d9a2c5e2c4fa21be89",
                       "type": "Subtract",
-                      "x": 687.0,
+                      "x": 384.0,
                       "y": 116.0
                     },
                     {
                       "id": "52413a2fcac548b8acf23ed45ab50859",
                       "type": "Power",
-                      "x": 1499.0,
-                      "y": 260.0
+                      "x": 1198.0,
+                      "y": 118.99996948242188
                     },
                     {
                       "id": "ac5b13dd893b46688bad682c7edad633",
                       "type": "ValueFloat",
-                      "x": 1331.0,
-                      "y": 161.0,
+                      "x": 1006.0,
+                      "y": 55.999969482421875,
                       "data": {
-                        "v1": 1.5
+                        "v1": 2.299999952316284
                       }
                     },
                     {
                       "id": "90d3e54548dd453eb1c874bef19f16f5",
                       "type": "Step",
-                      "x": 1173.0,
-                      "y": 73.0
+                      "x": 1005.0,
+                      "y": 253.99996948242188
                     },
                     {
                       "id": "df8debc818b94f418a70a210dca0cdcc",
                       "type": "FresnelEffect",
-                      "x": 892.0,
+                      "x": 589.0,
                       "y": 182.0
                     },
                     {
                       "id": "end",
                       "type": "ShaderEnd",
-                      "x": 1729.0,
-                      "y": 267.0,
+                      "x": 1603.0,
+                      "y": 53.999969482421875,
                       "data": {
                         "culling": "back",
                         "transparency": "transparent",
@@ -702,20 +714,20 @@
                     {
                       "id": "bf8517c1ae72467fa34aca1a8fd26f58",
                       "type": "CameraPosition",
-                      "x": 487.0,
+                      "x": 184.0,
                       "y": 139.0
                     },
                     {
                       "id": "8dc84a91d4dc4660a49270a7659dd24e",
                       "type": "Subtract",
-                      "x": 1094.0,
-                      "y": 500.0
+                      "x": 813.0,
+                      "y": 503.0
                     },
                     {
                       "id": "de04008276ca4824b054cf42d63c935f",
                       "type": "Time",
-                      "x": 892.0,
-                      "y": 379.0,
+                      "x": 596.0,
+                      "y": 388.9999694824219,
                       "data": {
                         "multiplier": 0.30000001192092896
                       }
@@ -723,7 +735,7 @@
                     {
                       "id": "c4855437035f4708bd2d29208d18be74",
                       "type": "AttributeNormal",
-                      "x": 669.0,
+                      "x": 366.0,
                       "y": 204.0,
                       "data": {
                         "coordinates": "world"
@@ -732,31 +744,31 @@
                     {
                       "id": "93ab27f7350242bdac6126881d492293",
                       "type": "Multiply",
-                      "x": 1513.0,
-                      "y": 410.0
+                      "x": 1405.0,
+                      "y": 396.9999694824219
                     },
                     {
                       "id": "b9ca97e0a39b44249f0c5d3de1408269",
                       "type": "ModelFragmentCoordinate",
-                      "x": 422.0,
-                      "y": 1085.0
+                      "x": 416.0,
+                      "y": 565.0
                     },
                     {
                       "id": "af4710d19f6f4b3286b4c6ce06d3c4fb",
                       "type": "FragmentCoordinate",
                       "x": 50.0,
-                      "y": 1234.0
+                      "y": 705.0
                     },
                     {
                       "id": "58899310d7b94f77a7cc6bdd3a195c34",
                       "type": "Merge",
                       "x": 483.0,
-                      "y": 1165.0
+                      "y": 636.0
                     },
                     {
                       "id": "7ddba1a4e7c94b6584d480d3a53eb0f4",
                       "type": "ValueFloat",
-                      "x": 687.0,
+                      "x": 384.0,
                       "y": 50.0,
                       "data": {
                         "v1": 1.0
@@ -765,8 +777,8 @@
                     {
                       "id": "e0bb238ccc9f42468197d1dc38b89612",
                       "type": "ValueFloat",
-                      "x": 1086.0,
-                      "y": 272.0,
+                      "x": 811.0,
+                      "y": 178.99996948242188,
                       "data": {
                         "v1": 1.0
                       }
@@ -774,8 +786,8 @@
                     {
                       "id": "6994cfa7c10e4e53849863dbae4a676e",
                       "type": "ValueFloat",
-                      "x": 1089.0,
-                      "y": 177.0,
+                      "x": 813.0,
+                      "y": 275.9999694824219,
                       "data": {
                         "v1": 0.25
                       }
@@ -783,14 +795,14 @@
                     {
                       "id": "0305e5e25ea74e84bce10e4a74d5f835",
                       "type": "SimplexNoise2D",
-                      "x": 1315.0,
-                      "y": 555.0
+                      "x": 1120.0,
+                      "y": 552.0
                     },
                     {
                       "id": "6bcb685d9e26486ba40f8ef8a7d97232",
                       "type": "ValueVector2",
-                      "x": 1092.0,
-                      "y": 348.0,
+                      "x": 898.0,
+                      "y": 380.9999694824219,
                       "data": {
                         "v1": 0.0,
                         "v2": 1.7999999523162842
@@ -799,8 +811,8 @@
                     {
                       "id": "870b2d6ddf6d437bbd18e7bd1c365aaf",
                       "type": "ValueFloat",
-                      "x": 1088.0,
-                      "y": 416.0,
+                      "x": 897.0,
+                      "y": 443.0,
                       "data": {
                         "v1": 3.0
                       }
@@ -808,14 +820,14 @@
                     {
                       "id": "ba8c83ce9d2c48a9ad40ed994d7f04a9",
                       "type": "Subtract",
-                      "x": 703.0,
-                      "y": 1137.0
+                      "x": 718.0,
+                      "y": 598.0
                     },
                     {
                       "id": "6bd25c4580e4438fbdafd1dc01b04868",
                       "type": "ValueColor",
-                      "x": 1433.0,
-                      "y": 845.0,
+                      "x": 1404.0,
+                      "y": 457.0,
                       "data": {
                         "color": "f7df54ff"
                       }
@@ -887,12 +899,6 @@
                       "fromField": "output",
                       "toNode": "2d84174f3f204a1fb6038966ab4f3093",
                       "toField": "b"
-                    },
-                    {
-                      "fromNode": "2d84174f3f204a1fb6038966ab4f3093",
-                      "fromField": "output",
-                      "toNode": "93ab27f7350242bdac6126881d492293",
-                      "toField": "inputs"
                     },
                     {
                       "fromNode": "0305e5e25ea74e84bce10e4a74d5f835",
@@ -1000,14 +1006,6 @@
                   "properties": [],
                   "groups": [
                     {
-                      "name": "Fragment coordinate 2D",
-                      "nodes": [
-                        "5e54967113394a018fd40e3cc5440ca3",
-                        "58899310d7b94f77a7cc6bdd3a195c34",
-                        "af4710d19f6f4b3286b4c6ce06d3c4fb"
-                      ]
-                    },
-                    {
                       "name": "Fresnel",
                       "nodes": [
                         "fb5e156f162341d9a2c5e2c4fa21be89",
@@ -1016,6 +1014,14 @@
                         "bf8517c1ae72467fa34aca1a8fd26f58",
                         "df8debc818b94f418a70a210dca0cdcc",
                         "7ddba1a4e7c94b6584d480d3a53eb0f4"
+                      ]
+                    },
+                    {
+                      "name": "Fragment coordinate 2D",
+                      "nodes": [
+                        "5e54967113394a018fd40e3cc5440ca3",
+                        "58899310d7b94f77a7cc6bdd3a195c34",
+                        "af4710d19f6f4b3286b4c6ce06d3c4fb"
                       ]
                     }
                   ]
@@ -1034,14 +1040,20 @@
                     {
                       "id": "151cb0ec423c4a5594041e0a691edb0e",
                       "type": "Remap",
-                      "x": 899.0,
-                      "y": 61.0
+                      "x": 913.0,
+                      "y": 264.0
+                    },
+                    {
+                      "id": "df8b598883784ac9b0a3978672738d0c",
+                      "type": "PixelSize",
+                      "x": 712.0,
+                      "y": 392.0
                     },
                     {
                       "id": "ff5892f0602b4f29b57040b4d550458a",
                       "type": "ValueVector2",
-                      "x": 699.0,
-                      "y": 50.0,
+                      "x": 733.0,
+                      "y": 254.0,
                       "data": {
                         "v1": 0.0,
                         "v2": 1.0
@@ -1050,8 +1062,8 @@
                     {
                       "id": "2cd4044bcd934c00958f97c30db9b45d",
                       "type": "ValueColor",
-                      "x": 1288.0,
-                      "y": 570.0,
+                      "x": 1314.0,
+                      "y": 480.0,
                       "data": {
                         "color": "000000ff"
                       }
@@ -1059,38 +1071,38 @@
                     {
                       "id": "2828fb3960544cdca5f4f965571bc386",
                       "type": "Step",
-                      "x": 1065.0,
-                      "y": 410.0
+                      "x": 1115.0,
+                      "y": 72.0
                     },
                     {
                       "id": "b9682615679041a3b4b8f0cddbb75967",
                       "type": "Mix",
-                      "x": 1517.0,
-                      "y": 410.0
+                      "x": 1531.0,
+                      "y": 370.0
                     },
                     {
                       "id": "1d42178569b946d7a65b7eff90a340d4",
                       "type": "CameraPosition",
-                      "x": 68.0,
-                      "y": 264.0
+                      "x": 66.0,
+                      "y": 209.0
                     },
                     {
                       "id": "fbbe1d06865c4844af4a20e24ba2f074",
                       "type": "Mix",
-                      "x": 1105.0,
-                      "y": 184.0
+                      "x": 1119.0,
+                      "y": 387.0
                     },
                     {
                       "id": "8334b951029b4a84a83a0d313469e4d6",
                       "type": "Sampler2D",
-                      "x": 1328.0,
-                      "y": 199.0
+                      "x": 1313.0,
+                      "y": 325.0
                     },
                     {
                       "id": "28cd7a2bb3604d91bdd6617ed071f876",
                       "type": "ValueFloat",
-                      "x": 863.0,
-                      "y": 432.0,
+                      "x": 913.0,
+                      "y": 94.0,
                       "data": {
                         "v1": 0.4000000059604645
                       }
@@ -1098,8 +1110,8 @@
                     {
                       "id": "a3048ee220174c32be4fb6e1a2a47fc3",
                       "type": "AttributePosition",
-                      "x": 52.0,
-                      "y": 177.0,
+                      "x": 51.0,
+                      "y": 125.0,
                       "data": {
                         "coordinates": "world"
                       }
@@ -1107,8 +1119,8 @@
                     {
                       "id": "94e1210935f142bcaf0d207b57427fd9",
                       "type": "ValueVector2",
-                      "x": 699.0,
-                      "y": 110.0,
+                      "x": 724.0,
+                      "y": 331.0,
                       "data": {
                         "v1": 0.4000000059604645,
                         "v2": 1.0
@@ -1117,26 +1129,26 @@
                     {
                       "id": "af1d5354a86b42999d2900c01b338240",
                       "type": "ScreenPosition",
-                      "x": 899.0,
-                      "y": 168.0
+                      "x": 913.0,
+                      "y": 371.0
                     },
                     {
                       "id": "ab3e4e9fec134f39a9f5169e7cd8adc7",
                       "type": "FresnelEffect",
-                      "x": 494.0,
-                      "y": 308.0
+                      "x": 457.0,
+                      "y": 244.0
                     },
                     {
                       "id": "f282ef739ed846d2a38570aa109faf95",
                       "type": "SceneColor",
-                      "x": 1116.0,
-                      "y": 316.0
+                      "x": 1128.0,
+                      "y": 593.0
                     },
                     {
                       "id": "61617231f3c04c53b98cccbfff21e125",
                       "type": "ValueFloat",
-                      "x": 277.0,
-                      "y": 169.0,
+                      "x": 262.0,
+                      "y": 154.0,
                       "data": {
                         "v1": 0.800000011920929
                       }
@@ -1144,14 +1156,14 @@
                     {
                       "id": "d10810a4e2744a22bbd33eae6becef89",
                       "type": "Subtract",
-                      "x": 274.0,
-                      "y": 240.0
+                      "x": 263.0,
+                      "y": 216.0
                     },
                     {
                       "id": "end",
                       "type": "ShaderEnd",
-                      "x": 1732.0,
-                      "y": 91.0,
+                      "x": 1718.0,
+                      "y": 50.0,
                       "data": {
                         "culling": "back",
                         "transparency": "opaque",
@@ -1160,20 +1172,22 @@
                       }
                     },
                     {
-                      "id": "3693e5a33a0b40bdbb004d919c4ec6bf",
-                      "type": "Property",
-                      "x": 886.0,
-                      "y": 230.0,
-                      "data": {
-                        "name": "Center Screen Position",
-                        "type": "Vector2"
-                      }
+                      "id": "ce8735f5389647d48d19841d11cf3ded",
+                      "type": "Multiply",
+                      "x": 913.0,
+                      "y": 432.0
+                    },
+                    {
+                      "id": "7745df83d1f2416b8867dcd98c184468",
+                      "type": "ModelFragmentCoordinate",
+                      "x": 638.0,
+                      "y": 498.0
                     },
                     {
                       "id": "5ab2022c694a41a18a3da1c92da1a2dd",
                       "type": "AttributeNormal",
                       "x": 50.0,
-                      "y": 330.0,
+                      "y": 266.0,
                       "data": {
                         "coordinates": "world"
                       }
@@ -1217,12 +1231,6 @@
                       "toField": "a"
                     },
                     {
-                      "fromNode": "ab3e4e9fec134f39a9f5169e7cd8adc7",
-                      "fromField": "output",
-                      "toNode": "2828fb3960544cdca5f4f965571bc386",
-                      "toField": "input"
-                    },
-                    {
                       "fromNode": "28cd7a2bb3604d91bdd6617ed071f876",
                       "fromField": "value",
                       "toNode": "2828fb3960544cdca5f4f965571bc386",
@@ -1245,12 +1253,6 @@
                       "fromField": "output",
                       "toNode": "fbbe1d06865c4844af4a20e24ba2f074",
                       "toField": "t"
-                    },
-                    {
-                      "fromNode": "3693e5a33a0b40bdbb004d919c4ec6bf",
-                      "fromField": "value",
-                      "toNode": "fbbe1d06865c4844af4a20e24ba2f074",
-                      "toField": "a"
                     },
                     {
                       "fromNode": "af1d5354a86b42999d2900c01b338240",
@@ -1293,34 +1295,44 @@
                       "fromField": "color",
                       "toNode": "b9682615679041a3b4b8f0cddbb75967",
                       "toField": "b"
-                    }
-                  ],
-                  "properties": [
-                    {
-                      "name": "Center Screen Position",
-                      "type": "Vector2",
-                      "data": {
-                        "x": 0.0,
-                        "y": 0.0
-                      }
-                    }
-                  ],
-                  "groups": [
-                    {
-                      "name": "Center or not",
-                      "nodes": [
-                        "2828fb3960544cdca5f4f965571bc386",
-                        "28cd7a2bb3604d91bdd6617ed071f876"
-                      ]
                     },
+                    {
+                      "fromNode": "ab3e4e9fec134f39a9f5169e7cd8adc7",
+                      "fromField": "output",
+                      "toNode": "2828fb3960544cdca5f4f965571bc386",
+                      "toField": "input"
+                    },
+                    {
+                      "fromNode": "7745df83d1f2416b8867dcd98c184468",
+                      "fromField": "output",
+                      "toNode": "ce8735f5389647d48d19841d11cf3ded",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "df8b598883784ac9b0a3978672738d0c",
+                      "fromField": "size",
+                      "toNode": "ce8735f5389647d48d19841d11cf3ded",
+                      "toField": "inputs"
+                    },
+                    {
+                      "fromNode": "ce8735f5389647d48d19841d11cf3ded",
+                      "fromField": "output",
+                      "toNode": "fbbe1d06865c4844af4a20e24ba2f074",
+                      "toField": "a"
+                    }
+                  ],
+                  "properties": [],
+                  "groups": [
                     {
                       "name": "Read screen position",
                       "nodes": [
                         "94e1210935f142bcaf0d207b57427fd9",
+                        "df8b598883784ac9b0a3978672738d0c",
                         "af1d5354a86b42999d2900c01b338240",
                         "fbbe1d06865c4844af4a20e24ba2f074",
                         "151cb0ec423c4a5594041e0a691edb0e",
-                        "3693e5a33a0b40bdbb004d919c4ec6bf",
+                        "7745df83d1f2416b8867dcd98c184468",
+                        "ce8735f5389647d48d19841d11cf3ded",
                         "ff5892f0602b4f29b57040b4d550458a"
                       ]
                     },
@@ -1333,6 +1345,13 @@
                         "1d42178569b946d7a65b7eff90a340d4",
                         "ab3e4e9fec134f39a9f5169e7cd8adc7",
                         "d10810a4e2744a22bbd33eae6becef89"
+                      ]
+                    },
+                    {
+                      "name": "Center or not",
+                      "nodes": [
+                        "2828fb3960544cdca5f4f965571bc386",
+                        "28cd7a2bb3604d91bdd6617ed071f876"
                       ]
                     }
                   ]
@@ -1351,8 +1370,8 @@
                     {
                       "id": "f4fe76ee2da64c77bf60383f2228be96",
                       "type": "AttributePosition",
-                      "x": 284.0,
-                      "y": 574.0,
+                      "x": 212.0,
+                      "y": 353.0,
                       "data": {
                         "coordinates": "object"
                       }
@@ -1360,8 +1379,8 @@
                     {
                       "id": "d2057cbd532c432a8d6de3fe75b1dd1f",
                       "type": "ValueColor",
-                      "x": 781.0,
-                      "y": 591.0,
+                      "x": 426.0,
+                      "y": 431.0,
                       "data": {
                         "color": "f0ff4fff"
                       }
@@ -1369,8 +1388,8 @@
                     {
                       "id": "6d26847988e54d6886fab5a3c5697e3c",
                       "type": "ValueColor",
-                      "x": 787.0,
-                      "y": 665.0,
+                      "x": 432.0,
+                      "y": 505.0,
                       "data": {
                         "color": "851717ff"
                       }
@@ -1378,8 +1397,8 @@
                     {
                       "id": "1ced4059613647dcb05fd81a9cb062e1",
                       "type": "ValueVector2",
-                      "x": 382.0,
-                      "y": 340.0,
+                      "x": 225.0,
+                      "y": 171.0,
                       "data": {
                         "v1": 0.4000000059604645,
                         "v2": 2.0
@@ -1388,34 +1407,31 @@
                     {
                       "id": "5969f37a0ddb4f868474e3f7db829ce8",
                       "type": "SimplexNoise3D",
-                      "x": 719.0,
-                      "y": 345.0
+                      "x": 419.0,
+                      "y": 255.0
                     },
                     {
                       "id": "9057707fb1904e7282ada0fe784015b6",
                       "type": "ValueFloat",
-                      "x": 383.0,
-                      "y": 402.0,
+                      "x": 225.0,
+                      "y": 232.0,
                       "data": {
                         "v1": 2.0
                       }
                     },
                     {
-                      "id": "f8db1890fb4c4f4aa3717eac00c3d3c6",
-                      "type": "Multiply",
-                      "x": 343.0,
-                      "y": 475.0
-                    },
-                    {
                       "id": "8c2ff8a94fd9403c856d78e3ad299582",
                       "type": "Time",
                       "x": 50.0,
-                      "y": 495.0
+                      "y": 232.0,
+                      "data": {
+                        "multiplier": 0.019999999552965164
+                      }
                     },
                     {
                       "id": "end",
                       "type": "ShaderEnd",
-                      "x": 982.0,
+                      "x": 816.0,
                       "y": 50.0,
                       "data": {
                         "culling": "back",
@@ -1425,19 +1441,10 @@
                       }
                     },
                     {
-                      "id": "99c66d2edf2f44c2bda91ac3f863cef1",
-                      "type": "ValueFloat",
-                      "x": 95.0,
-                      "y": 409.0,
-                      "data": {
-                        "v1": 0.019999999552965164
-                      }
-                    },
-                    {
                       "id": "c36d531e76304420861988e451d88047",
                       "type": "Mix",
-                      "x": 977.0,
-                      "y": 530.0
+                      "x": 622.0,
+                      "y": 370.0
                     }
                   ],
                   "connections": [
@@ -1484,22 +1491,10 @@
                       "toField": "t"
                     },
                     {
-                      "fromNode": "f8db1890fb4c4f4aa3717eac00c3d3c6",
-                      "fromField": "output",
-                      "toNode": "5969f37a0ddb4f868474e3f7db829ce8",
-                      "toField": "progress"
-                    },
-                    {
                       "fromNode": "8c2ff8a94fd9403c856d78e3ad299582",
                       "fromField": "time",
-                      "toNode": "f8db1890fb4c4f4aa3717eac00c3d3c6",
-                      "toField": "inputs"
-                    },
-                    {
-                      "fromNode": "99c66d2edf2f44c2bda91ac3f863cef1",
-                      "fromField": "value",
-                      "toNode": "f8db1890fb4c4f4aa3717eac00c3d3c6",
-                      "toField": "inputs"
+                      "toNode": "5969f37a0ddb4f868474e3f7db829ce8",
+                      "toField": "progress"
                     }
                   ],
                   "properties": [],
@@ -1515,25 +1510,25 @@
                     {
                       "id": "1e1a019bf96547bd82e37707cc3735cd",
                       "type": "Normalize",
-                      "x": 854.0,
-                      "y": 1019.0
+                      "x": 918.0,
+                      "y": 621.0
                     },
                     {
                       "id": "5e54967113394a018fd40e3cc5440ca3",
                       "type": "Split",
                       "x": 279.0,
-                      "y": 1165.0
+                      "y": 636.0
                     },
                     {
                       "id": "2d84174f3f204a1fb6038966ab4f3093",
                       "type": "Subtract",
-                      "x": 1285.0,
-                      "y": 226.0
+                      "x": 1007.0,
+                      "y": 118.99996948242188
                     },
                     {
                       "id": "52a37e7d2ad24e31958460b9edd6e04b",
                       "type": "AttributePosition",
-                      "x": 471.0,
+                      "x": 168.0,
                       "y": 50.0,
                       "data": {
                         "coordinates": "world"
@@ -1542,41 +1537,41 @@
                     {
                       "id": "fb5e156f162341d9a2c5e2c4fa21be89",
                       "type": "Subtract",
-                      "x": 687.0,
+                      "x": 384.0,
                       "y": 116.0
                     },
                     {
                       "id": "52413a2fcac548b8acf23ed45ab50859",
                       "type": "Power",
-                      "x": 1499.0,
-                      "y": 260.0
+                      "x": 1198.0,
+                      "y": 118.99996948242188
                     },
                     {
                       "id": "ac5b13dd893b46688bad682c7edad633",
                       "type": "ValueFloat",
-                      "x": 1331.0,
-                      "y": 161.0,
+                      "x": 1006.0,
+                      "y": 55.999969482421875,
                       "data": {
-                        "v1": 1.5
+                        "v1": 2.299999952316284
                       }
                     },
                     {
                       "id": "90d3e54548dd453eb1c874bef19f16f5",
                       "type": "Step",
-                      "x": 1173.0,
-                      "y": 73.0
+                      "x": 1005.0,
+                      "y": 253.99996948242188
                     },
                     {
                       "id": "df8debc818b94f418a70a210dca0cdcc",
                       "type": "FresnelEffect",
-                      "x": 892.0,
+                      "x": 589.0,
                       "y": 182.0
                     },
                     {
                       "id": "end",
                       "type": "ShaderEnd",
-                      "x": 1729.0,
-                      "y": 267.0,
+                      "x": 1603.0,
+                      "y": 53.999969482421875,
                       "data": {
                         "culling": "back",
                         "transparency": "transparent",
@@ -1587,20 +1582,20 @@
                     {
                       "id": "bf8517c1ae72467fa34aca1a8fd26f58",
                       "type": "CameraPosition",
-                      "x": 487.0,
+                      "x": 184.0,
                       "y": 139.0
                     },
                     {
                       "id": "8dc84a91d4dc4660a49270a7659dd24e",
                       "type": "Subtract",
-                      "x": 1094.0,
-                      "y": 500.0
+                      "x": 813.0,
+                      "y": 503.0
                     },
                     {
                       "id": "de04008276ca4824b054cf42d63c935f",
                       "type": "Time",
-                      "x": 892.0,
-                      "y": 379.0,
+                      "x": 596.0,
+                      "y": 388.9999694824219,
                       "data": {
                         "multiplier": 0.30000001192092896
                       }
@@ -1608,7 +1603,7 @@
                     {
                       "id": "c4855437035f4708bd2d29208d18be74",
                       "type": "AttributeNormal",
-                      "x": 669.0,
+                      "x": 366.0,
                       "y": 204.0,
                       "data": {
                         "coordinates": "world"
@@ -1617,31 +1612,31 @@
                     {
                       "id": "93ab27f7350242bdac6126881d492293",
                       "type": "Multiply",
-                      "x": 1513.0,
-                      "y": 410.0
+                      "x": 1405.0,
+                      "y": 396.9999694824219
                     },
                     {
                       "id": "b9ca97e0a39b44249f0c5d3de1408269",
                       "type": "ModelFragmentCoordinate",
-                      "x": 422.0,
-                      "y": 1085.0
+                      "x": 416.0,
+                      "y": 565.0
                     },
                     {
                       "id": "af4710d19f6f4b3286b4c6ce06d3c4fb",
                       "type": "FragmentCoordinate",
                       "x": 50.0,
-                      "y": 1234.0
+                      "y": 705.0
                     },
                     {
                       "id": "58899310d7b94f77a7cc6bdd3a195c34",
                       "type": "Merge",
                       "x": 483.0,
-                      "y": 1165.0
+                      "y": 636.0
                     },
                     {
                       "id": "7ddba1a4e7c94b6584d480d3a53eb0f4",
                       "type": "ValueFloat",
-                      "x": 687.0,
+                      "x": 384.0,
                       "y": 50.0,
                       "data": {
                         "v1": 1.0
@@ -1650,8 +1645,8 @@
                     {
                       "id": "e0bb238ccc9f42468197d1dc38b89612",
                       "type": "ValueFloat",
-                      "x": 1086.0,
-                      "y": 272.0,
+                      "x": 811.0,
+                      "y": 178.99996948242188,
                       "data": {
                         "v1": 1.0
                       }
@@ -1659,8 +1654,8 @@
                     {
                       "id": "6994cfa7c10e4e53849863dbae4a676e",
                       "type": "ValueFloat",
-                      "x": 1089.0,
-                      "y": 177.0,
+                      "x": 813.0,
+                      "y": 275.9999694824219,
                       "data": {
                         "v1": 0.25
                       }
@@ -1668,14 +1663,14 @@
                     {
                       "id": "0305e5e25ea74e84bce10e4a74d5f835",
                       "type": "SimplexNoise2D",
-                      "x": 1315.0,
-                      "y": 555.0
+                      "x": 1120.0,
+                      "y": 552.0
                     },
                     {
                       "id": "6bcb685d9e26486ba40f8ef8a7d97232",
                       "type": "ValueVector2",
-                      "x": 1092.0,
-                      "y": 348.0,
+                      "x": 898.0,
+                      "y": 380.9999694824219,
                       "data": {
                         "v1": 0.0,
                         "v2": 1.7999999523162842
@@ -1684,8 +1679,8 @@
                     {
                       "id": "870b2d6ddf6d437bbd18e7bd1c365aaf",
                       "type": "ValueFloat",
-                      "x": 1088.0,
-                      "y": 416.0,
+                      "x": 897.0,
+                      "y": 443.0,
                       "data": {
                         "v1": 3.0
                       }
@@ -1693,14 +1688,14 @@
                     {
                       "id": "ba8c83ce9d2c48a9ad40ed994d7f04a9",
                       "type": "Subtract",
-                      "x": 703.0,
-                      "y": 1137.0
+                      "x": 718.0,
+                      "y": 598.0
                     },
                     {
                       "id": "6bd25c4580e4438fbdafd1dc01b04868",
                       "type": "ValueColor",
-                      "x": 1433.0,
-                      "y": 845.0,
+                      "x": 1404.0,
+                      "y": 457.0,
                       "data": {
                         "color": "f7df54ff"
                       }
@@ -1772,12 +1767,6 @@
                       "fromField": "output",
                       "toNode": "2d84174f3f204a1fb6038966ab4f3093",
                       "toField": "b"
-                    },
-                    {
-                      "fromNode": "2d84174f3f204a1fb6038966ab4f3093",
-                      "fromField": "output",
-                      "toNode": "93ab27f7350242bdac6126881d492293",
-                      "toField": "inputs"
                     },
                     {
                       "fromNode": "0305e5e25ea74e84bce10e4a74d5f835",
@@ -1885,14 +1874,6 @@
                   "properties": [],
                   "groups": [
                     {
-                      "name": "Fragment coordinate 2D",
-                      "nodes": [
-                        "5e54967113394a018fd40e3cc5440ca3",
-                        "58899310d7b94f77a7cc6bdd3a195c34",
-                        "af4710d19f6f4b3286b4c6ce06d3c4fb"
-                      ]
-                    },
-                    {
                       "name": "Fresnel",
                       "nodes": [
                         "fb5e156f162341d9a2c5e2c4fa21be89",
@@ -1901,6 +1882,14 @@
                         "bf8517c1ae72467fa34aca1a8fd26f58",
                         "df8debc818b94f418a70a210dca0cdcc",
                         "7ddba1a4e7c94b6584d480d3a53eb0f4"
+                      ]
+                    },
+                    {
+                      "name": "Fragment coordinate 2D",
+                      "nodes": [
+                        "5e54967113394a018fd40e3cc5440ca3",
+                        "58899310d7b94f77a7cc6bdd3a195c34",
+                        "af4710d19f6f4b3286b4c6ce06d3c4fb"
                       ]
                     }
                   ]

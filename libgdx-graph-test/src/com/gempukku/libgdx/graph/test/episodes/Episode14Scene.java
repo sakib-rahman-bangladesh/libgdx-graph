@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -190,9 +189,6 @@ public class Episode14Scene implements LibgdxGraphTestScene {
         camera.update();
 
         GraphShaderModels models = pipelineRenderer.getGraphShaderModels();
-        Vector3 blackHoleScreenPosition = camera.project(new Vector3(0, 0, 0));
-        Vector2 screenPos = new Vector2(blackHoleScreenPosition.x / camera.viewportWidth, blackHoleScreenPosition.y / camera.viewportHeight);
-        models.setProperty(blackHoleInstance, "Center Screen Position", screenPos);
 
         float distanceToBlackHole = blackHolePosition.dst2(camera.position);
         float distanceToStar = starPosition.dst2(camera.position);

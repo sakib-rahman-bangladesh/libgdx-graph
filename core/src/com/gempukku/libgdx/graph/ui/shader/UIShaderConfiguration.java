@@ -66,6 +66,7 @@ import com.gempukku.libgdx.graph.shader.config.provided.ModelFragmentCoordinateS
 import com.gempukku.libgdx.graph.shader.config.provided.PixelSizeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.SceneDepthShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.ScreenPositionShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.provided.ViewportSizeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.shape.CheckerboardShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.shape.EllipseShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.shape.RectangleShapeShaderNodeConfiguration;
@@ -221,6 +222,7 @@ public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldTy
         graphBoxProducers.add(new SceneColorShaderBoxProducer());
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ScreenPositionShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new PixelSizeShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ViewportSizeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new InstanceIdShaderNodeConfiguration()));
 
         graphBoxProducers.add(new ValueColorBoxProducer<ShaderFieldType>(new ValueColorShaderNodeConfiguration()));
