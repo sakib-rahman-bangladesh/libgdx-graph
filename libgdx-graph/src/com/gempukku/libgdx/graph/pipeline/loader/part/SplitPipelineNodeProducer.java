@@ -10,6 +10,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class SplitPipelineNodeProducer extends PipelineNodeProducerImpl {
     public SplitPipelineNodeProducer() {
@@ -20,8 +21,8 @@ public class SplitPipelineNodeProducer extends PipelineNodeProducerImpl {
     public PipelineNode createNodeForSingleInputs(JsonValue data, final ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                Object input = inputFields.get("input").getValue(pipelineRenderingContext);
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                Object input = inputFields.get("input").getValue(pipelineRenderingContext, null);
                 float x = 0f;
                 float y = 0f;
                 float z = 0f;

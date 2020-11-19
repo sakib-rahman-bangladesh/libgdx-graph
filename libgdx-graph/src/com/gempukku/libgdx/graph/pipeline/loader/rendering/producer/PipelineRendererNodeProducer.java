@@ -10,6 +10,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class PipelineRendererNodeProducer extends PipelineNodeProducerImpl {
     public PipelineRendererNodeProducer() {
@@ -24,18 +25,21 @@ public class PipelineRendererNodeProducer extends PipelineNodeProducerImpl {
         final PipelineNode.FieldOutput<Vector2> sizeInput = (PipelineNode.FieldOutput<Vector2>) inputFields.get("size");
 
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
+            private PipelineRequirements paintPipelineRequirement = new PipelineRequirements();
+
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                RenderPipeline canvasPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
-                RenderPipeline paintPipeline = otherPipelineInput.getValue(pipelineRenderingContext);
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                RenderPipeline canvasPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
+                paintPipelineRequirement.reset();
+                RenderPipeline paintPipeline = otherPipelineInput.getValue(pipelineRenderingContext, paintPipelineRequirement);
 
                 RenderPipelineBuffer canvasBuffer = canvasPipeline.getDefaultBuffer();
                 RenderPipelineBuffer paintBuffer = paintPipeline.getDefaultBuffer();
 
-                Vector2 position = positionInput.getValue(pipelineRenderingContext);
+                Vector2 position = positionInput.getValue(pipelineRenderingContext, null);
                 Vector2 size;
                 if (sizeInput != null)
-                    size = sizeInput.getValue(pipelineRenderingContext);
+                    size = sizeInput.getValue(pipelineRenderingContext, null);
                 else
                     size = new Vector2(paintBuffer.getWidth(), paintBuffer.getHeight());
 

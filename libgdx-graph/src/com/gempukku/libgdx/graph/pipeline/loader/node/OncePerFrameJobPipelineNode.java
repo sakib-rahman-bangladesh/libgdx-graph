@@ -40,7 +40,7 @@ public abstract class OncePerFrameJobPipelineNode implements PipelineNode {
         return configuration.getNodeOutputs().get(name).determineFieldType(inputs);
     }
 
-    protected abstract void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues);
+    protected abstract void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues);
 
     @Override
     public void startFrame(float delta) {
@@ -76,9 +76,9 @@ public abstract class OncePerFrameJobPipelineNode implements PipelineNode {
         }
 
         @Override
-        public T getValue(PipelineRenderingContext context) {
+        public T getValue(PipelineRenderingContext context, PipelineRequirements pipelineRequirements) {
             if (!executedInFrame) {
-                executeJob(context, workerFieldOutputs);
+                executeJob(context, pipelineRequirements, workerFieldOutputs);
             }
             return value;
         }

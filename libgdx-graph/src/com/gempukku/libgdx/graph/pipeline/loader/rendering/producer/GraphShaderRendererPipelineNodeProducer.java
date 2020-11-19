@@ -19,6 +19,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
@@ -67,10 +68,10 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             private final RenderContext renderContext = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.LRU, 1));
 
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
                 GraphShaderModelsImpl models = pipelineRenderingContext.getGraphShaderModels();
-                Camera camera = cameraInput.getValue(pipelineRenderingContext);
+                Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
                 RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
                 int width = currentBuffer.getWidth();
                 int height = currentBuffer.getHeight();
@@ -81,7 +82,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                     camera.viewportHeight = height;
                     camera.update();
                 }
-                GraphShaderEnvironment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext) : null;
+                GraphShaderEnvironment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext, null) : null;
                 models.prepareForRendering(camera);
 
                 shaderContext.setCamera(camera);

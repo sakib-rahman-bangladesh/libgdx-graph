@@ -10,6 +10,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class UIRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     public UIRendererPipelineNodeProducer() {
@@ -22,9 +23,9 @@ public class UIRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
-                Stage stage = stageInput.getValue(pipelineRenderingContext);
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
+                Stage stage = stageInput.getValue(pipelineRenderingContext, null);
                 if (stage != null) {
                     RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
                     int width = currentBuffer.getWidth();

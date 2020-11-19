@@ -8,6 +8,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class TimePipelineNodeProducer extends PipelineNodeProducerImpl {
     public TimePipelineNodeProducer() {
@@ -18,7 +19,7 @@ public class TimePipelineNodeProducer extends PipelineNodeProducerImpl {
     public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
                 float timeValue = pipelineRenderingContext.getTimeProvider().getTime();
                 OutputValue<Float> time = outputValues.get("time");
                 if (time != null)

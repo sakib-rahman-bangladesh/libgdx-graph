@@ -4,6 +4,7 @@ import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class ValuePipelineNode implements PipelineNode {
     private NodeConfiguration<PipelineFieldType> configuration;
@@ -27,7 +28,7 @@ public class ValuePipelineNode implements PipelineNode {
             }
 
             @Override
-            public Object getValue(PipelineRenderingContext context) {
+            public Object getValue(PipelineRenderingContext context, PipelineRequirements pipelineRequirements) {
                 return value;
             }
         };

@@ -16,6 +16,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImpl {
     public GammaCorrectionPipelineNodeProducer() {
@@ -50,10 +51,10 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
         final PipelineNode.FieldOutput<Float> finalGamma = gamma;
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
 
-                float gamma = finalGamma.getValue(pipelineRenderingContext);
+                float gamma = finalGamma.getValue(pipelineRenderingContext, null);
                 if (gamma != 1) {
                     RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
 

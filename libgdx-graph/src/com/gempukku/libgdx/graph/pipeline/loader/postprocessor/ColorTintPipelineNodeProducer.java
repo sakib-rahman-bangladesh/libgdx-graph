@@ -15,6 +15,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class ColorTintPipelineNodeProducer extends PipelineNodeProducerImpl {
     public ColorTintPipelineNodeProducer() {
@@ -36,7 +37,7 @@ public class ColorTintPipelineNodeProducer extends PipelineNodeProducerImpl {
                 }
 
                 @Override
-                public Color getValue(PipelineRenderingContext context) {
+                public Color getValue(PipelineRenderingContext context, PipelineRequirements pipelineRequirements) {
                     return Color.BLACK;
                 }
             };
@@ -49,12 +50,12 @@ public class ColorTintPipelineNodeProducer extends PipelineNodeProducerImpl {
         final PipelineNode.FieldOutput<Color> finalColor = color;
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
 
-                float strengthValue = finalStrength.getValue(pipelineRenderingContext);
+                float strengthValue = finalStrength.getValue(pipelineRenderingContext, null);
                 if (strengthValue > 0) {
-                    Color colorValue = finalColor.getValue(pipelineRenderingContext);
+                    Color colorValue = finalColor.getValue(pipelineRenderingContext, null);
 
                     RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
                     currentBuffer.beginColor();

@@ -14,6 +14,7 @@ import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.impl.RenderPipelineImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class StartPipelineNode extends OncePerFrameJobPipelineNode {
     private FieldOutput<Color> color;
@@ -35,7 +36,7 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
                 }
 
                 @Override
-                public Color getValue(PipelineRenderingContext context) {
+                public Color getValue(PipelineRenderingContext context, PipelineRequirements pipelineRequirements) {
                     return defaultColor;
                 }
             };
@@ -48,7 +49,7 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
                 }
 
                 @Override
-                public Vector2 getValue(PipelineRenderingContext context) {
+                public Vector2 getValue(PipelineRenderingContext context, PipelineRequirements pipelineRequirements) {
                     return new Vector2(context.getRenderWidth(), context.getRenderHeight());
                 }
             };
@@ -57,9 +58,9 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
     }
 
     @Override
-    protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-        Vector2 bufferSize = size.getValue(pipelineRenderingContext);
-        Color backgroundColor = color.getValue(pipelineRenderingContext);
+    protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+        Vector2 bufferSize = size.getValue(pipelineRenderingContext, null);
+        Color backgroundColor = color.getValue(pipelineRenderingContext, null);
 
         int width = MathUtils.round(bufferSize.x);
         int height = MathUtils.round(bufferSize.y);

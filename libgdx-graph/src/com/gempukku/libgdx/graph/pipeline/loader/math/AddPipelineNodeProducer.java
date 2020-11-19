@@ -32,7 +32,7 @@ public class AddPipelineNodeProducer extends PipelineNodeProducerImpl {
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
                 Object result = createDefaultValue(resultType);
                 for (FieldOutput<?> input : inputs) {
-                    Object value = input.getValue(pipelineRenderingContext);
+                    Object value = input.getValue(pipelineRenderingContext, null);
                     result = add(result, value);
                 }
 

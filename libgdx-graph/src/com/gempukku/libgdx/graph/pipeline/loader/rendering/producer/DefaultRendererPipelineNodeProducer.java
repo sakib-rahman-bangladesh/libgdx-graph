@@ -13,6 +13,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class DefaultRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     public DefaultRendererPipelineNodeProducer() {
@@ -30,10 +31,10 @@ public class DefaultRendererPipelineNodeProducer extends PipelineNodeProducerImp
             private ModelBatch modelBatch = new ModelBatch();
 
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
-                PipelineRendererModels models = modelsInput.getValue(pipelineRenderingContext);
-                Camera camera = cameraInput.getValue(pipelineRenderingContext);
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
+                PipelineRendererModels models = modelsInput.getValue(pipelineRenderingContext, null);
+                Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
                 RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
                 int width = currentBuffer.getWidth();
                 int height = currentBuffer.getHeight();
@@ -44,7 +45,7 @@ public class DefaultRendererPipelineNodeProducer extends PipelineNodeProducerImp
                     camera.viewportHeight = height;
                     camera.update();
                 }
-                Environment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext) : null;
+                Environment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext, null) : null;
                 if (environment != null) {
                     currentBuffer.beginColor();
                     modelBatch.begin(camera);

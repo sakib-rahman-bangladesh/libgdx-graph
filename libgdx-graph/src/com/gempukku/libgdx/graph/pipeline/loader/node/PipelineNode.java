@@ -15,6 +15,6 @@ public interface PipelineNode {
     interface FieldOutput<T> {
         PipelineFieldType getPropertyType();
 
-        T getValue(PipelineRenderingContext context);
+        T getValue(PipelineRenderingContext context, PipelineRequirements pipelineRequirements);
     }
 }

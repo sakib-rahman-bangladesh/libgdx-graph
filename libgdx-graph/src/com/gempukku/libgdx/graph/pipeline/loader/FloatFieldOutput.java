@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.pipeline.loader;
 
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class FloatFieldOutput implements PipelineNode.FieldOutput<Float> {
     private float value;
@@ -16,7 +17,7 @@ public class FloatFieldOutput implements PipelineNode.FieldOutput<Float> {
     }
 
     @Override
-    public Float getValue(PipelineRenderingContext context) {
+    public Float getValue(PipelineRenderingContext context, PipelineRequirements pipelineRequirements) {
         return value;
     }
 }

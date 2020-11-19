@@ -11,6 +11,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class MergePipelineNodeProducer extends PipelineNodeProducerImpl {
     public MergePipelineNodeProducer() {
@@ -38,11 +39,11 @@ public class MergePipelineNodeProducer extends PipelineNodeProducerImpl {
 
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                float xValue = finalX.getValue(pipelineRenderingContext);
-                float yValue = finalY.getValue(pipelineRenderingContext);
-                float zValue = finalZ.getValue(pipelineRenderingContext);
-                float wValue = finalW.getValue(pipelineRenderingContext);
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                float xValue = finalX.getValue(pipelineRenderingContext, null);
+                float yValue = finalY.getValue(pipelineRenderingContext, null);
+                float zValue = finalZ.getValue(pipelineRenderingContext, null);
+                float wValue = finalW.getValue(pipelineRenderingContext, null);
 
                 OutputValue<Vector2> v2 = outputValues.get("v2");
                 if (v2 != null)

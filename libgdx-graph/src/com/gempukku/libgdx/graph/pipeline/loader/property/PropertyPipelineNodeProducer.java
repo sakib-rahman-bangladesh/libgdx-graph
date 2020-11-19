@@ -9,6 +9,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class PropertyPipelineNodeProducer implements PipelineNodeProducer {
     @Override
@@ -68,7 +69,7 @@ public class PropertyPipelineNodeProducer implements PipelineNodeProducer {
         }
 
         @Override
-        public Object getValue(PipelineRenderingContext context) {
+        public Object getValue(PipelineRenderingContext context, PipelineRequirements pipelineRequirements) {
             return context.getPipelinePropertySource().getPipelineProperty(propertyName).getValue();
         }
     }

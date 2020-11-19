@@ -78,7 +78,7 @@ public abstract class OncePerFrameMultipleInputsJobPipelineNode implements Pipel
         }
 
         @Override
-        public T getValue(PipelineRenderingContext context) {
+        public T getValue(PipelineRenderingContext context, PipelineRequirements pipelineRequirements) {
             if (!executedInFrame) {
                 executeJob(context, workerFieldOutputs);
             }

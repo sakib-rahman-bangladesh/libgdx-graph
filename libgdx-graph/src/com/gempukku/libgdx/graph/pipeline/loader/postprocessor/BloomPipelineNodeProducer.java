@@ -17,6 +17,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
     public BloomPipelineNodeProducer() {
@@ -69,13 +70,13 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
         final PipelineNode.FieldOutput<Float> finalMinimalBrightness = minimalBrightness;
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
 
-                float bloomStrengthValue = finalBloomStrength.getValue(pipelineRenderingContext);
-                int bloomRadiusValue = MathUtils.round(finalBloomRadius.getValue(pipelineRenderingContext));
+                float bloomStrengthValue = finalBloomStrength.getValue(pipelineRenderingContext, null);
+                int bloomRadiusValue = MathUtils.round(finalBloomRadius.getValue(pipelineRenderingContext, null));
                 if (bloomStrengthValue > 0 && bloomRadiusValue > 0) {
-                    float minimalBrightnessValue = finalMinimalBrightness.getValue(pipelineRenderingContext);
+                    float minimalBrightnessValue = finalMinimalBrightness.getValue(pipelineRenderingContext, null);
 
                     RenderPipelineBuffer originalBuffer = renderPipeline.getDefaultBuffer();
 

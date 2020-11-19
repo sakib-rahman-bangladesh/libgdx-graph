@@ -11,6 +11,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class SubtractPipelineNodeProducer extends PipelineNodeProducerImpl {
     public SubtractPipelineNodeProducer() {
@@ -23,9 +24,9 @@ public class SubtractPipelineNodeProducer extends PipelineNodeProducerImpl {
         final PipelineNode.FieldOutput<?> bFunction = inputFields.get("inputB");
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                Object aValue = aFunction.getValue(pipelineRenderingContext);
-                Object bValue = bFunction.getValue(pipelineRenderingContext);
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                Object aValue = aFunction.getValue(pipelineRenderingContext, null);
+                Object bValue = bFunction.getValue(pipelineRenderingContext, null);
 
                 Object result;
                 if (aValue instanceof Float && bValue instanceof Float) {

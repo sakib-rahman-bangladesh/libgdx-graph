@@ -17,6 +17,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class GaussianBlurPipelineNodeProducer extends PipelineNodeProducerImpl {
     public GaussianBlurPipelineNodeProducer() {
@@ -51,10 +52,10 @@ public class GaussianBlurPipelineNodeProducer extends PipelineNodeProducerImpl {
         final PipelineNode.FieldOutput<Float> finalBlurRadius = blurRadius;
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
-            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext);
+            protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
 
-                int blurRadius = MathUtils.round(finalBlurRadius.getValue(pipelineRenderingContext));
+                int blurRadius = MathUtils.round(finalBlurRadius.getValue(pipelineRenderingContext, null));
                 if (blurRadius > 0) {
                     float[] kernel = GaussianBlurKernel.getKernel(blurRadius);
                     RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
