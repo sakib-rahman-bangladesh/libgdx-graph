@@ -41,18 +41,19 @@ public class Episode14Scene implements LibgdxGraphTestScene {
     private Camera camera;
     private Stage stage;
     private GraphShaderEnvironment lights;
+
     private Model starfield;
     private Model blackHole;
-
-    private float cameraPositionAngle;
-    private float cameraAngle;
-    private String blackHoleInstance;
     private Model star;
     private Model starCorona;
+
     private Vector3 blackHolePosition = new Vector3(0, 0, 0);
     private Vector3 starPosition = new Vector3(-10, 0, -10);
     private String starInstance;
     private String starCoronaInstance;
+
+    private float cameraPositionAngle;
+    private float cameraAngle;
 
     @Override
     public void initializeScene() {
@@ -124,7 +125,7 @@ public class Episode14Scene implements LibgdxGraphTestScene {
 
         String blackHoleId = models.registerModel(blackHole);
         models.addModelDefaultTag(blackHoleId, "black-hole");
-        blackHoleInstance = models.createModelInstance(blackHoleId);
+        models.createModelInstance(blackHoleId);
 
         String starId = models.registerModel(star);
         starInstance = models.createModelInstance(starId);
@@ -185,7 +186,6 @@ public class Episode14Scene implements LibgdxGraphTestScene {
         camera.up.set(0f, 1f, 0f);
         camera.lookAt(0f, 0f, 0f);
         camera.rotate(MathUtils.radDeg * cameraAngle, 0, 1, 0);
-        //camera.direction.set(MathUtils.cos(cameraAngle), 0, MathUtils.sin(cameraAngle));
         camera.update();
 
         GraphShaderModels models = pipelineRenderer.getGraphShaderModels();
@@ -213,8 +213,6 @@ public class Episode14Scene implements LibgdxGraphTestScene {
     @Override
     public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
-//        cameraPositionAngle += delta * 0.1f;
-//        updateCamera();
 
         stage.act(delta);
 
