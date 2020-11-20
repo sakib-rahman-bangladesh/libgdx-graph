@@ -85,10 +85,10 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
                 GraphShaderModelsImpl models = pipelineRenderingContext.getGraphShaderModels();
 
-                boolean usesDepth = false;
                 boolean needsToDrawDepth = pipelineRequirements.isRequiringDepthTexture();
                 if (needsToDrawDepth)
                     initializeDepthShaders();
+                boolean usesDepth = false;
                 if (needsDepth(models)) {
                     usesDepth = true;
                     pipelineRequirements.setRequiringDepthTexture();
@@ -120,7 +120,6 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 }
 
                 renderContext.begin();
-
                 currentBuffer.beginColor();
 
                 // Initialize shaders for this frame
@@ -191,6 +190,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
                 currentBuffer.endColor();
                 renderContext.end();
+
                 OutputValue<RenderPipeline> output = outputValues.get("output");
                 if (output != null)
                     output.setValue(renderPipeline);
