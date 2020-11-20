@@ -36,6 +36,7 @@ import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyVector3BoxProducer
 import com.gempukku.libgdx.graph.ui.pipeline.shader.GraphShaderRendererBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
+import com.gempukku.libgdx.graph.ui.producer.postprocessor.DepthOfFieldBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.value.ValueBooleanBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.value.ValueColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.value.ValueFloatBoxProducer;
@@ -85,6 +86,7 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
 
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new BloomPipelineNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new GaussianBlurPipelineNodeConfiguration()));
+        graphBoxProducers.add(new DepthOfFieldBoxProducer());
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new GammaCorrectionPipelineNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new ColorTintPipelineNodeConfiguration()));
 

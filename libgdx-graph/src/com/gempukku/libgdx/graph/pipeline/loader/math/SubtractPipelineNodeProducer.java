@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.pipeline.config.math.MultiplyPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.SubtractPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
@@ -15,7 +15,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
 public class SubtractPipelineNodeProducer extends PipelineNodeProducerImpl {
     public SubtractPipelineNodeProducer() {
-        super(new MultiplyPipelineNodeConfiguration());
+        super(new SubtractPipelineNodeConfiguration());
     }
 
     @Override

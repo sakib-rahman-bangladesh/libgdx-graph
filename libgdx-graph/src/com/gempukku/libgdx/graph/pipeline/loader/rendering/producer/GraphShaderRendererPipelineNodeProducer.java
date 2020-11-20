@@ -154,8 +154,10 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                     models.orderFrontToBack();
                     for (ShaderGroup shaderGroup : shaderGroups) {
                         GraphShader depthShader = shaderGroup.getDepthShader();
-                        String tag = depthShader.getTag();
-                        renderWithShaderOpaquePass(tag, depthShader, models, shaderContext);
+                        if (depthShader != null) {
+                            String tag = depthShader.getTag();
+                            renderWithShaderOpaquePass(tag, depthShader, models, shaderContext);
+                        }
                     }
 
                     currentBuffer.endDepth();

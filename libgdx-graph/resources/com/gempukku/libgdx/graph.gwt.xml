@@ -26,6 +26,7 @@
 	<!-- Shader code -->
 	<extend-configuration-property name="gdx.files.classpath" value="shader/bloomSum.frag"/>
 	<extend-configuration-property name="gdx.files.classpath" value="shader/brightnessFilter.frag"/>
+	<extend-configuration-property name="gdx.files.classpath" value="shader/depthOfField.frag"/>
 	<extend-configuration-property name="gdx.files.classpath" value="shader/gamma.frag"/>
 	<extend-configuration-property name="gdx.files.classpath" value="shader/gaussianBlur.frag"/>
 	<extend-configuration-property name="gdx.files.classpath" value="shader/viewToScreenCoords.vert"/>

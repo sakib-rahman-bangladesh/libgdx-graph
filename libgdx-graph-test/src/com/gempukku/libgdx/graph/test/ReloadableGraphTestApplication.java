@@ -14,6 +14,7 @@ import com.gempukku.libgdx.graph.test.episodes.Episode11Scene;
 import com.gempukku.libgdx.graph.test.episodes.Episode12Scene;
 import com.gempukku.libgdx.graph.test.episodes.Episode13Scene;
 import com.gempukku.libgdx.graph.test.episodes.Episode14Scene;
+import com.gempukku.libgdx.graph.test.episodes.Episode15Scene;
 import com.gempukku.libgdx.graph.test.episodes.Episode1Scene;
 import com.gempukku.libgdx.graph.test.episodes.Episode2Scene;
 import com.gempukku.libgdx.graph.test.episodes.Episode3Scene;
@@ -44,7 +45,8 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
                 new Episode11Scene(),
                 new Episode12Scene(),
                 new Episode13Scene(),
-                new Episode14Scene()
+                new Episode14Scene(),
+                new Episode15Scene()
         };
         loadedIndex = scenes.length - 1;
     }

@@ -19,7 +19,7 @@ public class GaussianBlurKernel {
         return kernelCache[blurRadius];
     }
 
-    private static float[] create1DBlurKernel(int size) {
+    public static float[] create1DBlurKernel(int size) {
         float[] result = new float[1 + size];
         float sigma = size / SIGMA_HELPER;
         float norm = 1f / ((float) Math.sqrt(2 * Math.PI) * sigma);

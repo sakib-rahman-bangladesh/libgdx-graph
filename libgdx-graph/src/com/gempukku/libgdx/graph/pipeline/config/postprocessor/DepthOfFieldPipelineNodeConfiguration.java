@@ -1,0 +1,29 @@
+package com.gempukku.libgdx.graph.pipeline.config.postprocessor;
+
+import com.gempukku.libgdx.graph.NodeConfigurationImpl;
+import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeInputImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeOutputImpl;
+
+import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Camera;
+import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Float;
+import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.RenderPipeline;
+import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Vector2;
+
+public class DepthOfFieldPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
+    public DepthOfFieldPipelineNodeConfiguration() {
+        super("DepthOfField", "Depth of Field", "Post-processing");
+        addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("camera", "Camera", true, Camera));
+        addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("focusDistance", "Focus Distance Range", true, Vector2));
+        addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("nearDistanceBlur", "Near Distance Blur", Float));
+        addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("farDistanceBlur", "Far Distance Blur", Float));
+        addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("input", "Input", true, true, RenderPipeline));
+        addNodeOutput(
+                new GraphNodeOutputImpl<PipelineFieldType>("output", "Output", true, RenderPipeline));
+    }
+}
