@@ -37,8 +37,6 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
         String depthOfField = getShader("depthOfField.frag");
         depthOfField = depthOfField.replaceAll("MAX_BLUR", String.valueOf(maxBlur));
 
-        System.out.println(depthOfField);
-
         final ShaderProgram shaderProgram = new ShaderProgram(
                 viewToScreenCoords, depthOfField);
         if (!shaderProgram.isCompiled())
