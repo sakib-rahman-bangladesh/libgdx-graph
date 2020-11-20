@@ -82,26 +82,26 @@ void main() {
     vec4 sampleAccum = vec4(0.0, 0.0, 0.0, 0.0);
 
     int blur = getBlur();
-
-    initializeKernel(blur);
     if (blur == 0) {
-        kernel[0] = 1.0;
-    }
+        sampleAccum = texture2D(u_sourceTexture, v_position);
+    } else {
+        initializeKernel(blur);
 
-    for (int i = 0; i <= MAX_BLUR; i++) {
-        if (i > blur) {
-            break;
-        }
-        float kernelValue = kernel[i];
-        if (u_vertical == 1) {
-            sampleAccum += texture2D(u_sourceTexture, v_position + u_pixelSize * vec2(0, i)) * kernelValue;
-            if (i > 0) {
-                sampleAccum += texture2D(u_sourceTexture, v_position - u_pixelSize * vec2(0, i)) * kernelValue;
+        for (int i = 0; i <= MAX_BLUR; i++) {
+            if (i > blur) {
+                break;
             }
-        } else {
-            sampleAccum += texture2D(u_sourceTexture, v_position + u_pixelSize * vec2(i, 0)) * kernelValue;
-            if (i > 0) {
-                sampleAccum += texture2D(u_sourceTexture, v_position - u_pixelSize * vec2(i, 0)) * kernelValue;
+            float kernelValue = kernel[i];
+            if (u_vertical == 1) {
+                sampleAccum += texture2D(u_sourceTexture, v_position + u_pixelSize * vec2(0, i)) * kernelValue;
+                if (i > 0) {
+                    sampleAccum += texture2D(u_sourceTexture, v_position - u_pixelSize * vec2(0, i)) * kernelValue;
+                }
+            } else {
+                sampleAccum += texture2D(u_sourceTexture, v_position + u_pixelSize * vec2(i, 0)) * kernelValue;
+                if (i > 0) {
+                    sampleAccum += texture2D(u_sourceTexture, v_position - u_pixelSize * vec2(i, 0)) * kernelValue;
+                }
             }
         }
     }
