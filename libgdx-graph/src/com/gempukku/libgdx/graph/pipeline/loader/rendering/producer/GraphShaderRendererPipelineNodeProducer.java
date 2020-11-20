@@ -57,7 +57,9 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
             private void initializeDepthShaders() {
                 for (ShaderGroup shaderGroup : shaderGroups) {
-                    shaderGroup.initializeDepthShader();
+                    GraphShader colorShader = shaderGroup.getColorShader();
+                    if (colorShader.getTransparency() == BasicShader.Transparency.opaque)
+                        shaderGroup.initializeDepthShader();
                 }
             }
 
@@ -121,14 +123,17 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
                 currentBuffer.beginColor();
 
+                // Initialize shaders for this frame
                 for (ShaderGroup shaderGroup : shaderGroups) {
                     GraphShader colorShader = shaderGroup.getColorShader();
                     colorShader.setTimeProvider(pipelineRenderingContext.getTimeProvider());
                     colorShader.setEnvironment(environment);
                     if (needsToDrawDepth) {
                         GraphShader depthShader = shaderGroup.getDepthShader();
-                        depthShader.setTimeProvider(pipelineRenderingContext.getTimeProvider());
-                        depthShader.setEnvironment(environment);
+                        if (depthShader != null) {
+                            depthShader.setTimeProvider(pipelineRenderingContext.getTimeProvider());
+                            depthShader.setEnvironment(environment);
+                        }
                     }
                 }
 
