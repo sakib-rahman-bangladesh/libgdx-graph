@@ -20,6 +20,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNod
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
+import com.gempukku.libgdx.graph.shader.builder.GLSLFragmentReader;
 
 import java.nio.charset.Charset;
 
@@ -36,6 +37,7 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
         String viewToScreenCoords = getShader("viewToScreenCoords.vert");
         String depthOfField = getShader("depthOfField.frag");
         depthOfField = depthOfField.replaceAll("MAX_BLUR", String.valueOf(maxBlur));
+        depthOfField = depthOfField.replaceAll("UNPACK_FUNCTION", GLSLFragmentReader.getFragment("unpackVec3ToFloat"));
 
         final ShaderProgram shaderProgram = new ShaderProgram(
                 viewToScreenCoords, depthOfField);

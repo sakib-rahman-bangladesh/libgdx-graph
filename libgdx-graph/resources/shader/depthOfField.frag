@@ -19,12 +19,7 @@ const float SIGMA_HELPER = 3.5676;
 
 float kernel[MAX_BLUR];
 
-float unpackVec3ToFloat(vec3 packedValue)
-{
-    float packScale = u_cameraClipping.y;
-    float result = dot(packedValue, 1.0 / vec3(1.0, 256.0, 256.0 * 256.0));
-    return packScale * result * (256.0 * 256.0 * 256.0) / (256.0 * 256.0 * 256.0 - 1.0);
-}
+UNPACK_FUNCTION
 
 void initializeKernel(int blur) {
     for (int i=0; i <= MAX_BLUR; i++) {
@@ -56,14 +51,15 @@ void initializeKernel(int blur) {
 
 float getDepth() {
     vec4 depthColor = texture2D(u_depthTexture, v_position);
-    return unpackVec3ToFloat(depthColor.rgb);
+    return unpackVec3ToFloat(depthColor.rgb, u_cameraClipping.x, u_cameraClipping.y);
 }
 
 float getDeclaredBlur() {
     float depth = getDepth();
     if (depth + 0.00001 > u_cameraClipping.y) {
         return 0.0;
-    } else if (u_focusDistance.x <= depth && depth <= u_focusDistance.y) {
+    }
+    if (u_focusDistance.x <= depth && depth <= u_focusDistance.y) {
         return 0.0;
     } else if (depth < u_focusDistance.x) {
         // It's too close

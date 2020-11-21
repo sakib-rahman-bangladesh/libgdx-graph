@@ -124,7 +124,7 @@ public class GraphShaderBuilder {
             fragmentShaderBuilder.addMainLine("if (" + alpha + " <= " + alphaClip + ")");
             fragmentShaderBuilder.addMainLine("  discard;");
         }
-        fragmentShaderBuilder.addMainLine("gl_FragColor = vec4(packFloatToVec3(distance(" + positionField.getRepresentation() + ", " + cameraPositionField.getRepresentation() + ")), 1.0);");
+        fragmentShaderBuilder.addMainLine("gl_FragColor = vec4(packFloatToVec3(distance(" + positionField.getRepresentation() + ", " + cameraPositionField.getRepresentation() + "), u_cameraClipping.x, u_cameraClipping.y), 1.0);");
 
 
         String vertexShader = vertexShaderBuilder.buildProgram();

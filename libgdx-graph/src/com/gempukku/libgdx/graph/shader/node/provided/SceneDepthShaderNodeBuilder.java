@@ -43,7 +43,7 @@ public class SceneDepthShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
             String screenPositionValue = screenPosition != null ? screenPosition.getRepresentation() : "gl_FragCoord";
             String name = "depth_" + nodeId;
             commonShaderBuilder.addMainLine("// Scene depth node");
-            commonShaderBuilder.addMainLine("float " + name + " = unpackVec3ToFloat(texture2D(u_sceneDepthTexture, " + screenPositionValue + ".xy).rgb);");
+            commonShaderBuilder.addMainLine("float " + name + " = unpackVec3ToFloat(texture2D(u_sceneDepthTexture, " + screenPositionValue + ".xy).rgb, u_cameraClipping.x, u_cameraClipping.y);");
             return LibGDXCollections.singletonMap("depth", new DefaultFieldOutput(ShaderFieldType.Float, name));
         }
     }
