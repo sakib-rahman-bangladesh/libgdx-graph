@@ -180,7 +180,8 @@
       "x": 822.0,
       "y": 260.0,
       "data": {
-        "maxBlur": 60.0
+        "maxBlur": 60.0,
+        "blurBackground": true
       }
     },
     {
@@ -364,14 +365,14 @@
       "name": "Focus Distance",
       "type": "Float",
       "data": {
-        "x": 1.0
+        "x": 0.5
       }
     },
     {
       "name": "Focus Range",
       "type": "Float",
       "data": {
-        "x": 1.0
+        "x": 0.0
       }
     }
   ],

@@ -33,11 +33,13 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
     public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         float maxBlurFloat = data.getFloat("maxBlur");
         final int maxBlur = MathUtils.round(maxBlurFloat);
+        boolean blurBackground = data.getBoolean("blurBackground", false);
 
         String viewToScreenCoords = getShader("viewToScreenCoords.vert");
         String depthOfField = getShader("depthOfField.frag");
         depthOfField = depthOfField.replaceAll("MAX_BLUR", String.valueOf(maxBlur));
         depthOfField = depthOfField.replaceAll("UNPACK_FUNCTION", GLSLFragmentReader.getFragment("unpackVec3ToFloat"));
+        depthOfField = depthOfField.replaceAll("BLUR_BACKGROUND", String.valueOf(blurBackground));
 
         final ShaderProgram shaderProgram = new ShaderProgram(
                 viewToScreenCoords, depthOfField);

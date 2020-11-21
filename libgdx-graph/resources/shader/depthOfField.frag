@@ -56,8 +56,10 @@ float getDepth() {
 
 float getDeclaredBlur() {
     float depth = getDepth();
-    if (depth + 0.00001 > u_cameraClipping.y) {
-        return 0.0;
+    if (!BLUR_BACKGROUND) {
+        if (depth + 0.00001 > u_cameraClipping.y) {
+            return 0.0;
+        }
     }
     if (u_focusDistance.x <= depth && depth <= u_focusDistance.y) {
         return 0.0;
