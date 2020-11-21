@@ -40,7 +40,7 @@ public class Episode15Scene implements LibgdxGraphTestScene {
     private Skin skin;
     private String modelInstance;
     private GraphShaderEnvironment lights;
-    private float cameraAngle = -0.3f;
+    private float cameraAngle = -0.5f;
     private float cameraDistance = 1.3f;
 
     @Override
@@ -90,7 +90,7 @@ public class Episode15Scene implements LibgdxGraphTestScene {
                 new TransformUpdate() {
                     @Override
                     public void updateTransform(Matrix4 transform) {
-                        transform.scale(scale, scale, scale);//.rotate(-1, 0, 0f, 90);
+                        transform.translate(-0.3f, 0.11f, 0).scale(scale, scale, scale);//.rotate(-1, 0, 0f, 90);
                     }
                 }
         );
@@ -144,10 +144,10 @@ public class Episode15Scene implements LibgdxGraphTestScene {
     public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
 
-        float y = 0.2f;
+        float y = 0.3f;
         camera.position.set(cameraDistance * MathUtils.sin(cameraAngle), y, cameraDistance * MathUtils.cos(cameraAngle));
         camera.up.set(0f, 1f, 0f);
-        camera.lookAt(0, y, 0f);
+        camera.lookAt(0, y - 0.3f, 0f);
         camera.update();
 
         stage.act(delta);
