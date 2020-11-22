@@ -1,7 +1,6 @@
 package com.gempukku.libgdx.graph.pipeline;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import com.gempukku.libgdx.graph.pipeline.impl.BufferCopyHelper;
 
 public interface RenderPipeline {
     RenderPipelineBuffer initializeDefaultBuffer(int width, int height, Pixmap.Format format);
@@ -16,5 +15,9 @@ public interface RenderPipeline {
 
     void returnFrameBuffer(RenderPipelineBuffer frameBuffer);
 
-    BufferCopyHelper getBufferCopyHelper();
+    void drawTexture(RenderPipelineBuffer paint, RenderPipelineBuffer canvas);
+
+    void drawTexture(RenderPipelineBuffer paint, RenderPipelineBuffer canvas, float x, float y, float width, float height);
+
+    void swapColorTextures(RenderPipelineBuffer buffer1, RenderPipelineBuffer buffer2);
 }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
-import com.gempukku.libgdx.graph.pipeline.impl.BufferCopyHelper;
 
 public class RenderOutputs {
     public static final RenderOutput drawToScreen = new DrawToScreen();
@@ -22,8 +21,7 @@ public class RenderOutputs {
 
         @Override
         public void output(RenderPipeline renderPipeline) {
-            BufferCopyHelper bufferCopyHelper = renderPipeline.getBufferCopyHelper();
-            bufferCopyHelper.copy(renderPipeline.getDefaultBuffer().getColorBuffer(), null);
+            renderPipeline.drawTexture(renderPipeline.getDefaultBuffer(), null);
 
             renderPipeline.returnFrameBuffer(renderPipeline.getDefaultBuffer());
         }

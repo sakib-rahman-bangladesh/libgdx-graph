@@ -97,7 +97,7 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
                     shaderProgram.setUniformi("u_vertical", 0);
                     RenderPipelineBuffer finalBuffer = executeBlur(renderPipeline, currentBuffer, tempBuffer, indexBufferObject);
                     renderPipeline.returnFrameBuffer(tempBuffer);
-                    FBOUtil.swapColorBufferTextures(currentBuffer, finalBuffer);
+                    renderPipeline.swapColorTextures(currentBuffer, finalBuffer);
                     renderPipeline.returnFrameBuffer(finalBuffer);
 
                     indexBufferObject.unbind();

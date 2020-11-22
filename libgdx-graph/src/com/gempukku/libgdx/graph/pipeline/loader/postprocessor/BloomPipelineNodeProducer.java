@@ -90,7 +90,7 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
 
                     renderPipeline.returnFrameBuffer(gaussianBlur);
 
-                    FBOUtil.swapColorBufferTextures(originalBuffer, result);
+                    renderPipeline.swapColorTextures(originalBuffer, result);
                     renderPipeline.returnFrameBuffer(result);
                 }
 

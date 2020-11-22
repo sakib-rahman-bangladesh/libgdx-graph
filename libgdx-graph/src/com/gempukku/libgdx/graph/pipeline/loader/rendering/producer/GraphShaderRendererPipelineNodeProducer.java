@@ -199,14 +199,13 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             }
 
             private RenderPipelineBuffer setupColorTexture(final RenderPipeline renderPipeline, final RenderPipelineBuffer currentBuffer) {
-                RenderPipelineBuffer sceneColorBuffer;
-                sceneColorBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
+                RenderPipelineBuffer sceneColorBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
                 sceneColorBuffer.beginColor();
                 Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
                 sceneColorBuffer.endColor();
                 shaderContext.setColorTexture(sceneColorBuffer.getColorBufferTexture());
-                renderPipeline.getBufferCopyHelper().copy(currentBuffer.getColorBuffer(), sceneColorBuffer.getColorBuffer());
+                renderPipeline.drawTexture(currentBuffer, sceneColorBuffer);
                 return sceneColorBuffer;
             }
 

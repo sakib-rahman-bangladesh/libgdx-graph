@@ -79,7 +79,7 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
 
                     newBuffer.endColor();
 
-                    FBOUtil.swapColorBufferTextures(currentBuffer, newBuffer);
+                    renderPipeline.swapColorTextures(currentBuffer, newBuffer);
                     renderPipeline.returnFrameBuffer(newBuffer);
                 }
 

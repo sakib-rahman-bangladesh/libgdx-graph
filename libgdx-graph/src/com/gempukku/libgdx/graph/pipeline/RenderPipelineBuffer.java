@@ -2,55 +2,20 @@ package com.gempukku.libgdx.graph.pipeline;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class RenderPipelineBuffer {
-    private TextureFrameBuffer colorBuffer;
-    private TextureFrameBuffer depthBuffer;
+public interface RenderPipelineBuffer {
+    Texture getDepthBufferTexture();
 
-    public RenderPipelineBuffer(TextureFrameBuffer colorBuffer) {
-        this.colorBuffer = colorBuffer;
-    }
+    Texture getColorBufferTexture();
 
-    public TextureFrameBuffer getDepthBuffer() {
-        return depthBuffer;
-    }
+    void beginColor();
 
-    public void setDepthBuffer(TextureFrameBuffer depthBuffer) {
-        this.depthBuffer = depthBuffer;
-    }
+    void endColor();
 
-    public Texture getDepthBufferTexture() {
-        return depthBuffer.getColorBufferTexture();
-    }
+    void beginDepth();
 
-    public TextureFrameBuffer getColorBuffer() {
-        return colorBuffer;
-    }
+    void endDepth();
 
-    public Texture getColorBufferTexture() {
-        return colorBuffer.getColorBufferTexture();
-    }
+    int getWidth();
 
-    public void beginColor() {
-        colorBuffer.begin();
-    }
-
-    public void endColor() {
-        colorBuffer.end();
-    }
-
-    public void beginDepth() {
-        depthBuffer.begin();
-    }
-
-    public void endDepth() {
-        depthBuffer.end();
-    }
-
-    public int getWidth() {
-        return colorBuffer.getWidth();
-    }
-
-    public int getHeight() {
-        return colorBuffer.getHeight();
-    }
+    int getHeight();
 }
