@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.pipeline.loader.postprocessor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
@@ -37,7 +38,7 @@ public class GaussianBlurPipelineNodeProducer extends PipelineNodeProducerImpl {
                 0, 1, 0,
                 1, 0, 0,
                 1, 1, 0};
-        short[] indices = {0, 1, 2, 2, 1, 3};
+        short[] indices = {0, 2, 1, 2, 3, 1};
 
         final VertexBufferObject vertexBufferObject = new VertexBufferObject(true, 4, VertexAttribute.Position());
         final IndexBufferObject indexBufferObject = new IndexBufferObject(true, indices.length);
@@ -60,8 +61,13 @@ public class GaussianBlurPipelineNodeProducer extends PipelineNodeProducerImpl {
                     float[] kernel = GaussianBlurKernel.getKernel(blurRadius);
                     RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
 
+                    RenderContext renderContext = pipelineRenderingContext.getRenderContext();
+                    renderContext.setDepthTest(0);
+                    renderContext.setDepthMask(false);
+                    renderContext.setBlending(false, 0, 0);
+                    renderContext.setCullFace(GL20.GL_BACK);
+
                     shaderProgram.bind();
-                    shaderProgram.setUniformi("u_sourceTexture", 0);
                     shaderProgram.setUniformi("u_blurRadius", blurRadius);
                     shaderProgram.setUniformf("u_pixelSize", 1f / currentBuffer.getWidth(), 1f / currentBuffer.getHeight());
                     shaderProgram.setUniform1fv("u_kernel", kernel, 0, kernel.length);
@@ -70,15 +76,15 @@ public class GaussianBlurPipelineNodeProducer extends PipelineNodeProducerImpl {
                     indexBufferObject.bind();
 
                     shaderProgram.setUniformi("u_vertical", 1);
-                    RenderPipelineBuffer tempBuffer = executeBlur(renderPipeline, currentBuffer, indexBufferObject);
+                    RenderPipelineBuffer tempBuffer = executeBlur(shaderProgram, renderPipeline, currentBuffer, indexBufferObject, pipelineRenderingContext.getRenderContext());
                     shaderProgram.setUniformi("u_vertical", 0);
-                    RenderPipelineBuffer finalBuffer = executeBlur(renderPipeline, tempBuffer, indexBufferObject);
+                    RenderPipelineBuffer finalBuffer = executeBlur(shaderProgram, renderPipeline, tempBuffer, indexBufferObject, pipelineRenderingContext.getRenderContext());
+                    vertexBufferObject.unbind(shaderProgram);
+                    indexBufferObject.unbind();
+
                     renderPipeline.returnFrameBuffer(tempBuffer);
                     renderPipeline.swapColorTextures(currentBuffer, finalBuffer);
                     renderPipeline.returnFrameBuffer(finalBuffer);
-
-                    indexBufferObject.unbind();
-                    vertexBufferObject.unbind(shaderProgram);
                 }
 
                 OutputValue<RenderPipeline> output = outputValues.get("output");
@@ -95,12 +101,12 @@ public class GaussianBlurPipelineNodeProducer extends PipelineNodeProducerImpl {
         };
     }
 
-    private RenderPipelineBuffer executeBlur(RenderPipeline renderPipeline, RenderPipelineBuffer sourceBuffer, IndexBufferObject indexBufferObject) {
+    private RenderPipelineBuffer executeBlur(ShaderProgram shaderProgram, RenderPipeline renderPipeline, RenderPipelineBuffer sourceBuffer, IndexBufferObject indexBufferObject,
+                                             RenderContext renderContext) {
         RenderPipelineBuffer resultBuffer = renderPipeline.getNewFrameBuffer(sourceBuffer);
         resultBuffer.beginColor();
 
-        Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
-        Gdx.gl.glBindTexture(GL20.GL_TEXTURE_2D, sourceBuffer.getColorBufferTexture().getTextureObjectHandle());
+        shaderProgram.setUniformi("u_sourceTexture", renderContext.textureBinder.bind(sourceBuffer.getColorBufferTexture()));
 
         Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, indexBufferObject.getNumIndices(), GL20.GL_UNSIGNED_SHORT, 0);
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
@@ -47,6 +48,8 @@ public class RenderPipelineImpl implements RenderPipeline {
 
     @Override
     public RenderPipelineBufferImpl initializeDefaultBuffer(int width, int height, Pixmap.Format format) {
+        if (defaultBuffer != null)
+            throw new IllegalStateException("Default buffer already initialized");
         return defaultBuffer = getNewFrameBuffer(width, height, format);
     }
 
@@ -74,7 +77,8 @@ public class RenderPipelineImpl implements RenderPipeline {
 
     @Override
     public RenderPipelineBufferImpl getNewFrameBuffer(int width, int height, Pixmap.Format format) {
-        return new RenderPipelineBufferImpl(getOrCreateFrameBuffer(width, height, format));
+        TextureFrameBuffer frameBuffer = getOrCreateFrameBuffer(width, height, format);
+        return new RenderPipelineBufferImpl(frameBuffer);
     }
 
     private TextureFrameBuffer getOrCreateFrameBuffer(int width, int height, Pixmap.Format format) {
@@ -110,17 +114,17 @@ public class RenderPipelineImpl implements RenderPipeline {
     }
 
     @Override
-    public void drawTexture(RenderPipelineBuffer paint, RenderPipelineBuffer canvas) {
+    public void drawTexture(RenderPipelineBuffer paint, RenderPipelineBuffer canvas, RenderContext renderContext) {
         RenderPipelineBufferImpl fromBuffer = (RenderPipelineBufferImpl) paint;
         RenderPipelineBufferImpl toBuffer = (RenderPipelineBufferImpl) canvas;
-        bufferCopyHelper.copy(fromBuffer.getColorBuffer(), toBuffer != null ? toBuffer.getColorBuffer() : null);
+        bufferCopyHelper.copy(fromBuffer.getColorBuffer(), toBuffer != null ? toBuffer.getColorBuffer() : null, renderContext);
     }
 
     @Override
-    public void drawTexture(RenderPipelineBuffer paint, RenderPipelineBuffer canvas, float x, float y, float width, float height) {
+    public void drawTexture(RenderPipelineBuffer paint, RenderPipelineBuffer canvas, RenderContext renderContext, float x, float y, float width, float height) {
         RenderPipelineBufferImpl fromBuffer = (RenderPipelineBufferImpl) paint;
         RenderPipelineBufferImpl toBuffer = (RenderPipelineBufferImpl) canvas;
-        bufferCopyHelper.copy(fromBuffer.getColorBuffer(), toBuffer != null ? toBuffer.getColorBuffer() : null, x, y, width, height);
+        bufferCopyHelper.copy(fromBuffer.getColorBuffer(), toBuffer != null ? toBuffer.getColorBuffer() : null, renderContext, x, y, width, height);
     }
 
     @Override

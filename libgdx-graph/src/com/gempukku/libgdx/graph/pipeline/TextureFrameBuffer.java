@@ -10,12 +10,12 @@ public class TextureFrameBuffer extends FrameBuffer {
     }
 
     public Texture setColorTexture(Texture texture) {
-        bind();
+        begin();
         attachFrameBufferColorTexture(texture);
-        unbind();
+        end();
 
         Texture oldTexture = textureAttachments.removeIndex(0);
-        textureAttachments.add(texture);
+        textureAttachments.insert(0, texture);
         return oldTexture;
     }
 }

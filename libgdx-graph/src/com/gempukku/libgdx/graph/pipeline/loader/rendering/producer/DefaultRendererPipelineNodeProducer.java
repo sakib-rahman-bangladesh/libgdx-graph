@@ -32,6 +32,8 @@ public class DefaultRendererPipelineNodeProducer extends PipelineNodeProducerImp
 
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                pipelineRenderingContext.getRenderContext().end();
+
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
                 PipelineRendererModels models = modelsInput.getValue(pipelineRenderingContext, null);
                 Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
@@ -59,6 +61,8 @@ public class DefaultRendererPipelineNodeProducer extends PipelineNodeProducerImp
                     modelBatch.end();
                     currentBuffer.endColor();
                 }
+                pipelineRenderingContext.getRenderContext().begin();
+
                 OutputValue output = outputValues.get("output");
                 if (output != null)
                     output.setValue(renderPipeline);

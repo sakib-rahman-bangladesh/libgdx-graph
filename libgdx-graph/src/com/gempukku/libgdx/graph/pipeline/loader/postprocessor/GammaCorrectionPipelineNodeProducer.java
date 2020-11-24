@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.pipeline.loader.postprocessor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
@@ -36,7 +37,7 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
                 0, 1, 0,
                 1, 0, 0,
                 1, 1, 0};
-        short[] indices = {0, 1, 2, 2, 1, 3};
+        short[] indices = {0, 2, 1, 2, 3, 1};
 
         final VertexBufferObject vertexBufferObject = new VertexBufferObject(true, 4, VertexAttribute.Position());
         final IndexBufferObject indexBufferObject = new IndexBufferObject(true, indices.length);
@@ -60,19 +61,25 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
 
                     RenderPipelineBuffer newBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
 
+                    RenderContext renderContext = pipelineRenderingContext.getRenderContext();
+                    renderContext.setDepthTest(0);
+                    renderContext.setDepthMask(false);
+                    renderContext.setBlending(false, 0, 0);
+                    renderContext.setCullFace(GL20.GL_BACK);
+
                     newBuffer.beginColor();
 
                     shaderProgram.bind();
 
-                    vertexBufferObject.bind(shaderProgram);
-                    indexBufferObject.bind();
-
-                    Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
-                    Gdx.gl.glBindTexture(GL20.GL_TEXTURE_2D, currentBuffer.getColorBufferTexture().getTextureObjectHandle());
-
+                    // TODO: Not sure why this doesn't work - it should
+//                    shaderProgram.setUniformf("u_sourceTexture", renderContext.textureBinder.bind(currentBuffer.getColorBufferTexture()));
+                    currentBuffer.getColorBufferTexture().bind(0);
                     shaderProgram.setUniformf("u_sourceTexture", 0);
+
                     shaderProgram.setUniformf("u_gamma", gamma);
 
+                    vertexBufferObject.bind(shaderProgram);
+                    indexBufferObject.bind();
                     Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, indexBufferObject.getNumIndices(), GL20.GL_UNSIGNED_SHORT, 0);
                     vertexBufferObject.unbind(shaderProgram);
                     indexBufferObject.unbind();

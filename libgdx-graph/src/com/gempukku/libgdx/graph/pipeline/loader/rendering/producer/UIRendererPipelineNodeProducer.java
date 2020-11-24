@@ -27,6 +27,9 @@ public class UIRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
                 Stage stage = stageInput.getValue(pipelineRenderingContext, null);
                 if (stage != null) {
+                    // Sadly need to switch off (and then on) the RenderContext
+                    pipelineRenderingContext.getRenderContext().end();
+
                     RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
                     int width = currentBuffer.getWidth();
                     int height = currentBuffer.getHeight();
@@ -34,9 +37,12 @@ public class UIRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
                     int screenHeight = stage.getViewport().getScreenHeight();
                     if (screenWidth != width || screenHeight != height)
                         stage.getViewport().update(width, height, true);
+
                     currentBuffer.beginColor();
                     stage.draw();
                     currentBuffer.endColor();
+
+                    pipelineRenderingContext.getRenderContext().begin();
                 }
                 OutputValue output = outputValues.get("output");
                 if (output != null)

@@ -1,5 +1,7 @@
 package com.gempukku.libgdx.graph.pipeline.impl;
 
+import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
+import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.TimeKeeper;
@@ -84,8 +86,10 @@ public class PipelineRendererImpl implements PipelineRenderer {
             node.startFrame(delta);
         }
 
+        pipelineRenderingContext.getRenderContext().begin();
         RenderPipeline renderPipeline = endNode.executePipeline(pipelineRenderingContext);
-        renderOutput.output(renderPipeline);
+        renderOutput.output(renderPipeline, pipelineRenderingContext.getRenderContext());
+        pipelineRenderingContext.getRenderContext().end();
 
         for (PipelineNode node : nodes) {
             node.endFrame();
@@ -101,6 +105,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
     }
 
     private class PipelineRenderingContextImpl implements PipelineRenderingContext {
+        private RenderContext renderContext = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.LRU, 1));
         private RenderOutput renderOutput;
         private GraphShaderModelsImpl graphShaderModels = new GraphShaderModelsImpl();
 
@@ -131,6 +136,11 @@ public class PipelineRendererImpl implements PipelineRenderer {
         @Override
         public TimeProvider getTimeProvider() {
             return timeKeeper;
+        }
+
+        @Override
+        public RenderContext getRenderContext() {
+            return renderContext;
         }
     }
 }

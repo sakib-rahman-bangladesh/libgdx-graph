@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
@@ -22,7 +23,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 import com.gempukku.libgdx.graph.shader.builder.GLSLFragmentReader;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
     public DepthOfFieldPipelineNodeProducer() {
@@ -51,7 +52,7 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
                 0, 1, 0,
                 1, 0, 0,
                 1, 1, 0};
-        short[] indices = {0, 1, 2, 2, 1, 3};
+        short[] indices = {0, 2, 1, 2, 3, 1};
 
         final VertexBufferObject vertexBufferObject = new VertexBufferObject(true, 4, VertexAttribute.Position());
         final IndexBufferObject indexBufferObject = new IndexBufferObject(true, indices.length);
@@ -80,9 +81,13 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
 
                     RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
 
+                    RenderContext renderContext = pipelineRenderingContext.getRenderContext();
+                    renderContext.setDepthTest(0);
+                    renderContext.setDepthMask(false);
+                    renderContext.setBlending(false, 0, 0);
+                    renderContext.setCullFace(GL20.GL_BACK);
+
                     shaderProgram.bind();
-                    shaderProgram.setUniformi("u_sourceTexture", 0);
-                    shaderProgram.setUniformi("u_depthTexture", 1);
                     shaderProgram.setUniformf("u_pixelSize", 1f / currentBuffer.getWidth(), 1f / currentBuffer.getHeight());
                     shaderProgram.setUniformf("u_cameraClipping", camera.near, camera.far);
                     shaderProgram.setUniformf("u_focusDistance", focusDistance);
@@ -93,9 +98,9 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
                     indexBufferObject.bind();
 
                     shaderProgram.setUniformi("u_vertical", 1);
-                    RenderPipelineBuffer tempBuffer = executeBlur(renderPipeline, currentBuffer, currentBuffer, indexBufferObject);
+                    RenderPipelineBuffer tempBuffer = executeBlur(shaderProgram, renderPipeline, currentBuffer, currentBuffer, indexBufferObject, pipelineRenderingContext.getRenderContext());
                     shaderProgram.setUniformi("u_vertical", 0);
-                    RenderPipelineBuffer finalBuffer = executeBlur(renderPipeline, currentBuffer, tempBuffer, indexBufferObject);
+                    RenderPipelineBuffer finalBuffer = executeBlur(shaderProgram, renderPipeline, currentBuffer, tempBuffer, indexBufferObject, pipelineRenderingContext.getRenderContext());
                     renderPipeline.returnFrameBuffer(tempBuffer);
                     renderPipeline.swapColorTextures(currentBuffer, finalBuffer);
                     renderPipeline.returnFrameBuffer(finalBuffer);
@@ -120,15 +125,16 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
 
     private String getShader(String shaderName) {
         FileHandle fileHandle = Gdx.files.classpath("shader/" + shaderName);
-        return new String(fileHandle.readBytes(), Charset.forName("UTF-8"));
+        return new String(fileHandle.readBytes(), StandardCharsets.UTF_8);
     }
 
-    private RenderPipelineBuffer executeBlur(RenderPipeline renderPipeline, RenderPipelineBuffer depthBuffer, RenderPipelineBuffer sourceBuffer, IndexBufferObject indexBufferObject) {
+    private RenderPipelineBuffer executeBlur(ShaderProgram shaderProgram, RenderPipeline renderPipeline, RenderPipelineBuffer depthBuffer, RenderPipelineBuffer sourceBuffer, IndexBufferObject indexBufferObject,
+                                             RenderContext renderContext) {
         RenderPipelineBuffer resultBuffer = renderPipeline.getNewFrameBuffer(sourceBuffer);
         resultBuffer.beginColor();
 
-        depthBuffer.getDepthBufferTexture().bind(1);
-        sourceBuffer.getColorBufferTexture().bind(0);
+        shaderProgram.setUniformi("u_sourceTexture", renderContext.textureBinder.bind(sourceBuffer.getColorBufferTexture()));
+        shaderProgram.setUniformi("u_depthTexture", renderContext.textureBinder.bind(depthBuffer.getDepthBufferTexture()));
 
         Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, indexBufferObject.getNumIndices(), GL20.GL_UNSIGNED_SHORT, 0);
 

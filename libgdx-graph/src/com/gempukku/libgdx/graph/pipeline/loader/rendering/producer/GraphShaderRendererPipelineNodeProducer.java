@@ -1,10 +1,7 @@
 package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -53,8 +50,6 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
 
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
-            private final RenderContext renderContext = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.LRU, 1));
-
             private void initializeDepthShaders() {
                 for (ShaderGroup shaderGroup : shaderGroups) {
                     GraphShader colorShader = shaderGroup.getColorShader();
@@ -116,10 +111,9 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
                 RenderPipelineBuffer sceneColorBuffer = null;
                 if (needsSceneColor) {
-                    sceneColorBuffer = setupColorTexture(renderPipeline, currentBuffer);
+                    sceneColorBuffer = setupColorTexture(renderPipeline, currentBuffer, pipelineRenderingContext.getRenderContext());
                 }
 
-                renderContext.begin();
                 currentBuffer.beginColor();
 
                 // Initialize shaders for this frame
@@ -142,7 +136,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                     GraphShader colorShader = shaderGroup.getColorShader();
                     if (colorShader.getTransparency() == BasicShader.Transparency.opaque) {
                         String tag = colorShader.getTag();
-                        renderWithShaderOpaquePass(tag, colorShader, models, shaderContext);
+                        renderWithShaderOpaquePass(tag, colorShader, models, shaderContext, pipelineRenderingContext.getRenderContext());
                     }
                 }
 
@@ -156,7 +150,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                         GraphShader depthShader = shaderGroup.getDepthShader();
                         if (depthShader != null) {
                             String tag = depthShader.getTag();
-                            renderWithShaderOpaquePass(tag, depthShader, models, shaderContext);
+                            renderWithShaderOpaquePass(tag, depthShader, models, shaderContext, pipelineRenderingContext.getRenderContext());
                         }
                     }
 
@@ -176,7 +170,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                                 if (lastShader != colorShader) {
                                     if (lastShader != null)
                                         lastShader.end();
-                                    colorShader.begin(shaderContext, renderContext);
+                                    colorShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
                                 }
                                 colorShader.render(shaderContext, graphShaderModelInstance);
                                 lastShader = colorShader;
@@ -191,21 +185,17 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                     renderPipeline.returnFrameBuffer(sceneColorBuffer);
 
                 currentBuffer.endColor();
-                renderContext.end();
 
                 OutputValue<RenderPipeline> output = outputValues.get("output");
                 if (output != null)
                     output.setValue(renderPipeline);
             }
 
-            private RenderPipelineBuffer setupColorTexture(final RenderPipeline renderPipeline, final RenderPipelineBuffer currentBuffer) {
+            private RenderPipelineBuffer setupColorTexture(final RenderPipeline renderPipeline, final RenderPipelineBuffer currentBuffer,
+                                                           RenderContext renderContext) {
                 RenderPipelineBuffer sceneColorBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
-                sceneColorBuffer.beginColor();
-                Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-                sceneColorBuffer.endColor();
                 shaderContext.setColorTexture(sceneColorBuffer.getColorBufferTexture());
-                renderPipeline.drawTexture(currentBuffer, sceneColorBuffer);
+                renderPipeline.drawTexture(currentBuffer, sceneColorBuffer, renderContext);
                 return sceneColorBuffer;
             }
 
@@ -219,7 +209,8 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 }
             }
 
-            private void renderWithShaderOpaquePass(String tag, GraphShader shader, GraphShaderModelsImpl models, ShaderContext shaderContext) {
+            private void renderWithShaderOpaquePass(String tag, GraphShader shader, GraphShaderModelsImpl models, ShaderContext shaderContext,
+                                                    RenderContext renderContext) {
                 boolean begun = false;
                 for (GraphShaderModelInstance graphShaderModelInstance : models.getModels()) {
                     if (graphShaderModelInstance.hasTag(tag)) {

@@ -29,7 +29,6 @@ public class EndPipelineNode implements PipelineNode {
 
     @Override
     public void dispose() {
-
     }
 
     public RenderPipeline executePipeline(PipelineRenderingContext pipelineRenderingContext) {
