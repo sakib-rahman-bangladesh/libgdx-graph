@@ -57,11 +57,7 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
 
                     shaderProgram.bind();
 
-                    // TODO: Not sure why this doesn't work - it should
-//                    shaderProgram.setUniformf("u_sourceTexture", renderContext.textureBinder.bind(currentBuffer.getColorBufferTexture()));
-                    currentBuffer.getColorBufferTexture().bind(0);
-                    shaderProgram.setUniformf("u_sourceTexture", 0);
-
+                    shaderProgram.setUniformi("u_sourceTexture", renderContext.textureBinder.bind(currentBuffer.getColorBufferTexture()));
                     shaderProgram.setUniformf("u_gamma", gamma);
 
                     pipelineRenderingContext.getFullScreenRender().renderFullScreen(shaderProgram);
