@@ -18,7 +18,10 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 import com.gempukku.libgdx.graph.shader.BasicShader;
+import com.gempukku.libgdx.graph.shader.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.GraphShader;
+import com.gempukku.libgdx.graph.shader.GraphShaderConfiguration;
+import com.gempukku.libgdx.graph.shader.ModelShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderLoaderCallback;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
@@ -26,6 +29,8 @@ import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelsImpl;
 
 public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
+    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new GraphShaderConfiguration(), new ModelShaderConfiguration()};
+
     public GraphShaderRendererPipelineNodeProducer() {
         super(new GraphShaderRendererPipelineNodeConfiguration());
     }
@@ -237,12 +242,12 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
     private static GraphShader createColorShader(JsonValue shaderDefinition, Texture defaultTexture) {
         JsonValue shaderGraph = shaderDefinition.get("shader");
-        return GraphLoader.loadGraph(shaderGraph, new ShaderLoaderCallback(defaultTexture));
+        return GraphLoader.loadGraph(shaderGraph, new ShaderLoaderCallback(defaultTexture, configurations));
     }
 
     private static GraphShader createDepthShader(JsonValue shaderDefinition, Texture defaultTexture) {
         JsonValue shaderGraph = shaderDefinition.get("shader");
-        return GraphLoader.loadGraph(shaderGraph, new ShaderLoaderCallback(defaultTexture, true));
+        return GraphLoader.loadGraph(shaderGraph, new ShaderLoaderCallback(defaultTexture, true, configurations));
     }
 
     private class ShaderGroup implements Disposable {

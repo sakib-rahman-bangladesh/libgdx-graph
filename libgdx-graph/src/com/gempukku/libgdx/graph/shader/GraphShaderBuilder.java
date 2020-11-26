@@ -22,6 +22,8 @@ import com.gempukku.libgdx.graph.shader.node.provided.CameraPositionShaderNodeBu
 import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
 
 public class GraphShaderBuilder {
+    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new GraphShaderConfiguration(), new ModelShaderConfiguration()};
+
     public static GraphShader buildShader(Texture defaultTexture,
                                           Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
                                           boolean designTime) {
@@ -262,7 +264,7 @@ public class GraphShaderBuilder {
         if (nodeOutput == null) {
             GraphNode<ShaderFieldType> nodeInfo = graph.getNodeById(nodeId);
             String nodeInfoType = nodeInfo.getType();
-            GraphShaderNodeBuilder nodeBuilder = GraphShaderConfiguration.graphShaderNodeBuilders.get(nodeInfoType);
+            GraphShaderNodeBuilder nodeBuilder = getNodeBuilder(nodeInfoType);
             if (nodeBuilder == null)
                 throw new IllegalStateException("Unable to find graph shader node builder for type: " + nodeInfoType);
             ObjectMap<String, Array<GraphShaderNodeBuilder.FieldOutput>> inputFields = new ObjectMap<>();
@@ -296,6 +298,16 @@ public class GraphShaderBuilder {
         return nodeOutput;
     }
 
+    private static GraphShaderNodeBuilder getNodeBuilder(String nodeInfoType) {
+        for (GraphConfiguration configuration : configurations) {
+            GraphShaderNodeBuilder graphShaderNodeBuilder = configuration.getGraphShaderNodeBuilders().get(nodeInfoType);
+            if (graphShaderNodeBuilder != null)
+                return graphShaderNodeBuilder;
+        }
+
+        return null;
+    }
+
     private static ObjectSet<String> findRequiredOutputs(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
                                                          String nodeId) {
         ObjectSet<String> result = new ObjectSet<>();
@@ -317,10 +329,13 @@ public class GraphShaderBuilder {
     }
 
     private static GraphShaderPropertyProducer findPropertyProducerByType(ShaderFieldType type) {
-        for (GraphShaderPropertyProducer graphShaderPropertyProducer : GraphShaderConfiguration.graphShaderPropertyProducers) {
-            if (graphShaderPropertyProducer.getType() == type)
-                return graphShaderPropertyProducer;
+        for (GraphConfiguration configuration : configurations) {
+            for (GraphShaderPropertyProducer graphShaderPropertyProducer : configuration.getPropertyProducers()) {
+                if (graphShaderPropertyProducer.getType() == type)
+                    return graphShaderPropertyProducer;
+            }
         }
+
         return null;
     }
 }

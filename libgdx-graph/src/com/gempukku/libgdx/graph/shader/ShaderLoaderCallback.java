@@ -8,18 +8,22 @@ import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.data.GraphValidator;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
+import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 
 public class ShaderLoaderCallback extends GraphDataLoaderCallback<GraphShader, ShaderFieldType> {
     private Texture defaultTexture;
     private boolean depthShader;
+    private GraphConfiguration[] graphConfigurations;
 
-    public ShaderLoaderCallback(Texture defaultTexture) {
+    public ShaderLoaderCallback(Texture defaultTexture, GraphConfiguration... graphConfiguration) {
         this(defaultTexture, false);
+        graphConfigurations = graphConfiguration;
     }
 
-    public ShaderLoaderCallback(Texture defaultTexture, boolean depthShader) {
+    public ShaderLoaderCallback(Texture defaultTexture, boolean depthShader, GraphConfiguration... graphConfiguration) {
         this.defaultTexture = defaultTexture;
         this.depthShader = depthShader;
+        graphConfigurations = graphConfiguration;
     }
 
     @Override
@@ -47,6 +51,12 @@ public class ShaderLoaderCallback extends GraphDataLoaderCallback<GraphShader, S
 
     @Override
     protected NodeConfiguration<ShaderFieldType> getNodeConfiguration(String type, JsonValue data) {
-        return GraphShaderConfiguration.graphShaderNodeBuilders.get(type).getConfiguration(data);
+        for (GraphConfiguration graphConfiguration : graphConfigurations) {
+            GraphShaderNodeBuilder graphShaderNodeBuilder = graphConfiguration.getGraphShaderNodeBuilders().get(type);
+            if (graphShaderNodeBuilder != null)
+                return graphShaderNodeBuilder.getConfiguration(data);
+        }
+
+        return null;
     }
 }

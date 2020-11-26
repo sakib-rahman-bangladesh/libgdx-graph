@@ -14,12 +14,12 @@ import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCallback<GraphDesignTab<T>> {
     private Skin skin;
     private GraphDesignTab<T> graphDesignTab;
-    private UIGraphConfiguration<T> uiGraphConfiguration;
+    private UIGraphConfiguration<T>[] uiGraphConfigurations;
 
-    public UIGraphLoaderCallback(Skin skin, GraphDesignTab<T> graphDesignTab, UIGraphConfiguration<T> uiGraphConfiguration) {
+    public UIGraphLoaderCallback(Skin skin, GraphDesignTab<T> graphDesignTab, UIGraphConfiguration<T>... uiGraphConfiguration) {
         this.skin = skin;
         this.graphDesignTab = graphDesignTab;
-        this.uiGraphConfiguration = uiGraphConfiguration;
+        this.uiGraphConfigurations = uiGraphConfiguration;
     }
 
     @Override
@@ -61,18 +61,24 @@ public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCa
     }
 
     private PropertyBoxProducer<T> findPropertyProducerByType(String type) {
-        for (PropertyBoxProducer<T> producer : uiGraphConfiguration.getPropertyBoxProducers().values()) {
-            if (producer.getType().getName().equals(type))
-                return producer;
+        for (UIGraphConfiguration<T> uiGraphConfiguration : uiGraphConfigurations) {
+            for (PropertyBoxProducer<T> producer : uiGraphConfiguration.getPropertyBoxProducers().values()) {
+                if (producer.getType().getName().equals(type))
+                    return producer;
+            }
         }
+
         return null;
     }
 
     private GraphBoxProducer<T> findProducerByType(String type) {
-        for (GraphBoxProducer<T> graphBoxProducer : uiGraphConfiguration.getGraphBoxProducers()) {
-            if (graphBoxProducer.getType().equals(type))
-                return graphBoxProducer;
+        for (UIGraphConfiguration<T> uiGraphConfiguration : uiGraphConfigurations) {
+            for (GraphBoxProducer<T> graphBoxProducer : uiGraphConfiguration.getGraphBoxProducers()) {
+                if (graphBoxProducer.getType().equals(type))
+                    return graphBoxProducer;
+            }
         }
+
         return null;
     }
 }

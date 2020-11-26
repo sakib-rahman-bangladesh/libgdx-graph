@@ -1,17 +1,10 @@
 package com.gempukku.libgdx.graph.shader;
 
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.node.EndGraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.PropertyShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.attribute.AttributeNormalShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.attribute.AttributePositionShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.attribute.AttributeTangentShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.attribute.AttributeUVShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.effect.FresnelEffectShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.effect.IntensityShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.lighting.AmbientLightShaderNodeBuilder;
@@ -20,9 +13,6 @@ import com.gempukku.libgdx.graph.shader.node.lighting.CalculateLightingShaderNod
 import com.gempukku.libgdx.graph.shader.node.lighting.DirectionalLightShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.lighting.PointLightShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.lighting.SpotLightShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.material.ColorAttributeShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.material.FloatAttributeShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.material.TextureAttributeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.arithmetic.AddShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.arithmetic.DivideShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.arithmetic.MultiplyShaderNodeBuilder;
@@ -75,8 +65,6 @@ import com.gempukku.libgdx.graph.shader.node.noise.VoronoiDistance3DShaderNodeBu
 import com.gempukku.libgdx.graph.shader.node.provided.CameraDirectionShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.CameraPositionShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.FragmentCoordinateShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.provided.InstanceIdShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.provided.ModelFragmentCoordinateShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.PixelSizeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.SceneColorShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.provided.SceneDepthShaderNodeBuilder;
@@ -99,7 +87,7 @@ import com.gempukku.libgdx.graph.shader.property.TextureShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.Vector2ShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.Vector3ShaderPropertyProducer;
 
-public class GraphShaderConfiguration {
+public class GraphShaderConfiguration implements GraphConfiguration {
     public static ObjectMap<String, GraphShaderNodeBuilder> graphShaderNodeBuilders = new ObjectMap<>();
     public static Array<GraphShaderPropertyProducer> graphShaderPropertyProducers = new Array<>();
 
@@ -175,28 +163,6 @@ public class GraphShaderConfiguration {
         addGraphShaderNodeBuilder(new FresnelEffectShaderNodeBuilder());
         addGraphShaderNodeBuilder(new IntensityShaderNodeBuilder());
 
-        // Attributes
-        addGraphShaderNodeBuilder(new AttributePositionShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new AttributeNormalShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new AttributeTangentShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new AttributeUVShaderNodeBuilder());
-
-        // Material
-        addGraphShaderNodeBuilder(new FloatAttributeShaderNodeBuilder("Shininess", "Shininess", FloatAttribute.ShininessAlias));
-        addGraphShaderNodeBuilder(new FloatAttributeShaderNodeBuilder("AlphaTest", "Alpha test", FloatAttribute.AlphaTestAlias));
-        addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("AmbientTexture", "Ambient texture", TextureAttribute.AmbientAlias));
-        addGraphShaderNodeBuilder(new ColorAttributeShaderNodeBuilder("AmbientColor", "Ambient color", ColorAttribute.AmbientAlias));
-        addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("BumpTexture", "Bump texture", TextureAttribute.BumpAlias));
-        addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("DiffuseTexture", "Diffuse texture", TextureAttribute.DiffuseAlias));
-        addGraphShaderNodeBuilder(new ColorAttributeShaderNodeBuilder("DiffuseColor", "Diffuse color", ColorAttribute.DiffuseAlias));
-        addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("EmissiveTexture", "Emissive texture", TextureAttribute.EmissiveAlias));
-        addGraphShaderNodeBuilder(new ColorAttributeShaderNodeBuilder("EmissiveColor", "Emissive color", ColorAttribute.EmissiveAlias));
-        addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("NormalTexture", "Normal texture", TextureAttribute.NormalAlias));
-        addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("ReflectionTexture", "Reflection texture", TextureAttribute.ReflectionAlias));
-        addGraphShaderNodeBuilder(new ColorAttributeShaderNodeBuilder("ReflectionColor", "Reflection color", ColorAttribute.ReflectionAlias));
-        addGraphShaderNodeBuilder(new TextureAttributeShaderNodeBuilder("SpecularTexture", "Specular texture", TextureAttribute.SpecularAlias));
-        addGraphShaderNodeBuilder(new ColorAttributeShaderNodeBuilder("SpecularColor", "Specular color", ColorAttribute.SpecularAlias));
-
         // Texture
         addGraphShaderNodeBuilder(new Sampler2DShaderNodeBuilder());
 
@@ -220,13 +186,11 @@ public class GraphShaderConfiguration {
         addGraphShaderNodeBuilder(new CameraPositionShaderNodeBuilder());
         addGraphShaderNodeBuilder(new CameraDirectionShaderNodeBuilder());
         addGraphShaderNodeBuilder(new FragmentCoordinateShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ModelFragmentCoordinateShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SceneDepthShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SceneColorShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ScreenPositionShaderNodeBuilder());
         addGraphShaderNodeBuilder(new PixelSizeShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ViewportSizeShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new InstanceIdShaderNodeBuilder());
 
         // Values
         addGraphShaderNodeBuilder(new ValueBooleanShaderNodeBuilder());
@@ -249,7 +213,17 @@ public class GraphShaderConfiguration {
         graphShaderNodeBuilders.put(builder.getType(), builder);
     }
 
-    private GraphShaderConfiguration() {
+    public GraphShaderConfiguration() {
 
+    }
+
+    @Override
+    public Array<GraphShaderPropertyProducer> getPropertyProducers() {
+        return graphShaderPropertyProducers;
+    }
+
+    @Override
+    public ObjectMap<String, GraphShaderNodeBuilder> getGraphShaderNodeBuilders() {
+        return graphShaderNodeBuilders;
     }
 }

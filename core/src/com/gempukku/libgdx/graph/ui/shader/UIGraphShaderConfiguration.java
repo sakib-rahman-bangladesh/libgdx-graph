@@ -61,8 +61,6 @@ import com.gempukku.libgdx.graph.shader.config.noise.VoronoiDistance3DNodeConfig
 import com.gempukku.libgdx.graph.shader.config.provided.CameraDirectionShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.CameraPositionShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.FragmentCoordinateShaderNodeConfiguration;
-import com.gempukku.libgdx.graph.shader.config.provided.InstanceIdShaderNodeConfiguration;
-import com.gempukku.libgdx.graph.shader.config.provided.ModelFragmentCoordinateShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.PixelSizeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.SceneDepthShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.provided.ScreenPositionShaderNodeConfiguration;
@@ -87,13 +85,6 @@ import com.gempukku.libgdx.graph.ui.producer.value.ValueColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.value.ValueFloatBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.value.ValueVector2BoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.value.ValueVector3BoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.attribute.AttributeNormalBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.attribute.AttributePositionBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.attribute.AttributeTangentBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.attribute.AttributeUVBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.material.ColorAttributeBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.material.FloatAttributeBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.material.TextureAttributeBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.property.PropertyColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.property.PropertyFloatBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.property.PropertyTextureBoxProducer;
@@ -105,40 +96,13 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldType> {
+public class UIGraphShaderConfiguration implements UIGraphConfiguration<ShaderFieldType> {
     public static Set<GraphBoxProducer<ShaderFieldType>> graphBoxProducers = new LinkedHashSet<>();
     public static Map<String, PropertyBoxProducer<ShaderFieldType>> propertyProducers = new LinkedHashMap<>();
 
     static {
         graphBoxProducers.add(new EndShaderBoxProducer());
         graphBoxProducers.add(new PropertyShaderGraphBoxProducer());
-
-        graphBoxProducers.add(new AttributePositionBoxProducer());
-        graphBoxProducers.add(new AttributeNormalBoxProducer());
-        graphBoxProducers.add(new AttributeTangentBoxProducer());
-        graphBoxProducers.add(new AttributeUVBoxProducer());
-
-        graphBoxProducers.add(new FloatAttributeBoxProducer("Shininess", "Shininess"));
-        graphBoxProducers.add(new FloatAttributeBoxProducer("AlphaTest", "Alpha test"));
-
-        graphBoxProducers.add(new TextureAttributeBoxProducer("AmbientTexture", "Ambient texture"));
-        graphBoxProducers.add(new ColorAttributeBoxProducer("AmbientColor", "Ambient color"));
-
-        graphBoxProducers.add(new TextureAttributeBoxProducer("BumpTexture", "Bump texture"));
-
-        graphBoxProducers.add(new TextureAttributeBoxProducer("DiffuseTexture", "Diffuse texture"));
-        graphBoxProducers.add(new ColorAttributeBoxProducer("DiffuseColor", "Diffuse color"));
-
-        graphBoxProducers.add(new TextureAttributeBoxProducer("EmissiveTexture", "Emissive texture"));
-        graphBoxProducers.add(new ColorAttributeBoxProducer("EmissiveColor", "Emissive color"));
-
-        graphBoxProducers.add(new TextureAttributeBoxProducer("NormalTexture", "Normal texture"));
-
-        graphBoxProducers.add(new TextureAttributeBoxProducer("ReflectionTexture", "Reflection texture"));
-        graphBoxProducers.add(new ColorAttributeBoxProducer("ReflectionColor", "Reflection color"));
-
-        graphBoxProducers.add(new TextureAttributeBoxProducer("SpecularTexture", "Specular texture"));
-        graphBoxProducers.add(new ColorAttributeBoxProducer("SpecularColor", "Specular color"));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CalculateLightingShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ApplyNormalMapShaderNodeConfiguration()));
@@ -217,13 +181,11 @@ public class UIShaderConfiguration implements UIGraphConfiguration<ShaderFieldTy
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CameraPositionShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CameraDirectionShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new FragmentCoordinateShaderNodeConfiguration()));
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ModelFragmentCoordinateShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SceneDepthShaderNodeConfiguration()));
         graphBoxProducers.add(new SceneColorShaderBoxProducer());
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ScreenPositionShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new PixelSizeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ViewportSizeShaderNodeConfiguration()));
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new InstanceIdShaderNodeConfiguration()));
 
         graphBoxProducers.add(new ValueColorBoxProducer<ShaderFieldType>(new ValueColorShaderNodeConfiguration()));
         graphBoxProducers.add(new ValueFloatBoxProducer<ShaderFieldType>(new ValueFloatShaderNodeConfiguration()));

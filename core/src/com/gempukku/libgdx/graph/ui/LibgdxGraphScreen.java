@@ -23,7 +23,8 @@ import com.gempukku.libgdx.graph.ui.graph.GraphRemoved;
 import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
 import com.gempukku.libgdx.graph.ui.graph.SaveCallback;
 import com.gempukku.libgdx.graph.ui.pipeline.UIPipelineConfiguration;
-import com.gempukku.libgdx.graph.ui.shader.UIShaderConfiguration;
+import com.gempukku.libgdx.graph.ui.shader.UIGraphShaderConfiguration;
+import com.gempukku.libgdx.graph.ui.shader.UIModelShaderConfiguration;
 import com.kotcrab.vis.ui.util.OsUtils;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
@@ -128,16 +129,22 @@ public class LibgdxGraphScreen extends Table {
     }
 
     private void openShaderTab(String id, JsonValue shader) {
-        UIShaderConfiguration shaderConfiguration = new UIShaderConfiguration();
-        final GraphDesignTab<ShaderFieldType> shaderTab = GraphLoader.loadGraph(shader, new UIGraphLoaderCallback<ShaderFieldType>(
-                skin, new GraphDesignTab<ShaderFieldType>(true, GraphDesignTab.Type.Graph_Shader, id, "Shader", skin,
-                shaderConfiguration, new SaveCallback<ShaderFieldType>() {
+        UIGraphShaderConfiguration graphShaderConfiguration = new UIGraphShaderConfiguration();
+        UIModelShaderConfiguration modelShaderConfiguration = new UIModelShaderConfiguration();
+
+        SaveCallback<ShaderFieldType> saveCallback = new SaveCallback<ShaderFieldType>() {
             @Override
             public void save(GraphDesignTab<ShaderFieldType> graphDesignTab) {
                 savedGraphs.put(graphDesignTab.getId(), graphDesignTab.serializeGraph());
                 graphDesignTab.setDirty(true);
             }
-        }), shaderConfiguration));
+        };
+
+        final GraphDesignTab<ShaderFieldType> shaderTab = GraphLoader.loadGraph(shader,
+                new UIGraphLoaderCallback<ShaderFieldType>(
+                        skin, new GraphDesignTab<ShaderFieldType>(true, GraphDesignTab.Type.Graph_Shader, id, "Shader", skin,
+                        saveCallback, graphShaderConfiguration, modelShaderConfiguration),
+                        graphShaderConfiguration, modelShaderConfiguration));
         tabbedPane.add(shaderTab);
         tabbedPane.switchTab(shaderTab);
         shaderTab.setDirty(false);
@@ -449,10 +456,10 @@ public class LibgdxGraphScreen extends Table {
             try {
                 InputStream stream = fileHandle.read();
                 try {
-                    UIPipelineConfiguration graphConfiguration = new UIPipelineConfiguration();
+                    UIPipelineConfiguration pipelineGraphConfiguration = new UIPipelineConfiguration();
                     graphDesignTab = GraphLoader.loadGraph(stream, new UIGraphLoaderCallback<PipelineFieldType>(
                             skin, new GraphDesignTab<PipelineFieldType>(false, GraphDesignTab.Type.Render_Pipeline, "main", "Render pipeline", skin,
-                            graphConfiguration, null), graphConfiguration));
+                            null, pipelineGraphConfiguration), pipelineGraphConfiguration));
 
                     graphDesignTab.getContentTable().addListener(
                             new EventListener() {

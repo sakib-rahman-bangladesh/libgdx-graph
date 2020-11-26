@@ -51,7 +51,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     private final GraphContainer<T> graphContainer;
 
     private Skin skin;
-    private UIGraphConfiguration<T> uiGraphConfiguration;
+    private UIGraphConfiguration<T>[] uiGraphConfigurations;
     private SaveCallback<T> saveCallback;
 
     private Type type;
@@ -67,7 +67,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     private boolean finishedLoading = false;
 
     public GraphDesignTab(boolean closeable, Type type, String id, String title, Skin skin,
-                          UIGraphConfiguration<T> uiGraphConfiguration, SaveCallback<T> saveCallback) {
+                          SaveCallback<T> saveCallback, UIGraphConfiguration<T>... uiGraphConfiguration) {
         super(true, closeable);
         this.type = type;
         this.id = id;
@@ -76,7 +76,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         contentTable = new Table(skin);
         pipelineProperties = createPropertiesUI(skin);
         this.skin = skin;
-        this.uiGraphConfiguration = uiGraphConfiguration;
+        this.uiGraphConfigurations = uiGraphConfiguration;
         this.saveCallback = saveCallback;
 
         graphContainer = new GraphContainer<T>(skin,
@@ -181,23 +181,25 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     private PopupMenu createGraphPopupMenu(final float popupX, final float popupY) {
         PopupMenu popupMenu = new PopupMenu();
 
-        for (final GraphBoxProducer<T> producer : uiGraphConfiguration.getGraphBoxProducers()) {
-            String menuLocation = producer.getMenuLocation();
-            if (menuLocation != null) {
-                String[] menuSplit = menuLocation.split("/");
-                PopupMenu targetMenu = findOrCreatePopupMenu(popupMenu, menuSplit, 0);
-                final String title = producer.getName();
-                MenuItem valueMenuItem = new MenuItem(title);
-                valueMenuItem.addListener(
-                        new ClickListener(Input.Buttons.LEFT) {
-                            @Override
-                            public void clicked(InputEvent event, float x, float y) {
-                                String id = UUID.randomUUID().toString().replace("-", "");
-                                GraphBox<T> graphBox = producer.createDefault(skin, id);
-                                graphContainer.addGraphBox(graphBox, title, true, popupX, popupY);
-                            }
-                        });
-                targetMenu.addItem(valueMenuItem);
+        for (UIGraphConfiguration<T> uiGraphConfiguration : uiGraphConfigurations) {
+            for (final GraphBoxProducer<T> producer : uiGraphConfiguration.getGraphBoxProducers()) {
+                String menuLocation = producer.getMenuLocation();
+                if (menuLocation != null) {
+                    String[] menuSplit = menuLocation.split("/");
+                    PopupMenu targetMenu = findOrCreatePopupMenu(popupMenu, menuSplit, 0);
+                    final String title = producer.getName();
+                    MenuItem valueMenuItem = new MenuItem(title);
+                    valueMenuItem.addListener(
+                            new ClickListener(Input.Buttons.LEFT) {
+                                @Override
+                                public void clicked(InputEvent event, float x, float y) {
+                                    String id = UUID.randomUUID().toString().replace("-", "");
+                                    GraphBox<T> graphBox = producer.createDefault(skin, id);
+                                    graphContainer.addGraphBox(graphBox, title, true, popupX, popupY);
+                                }
+                            });
+                    targetMenu.addItem(valueMenuItem);
+                }
             }
         }
 
@@ -250,19 +252,21 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
 
     private PopupMenu createPropertyPopupMenu(float x, float y) {
         PopupMenu menu = new PopupMenu();
-        for (Map.Entry<String, PropertyBoxProducer<T>> propertyEntry : uiGraphConfiguration.getPropertyBoxProducers().entrySet()) {
-            final String name = propertyEntry.getKey();
-            final PropertyBoxProducer<T> value = propertyEntry.getValue();
-            MenuItem valueMenuItem = new MenuItem(name);
-            valueMenuItem.addListener(
-                    new ClickListener(Input.Buttons.LEFT) {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            PropertyBox<T> defaultPropertyBox = value.createDefaultPropertyBox(skin);
-                            addPropertyBox(skin, name, defaultPropertyBox);
-                        }
-                    });
-            menu.addItem(valueMenuItem);
+        for (UIGraphConfiguration<T> uiGraphConfiguration : uiGraphConfigurations) {
+            for (Map.Entry<String, PropertyBoxProducer<T>> propertyEntry : uiGraphConfiguration.getPropertyBoxProducers().entrySet()) {
+                final String name = propertyEntry.getKey();
+                final PropertyBoxProducer<T> value = propertyEntry.getValue();
+                MenuItem valueMenuItem = new MenuItem(name);
+                valueMenuItem.addListener(
+                        new ClickListener(Input.Buttons.LEFT) {
+                            @Override
+                            public void clicked(InputEvent event, float x, float y) {
+                                PropertyBox<T> defaultPropertyBox = value.createDefaultPropertyBox(skin);
+                                addPropertyBox(skin, name, defaultPropertyBox);
+                            }
+                        });
+                menu.addItem(valueMenuItem);
+            }
         }
 
         return menu;
