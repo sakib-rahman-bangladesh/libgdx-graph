@@ -11,8 +11,8 @@ import java.io.InputStreamReader;
 
 public class GraphLoader {
     private static final int VERSION_MAJOR = 0;
-    private static final int VERSION_MINOR = 1;
-    private static final int VERSION_PATCH = 2;
+    private static final int VERSION_MINOR = 2;
+    private static final int VERSION_PATCH = 0;
     public static final String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
     private static JsonValue emptyData = new JsonValue(JsonValue.ValueType.object);
 
