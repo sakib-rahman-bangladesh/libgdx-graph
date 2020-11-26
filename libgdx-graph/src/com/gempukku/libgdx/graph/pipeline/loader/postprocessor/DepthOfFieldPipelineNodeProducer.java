@@ -4,11 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
-import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
@@ -16,6 +13,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.DepthOfFieldPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.loader.FullScreenRender;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
@@ -46,18 +44,6 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
                 viewToScreenCoords, depthOfField);
         if (!shaderProgram.isCompiled())
             throw new IllegalArgumentException("Error compiling shader: " + shaderProgram.getLog());
-
-        float[] verticeData = new float[]{
-                0, 0, 0,
-                0, 1, 0,
-                1, 0, 0,
-                1, 1, 0};
-        short[] indices = {0, 2, 1, 2, 3, 1};
-
-        final VertexBufferObject vertexBufferObject = new VertexBufferObject(true, 4, VertexAttribute.Position());
-        final IndexBufferObject indexBufferObject = new IndexBufferObject(true, indices.length);
-        vertexBufferObject.setVertices(verticeData, 0, verticeData.length);
-        indexBufferObject.setIndices(indices, 0, indices.length);
 
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
         final PipelineNode.FieldOutput<Camera> cameraInput = (PipelineNode.FieldOutput<Camera>) inputFields.get("camera");
@@ -94,19 +80,13 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
                     shaderProgram.setUniformf("u_nearDistanceBlur", nearDistanceBlur);
                     shaderProgram.setUniformf("u_farDistanceBlur", farDistanceBlur);
 
-                    vertexBufferObject.bind(shaderProgram);
-                    indexBufferObject.bind();
-
                     shaderProgram.setUniformi("u_vertical", 1);
-                    RenderPipelineBuffer tempBuffer = executeBlur(shaderProgram, renderPipeline, currentBuffer, currentBuffer, indexBufferObject, pipelineRenderingContext.getRenderContext());
+                    RenderPipelineBuffer tempBuffer = executeBlur(shaderProgram, renderPipeline, currentBuffer, currentBuffer, pipelineRenderingContext.getRenderContext(), pipelineRenderingContext.getFullScreenRender());
                     shaderProgram.setUniformi("u_vertical", 0);
-                    RenderPipelineBuffer finalBuffer = executeBlur(shaderProgram, renderPipeline, currentBuffer, tempBuffer, indexBufferObject, pipelineRenderingContext.getRenderContext());
+                    RenderPipelineBuffer finalBuffer = executeBlur(shaderProgram, renderPipeline, currentBuffer, tempBuffer, pipelineRenderingContext.getRenderContext(), pipelineRenderingContext.getFullScreenRender());
                     renderPipeline.returnFrameBuffer(tempBuffer);
                     renderPipeline.swapColorTextures(currentBuffer, finalBuffer);
                     renderPipeline.returnFrameBuffer(finalBuffer);
-
-                    indexBufferObject.unbind();
-                    vertexBufferObject.unbind(shaderProgram);
                 }
 
                 OutputValue<RenderPipeline> output = outputValues.get("output");
@@ -116,8 +96,6 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
 
             @Override
             public void dispose() {
-                vertexBufferObject.dispose();
-                indexBufferObject.dispose();
                 shaderProgram.dispose();
             }
         };
@@ -128,15 +106,15 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
         return new String(fileHandle.readBytes(), StandardCharsets.UTF_8);
     }
 
-    private RenderPipelineBuffer executeBlur(ShaderProgram shaderProgram, RenderPipeline renderPipeline, RenderPipelineBuffer depthBuffer, RenderPipelineBuffer sourceBuffer, IndexBufferObject indexBufferObject,
-                                             RenderContext renderContext) {
+    private RenderPipelineBuffer executeBlur(ShaderProgram shaderProgram, RenderPipeline renderPipeline, RenderPipelineBuffer depthBuffer, RenderPipelineBuffer sourceBuffer,
+                                             RenderContext renderContext, FullScreenRender fullScreenRender) {
         RenderPipelineBuffer resultBuffer = renderPipeline.getNewFrameBuffer(sourceBuffer);
         resultBuffer.beginColor();
 
         shaderProgram.setUniformi("u_sourceTexture", renderContext.textureBinder.bind(sourceBuffer.getColorBufferTexture()));
         shaderProgram.setUniformi("u_depthTexture", renderContext.textureBinder.bind(depthBuffer.getDepthBufferTexture()));
 
-        Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, indexBufferObject.getNumIndices(), GL20.GL_UNSIGNED_SHORT, 0);
+        fullScreenRender.renderFullScreen(shaderProgram);
 
         resultBuffer.endColor();
 

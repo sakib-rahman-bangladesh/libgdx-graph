@@ -43,7 +43,7 @@ public class PipelineRendererNodeProducer extends PipelineNodeProducerImpl {
                 else
                     size = new Vector2(paintBuffer.getWidth(), paintBuffer.getHeight());
 
-                canvasPipeline.drawTexture(paintBuffer, canvasBuffer, pipelineRenderingContext.getRenderContext(), position.x, position.y, size.x, size.y);
+                canvasPipeline.drawTexture(paintBuffer, canvasBuffer, pipelineRenderingContext, position.x, position.y, size.x, size.y);
 
                 paintPipeline.returnFrameBuffer(paintBuffer);
 

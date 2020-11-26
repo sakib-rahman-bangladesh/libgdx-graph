@@ -2,11 +2,8 @@ package com.gempukku.libgdx.graph.pipeline.loader.postprocessor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
-import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
@@ -32,17 +29,6 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
         if (!shaderProgram.isCompiled())
             throw new IllegalArgumentException("Error compiling shader: " + shaderProgram.getLog());
 
-        float[] verticeData = new float[]{
-                0, 0, 0,
-                0, 1, 0,
-                1, 0, 0,
-                1, 1, 0};
-        short[] indices = {0, 2, 1, 2, 3, 1};
-
-        final VertexBufferObject vertexBufferObject = new VertexBufferObject(true, 4, VertexAttribute.Position());
-        final IndexBufferObject indexBufferObject = new IndexBufferObject(true, indices.length);
-        vertexBufferObject.setVertices(verticeData, 0, verticeData.length);
-        indexBufferObject.setIndices(indices, 0, indices.length);
 
         PipelineNode.FieldOutput<Float> gamma = (PipelineNode.FieldOutput<Float>) inputFields.get("gamma");
         if (gamma == null)
@@ -78,11 +64,7 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
 
                     shaderProgram.setUniformf("u_gamma", gamma);
 
-                    vertexBufferObject.bind(shaderProgram);
-                    indexBufferObject.bind();
-                    Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, indexBufferObject.getNumIndices(), GL20.GL_UNSIGNED_SHORT, 0);
-                    vertexBufferObject.unbind(shaderProgram);
-                    indexBufferObject.unbind();
+                    pipelineRenderingContext.getFullScreenRender().renderFullScreen(shaderProgram);
 
                     newBuffer.endColor();
 
@@ -97,8 +79,6 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
 
             @Override
             public void dispose() {
-                vertexBufferObject.dispose();
-                indexBufferObject.dispose();
                 shaderProgram.dispose();
             }
         };

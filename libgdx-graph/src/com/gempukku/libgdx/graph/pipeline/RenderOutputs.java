@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
+import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 
 public class RenderOutputs {
     public static final RenderOutput drawToScreen = new DrawToScreen();
@@ -21,8 +21,8 @@ public class RenderOutputs {
         }
 
         @Override
-        public void output(RenderPipeline renderPipeline, RenderContext renderContext) {
-            renderPipeline.drawTexture(renderPipeline.getDefaultBuffer(), null, renderContext);
+        public void output(RenderPipeline renderPipeline, PipelineRenderingContext pipelineRenderingContext) {
+            renderPipeline.drawTexture(renderPipeline.getDefaultBuffer(), null, pipelineRenderingContext);
 
             renderPipeline.returnFrameBuffer(renderPipeline.getDefaultBuffer());
         }
@@ -50,7 +50,7 @@ public class RenderOutputs {
         }
 
         @Override
-        public void output(RenderPipeline renderPipeline, RenderContext renderContext) {
+        public void output(RenderPipeline renderPipeline, PipelineRenderingContext pipelineRenderingContext) {
             RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
             TextureData textureData = currentBuffer.getColorBufferTexture().getTextureData();
             textureData.prepare();

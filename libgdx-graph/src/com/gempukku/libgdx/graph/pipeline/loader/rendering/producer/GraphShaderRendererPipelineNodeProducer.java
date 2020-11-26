@@ -111,7 +111,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
                 RenderPipelineBuffer sceneColorBuffer = null;
                 if (needsSceneColor) {
-                    sceneColorBuffer = setupColorTexture(renderPipeline, currentBuffer, pipelineRenderingContext.getRenderContext());
+                    sceneColorBuffer = setupColorTexture(renderPipeline, currentBuffer, pipelineRenderingContext);
                 }
 
                 currentBuffer.beginColor();
@@ -192,10 +192,10 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             }
 
             private RenderPipelineBuffer setupColorTexture(final RenderPipeline renderPipeline, final RenderPipelineBuffer currentBuffer,
-                                                           RenderContext renderContext) {
+                                                           PipelineRenderingContext pipelineRenderingContext) {
                 RenderPipelineBuffer sceneColorBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
                 shaderContext.setColorTexture(sceneColorBuffer.getColorBufferTexture());
-                renderPipeline.drawTexture(currentBuffer, sceneColorBuffer, renderContext);
+                renderPipeline.drawTexture(currentBuffer, sceneColorBuffer, pipelineRenderingContext);
                 return sceneColorBuffer;
             }
 

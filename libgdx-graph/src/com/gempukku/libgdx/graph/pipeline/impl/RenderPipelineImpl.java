@@ -4,13 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBufferImpl;
 import com.gempukku.libgdx.graph.pipeline.TextureFrameBuffer;
+import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 
 import java.util.Iterator;
 
@@ -114,17 +114,18 @@ public class RenderPipelineImpl implements RenderPipeline {
     }
 
     @Override
-    public void drawTexture(RenderPipelineBuffer paint, RenderPipelineBuffer canvas, RenderContext renderContext) {
+    public void drawTexture(RenderPipelineBuffer paint, RenderPipelineBuffer canvas, PipelineRenderingContext pipelineRenderingContext) {
         RenderPipelineBufferImpl fromBuffer = (RenderPipelineBufferImpl) paint;
         RenderPipelineBufferImpl toBuffer = (RenderPipelineBufferImpl) canvas;
-        bufferCopyHelper.copy(fromBuffer.getColorBuffer(), toBuffer != null ? toBuffer.getColorBuffer() : null, renderContext);
+        bufferCopyHelper.copy(fromBuffer.getColorBuffer(), toBuffer != null ? toBuffer.getColorBuffer() : null, pipelineRenderingContext.getRenderContext(), pipelineRenderingContext.getFullScreenRender());
     }
 
     @Override
-    public void drawTexture(RenderPipelineBuffer paint, RenderPipelineBuffer canvas, RenderContext renderContext, float x, float y, float width, float height) {
+    public void drawTexture(RenderPipelineBuffer paint, RenderPipelineBuffer canvas, PipelineRenderingContext pipelineRenderingContext, float x, float y, float width, float height) {
         RenderPipelineBufferImpl fromBuffer = (RenderPipelineBufferImpl) paint;
         RenderPipelineBufferImpl toBuffer = (RenderPipelineBufferImpl) canvas;
-        bufferCopyHelper.copy(fromBuffer.getColorBuffer(), toBuffer != null ? toBuffer.getColorBuffer() : null, renderContext, x, y, width, height);
+        bufferCopyHelper.copy(fromBuffer.getColorBuffer(), toBuffer != null ? toBuffer.getColorBuffer() : null,
+                pipelineRenderingContext.getRenderContext(), pipelineRenderingContext.getFullScreenRender(), x, y, width, height);
     }
 
     @Override

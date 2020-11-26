@@ -17,4 +17,6 @@ public interface PipelineRenderingContext {
     TimeProvider getTimeProvider();
 
     RenderContext getRenderContext();
+
+    FullScreenRender getFullScreenRender();
 }

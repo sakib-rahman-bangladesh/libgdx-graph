@@ -65,7 +65,13 @@ public class ValueFloatBoxProducer<T extends FieldType> extends ValueGraphBoxPro
                 new GraphBoxPartImpl.Callback() {
                     @Override
                     public void serialize(JsonValue object) {
-                        object.addChild("v1", new JsonValue(Float.parseFloat(v1Input.getText())));
+                        float value;
+                        try {
+                            value = Float.parseFloat(v1Input.getText());
+                        } catch (NumberFormatException exp) {
+                            value = 0f;
+                        }
+                        object.addChild("v1", new JsonValue(value));
                     }
                 });
         colorPart.setOutputConnector(GraphBoxOutputConnector.Side.Right, configuration.getNodeOutputs().get("value"));
