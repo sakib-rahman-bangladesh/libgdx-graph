@@ -27,6 +27,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.value.producer.ValueColorPipeli
 import com.gempukku.libgdx.graph.pipeline.loader.value.producer.ValueFloatPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.value.producer.ValueVector2PipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.value.producer.ValueVector3PipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.property.BooleanPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.CameraPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.ColorPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.FloatPipelinePropertyProducer;
@@ -77,6 +78,7 @@ public class RendererPipelineConfiguration {
         pipelinePropertyProducers.add(new Vector2PipelinePropertyProducer());
         pipelinePropertyProducers.add(new Vector3PipelinePropertyProducer());
         pipelinePropertyProducers.add(new ColorPipelinePropertyProducer());
+        pipelinePropertyProducers.add(new BooleanPipelinePropertyProducer());
         pipelinePropertyProducers.add(new StagePipelinePropertyProducer());
         pipelinePropertyProducers.add(new ModelsPipelinePropertyProducer());
         pipelinePropertyProducers.add(new LightsPipelinePropertyProducer());

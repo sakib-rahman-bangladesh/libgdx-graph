@@ -46,6 +46,7 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
             throw new IllegalArgumentException("Error compiling shader: " + shaderProgram.getLog());
 
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
+        PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         final PipelineNode.FieldOutput<Camera> cameraInput = (PipelineNode.FieldOutput<Camera>) inputFields.get("camera");
         final PipelineNode.FieldOutput<Vector2> focusDistanceInput = (PipelineNode.FieldOutput<Vector2>) inputFields.get("focusDistance");
         final PipelineNode.FieldOutput<Float> nearDistanceBlurInput = (PipelineNode.FieldOutput<Float>) inputFields.get("nearDistanceBlur");
@@ -58,8 +59,9 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
                     pipelineRequirements.setRequiringDepthTexture();
 
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
+                boolean enabled = processorEnabled == null || processorEnabled.getValue(pipelineRenderingContext, null);
 
-                if (maxBlur > 0) {
+                if (enabled && maxBlur > 0) {
                     Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
                     Vector2 focusDistance = focusDistanceInput.getValue(pipelineRenderingContext, null);
                     float nearDistanceBlur = nearDistanceBlurInput != null ? nearDistanceBlurInput.getValue(pipelineRenderingContext, null) : 10f;

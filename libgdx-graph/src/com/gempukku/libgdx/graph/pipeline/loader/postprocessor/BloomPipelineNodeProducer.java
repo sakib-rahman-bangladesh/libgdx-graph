@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.BloomPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.loader.BooleanFieldOutput;
 import com.gempukku.libgdx.graph.pipeline.loader.FloatFieldOutput;
 import com.gempukku.libgdx.graph.pipeline.loader.FullScreenRender;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
@@ -41,9 +42,12 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
         if (!bloomSumProgram.isCompiled())
             throw new IllegalArgumentException("Error compiling shader: " + bloomSumProgram.getLog());
 
+        PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         PipelineNode.FieldOutput<Float> bloomRadius = (PipelineNode.FieldOutput<Float>) inputFields.get("bloomRadius");
         PipelineNode.FieldOutput<Float> minimalBrightness = (PipelineNode.FieldOutput<Float>) inputFields.get("minimalBrightness");
         PipelineNode.FieldOutput<Float> bloomStrength = (PipelineNode.FieldOutput<Float>) inputFields.get("bloomStrength");
+        if (processorEnabled == null)
+            processorEnabled = new BooleanFieldOutput(true);
         if (bloomRadius == null)
             bloomRadius = new FloatFieldOutput(1f);
         if (minimalBrightness == null)
@@ -52,6 +56,7 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
             bloomStrength = new FloatFieldOutput(0f);
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
 
+        final PipelineNode.FieldOutput<Boolean> finalProcessorEnabled = processorEnabled;
         final PipelineNode.FieldOutput<Float> finalBloomStrength = bloomStrength;
         final PipelineNode.FieldOutput<Float> finalBloomRadius = bloomRadius;
         final PipelineNode.FieldOutput<Float> finalMinimalBrightness = minimalBrightness;
@@ -60,9 +65,10 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
 
+                boolean enabled = finalProcessorEnabled.getValue(pipelineRenderingContext, null);
                 float bloomStrengthValue = finalBloomStrength.getValue(pipelineRenderingContext, null);
                 int bloomRadiusValue = MathUtils.round(finalBloomRadius.getValue(pipelineRenderingContext, null));
-                if (bloomStrengthValue > 0 && bloomRadiusValue > 0) {
+                if (enabled && bloomStrengthValue > 0 && bloomRadiusValue > 0) {
                     float minimalBrightnessValue = finalMinimalBrightness.getValue(pipelineRenderingContext, null);
 
                     RenderPipelineBuffer originalBuffer = renderPipeline.getDefaultBuffer();

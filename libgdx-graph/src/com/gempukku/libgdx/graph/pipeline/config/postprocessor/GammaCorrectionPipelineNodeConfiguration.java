@@ -12,6 +12,8 @@ public class GammaCorrectionPipelineNodeConfiguration extends NodeConfigurationI
     public GammaCorrectionPipelineNodeConfiguration() {
         super("GammaCorrection", "Gamma correction", "Post-processing");
         addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
+        addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("gamma", "Gamma", Float));
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("input", "Input", true, true, RenderPipeline));

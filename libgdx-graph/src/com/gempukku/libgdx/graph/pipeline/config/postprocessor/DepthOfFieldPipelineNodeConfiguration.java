@@ -14,6 +14,8 @@ public class DepthOfFieldPipelineNodeConfiguration extends NodeConfigurationImpl
     public DepthOfFieldPipelineNodeConfiguration() {
         super("DepthOfField", "Depth of Field", "Post-processing");
         addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
+        addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("camera", "Camera", true, Camera));
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("focusDistance", "Focus Distance Range", true, Vector2));

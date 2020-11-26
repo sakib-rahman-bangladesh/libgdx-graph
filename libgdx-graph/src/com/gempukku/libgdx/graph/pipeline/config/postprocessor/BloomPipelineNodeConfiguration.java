@@ -12,6 +12,8 @@ public class BloomPipelineNodeConfiguration extends NodeConfigurationImpl<Pipeli
     public BloomPipelineNodeConfiguration() {
         super("Bloom", "Bloom post-processor", "Post-processing");
         addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
+        addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("bloomRadius", "Radius", Float));
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("minimalBrightness", "Min Brightness", Float));

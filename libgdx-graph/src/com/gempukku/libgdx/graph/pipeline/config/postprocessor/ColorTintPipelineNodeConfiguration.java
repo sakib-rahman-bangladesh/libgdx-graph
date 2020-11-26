@@ -13,6 +13,8 @@ public class ColorTintPipelineNodeConfiguration extends NodeConfigurationImpl<Pi
     public ColorTintPipelineNodeConfiguration() {
         super("ColorTint", "Color tint", "Post-processing");
         addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
+        addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("color", "Color", Color));
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("strength", "Strength", Float));

@@ -12,6 +12,8 @@ public class GaussianBlurPipelineNodeConfiguration extends NodeConfigurationImpl
     public GaussianBlurPipelineNodeConfiguration() {
         super("GaussianBlur", "Gaussian blur", "Post-processing");
         addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
+        addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("blurRadius", "Radius", Float));
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("input", "Input", true, true, RenderPipeline));

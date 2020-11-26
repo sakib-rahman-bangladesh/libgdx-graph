@@ -30,6 +30,7 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
             throw new IllegalArgumentException("Error compiling shader: " + shaderProgram.getLog());
 
 
+        PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         PipelineNode.FieldOutput<Float> gamma = (PipelineNode.FieldOutput<Float>) inputFields.get("gamma");
         if (gamma == null)
             gamma = new FloatFieldOutput(0f);
@@ -41,8 +42,10 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
 
+                boolean enabled = processorEnabled == null || processorEnabled.getValue(pipelineRenderingContext, null);
+
                 float gamma = finalGamma.getValue(pipelineRenderingContext, null);
-                if (gamma != 1) {
+                if (enabled && gamma != 1) {
                     RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
 
                     RenderPipelineBuffer newBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
