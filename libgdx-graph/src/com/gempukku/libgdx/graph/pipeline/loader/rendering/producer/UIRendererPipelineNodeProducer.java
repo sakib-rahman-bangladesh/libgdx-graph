@@ -19,14 +19,16 @@ public class UIRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
 
     @Override
     public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
+        PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         final PipelineNode.FieldOutput<Stage> stageInput = (PipelineNode.FieldOutput<Stage>) inputFields.get("stage");
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
+                boolean enabled = processorEnabled == null || processorEnabled.getValue(pipelineRenderingContext, null);
                 Stage stage = stageInput.getValue(pipelineRenderingContext, null);
-                if (stage != null) {
+                if (enabled && stage != null) {
                     // Sadly need to switch off (and then on) the RenderContext
                     pipelineRenderingContext.getRenderContext().end();
 

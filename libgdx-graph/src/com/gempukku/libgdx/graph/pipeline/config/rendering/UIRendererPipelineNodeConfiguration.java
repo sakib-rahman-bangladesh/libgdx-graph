@@ -12,6 +12,8 @@ public class UIRendererPipelineNodeConfiguration extends NodeConfigurationImpl<P
     public UIRendererPipelineNodeConfiguration() {
         super("UIRenderer", "UI renderer", "Pipeline");
         addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
+        addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("input", "Input", true, true, RenderPipeline));
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("stage", "Stage", true, Stage));
