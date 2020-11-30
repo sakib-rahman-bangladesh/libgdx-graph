@@ -24,6 +24,10 @@ import com.gempukku.libgdx.graph.pipeline.config.value.ValueVector2PipelineNodeC
 import com.gempukku.libgdx.graph.pipeline.config.value.ValueVector3PipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
+import com.gempukku.libgdx.graph.ui.pipeline.producer.PropertyPipelineGraphBoxProducer;
+import com.gempukku.libgdx.graph.ui.pipeline.producer.postprocessor.DepthOfFieldBoxProducer;
+import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.FullScreenShaderRendererBoxProducer;
+import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.GraphShaderRendererBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyBooleanBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyCameraBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyColorBoxProducer;
@@ -34,15 +38,13 @@ import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyModelsBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyStageBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyVector2BoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyVector3BoxProducer;
-import com.gempukku.libgdx.graph.ui.pipeline.shader.GraphShaderRendererBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
-import com.gempukku.libgdx.graph.ui.producer.postprocessor.DepthOfFieldBoxProducer;
-import com.gempukku.libgdx.graph.ui.producer.value.ValueBooleanBoxProducer;
-import com.gempukku.libgdx.graph.ui.producer.value.ValueColorBoxProducer;
-import com.gempukku.libgdx.graph.ui.producer.value.ValueFloatBoxProducer;
-import com.gempukku.libgdx.graph.ui.producer.value.ValueVector2BoxProducer;
-import com.gempukku.libgdx.graph.ui.producer.value.ValueVector3BoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueBooleanBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueColorBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueFloatBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueVector2BoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueVector3BoxProducer;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -80,10 +82,11 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new MergePipelineNodeConfiguration()));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new StartPipelineNodeConfiguration()));
-        graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new DefaultRendererPipelineNodeConfiguration()));
+        graphBoxProducers.add(new GraphShaderRendererBoxProducer());
+        graphBoxProducers.add(new FullScreenShaderRendererBoxProducer());
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new UIRendererPipelineNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new PipelineRendererNodeConfiguration()));
-        graphBoxProducers.add(new GraphShaderRendererBoxProducer());
+        graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new DefaultRendererPipelineNodeConfiguration()));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new BloomPipelineNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new GaussianBlurPipelineNodeConfiguration()));

@@ -46,7 +46,7 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
             throw new IllegalArgumentException("Error compiling shader: " + shaderProgram.getLog());
 
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
-        PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
+        final PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         final PipelineNode.FieldOutput<Camera> cameraInput = (PipelineNode.FieldOutput<Camera>) inputFields.get("camera");
         final PipelineNode.FieldOutput<Vector2> focusDistanceInput = (PipelineNode.FieldOutput<Vector2>) inputFields.get("focusDistance");
         final PipelineNode.FieldOutput<Float> nearDistanceBlurInput = (PipelineNode.FieldOutput<Float>) inputFields.get("nearDistanceBlur");

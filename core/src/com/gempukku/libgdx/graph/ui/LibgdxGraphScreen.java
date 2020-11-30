@@ -16,15 +16,12 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
 import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 import com.gempukku.libgdx.graph.ui.graph.GraphRemoved;
 import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
 import com.gempukku.libgdx.graph.ui.graph.SaveCallback;
 import com.gempukku.libgdx.graph.ui.pipeline.UIPipelineConfiguration;
-import com.gempukku.libgdx.graph.ui.shader.UIGraphShaderConfiguration;
-import com.gempukku.libgdx.graph.ui.shader.UIModelShaderConfiguration;
 import com.kotcrab.vis.ui.util.OsUtils;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
@@ -79,8 +76,7 @@ public class LibgdxGraphScreen extends Table {
                         createGroup.setDisabled(false);
 
                         GraphDesignTab<?> designTab = (GraphDesignTab<?>) tab;
-                        boolean graphShaderTab = designTab.getType() == GraphDesignTab.Type.Graph_Shader;
-                        exportShader.setDisabled(!graphShaderTab);
+                        exportShader.setDisabled(!designTab.getType().isExportable());
                     }
 
                     @Override
@@ -128,26 +124,22 @@ public class LibgdxGraphScreen extends Table {
         });
     }
 
-    private void openShaderTab(String id, JsonValue shader) {
-        UIGraphShaderConfiguration graphShaderConfiguration = new UIGraphShaderConfiguration();
-        UIModelShaderConfiguration modelShaderConfiguration = new UIModelShaderConfiguration();
-
-        SaveCallback<ShaderFieldType> saveCallback = new SaveCallback<ShaderFieldType>() {
+    private void openGraphTab(String id, JsonValue graph, String title, GraphDesignTab.Type type, UIGraphConfiguration... configurations) {
+        SaveCallback saveCallback = new SaveCallback() {
             @Override
-            public void save(GraphDesignTab<ShaderFieldType> graphDesignTab) {
+            public void save(GraphDesignTab graphDesignTab) {
                 savedGraphs.put(graphDesignTab.getId(), graphDesignTab.serializeGraph());
                 graphDesignTab.setDirty(true);
             }
         };
 
-        final GraphDesignTab<ShaderFieldType> shaderTab = GraphLoader.loadGraph(shader,
-                new UIGraphLoaderCallback<ShaderFieldType>(
-                        skin, new GraphDesignTab<ShaderFieldType>(true, GraphDesignTab.Type.Graph_Shader, id, "Shader", skin,
-                        saveCallback, graphShaderConfiguration, modelShaderConfiguration),
-                        graphShaderConfiguration, modelShaderConfiguration));
-        tabbedPane.add(shaderTab);
-        tabbedPane.switchTab(shaderTab);
-        shaderTab.setDirty(false);
+        GraphDesignTab graphDesignTab = new GraphDesignTab(true, type, id, title, skin,
+                saveCallback, configurations);
+        GraphLoader.loadGraph(graph,
+                new UIGraphLoaderCallback(skin, graphDesignTab, configurations));
+        tabbedPane.add(graphDesignTab);
+        tabbedPane.switchTab(graphDesignTab);
+        graphDesignTab.setDirty(false);
     }
 
     private Tab findTabByGraphId(String id) {
@@ -474,7 +466,8 @@ public class LibgdxGraphScreen extends Table {
                                             JsonValue graph = savedGraphs.get(request.getId());
                                             if (graph == null)
                                                 graph = request.getJsonObject();
-                                            openShaderTab(request.getId(), graph);
+                                            openGraphTab(request.getId(), graph, request.getTitle(), request.getType(),
+                                                    request.getGraphConfigurations());
                                         }
                                         return true;
                                     }

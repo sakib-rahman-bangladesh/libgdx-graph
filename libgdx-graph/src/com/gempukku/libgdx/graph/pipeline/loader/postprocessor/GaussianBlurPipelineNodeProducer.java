@@ -31,7 +31,7 @@ public class GaussianBlurPipelineNodeProducer extends PipelineNodeProducerImpl {
         if (!shaderProgram.isCompiled())
             throw new IllegalArgumentException("Error compiling shader: " + shaderProgram.getLog());
 
-        PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
+        final PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         PipelineNode.FieldOutput<Float> blurRadius = (PipelineNode.FieldOutput<Float>) inputFields.get("blurRadius");
         if (blurRadius == null)
             blurRadius = new FloatFieldOutput(0f);

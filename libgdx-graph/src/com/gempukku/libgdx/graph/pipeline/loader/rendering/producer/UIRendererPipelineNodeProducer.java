@@ -19,7 +19,7 @@ public class UIRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
 
     @Override
     public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
-        PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
+        final PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         final PipelineNode.FieldOutput<Stage> stageInput = (PipelineNode.FieldOutput<Stage>) inputFields.get("stage");
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {

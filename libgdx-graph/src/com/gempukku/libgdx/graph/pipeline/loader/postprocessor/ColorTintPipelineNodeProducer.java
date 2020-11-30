@@ -52,7 +52,7 @@ public class ColorTintPipelineNodeProducer extends PipelineNodeProducerImpl {
 
         final PipelineNode.FieldOutput<Float> finalStrength = strength;
         final PipelineNode.FieldOutput<Color> finalColor = color;
-        PipelineNode.FieldOutput<Boolean> finalProcessorEnabled = processorEnabled;
+        final PipelineNode.FieldOutput<Boolean> finalProcessorEnabled = processorEnabled;
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {

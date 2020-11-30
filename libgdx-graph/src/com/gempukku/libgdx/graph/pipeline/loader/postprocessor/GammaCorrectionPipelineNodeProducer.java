@@ -29,8 +29,7 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
         if (!shaderProgram.isCompiled())
             throw new IllegalArgumentException("Error compiling shader: " + shaderProgram.getLog());
 
-
-        PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
+        final PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         PipelineNode.FieldOutput<Float> gamma = (PipelineNode.FieldOutput<Float>) inputFields.get("gamma");
         if (gamma == null)
             gamma = new FloatFieldOutput(0f);
