@@ -7,7 +7,7 @@ import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
-import com.gempukku.libgdx.graph.ui.shader.model.producer.EndShaderBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.model.producer.EndModelShaderBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.model.producer.attribute.AttributeNormalBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.model.producer.attribute.AttributePositionBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.model.producer.attribute.AttributeTangentBoxProducer;
@@ -25,7 +25,7 @@ public class UIModelShaderConfiguration implements UIGraphConfiguration<ShaderFi
     public static Set<GraphBoxProducer<ShaderFieldType>> graphBoxProducers = new LinkedHashSet<>();
 
     static {
-        graphBoxProducers.add(new EndShaderBoxProducer());
+        graphBoxProducers.add(new EndModelShaderBoxProducer());
 
         graphBoxProducers.add(new AttributePositionBoxProducer());
         graphBoxProducers.add(new AttributeNormalBoxProducer());

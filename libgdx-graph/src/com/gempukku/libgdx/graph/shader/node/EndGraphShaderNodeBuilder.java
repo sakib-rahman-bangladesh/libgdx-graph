@@ -7,11 +7,11 @@ import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
-import com.gempukku.libgdx.graph.shader.config.EndShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.EndModelShaderNodeConfiguration;
 
 public class EndGraphShaderNodeBuilder extends ConfigurationShaderNodeBuilder {
     public EndGraphShaderNodeBuilder() {
-        super(new EndShaderNodeConfiguration());
+        super(new EndModelShaderNodeConfiguration());
     }
 
     @Override

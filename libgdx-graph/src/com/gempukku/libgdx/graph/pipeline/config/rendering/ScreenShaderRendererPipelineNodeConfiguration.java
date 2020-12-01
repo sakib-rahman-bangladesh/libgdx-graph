@@ -9,8 +9,8 @@ import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Camera;
 import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.GraphLights;
 import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.RenderPipeline;
 
-public class FullScreenShaderRendererPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
-    public FullScreenShaderRendererPipelineNodeConfiguration() {
+public class ScreenShaderRendererPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
+    public ScreenShaderRendererPipelineNodeConfiguration() {
         super("FullScreenShaderRenderer", "Full Screen Shader", "Pipeline");
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));

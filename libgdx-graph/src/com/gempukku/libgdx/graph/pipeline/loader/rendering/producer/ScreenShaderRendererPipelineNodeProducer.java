@@ -7,7 +7,7 @@ import com.gempukku.libgdx.graph.GraphLoader;
 import com.gempukku.libgdx.graph.WhitePixel;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
-import com.gempukku.libgdx.graph.pipeline.config.rendering.FullScreenShaderRendererPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.rendering.ScreenShaderRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeedback;
@@ -15,19 +15,19 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 import com.gempukku.libgdx.graph.shader.BasicShader;
-import com.gempukku.libgdx.graph.shader.FullScreenShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfiguration;
+import com.gempukku.libgdx.graph.shader.ScreenShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.ShaderLoaderCallback;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.impl.PropertyContainerImpl;
 
-public class FullScreenShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
-    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new GraphShaderConfiguration(), new FullScreenShaderConfiguration()};
+public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
+    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new GraphShaderConfiguration(), new ScreenShaderConfiguration()};
 
-    public FullScreenShaderRendererPipelineNodeProducer() {
-        super(new FullScreenShaderRendererPipelineNodeConfiguration());
+    public ScreenShaderRendererPipelineNodeProducer() {
+        super(new ScreenShaderRendererPipelineNodeConfiguration());
     }
 
     @Override

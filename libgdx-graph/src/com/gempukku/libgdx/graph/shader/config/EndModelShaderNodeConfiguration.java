@@ -4,8 +4,8 @@ import com.gempukku.libgdx.graph.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 
-public class EndShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
-    public EndShaderNodeConfiguration() {
+public class EndModelShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+    public EndModelShaderNodeConfiguration() {
         super("ShaderEnd", "Shader output", null);
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("position", "World position", false, false, ShaderFieldType.Vector3));

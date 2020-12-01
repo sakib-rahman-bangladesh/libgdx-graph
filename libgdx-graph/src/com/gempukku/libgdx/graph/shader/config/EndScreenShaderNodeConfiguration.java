@@ -4,8 +4,8 @@ import com.gempukku.libgdx.graph.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 
-public class EndFullScreenShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
-    public EndFullScreenShaderNodeConfiguration() {
+public class EndScreenShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+    public EndScreenShaderNodeConfiguration() {
         super("FullScreenShaderEnd", "Shader output", null);
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("color", "Color", false, false,

@@ -13,7 +13,7 @@ import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
-import com.gempukku.libgdx.graph.shader.config.EndShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.EndModelShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
@@ -23,11 +23,11 @@ import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 
-public class EndShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
-    private NodeConfiguration<ShaderFieldType> configuration = new EndShaderNodeConfiguration();
+public class EndModelShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
+    private NodeConfiguration<ShaderFieldType> configuration = new EndModelShaderNodeConfiguration();
 
-    public EndShaderBoxProducer() {
-        super(new EndShaderNodeConfiguration());
+    public EndModelShaderBoxProducer() {
+        super(new EndModelShaderNodeConfiguration());
     }
 
     @Override
