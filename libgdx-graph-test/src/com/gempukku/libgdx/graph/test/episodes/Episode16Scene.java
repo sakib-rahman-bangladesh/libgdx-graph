@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
@@ -109,10 +110,22 @@ public class Episode16Scene implements LibgdxGraphTestScene {
                     }
                 });
 
+        final Slider distortion = new Slider(0f, 5f, 0.001f, false, skin);
+        distortion.setValue(0.4f);
+        distortion.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        pipelineRenderer.getScreenShaders().setProperty("Curvature", "Distortion", distortion.getValue());
+                    }
+                });
+
         Stage stage = new Stage(new ScreenViewport());
 
         Table tbl = new Table(skin);
-        tbl.add(distort).row();
+        tbl.add(distort).left().colspan(2).row();
+        tbl.add("Distortion");
+        tbl.add(distortion).width(300).row();
 
         tbl.setFillParent(true);
         tbl.align(Align.topLeft);

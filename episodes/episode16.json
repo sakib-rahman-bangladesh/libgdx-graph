@@ -164,15 +164,6 @@
               "y": 182.0
             },
             {
-              "id": "ee0460eeda514beca6eef0085ca99039",
-              "type": "ValueFloat",
-              "x": 443.0,
-              "y": 326.0,
-              "data": {
-                "v1": 0.4000000059604645
-              }
-            },
-            {
               "id": "0f54bea960c84095bdbcb0ca915758c7",
               "type": "Multiply",
               "x": 1040.0,
@@ -234,6 +225,16 @@
               "type": "OneMinus",
               "x": 2130.0,
               "y": 119.0
+            },
+            {
+              "id": "cb8bbb7a8e374a30a3aeb62cab412995",
+              "type": "Property",
+              "x": 442.0,
+              "y": 192.0,
+              "data": {
+                "name": "Distortion",
+                "type": "Float"
+              }
             },
             {
               "id": "4e2522e66b754ab884b2a1790dc7dcc8",
@@ -304,8 +305,8 @@
             {
               "id": "fc33dc787565457bbac7862e0660a0cc",
               "type": "DotProduct",
-              "x": 442.0,
-              "y": 244.0
+              "x": 443.0,
+              "y": 304.0
             }
           ],
           "connections": [
@@ -414,12 +415,6 @@
             {
               "fromNode": "fc33dc787565457bbac7862e0660a0cc",
               "fromField": "output",
-              "toNode": "f1f2772abdd54a3cadbc26a17402c33d",
-              "toField": "inputs"
-            },
-            {
-              "fromNode": "ee0460eeda514beca6eef0085ca99039",
-              "fromField": "value",
               "toNode": "f1f2772abdd54a3cadbc26a17402c33d",
               "toField": "inputs"
             },
@@ -566,24 +561,24 @@
               "fromField": "output",
               "toNode": "d37ea02d4267482d93590d56576333e5",
               "toField": "input"
+            },
+            {
+              "fromNode": "cb8bbb7a8e374a30a3aeb62cab412995",
+              "fromField": "value",
+              "toNode": "f1f2772abdd54a3cadbc26a17402c33d",
+              "toField": "inputs"
             }
           ],
-          "properties": [],
-          "groups": [
+          "properties": [
             {
-              "name": "In bounds?",
-              "nodes": [
-                "0781e1685f4f4811b6ac82a21bdf3624",
-                "4e2522e66b754ab884b2a1790dc7dcc8",
-                "d37ea02d4267482d93590d56576333e5",
-                "75f41bbad7a144dab64559c121d0799e",
-                "b73fabb4e7594d4b9d6c4b835e8d18d7",
-                "2fab1165ee6947ab94cebf96f93fff54",
-                "e40f9ad498e6448e9e5d86b58c19dc83",
-                "ab1d68ed3cce45f2a9f5174802670754",
-                "dd79a6b30dc944a0bd4f3ba7214eefb2"
-              ]
-            },
+              "name": "Distortion",
+              "type": "Float",
+              "data": {
+                "x": 0.4000000059604645
+              }
+            }
+          ],
+          "groups": [
             {
               "name": "Horizontal bars",
               "nodes": [
@@ -601,9 +596,22 @@
               ]
             },
             {
+              "name": "In bounds?",
+              "nodes": [
+                "0781e1685f4f4811b6ac82a21bdf3624",
+                "4e2522e66b754ab884b2a1790dc7dcc8",
+                "d37ea02d4267482d93590d56576333e5",
+                "75f41bbad7a144dab64559c121d0799e",
+                "b73fabb4e7594d4b9d6c4b835e8d18d7",
+                "2fab1165ee6947ab94cebf96f93fff54",
+                "e40f9ad498e6448e9e5d86b58c19dc83",
+                "ab1d68ed3cce45f2a9f5174802670754",
+                "dd79a6b30dc944a0bd4f3ba7214eefb2"
+              ]
+            },
+            {
               "name": "Result UV",
               "nodes": [
-                "ee0460eeda514beca6eef0085ca99039",
                 "0f54bea960c84095bdbcb0ca915758c7",
                 "05644b7652e744709b8f02a3a493d8f9",
                 "c1a26b5b4b7944d1a53b762ef054df72",

@@ -28,7 +28,6 @@ import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.GraphShader;
-import com.gempukku.libgdx.graph.shader.GraphShaderAttribute;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
@@ -127,7 +126,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
 
     private void createModel() {
         ModelBuilder modelBuilder = new ModelBuilder();
-        Material material = new Material(new GraphShaderAttribute());
+        Material material = new Material();
 
         rectangleModel = modelBuilder.createRect(
                 0, -0.5f, -0.5f,
