@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.gempukku.libgdx.graph.LibGDXCollections;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
@@ -16,9 +15,8 @@ import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.GLSLFragmentReader;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
+import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.attribute.AttributePositionShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.provided.CameraPositionShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
 
 public class GraphShaderBuilder {
@@ -40,9 +38,9 @@ public class GraphShaderBuilder {
         String vertexShader = vertexShaderBuilder.buildProgram();
         String fragmentShader = fragmentShaderBuilder.buildProgram();
 
-        finalizeShader(graphShader, vertexShader, fragmentShader);
-
         debugShaders("screen", vertexShader, fragmentShader);
+
+        finalizeShader(graphShader, vertexShader, fragmentShader);
 
         return graphShader;
     }
@@ -63,9 +61,9 @@ public class GraphShaderBuilder {
         String vertexShader = vertexShaderBuilder.buildProgram();
         String fragmentShader = fragmentShaderBuilder.buildProgram();
 
-        finalizeShader(graphShader, vertexShader, fragmentShader);
-
         debugShaders("color", vertexShader, fragmentShader);
+
+        finalizeShader(graphShader, vertexShader, fragmentShader);
 
         return graphShader;
     }
@@ -86,9 +84,9 @@ public class GraphShaderBuilder {
         String vertexShader = vertexShaderBuilder.buildProgram();
         String fragmentShader = fragmentShaderBuilder.buildProgram();
 
-        finalizeShader(graphShader, vertexShader, fragmentShader);
-
         debugShaders("depth", vertexShader, fragmentShader);
+
+        finalizeShader(graphShader, vertexShader, fragmentShader);
 
         return graphShader;
     }
@@ -148,18 +146,18 @@ public class GraphShaderBuilder {
 
     private static void buildDepthFragmentShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         fragmentShaderBuilder.addUniformVariable("u_cameraClipping", "vec2", true, UniformSetters.cameraClipping);
-
-        AttributePositionShaderNodeBuilder position = new AttributePositionShaderNodeBuilder();
-        JsonValue positionData = new JsonValue(JsonValue.ValueType.object);
-        positionData.addChild("coordinates", new JsonValue("world"));
-        GraphShaderNodeBuilder.FieldOutput positionField = position.buildFragmentNodeSingleInputs(false, "defaultPositionAttribute", positionData, LibGDXCollections.<String, GraphShaderNodeBuilder.FieldOutput>emptyMap(),
-                LibGDXCollections.singleton("position"), vertexShaderBuilder, fragmentShaderBuilder, graphShader, graphShader).get("position");
-
-        CameraPositionShaderNodeBuilder cameraPosition = new CameraPositionShaderNodeBuilder();
-        GraphShaderNodeBuilder.FieldOutput cameraPositionField = cameraPosition.buildFragmentNodeSingleInputs(false, "cameraPosition", null, LibGDXCollections.<String, GraphShaderNodeBuilder.FieldOutput>emptyMap(),
-                LibGDXCollections.singleton("position"), vertexShaderBuilder, fragmentShaderBuilder, graphShader, graphShader).get("position");
-
+        fragmentShaderBuilder.addUniformVariable("u_cameraPosition", "vec3", true, UniformSetters.cameraPosition);
         fragmentShaderBuilder.addFunction("packFloatToVec3", GLSLFragmentReader.getFragment("packFloatToVec3"));
+
+        // Get position
+        if (!vertexShaderBuilder.hasVaryingVariable("v_position_world")) {
+            vertexShaderBuilder.addMainLine("// Attribute Position Node");
+            vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, UniformSetters.worldTrans);
+            vertexShaderBuilder.addVaryingVariable("v_position_world", "vec3");
+            vertexShaderBuilder.addMainLine("v_position_world = (u_worldTrans * skinning * vec4(a_position, 1.0)).xyz;");
+
+            fragmentShaderBuilder.addVaryingVariable("v_position_world", "vec3");
+        }
 
         ObjectMap<String, ObjectMap<String, GraphShaderNodeBuilder.FieldOutput>> fragmentNodeOutputs = new ObjectMap<>();
         GraphShaderNodeBuilder.FieldOutput alphaField = getOutput(findInputVertices(graph, "end", "alpha"),
@@ -168,12 +166,8 @@ public class GraphShaderBuilder {
         GraphShaderNodeBuilder.FieldOutput alphaClipField = getOutput(findInputVertices(graph, "end", "alphaClip"),
                 designTime, true, graph, graphShader, graphShader, fragmentNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder);
         String alphaClip = (alphaClipField != null) ? alphaClipField.getRepresentation() : "0.0";
-        if (alphaField != null || alphaClipField != null) {
-            fragmentShaderBuilder.addMainLine("// End Graph Node");
-            fragmentShaderBuilder.addMainLine("if (" + alpha + " <= " + alphaClip + ")");
-            fragmentShaderBuilder.addMainLine("  discard;");
-        }
-        fragmentShaderBuilder.addMainLine("gl_FragColor = vec4(packFloatToVec3(distance(" + positionField.getRepresentation() + ", " + cameraPositionField.getRepresentation() + "), u_cameraClipping.x, u_cameraClipping.y), 1.0);");
+        applyAlphaDiscard(fragmentShaderBuilder, alphaField, alpha, alphaClipField, alphaClip);
+        fragmentShaderBuilder.addMainLine("gl_FragColor = vec4(packFloatToVec3(distance(v_position_world, u_cameraPosition), u_cameraClipping.x, u_cameraClipping.y), 1.0);");
     }
 
     private static void buildFragmentShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
@@ -185,11 +179,7 @@ public class GraphShaderBuilder {
         GraphShaderNodeBuilder.FieldOutput alphaClipField = getOutput(findInputVertices(graph, "end", "alphaClip"),
                 designTime, true, graph, graphShader, graphShader, fragmentNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder);
         String alphaClip = (alphaClipField != null) ? alphaClipField.getRepresentation() : "0.0";
-        if (alphaField != null || alphaClipField != null) {
-            fragmentShaderBuilder.addMainLine("// End Graph Node");
-            fragmentShaderBuilder.addMainLine("if (" + alpha + " <= " + alphaClip + ")");
-            fragmentShaderBuilder.addMainLine("  discard;");
-        }
+        applyAlphaDiscard(fragmentShaderBuilder, alphaField, alpha, alphaClipField, alphaClip);
 
         GraphShaderNodeBuilder.FieldOutput colorField = getOutput(findInputVertices(graph, "end", "color"),
                 designTime, true, graph, graphShader, graphShader, fragmentNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder);
@@ -234,16 +224,27 @@ public class GraphShaderBuilder {
         GraphShaderNodeBuilder.FieldOutput positionField = getOutput(findInputVertices(graph, "end", "position"),
                 designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder);
         if (positionField == null) {
-            AttributePositionShaderNodeBuilder position = new AttributePositionShaderNodeBuilder();
-            JsonValue positionData = new JsonValue(JsonValue.ValueType.object);
-            positionData.addChild("coordinates", new JsonValue("world"));
-            positionField = position.buildVertexNodeSingleInputs(false, "defaultPositionAttribute", positionData, LibGDXCollections.<String, GraphShaderNodeBuilder.FieldOutput>emptyMap(),
-                    LibGDXCollections.singleton("position"), vertexShaderBuilder, graphShader, graphShader).get("position");
+            vertexShaderBuilder.addAttributeVariable(ShaderProgram.POSITION_ATTRIBUTE, "vec3");
+
+            vertexShaderBuilder.addMainLine("// Attribute Position Node");
+            vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, UniformSetters.worldTrans);
+            String name = "result_defaultPositionAttribute";
+            vertexShaderBuilder.addMainLine("vec3" + " " + name + " = (u_worldTrans * skinning * vec4(a_position, 1.0)).xyz;");
+
+            positionField = new DefaultFieldOutput(ShaderFieldType.Vector3, name);
         }
         vertexShaderBuilder.addUniformVariable("u_projViewTrans", "mat4", true, UniformSetters.projViewTrans);
         String worldPosition = "vec4(" + positionField.getRepresentation() + ", 1.0)";
         vertexShaderBuilder.addMainLine("// End Graph Node");
         vertexShaderBuilder.addMainLine("gl_Position = u_projViewTrans * " + worldPosition + ";");
+    }
+
+    private static void applyAlphaDiscard(FragmentShaderBuilder fragmentShaderBuilder, GraphShaderNodeBuilder.FieldOutput alphaField, String alpha, GraphShaderNodeBuilder.FieldOutput alphaClipField, String alphaClip) {
+        if (alphaField != null || alphaClipField != null) {
+            fragmentShaderBuilder.addMainLine("// End Graph Node");
+            fragmentShaderBuilder.addMainLine("if (" + alpha + " <= " + alphaClip + ")");
+            fragmentShaderBuilder.addMainLine("  discard;");
+        }
     }
 
     private static void buildScreenVertexShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
