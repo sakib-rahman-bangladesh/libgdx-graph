@@ -19,4 +19,6 @@ public interface ShaderContext {
     GraphShaderEnvironment getGraphShaderEnvironment();
 
     TimeProvider getTimeProvider();
+
+    Object getProperty(String name);
 }

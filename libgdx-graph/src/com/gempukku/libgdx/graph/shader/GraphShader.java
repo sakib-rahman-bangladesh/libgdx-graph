@@ -14,18 +14,8 @@ public class GraphShader extends UniformCachingShader implements GraphShaderCont
     private ShaderProgram shaderProgram;
     private TimeProvider timeProvider;
     private GraphShaderEnvironment environment;
-    private String tag;
-
     public GraphShader(Texture defaultTexture) {
         super(defaultTexture);
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
     }
 
     public void setProgram(ShaderProgram shaderProgram) {

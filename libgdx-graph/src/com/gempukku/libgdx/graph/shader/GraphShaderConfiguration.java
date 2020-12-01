@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.shader;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.node.PropertyShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.effect.FresnelEffectShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.effect.IntensityShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.lighting.AmbientLightShaderNodeBuilder;
@@ -196,9 +195,6 @@ public class GraphShaderConfiguration implements GraphConfiguration {
         addGraphShaderNodeBuilder(new ValueFloatShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ValueVector2ShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ValueVector3ShaderNodeBuilder());
-
-        // Property
-        addGraphShaderNodeBuilder(new PropertyShaderNodeBuilder());
 
         graphShaderPropertyProducers.add(new ColorShaderPropertyProducer());
         graphShaderPropertyProducers.add(new FloatShaderPropertyProducer());

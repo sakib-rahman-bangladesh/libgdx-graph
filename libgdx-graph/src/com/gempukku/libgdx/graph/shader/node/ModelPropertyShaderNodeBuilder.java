@@ -25,7 +25,7 @@ import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 
-public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
+public class ModelPropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
     @Override
     public String getType() {
         return "Property";

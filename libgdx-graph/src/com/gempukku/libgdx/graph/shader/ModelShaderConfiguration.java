@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.node.EndGraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.ModelPropertyShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.attribute.AttributeNormalShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.attribute.AttributePositionShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.attribute.AttributeTangentShaderNodeBuilder;
@@ -25,6 +26,9 @@ public class ModelShaderConfiguration implements GraphConfiguration {
     static {
         // End
         addGraphShaderNodeBuilder(new EndGraphShaderNodeBuilder());
+
+        // Property
+        addGraphShaderNodeBuilder(new ModelPropertyShaderNodeBuilder());
 
         // Attributes
         addGraphShaderNodeBuilder(new AttributePositionShaderNodeBuilder());

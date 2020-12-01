@@ -164,6 +164,8 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     private Blending blending = Blending.none;
     private DepthTesting depthTesting = DepthTesting.less;
 
+    private String tag;
+
     private boolean usingDepthTexture;
     private boolean usingColorTexture;
 
@@ -176,6 +178,14 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
     public BasicShader(Texture defaultTexture) {
         this.defaultTexture = defaultTexture;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public Texture getDefaultTexture() {

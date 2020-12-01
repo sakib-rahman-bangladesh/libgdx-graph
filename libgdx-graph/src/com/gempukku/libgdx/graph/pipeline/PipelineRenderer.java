@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.pipeline;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.TimeKeeper;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.ScreenShaders;
 
 public interface PipelineRenderer extends PipelinePropertySource, Disposable {
     void setPipelineProperty(String property, Object value);
@@ -10,6 +11,8 @@ public interface PipelineRenderer extends PipelinePropertySource, Disposable {
     void unsetPipelineProperty(String property);
 
     GraphShaderModels getGraphShaderModels();
+
+    ScreenShaders getScreenShaders();
 
     void setTimeKeeper(TimeKeeper timeKeeper);
 

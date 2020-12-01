@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.node.EndFullScreenShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.ScreenPropertyShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
 
 public class FullScreenShaderConfiguration implements GraphConfiguration {
@@ -13,6 +14,9 @@ public class FullScreenShaderConfiguration implements GraphConfiguration {
     static {
         // End
         addGraphShaderNodeBuilder(new EndFullScreenShaderNodeBuilder());
+
+        // Property
+        addGraphShaderNodeBuilder(new ScreenPropertyShaderNodeBuilder());
     }
 
     private static void addGraphShaderNodeBuilder(GraphShaderNodeBuilder builder) {

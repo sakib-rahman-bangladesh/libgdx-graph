@@ -94,10 +94,10 @@ public class FullScreenShaderRendererPipelineNodeProducer extends PipelineNodePr
                     graphShader.render(shaderContext, pipelineRenderingContext.getFullScreenRender());
                     graphShader.end();
 
+                    currentBuffer.endColor();
+
                     if (sceneColorBuffer != null)
                         renderPipeline.returnFrameBuffer(sceneColorBuffer);
-
-                    currentBuffer.endColor();
                 }
 
                 OutputValue<RenderPipeline> output = outputValues.get("output");
