@@ -20,15 +20,15 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.GraphShader;
-import com.gempukku.libgdx.graph.shader.GraphShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.ModelShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.ShaderLoaderCallback;
+import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.model.ModelShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelsImpl;
 
 public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
-    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new GraphShaderConfiguration(), new ModelShaderConfiguration()};
+    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new ModelShaderConfiguration()};
 
     public GraphShaderRendererPipelineNodeProducer() {
         super(new GraphShaderRendererPipelineNodeConfiguration());

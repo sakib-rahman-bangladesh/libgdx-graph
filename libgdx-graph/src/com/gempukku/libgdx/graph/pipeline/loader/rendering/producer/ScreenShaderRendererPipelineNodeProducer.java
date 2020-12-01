@@ -17,14 +17,14 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.GraphShader;
-import com.gempukku.libgdx.graph.shader.GraphShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.ScreenShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.ShaderLoaderCallback;
+import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.impl.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.screen.ScreenShaderConfiguration;
 
 public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
-    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new GraphShaderConfiguration(), new ScreenShaderConfiguration()};
+    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new ScreenShaderConfiguration()};
 
     public ScreenShaderRendererPipelineNodeProducer() {
         super(new ScreenShaderRendererPipelineNodeConfiguration());
