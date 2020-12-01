@@ -142,6 +142,11 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
+        public void registerModelAttribute(VertexAttribute vertexAttribute) {
+            graphShaderModels.registerAttribute(vertexAttribute);
+        }
+
+        @Override
         public int getRenderWidth() {
             return renderOutput.getRenderWidth();
         }

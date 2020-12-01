@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
@@ -40,6 +41,8 @@ public class GraphShaderBuilder {
         String vertexShader = vertexShaderBuilder.buildProgram();
         String fragmentShader = fragmentShaderBuilder.buildProgram();
 
+        graphShader.setVertexAttributes(vertexShaderBuilder.getVertexAttributes());
+
         debugShaders("screen", vertexShader, fragmentShader);
 
         finalizeShader(graphShader, vertexShader, fragmentShader);
@@ -63,6 +66,8 @@ public class GraphShaderBuilder {
         String vertexShader = vertexShaderBuilder.buildProgram();
         String fragmentShader = fragmentShaderBuilder.buildProgram();
 
+        graphShader.setVertexAttributes(vertexShaderBuilder.getVertexAttributes());
+
         debugShaders("color", vertexShader, fragmentShader);
 
         finalizeShader(graphShader, vertexShader, fragmentShader);
@@ -85,6 +90,8 @@ public class GraphShaderBuilder {
 
         String vertexShader = vertexShaderBuilder.buildProgram();
         String fragmentShader = fragmentShaderBuilder.buildProgram();
+
+        graphShader.setVertexAttributes(vertexShaderBuilder.getVertexAttributes());
 
         debugShaders("depth", vertexShader, fragmentShader);
 
@@ -207,7 +214,7 @@ public class GraphShaderBuilder {
         int boneWeightCount = GraphShaderConfig.getMaxNumberOfBoneWeights();
         vertexShaderBuilder.addArrayUniformVariable("u_bones", boneCount, "mat4", false, new UniformSetters.Bones(boneCount));
         for (int i = 0; i < boneWeightCount; i++) {
-            vertexShaderBuilder.addAttributeVariable("a_boneWeight" + i, "vec2");
+            vertexShaderBuilder.addAttributeVariable(VertexAttribute.BoneWeight(i), "a_boneWeight" + i, "vec2");
         }
         StringBuilder getSkinning = new StringBuilder();
         getSkinning.append("mat4 getSkinning() {\n");
@@ -226,7 +233,7 @@ public class GraphShaderBuilder {
         GraphShaderNodeBuilder.FieldOutput positionField = getOutput(findInputVertices(graph, "end", "position"),
                 designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder);
         if (positionField == null) {
-            vertexShaderBuilder.addAttributeVariable(ShaderProgram.POSITION_ATTRIBUTE, "vec3");
+            vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), ShaderProgram.POSITION_ATTRIBUTE, "vec3");
 
             vertexShaderBuilder.addMainLine("// Attribute Position Node");
             vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, UniformSetters.worldTrans);
@@ -251,7 +258,7 @@ public class GraphShaderBuilder {
 
     private static void buildScreenVertexShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         // Vertex part
-        vertexShaderBuilder.addAttributeVariable(ShaderProgram.POSITION_ATTRIBUTE, "vec3");
+        vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), ShaderProgram.POSITION_ATTRIBUTE, "vec3");
         vertexShaderBuilder.addMainLine("// End Graph Node");
         vertexShaderBuilder.addMainLine("gl_Position = vec4((a_position.xy * 2.0 - 1.0), 1.0, 1.0);");
     }

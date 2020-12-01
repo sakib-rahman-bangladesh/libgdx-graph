@@ -1,6 +1,8 @@
 package com.gempukku.libgdx.graph.shader.models.impl;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.IdGenerator;
 import com.gempukku.libgdx.graph.RandomIdGenerator;
+import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.models.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
@@ -40,10 +43,27 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
     private IdGenerator idGenerator = new RandomIdGenerator(16);
     private Matrix4 transformTempMatrix = new Matrix4();
 
+    private Array<VertexAttribute> registeredAttributes = new Array<>();
+    private VertexAttributes vertexAttributes;
+
     @Override
     public String registerModel(Model model) {
+        if (vertexAttributes == null) {
+            int maxNumberOfBoneWeights = GraphShaderConfig.getMaxNumberOfBoneWeights();
+
+            int numberOfAttributes = registeredAttributes.size;
+
+            VertexAttribute[] vertexAttributeArr = new VertexAttribute[numberOfAttributes + maxNumberOfBoneWeights];
+            for (int i = 0; i < numberOfAttributes; i++) {
+                vertexAttributeArr[i] = registeredAttributes.get(i);
+            }
+            for (int i = 0; i < maxNumberOfBoneWeights; i++) {
+                vertexAttributeArr[numberOfAttributes + i] = VertexAttribute.BoneWeight(i);
+            }
+            vertexAttributes = new VertexAttributes(vertexAttributeArr);
+        }
         String id = idGenerator.generateId();
-        GraphShaderModel graphShaderModel = new GraphShaderModel(idGenerator, model);
+        GraphShaderModel graphShaderModel = new GraphShaderModel(idGenerator, model, vertexAttributes);
         graphShaderModels.put(id, graphShaderModel);
         return id;
     }
@@ -155,6 +175,11 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
     @Override
     public Object getProperty(String modelInstanceId, String name) {
         return getModelInstance(modelInstanceId).getProperty(name);
+    }
+
+    public void registerAttribute(VertexAttribute vertexAttribute) {
+        if (!registeredAttributes.contains(vertexAttribute, false))
+            registeredAttributes.add(vertexAttribute);
     }
 
     public void prepareForRendering(Camera camera) {

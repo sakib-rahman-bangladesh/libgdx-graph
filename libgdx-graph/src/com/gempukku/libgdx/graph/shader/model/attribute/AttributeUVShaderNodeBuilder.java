@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.shader.model.attribute;
 
+import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
@@ -28,7 +29,7 @@ public class AttributeUVShaderNodeBuilder extends ConfigurationShaderNodeBuilder
         int unit = channels.indexOf(channel, false);
 
         String attributeName = ShaderProgram.TEXCOORD_ATTRIBUTE + unit;
-        vertexShaderBuilder.addAttributeVariable(attributeName, "vec2");
+        vertexShaderBuilder.addAttributeVariable(VertexAttribute.TexCoords(unit), attributeName, "vec2");
 
         return LibGDXCollections.singletonMap("uv", new DefaultFieldOutput(ShaderFieldType.Vector2, attributeName));
     }
@@ -39,7 +40,7 @@ public class AttributeUVShaderNodeBuilder extends ConfigurationShaderNodeBuilder
         int unit = channels.indexOf(channel, false);
 
         String attributeName = ShaderProgram.TEXCOORD_ATTRIBUTE + unit;
-        vertexShaderBuilder.addAttributeVariable(attributeName, "vec2");
+        vertexShaderBuilder.addAttributeVariable(VertexAttribute.TexCoords(unit), attributeName, "vec2");
 
         String name = "v_uv_" + unit;
         if (!vertexShaderBuilder.hasVaryingVariable(name)) {

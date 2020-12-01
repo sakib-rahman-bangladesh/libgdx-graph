@@ -1,7 +1,6 @@
 package com.gempukku.libgdx.graph.shader;
 
 public class GraphShaderConfig {
-    private static int MAX_NUMBER_OF_UVS = 1;
     private static int MAX_NUMBER_OF_BONES_PER_MESH = 12;
     private static int MAX_NUMBER_OF_BONE_WEIGHTS = 5;
     private static int MAX_NUMBER_OF_DIRECTIONAL_LIGHTS = 2;
@@ -11,12 +10,6 @@ public class GraphShaderConfig {
     private static boolean SET_IN_STONE = false;
 
     private GraphShaderConfig() {
-    }
-
-    public static void initUVs(int maxNumberOfUVs) {
-        if (SET_IN_STONE)
-            throw new IllegalStateException();
-        MAX_NUMBER_OF_UVS = maxNumberOfUVs;
     }
 
     public static void initBones(int maxNumberOfBonesPerMesh, int maxNumberOfBoneWeights) {
@@ -32,11 +25,6 @@ public class GraphShaderConfig {
         MAX_NUMBER_OF_DIRECTIONAL_LIGHTS = maxNumberOfDirectionalLights;
         MAX_NUMBER_OF_POINT_LIGHTS = maxNumberOfPointLights;
         MAX_NUMBER_OF_SPOTLIGHTS = maxNumberOfSpotlights;
-    }
-
-    public static int getMaxNumberOfUVs() {
-        freezeSettings();
-        return MAX_NUMBER_OF_UVS;
     }
 
     public static int getMaxNumberOfBonesPerMesh() {

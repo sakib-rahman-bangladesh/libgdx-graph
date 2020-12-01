@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -14,12 +15,22 @@ public class GraphShader extends UniformCachingShader implements GraphShaderCont
     private ShaderProgram shaderProgram;
     private TimeProvider timeProvider;
     private GraphShaderEnvironment environment;
+    private Array<VertexAttribute> vertexAttributes;
+
     public GraphShader(Texture defaultTexture) {
         super(defaultTexture);
     }
 
     public void setProgram(ShaderProgram shaderProgram) {
         this.shaderProgram = shaderProgram;
+    }
+
+    public void setVertexAttributes(Array<VertexAttribute> vertexAttributes) {
+        this.vertexAttributes = vertexAttributes;
+    }
+
+    public Array<VertexAttribute> getVertexAttributes() {
+        return vertexAttributes;
     }
 
     public void init() {

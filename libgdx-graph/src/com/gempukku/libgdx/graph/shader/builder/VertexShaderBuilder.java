@@ -1,23 +1,27 @@
 package com.gempukku.libgdx.graph.shader.builder;
 
+import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.gempukku.libgdx.graph.shader.UniformRegistry;
 
 public class VertexShaderBuilder extends CommonShaderBuilder {
     private ObjectMap<String, String> attributeVariables = new OrderedMap<>();
+    private ObjectMap<String, VertexAttribute> attributeVertexVariables = new OrderedMap<>();
 
     public VertexShaderBuilder(UniformRegistry uniformRegistry) {
         super(uniformRegistry);
     }
 
-    public void addAttributeVariable(String name, String type) {
+    public void addAttributeVariable(VertexAttribute vertexAttribute, String name, String type) {
         String existingType = attributeVariables.get(name);
         if (existingType != null && !existingType.equals(type))
             throw new IllegalStateException("Already contains vertex attribute of that name with different type");
         if (existingType == null) {
             uniformRegistry.registerAttribute(name);
             attributeVariables.put(name, type);
+            attributeVertexVariables.put(name, vertexAttribute);
         }
     }
 
@@ -44,5 +48,9 @@ public class VertexShaderBuilder extends CommonShaderBuilder {
         appendMain(result);
 
         return result.toString();
+    }
+
+    public Array<VertexAttribute> getVertexAttributes() {
+        return attributeVertexVariables.values().toArray();
     }
 }

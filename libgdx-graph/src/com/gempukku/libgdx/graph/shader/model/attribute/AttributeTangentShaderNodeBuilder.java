@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.shader.model.attribute;
 
+import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -22,7 +23,7 @@ public class AttributeTangentShaderNodeBuilder extends ConfigurationShaderNodeBu
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildVertexNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        vertexShaderBuilder.addAttributeVariable(ShaderProgram.TANGENT_ATTRIBUTE, "vec3");
+        vertexShaderBuilder.addAttributeVariable(VertexAttribute.Tangent(), ShaderProgram.TANGENT_ATTRIBUTE, "vec3");
 
         String coordinates = data.getString("coordinates");
         if (coordinates.equals("world")) {
@@ -45,7 +46,7 @@ public class AttributeTangentShaderNodeBuilder extends ConfigurationShaderNodeBu
             data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder
                                                                                           vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder, GraphShaderContext
                                                                                           graphShaderContext, GraphShader graphShader) {
-        vertexShaderBuilder.addAttributeVariable(ShaderProgram.TANGENT_ATTRIBUTE, "vec3");
+        vertexShaderBuilder.addAttributeVariable(VertexAttribute.Tangent(), ShaderProgram.TANGENT_ATTRIBUTE, "vec3");
 
         String coordinates = data.getString("coordinates");
         if (coordinates.equals("world")) {

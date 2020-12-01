@@ -11,18 +11,18 @@ import com.badlogic.gdx.graphics.g3d.model.NodePart;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.IdGenerator;
-import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
 import com.gempukku.libgdx.graph.shader.models.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 
 public class GraphShaderModel implements Disposable {
-    private static VertexAttributes attributes;
+    private VertexAttributes attributes;
     private Model internalModel;
     private ObjectMap<String, TagOptimizationHint> defaultTags = new ObjectMap<>();
     private IdGenerator idGenerator;
 
-    public GraphShaderModel(IdGenerator idGenerator, Model model) {
+    public GraphShaderModel(IdGenerator idGenerator, Model model, VertexAttributes attributes) {
         this.idGenerator = idGenerator;
+        this.attributes = attributes;
         init(model);
     }
 
@@ -66,23 +66,6 @@ public class GraphShaderModel implements Disposable {
     }
 
     private Mesh standardizeMesh(Mesh mesh) {
-        if (attributes == null) {
-            int maxNumberOfBoneWeights = GraphShaderConfig.getMaxNumberOfBoneWeights();
-            int maxNumberOfUVs = GraphShaderConfig.getMaxNumberOfUVs();
-
-            VertexAttribute[] vertexAttributeArr = new VertexAttribute[3 + maxNumberOfUVs + maxNumberOfBoneWeights];
-            vertexAttributeArr[0] = VertexAttribute.Position();
-            vertexAttributeArr[1] = VertexAttribute.Normal();
-            vertexAttributeArr[2] = VertexAttribute.Tangent();
-            for (int i = 0; i < maxNumberOfUVs; i++) {
-                vertexAttributeArr[3 + i] = VertexAttribute.TexCoords(i);
-            }
-            for (int i = 0; i < maxNumberOfBoneWeights; i++) {
-                vertexAttributeArr[3 + maxNumberOfUVs + i] = VertexAttribute.BoneWeight(i);
-            }
-            attributes = new VertexAttributes(vertexAttributeArr);
-        }
-
         VertexAttributes vertexAttributes = mesh.getVertexAttributes();
         int[] offsetMap = new int[attributes.size()];
         int index = 0;

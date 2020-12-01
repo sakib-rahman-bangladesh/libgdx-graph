@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g3d.Material;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.RandomIdGenerator;
@@ -114,7 +116,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
             shaderContext.setTimeProvider(timeKeeper);
             graphShader = GraphShaderBuilder.buildModelShader(WhitePixel.sharedInstance.texture, graph, true);
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
-            createModel();
+            createModel(graphShader.getVertexAttributes());
 
             shaderInitialized = true;
         } catch (Exception exp) {
@@ -124,9 +126,16 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
         }
     }
 
-    private void createModel() {
+    private void createModel(Array<VertexAttribute> vertexAttributeArray) {
         ModelBuilder modelBuilder = new ModelBuilder();
         Material material = new Material();
+
+        VertexAttribute[] vAttributes = new VertexAttribute[vertexAttributeArray.size];
+        for (int i = 0; i < vAttributes.length; i++) {
+            vAttributes[i] = vertexAttributeArray.get(i);
+        }
+
+        VertexAttributes vertexAttributes = new VertexAttributes(vAttributes);
 
         rectangleModel = modelBuilder.createRect(
                 0, -0.5f, -0.5f,
@@ -136,13 +145,13 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
                 1, 0, 0,
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        rectangleShaderModel = new GraphShaderModel(new RandomIdGenerator(16), rectangleModel);
+        rectangleShaderModel = new GraphShaderModel(new RandomIdGenerator(16), rectangleModel, vertexAttributes);
         rectangleModelInstance = rectangleShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
 
         sphereModel = modelBuilder.createSphere(1, 1, 1, 50, 50,
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        sphereShaderModel = new GraphShaderModel(new RandomIdGenerator(16), sphereModel);
+        sphereShaderModel = new GraphShaderModel(new RandomIdGenerator(16), sphereModel, vertexAttributes);
         sphereModelInstance = sphereShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
     }
 

@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -14,6 +15,7 @@ import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.GraphShaderRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeedback;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
@@ -54,6 +56,16 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
 
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
+            @Override
+            public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
+                for (ShaderGroup shaderGroup : shaderGroups) {
+                    GraphShader shader = shaderGroup.getColorShader();
+                    for (VertexAttribute vertexAttribute : shader.getVertexAttributes()) {
+                        pipelineInitializationFeedback.registerModelAttribute(vertexAttribute);
+                    }
+                }
+            }
+
             private void initializeDepthShaders() {
                 for (ShaderGroup shaderGroup : shaderGroups) {
                     GraphShader colorShader = shaderGroup.getColorShader();
