@@ -21,11 +21,13 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutput;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.loader.FullScreenRender;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeedback;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.models.ScreenShaders;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelsImpl;
+import com.gempukku.libgdx.graph.shader.models.impl.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.models.impl.ScreenShadersImpl;
 
 public class PipelineRendererImpl implements PipelineRenderer {
@@ -41,6 +43,10 @@ public class PipelineRendererImpl implements PipelineRenderer {
         this.endNode = endNode;
         this.timeKeeper = new DefaultTimeKeeper();
         pipelineRenderingContext = new PipelineRenderingContextImpl();
+
+        for (PipelineNode node : nodes) {
+            node.initializePipeline(pipelineRenderingContext);
+        }
     }
 
     @Override
@@ -119,7 +125,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
         pipelineRenderingContext.dispose();
     }
 
-    private class PipelineRenderingContextImpl implements PipelineRenderingContext, Disposable {
+    private class PipelineRenderingContextImpl implements PipelineRenderingContext, PipelineInitializationFeedback, Disposable {
         private RenderContext renderContext = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.LRU, 1));
         private RenderOutput renderOutput;
         private GraphShaderModelsImpl graphShaderModels = new GraphShaderModelsImpl();
@@ -128,6 +134,11 @@ public class PipelineRendererImpl implements PipelineRenderer {
 
         public void setRenderOutput(RenderOutput renderOutput) {
             this.renderOutput = renderOutput;
+        }
+
+        @Override
+        public void registerScreenShader(String tag, PropertyContainerImpl propertyContainer) {
+            screenShaders.setPropertyContainer(tag, propertyContainer);
         }
 
         @Override

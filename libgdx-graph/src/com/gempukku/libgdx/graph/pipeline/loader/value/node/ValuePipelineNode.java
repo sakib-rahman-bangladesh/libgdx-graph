@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.pipeline.loader.value.node;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeedback;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
@@ -32,6 +33,11 @@ public class ValuePipelineNode implements PipelineNode {
                 return value;
             }
         };
+    }
+
+    @Override
+    public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
+
     }
 
     @Override

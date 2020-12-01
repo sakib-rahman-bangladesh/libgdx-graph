@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.pipeline.loader.rendering.node;
 
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeedback;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 
@@ -11,6 +12,11 @@ public class EndPipelineNode implements PipelineNode {
 
     public EndPipelineNode(PipelineNode.FieldOutput<RenderPipeline> renderPipeline) {
         this.renderPipeline = renderPipeline;
+    }
+
+    @Override
+    public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
+
     }
 
     @Override

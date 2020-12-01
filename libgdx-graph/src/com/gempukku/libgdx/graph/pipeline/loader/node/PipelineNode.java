@@ -6,6 +6,8 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 public interface PipelineNode {
     FieldOutput<?> getFieldOutput(String name);
 
+    void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback);
+
     void startFrame(float delta);
 
     void endFrame();

@@ -7,6 +7,7 @@ import com.gempukku.libgdx.graph.PropertyNodeConfiguration;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeedback;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
@@ -35,6 +36,11 @@ public class PropertyPipelineNodeProducer implements PipelineNodeProducer {
             @Override
             public FieldOutput<?> getFieldOutput(String name) {
                 return fieldOutput;
+            }
+
+            @Override
+            public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
+
             }
 
             @Override

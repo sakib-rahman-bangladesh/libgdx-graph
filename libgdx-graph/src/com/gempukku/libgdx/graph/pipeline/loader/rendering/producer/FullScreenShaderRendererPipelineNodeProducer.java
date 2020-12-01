@@ -10,6 +10,7 @@ import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.FullScreenShaderRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeedback;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
@@ -20,6 +21,7 @@ import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.ShaderLoaderCallback;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.models.impl.PropertyContainerImpl;
 
 public class FullScreenShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     private static GraphConfiguration[] configurations = new GraphConfiguration[]{new GraphShaderConfiguration(), new FullScreenShaderConfiguration()};
@@ -33,7 +35,9 @@ public class FullScreenShaderRendererPipelineNodeProducer extends PipelineNodePr
         final WhitePixel whitePixel = new WhitePixel();
 
         final ShaderContextImpl shaderContext = new ShaderContextImpl();
+        final PropertyContainerImpl propertyContainer = new PropertyContainerImpl();
 
+        final String tag = data.getString("tag");
         JsonValue shaderJson = data.get("shader");
         final GraphShader graphShader = GraphLoader.loadGraph(shaderJson, new ShaderLoaderCallback(whitePixel.texture, true, configurations));
         graphShader.setCulling(BasicShader.Culling.back);
@@ -46,6 +50,11 @@ public class FullScreenShaderRendererPipelineNodeProducer extends PipelineNodePr
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
 
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
+            @Override
+            public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
+                pipelineInitializationFeedback.registerScreenShader(tag, propertyContainer);
+            }
+
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
                 boolean usesDepth = false;
@@ -90,6 +99,7 @@ public class FullScreenShaderRendererPipelineNodeProducer extends PipelineNodePr
 
                     currentBuffer.beginColor();
 
+                    shaderContext.setPropertyContainer(propertyContainer);
                     graphShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
                     graphShader.render(shaderContext, pipelineRenderingContext.getFullScreenRender());
                     graphShader.end();

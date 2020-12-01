@@ -18,6 +18,11 @@ public abstract class OncePerFrameMultipleInputsJobPipelineNode implements Pipel
     }
 
     @Override
+    public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
+
+    }
+
+    @Override
     public FieldOutput<?> getFieldOutput(String name) {
         WorkerFieldOutput<Object> fieldOutput = workerFieldOutputs.get(name);
         if (fieldOutput == null) {
