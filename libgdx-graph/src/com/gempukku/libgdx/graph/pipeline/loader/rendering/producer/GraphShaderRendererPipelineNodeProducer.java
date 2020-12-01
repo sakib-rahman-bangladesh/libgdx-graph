@@ -108,6 +108,8 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 shaderContext.setCamera(camera);
                 shaderContext.setGraphShaderEnvironment(environment);
                 shaderContext.setTimeProvider(pipelineRenderingContext.getTimeProvider());
+                shaderContext.setRenderWidth(pipelineRenderingContext.getRenderWidth());
+                shaderContext.setRenderHeight(pipelineRenderingContext.getRenderHeight());
 
                 if (needsToDrawDepth || usesDepth) {
                     renderPipeline.enrichWithDepthBuffer(currentBuffer);

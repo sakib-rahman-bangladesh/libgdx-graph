@@ -83,6 +83,8 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
         shaderContext = new ShaderContextImpl();
         shaderContext.setGraphShaderEnvironment(graphShaderEnvironment);
         shaderContext.setCamera(camera);
+        shaderContext.setRenderWidth(width);
+        shaderContext.setRenderHeight(height);
     }
 
     public void setModel(ShaderPreviewModel model) {

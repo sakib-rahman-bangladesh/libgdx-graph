@@ -7,11 +7,32 @@ import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 
 public class ShaderContextImpl implements ShaderContext {
+    private int renderWidth;
+    private int renderHeight;
+
     private Camera camera;
     private GraphShaderEnvironment graphShaderEnvironment;
     private Texture depthTexture;
     private Texture colorTexture;
     private TimeProvider timeProvider;
+
+    @Override
+    public int getRenderWidth() {
+        return renderWidth;
+    }
+
+    public void setRenderWidth(int renderWidth) {
+        this.renderWidth = renderWidth;
+    }
+
+    @Override
+    public int getRenderHeight() {
+        return renderHeight;
+    }
+
+    public void setRenderHeight(int renderHeight) {
+        this.renderHeight = renderHeight;
+    }
 
     @Override
     public Camera getCamera() {

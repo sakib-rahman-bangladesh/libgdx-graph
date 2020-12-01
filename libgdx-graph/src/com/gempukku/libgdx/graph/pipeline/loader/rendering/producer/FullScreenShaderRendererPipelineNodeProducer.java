@@ -69,8 +69,8 @@ public class FullScreenShaderRendererPipelineNodeProducer extends PipelineNodePr
                         renderPipeline.enrichWithDepthBuffer(currentBuffer);
                     }
 
-                    Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
-                    if (camera != null) {
+                    if (cameraInput != null) {
+                        Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
                         int width = currentBuffer.getWidth();
                         int height = currentBuffer.getHeight();
                         updateCamera(camera, width, height);
@@ -80,6 +80,8 @@ public class FullScreenShaderRendererPipelineNodeProducer extends PipelineNodePr
                     shaderContext.setGraphShaderEnvironment(environment);
 
                     shaderContext.setTimeProvider(pipelineRenderingContext.getTimeProvider());
+                    shaderContext.setRenderWidth(pipelineRenderingContext.getRenderWidth());
+                    shaderContext.setRenderHeight(pipelineRenderingContext.getRenderHeight());
 
                     RenderPipelineBuffer sceneColorBuffer = null;
                     if (needsSceneColor) {

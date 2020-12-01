@@ -15,6 +15,7 @@ import com.gempukku.libgdx.graph.shader.node.lighting.SpotLightShaderNodeBuilder
 import com.gempukku.libgdx.graph.shader.node.math.arithmetic.AddShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.arithmetic.DivideShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.arithmetic.MultiplyShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.node.math.arithmetic.OneMinusShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.arithmetic.SubtractShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.common.AbsShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.math.common.CeilingShaderNodeBuilder;
@@ -94,6 +95,7 @@ public class GraphShaderConfiguration implements GraphConfiguration {
         // Math - Arithmetic
         addGraphShaderNodeBuilder(new AddShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SubtractShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new OneMinusShaderNodeBuilder());
         addGraphShaderNodeBuilder(new MultiplyShaderNodeBuilder());
         addGraphShaderNodeBuilder(new DivideShaderNodeBuilder());
 

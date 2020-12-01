@@ -6,6 +6,10 @@ import com.gempukku.libgdx.graph.TimeProvider;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 
 public interface ShaderContext {
+    int getRenderWidth();
+
+    int getRenderHeight();
+
     Texture getDepthTexture();
 
     Texture getColorTexture();

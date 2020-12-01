@@ -139,15 +139,13 @@ public class UniformSetters {
     public final static UniformRegistry.UniformSetter viewportSize = new UniformRegistry.UniformSetter() {
         @Override
         public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
-            Camera camera = shaderContext.getCamera();
-            shader.setUniform(location, camera.viewportWidth, camera.viewportHeight);
+            shader.setUniform(location, 1f * shaderContext.getRenderWidth(), 1f * shaderContext.getRenderHeight());
         }
     };
     public final static UniformRegistry.UniformSetter pixelSize = new UniformRegistry.UniformSetter() {
         @Override
         public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
-            Camera camera = shaderContext.getCamera();
-            shader.setUniform(location, 1f / camera.viewportWidth, 1f / camera.viewportHeight);
+            shader.setUniform(location, 1f / shaderContext.getRenderWidth(), 1f / shaderContext.getRenderHeight());
         }
     };
     public final static UniformRegistry.UniformSetter time = new UniformRegistry.UniformSetter() {

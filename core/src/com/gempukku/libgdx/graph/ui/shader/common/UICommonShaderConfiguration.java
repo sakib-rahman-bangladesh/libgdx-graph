@@ -12,6 +12,7 @@ import com.gempukku.libgdx.graph.shader.config.lighting.SpotLightShaderNodeConfi
 import com.gempukku.libgdx.graph.shader.config.math.arithmetic.AddShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.arithmetic.DivideShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.arithmetic.MultiplyShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.math.arithmetic.OneMinusShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.arithmetic.SubtractShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.common.AbsShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.math.common.CeilingShaderNodeConfiguration;
@@ -116,6 +117,7 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration<ShaderF
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new AddShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SubtractShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new OneMinusShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new MultiplyShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new DivideShaderNodeConfiguration()));
 

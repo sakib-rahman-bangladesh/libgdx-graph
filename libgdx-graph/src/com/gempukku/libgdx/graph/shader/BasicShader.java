@@ -325,7 +325,8 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         Camera camera = shaderContext.getCamera();
 
         transparency.setDepthMask(context);
-        depthTesting.setDepthTest(context, camera.near, camera.far);
+        if (camera != null)
+            depthTesting.setDepthTest(context, camera.near, camera.far);
         culling.setCullFace(context);
         setBlending(context, transparency, blending);
 

@@ -1,0 +1,857 @@
+{
+  "version": "0.2.0",
+  "nodes": [
+    {
+      "id": "e520957c03c34f25adef23981763f99b",
+      "type": "Property",
+      "x": 52.0,
+      "y": 390.0,
+      "data": {
+        "name": "Distort",
+        "type": "Boolean"
+      }
+    },
+    {
+      "id": "72be9695e45949ccb5f449dbacdfd619",
+      "type": "Property",
+      "x": 50.0,
+      "y": 648.0,
+      "data": {
+        "name": "Camera",
+        "type": "Camera"
+      }
+    },
+    {
+      "id": "a9ef339d56654f4c8f7445b45b3bed0b",
+      "type": "Property",
+      "x": 180.0,
+      "y": 132.0,
+      "data": {
+        "name": "Stage",
+        "type": "Stage"
+      }
+    },
+    {
+      "id": "50f414bd4ecb4a01a52ae1e8be315763",
+      "type": "Property",
+      "x": 52.0,
+      "y": 582.0,
+      "data": {
+        "name": "Lights",
+        "type": "GraphLights"
+      }
+    },
+    {
+      "id": "dffb152d405a49d38792e850749129b2",
+      "type": "UIRenderer",
+      "x": 386.0,
+      "y": 134.0
+    },
+    {
+      "id": "bc585d5e3ef14ae5951652650062120f",
+      "type": "FullScreenShaderRenderer",
+      "x": 364.9999694824219,
+      "y": 271.0,
+      "data": {
+        "id": "4a22d7c8de0946a6a26b97548c521d08",
+        "tag": "Curvature",
+        "shader": {
+          "version": "0.2.0",
+          "nodes": [
+            {
+              "id": "37c299a6c2124011982ae7b275522d3a",
+              "type": "SceneColor",
+              "x": 1735.0,
+              "y": 705.0
+            },
+            {
+              "id": "ab1d68ed3cce45f2a9f5174802670754",
+              "type": "ValueFloat",
+              "x": 1546.0,
+              "y": 97.0,
+              "data": {
+                "v1": 0.5
+              }
+            },
+            {
+              "id": "0781e1685f4f4811b6ac82a21bdf3624",
+              "type": "ValueFloat",
+              "x": 2139.0,
+              "y": 183.0,
+              "data": {
+                "v1": 0.5
+              }
+            },
+            {
+              "id": "cea9ff643e4541ea958071a2e0885ef5",
+              "type": "Add",
+              "x": 852.0,
+              "y": 290.9999694824219
+            },
+            {
+              "id": "b73fabb4e7594d4b9d6c4b835e8d18d7",
+              "type": "Abs",
+              "x": 1940.0,
+              "y": 119.0
+            },
+            {
+              "id": "741579edceee415bbc963c2325a5bc30",
+              "type": "Sin",
+              "x": 2180.0,
+              "y": 385.0
+            },
+            {
+              "id": "75f41bbad7a144dab64559c121d0799e",
+              "type": "Step",
+              "x": 2332.0,
+              "y": 161.0
+            },
+            {
+              "id": "c1a26b5b4b7944d1a53b762ef054df72",
+              "type": "ValueFloat",
+              "x": 651.0,
+              "y": 267.9999694824219,
+              "data": {
+                "v1": 1.0
+              }
+            },
+            {
+              "id": "e578c3ad9a494b3987766f2d4231afe1",
+              "type": "Step",
+              "x": 2377.0,
+              "y": 426.0
+            },
+            {
+              "id": "7b529ba297e045e8880d085769cb6182",
+              "type": "Add",
+              "x": 1987.0,
+              "y": 385.0
+            },
+            {
+              "id": "f8c0fcb936844ae4a7107d17216895a8",
+              "type": "Split",
+              "x": 1590.0,
+              "y": 381.0
+            },
+            {
+              "id": "5e42825784a8496d9e3af6a53434da33",
+              "type": "OneMinus",
+              "x": 2533.0,
+              "y": 184.0
+            },
+            {
+              "id": "c897767f74464f458cd7ded9be27d026",
+              "type": "ValueFloat",
+              "x": 2377.0,
+              "y": 361.0,
+              "data": {
+                "v1": 0.15000000596046448
+              }
+            },
+            {
+              "id": "15a830494d964bc99034ba731247185e",
+              "type": "Add",
+              "x": 1232.0,
+              "y": 443.0
+            },
+            {
+              "id": "19449bb15c5e4dff80f5b369987011bd",
+              "type": "ValueFloat",
+              "x": 2180.0,
+              "y": 448.0,
+              "data": {
+                "v1": 0.0
+              }
+            },
+            {
+              "id": "e40f9ad498e6448e9e5d86b58c19dc83",
+              "type": "Multiply",
+              "x": 2737.0,
+              "y": 184.0
+            },
+            {
+              "id": "ee0460eeda514beca6eef0085ca99039",
+              "type": "ValueFloat",
+              "x": 443.0,
+              "y": 328.9999694824219,
+              "data": {
+                "v1": 0.4000000059604645
+              }
+            },
+            {
+              "id": "0f54bea960c84095bdbcb0ca915758c7",
+              "type": "Multiply",
+              "x": 1040.0,
+              "y": 380.9999694824219
+            },
+            {
+              "id": "e627435e3e3a40ed9830df7d5cafdaf4",
+              "type": "Time",
+              "x": 1801.0,
+              "y": 287.0,
+              "data": {
+                "multiplier": 20.0
+              }
+            },
+            {
+              "id": "f1f2772abdd54a3cadbc26a17402c33d",
+              "type": "Multiply",
+              "x": 652.0,
+              "y": 329.9999694824219
+            },
+            {
+              "id": "end",
+              "type": "FullScreenShaderEnd",
+              "x": 3383.0,
+              "y": 537.0,
+              "data": {
+                "blending": "none"
+              }
+            },
+            {
+              "id": "2fab1165ee6947ab94cebf96f93fff54",
+              "type": "Step",
+              "x": 2331.0,
+              "y": 77.0
+            },
+            {
+              "id": "c632fc73a29c4a0ea6471c46c56479b6",
+              "type": "Multiply",
+              "x": 1801.0,
+              "y": 449.0
+            },
+            {
+              "id": "05644b7652e744709b8f02a3a493d8f9",
+              "type": "Subtract",
+              "x": 248.0,
+              "y": 357.9999694824219
+            },
+            {
+              "id": "f08fb479e05d417d987c199bce0765f6",
+              "type": "ValueColor",
+              "x": 2969.0,
+              "y": 635.0,
+              "data": {
+                "color": "000000ff"
+              }
+            },
+            {
+              "id": "d37ea02d4267482d93590d56576333e5",
+              "type": "OneMinus",
+              "x": 2532.0,
+              "y": 128.0
+            },
+            {
+              "id": "4e2522e66b754ab884b2a1790dc7dcc8",
+              "type": "Split",
+              "x": 2136.0,
+              "y": 50.0
+            },
+            {
+              "id": "4e98ff90358d4d289504d6efe86225b9",
+              "type": "ScreenPosition",
+              "x": 55.0,
+              "y": 443.0
+            },
+            {
+              "id": "37d9f02509de4a579b1589274aabe8f4",
+              "type": "Mix",
+              "x": 3190.0,
+              "y": 561.0
+            },
+            {
+              "id": "6907a2c3302b497ab2b64c8c5d3a9d21",
+              "type": "Multiply",
+              "x": 2970.0,
+              "y": 571.0
+            },
+            {
+              "id": "0463d994d9184dd18245fce1b8a10d30",
+              "type": "ValueFloat",
+              "x": 50.0,
+              "y": 330.9999694824219,
+              "data": {
+                "v1": 0.5
+              }
+            },
+            {
+              "id": "525a3695eec64700be61ff08a50c45b1",
+              "type": "Multiply",
+              "x": 2574.0,
+              "y": 449.0
+            },
+            {
+              "id": "dd79a6b30dc944a0bd4f3ba7214eefb2",
+              "type": "Subtract",
+              "x": 1744.0,
+              "y": 98.0
+            },
+            {
+              "id": "53d55eb194304c7997013e0f8dac4b51",
+              "type": "ValueFloat",
+              "x": 1592.0,
+              "y": 314.0,
+              "data": {
+                "v1": 400.0
+              }
+            },
+            {
+              "id": "66ed7b93854b4466a42ed87a1f8c248a",
+              "type": "OneMinus",
+              "x": 2777.0,
+              "y": 449.0
+            },
+            {
+              "id": "582f2cc62bb94f5c971de5af87e19c29",
+              "type": "Sampler2D",
+              "x": 1958.0,
+              "y": 638.0
+            },
+            {
+              "id": "fc33dc787565457bbac7862e0660a0cc",
+              "type": "DotProduct",
+              "x": 442.0,
+              "y": 246.99996948242188
+            }
+          ],
+          "connections": [
+            {
+              "fromNode": "37c299a6c2124011982ae7b275522d3a",
+              "fromField": "texture",
+              "toNode": "582f2cc62bb94f5c971de5af87e19c29",
+              "toField": "texture"
+            },
+            {
+              "fromNode": "4e98ff90358d4d289504d6efe86225b9",
+              "fromField": "output",
+              "toNode": "15a830494d964bc99034ba731247185e",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "15a830494d964bc99034ba731247185e",
+              "fromField": "output",
+              "toNode": "582f2cc62bb94f5c971de5af87e19c29",
+              "toField": "uv"
+            },
+            {
+              "fromNode": "f08fb479e05d417d987c199bce0765f6",
+              "fromField": "value",
+              "toNode": "37d9f02509de4a579b1589274aabe8f4",
+              "toField": "a"
+            },
+            {
+              "fromNode": "37d9f02509de4a579b1589274aabe8f4",
+              "fromField": "output",
+              "toNode": "end",
+              "toField": "color"
+            },
+            {
+              "fromNode": "15a830494d964bc99034ba731247185e",
+              "fromField": "output",
+              "toNode": "dd79a6b30dc944a0bd4f3ba7214eefb2",
+              "toField": "a"
+            },
+            {
+              "fromNode": "dd79a6b30dc944a0bd4f3ba7214eefb2",
+              "fromField": "output",
+              "toNode": "b73fabb4e7594d4b9d6c4b835e8d18d7",
+              "toField": "input"
+            },
+            {
+              "fromNode": "b73fabb4e7594d4b9d6c4b835e8d18d7",
+              "fromField": "output",
+              "toNode": "4e2522e66b754ab884b2a1790dc7dcc8",
+              "toField": "input"
+            },
+            {
+              "fromNode": "4e2522e66b754ab884b2a1790dc7dcc8",
+              "fromField": "x",
+              "toNode": "75f41bbad7a144dab64559c121d0799e",
+              "toField": "input"
+            },
+            {
+              "fromNode": "4e2522e66b754ab884b2a1790dc7dcc8",
+              "fromField": "y",
+              "toNode": "2fab1165ee6947ab94cebf96f93fff54",
+              "toField": "input"
+            },
+            {
+              "fromNode": "0781e1685f4f4811b6ac82a21bdf3624",
+              "fromField": "value",
+              "toNode": "75f41bbad7a144dab64559c121d0799e",
+              "toField": "edge"
+            },
+            {
+              "fromNode": "0781e1685f4f4811b6ac82a21bdf3624",
+              "fromField": "value",
+              "toNode": "2fab1165ee6947ab94cebf96f93fff54",
+              "toField": "edge"
+            },
+            {
+              "fromNode": "0463d994d9184dd18245fce1b8a10d30",
+              "fromField": "value",
+              "toNode": "05644b7652e744709b8f02a3a493d8f9",
+              "toField": "b"
+            },
+            {
+              "fromNode": "4e98ff90358d4d289504d6efe86225b9",
+              "fromField": "output",
+              "toNode": "05644b7652e744709b8f02a3a493d8f9",
+              "toField": "a"
+            },
+            {
+              "fromNode": "ab1d68ed3cce45f2a9f5174802670754",
+              "fromField": "value",
+              "toNode": "dd79a6b30dc944a0bd4f3ba7214eefb2",
+              "toField": "b"
+            },
+            {
+              "fromNode": "05644b7652e744709b8f02a3a493d8f9",
+              "fromField": "output",
+              "toNode": "fc33dc787565457bbac7862e0660a0cc",
+              "toField": "a"
+            },
+            {
+              "fromNode": "05644b7652e744709b8f02a3a493d8f9",
+              "fromField": "output",
+              "toNode": "fc33dc787565457bbac7862e0660a0cc",
+              "toField": "b"
+            },
+            {
+              "fromNode": "e40f9ad498e6448e9e5d86b58c19dc83",
+              "fromField": "output",
+              "toNode": "37d9f02509de4a579b1589274aabe8f4",
+              "toField": "t"
+            },
+            {
+              "fromNode": "75f41bbad7a144dab64559c121d0799e",
+              "fromField": "output",
+              "toNode": "5e42825784a8496d9e3af6a53434da33",
+              "toField": "input"
+            },
+            {
+              "fromNode": "2fab1165ee6947ab94cebf96f93fff54",
+              "fromField": "output",
+              "toNode": "d37ea02d4267482d93590d56576333e5",
+              "toField": "input"
+            },
+            {
+              "fromNode": "5e42825784a8496d9e3af6a53434da33",
+              "fromField": "output",
+              "toNode": "e40f9ad498e6448e9e5d86b58c19dc83",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "d37ea02d4267482d93590d56576333e5",
+              "fromField": "output",
+              "toNode": "e40f9ad498e6448e9e5d86b58c19dc83",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "fc33dc787565457bbac7862e0660a0cc",
+              "fromField": "output",
+              "toNode": "f1f2772abdd54a3cadbc26a17402c33d",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "ee0460eeda514beca6eef0085ca99039",
+              "fromField": "value",
+              "toNode": "f1f2772abdd54a3cadbc26a17402c33d",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "c1a26b5b4b7944d1a53b762ef054df72",
+              "fromField": "value",
+              "toNode": "cea9ff643e4541ea958071a2e0885ef5",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "f1f2772abdd54a3cadbc26a17402c33d",
+              "fromField": "output",
+              "toNode": "cea9ff643e4541ea958071a2e0885ef5",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "f1f2772abdd54a3cadbc26a17402c33d",
+              "fromField": "output",
+              "toNode": "0f54bea960c84095bdbcb0ca915758c7",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "cea9ff643e4541ea958071a2e0885ef5",
+              "fromField": "output",
+              "toNode": "0f54bea960c84095bdbcb0ca915758c7",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "0f54bea960c84095bdbcb0ca915758c7",
+              "fromField": "output",
+              "toNode": "15a830494d964bc99034ba731247185e",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "05644b7652e744709b8f02a3a493d8f9",
+              "fromField": "output",
+              "toNode": "0f54bea960c84095bdbcb0ca915758c7",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "15a830494d964bc99034ba731247185e",
+              "fromField": "output",
+              "toNode": "f8c0fcb936844ae4a7107d17216895a8",
+              "toField": "input"
+            },
+            {
+              "fromNode": "f8c0fcb936844ae4a7107d17216895a8",
+              "fromField": "y",
+              "toNode": "c632fc73a29c4a0ea6471c46c56479b6",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "53d55eb194304c7997013e0f8dac4b51",
+              "fromField": "value",
+              "toNode": "c632fc73a29c4a0ea6471c46c56479b6",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "741579edceee415bbc963c2325a5bc30",
+              "fromField": "output",
+              "toNode": "e578c3ad9a494b3987766f2d4231afe1",
+              "toField": "input"
+            },
+            {
+              "fromNode": "19449bb15c5e4dff80f5b369987011bd",
+              "fromField": "value",
+              "toNode": "e578c3ad9a494b3987766f2d4231afe1",
+              "toField": "edge"
+            },
+            {
+              "fromNode": "582f2cc62bb94f5c971de5af87e19c29",
+              "fromField": "color",
+              "toNode": "6907a2c3302b497ab2b64c8c5d3a9d21",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "6907a2c3302b497ab2b64c8c5d3a9d21",
+              "fromField": "output",
+              "toNode": "37d9f02509de4a579b1589274aabe8f4",
+              "toField": "b"
+            },
+            {
+              "fromNode": "e578c3ad9a494b3987766f2d4231afe1",
+              "fromField": "output",
+              "toNode": "525a3695eec64700be61ff08a50c45b1",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "c897767f74464f458cd7ded9be27d026",
+              "fromField": "value",
+              "toNode": "525a3695eec64700be61ff08a50c45b1",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "525a3695eec64700be61ff08a50c45b1",
+              "fromField": "output",
+              "toNode": "66ed7b93854b4466a42ed87a1f8c248a",
+              "toField": "input"
+            },
+            {
+              "fromNode": "66ed7b93854b4466a42ed87a1f8c248a",
+              "fromField": "output",
+              "toNode": "6907a2c3302b497ab2b64c8c5d3a9d21",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "7b529ba297e045e8880d085769cb6182",
+              "fromField": "output",
+              "toNode": "741579edceee415bbc963c2325a5bc30",
+              "toField": "input"
+            },
+            {
+              "fromNode": "c632fc73a29c4a0ea6471c46c56479b6",
+              "fromField": "output",
+              "toNode": "7b529ba297e045e8880d085769cb6182",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "e627435e3e3a40ed9830df7d5cafdaf4",
+              "fromField": "time",
+              "toNode": "7b529ba297e045e8880d085769cb6182",
+              "toField": "inputs"
+            }
+          ],
+          "properties": [],
+          "groups": [
+            {
+              "name": "In bounds?",
+              "nodes": [
+                "0781e1685f4f4811b6ac82a21bdf3624",
+                "4e2522e66b754ab884b2a1790dc7dcc8",
+                "d37ea02d4267482d93590d56576333e5",
+                "75f41bbad7a144dab64559c121d0799e",
+                "b73fabb4e7594d4b9d6c4b835e8d18d7",
+                "2fab1165ee6947ab94cebf96f93fff54",
+                "e40f9ad498e6448e9e5d86b58c19dc83",
+                "5e42825784a8496d9e3af6a53434da33",
+                "ab1d68ed3cce45f2a9f5174802670754",
+                "dd79a6b30dc944a0bd4f3ba7214eefb2"
+              ]
+            },
+            {
+              "name": "Result UV",
+              "nodes": [
+                "ee0460eeda514beca6eef0085ca99039",
+                "0f54bea960c84095bdbcb0ca915758c7",
+                "05644b7652e744709b8f02a3a493d8f9",
+                "c1a26b5b4b7944d1a53b762ef054df72",
+                "15a830494d964bc99034ba731247185e",
+                "0463d994d9184dd18245fce1b8a10d30",
+                "cea9ff643e4541ea958071a2e0885ef5",
+                "4e98ff90358d4d289504d6efe86225b9",
+                "fc33dc787565457bbac7862e0660a0cc",
+                "f1f2772abdd54a3cadbc26a17402c33d"
+              ]
+            },
+            {
+              "name": "Horizontal bars",
+              "nodes": [
+                "e627435e3e3a40ed9830df7d5cafdaf4",
+                "53d55eb194304c7997013e0f8dac4b51",
+                "66ed7b93854b4466a42ed87a1f8c248a",
+                "7b529ba297e045e8880d085769cb6182",
+                "525a3695eec64700be61ff08a50c45b1",
+                "c897767f74464f458cd7ded9be27d026",
+                "c632fc73a29c4a0ea6471c46c56479b6",
+                "f8c0fcb936844ae4a7107d17216895a8",
+                "741579edceee415bbc963c2325a5bc30",
+                "19449bb15c5e4dff80f5b369987011bd",
+                "e578c3ad9a494b3987766f2d4231afe1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "end",
+      "type": "PipelineEnd",
+      "x": 386.0,
+      "y": 50.0
+    },
+    {
+      "id": "d54b356d4a1242cab5e6cb3f836b1930",
+      "type": "ValueColor",
+      "x": 163.0,
+      "y": 841.0,
+      "data": {
+        "color": "5c5c5cff"
+      }
+    },
+    {
+      "id": "ff6f63af3181472da525343236652acd",
+      "type": "GraphShaderRenderer",
+      "x": 306.0,
+      "y": 465.0,
+      "data": {
+        "shaders": [
+          {
+            "id": "728c1b5a29f94be991cf761219dfef75",
+            "tag": "Default",
+            "shader": {
+              "version": "0.1.2",
+              "nodes": [
+                {
+                  "id": "e12ee5febbba4d2fa88ea5fb7ac58e10",
+                  "type": "DiffuseTexture",
+                  "x": 50.0,
+                  "y": 174.0,
+                  "data": {
+                    "previewPath": null
+                  }
+                },
+                {
+                  "id": "7dd083b41fc045a692c535c8728abba2",
+                  "type": "DiffuseColor",
+                  "x": 297.0,
+                  "y": 354.0,
+                  "data": {
+                    "default": "ffffffff"
+                  }
+                },
+                {
+                  "id": "ed1d588e101a40fb953a3f2efe70abca",
+                  "type": "Multiply",
+                  "x": 490.0,
+                  "y": 328.0
+                },
+                {
+                  "id": "ffd366ddd51246b29171086b39f91ace",
+                  "type": "Sampler2D",
+                  "x": 296.0,
+                  "y": 202.0
+                },
+                {
+                  "id": "d96277ecf114425aadcf84b428477745",
+                  "type": "AttributeUV",
+                  "x": 100.0,
+                  "y": 50.0,
+                  "data": {
+                    "channel": "UV0"
+                  }
+                },
+                {
+                  "id": "end",
+                  "type": "ShaderEnd",
+                  "x": 1080.0,
+                  "y": 244.0,
+                  "data": {
+                    "culling": "back",
+                    "transparency": "opaque",
+                    "blending": "alpha",
+                    "depthTest": "less"
+                  }
+                }
+              ],
+              "connections": [
+                {
+                  "fromNode": "d96277ecf114425aadcf84b428477745",
+                  "fromField": "uv",
+                  "toNode": "ffd366ddd51246b29171086b39f91ace",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "e12ee5febbba4d2fa88ea5fb7ac58e10",
+                  "fromField": "texture",
+                  "toNode": "ffd366ddd51246b29171086b39f91ace",
+                  "toField": "texture"
+                },
+                {
+                  "fromNode": "7dd083b41fc045a692c535c8728abba2",
+                  "fromField": "color",
+                  "toNode": "ed1d588e101a40fb953a3f2efe70abca",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "ffd366ddd51246b29171086b39f91ace",
+                  "fromField": "color",
+                  "toNode": "ed1d588e101a40fb953a3f2efe70abca",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "ed1d588e101a40fb953a3f2efe70abca",
+                  "fromField": "output",
+                  "toNode": "end",
+                  "toField": "color"
+                }
+              ],
+              "properties": [
+                {
+                  "name": "Normal Map Strength",
+                  "type": "Float",
+                  "data": {
+                    "x": 1.0
+                  }
+                }
+              ],
+              "groups": [
+                {
+                  "name": "Diffuse",
+                  "nodes": [
+                    "ffd366ddd51246b29171086b39f91ace",
+                    "7dd083b41fc045a692c535c8728abba2",
+                    "ed1d588e101a40fb953a3f2efe70abca",
+                    "e12ee5febbba4d2fa88ea5fb7ac58e10"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "746da9b276d442f0bc74ed9847a26a4b",
+      "type": "PipelineStart",
+      "x": 385.0,
+      "y": 816.0
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "72be9695e45949ccb5f449dbacdfd619",
+      "fromField": "value",
+      "toNode": "ff6f63af3181472da525343236652acd",
+      "toField": "camera"
+    },
+    {
+      "fromNode": "746da9b276d442f0bc74ed9847a26a4b",
+      "fromField": "output",
+      "toNode": "ff6f63af3181472da525343236652acd",
+      "toField": "input"
+    },
+    {
+      "fromNode": "d54b356d4a1242cab5e6cb3f836b1930",
+      "fromField": "value",
+      "toNode": "746da9b276d442f0bc74ed9847a26a4b",
+      "toField": "background"
+    },
+    {
+      "fromNode": "dffb152d405a49d38792e850749129b2",
+      "fromField": "output",
+      "toNode": "end",
+      "toField": "input"
+    },
+    {
+      "fromNode": "a9ef339d56654f4c8f7445b45b3bed0b",
+      "fromField": "value",
+      "toNode": "dffb152d405a49d38792e850749129b2",
+      "toField": "stage"
+    },
+    {
+      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
+      "fromField": "value",
+      "toNode": "ff6f63af3181472da525343236652acd",
+      "toField": "lights"
+    },
+    {
+      "fromNode": "ff6f63af3181472da525343236652acd",
+      "fromField": "output",
+      "toNode": "bc585d5e3ef14ae5951652650062120f",
+      "toField": "input"
+    },
+    {
+      "fromNode": "bc585d5e3ef14ae5951652650062120f",
+      "fromField": "output",
+      "toNode": "dffb152d405a49d38792e850749129b2",
+      "toField": "input"
+    },
+    {
+      "fromNode": "e520957c03c34f25adef23981763f99b",
+      "fromField": "value",
+      "toNode": "bc585d5e3ef14ae5951652650062120f",
+      "toField": "enabled"
+    }
+  ],
+  "properties": [
+    {
+      "name": "Camera",
+      "type": "Camera"
+    },
+    {
+      "name": "Stage",
+      "type": "Stage"
+    },
+    {
+      "name": "Lights",
+      "type": "GraphLights"
+    },
+    {
+      "name": "Distort",
+      "type": "Boolean",
+      "data": {
+        "value": false
+      }
+    }
+  ],
+  "groups": []
+}
