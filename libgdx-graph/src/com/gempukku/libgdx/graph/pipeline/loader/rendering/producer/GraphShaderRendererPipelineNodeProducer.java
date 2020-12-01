@@ -22,7 +22,6 @@ import com.gempukku.libgdx.graph.shader.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.ModelShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderLoaderCallback;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
@@ -39,7 +38,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
     public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final WhitePixel whitePixel = new WhitePixel();
 
-        final ShaderContextImpl shaderContext = new ShaderContextImpl();
+        final ModelShaderContextImpl shaderContext = new ModelShaderContextImpl();
 
         final Array<ShaderGroup> shaderGroups = new Array<>();
 
@@ -216,7 +215,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 }
             }
 
-            private void renderWithShaderOpaquePass(String tag, GraphShader shader, GraphShaderModelsImpl models, ShaderContext shaderContext,
+            private void renderWithShaderOpaquePass(String tag, GraphShader shader, GraphShaderModelsImpl models, ModelShaderContextImpl shaderContext,
                                                     RenderContext renderContext) {
                 boolean begun = false;
                 for (GraphShaderModelInstance graphShaderModelInstance : models.getModels()) {

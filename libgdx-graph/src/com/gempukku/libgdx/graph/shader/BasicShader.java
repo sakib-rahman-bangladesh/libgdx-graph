@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.loader.FullScreenRender;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 
 import static com.badlogic.gdx.graphics.GL20.GL_BACK;
@@ -342,11 +343,11 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
         for (Uniform uniform : uniforms.values()) {
             if (uniform.global && uniform.location != -1)
-                uniform.setter.set(this, uniform.location, shaderContext, null, null);
+                uniform.setter.set(this, uniform.location, shaderContext);
         }
         for (StructArrayUniform uniform : structArrayUniforms.values()) {
             if (uniform.global && uniform.startIndex != -1)
-                uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext, null, null);
+                uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
         }
     }
 
@@ -355,16 +356,18 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         context.setBlending(enabled, blending.getSourceFactor(), blending.getDestinationFactor());
     }
 
-    public void render(ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance) {
+    public void render(ModelShaderContextImpl shaderContext, GraphShaderModelInstance graphShaderModelInstance) {
+        shaderContext.setPropertyContainer(graphShaderModelInstance.getPropertyContainer());
         graphShaderModelInstance.getRenderables(renderables, renderablesPool);
         for (Renderable renderable : renderables) {
+            shaderContext.setRenderable(renderable);
             for (Uniform uniform : uniforms.values()) {
                 if (!uniform.global)
-                    uniform.setter.set(this, uniform.location, shaderContext, graphShaderModelInstance, renderable);
+                    uniform.setter.set(this, uniform.location, shaderContext);
             }
             for (StructArrayUniform uniform : structArrayUniforms.values()) {
                 if (!uniform.global)
-                    uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext, graphShaderModelInstance, renderable);
+                    uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
             }
             MeshPart meshPart = renderable.meshPart;
             Mesh mesh = meshPart.mesh;
@@ -381,11 +384,11 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     public void render(ShaderContext shaderContext, FullScreenRender fullScreenRender) {
         for (Uniform uniform : uniforms.values()) {
             if (!uniform.global)
-                uniform.setter.set(this, uniform.location, shaderContext, null, null);
+                uniform.setter.set(this, uniform.location, shaderContext);
         }
         for (StructArrayUniform uniform : structArrayUniforms.values()) {
             if (!uniform.global)
-                uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext, null, null);
+                uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
         }
         fullScreenRender.renderFullScreen(program);
     }

@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.shader.node.lighting;
 
-import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.graphics.g3d.environment.SpotLight;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
@@ -15,7 +14,6 @@ import com.gempukku.libgdx.graph.shader.UniformRegistry;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.config.lighting.SpotLightShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 
@@ -34,7 +32,7 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
             commonShaderBuilder.addUniformVariable(name, "vec3", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
                                 Array<SpotLight> spotLights = environment.getSpotLights();
@@ -52,7 +50,7 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
             commonShaderBuilder.addUniformVariable(name, "vec3", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
                                 Array<SpotLight> spotLights = environment.getSpotLights();
@@ -70,7 +68,7 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
             commonShaderBuilder.addUniformVariable(name, "vec4", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
                                 Array<SpotLight> spotLights = environment.getSpotLights();
@@ -88,7 +86,7 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
             commonShaderBuilder.addUniformVariable(name, "float", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
                                 Array<SpotLight> spotLights = environment.getSpotLights();
@@ -106,7 +104,7 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
             commonShaderBuilder.addUniformVariable(name, "float", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
                                 Array<SpotLight> spotLights = environment.getSpotLights();
@@ -124,7 +122,7 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
             commonShaderBuilder.addUniformVariable(name, "float", true,
                     new UniformRegistry.UniformSetter() {
                         @Override
-                        public void set(BasicShader shader, int location, ShaderContext shaderContext, GraphShaderModelInstance graphShaderModelInstance, Renderable renderable) {
+                        public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             GraphShaderEnvironment environment = shaderContext.getGraphShaderEnvironment();
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
                                 Array<SpotLight> spotLights = environment.getSpotLights();

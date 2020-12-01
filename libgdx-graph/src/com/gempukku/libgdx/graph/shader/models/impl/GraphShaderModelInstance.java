@@ -15,7 +15,7 @@ public class GraphShaderModelInstance {
     private ModelInstance modelInstance;
     private ModelInstanceOptimizationHints modelInstanceOptimizationHints;
     private ObjectMap<String, TagOptimizationHint> tags = new ObjectMap<>();
-    private ObjectMap<String, Object> properties = new ObjectMap<>();
+    private PropertyContainerImpl propertyContainer = new PropertyContainerImpl();
 
     public GraphShaderModelInstance(String id, GraphShaderModel model, ModelInstance modelInstance, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
         this.id = id;
@@ -41,11 +41,11 @@ public class GraphShaderModelInstance {
     }
 
     public void setProperty(String name, Object value) {
-        properties.put(name, value);
+        propertyContainer.setValue(name, value);
     }
 
     public void unsetProperty(String name) {
-        properties.remove(name);
+        propertyContainer.remove(name);
     }
 
     public boolean hasTag(String tag) {
@@ -53,7 +53,11 @@ public class GraphShaderModelInstance {
     }
 
     public Object getProperty(String name) {
-        return properties.get(name);
+        return propertyContainer.getValue(name);
+    }
+
+    public PropertyContainerImpl getPropertyContainer() {
+        return propertyContainer;
     }
 
     public Matrix4 getTransformMatrix() {

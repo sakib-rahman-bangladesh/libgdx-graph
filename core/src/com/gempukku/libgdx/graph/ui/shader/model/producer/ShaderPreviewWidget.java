@@ -26,7 +26,7 @@ import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
-import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderAttribute;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
@@ -59,7 +59,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
     private Camera camera;
     private DefaultTimeKeeper timeKeeper;
     private GraphShaderEnvironment graphShaderEnvironment;
-    private ShaderContextImpl shaderContext;
+    private ModelShaderContextImpl shaderContext;
     private ShaderPreviewModel model = ShaderPreviewModel.Sphere;
 
     public ShaderPreviewWidget(int width, int height) {
@@ -80,7 +80,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
         pointLight.set(Color.WHITE, -2f, 1f, 1f, 2f);
         graphShaderEnvironment.addPointLight(pointLight);
 
-        shaderContext = new ShaderContextImpl();
+        shaderContext = new ModelShaderContextImpl();
         shaderContext.setGraphShaderEnvironment(graphShaderEnvironment);
         shaderContext.setCamera(camera);
         shaderContext.setRenderWidth(width);

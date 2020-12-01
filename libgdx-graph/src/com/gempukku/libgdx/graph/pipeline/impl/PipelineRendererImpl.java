@@ -24,7 +24,9 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.models.ScreenShaders;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelsImpl;
+import com.gempukku.libgdx.graph.shader.models.impl.ScreenShadersImpl;
 
 public class PipelineRendererImpl implements PipelineRenderer {
     private Iterable<PipelineNode> nodes;
@@ -86,6 +88,11 @@ public class PipelineRendererImpl implements PipelineRenderer {
     }
 
     @Override
+    public ScreenShaders getScreenShaders() {
+        return pipelineRenderingContext.getScreenShaders();
+    }
+
+    @Override
     public void render(float delta, final RenderOutput renderOutput) {
         timeKeeper.updateTime(delta);
         pipelineRenderingContext.setRenderOutput(renderOutput);
@@ -116,6 +123,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
         private RenderContext renderContext = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.LRU, 1));
         private RenderOutput renderOutput;
         private GraphShaderModelsImpl graphShaderModels = new GraphShaderModelsImpl();
+        private ScreenShadersImpl screenShaders = new ScreenShadersImpl();
         private FullScreenRenderImpl fullScreenRender = new FullScreenRenderImpl();
 
         public void setRenderOutput(RenderOutput renderOutput) {
@@ -135,6 +143,11 @@ public class PipelineRendererImpl implements PipelineRenderer {
         @Override
         public GraphShaderModelsImpl getGraphShaderModels() {
             return graphShaderModels;
+        }
+
+        @Override
+        public ScreenShadersImpl getScreenShaders() {
+            return screenShaders;
         }
 
         @Override

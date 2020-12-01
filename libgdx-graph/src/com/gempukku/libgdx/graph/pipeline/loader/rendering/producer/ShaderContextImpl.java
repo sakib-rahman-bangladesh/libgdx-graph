@@ -15,6 +15,7 @@ public class ShaderContextImpl implements ShaderContext {
     private Texture depthTexture;
     private Texture colorTexture;
     private TimeProvider timeProvider;
+    private PropertyContainer propertyContainer;
 
     @Override
     public int getRenderWidth() {
@@ -77,5 +78,14 @@ public class ShaderContextImpl implements ShaderContext {
 
     public void setTimeProvider(TimeProvider timeProvider) {
         this.timeProvider = timeProvider;
+    }
+
+    public void setPropertyContainer(PropertyContainer propertyContainer) {
+        this.propertyContainer = propertyContainer;
+    }
+
+    @Override
+    public Object getProperty(String name) {
+        return propertyContainer.getValue(name);
     }
 }
