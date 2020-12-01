@@ -111,7 +111,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
         try {
             timeKeeper = new DefaultTimeKeeper();
             shaderContext.setTimeProvider(timeKeeper);
-            graphShader = GraphShaderBuilder.buildShader(WhitePixel.sharedInstance.texture, graph, true);
+            graphShader = GraphShaderBuilder.buildModelShader(WhitePixel.sharedInstance.texture, graph, true);
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
             createModel();
 

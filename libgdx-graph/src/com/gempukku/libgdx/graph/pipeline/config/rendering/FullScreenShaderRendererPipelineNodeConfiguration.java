@@ -15,7 +15,7 @@ public class FullScreenShaderRendererPipelineNodeConfiguration extends NodeConfi
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("camera", "Camera", true, Camera));
+                new GraphNodeInputImpl<PipelineFieldType>("camera", "Camera", false, Camera));
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("lights", "Graph Lights", GraphLights));
         addNodeInput(

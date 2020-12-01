@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.shader.node.EndGraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.attribute.AttributeNormalShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.attribute.AttributePositionShaderNodeBuilder;
@@ -22,6 +23,9 @@ public class ModelShaderConfiguration implements GraphConfiguration {
     public static Array<GraphShaderPropertyProducer> graphShaderPropertyProducers = new Array<>();
 
     static {
+        // End
+        addGraphShaderNodeBuilder(new EndGraphShaderNodeBuilder());
+
         // Attributes
         addGraphShaderNodeBuilder(new AttributePositionShaderNodeBuilder());
         addGraphShaderNodeBuilder(new AttributeNormalShaderNodeBuilder());

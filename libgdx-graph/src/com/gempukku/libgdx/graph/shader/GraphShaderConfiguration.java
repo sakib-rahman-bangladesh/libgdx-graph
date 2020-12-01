@@ -2,7 +2,6 @@ package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.shader.node.EndGraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.PropertyShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.effect.FresnelEffectShaderNodeBuilder;
@@ -92,9 +91,6 @@ public class GraphShaderConfiguration implements GraphConfiguration {
     public static Array<GraphShaderPropertyProducer> graphShaderPropertyProducers = new Array<>();
 
     static {
-        // End
-        addGraphShaderNodeBuilder(new EndGraphShaderNodeBuilder());
-
         // Math - Arithmetic
         addGraphShaderNodeBuilder(new AddShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SubtractShaderNodeBuilder());

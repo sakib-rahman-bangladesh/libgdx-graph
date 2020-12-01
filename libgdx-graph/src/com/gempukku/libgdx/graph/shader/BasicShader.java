@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.FlushablePool;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.pipeline.loader.FullScreenRender;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 
 import static com.badlogic.gdx.graphics.GL20.GL_BACK;
@@ -160,7 +161,7 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     private Mesh currentMesh;
     private Culling culling = Culling.back;
     private Transparency transparency = Transparency.opaque;
-    private Blending blending = Blending.alpha;
+    private Blending blending = Blending.none;
     private DepthTesting depthTesting = DepthTesting.less;
 
     private boolean usingDepthTexture;
@@ -339,7 +340,7 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     }
 
     private static void setBlending(RenderContext context, Transparency transparency, Blending blending) {
-        boolean enabled = transparency == Transparency.transparent;
+        boolean enabled = transparency == Transparency.transparent && blending != Blending.none;
         context.setBlending(enabled, blending.getSourceFactor(), blending.getDestinationFactor());
     }
 
@@ -364,6 +365,18 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
             meshPart.render(program, false);
         }
         renderables.clear();
+    }
+
+    public void render(ShaderContext shaderContext, FullScreenRender fullScreenRender) {
+        for (Uniform uniform : uniforms.values()) {
+            if (!uniform.global)
+                uniform.setter.set(this, uniform.location, shaderContext, null, null);
+        }
+        for (StructArrayUniform uniform : structArrayUniforms.values()) {
+            if (!uniform.global)
+                uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext, null, null);
+        }
+        fullScreenRender.renderFullScreen(program);
     }
 
     public void end() {

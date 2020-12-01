@@ -242,12 +242,12 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
     private static GraphShader createColorShader(JsonValue shaderDefinition, Texture defaultTexture) {
         JsonValue shaderGraph = shaderDefinition.get("shader");
-        return GraphLoader.loadGraph(shaderGraph, new ShaderLoaderCallback(defaultTexture, configurations));
+        return GraphLoader.loadGraph(shaderGraph, new ShaderLoaderCallback(defaultTexture, false, configurations));
     }
 
     private static GraphShader createDepthShader(JsonValue shaderDefinition, Texture defaultTexture) {
         JsonValue shaderGraph = shaderDefinition.get("shader");
-        return GraphLoader.loadGraph(shaderGraph, new ShaderLoaderCallback(defaultTexture, true, configurations));
+        return GraphLoader.loadGraph(shaderGraph, new ShaderLoaderCallback(defaultTexture, false, true, configurations));
     }
 
     private class ShaderGroup implements Disposable {

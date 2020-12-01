@@ -12,16 +12,17 @@ import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 
 public class ShaderLoaderCallback extends GraphDataLoaderCallback<GraphShader, ShaderFieldType> {
     private Texture defaultTexture;
+    private boolean screen;
     private boolean depthShader;
     private GraphConfiguration[] graphConfigurations;
 
-    public ShaderLoaderCallback(Texture defaultTexture, GraphConfiguration... graphConfiguration) {
-        this(defaultTexture, false);
-        graphConfigurations = graphConfiguration;
+    public ShaderLoaderCallback(Texture defaultTexture, boolean screen, GraphConfiguration... graphConfiguration) {
+        this(defaultTexture, screen, false, graphConfiguration);
     }
 
-    public ShaderLoaderCallback(Texture defaultTexture, boolean depthShader, GraphConfiguration... graphConfiguration) {
+    public ShaderLoaderCallback(Texture defaultTexture, boolean screen, boolean depthShader, GraphConfiguration... graphConfiguration) {
         this.defaultTexture = defaultTexture;
+        this.screen = screen;
         this.depthShader = depthShader;
         graphConfigurations = graphConfiguration;
     }
@@ -38,10 +39,14 @@ public class ShaderLoaderCallback extends GraphDataLoaderCallback<GraphShader, S
         if (result.hasErrors())
             throw new IllegalStateException("The graph contains errors, open it in the graph designer and correct them");
 
-        if (depthShader)
-            return GraphShaderBuilder.buildDepthShader(defaultTexture, this, false);
-        else
-            return GraphShaderBuilder.buildShader(defaultTexture, this, false);
+        if (screen) {
+            return GraphShaderBuilder.buildScreenShader(defaultTexture, this, false);
+        } else {
+            if (depthShader)
+                return GraphShaderBuilder.buildModelDepthShader(defaultTexture, this, false);
+            else
+                return GraphShaderBuilder.buildModelShader(defaultTexture, this, false);
+        }
     }
 
     @Override

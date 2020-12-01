@@ -24,31 +24,38 @@ import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
 public class GraphShaderBuilder {
     private static GraphConfiguration[] configurations = new GraphConfiguration[]{new GraphShaderConfiguration(), new ModelShaderConfiguration()};
 
-    public static GraphShader buildShader(Texture defaultTexture,
-                                          Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
-                                          boolean designTime) {
+    public static GraphShader buildScreenShader(Texture defaultTexture,
+                                                Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
+                                                boolean designTime) {
         GraphShader graphShader = new GraphShader(defaultTexture);
-
-        ObjectMap<String, PropertySource> propertyMap = new ObjectMap<>();
-        for (GraphProperty<ShaderFieldType> property : graph.getProperties()) {
-            String name = property.getName();
-            propertyMap.put(name, findPropertyProducerByType(property.getType()).createProperty(name, property.getData(), designTime));
-        }
 
         VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
         FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);
 
-        initializeShaders(vertexShaderBuilder, fragmentShaderBuilder);
+        initialize(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
 
-        graphShader.setPropertySourceMap(propertyMap);
+        buildScreenVertexShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
+        buildFragmentShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
 
-        GraphNode<ShaderFieldType> endNode = graph.getNodeById("end");
-        JsonValue data = endNode.getData();
+        String vertexShader = vertexShaderBuilder.buildProgram();
+        String fragmentShader = fragmentShaderBuilder.buildProgram();
 
-        graphShader.setCulling(BasicShader.Culling.valueOf(data.getString("culling")));
-        graphShader.setTransparency(BasicShader.Transparency.valueOf(data.getString("transparency")));
-        graphShader.setBlending(BasicShader.Blending.valueOf(data.getString("blending")));
-        graphShader.setDepthTesting(BasicShader.DepthTesting.valueOf((data.getString("depthTest")).replace(' ', '_')));
+        finalizeShader(graphShader, vertexShader, fragmentShader);
+
+        debugShaders("screen", vertexShader, fragmentShader);
+
+        return graphShader;
+    }
+
+    public static GraphShader buildModelShader(Texture defaultTexture,
+                                               Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
+                                               boolean designTime) {
+        GraphShader graphShader = new GraphShader(defaultTexture);
+
+        VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
+        FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);
+
+        initialize(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
 
         buildVertexShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
         buildFragmentShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
@@ -56,50 +63,90 @@ public class GraphShaderBuilder {
         String vertexShader = vertexShaderBuilder.buildProgram();
         String fragmentShader = fragmentShaderBuilder.buildProgram();
 
-        Gdx.app.debug("Shader", "--------------");
-        Gdx.app.debug("Shader", "Vertex color shader:");
-        Gdx.app.debug("Shader", "--------------");
-        Gdx.app.debug("Shader", "\n" + vertexShader);
-        Gdx.app.debug("Shader", "----------------");
-        Gdx.app.debug("Shader", "Fragment color shader:");
-        Gdx.app.debug("Shader", "----------------");
-        Gdx.app.debug("Shader", "\n" + fragmentShader);
+        finalizeShader(graphShader, vertexShader, fragmentShader);
 
-        ShaderProgram shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
-        graphShader.setProgram(shaderProgram);
-        graphShader.init();
+        debugShaders("color", vertexShader, fragmentShader);
 
         return graphShader;
     }
 
-    public static GraphShader buildDepthShader(Texture defaultTexture,
-                                               Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
-                                               boolean designTime) {
+    public static GraphShader buildModelDepthShader(Texture defaultTexture,
+                                                    Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
+                                                    boolean designTime) {
         GraphShader graphShader = new GraphShader(defaultTexture);
 
+        VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
+        FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);
+
+        initialize(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
+
+        buildVertexShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
+        buildDepthFragmentShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
+
+        String vertexShader = vertexShaderBuilder.buildProgram();
+        String fragmentShader = fragmentShaderBuilder.buildProgram();
+
+        finalizeShader(graphShader, vertexShader, fragmentShader);
+
+        debugShaders("depth", vertexShader, fragmentShader);
+
+        return graphShader;
+    }
+
+    private static void initialize(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
+        initializePropertyMap(graphShader, graph, designTime);
+        initializeShaders(vertexShaderBuilder, fragmentShaderBuilder);
+        setupOpenGLSettings(graphShader, graph);
+    }
+
+    private static void finalizeShader(GraphShader graphShader, String vertexShader, String fragmentShader) {
+        ShaderProgram shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
+        graphShader.setProgram(shaderProgram);
+        graphShader.init();
+    }
+
+    private static void initializePropertyMap(GraphShader graphShader, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime) {
         ObjectMap<String, PropertySource> propertyMap = new ObjectMap<>();
         for (GraphProperty<ShaderFieldType> property : graph.getProperties()) {
             String name = property.getName();
             propertyMap.put(name, findPropertyProducerByType(property.getType()).createProperty(name, property.getData(), designTime));
         }
-
-        VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
-        FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);
-
-        initializeShaders(vertexShaderBuilder, fragmentShaderBuilder);
-
         graphShader.setPropertySourceMap(propertyMap);
+    }
 
+    private static void setupOpenGLSettings(GraphShader graphShader, Graph graph) {
         GraphNode<ShaderFieldType> endNode = graph.getNodeById("end");
         JsonValue data = endNode.getData();
 
-        graphShader.setCulling(BasicShader.Culling.valueOf(data.getString("culling")));
-        graphShader.setTransparency(BasicShader.Transparency.valueOf(data.getString("transparency")));
-        graphShader.setBlending(BasicShader.Blending.valueOf(data.getString("blending")));
-        graphShader.setDepthTesting(BasicShader.DepthTesting.valueOf((data.getString("depthTest")).replace(' ', '_')));
+        String cullingValue = data.getString("culling", null);
+        if (cullingValue != null)
+            graphShader.setCulling(BasicShader.Culling.valueOf(cullingValue));
 
-        buildVertexShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
+        String transparency = data.getString("transparency", null);
+        if (transparency != null)
+            graphShader.setTransparency(BasicShader.Transparency.valueOf(transparency));
 
+        String blending = data.getString("blending", null);
+        if (blending != null)
+            graphShader.setBlending(BasicShader.Blending.valueOf(blending));
+
+        String depthTest = data.getString("depthTest", null);
+        if (depthTest != null)
+            graphShader.setDepthTesting(BasicShader.DepthTesting.valueOf(depthTest.replace(' ', '_')));
+    }
+
+    private static void debugShaders(String type, String vertexShader, String fragmentShader) {
+        Gdx.app.debug("Shader", "--------------");
+        Gdx.app.debug("Shader", "Vertex " + type + " shader:");
+        Gdx.app.debug("Shader", "--------------");
+        Gdx.app.debug("Shader", "\n" + vertexShader);
+        Gdx.app.debug("Shader", "----------------");
+        Gdx.app.debug("Shader", "Fragment " + type + " shader:");
+        Gdx.app.debug("Shader", "----------------");
+        Gdx.app.debug("Shader", "\n" + fragmentShader);
+    }
+
+    private static void buildDepthFragmentShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         fragmentShaderBuilder.addUniformVariable("u_cameraClipping", "vec2", true, UniformSetters.cameraClipping);
 
         AttributePositionShaderNodeBuilder position = new AttributePositionShaderNodeBuilder();
@@ -127,25 +174,6 @@ public class GraphShaderBuilder {
             fragmentShaderBuilder.addMainLine("  discard;");
         }
         fragmentShaderBuilder.addMainLine("gl_FragColor = vec4(packFloatToVec3(distance(" + positionField.getRepresentation() + ", " + cameraPositionField.getRepresentation() + "), u_cameraClipping.x, u_cameraClipping.y), 1.0);");
-
-
-        String vertexShader = vertexShaderBuilder.buildProgram();
-        String fragmentShader = fragmentShaderBuilder.buildProgram();
-
-        Gdx.app.debug("Shader", "--------------");
-        Gdx.app.debug("Shader", "Vertex depth shader:");
-        Gdx.app.debug("Shader", "--------------");
-        Gdx.app.debug("Shader", "\n" + vertexShader);
-        Gdx.app.debug("Shader", "----------------");
-        Gdx.app.debug("Shader", "Fragment depth shader:");
-        Gdx.app.debug("Shader", "----------------");
-        Gdx.app.debug("Shader", "\n" + fragmentShader);
-
-        ShaderProgram shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
-        graphShader.setProgram(shaderProgram);
-        graphShader.init();
-
-        return graphShader;
     }
 
     private static void buildFragmentShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
@@ -216,6 +244,13 @@ public class GraphShaderBuilder {
         String worldPosition = "vec4(" + positionField.getRepresentation() + ", 1.0)";
         vertexShaderBuilder.addMainLine("// End Graph Node");
         vertexShaderBuilder.addMainLine("gl_Position = u_projViewTrans * " + worldPosition + ";");
+    }
+
+    private static void buildScreenVertexShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
+        // Vertex part
+        vertexShaderBuilder.addAttributeVariable(ShaderProgram.POSITION_ATTRIBUTE, "vec3");
+        vertexShaderBuilder.addMainLine("// End Graph Node");
+        vertexShaderBuilder.addMainLine("gl_Position = vec4((a_position.xy * 2.0 - 1.0), 1.0, 1.0);");
     }
 
     private static GraphShaderNodeBuilder.FieldOutput getOutput(Array<GraphConnection> connections,
