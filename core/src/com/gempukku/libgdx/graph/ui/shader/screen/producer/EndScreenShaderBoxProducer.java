@@ -14,7 +14,9 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
+import com.gempukku.libgdx.graph.ui.part.ShaderPreviewBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
+import com.gempukku.libgdx.graph.ui.shader.model.producer.ShaderPreviewWidget;
 
 public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
     private NodeConfiguration<ShaderFieldType> configuration = new EndScreenShaderNodeConfiguration();
@@ -30,14 +32,15 @@ public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl<ShaderField
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-//        final ShaderPreviewBoxPart previewBoxPart = new ShaderPreviewBoxPart(skin);
-//        previewBoxPart.initialize(data);
-//
+        final ShaderPreviewBoxPart previewBoxPart = new ShaderPreviewBoxPart(skin);
+        previewBoxPart.setPreviewModel(ShaderPreviewWidget.ShaderPreviewModel.Rectangle);
+        previewBoxPart.initialize(data);
+
         GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, configuration, skin) {
             @Override
             public void graphChanged(GraphChangedEvent event, boolean hasErrors, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
                 if (event.isData() || event.isStructure()) {
-//                    previewBoxPart.graphChanged(hasErrors, graph);
+                    previewBoxPart.graphChanged(hasErrors, graph);
                 }
             }
         };
@@ -47,7 +50,7 @@ public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl<ShaderField
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);
 
-//        result.addGraphBoxPart(previewBoxPart);
+        result.addGraphBoxPart(previewBoxPart);
         return result;
     }
 

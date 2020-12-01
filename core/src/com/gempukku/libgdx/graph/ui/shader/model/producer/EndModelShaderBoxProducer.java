@@ -1,10 +1,6 @@
 package com.gempukku.libgdx.graph.ui.shader.model.producer;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
@@ -16,11 +12,9 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.config.EndModelShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
-import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
-import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
-import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
+import com.gempukku.libgdx.graph.ui.part.ShaderPreviewBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 
 public class EndModelShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
@@ -70,58 +64,5 @@ public class EndModelShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
     @Override
     public GraphBox<ShaderFieldType> createDefault(Skin skin, String id) {
         return createPipelineGraphBox(skin, id, null);
-    }
-
-    private static class ShaderPreviewBoxPart extends Table implements GraphBoxPart<ShaderFieldType> {
-        private final ShaderPreviewWidget shaderPreviewWidget;
-
-        public ShaderPreviewBoxPart(Skin skin) {
-            super(skin);
-            shaderPreviewWidget = new ShaderPreviewWidget(200, 200);
-            final SelectBox<ShaderPreviewWidget.ShaderPreviewModel> selectBox = new SelectBox<ShaderPreviewWidget.ShaderPreviewModel>(skin);
-            selectBox.setItems(ShaderPreviewWidget.ShaderPreviewModel.values());
-            add("Preview model: ");
-            add(selectBox).growX().row();
-            add(shaderPreviewWidget).colspan(2).grow().row();
-
-            selectBox.addListener(
-                    new ChangeListener() {
-                        @Override
-                        public void changed(ChangeEvent event, Actor actor) {
-                            shaderPreviewWidget.setModel(selectBox.getSelected());
-                        }
-                    });
-        }
-
-        public void initialize(JsonValue data) {
-        }
-
-        @Override
-        public Actor getActor() {
-            return this;
-        }
-
-        @Override
-        public GraphBoxOutputConnector<ShaderFieldType> getOutputConnector() {
-            return null;
-        }
-
-        @Override
-        public GraphBoxInputConnector<ShaderFieldType> getInputConnector() {
-            return null;
-        }
-
-        @Override
-        public void serializePart(JsonValue object) {
-        }
-
-        public void graphChanged(boolean hasErrors, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
-            shaderPreviewWidget.graphChanged(hasErrors, graph);
-        }
-
-        @Override
-        public void dispose() {
-            shaderPreviewWidget.dispose();
-        }
     }
 }
