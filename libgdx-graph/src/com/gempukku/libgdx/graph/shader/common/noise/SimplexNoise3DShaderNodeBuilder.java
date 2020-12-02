@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.shader.common.noise;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.gempukku.libgdx.graph.LibGDXCollections;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -12,6 +11,7 @@ import com.gempukku.libgdx.graph.shader.common.math.value.RemapShaderNodeBuilder
 import com.gempukku.libgdx.graph.shader.config.common.noise.SimplexNoise3DNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
+import com.gempukku.libgdx.graph.util.LibGDXCollections;
 
 public class SimplexNoise3DShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
     public SimplexNoise3DShaderNodeBuilder() {

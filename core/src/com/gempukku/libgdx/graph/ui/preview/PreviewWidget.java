@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.gempukku.libgdx.graph.WhitePixel;
+import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class PreviewWidget extends Widget {
     private Rectangle viewRectangle = new Rectangle();

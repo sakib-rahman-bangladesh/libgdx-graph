@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.WhitePixel;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
@@ -28,6 +27,7 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.model.ModelShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelsImpl;
+import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new ModelShaderConfiguration()};

@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.gempukku.libgdx.graph.LibGDXCollections;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
@@ -23,6 +22,7 @@ import com.gempukku.libgdx.graph.shader.config.common.lighting.CalculateLighting
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
+import com.gempukku.libgdx.graph.util.LibGDXCollections;
 
 public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeBuilder {
     public CalculateLightingShaderNodeBuilder() {

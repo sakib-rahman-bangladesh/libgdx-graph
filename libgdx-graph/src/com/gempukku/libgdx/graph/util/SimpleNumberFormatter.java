@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph;
+package com.gempukku.libgdx.graph.util;
 
 public class SimpleNumberFormatter {
     public static String format(float value) {

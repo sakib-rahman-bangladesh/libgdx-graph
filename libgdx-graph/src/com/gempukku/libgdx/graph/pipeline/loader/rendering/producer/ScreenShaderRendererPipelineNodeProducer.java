@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.WhitePixel;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
@@ -22,6 +21,7 @@ import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.impl.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.screen.ScreenShaderConfiguration;
+import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new ScreenShaderConfiguration()};

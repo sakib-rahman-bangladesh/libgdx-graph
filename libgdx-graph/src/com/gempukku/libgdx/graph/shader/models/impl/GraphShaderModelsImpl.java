@@ -11,13 +11,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.IdGenerator;
-import com.gempukku.libgdx.graph.RandomIdGenerator;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
 import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.models.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
+import com.gempukku.libgdx.graph.util.IdGenerator;
+import com.gempukku.libgdx.graph.util.RandomIdGenerator;
 
 import java.util.Comparator;
 

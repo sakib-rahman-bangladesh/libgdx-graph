@@ -3,7 +3,7 @@ package com.gempukku.libgdx.graph.shader.builder;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.LibGDXCollections;
+import com.gempukku.libgdx.graph.util.LibGDXCollections;
 
 import java.nio.charset.Charset;
 

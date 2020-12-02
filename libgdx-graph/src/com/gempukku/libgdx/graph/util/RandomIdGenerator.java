@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph;
+package com.gempukku.libgdx.graph.util;
 
 import com.badlogic.gdx.math.MathUtils;
 

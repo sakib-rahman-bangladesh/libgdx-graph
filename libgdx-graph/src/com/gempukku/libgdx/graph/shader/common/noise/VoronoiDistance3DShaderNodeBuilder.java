@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.gempukku.libgdx.graph.LibGDXCollections;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -14,6 +13,7 @@ import com.gempukku.libgdx.graph.shader.common.math.value.RemapShaderNodeBuilder
 import com.gempukku.libgdx.graph.shader.config.common.noise.VoronoiDistance3DNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
+import com.gempukku.libgdx.graph.util.LibGDXCollections;
 
 import static com.gempukku.libgdx.graph.shader.common.noise.GLSLAdapter.dot;
 import static com.gempukku.libgdx.graph.shader.common.noise.GLSLAdapter.floor;
