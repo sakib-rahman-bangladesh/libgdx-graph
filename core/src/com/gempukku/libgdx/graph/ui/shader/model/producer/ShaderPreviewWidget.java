@@ -68,9 +68,9 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
         this.height = height;
         renderContext = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.LRU, 1));
         camera = new PerspectiveCamera();
-        camera.near = 0.5f;
+        camera.near = 0.1f;
         camera.far = 100f;
-        camera.position.set(-1f, 0f, 0f);
+        camera.position.set(-0.77f, 0f, 0f);
         camera.up.set(0f, 1f, 0f);
         camera.lookAt(0, 0f, 0f);
         camera.update();
@@ -148,7 +148,8 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
         rectangleShaderModel = new GraphShaderModel(new RandomIdGenerator(16), rectangleModel, vertexAttributes);
         rectangleModelInstance = rectangleShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
 
-        sphereModel = modelBuilder.createSphere(1, 1, 1, 50, 50,
+        float sphereDiameter = 0.8f;
+        sphereModel = modelBuilder.createSphere(sphereDiameter, sphereDiameter, sphereDiameter, 50, 50,
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
         sphereShaderModel = new GraphShaderModel(new RandomIdGenerator(16), sphereModel, vertexAttributes);
