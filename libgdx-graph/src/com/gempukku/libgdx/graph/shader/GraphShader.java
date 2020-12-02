@@ -6,8 +6,9 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.TimeProvider;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.property.PropertySource;
+import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class GraphShader extends UniformCachingShader implements GraphShaderContext {
     private Array<Disposable> disposableList = new Array<>();

@@ -2,8 +2,8 @@ package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
-import com.gempukku.libgdx.graph.TimeProvider;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public interface ShaderContext {
     int getRenderWidth();

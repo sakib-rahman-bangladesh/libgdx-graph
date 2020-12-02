@@ -8,7 +8,7 @@ import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
-import com.gempukku.libgdx.graph.shader.config.math.exponential.SquareRootShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.common.math.exponential.SquareRootShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 

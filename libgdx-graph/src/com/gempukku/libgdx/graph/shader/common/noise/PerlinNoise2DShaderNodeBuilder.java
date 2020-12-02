@@ -9,7 +9,7 @@ import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.value.RemapShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.config.noise.PerlinNoise2DNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.common.noise.PerlinNoise2DNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 

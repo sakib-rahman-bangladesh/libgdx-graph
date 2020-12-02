@@ -1,6 +1,6 @@
 package com.gempukku.libgdx.graph.pipeline.config.postprocessor;
 
-import com.gempukku.libgdx.graph.NodeConfigurationImpl;
+import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeOutputImpl;

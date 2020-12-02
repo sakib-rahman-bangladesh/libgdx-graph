@@ -17,7 +17,7 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.UniformRegistry;
 import com.gempukku.libgdx.graph.shader.UniformSetters;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
-import com.gempukku.libgdx.graph.shader.config.material.TextureAttributeShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.model.material.TextureAttributeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 

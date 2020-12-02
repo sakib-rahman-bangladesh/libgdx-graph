@@ -1,8 +1,8 @@
 package com.gempukku.libgdx.graph.ui.shader.model;
 
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
-import com.gempukku.libgdx.graph.shader.config.provided.InstanceIdShaderNodeConfiguration;
-import com.gempukku.libgdx.graph.shader.config.provided.ModelFragmentCoordinateShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.model.provided.InstanceIdShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.model.provided.ModelFragmentCoordinateShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;

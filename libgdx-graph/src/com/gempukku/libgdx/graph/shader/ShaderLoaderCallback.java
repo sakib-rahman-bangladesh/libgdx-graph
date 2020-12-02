@@ -2,12 +2,13 @@ package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.GraphDataLoaderCallback;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.data.GraphValidator;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
+import com.gempukku.libgdx.graph.loader.GraphDataLoaderCallback;
+import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 
 public class ShaderLoaderCallback extends GraphDataLoaderCallback<GraphShader, ShaderFieldType> {

@@ -3,7 +3,7 @@ package com.gempukku.libgdx.graph.ui.shader.common.producer.provided;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
-import com.gempukku.libgdx.graph.shader.config.provided.SceneColorShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.common.provided.SceneColorShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.TextureSettingsGraphBoxPart;

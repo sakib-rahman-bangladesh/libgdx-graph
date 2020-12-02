@@ -11,7 +11,7 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.GLSLFragmentReader;
 import com.gempukku.libgdx.graph.shader.common.math.value.RemapShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.config.noise.VoronoiDistance2DNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.common.noise.VoronoiDistance2DNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 

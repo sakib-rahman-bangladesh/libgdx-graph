@@ -1,7 +1,7 @@
 package com.gempukku.libgdx.graph.pipeline.config.math;
 
-import com.gempukku.libgdx.graph.MultiParamVectorArithmeticOutputTypeFunction;
-import com.gempukku.libgdx.graph.NodeConfigurationImpl;
+import com.gempukku.libgdx.graph.config.MultiParamVectorArithmeticOutputTypeFunction;
+import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeOutputImpl;

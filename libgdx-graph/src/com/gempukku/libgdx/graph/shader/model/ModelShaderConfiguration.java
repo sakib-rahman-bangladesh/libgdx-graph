@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.shader.GraphConfiguration;
+import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.model.attribute.AttributeNormalShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.model.attribute.AttributePositionShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.model.attribute.AttributeTangentShaderNodeBuilder;

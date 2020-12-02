@@ -2,7 +2,6 @@ package com.gempukku.libgdx.graph.shader.common;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.shader.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.common.effect.FresnelEffectShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.effect.IntensityShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.lighting.AmbientLightShaderNodeBuilder;
@@ -79,6 +78,7 @@ import com.gempukku.libgdx.graph.shader.common.value.ValueColorShaderNodeBuilder
 import com.gempukku.libgdx.graph.shader.common.value.ValueFloatShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.value.ValueVector2ShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.value.ValueVector3ShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.ColorShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.FloatShaderPropertyProducer;

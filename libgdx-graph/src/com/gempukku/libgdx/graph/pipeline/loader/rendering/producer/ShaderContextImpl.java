@@ -2,9 +2,9 @@ package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
-import com.gempukku.libgdx.graph.TimeProvider;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class ShaderContextImpl implements ShaderContext {
     private int renderWidth;

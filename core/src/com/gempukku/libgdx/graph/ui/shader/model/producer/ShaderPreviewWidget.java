@@ -21,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.gempukku.libgdx.graph.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.RandomIdGenerator;
 import com.gempukku.libgdx.graph.WhitePixel;
 import com.gempukku.libgdx.graph.data.Graph;
@@ -36,6 +35,7 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.models.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModel;
 import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
+import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 
 public class ShaderPreviewWidget extends Widget implements Disposable {
     public enum ShaderPreviewModel {

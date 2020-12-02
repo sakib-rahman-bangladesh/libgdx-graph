@@ -12,7 +12,7 @@ import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.UniformRegistry;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
-import com.gempukku.libgdx.graph.shader.config.lighting.SpotLightShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.common.lighting.SpotLightShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;

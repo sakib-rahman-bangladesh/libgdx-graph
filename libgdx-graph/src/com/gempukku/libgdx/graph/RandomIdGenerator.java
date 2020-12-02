@@ -3,7 +3,7 @@ package com.gempukku.libgdx.graph;
 import com.badlogic.gdx.math.MathUtils;
 
 public class RandomIdGenerator implements IdGenerator {
-    private static char[] characters = new String("0123456789ABCDEF").toCharArray();
+    private static char[] characters = "0123456789ABCDEF".toCharArray();
     private int length;
 
     public RandomIdGenerator(int length) {
