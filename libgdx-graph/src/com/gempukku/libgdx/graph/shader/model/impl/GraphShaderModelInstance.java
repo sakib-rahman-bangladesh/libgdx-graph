@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.models.impl;
+package com.gempukku.libgdx.graph.shader.model.impl;
 
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.Renderable;
@@ -6,8 +6,9 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
-import com.gempukku.libgdx.graph.shader.models.ModelInstanceOptimizationHints;
-import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
+import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
+import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
+import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 
 public class GraphShaderModelInstance {
     private String id;

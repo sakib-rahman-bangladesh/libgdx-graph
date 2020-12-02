@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.models.impl;
+package com.gempukku.libgdx.graph.shader.property;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.PropertyContainer;

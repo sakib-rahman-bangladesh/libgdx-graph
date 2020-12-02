@@ -23,9 +23,9 @@ import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
-import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
-import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
+import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
+import com.gempukku.libgdx.graph.shader.model.TransformUpdate;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,7 +1,7 @@
-package com.gempukku.libgdx.graph.shader.models.impl;
+package com.gempukku.libgdx.graph.shader.screen;
 
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.shader.models.ScreenShaders;
+import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 
 public class ScreenShadersImpl implements ScreenShaders {
     private ObjectMap<String, PropertyContainerImpl> propertyContainers = new ObjectMap<>();

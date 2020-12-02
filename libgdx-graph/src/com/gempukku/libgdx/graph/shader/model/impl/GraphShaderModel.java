@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.models.impl;
+package com.gempukku.libgdx.graph.shader.model.impl;
 
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.model.NodePart;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.shader.models.ModelInstanceOptimizationHints;
-import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
+import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
+import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.util.IdGenerator;
 
 public class GraphShaderModel implements Disposable {

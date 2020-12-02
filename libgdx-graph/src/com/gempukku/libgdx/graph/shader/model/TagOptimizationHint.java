@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.models;
+package com.gempukku.libgdx.graph.shader.model;
 
 /**
  * Used to specify what a relationship between a model instance and a tag is.

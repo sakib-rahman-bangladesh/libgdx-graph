@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.models.impl;
+package com.gempukku.libgdx.graph.shader.model.impl;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.VertexAttribute;
@@ -12,10 +12,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
-import com.gempukku.libgdx.graph.shader.models.GraphShaderModels;
-import com.gempukku.libgdx.graph.shader.models.ModelInstanceOptimizationHints;
-import com.gempukku.libgdx.graph.shader.models.TagOptimizationHint;
-import com.gempukku.libgdx.graph.shader.models.TransformUpdate;
+import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
+import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
+import com.gempukku.libgdx.graph.shader.model.TransformUpdate;
 import com.gempukku.libgdx.graph.util.IdGenerator;
 import com.gempukku.libgdx.graph.util.RandomIdGenerator;
 

@@ -19,7 +19,7 @@ import com.gempukku.libgdx.graph.shader.ShaderLoaderCallback;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.models.impl.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.screen.ScreenShaderConfiguration;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 

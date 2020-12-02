@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.models;
+package com.gempukku.libgdx.graph.shader.model;
 
 /**
  * Configures how the model instance will behave, which helps the engine to best optimize the rendering.

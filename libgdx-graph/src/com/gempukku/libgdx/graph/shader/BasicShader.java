@@ -24,7 +24,7 @@ import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.loader.FullScreenRender;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderContextImpl;
-import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
+import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelInstance;
 
 import static com.badlogic.gdx.graphics.GL20.GL_BACK;
 import static com.badlogic.gdx.graphics.GL20.GL_FRONT;

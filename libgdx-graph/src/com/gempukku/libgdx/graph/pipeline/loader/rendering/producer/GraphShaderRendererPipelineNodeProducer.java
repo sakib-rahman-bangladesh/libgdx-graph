@@ -25,8 +25,8 @@ import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.model.ModelShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelInstance;
-import com.gempukku.libgdx.graph.shader.models.impl.GraphShaderModelsImpl;
+import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelInstance;
+import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelsImpl;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
