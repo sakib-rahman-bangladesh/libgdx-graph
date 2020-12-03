@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
+import com.gempukku.libgdx.graph.shader.model.attribute.AttributeColorShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.model.attribute.AttributeNormalShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.model.attribute.AttributePositionShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.model.attribute.AttributeTangentShaderNodeBuilder;
@@ -34,6 +35,7 @@ public class ModelShaderConfiguration implements GraphConfiguration {
         addGraphShaderNodeBuilder(new AttributeNormalShaderNodeBuilder());
         addGraphShaderNodeBuilder(new AttributeTangentShaderNodeBuilder());
         addGraphShaderNodeBuilder(new AttributeUVShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new AttributeColorShaderNodeBuilder());
 
         // Material
         addGraphShaderNodeBuilder(new FloatAttributeShaderNodeBuilder("Shininess", "Shininess", FloatAttribute.ShininessAlias));

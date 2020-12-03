@@ -178,6 +178,8 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
     }
 
     public void registerAttribute(VertexAttribute vertexAttribute) {
+        if (vertexAttribute.usage == VertexAttributes.Usage.ColorPacked)
+            vertexAttribute = VertexAttribute.ColorUnpacked();
         if (!registeredAttributes.contains(vertexAttribute, false))
             registeredAttributes.add(vertexAttribute);
     }

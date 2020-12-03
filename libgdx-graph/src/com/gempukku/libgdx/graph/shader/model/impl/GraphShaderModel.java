@@ -14,6 +14,8 @@ import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.util.IdGenerator;
 
+import java.util.Arrays;
+
 public class GraphShaderModel implements Disposable {
     private VertexAttributes attributes;
     private Model internalModel;
@@ -84,12 +86,15 @@ public class GraphShaderModel implements Disposable {
             for (int attributeIndex = 0; attributeIndex < offsetMap.length; attributeIndex++) {
                 VertexAttribute attribute = attributes.get(attributeIndex);
                 if (offsetMap[attributeIndex] != -1) {
+                    // If the attribute is defined in the model - just copy it
                     System.arraycopy(sourceVboData, sourceVertexLength * vertexIndex + offsetMap[attributeIndex],
                             newVboData, arrayIndex, attribute.numComponents);
                 } else if (attribute.usage == VertexAttributes.Usage.BoneWeight && attribute.unit == 0) {
-                    // For bone-weightless vertices, create a dummy one to have correctly created skinning matrix
+                    // For bone-weight-less vertices, create a dummy one to have correctly created skinning matrix
                     newVboData[arrayIndex + 0] = 0f;
                     newVboData[arrayIndex + 1] = 1f;
+                } else if (attribute.usage == VertexAttributes.Usage.ColorUnpacked) {
+                    Arrays.fill(newVboData, arrayIndex, arrayIndex + 4, 1f);
                 }
                 arrayIndex += attribute.numComponents;
             }

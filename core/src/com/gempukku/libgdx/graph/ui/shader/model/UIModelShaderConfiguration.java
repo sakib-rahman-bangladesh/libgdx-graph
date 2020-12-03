@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.ui.shader.model;
 
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.config.model.attribute.AttributeColorShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.model.provided.InstanceIdShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.model.provided.ModelFragmentCoordinateShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
@@ -31,6 +32,7 @@ public class UIModelShaderConfiguration implements UIGraphConfiguration<ShaderFi
         graphBoxProducers.add(new AttributeNormalBoxProducer());
         graphBoxProducers.add(new AttributeTangentBoxProducer());
         graphBoxProducers.add(new AttributeUVBoxProducer());
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new AttributeColorShaderNodeConfiguration()));
 
         graphBoxProducers.add(new FloatAttributeBoxProducer("Shininess", "Shininess"));
         graphBoxProducers.add(new FloatAttributeBoxProducer("AlphaTest", "Alpha test"));
