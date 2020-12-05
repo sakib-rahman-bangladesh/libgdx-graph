@@ -65,15 +65,6 @@
               "y": 951.0
             },
             {
-              "id": "ab1d68ed3cce45f2a9f5174802670754",
-              "type": "ValueFloat",
-              "x": 2293.0,
-              "y": 311.0,
-              "data": {
-                "v1": 0.5
-              }
-            },
-            {
               "id": "5db845d29fdb44c4b84f49dbc33be2dc",
               "type": "ValueFloat",
               "x": 816.0,
@@ -85,8 +76,8 @@
             {
               "id": "0781e1685f4f4811b6ac82a21bdf3624",
               "type": "ValueFloat",
-              "x": 3127.0,
-              "y": 397.0,
+              "x": 2998.0,
+              "y": 395.0000305175781,
               "data": {
                 "v1": 0.5
               }
@@ -104,14 +95,14 @@
               "y": 969.0,
               "data": {
                 "v1": 1.0499999523162842,
-                "v2": 1.100000023841858
+                "v2": 1.0499999523162842
               }
             },
             {
               "id": "b73fabb4e7594d4b9d6c4b835e8d18d7",
               "type": "Abs",
-              "x": 2694.0,
-              "y": 335.0
+              "x": 2565.0,
+              "y": 333.0000305175781
             },
             {
               "id": "741579edceee415bbc963c2325a5bc30",
@@ -122,8 +113,8 @@
             {
               "id": "75f41bbad7a144dab64559c121d0799e",
               "type": "Step",
-              "x": 3330.0,
-              "y": 375.0
+              "x": 3201.0,
+              "y": 373.0000305175781
             },
             {
               "id": "fc52516774af46598216c2ac37826d1f",
@@ -173,8 +164,8 @@
             {
               "id": "e40f9ad498e6448e9e5d86b58c19dc83",
               "type": "Multiply",
-              "x": 3539.0,
-              "y": 398.0
+              "x": 3410.0,
+              "y": 396.0000305175781
             },
             {
               "id": "9a2c33870bcc4cb4b606612a116a69e8",
@@ -185,8 +176,8 @@
             {
               "id": "2fab1165ee6947ab94cebf96f93fff54",
               "type": "Step",
-              "x": 3329.0,
-              "y": 294.0
+              "x": 3200.0,
+              "y": 292.0000305175781
             },
             {
               "id": "c632fc73a29c4a0ea6471c46c56479b6",
@@ -395,8 +386,8 @@
             {
               "id": "d37ea02d4267482d93590d56576333e5",
               "type": "OneMinus",
-              "x": 2912.0,
-              "y": 335.0
+              "x": 2783.0,
+              "y": 333.0000305175781
             },
             {
               "id": "b9107c7da1df41c8b997f34ae19fd85b",
@@ -407,8 +398,8 @@
             {
               "id": "4e2522e66b754ab884b2a1790dc7dcc8",
               "type": "Split",
-              "x": 3128.0,
-              "y": 266.0
+              "x": 2999.0,
+              "y": 264.0000305175781
             },
             {
               "id": "9ceb9e1acc464b32ad9178df8f113dd6",
@@ -451,12 +442,6 @@
               }
             },
             {
-              "id": "dd79a6b30dc944a0bd4f3ba7214eefb2",
-              "type": "Subtract",
-              "x": 2492.0,
-              "y": 312.0
-            },
-            {
               "id": "66ed7b93854b4466a42ed87a1f8c248a",
               "type": "OneMinus",
               "x": 3655.0,
@@ -483,12 +468,6 @@
               "toField": "color"
             },
             {
-              "fromNode": "dd79a6b30dc944a0bd4f3ba7214eefb2",
-              "fromField": "output",
-              "toNode": "b73fabb4e7594d4b9d6c4b835e8d18d7",
-              "toField": "input"
-            },
-            {
               "fromNode": "4e2522e66b754ab884b2a1790dc7dcc8",
               "fromField": "x",
               "toNode": "75f41bbad7a144dab64559c121d0799e",
@@ -511,12 +490,6 @@
               "fromField": "value",
               "toNode": "2fab1165ee6947ab94cebf96f93fff54",
               "toField": "edge"
-            },
-            {
-              "fromNode": "ab1d68ed3cce45f2a9f5174802670754",
-              "fromField": "value",
-              "toNode": "dd79a6b30dc944a0bd4f3ba7214eefb2",
-              "toField": "b"
             },
             {
               "fromNode": "e40f9ad498e6448e9e5d86b58c19dc83",
@@ -765,12 +738,6 @@
               "toField": "input"
             },
             {
-              "fromNode": "ffa966d0139443d89356ccf534fdaa99",
-              "fromField": "output",
-              "toNode": "dd79a6b30dc944a0bd4f3ba7214eefb2",
-              "toField": "a"
-            },
-            {
               "fromNode": "ea9d29aca32b415e8bdaadea65b99071",
               "fromField": "value",
               "toNode": "09de2e01dd924e2ab701405dbbc3e4a0",
@@ -895,6 +862,12 @@
               "fromField": "output",
               "toNode": "ef4b2c8c741f49f29286427860a60ef6",
               "toField": "inputs"
+            },
+            {
+              "fromNode": "aae0b5a45a8d40818ae3c9a8b71fcfad",
+              "fromField": "output",
+              "toNode": "b73fabb4e7594d4b9d6c4b835e8d18d7",
+              "toField": "input"
             }
           ],
           "properties": [
@@ -910,40 +883,17 @@
             {
               "name": "Range -1 to 1",
               "nodes": [
-                "f84f5c85a05c44d8b1740f236efe28ef",
-                "e76e161b25f64f97a4d102269092129b",
-                "b9107c7da1df41c8b997f34ae19fd85b",
-                "9a2c33870bcc4cb4b606612a116a69e8",
-                "7dd1edec788043d0a94eb467e2beb34f"
-              ]
-            },
-            {
-              "name": "In bounds?",
-              "nodes": [
-                "0781e1685f4f4811b6ac82a21bdf3624",
-                "4e2522e66b754ab884b2a1790dc7dcc8",
-                "d37ea02d4267482d93590d56576333e5",
-                "75f41bbad7a144dab64559c121d0799e",
-                "b73fabb4e7594d4b9d6c4b835e8d18d7",
-                "2fab1165ee6947ab94cebf96f93fff54",
-                "e40f9ad498e6448e9e5d86b58c19dc83",
-                "ab1d68ed3cce45f2a9f5174802670754",
-                "dd79a6b30dc944a0bd4f3ba7214eefb2"
-              ]
-            },
-            {
-              "name": "Monitor color",
-              "nodes": [
-                "584b0b9a671842d0a74e0cd31c099a9c",
-                "db597dcbe55f487dbdfab0458a668abc",
-                "8f19e88c52d74ac9bc6c5dd4f06df607",
-                "a604baef44b145b5ac2dd903030f7e2d",
-                "9ceb9e1acc464b32ad9178df8f113dd6",
-                "22685241e27d4acf94342a82a09bbb71",
-                "bb0b8c5336ac4b4e99843075d9c022c1",
-                "fce8157645344f7393376c10c10cba7e",
-                "55e5dac0a1f84e4888a5df969c68bb74",
-                "fc52516774af46598216c2ac37826d1f"
+                "399d4331037b442a9f4abb73b7a4540b",
+                "84d70bb6d79c4d97af88fef0a2986a42",
+                "5755559c132e4575a53c646dc74fe652",
+                "ea9d29aca32b415e8bdaadea65b99071",
+                "25d8ce09eff549a7989934762e5419a7",
+                "09de2e01dd924e2ab701405dbbc3e4a0",
+                "0840868ef4b44c10b0e7cc539c8435bc",
+                "12f2f761bc0c4ee2a225fb4034e3f9a5",
+                "985c0e12f9b048caa7e5e8b83cefcd3f",
+                "5db845d29fdb44c4b84f49dbc33be2dc",
+                "ef4b2c8c741f49f29286427860a60ef6"
               ]
             },
             {
@@ -965,17 +915,38 @@
             {
               "name": "Range -1 to 1",
               "nodes": [
-                "399d4331037b442a9f4abb73b7a4540b",
-                "84d70bb6d79c4d97af88fef0a2986a42",
-                "5755559c132e4575a53c646dc74fe652",
-                "ea9d29aca32b415e8bdaadea65b99071",
-                "25d8ce09eff549a7989934762e5419a7",
-                "09de2e01dd924e2ab701405dbbc3e4a0",
-                "0840868ef4b44c10b0e7cc539c8435bc",
-                "12f2f761bc0c4ee2a225fb4034e3f9a5",
-                "985c0e12f9b048caa7e5e8b83cefcd3f",
-                "5db845d29fdb44c4b84f49dbc33be2dc",
-                "ef4b2c8c741f49f29286427860a60ef6"
+                "f84f5c85a05c44d8b1740f236efe28ef",
+                "e76e161b25f64f97a4d102269092129b",
+                "b9107c7da1df41c8b997f34ae19fd85b",
+                "9a2c33870bcc4cb4b606612a116a69e8",
+                "7dd1edec788043d0a94eb467e2beb34f"
+              ]
+            },
+            {
+              "name": "Monitor color",
+              "nodes": [
+                "584b0b9a671842d0a74e0cd31c099a9c",
+                "db597dcbe55f487dbdfab0458a668abc",
+                "8f19e88c52d74ac9bc6c5dd4f06df607",
+                "a604baef44b145b5ac2dd903030f7e2d",
+                "9ceb9e1acc464b32ad9178df8f113dd6",
+                "22685241e27d4acf94342a82a09bbb71",
+                "bb0b8c5336ac4b4e99843075d9c022c1",
+                "fce8157645344f7393376c10c10cba7e",
+                "55e5dac0a1f84e4888a5df969c68bb74",
+                "fc52516774af46598216c2ac37826d1f"
+              ]
+            },
+            {
+              "name": "In bounds?",
+              "nodes": [
+                "0781e1685f4f4811b6ac82a21bdf3624",
+                "4e2522e66b754ab884b2a1790dc7dcc8",
+                "d37ea02d4267482d93590d56576333e5",
+                "75f41bbad7a144dab64559c121d0799e",
+                "b73fabb4e7594d4b9d6c4b835e8d18d7",
+                "2fab1165ee6947ab94cebf96f93fff54",
+                "e40f9ad498e6448e9e5d86b58c19dc83"
               ]
             }
           ]
