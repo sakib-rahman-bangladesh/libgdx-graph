@@ -34,6 +34,7 @@ import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModel;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.RandomIdGenerator;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
@@ -86,6 +87,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
         shaderContext.setCamera(camera);
         shaderContext.setRenderWidth(width);
         shaderContext.setRenderHeight(height);
+        shaderContext.setColorTexture(PatternTextures.sharedInstance.texture);
     }
 
     public void setModel(ShaderPreviewModel model) {

@@ -34,6 +34,7 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
 
         VisUI.load();
         WhitePixel.initializeShared();
+        PatternTextures.initializeShared();
 
         FileChooser.setDefaultPrefsName("com.gempukku.libgdx.graph.ui.filechooser");
 
@@ -83,6 +84,7 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
         skin.dispose();
         stage.dispose();
 
+        PatternTextures.disposeShared();
         WhitePixel.disposeShared();
         VisUI.dispose();
 
