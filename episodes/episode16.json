@@ -54,7 +54,7 @@
       "y": 271.0,
       "data": {
         "id": "4a22d7c8de0946a6a26b97548c521d08",
-        "tag": "Curvature",
+        "tag": "CRT Monitor",
         "shader": {
           "version": "0.2.0",
           "nodes": [

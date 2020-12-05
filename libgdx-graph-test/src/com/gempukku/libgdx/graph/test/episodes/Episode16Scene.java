@@ -116,7 +116,7 @@ public class Episode16Scene implements LibgdxGraphTestScene {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        pipelineRenderer.getScreenShaders().setProperty("Curvature", "Distortion", distortion.getValue());
+                        pipelineRenderer.getScreenShaders().setProperty("CRT Monitor", "Distortion", distortion.getValue());
                     }
                 });
 
