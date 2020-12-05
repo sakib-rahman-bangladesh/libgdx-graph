@@ -61,121 +61,110 @@
             {
               "id": "37c299a6c2124011982ae7b275522d3a",
               "type": "SceneColor",
-              "x": 1735.0,
-              "y": 917.0
+              "x": 2467.0,
+              "y": 951.0
             },
             {
               "id": "ab1d68ed3cce45f2a9f5174802670754",
               "type": "ValueFloat",
-              "x": 1491.0,
-              "y": 309.0,
+              "x": 2293.0,
+              "y": 311.0,
               "data": {
                 "v1": 0.5
+              }
+            },
+            {
+              "id": "5db845d29fdb44c4b84f49dbc33be2dc",
+              "type": "ValueFloat",
+              "x": 816.0,
+              "y": 662.0,
+              "data": {
+                "v1": 2.0
               }
             },
             {
               "id": "0781e1685f4f4811b6ac82a21bdf3624",
               "type": "ValueFloat",
-              "x": 2325.0,
-              "y": 395.0,
+              "x": 3127.0,
+              "y": 397.0,
               "data": {
                 "v1": 0.5
               }
             },
             {
-              "id": "cea9ff643e4541ea958071a2e0885ef5",
-              "type": "Add",
-              "x": 852.0,
-              "y": 502.0
+              "id": "7dd1edec788043d0a94eb467e2beb34f",
+              "type": "Multiply",
+              "x": 434.0,
+              "y": 933.0
             },
             {
-              "id": "bb0b8c5336ac4b4e99843075d9c022c1",
-              "type": "Saturate",
-              "x": 2866.0,
-              "y": 50.0
+              "id": "36cda6045abf42bca0dc59f5bd3d9525",
+              "type": "ValueVector2",
+              "x": 1820.0,
+              "y": 969.0,
+              "data": {
+                "v1": 1.0499999523162842,
+                "v2": 1.100000023841858
+              }
             },
             {
               "id": "b73fabb4e7594d4b9d6c4b835e8d18d7",
               "type": "Abs",
-              "x": 1892.0,
-              "y": 333.0
+              "x": 2694.0,
+              "y": 335.0
             },
             {
               "id": "741579edceee415bbc963c2325a5bc30",
               "type": "Sin",
-              "x": 2180.0,
+              "x": 3058.0,
               "y": 597.0
             },
             {
               "id": "75f41bbad7a144dab64559c121d0799e",
               "type": "Step",
-              "x": 2528.0,
-              "y": 373.0
-            },
-            {
-              "id": "c1a26b5b4b7944d1a53b762ef054df72",
-              "type": "ValueFloat",
-              "x": 651.0,
-              "y": 479.0,
-              "data": {
-                "v1": 1.0
-              }
-            },
-            {
-              "id": "e578c3ad9a494b3987766f2d4231afe1",
-              "type": "Step",
-              "x": 2377.0,
-              "y": 638.0
+              "x": 3330.0,
+              "y": 375.0
             },
             {
               "id": "fc52516774af46598216c2ac37826d1f",
               "type": "Mix",
-              "x": 3055.0,
+              "x": 3933.0,
               "y": 120.0
             },
             {
-              "id": "db597dcbe55f487dbdfab0458a668abc",
-              "type": "Maximum",
-              "x": 2491.0,
-              "y": 143.0
+              "id": "c496f7e59beb4399a14852f2f35fc8b8",
+              "type": "ValueFloat",
+              "x": 1821.0,
+              "y": 1031.0,
+              "data": {
+                "v1": 0.5
+              }
             },
             {
               "id": "8f19e88c52d74ac9bc6c5dd4f06df607",
               "type": "Subtract",
-              "x": 2093.0,
+              "x": 2971.0,
               "y": 143.0
-            },
-            {
-              "id": "7b529ba297e045e8880d085769cb6182",
-              "type": "Add",
-              "x": 1987.0,
-              "y": 597.0
             },
             {
               "id": "f8c0fcb936844ae4a7107d17216895a8",
               "type": "Split",
-              "x": 1590.0,
+              "x": 2468.0,
               "y": 593.0
             },
             {
               "id": "c897767f74464f458cd7ded9be27d026",
               "type": "ValueFloat",
-              "x": 2377.0,
+              "x": 3255.0,
               "y": 573.0,
               "data": {
                 "v1": 0.15000000596046448
               }
             },
             {
-              "id": "15a830494d964bc99034ba731247185e",
-              "type": "Add",
-              "x": 1232.0,
-              "y": 655.0
-            },
-            {
               "id": "19449bb15c5e4dff80f5b369987011bd",
               "type": "ValueFloat",
-              "x": 2180.0,
+              "x": 3058.0,
               "y": 660.0,
               "data": {
                 "v1": 0.0
@@ -184,13 +173,163 @@
             {
               "id": "e40f9ad498e6448e9e5d86b58c19dc83",
               "type": "Multiply",
-              "x": 2737.0,
-              "y": 396.0
+              "x": 3539.0,
+              "y": 398.0
+            },
+            {
+              "id": "9a2c33870bcc4cb4b606612a116a69e8",
+              "type": "ScreenPosition",
+              "x": 50.0,
+              "y": 933.0
+            },
+            {
+              "id": "2fab1165ee6947ab94cebf96f93fff54",
+              "type": "Step",
+              "x": 3329.0,
+              "y": 294.0
+            },
+            {
+              "id": "c632fc73a29c4a0ea6471c46c56479b6",
+              "type": "Multiply",
+              "x": 2679.0,
+              "y": 661.0
+            },
+            {
+              "id": "e76e161b25f64f97a4d102269092129b",
+              "type": "ValueFloat",
+              "x": 51.0,
+              "y": 864.0,
+              "data": {
+                "v1": 0.5
+              }
+            },
+            {
+              "id": "fce8157645344f7393376c10c10cba7e",
+              "type": "ValueFloat",
+              "x": 2754.0,
+              "y": 142.0,
+              "data": {
+                "v1": 0.5
+              }
+            },
+            {
+              "id": "323c30c132f844fda3d496f41c1c59c5",
+              "type": "Split",
+              "x": 622.0,
+              "y": 864.0
+            },
+            {
+              "id": "ffa966d0139443d89356ccf534fdaa99",
+              "type": "Add",
+              "x": 2240.0,
+              "y": 876.0
+            },
+            {
+              "id": "a604baef44b145b5ac2dd903030f7e2d",
+              "type": "Split",
+              "x": 3172.0,
+              "y": 97.0
+            },
+            {
+              "id": "09de2e01dd924e2ab701405dbbc3e4a0",
+              "type": "Multiply",
+              "x": 1214.0,
+              "y": 668.0
+            },
+            {
+              "id": "37d9f02509de4a579b1589274aabe8f4",
+              "type": "Mix",
+              "x": 4205.0,
+              "y": 547.0
+            },
+            {
+              "id": "6907a2c3302b497ab2b64c8c5d3a9d21",
+              "type": "Multiply",
+              "x": 3960.0,
+              "y": 702.0
+            },
+            {
+              "id": "525a3695eec64700be61ff08a50c45b1",
+              "type": "Multiply",
+              "x": 3452.0,
+              "y": 661.0
+            },
+            {
+              "id": "53d55eb194304c7997013e0f8dac4b51",
+              "type": "ValueFloat",
+              "x": 2470.0,
+              "y": 526.0,
+              "data": {
+                "v1": 400.0
+              }
+            },
+            {
+              "id": "5755559c132e4575a53c646dc74fe652",
+              "type": "Power",
+              "x": 1014.0,
+              "y": 778.0
+            },
+            {
+              "id": "aae0b5a45a8d40818ae3c9a8b71fcfad",
+              "type": "Multiply",
+              "x": 2008.0,
+              "y": 876.0
+            },
+            {
+              "id": "ef4b2c8c741f49f29286427860a60ef6",
+              "type": "Multiply",
+              "x": 1609.0,
+              "y": 819.0
+            },
+            {
+              "id": "582f2cc62bb94f5c971de5af87e19c29",
+              "type": "Sampler2D",
+              "x": 2702.0,
+              "y": 884.0
+            },
+            {
+              "id": "bb0b8c5336ac4b4e99843075d9c022c1",
+              "type": "Saturate",
+              "x": 3744.0,
+              "y": 50.0
+            },
+            {
+              "id": "f84f5c85a05c44d8b1740f236efe28ef",
+              "type": "ValueFloat",
+              "x": 241.0,
+              "y": 847.0,
+              "data": {
+                "v1": 2.0
+              }
+            },
+            {
+              "id": "e578c3ad9a494b3987766f2d4231afe1",
+              "type": "Step",
+              "x": 3255.0,
+              "y": 638.0
+            },
+            {
+              "id": "db597dcbe55f487dbdfab0458a668abc",
+              "type": "Maximum",
+              "x": 3369.0,
+              "y": 143.0
+            },
+            {
+              "id": "7b529ba297e045e8880d085769cb6182",
+              "type": "Add",
+              "x": 2865.0,
+              "y": 597.0
+            },
+            {
+              "id": "25d8ce09eff549a7989934762e5419a7",
+              "type": "Multiply",
+              "x": 1609.0,
+              "y": 876.0
             },
             {
               "id": "22685241e27d4acf94342a82a09bbb71",
               "type": "ValueFloat",
-              "x": 2491.0,
+              "x": 3369.0,
               "y": 83.0,
               "data": {
                 "v1": 32.0
@@ -199,19 +338,19 @@
             {
               "id": "584b0b9a671842d0a74e0cd31c099a9c",
               "type": "Multiply",
-              "x": 2684.0,
+              "x": 3562.0,
               "y": 166.0
             },
             {
-              "id": "0f54bea960c84095bdbcb0ca915758c7",
-              "type": "Multiply",
-              "x": 1040.0,
-              "y": 592.0
+              "id": "e938481580a54aca9f3adb6489567fbf",
+              "type": "Add",
+              "x": 1407.0,
+              "y": 670.0
             },
             {
               "id": "e627435e3e3a40ed9830df7d5cafdaf4",
               "type": "Time",
-              "x": 1801.0,
+              "x": 2679.0,
               "y": 499.0,
               "data": {
                 "multiplier": 20.0
@@ -220,156 +359,114 @@
             {
               "id": "55e5dac0a1f84e4888a5df969c68bb74",
               "type": "ValueColor",
-              "x": 2867.0,
+              "x": 3745.0,
               "y": 110.0,
               "data": {
                 "color": "f2f5bfff"
               }
             },
             {
-              "id": "f1f2772abdd54a3cadbc26a17402c33d",
-              "type": "Multiply",
-              "x": 652.0,
-              "y": 541.0
+              "id": "12f2f761bc0c4ee2a225fb4034e3f9a5",
+              "type": "Split",
+              "x": 815.0,
+              "y": 732.0
             },
             {
               "id": "end",
               "type": "FullScreenShaderEnd",
-              "x": 3516.0,
+              "x": 4394.0,
               "y": 299.0,
               "data": {
                 "blending": "none"
               }
             },
             {
-              "id": "2fab1165ee6947ab94cebf96f93fff54",
-              "type": "Step",
-              "x": 2527.0,
-              "y": 292.0
-            },
-            {
-              "id": "c632fc73a29c4a0ea6471c46c56479b6",
+              "id": "985c0e12f9b048caa7e5e8b83cefcd3f",
               "type": "Multiply",
-              "x": 1801.0,
-              "y": 661.0
+              "x": 1214.0,
+              "y": 729.0
             },
             {
-              "id": "05644b7652e744709b8f02a3a493d8f9",
-              "type": "Subtract",
-              "x": 248.0,
-              "y": 569.0
-            },
-            {
-              "id": "fce8157645344f7393376c10c10cba7e",
-              "type": "ValueFloat",
-              "x": 1876.0,
-              "y": 142.0,
-              "data": {
-                "v1": 0.5
-              }
+              "id": "e95ffc08148c4b56a00818112af35a56",
+              "type": "Add",
+              "x": 1407.0,
+              "y": 729.0
             },
             {
               "id": "d37ea02d4267482d93590d56576333e5",
               "type": "OneMinus",
-              "x": 2110.0,
-              "y": 333.0
+              "x": 2912.0,
+              "y": 335.0
             },
             {
-              "id": "cb8bbb7a8e374a30a3aeb62cab412995",
-              "type": "Property",
-              "x": 442.0,
-              "y": 406.0,
-              "data": {
-                "name": "Distortion",
-                "type": "Float"
-              }
+              "id": "b9107c7da1df41c8b997f34ae19fd85b",
+              "type": "Subtract",
+              "x": 241.0,
+              "y": 910.0
             },
             {
               "id": "4e2522e66b754ab884b2a1790dc7dcc8",
               "type": "Split",
-              "x": 2326.0,
-              "y": 264.0
-            },
-            {
-              "id": "a604baef44b145b5ac2dd903030f7e2d",
-              "type": "Split",
-              "x": 2294.0,
-              "y": 97.0
-            },
-            {
-              "id": "4e98ff90358d4d289504d6efe86225b9",
-              "type": "ScreenPosition",
-              "x": 55.0,
-              "y": 655.0
-            },
-            {
-              "id": "37d9f02509de4a579b1589274aabe8f4",
-              "type": "Mix",
-              "x": 3327.0,
-              "y": 547.0
+              "x": 3128.0,
+              "y": 266.0
             },
             {
               "id": "9ceb9e1acc464b32ad9178df8f113dd6",
               "type": "ValueColor",
-              "x": 2866.0,
+              "x": 3744.0,
               "y": 166.0,
               "data": {
                 "color": "000000ff"
               }
             },
             {
-              "id": "6907a2c3302b497ab2b64c8c5d3a9d21",
-              "type": "Multiply",
-              "x": 3082.0,
-              "y": 702.0
-            },
-            {
-              "id": "0463d994d9184dd18245fce1b8a10d30",
-              "type": "ValueFloat",
-              "x": 50.0,
-              "y": 542.0,
+              "id": "ea9d29aca32b415e8bdaadea65b99071",
+              "type": "Property",
+              "x": 1014.0,
+              "y": 632.0,
               "data": {
-                "v1": 0.5
+                "name": "Distortion",
+                "type": "Float"
               }
             },
             {
-              "id": "525a3695eec64700be61ff08a50c45b1",
-              "type": "Multiply",
-              "x": 2574.0,
-              "y": 661.0
+              "id": "4708efc685e1418f89e759f5a63eac99",
+              "type": "Abs",
+              "x": 621.0,
+              "y": 801.0
+            },
+            {
+              "id": "0840868ef4b44c10b0e7cc539c8435bc",
+              "type": "Power",
+              "x": 1013.0,
+              "y": 695.0
+            },
+            {
+              "id": "84d70bb6d79c4d97af88fef0a2986a42",
+              "type": "ValueFloat",
+              "x": 1214.0,
+              "y": 607.0,
+              "data": {
+                "v1": 1.0
+              }
             },
             {
               "id": "dd79a6b30dc944a0bd4f3ba7214eefb2",
               "type": "Subtract",
-              "x": 1690.0,
-              "y": 310.0
-            },
-            {
-              "id": "53d55eb194304c7997013e0f8dac4b51",
-              "type": "ValueFloat",
-              "x": 1592.0,
-              "y": 526.0,
-              "data": {
-                "v1": 400.0
-              }
+              "x": 2492.0,
+              "y": 312.0
             },
             {
               "id": "66ed7b93854b4466a42ed87a1f8c248a",
               "type": "OneMinus",
-              "x": 2777.0,
+              "x": 3655.0,
               "y": 661.0
             },
             {
-              "id": "582f2cc62bb94f5c971de5af87e19c29",
-              "type": "Sampler2D",
-              "x": 1958.0,
-              "y": 850.0
-            },
-            {
-              "id": "fc33dc787565457bbac7862e0660a0cc",
-              "type": "DotProduct",
-              "x": 443.0,
-              "y": 518.0
+              "id": "399d4331037b442a9f4abb73b7a4540b",
+              "type": "Merge",
+              "x": 1810.0,
+              "y": 807.0
             }
           ],
           "connections": [
@@ -380,28 +477,10 @@
               "toField": "texture"
             },
             {
-              "fromNode": "4e98ff90358d4d289504d6efe86225b9",
-              "fromField": "output",
-              "toNode": "15a830494d964bc99034ba731247185e",
-              "toField": "inputs"
-            },
-            {
-              "fromNode": "15a830494d964bc99034ba731247185e",
-              "fromField": "output",
-              "toNode": "582f2cc62bb94f5c971de5af87e19c29",
-              "toField": "uv"
-            },
-            {
               "fromNode": "37d9f02509de4a579b1589274aabe8f4",
               "fromField": "output",
               "toNode": "end",
               "toField": "color"
-            },
-            {
-              "fromNode": "15a830494d964bc99034ba731247185e",
-              "fromField": "output",
-              "toNode": "dd79a6b30dc944a0bd4f3ba7214eefb2",
-              "toField": "a"
             },
             {
               "fromNode": "dd79a6b30dc944a0bd4f3ba7214eefb2",
@@ -434,33 +513,9 @@
               "toField": "edge"
             },
             {
-              "fromNode": "0463d994d9184dd18245fce1b8a10d30",
-              "fromField": "value",
-              "toNode": "05644b7652e744709b8f02a3a493d8f9",
-              "toField": "b"
-            },
-            {
-              "fromNode": "4e98ff90358d4d289504d6efe86225b9",
-              "fromField": "output",
-              "toNode": "05644b7652e744709b8f02a3a493d8f9",
-              "toField": "a"
-            },
-            {
               "fromNode": "ab1d68ed3cce45f2a9f5174802670754",
               "fromField": "value",
               "toNode": "dd79a6b30dc944a0bd4f3ba7214eefb2",
-              "toField": "b"
-            },
-            {
-              "fromNode": "05644b7652e744709b8f02a3a493d8f9",
-              "fromField": "output",
-              "toNode": "fc33dc787565457bbac7862e0660a0cc",
-              "toField": "a"
-            },
-            {
-              "fromNode": "05644b7652e744709b8f02a3a493d8f9",
-              "fromField": "output",
-              "toNode": "fc33dc787565457bbac7862e0660a0cc",
               "toField": "b"
             },
             {
@@ -468,54 +523,6 @@
               "fromField": "output",
               "toNode": "37d9f02509de4a579b1589274aabe8f4",
               "toField": "t"
-            },
-            {
-              "fromNode": "fc33dc787565457bbac7862e0660a0cc",
-              "fromField": "output",
-              "toNode": "f1f2772abdd54a3cadbc26a17402c33d",
-              "toField": "inputs"
-            },
-            {
-              "fromNode": "c1a26b5b4b7944d1a53b762ef054df72",
-              "fromField": "value",
-              "toNode": "cea9ff643e4541ea958071a2e0885ef5",
-              "toField": "inputs"
-            },
-            {
-              "fromNode": "f1f2772abdd54a3cadbc26a17402c33d",
-              "fromField": "output",
-              "toNode": "cea9ff643e4541ea958071a2e0885ef5",
-              "toField": "inputs"
-            },
-            {
-              "fromNode": "f1f2772abdd54a3cadbc26a17402c33d",
-              "fromField": "output",
-              "toNode": "0f54bea960c84095bdbcb0ca915758c7",
-              "toField": "inputs"
-            },
-            {
-              "fromNode": "cea9ff643e4541ea958071a2e0885ef5",
-              "fromField": "output",
-              "toNode": "0f54bea960c84095bdbcb0ca915758c7",
-              "toField": "inputs"
-            },
-            {
-              "fromNode": "0f54bea960c84095bdbcb0ca915758c7",
-              "fromField": "output",
-              "toNode": "15a830494d964bc99034ba731247185e",
-              "toField": "inputs"
-            },
-            {
-              "fromNode": "05644b7652e744709b8f02a3a493d8f9",
-              "fromField": "output",
-              "toNode": "0f54bea960c84095bdbcb0ca915758c7",
-              "toField": "inputs"
-            },
-            {
-              "fromNode": "15a830494d964bc99034ba731247185e",
-              "fromField": "output",
-              "toNode": "f8c0fcb936844ae4a7107d17216895a8",
-              "toField": "input"
             },
             {
               "fromNode": "f8c0fcb936844ae4a7107d17216895a8",
@@ -620,12 +627,6 @@
               "toField": "input"
             },
             {
-              "fromNode": "cb8bbb7a8e374a30a3aeb62cab412995",
-              "fromField": "value",
-              "toNode": "f1f2772abdd54a3cadbc26a17402c33d",
-              "toField": "inputs"
-            },
-            {
               "fromNode": "b73fabb4e7594d4b9d6c4b835e8d18d7",
               "fromField": "output",
               "toNode": "8f19e88c52d74ac9bc6c5dd4f06df607",
@@ -696,6 +697,204 @@
               "fromField": "value",
               "toNode": "584b0b9a671842d0a74e0cd31c099a9c",
               "toField": "inputs"
+            },
+            {
+              "fromNode": "9a2c33870bcc4cb4b606612a116a69e8",
+              "fromField": "output",
+              "toNode": "b9107c7da1df41c8b997f34ae19fd85b",
+              "toField": "a"
+            },
+            {
+              "fromNode": "e76e161b25f64f97a4d102269092129b",
+              "fromField": "value",
+              "toNode": "b9107c7da1df41c8b997f34ae19fd85b",
+              "toField": "b"
+            },
+            {
+              "fromNode": "f84f5c85a05c44d8b1740f236efe28ef",
+              "fromField": "value",
+              "toNode": "7dd1edec788043d0a94eb467e2beb34f",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "b9107c7da1df41c8b997f34ae19fd85b",
+              "fromField": "output",
+              "toNode": "7dd1edec788043d0a94eb467e2beb34f",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "7dd1edec788043d0a94eb467e2beb34f",
+              "fromField": "output",
+              "toNode": "323c30c132f844fda3d496f41c1c59c5",
+              "toField": "input"
+            },
+            {
+              "fromNode": "399d4331037b442a9f4abb73b7a4540b",
+              "fromField": "v2",
+              "toNode": "aae0b5a45a8d40818ae3c9a8b71fcfad",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "c496f7e59beb4399a14852f2f35fc8b8",
+              "fromField": "value",
+              "toNode": "aae0b5a45a8d40818ae3c9a8b71fcfad",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "aae0b5a45a8d40818ae3c9a8b71fcfad",
+              "fromField": "output",
+              "toNode": "ffa966d0139443d89356ccf534fdaa99",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "c496f7e59beb4399a14852f2f35fc8b8",
+              "fromField": "value",
+              "toNode": "ffa966d0139443d89356ccf534fdaa99",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "ffa966d0139443d89356ccf534fdaa99",
+              "fromField": "output",
+              "toNode": "582f2cc62bb94f5c971de5af87e19c29",
+              "toField": "uv"
+            },
+            {
+              "fromNode": "ffa966d0139443d89356ccf534fdaa99",
+              "fromField": "output",
+              "toNode": "f8c0fcb936844ae4a7107d17216895a8",
+              "toField": "input"
+            },
+            {
+              "fromNode": "ffa966d0139443d89356ccf534fdaa99",
+              "fromField": "output",
+              "toNode": "dd79a6b30dc944a0bd4f3ba7214eefb2",
+              "toField": "a"
+            },
+            {
+              "fromNode": "ea9d29aca32b415e8bdaadea65b99071",
+              "fromField": "value",
+              "toNode": "09de2e01dd924e2ab701405dbbc3e4a0",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "323c30c132f844fda3d496f41c1c59c5",
+              "fromField": "x",
+              "toNode": "25d8ce09eff549a7989934762e5419a7",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "323c30c132f844fda3d496f41c1c59c5",
+              "fromField": "y",
+              "toNode": "ef4b2c8c741f49f29286427860a60ef6",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "25d8ce09eff549a7989934762e5419a7",
+              "fromField": "output",
+              "toNode": "399d4331037b442a9f4abb73b7a4540b",
+              "toField": "x"
+            },
+            {
+              "fromNode": "ef4b2c8c741f49f29286427860a60ef6",
+              "fromField": "output",
+              "toNode": "399d4331037b442a9f4abb73b7a4540b",
+              "toField": "y"
+            },
+            {
+              "fromNode": "5db845d29fdb44c4b84f49dbc33be2dc",
+              "fromField": "value",
+              "toNode": "5755559c132e4575a53c646dc74fe652",
+              "toField": "b"
+            },
+            {
+              "fromNode": "5db845d29fdb44c4b84f49dbc33be2dc",
+              "fromField": "value",
+              "toNode": "0840868ef4b44c10b0e7cc539c8435bc",
+              "toField": "b"
+            },
+            {
+              "fromNode": "5755559c132e4575a53c646dc74fe652",
+              "fromField": "output",
+              "toNode": "985c0e12f9b048caa7e5e8b83cefcd3f",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "0840868ef4b44c10b0e7cc539c8435bc",
+              "fromField": "output",
+              "toNode": "09de2e01dd924e2ab701405dbbc3e4a0",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "ea9d29aca32b415e8bdaadea65b99071",
+              "fromField": "value",
+              "toNode": "985c0e12f9b048caa7e5e8b83cefcd3f",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "36cda6045abf42bca0dc59f5bd3d9525",
+              "fromField": "value",
+              "toNode": "aae0b5a45a8d40818ae3c9a8b71fcfad",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "7dd1edec788043d0a94eb467e2beb34f",
+              "fromField": "output",
+              "toNode": "4708efc685e1418f89e759f5a63eac99",
+              "toField": "input"
+            },
+            {
+              "fromNode": "4708efc685e1418f89e759f5a63eac99",
+              "fromField": "output",
+              "toNode": "12f2f761bc0c4ee2a225fb4034e3f9a5",
+              "toField": "input"
+            },
+            {
+              "fromNode": "12f2f761bc0c4ee2a225fb4034e3f9a5",
+              "fromField": "x",
+              "toNode": "5755559c132e4575a53c646dc74fe652",
+              "toField": "a"
+            },
+            {
+              "fromNode": "12f2f761bc0c4ee2a225fb4034e3f9a5",
+              "fromField": "y",
+              "toNode": "0840868ef4b44c10b0e7cc539c8435bc",
+              "toField": "a"
+            },
+            {
+              "fromNode": "84d70bb6d79c4d97af88fef0a2986a42",
+              "fromField": "value",
+              "toNode": "e938481580a54aca9f3adb6489567fbf",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "84d70bb6d79c4d97af88fef0a2986a42",
+              "fromField": "value",
+              "toNode": "e95ffc08148c4b56a00818112af35a56",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "985c0e12f9b048caa7e5e8b83cefcd3f",
+              "fromField": "output",
+              "toNode": "e95ffc08148c4b56a00818112af35a56",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "09de2e01dd924e2ab701405dbbc3e4a0",
+              "fromField": "output",
+              "toNode": "e938481580a54aca9f3adb6489567fbf",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "e938481580a54aca9f3adb6489567fbf",
+              "fromField": "output",
+              "toNode": "25d8ce09eff549a7989934762e5419a7",
+              "toField": "inputs"
+            },
+            {
+              "fromNode": "e95ffc08148c4b56a00818112af35a56",
+              "fromField": "output",
+              "toNode": "ef4b2c8c741f49f29286427860a60ef6",
+              "toField": "inputs"
             }
           ],
           "properties": [
@@ -709,33 +908,27 @@
           ],
           "groups": [
             {
-              "name": "Horizontal bars",
+              "name": "Range -1 to 1",
               "nodes": [
-                "e627435e3e3a40ed9830df7d5cafdaf4",
-                "53d55eb194304c7997013e0f8dac4b51",
-                "66ed7b93854b4466a42ed87a1f8c248a",
-                "7b529ba297e045e8880d085769cb6182",
-                "525a3695eec64700be61ff08a50c45b1",
-                "c897767f74464f458cd7ded9be27d026",
-                "c632fc73a29c4a0ea6471c46c56479b6",
-                "f8c0fcb936844ae4a7107d17216895a8",
-                "741579edceee415bbc963c2325a5bc30",
-                "19449bb15c5e4dff80f5b369987011bd",
-                "e578c3ad9a494b3987766f2d4231afe1"
+                "f84f5c85a05c44d8b1740f236efe28ef",
+                "e76e161b25f64f97a4d102269092129b",
+                "b9107c7da1df41c8b997f34ae19fd85b",
+                "9a2c33870bcc4cb4b606612a116a69e8",
+                "7dd1edec788043d0a94eb467e2beb34f"
               ]
             },
             {
-              "name": "Result UV",
+              "name": "In bounds?",
               "nodes": [
-                "0f54bea960c84095bdbcb0ca915758c7",
-                "05644b7652e744709b8f02a3a493d8f9",
-                "c1a26b5b4b7944d1a53b762ef054df72",
-                "15a830494d964bc99034ba731247185e",
-                "0463d994d9184dd18245fce1b8a10d30",
-                "cea9ff643e4541ea958071a2e0885ef5",
-                "4e98ff90358d4d289504d6efe86225b9",
-                "fc33dc787565457bbac7862e0660a0cc",
-                "f1f2772abdd54a3cadbc26a17402c33d"
+                "0781e1685f4f4811b6ac82a21bdf3624",
+                "4e2522e66b754ab884b2a1790dc7dcc8",
+                "d37ea02d4267482d93590d56576333e5",
+                "75f41bbad7a144dab64559c121d0799e",
+                "b73fabb4e7594d4b9d6c4b835e8d18d7",
+                "2fab1165ee6947ab94cebf96f93fff54",
+                "e40f9ad498e6448e9e5d86b58c19dc83",
+                "ab1d68ed3cce45f2a9f5174802670754",
+                "dd79a6b30dc944a0bd4f3ba7214eefb2"
               ]
             },
             {
@@ -754,17 +947,35 @@
               ]
             },
             {
-              "name": "In bounds?",
+              "name": "Horizontal bars",
               "nodes": [
-                "0781e1685f4f4811b6ac82a21bdf3624",
-                "4e2522e66b754ab884b2a1790dc7dcc8",
-                "d37ea02d4267482d93590d56576333e5",
-                "75f41bbad7a144dab64559c121d0799e",
-                "b73fabb4e7594d4b9d6c4b835e8d18d7",
-                "2fab1165ee6947ab94cebf96f93fff54",
-                "e40f9ad498e6448e9e5d86b58c19dc83",
-                "ab1d68ed3cce45f2a9f5174802670754",
-                "dd79a6b30dc944a0bd4f3ba7214eefb2"
+                "e627435e3e3a40ed9830df7d5cafdaf4",
+                "53d55eb194304c7997013e0f8dac4b51",
+                "66ed7b93854b4466a42ed87a1f8c248a",
+                "7b529ba297e045e8880d085769cb6182",
+                "525a3695eec64700be61ff08a50c45b1",
+                "c897767f74464f458cd7ded9be27d026",
+                "c632fc73a29c4a0ea6471c46c56479b6",
+                "f8c0fcb936844ae4a7107d17216895a8",
+                "741579edceee415bbc963c2325a5bc30",
+                "19449bb15c5e4dff80f5b369987011bd",
+                "e578c3ad9a494b3987766f2d4231afe1"
+              ]
+            },
+            {
+              "name": "Range -1 to 1",
+              "nodes": [
+                "399d4331037b442a9f4abb73b7a4540b",
+                "84d70bb6d79c4d97af88fef0a2986a42",
+                "5755559c132e4575a53c646dc74fe652",
+                "ea9d29aca32b415e8bdaadea65b99071",
+                "25d8ce09eff549a7989934762e5419a7",
+                "09de2e01dd924e2ab701405dbbc3e4a0",
+                "0840868ef4b44c10b0e7cc539c8435bc",
+                "12f2f761bc0c4ee2a225fb4034e3f9a5",
+                "985c0e12f9b048caa7e5e8b83cefcd3f",
+                "5db845d29fdb44c4b84f49dbc33be2dc",
+                "ef4b2c8c741f49f29286427860a60ef6"
               ]
             }
           ]

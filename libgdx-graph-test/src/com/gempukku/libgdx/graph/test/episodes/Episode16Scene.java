@@ -110,8 +110,8 @@ public class Episode16Scene implements LibgdxGraphTestScene {
                     }
                 });
 
-        final Slider distortion = new Slider(0f, 5f, 0.001f, false, skin);
-        distortion.setValue(0.4f);
+        final Slider distortion = new Slider(0f, 0.3f, 0.001f, false, skin);
+        distortion.setValue(0.1f);
         distortion.addListener(
                 new ChangeListener() {
                     @Override
