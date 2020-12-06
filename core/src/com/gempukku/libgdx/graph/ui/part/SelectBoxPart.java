@@ -72,6 +72,10 @@ public class SelectBoxPart<T extends FieldType> extends Table implements GraphBo
         }
     }
 
+    public void setSelected(Enum<?> value) {
+        selectBox.setSelected(value.name().replace('_', ' '));
+    }
+
     @Override
     public void serializePart(JsonValue object) {
         object.addChild(property, new JsonValue(selectBox.getSelected()));

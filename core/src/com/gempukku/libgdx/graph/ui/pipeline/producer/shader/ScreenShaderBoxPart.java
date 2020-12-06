@@ -30,8 +30,8 @@ import java.util.UUID;
 
 public class ScreenShaderBoxPart extends Table implements GraphBoxPart<PipelineFieldType> {
     private static UIGraphConfiguration<ShaderFieldType>[] graphConfigurations = new UIGraphConfiguration[]{
-            new UICommonShaderConfiguration(),
-            new UIScreenShaderConfiguration()
+            new UIScreenShaderConfiguration(),
+            new UICommonShaderConfiguration()
     };
 
     private String id;

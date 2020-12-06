@@ -44,7 +44,8 @@ import java.util.UUID;
 
 public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<GraphBox<T>, GraphConnection, PropertyBox<T>, T> {
     public enum Type {
-        Render_Pipeline(false), Graph_Shader(true), Full_Screen_Shader(true);
+        Render_Pipeline(false), Graph_Shader(true), Full_Screen_Shader(true),
+        Particle_Effect(true);
 
         private boolean exportable;
 

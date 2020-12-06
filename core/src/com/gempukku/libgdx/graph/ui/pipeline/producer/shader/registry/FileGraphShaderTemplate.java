@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.JsonReader;
@@ -28,7 +27,7 @@ public class FileGraphShaderTemplate implements GraphShaderTemplate {
     public void invokeTemplate(Stage stage, Callback callback) {
         JsonReader parser = new JsonReader();
         try {
-            InputStream is = Gdx.files.classpath("template/empty-shader.json").read();
+            InputStream is = fileHandle.read();
             try {
                 JsonValue shader = parser.parse(new InputStreamReader(is));
                 callback.addShader("", shader);

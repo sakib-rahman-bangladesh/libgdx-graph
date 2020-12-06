@@ -18,6 +18,10 @@ public class GraphBoxProducerImpl<T extends FieldType> implements GraphBoxProduc
         this.configuration = configuration;
     }
 
+    public NodeConfiguration<T> getConfiguration() {
+        return configuration;
+    }
+
     @Override
     public String getType() {
         return configuration.getType();

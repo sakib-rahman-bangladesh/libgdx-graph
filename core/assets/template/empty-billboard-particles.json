@@ -3,11 +3,14 @@
   "nodes": [
     {
       "id": "end",
-      "type": "FullScreenShaderEnd",
+      "type": "BillboardParticlesShaderEnd",
       "x": 50.0,
       "y": 50.0,
       "data": {
-        "blending": "none"
+        "culling": "back",
+        "transparency": "opaque",
+        "blending": "alpha",
+        "depthTest": "less"
       }
     }
   ],

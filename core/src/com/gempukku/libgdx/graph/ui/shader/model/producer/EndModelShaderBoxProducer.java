@@ -6,7 +6,6 @@ import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
-import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.config.model.EndModelShaderNodeConfiguration;
@@ -18,8 +17,6 @@ import com.gempukku.libgdx.graph.ui.part.ShaderPreviewBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 
 public class EndModelShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
-    private NodeConfiguration<ShaderFieldType> configuration = new EndModelShaderNodeConfiguration();
-
     public EndModelShaderBoxProducer() {
         super(new EndModelShaderNodeConfiguration());
     }
@@ -34,7 +31,7 @@ public class EndModelShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
         final ShaderPreviewBoxPart previewBoxPart = new ShaderPreviewBoxPart(skin);
         previewBoxPart.initialize(data);
 
-        GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, configuration, skin) {
+        GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, getConfiguration(), skin) {
             @Override
             public void graphChanged(GraphChangedEvent event, boolean hasErrors, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
                 if (event.isData() || event.isStructure()) {

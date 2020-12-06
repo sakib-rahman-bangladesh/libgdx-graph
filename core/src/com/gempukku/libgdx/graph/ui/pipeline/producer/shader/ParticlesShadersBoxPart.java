@@ -23,7 +23,7 @@ import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.GraphShaderTemplate;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.GraphShaderTemplateRegistry;
 import com.gempukku.libgdx.graph.ui.shader.common.UICommonShaderConfiguration;
-import com.gempukku.libgdx.graph.ui.shader.model.UIModelShaderConfiguration;
+import com.gempukku.libgdx.graph.ui.shader.particles.UIParticlesShaderConfiguration;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
 import com.kotcrab.vis.ui.widget.MenuItem;
@@ -34,9 +34,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineFieldType> {
+public class ParticlesShadersBoxPart extends Table implements GraphBoxPart<PipelineFieldType> {
     private static UIGraphConfiguration<ShaderFieldType>[] graphConfigurations = new UIGraphConfiguration[]{
-            new UIModelShaderConfiguration(),
+            new UIParticlesShaderConfiguration(),
             new UICommonShaderConfiguration()
     };
 
@@ -46,7 +46,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
     private final Skin skin;
     private List<ShaderInfo> shaders = new LinkedList<>();
 
-    public GraphShadersBoxPart(Skin skin) {
+    public ParticlesShadersBoxPart(Skin skin) {
         this.skin = skin;
 
         shaderGroup = new VerticalGroup();
@@ -63,13 +63,13 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
 
         table.add(scrollPane).grow().row();
 
-        final TextButton newShader = new TextButton("New Shader", skin);
+        final TextButton newShader = new TextButton("New Effect", skin);
         newShader.addListener(
                 new ClickListener(Input.Buttons.LEFT) {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         PopupMenu popupMenu = new PopupMenu();
-                        for (final GraphShaderTemplate graphShaderTemplate : GraphShaderTemplateRegistry.graphShaderTemplateList) {
+                        for (final GraphShaderTemplate graphShaderTemplate : GraphShaderTemplateRegistry.particlesShaderTemplateList) {
                             MenuItem menuItem = new MenuItem(graphShaderTemplate.getTitle());
                             popupMenu.addItem(menuItem);
                             menuItem.addListener(
@@ -181,7 +181,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
             this.initialShaderJson = initialShaderJson;
             table = new Table(skin);
             textField = new TextField(tag, skin);
-            textField.setMessageText("Shader Tag");
+            textField.setMessageText("Effect Tag");
             table.add(textField).growX();
             final TextButton editButton = new TextButton("Edit", skin);
             editButton.addListener(
@@ -189,7 +189,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
                             editButton.fire(new RequestGraphOpen(id, "Shader - " + textField.getText(), initialShaderJson,
-                                    GraphDesignTab.Type.Graph_Shader, graphConfigurations));
+                                    GraphDesignTab.Type.Particle_Effect, graphConfigurations));
                         }
                     });
             table.add(editButton).width(EDIT_WIDTH);
@@ -198,12 +198,12 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
                     new ClickListener(Input.Buttons.LEFT) {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            Dialogs.showOptionDialog(getStage(), "Confirm", "Would you like to remove the shader?",
+                            Dialogs.showOptionDialog(getStage(), "Confirm", "Would you like to remove the effect?",
                                     Dialogs.OptionDialogType.YES_CANCEL, new OptionDialogListener() {
                                         @Override
                                         public void yes() {
                                             fire(new GraphRemoved(id));
-                                            removeShaderGraph(ShaderInfo.this);
+                                            removeShaderGraph(ParticlesShadersBoxPart.ShaderInfo.this);
                                         }
 
                                         @Override

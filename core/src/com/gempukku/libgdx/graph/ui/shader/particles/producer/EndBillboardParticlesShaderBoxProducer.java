@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.ui.shader.screen.producer;
+package com.gempukku.libgdx.graph.ui.shader.particles.producer;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
@@ -8,18 +8,17 @@ import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
-import com.gempukku.libgdx.graph.shader.config.screen.EndScreenShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.particles.EndBillboardParticlesShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.part.ShaderPreviewBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
-import com.gempukku.libgdx.graph.ui.shader.model.producer.ShaderPreviewWidget;
 
-public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
-    public EndScreenShaderBoxProducer() {
-        super(new EndScreenShaderNodeConfiguration());
+public class EndBillboardParticlesShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
+    public EndBillboardParticlesShaderBoxProducer() {
+        super(new EndBillboardParticlesShaderNodeConfiguration());
     }
 
     @Override
@@ -30,7 +29,6 @@ public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl<ShaderField
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         final ShaderPreviewBoxPart previewBoxPart = new ShaderPreviewBoxPart(skin);
-        previewBoxPart.setPreviewModel(ShaderPreviewWidget.ShaderPreviewModel.Rectangle);
         previewBoxPart.initialize(data);
 
         GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, getConfiguration(), skin) {
@@ -43,9 +41,16 @@ public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl<ShaderField
         };
 
         addConfigurationInputsAndOutputs(skin, result);
+        SelectBoxPart<ShaderFieldType> transparencyBox = new SelectBoxPart<>(skin, "Transparency", "transparency", BasicShader.Transparency.values());
+        transparencyBox.setSelected(BasicShader.Transparency.transparent);
+        transparencyBox.initialize(data);
+        result.addGraphBoxPart(transparencyBox);
         SelectBoxPart<ShaderFieldType> blendingBox = new SelectBoxPart<>(skin, "Blending", "blending", BasicShader.Blending.values());
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);
+        SelectBoxPart<ShaderFieldType> depthTestBox = new SelectBoxPart<>(skin, "DepthTest", "depthTest", BasicShader.DepthTesting.values());
+        depthTestBox.initialize(data);
+        result.addGraphBoxPart(depthTestBox);
 
         result.addGraphBoxPart(previewBoxPart);
         return result;
