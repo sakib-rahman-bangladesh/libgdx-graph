@@ -2,6 +2,7 @@
 A library for [libGDX](https://libgdx.badlogicgames.com/ "libGDX") cross-platform game development framework.
 ## Status
 libGDX-graph is undery heavy development at the moment. The devlogs are available on [YouTube](https://www.youtube.com/playlist?list=PLqpawGIg6Qj5CvjOaCbB536z862XhjPQi)
+
 Current version is 0.3.0 - alpha release.
 ## Goal
 The goal is to make game development using libGDX much easier for people who are not very experienced with 2d and 3d graphics. The project's goal is to not only
