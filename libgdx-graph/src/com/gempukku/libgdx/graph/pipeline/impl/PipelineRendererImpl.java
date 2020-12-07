@@ -18,6 +18,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
 import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelsImpl;
+import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectsImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.screen.ScreenShaders;
 import com.gempukku.libgdx.graph.shader.screen.ScreenShadersImpl;
@@ -124,12 +125,19 @@ public class PipelineRendererImpl implements PipelineRenderer {
     private class PipelineRenderingContextImpl implements PipelineRenderingContext, PipelineInitializationFeedback, Disposable {
         private RenderContext renderContext = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.LRU, 1));
         private RenderOutput renderOutput;
+        private FullScreenRenderImpl fullScreenRender = new FullScreenRenderImpl();
+
         private GraphShaderModelsImpl graphShaderModels = new GraphShaderModelsImpl();
         private ScreenShadersImpl screenShaders = new ScreenShadersImpl();
-        private FullScreenRenderImpl fullScreenRender = new FullScreenRenderImpl();
+        private GraphParticleEffectsImpl particleEffects = new GraphParticleEffectsImpl();
 
         public void setRenderOutput(RenderOutput renderOutput) {
             this.renderOutput = renderOutput;
+        }
+
+        @Override
+        public void registerModelAttribute(VertexAttribute vertexAttribute) {
+            graphShaderModels.registerAttribute(vertexAttribute);
         }
 
         @Override
@@ -138,8 +146,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
-        public void registerModelAttribute(VertexAttribute vertexAttribute) {
-            graphShaderModels.registerAttribute(vertexAttribute);
+        public void registerParticleEffect(String tag, int maxNumberOfParticles) {
+
         }
 
         @Override

@@ -7,6 +7,8 @@ public class ScreenShadersImpl implements ScreenShaders {
     private ObjectMap<String, PropertyContainerImpl> propertyContainers = new ObjectMap<>();
 
     public void setPropertyContainer(String tag, PropertyContainerImpl propertyContainer) {
+        if (propertyContainers.containsKey(tag))
+            throw new IllegalStateException("Duplicate screen shader with tag - " + tag);
         propertyContainers.put(tag, propertyContainer);
     }
 

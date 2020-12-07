@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.shader.model;
 
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
+import com.gempukku.libgdx.graph.shader.TransformUpdate;
 
 /**
  * Main interface that is used to operate on models rendered by GraphShaders. Any operation done on the models should

@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.model;
+package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.math.Matrix4;
 
