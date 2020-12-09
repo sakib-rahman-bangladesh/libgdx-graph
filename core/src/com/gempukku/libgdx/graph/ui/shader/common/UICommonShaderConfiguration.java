@@ -67,6 +67,7 @@ import com.gempukku.libgdx.graph.shader.config.common.provided.SceneDepthShaderN
 import com.gempukku.libgdx.graph.shader.config.common.provided.ScreenPositionShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.provided.ViewportSizeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.shape.CheckerboardShapeShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.common.shape.DotShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.shape.EllipseShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.shape.RectangleShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.texture.Sampler2DShaderNodeConfiguration;
@@ -176,6 +177,7 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration<ShaderF
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new VoronoiBorder2DNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new VoronoiBorder3DNodeConfiguration()));
 
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new DotShapeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CheckerboardShapeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new EllipseShapeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new RectangleShapeShaderNodeConfiguration()));

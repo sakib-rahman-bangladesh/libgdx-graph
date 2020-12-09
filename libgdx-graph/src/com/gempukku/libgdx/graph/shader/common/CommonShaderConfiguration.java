@@ -70,6 +70,7 @@ import com.gempukku.libgdx.graph.shader.common.provided.ScreenPositionShaderNode
 import com.gempukku.libgdx.graph.shader.common.provided.TimeGraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.provided.ViewportSizeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.shape.CheckerboardShapeShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.common.shape.DotShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.shape.EllipseShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.shape.RectangleShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.texture.Sampler2DShaderNodeBuilder;
@@ -175,6 +176,7 @@ public class CommonShaderConfiguration implements GraphConfiguration {
         addGraphShaderNodeBuilder(new VoronoiBorder3DShaderNodeBuilder());
 
         // Shape
+        addGraphShaderNodeBuilder(new DotShapeShaderNodeBuilder());
         addGraphShaderNodeBuilder(new CheckerboardShapeShaderNodeBuilder());
         addGraphShaderNodeBuilder(new EllipseShapeShaderNodeBuilder());
         addGraphShaderNodeBuilder(new RectangleShapeShaderNodeBuilder());
