@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.2.0",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -53,74 +53,73 @@
             "id": "728c1b5a29f94be991cf761219dfef75",
             "tag": "Default",
             "shader": {
+              "version": "0.2.0",
               "nodes": [
                 {
-                  "data": {
-                    "previewPath": null
-                  },
+                  "id": "a259b67d6ba44fc2aceb536edca5e9a9",
+                  "type": "DiffuseTexture",
                   "x": 50.0,
                   "y": 212.0,
-                  "id": "a259b67d6ba44fc2aceb536edca5e9a9",
-                  "type": "DiffuseTexture"
-                },
-                {
-                  "x": 321.0,
-                  "y": 295.0,
-                  "id": "ffd366ddd51246b29171086b39f91ace",
-                  "type": "Sampler2D"
-                },
-                {
                   "data": {
-                    "culling": "back",
-                    "transparency": "opaque",
-                    "blending": "alpha",
-                    "depthTest": "less"
-                  },
+                    "previewPath": null
+                  }
+                },
+                {
+                  "id": "ffd366ddd51246b29171086b39f91ace",
+                  "type": "Sampler2D",
+                  "x": 321.0,
+                  "y": 295.0
+                },
+                {
+                  "id": "end",
+                  "type": "ShaderEnd",
                   "x": 643.0,
                   "y": 50.0,
-                  "id": "end",
-                  "type": "ShaderEnd"
+                  "data": {
+                    "culling": "back",
+                    "blending": "opaque",
+                    "depthTest": "less"
+                  }
                 },
                 {
-                  "data": {
-                    "channel": "UV0"
-                  },
+                  "id": "d96277ecf114425aadcf84b428477745",
+                  "type": "AttributeUV",
                   "x": 102.0,
                   "y": 87.0,
-                  "id": "d96277ecf114425aadcf84b428477745",
-                  "type": "AttributeUV"
+                  "data": {
+                    "channel": "UV0"
+                  }
                 }
               ],
               "connections": [
                 {
                   "fromNode": "a259b67d6ba44fc2aceb536edca5e9a9",
-                  "toField": "texture",
                   "fromField": "texture",
-                  "toNode": "ffd366ddd51246b29171086b39f91ace"
+                  "toNode": "ffd366ddd51246b29171086b39f91ace",
+                  "toField": "texture"
                 },
                 {
                   "fromNode": "d96277ecf114425aadcf84b428477745",
-                  "toField": "uv",
                   "fromField": "uv",
-                  "toNode": "ffd366ddd51246b29171086b39f91ace"
+                  "toNode": "ffd366ddd51246b29171086b39f91ace",
+                  "toField": "uv"
                 },
                 {
                   "fromNode": "ffd366ddd51246b29171086b39f91ace",
-                  "toField": "color",
                   "fromField": "color",
-                  "toNode": "end"
+                  "toNode": "end",
+                  "toField": "color"
                 }
               ],
-              "properties": []
-            },
-            "id": "728c1b5a29f94be991cf761219dfef75",
-            "tag": "Default"
+              "properties": [],
+              "groups": []
+            }
           },
           {
             "id": "2b380a7d97174c5ba7ce7bd69e69972e",
             "tag": "Hologram",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.2.0",
               "nodes": [
                 {
                   "id": "a9ae5a3841fc4d65b3dc50275994f01f",
@@ -211,7 +210,6 @@
                   "y": 192.0,
                   "data": {
                     "culling": "back",
-                    "transparency": "transparent",
                     "blending": "alpha",
                     "depthTest": "less"
                   }
@@ -312,7 +310,10 @@
                   "id": "9b11752c1b00491cae086f7ef7a49725",
                   "type": "Time",
                   "x": 263.0,
-                  "y": 931.0
+                  "y": 931.0,
+                  "data": {
+                    "multiplier": 1.0
+                  }
                 },
                 {
                   "id": "09325d8588e442e7b6a479c985ae1d0e",
@@ -350,7 +351,10 @@
                   "id": "c1e932b455bc4cd28fcb173390164de8",
                   "type": "Time",
                   "x": 511.0,
-                  "y": 562.0
+                  "y": 562.0,
+                  "data": {
+                    "multiplier": 1.0
+                  }
                 },
                 {
                   "id": "319ed018661f4cc2894d5111cf59ac42",

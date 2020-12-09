@@ -168,10 +168,6 @@ public class GraphShaderBuilder {
         if (cullingValue != null)
             graphShader.setCulling(BasicShader.Culling.valueOf(cullingValue));
 
-        String transparency = data.getString("transparency", null);
-        if (transparency != null)
-            graphShader.setTransparency(BasicShader.Transparency.valueOf(transparency));
-
         String blending = data.getString("blending", null);
         if (blending != null)
             graphShader.setBlending(BasicShader.Blending.valueOf(blending));

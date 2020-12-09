@@ -44,9 +44,6 @@ public class EndModelShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
         SelectBoxPart<ShaderFieldType> cullingBox = new SelectBoxPart<>(skin, "Culling", "culling", BasicShader.Culling.values());
         cullingBox.initialize(data);
         result.addGraphBoxPart(cullingBox);
-        SelectBoxPart<ShaderFieldType> transparencyBox = new SelectBoxPart<>(skin, "Transparency", "transparency", BasicShader.Transparency.values());
-        transparencyBox.initialize(data);
-        result.addGraphBoxPart(transparencyBox);
         SelectBoxPart<ShaderFieldType> blendingBox = new SelectBoxPart<>(skin, "Blending", "blending", BasicShader.Blending.values());
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);

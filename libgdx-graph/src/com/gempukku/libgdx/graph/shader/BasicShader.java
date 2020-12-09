@@ -48,39 +48,27 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         }
     }
 
-    public enum Transparency {
-        opaque(true), transparent(false);
+    public enum Blending {
+        alpha(false, GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA),
+        additive(false, GL20.GL_SRC_ALPHA, GL20.GL_ONE),
+        opaque(true, GL20.GL_ZERO, GL20.GL_ONE);
 
         private boolean depthMask;
-
-        Transparency(boolean depthMask) {
-            this.depthMask = depthMask;
-        }
-
-        void setDepthMask(RenderContext renderContext) {
-            renderContext.setDepthMask(depthMask);
-        }
-    }
-
-    public enum Blending {
-        alpha(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA),
-        additive(GL20.GL_SRC_ALPHA, GL20.GL_ONE),
-        none(GL20.GL_ZERO, GL20.GL_ONE);
-
         private int sourceFactor;
         private int destinationFactor;
 
-        Blending(int sourceFactor, int destinationFactor) {
+        Blending(boolean depthMask, int sourceFactor, int destinationFactor) {
+            this.depthMask = depthMask;
             this.sourceFactor = sourceFactor;
             this.destinationFactor = destinationFactor;
         }
 
-        public int getSourceFactor() {
-            return sourceFactor;
+        public void setDepthMask(RenderContext renderContext) {
+            renderContext.setDepthMask(depthMask);
         }
 
-        public int getDestinationFactor() {
-            return destinationFactor;
+        public void setBlending(RenderContext renderContext) {
+            renderContext.setBlending(!depthMask, sourceFactor, destinationFactor);
         }
     }
 
@@ -164,8 +152,7 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     private Texture defaultTexture;
     private Mesh currentMesh;
     private Culling culling = Culling.back;
-    private Transparency transparency = Transparency.opaque;
-    private Blending blending = Blending.none;
+    private Blending blending = Blending.opaque;
     private DepthTesting depthTesting = DepthTesting.less;
 
     private boolean usingDepthTexture;
@@ -304,16 +291,12 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         this.culling = culling;
     }
 
-    public void setTransparency(Transparency transparency) {
-        this.transparency = transparency;
-    }
-
-    public Transparency getTransparency() {
-        return transparency;
-    }
-
     public void setBlending(Blending blending) {
         this.blending = blending;
+    }
+
+    public Blending getBlending() {
+        return blending;
     }
 
     public void setDepthTesting(DepthTesting depthTesting) {
@@ -324,17 +307,16 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         this.context = context;
         program.begin();
 
-        // Set depth mask/testing
-
         Camera camera = shaderContext.getCamera();
 
-        transparency.setDepthMask(context);
+        // Set depth mask/testing
+        blending.setDepthMask(context);
         if (camera != null)
             depthTesting.setDepthTest(context, camera.near, camera.far);
         else
             depthTesting.setDepthTest(context, 0.1f, 100);
         culling.setCullFace(context);
-        setBlending(context, transparency, blending);
+        blending.setBlending(context);
 
         for (Uniform uniform : uniforms.values()) {
             if (uniform.global && uniform.location != -1)
@@ -344,11 +326,6 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
             if (uniform.global && uniform.startIndex != -1)
                 uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
         }
-    }
-
-    private static void setBlending(RenderContext context, Transparency transparency, Blending blending) {
-        boolean enabled = transparency == Transparency.transparent && blending != Blending.none;
-        context.setBlending(enabled, blending.getSourceFactor(), blending.getDestinationFactor());
     }
 
     public void render(ModelShaderContextImpl shaderContext, GraphShaderModelInstance graphShaderModelInstance) {

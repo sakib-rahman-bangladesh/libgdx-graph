@@ -1,10 +1,10 @@
 {
-  "version": "0.1.2",
+  "version": "0.2.0",
   "nodes": [
     {
       "id": "c7274c8066104f9fae86cba6bb9a45dd",
       "type": "ValueFloat",
-      "x": 143.00006103515625,
+      "x": 143.0,
       "y": 359.0,
       "data": {
         "v1": 10.0
@@ -13,7 +13,7 @@
     {
       "id": "cb119de851e54b0f941dd857cdd8e7a4",
       "type": "ValueFloat",
-      "x": 143.00006103515625,
+      "x": 143.0,
       "y": 296.0,
       "data": {
         "v1": 0.800000011920929
@@ -22,7 +22,7 @@
     {
       "id": "0f6f63af3181472da525343236652acd",
       "type": "GraphShaderRenderer",
-      "x": 308.0,
+      "x": 307.0,
       "y": 795.0,
       "data": {
         "shaders": [
@@ -346,7 +346,7 @@
             "id": "5c80f2ba63ff4509a9e35f34d673c88b",
             "tag": "starfield",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.2.0",
               "nodes": [
                 {
                   "id": "e28134dbd58c4f1cb8e9b9a11aca846a",
@@ -419,8 +419,7 @@
                   "y": 57.0,
                   "data": {
                     "culling": "front",
-                    "transparency": "opaque",
-                    "blending": "alpha",
+                    "blending": "opaque",
                     "depthTest": "less"
                   }
                 },
@@ -544,7 +543,7 @@
             "id": "ab9e838a48384735b18f8e4820d4b03b",
             "tag": "star-surface-behind",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.2.0",
               "nodes": [
                 {
                   "id": "24c34494789f4e29aef3b0353f3bd126",
@@ -620,8 +619,7 @@
                   "y": 50.0,
                   "data": {
                     "culling": "back",
-                    "transparency": "opaque",
-                    "blending": "alpha",
+                    "blending": "opaque",
                     "depthTest": "less"
                   }
                 }
@@ -681,10 +679,10 @@
             }
           },
           {
-            "id": "700387dfd0104d7ea9e21791108cee92",
+            "id": "e8c6e3707bfe4e13afa70edadfb54e94",
             "tag": "star-corona-behind",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.2.0",
               "nodes": [
                 {
                   "id": "992f17f6fbab4d9881fb42b5e1753f78",
@@ -717,8 +715,8 @@
                 {
                   "id": "41a7aedacd064de3a4309208cf81b87e",
                   "type": "SimplexNoise2D",
-                  "x": 1280.0,
-                  "y": 602.0
+                  "x": 1271.0,
+                  "y": 603.0
                 },
                 {
                   "id": "end",
@@ -727,7 +725,6 @@
                   "y": 79.0,
                   "data": {
                     "culling": "back",
-                    "transparency": "transparent",
                     "blending": "alpha",
                     "depthTest": "less"
                   }
@@ -1053,6 +1050,14 @@
               "properties": [],
               "groups": [
                 {
+                  "name": "Fragment coordinate 2D",
+                  "nodes": [
+                    "0d10bc355aab4e07a1ae4ddd9254bd17",
+                    "992f17f6fbab4d9881fb42b5e1753f78",
+                    "d9822ccf4c88463cbd20b4c89dae3661"
+                  ]
+                },
+                {
                   "name": "Fresnel",
                   "nodes": [
                     "444edbb5c1314d62bb3bf30a56303345",
@@ -1061,14 +1066,6 @@
                     "89442224b6ea43248b304665992529dd",
                     "ecda9d43b40d41fa879c31428c130a59",
                     "915bb1eae53d46a096530991ece24bdb"
-                  ]
-                },
-                {
-                  "name": "Fragment coordinate 2D",
-                  "nodes": [
-                    "0d10bc355aab4e07a1ae4ddd9254bd17",
-                    "992f17f6fbab4d9881fb42b5e1753f78",
-                    "d9822ccf4c88463cbd20b4c89dae3661"
                   ]
                 }
               ]
@@ -1100,13 +1097,13 @@
     {
       "id": "a2deec2f5b4448f2bc89fdba9045c0b4",
       "type": "Bloom",
-      "x": 368.00006103515625,
+      "x": 368.0,
       "y": 264.0
     },
     {
       "id": "3002a2f144b94b2083e2374c3990478d",
       "type": "ValueFloat",
-      "x": 144.00006103515625,
+      "x": 144.0,
       "y": 234.0,
       "data": {
         "v1": 3.0
@@ -1133,7 +1130,7 @@
             "id": "9a7ca5b51dd3474c9d28ff71859b6a02",
             "tag": "star-surface-in-front",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.2.0",
               "nodes": [
                 {
                   "id": "24c34494789f4e29aef3b0353f3bd126",
@@ -1209,8 +1206,7 @@
                   "y": 50.0,
                   "data": {
                     "culling": "back",
-                    "transparency": "opaque",
-                    "blending": "alpha",
+                    "blending": "opaque",
                     "depthTest": "less"
                   }
                 }
@@ -1273,12 +1269,12 @@
             "id": "08ef417688d6497c9b691778db3b8a46",
             "tag": "star-corona-in-front",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.2.0",
               "nodes": [
                 {
                   "id": "992f17f6fbab4d9881fb42b5e1753f78",
                   "type": "Split",
-                  "x": 348.0000305175781,
+                  "x": 348.0,
                   "y": 652.0
                 },
                 {
@@ -1306,17 +1302,16 @@
                 {
                   "id": "41a7aedacd064de3a4309208cf81b87e",
                   "type": "SimplexNoise2D",
-                  "x": 1280.0,
-                  "y": 602.0
+                  "x": 1271.0,
+                  "y": 603.0
                 },
                 {
                   "id": "end",
                   "type": "ShaderEnd",
                   "x": 1644.0,
-                  "y": 79.00003051757812,
+                  "y": 79.0,
                   "data": {
                     "culling": "back",
-                    "transparency": "transparent",
                     "blending": "alpha",
                     "depthTest": "less"
                   }
@@ -1357,14 +1352,14 @@
                 {
                   "id": "3a554e96c9524a4b8a43569b7101a6dc",
                   "type": "ModelFragmentCoordinate",
-                  "x": 474.9999694824219,
+                  "x": 474.0,
                   "y": 493.0
                 },
                 {
                   "id": "b29d2c1df2d74acaa2a6e8a2fe9a4364",
                   "type": "Step",
                   "x": 787.0,
-                  "y": 284.0000305175781
+                  "y": 284.0
                 },
                 {
                   "id": "f0a39c500b2e4af19c3648a182a6c14b",
@@ -1376,7 +1371,7 @@
                   "id": "8b95a11c34224622859f0a62c7a23e0c",
                   "type": "Subtract",
                   "x": 945.0,
-                  "y": 144.00003051757812
+                  "y": 144.0
                 },
                 {
                   "id": "f6937fe50fe7421bb453a586eb69445d",
@@ -1445,7 +1440,7 @@
                   "id": "761b74e8f7f542eca650b3a0e2bf089f",
                   "type": "ValueFloat",
                   "x": 726.0,
-                  "y": 217.00003051757812,
+                  "y": 217.0,
                   "data": {
                     "v1": 1.0
                   }
@@ -1623,12 +1618,6 @@
                 {
                   "fromNode": "d2a4d9ffadd34e0a9bbe413b06faec5c",
                   "fromField": "time",
-                  "toNode": "41a7aedacd064de3a4309208cf81b87e",
-                  "toField": "progress"
-                },
-                {
-                  "fromNode": "d2a4d9ffadd34e0a9bbe413b06faec5c",
-                  "fromField": "time",
                   "toNode": "7b2200e7254a4a36895b0bf77600a97a",
                   "toField": "a"
                 },
@@ -1637,10 +1626,24 @@
                   "fromField": "output",
                   "toNode": "7b2200e7254a4a36895b0bf77600a97a",
                   "toField": "b"
+                },
+                {
+                  "fromNode": "7b2200e7254a4a36895b0bf77600a97a",
+                  "fromField": "output",
+                  "toNode": "41a7aedacd064de3a4309208cf81b87e",
+                  "toField": "progress"
                 }
               ],
               "properties": [],
               "groups": [
+                {
+                  "name": "Fragment coordinate 2D",
+                  "nodes": [
+                    "0d10bc355aab4e07a1ae4ddd9254bd17",
+                    "992f17f6fbab4d9881fb42b5e1753f78",
+                    "d9822ccf4c88463cbd20b4c89dae3661"
+                  ]
+                },
                 {
                   "name": "Fresnel",
                   "nodes": [
@@ -1650,14 +1653,6 @@
                     "89442224b6ea43248b304665992529dd",
                     "ecda9d43b40d41fa879c31428c130a59",
                     "915bb1eae53d46a096530991ece24bdb"
-                  ]
-                },
-                {
-                  "name": "Fragment coordinate 2D",
-                  "nodes": [
-                    "0d10bc355aab4e07a1ae4ddd9254bd17",
-                    "992f17f6fbab4d9881fb42b5e1753f78",
-                    "d9822ccf4c88463cbd20b4c89dae3661"
                   ]
                 }
               ]
@@ -1756,15 +1751,39 @@
       "toField": "bloomStrength"
     },
     {
-      "fromNode": "ff6f63af3181472da525343236652acd",
-      "fromField": "output",
-      "toNode": "0f6f63af3181472da525343236652acd",
-      "toField": "input"
-    },
-    {
       "fromNode": "0f6f63af3181472da525343236652acd",
       "fromField": "output",
       "toNode": "1f6f63af3181472da525343236652acd",
+      "toField": "input"
+    },
+    {
+      "fromNode": "72be9695e45949ccb5f449dbacdfd619",
+      "fromField": "value",
+      "toNode": "0f6f63af3181472da525343236652acd",
+      "toField": "camera"
+    },
+    {
+      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
+      "fromField": "value",
+      "toNode": "0f6f63af3181472da525343236652acd",
+      "toField": "lights"
+    },
+    {
+      "fromNode": "72be9695e45949ccb5f449dbacdfd619",
+      "fromField": "value",
+      "toNode": "1f6f63af3181472da525343236652acd",
+      "toField": "camera"
+    },
+    {
+      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
+      "fromField": "value",
+      "toNode": "1f6f63af3181472da525343236652acd",
+      "toField": "lights"
+    },
+    {
+      "fromNode": "ff6f63af3181472da525343236652acd",
+      "fromField": "output",
+      "toNode": "0f6f63af3181472da525343236652acd",
       "toField": "input"
     },
     {
@@ -1772,30 +1791,6 @@
       "fromField": "output",
       "toNode": "a2deec2f5b4448f2bc89fdba9045c0b4",
       "toField": "input"
-    },
-    {
-      "fromNode": "72be9695e45949ccb5f449dbacdfd619",
-      "fromField": "value",
-      "toNode": "0f6f63af3181472da525343236652acd",
-      "toField": "camera"
-    },
-    {
-      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
-      "fromField": "value",
-      "toNode": "0f6f63af3181472da525343236652acd",
-      "toField": "lights"
-    },
-    {
-      "fromNode": "72be9695e45949ccb5f449dbacdfd619",
-      "fromField": "value",
-      "toNode": "1f6f63af3181472da525343236652acd",
-      "toField": "camera"
-    },
-    {
-      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
-      "fromField": "value",
-      "toNode": "1f6f63af3181472da525343236652acd",
-      "toField": "lights"
     }
   ],
   "properties": [
@@ -1814,19 +1809,19 @@
   ],
   "groups": [
     {
-      "name": "UI",
-      "nodes": [
-        "a9ef339d56654f4c8f7445b45b3bed0b",
-        "dffb152d405a49d38792e850749129b2"
-      ]
-    },
-    {
       "name": "Bloom",
       "nodes": [
         "3002a2f144b94b2083e2374c3990478d",
         "c7274c8066104f9fae86cba6bb9a45dd",
         "a2deec2f5b4448f2bc89fdba9045c0b4",
         "cb119de851e54b0f941dd857cdd8e7a4"
+      ]
+    },
+    {
+      "name": "UI",
+      "nodes": [
+        "a9ef339d56654f4c8f7445b45b3bed0b",
+        "dffb152d405a49d38792e850749129b2"
       ]
     }
   ]

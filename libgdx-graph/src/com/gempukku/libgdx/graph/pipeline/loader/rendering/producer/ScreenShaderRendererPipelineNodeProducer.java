@@ -42,7 +42,6 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
         final GraphShader graphShader = GraphLoader.loadGraph(shaderJson, new ShaderLoaderCallback(whitePixel.texture, true, configurations));
         graphShader.setCulling(BasicShader.Culling.back);
         graphShader.setDepthTesting(BasicShader.DepthTesting.disabled);
-        graphShader.setTransparency(BasicShader.Transparency.transparent);
 
         final PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         final PipelineNode.FieldOutput<GraphShaderEnvironment> lightsInput = (PipelineNode.FieldOutput<GraphShaderEnvironment>) inputFields.get("lights");

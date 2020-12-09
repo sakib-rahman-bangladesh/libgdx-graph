@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.2.0",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -142,70 +142,67 @@
             "id": "728c1b5a29f94be991cf761219dfef75",
             "tag": "Environment",
             "shader": {
+              "version": "0.2.0",
               "nodes": [
                 {
-                  "x": 313.0,
-                  "y": 298.0,
-                  "id": "5cb09f51cfda470fac1655fe58f1d710",
-                  "type": "Sampler2D"
-                },
-                {
-                  "data": {
-                    "channel": "UV0"
-                  },
-                  "x": 105.0,
-                  "y": 90.0,
-                  "id": "2611b7eb0bf34d5a8bd61ff11500ffef",
-                  "type": "AttributeUV"
-                },
-                {
-                  "data": {
-                    "previewPath": null
-                  },
+                  "id": "ae38eb85cfd94057a9d2893cc7941aa9",
+                  "type": "DiffuseTexture",
                   "x": 50.0,
                   "y": 171.0,
-                  "id": "ae38eb85cfd94057a9d2893cc7941aa9",
-                  "type": "DiffuseTexture"
+                  "data": {
+                    "previewPath": null
+                  }
                 },
                 {
+                  "id": "5cb09f51cfda470fac1655fe58f1d710",
+                  "type": "Sampler2D",
+                  "x": 313.0,
+                  "y": 298.0
+                },
+                {
+                  "id": "2611b7eb0bf34d5a8bd61ff11500ffef",
+                  "type": "AttributeUV",
+                  "x": 105.0,
+                  "y": 90.0,
                   "data": {
-                    "culling": "back",
-                    "transparency": "opaque",
-                    "depthTest": "less",
-                    "blending": "alpha"
-                  },
+                    "channel": "UV0"
+                  }
+                },
+                {
+                  "id": "end",
+                  "type": "ShaderEnd",
                   "x": 611.0,
                   "y": 50.0,
-                  "id": "end",
-                  "type": "ShaderEnd"
+                  "data": {
+                    "culling": "back",
+                    "blending": "opaque",
+                    "depthTest": "less"
+                  }
                 }
               ],
-              "groups": [],
-              "version": "0.1.2",
               "connections": [
                 {
                   "fromNode": "ae38eb85cfd94057a9d2893cc7941aa9",
-                  "toField": "texture",
                   "fromField": "texture",
-                  "toNode": "5cb09f51cfda470fac1655fe58f1d710"
+                  "toNode": "5cb09f51cfda470fac1655fe58f1d710",
+                  "toField": "texture"
                 },
                 {
                   "fromNode": "2611b7eb0bf34d5a8bd61ff11500ffef",
-                  "toField": "uv",
                   "fromField": "uv",
-                  "toNode": "5cb09f51cfda470fac1655fe58f1d710"
+                  "toNode": "5cb09f51cfda470fac1655fe58f1d710",
+                  "toField": "uv"
                 },
                 {
                   "fromNode": "5cb09f51cfda470fac1655fe58f1d710",
-                  "toField": "color",
                   "fromField": "color",
-                  "toNode": "end"
+                  "toNode": "end",
+                  "toField": "color"
                 }
               ],
-              "properties": []
-            },
-            "id": "728c1b5a29f94be991cf761219dfef75",
-            "tag": "Environment"
+              "properties": [],
+              "groups": []
+            }
           },
           {
             "id": "858b5cc4770a4a74ae6ede59a7dc9b32",

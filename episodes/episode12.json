@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.2.0",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -63,7 +63,7 @@
             "id": "e5fdf60cf0b748f1a7e7c6fe434a459b",
             "tag": "dissolve",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.2.0",
               "nodes": [
                 {
                   "id": "b0ea32e7073243b0bbda2e05a5671f26",
@@ -86,7 +86,7 @@
                 {
                   "id": "8e59fdbf22804a7a8309425a89d39cb0",
                   "type": "Property",
-                  "x": 466.0000305175781,
+                  "x": 466.0,
                   "y": 342.0,
                   "data": {
                     "name": "Noise Scale",
@@ -150,7 +150,7 @@
                 {
                   "id": "94f4e130302f466f8273c55b7a7a5db7",
                   "type": "Add",
-                  "x": 924.9999389648438,
+                  "x": 924.0,
                   "y": 289.0
                 },
                 {
@@ -199,8 +199,7 @@
                   "y": 217.0,
                   "data": {
                     "culling": "none",
-                    "transparency": "opaque",
-                    "blending": "alpha",
+                    "blending": "opaque",
                     "depthTest": "less"
                   }
                 },

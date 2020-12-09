@@ -69,7 +69,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             private void initializeDepthShaders() {
                 for (ShaderGroup shaderGroup : shaderGroups) {
                     GraphShader colorShader = shaderGroup.getColorShader();
-                    if (colorShader.getTransparency() == BasicShader.Transparency.opaque)
+                    if (colorShader.getBlending() == BasicShader.Blending.opaque)
                         shaderGroup.initializeDepthShader();
                 }
             }
@@ -152,7 +152,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 models.orderFrontToBack();
                 for (ShaderGroup shaderGroup : shaderGroups) {
                     GraphShader colorShader = shaderGroup.getColorShader();
-                    if (colorShader.getTransparency() == BasicShader.Transparency.opaque) {
+                    if (colorShader.getBlending() == BasicShader.Blending.opaque) {
                         String tag = colorShader.getTag();
                         renderWithShaderOpaquePass(tag, colorShader, models, shaderContext, pipelineRenderingContext.getRenderContext());
                     }
@@ -182,7 +182,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 for (GraphShaderModelInstance graphShaderModelInstance : models.getModels()) {
                     for (ShaderGroup shaderGroup : shaderGroups) {
                         GraphShader colorShader = shaderGroup.getColorShader();
-                        if (colorShader.getTransparency() == BasicShader.Transparency.transparent) {
+                        if (colorShader.getBlending() != BasicShader.Blending.opaque) {
                             String tag = colorShader.getTag();
                             if (graphShaderModelInstance.hasTag(tag)) {
                                 if (lastShader != colorShader) {
@@ -282,7 +282,7 @@ public class GraphShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         }
 
         public void initializeDepthShader() {
-            if (depthShader == null && colorShader.getTransparency() == BasicShader.Transparency.opaque) {
+            if (depthShader == null && colorShader.getBlending() == BasicShader.Blending.opaque) {
                 depthShader = GraphShaderRendererPipelineNodeProducer.createDepthShader(shaderDefinition, whitePixel.texture);
                 depthShader.setTag(tag);
             }

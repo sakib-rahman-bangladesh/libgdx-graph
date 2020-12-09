@@ -49,11 +49,6 @@ public class EndBillboardParticlesShaderBoxProducer extends GraphBoxProducerImpl
 
         addConfigurationInputsAndOutputs(skin, result);
 
-        SelectBoxPart<ShaderFieldType> transparencyBox = new SelectBoxPart<>(skin, "Transparency", "transparency", BasicShader.Transparency.values());
-        transparencyBox.setSelected(BasicShader.Transparency.transparent);
-        transparencyBox.initialize(data);
-        result.addGraphBoxPart(transparencyBox);
-
         SelectBoxPart<ShaderFieldType> blendingBox = new SelectBoxPart<>(skin, "Blending", "blending", BasicShader.Blending.values());
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);

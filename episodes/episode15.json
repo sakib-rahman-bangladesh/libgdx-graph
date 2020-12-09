@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.2.0",
   "nodes": [
     {
       "id": "69c93c25fbb946c3a75e3d35554c1b20",
@@ -34,7 +34,7 @@
             "id": "728c1b5a29f94be991cf761219dfef75",
             "tag": "Default",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.2.0",
               "nodes": [
                 {
                   "id": "e12ee5febbba4d2fa88ea5fb7ac58e10",
@@ -82,8 +82,7 @@
                   "y": 244.0,
                   "data": {
                     "culling": "back",
-                    "transparency": "opaque",
-                    "blending": "alpha",
+                    "blending": "opaque",
                     "depthTest": "less"
                   }
                 }
