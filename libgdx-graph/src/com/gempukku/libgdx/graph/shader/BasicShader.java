@@ -1,21 +1,37 @@
 package com.gempukku.libgdx.graph.shader;
 
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GLTexture;
+import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.graphics.g3d.model.MeshPart;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.g3d.utils.TextureDescriptor;
+import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.FlushablePool;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.IntArray;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.loader.FullScreenRender;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelInstance;
 
-import static com.badlogic.gdx.graphics.GL20.*;
+import static com.badlogic.gdx.graphics.GL20.GL_BACK;
+import static com.badlogic.gdx.graphics.GL20.GL_FRONT;
+import static com.badlogic.gdx.graphics.GL20.GL_NONE;
 
 public abstract class BasicShader implements UniformRegistry, Disposable {
     public enum Culling {
@@ -380,6 +396,22 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
                 uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
         }
         fullScreenRender.renderFullScreen(program);
+    }
+
+    public void renderParticles(ShaderContext shaderContext, VertexBufferObject vertexBufferObject, IndexBufferObject indexBufferObject) {
+        for (Uniform uniform : uniforms.values()) {
+            if (!uniform.global)
+                uniform.setter.set(this, uniform.location, shaderContext);
+        }
+        for (StructArrayUniform uniform : structArrayUniforms.values()) {
+            if (!uniform.global)
+                uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
+        }
+        vertexBufferObject.bind(program);
+        indexBufferObject.bind();
+        Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLE_STRIP, indexBufferObject.getNumIndices(), GL20.GL_UNSIGNED_SHORT, 0);
+        vertexBufferObject.unbind(program);
+        indexBufferObject.unbind();
     }
 
     public void end() {

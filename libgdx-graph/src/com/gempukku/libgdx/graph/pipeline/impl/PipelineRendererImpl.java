@@ -147,7 +147,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
 
         @Override
         public void registerParticleEffect(String tag, int maxNumberOfParticles) {
-
+            particleEffects.registerEffect(tag, maxNumberOfParticles);
         }
 
         @Override
@@ -194,6 +194,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
         public void dispose() {
             graphShaderModels.dispose();
             fullScreenRender.dispose();
+            particleEffects.dispose();
         }
     }
 }
