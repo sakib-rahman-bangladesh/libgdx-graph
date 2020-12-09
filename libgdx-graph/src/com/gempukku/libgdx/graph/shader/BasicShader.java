@@ -104,13 +104,11 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
     private static class Uniform {
         private final String alias;
-        private final boolean global;
         private final UniformSetter setter;
         private int location = -1;
 
-        public Uniform(String alias, boolean global, UniformSetter setter) {
+        public Uniform(String alias, UniformSetter setter) {
             this.alias = alias;
-            this.global = global;
             this.setter = setter;
         }
 
@@ -122,17 +120,15 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     private static class StructArrayUniform {
         private final String alias;
         private final String[] fieldNames;
-        private final boolean global;
         private final StructArrayUniformSetter setter;
         private int startIndex;
         private int size;
         private int[] fieldOffsets;
 
-        public StructArrayUniform(String alias, String[] fieldNames, boolean global, StructArrayUniformSetter setter) {
+        public StructArrayUniform(String alias, String[] fieldNames, StructArrayUniformSetter setter) {
             this.alias = alias;
             this.fieldNames = new String[fieldNames.length];
             System.arraycopy(fieldNames, 0, this.fieldNames, 0, fieldNames.length);
-            this.global = global;
             this.setter = setter;
         }
 
@@ -144,8 +140,10 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     }
 
     private final ObjectMap<String, Attribute> attributes = new ObjectMap<>();
-    private final ObjectMap<String, Uniform> uniforms = new ObjectMap<String, Uniform>();
-    private final ObjectMap<String, StructArrayUniform> structArrayUniforms = new ObjectMap<String, StructArrayUniform>();
+    private final ObjectMap<String, Uniform> globalUniforms = new ObjectMap<String, Uniform>();
+    private final ObjectMap<String, Uniform> localUniforms = new ObjectMap<String, Uniform>();
+    private final ObjectMap<String, StructArrayUniform> globalStructArrayUniforms = new ObjectMap<String, StructArrayUniform>();
+    private final ObjectMap<String, StructArrayUniform> localStructArrayUniforms = new ObjectMap<String, StructArrayUniform>();
 
     private ShaderProgram program;
     private RenderContext context;
@@ -197,17 +195,31 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     }
 
     @Override
-    public void registerUniform(final String alias, final boolean global, final UniformSetter setter) {
+    public void registerGlobalUniform(final String alias, final UniformSetter setter) {
         if (initialized) throw new GdxRuntimeException("Cannot register an uniform after initialization");
-        validateNewUniform(alias, global, setter);
-        uniforms.put(alias, new Uniform(alias, global, setter));
+        validateNewUniform(alias, true, setter);
+        globalUniforms.put(alias, new Uniform(alias, setter));
     }
 
     @Override
-    public void registerStructArrayUniform(final String alias, String[] fieldNames, final boolean global, StructArrayUniformSetter setter) {
+    public void registerLocalUniform(final String alias, final UniformSetter setter) {
         if (initialized) throw new GdxRuntimeException("Cannot register an uniform after initialization");
-        validateNewStructArrayUniform(alias, global, setter);
-        structArrayUniforms.put(alias, new StructArrayUniform(alias, fieldNames, global, setter));
+        validateNewUniform(alias, false, setter);
+        localUniforms.put(alias, new Uniform(alias, setter));
+    }
+
+    @Override
+    public void registerGlobalStructArrayUniform(final String alias, String[] fieldNames, StructArrayUniformSetter setter) {
+        if (initialized) throw new GdxRuntimeException("Cannot register an uniform after initialization");
+        validateNewStructArrayUniform(alias, true, setter);
+        globalStructArrayUniforms.put(alias, new StructArrayUniform(alias, fieldNames, setter));
+    }
+
+    @Override
+    public void registerLocalStructArrayUniform(final String alias, String[] fieldNames, StructArrayUniformSetter setter) {
+        if (initialized) throw new GdxRuntimeException("Cannot register an uniform after initialization");
+        validateNewStructArrayUniform(alias, false, setter);
+        localStructArrayUniforms.put(alias, new StructArrayUniform(alias, fieldNames, setter));
     }
 
     public RenderContext getContext() {
@@ -220,17 +232,35 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     }
 
     private void validateNewStructArrayUniform(String alias, boolean global, StructArrayUniformSetter setter) {
-        Uniform uniform = uniforms.get(alias);
-        if (uniform != null &&
-                (uniform.global != global || uniform.setter != setter))
-            throw new IllegalStateException("Already contains uniform of that name with a different global flag, or setter");
+        if (globalStructArrayUniforms.containsKey(alias)) {
+            if (!global)
+                throw new IllegalStateException("Already contains uniform of that name with a different global flag, or setter");
+            StructArrayUniform uniform = globalStructArrayUniforms.get(alias);
+            if (uniform.setter != setter)
+                throw new IllegalStateException("Already contains uniform of that name with a different global flag, or setter");
+        } else if (localStructArrayUniforms.containsKey(alias)) {
+            if (global)
+                throw new IllegalStateException("Already contains uniform of that name with a different global flag, or setter");
+            StructArrayUniform uniform = localStructArrayUniforms.get(alias);
+            if (uniform.setter != setter)
+                throw new IllegalStateException("Already contains uniform of that name with a different global flag, or setter");
+        }
     }
 
     private void validateNewUniform(String alias, boolean global, UniformSetter setter) {
-        Uniform uniform = uniforms.get(alias);
-        if (uniform != null &&
-                (uniform.global != global || uniform.setter != setter))
-            throw new IllegalStateException("Already contains uniform of that name with a different global flag, or setter");
+        if (globalUniforms.containsKey(alias)) {
+            if (!global)
+                throw new IllegalStateException("Already contains uniform of that name with a different global flag, or setter");
+            Uniform uniform = globalUniforms.get(alias);
+            if (uniform.setter != setter)
+                throw new IllegalStateException("Already contains uniform of that name with a different global flag, or setter");
+        } else if (localUniforms.containsKey(alias)) {
+            if (global)
+                throw new IllegalStateException("Already contains uniform of that name with a different global flag, or setter");
+            Uniform uniform = localUniforms.get(alias);
+            if (uniform.setter != setter)
+                throw new IllegalStateException("Already contains uniform of that name with a different global flag, or setter");
+        }
     }
 
     /**
@@ -249,13 +279,28 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
                 attribute.setLocation(location);
         }
 
-        for (Uniform uniform : uniforms.values()) {
+        for (Uniform uniform : globalUniforms.values()) {
+            String alias = uniform.alias;
+            int location = getUniformLocation(program, alias);
+            uniform.setUniformLocation(location);
+        }
+        for (Uniform uniform : localUniforms.values()) {
             String alias = uniform.alias;
             int location = getUniformLocation(program, alias);
             uniform.setUniformLocation(location);
         }
 
-        for (StructArrayUniform uniform : structArrayUniforms.values()) {
+        for (StructArrayUniform uniform : globalStructArrayUniforms.values()) {
+            int startIndex = getUniformLocation(program, uniform.alias + "[0]." + uniform.fieldNames[0]);
+            int size = program.fetchUniformLocation(uniform.alias + "[1]." + uniform.fieldNames[0], false) - startIndex;
+            int[] fieldOffsets = new int[uniform.fieldNames.length];
+            // Starting at 1, as first field offset is 0 by default
+            for (int i = 1; i < uniform.fieldNames.length; i++) {
+                fieldOffsets[i] = getUniformLocation(program, uniform.alias + "[0]." + uniform.fieldNames[i]) - startIndex;
+            }
+            uniform.setUniformLocations(startIndex, size, fieldOffsets);
+        }
+        for (StructArrayUniform uniform : localStructArrayUniforms.values()) {
             int startIndex = getUniformLocation(program, uniform.alias + "[0]." + uniform.fieldNames[0]);
             int size = program.fetchUniformLocation(uniform.alias + "[1]." + uniform.fieldNames[0], false) - startIndex;
             int[] fieldOffsets = new int[uniform.fieldNames.length];
@@ -318,12 +363,12 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         culling.setCullFace(context);
         blending.setBlending(context);
 
-        for (Uniform uniform : uniforms.values()) {
-            if (uniform.global && uniform.location != -1)
+        for (Uniform uniform : globalUniforms.values()) {
+            if (uniform.location != -1)
                 uniform.setter.set(this, uniform.location, shaderContext);
         }
-        for (StructArrayUniform uniform : structArrayUniforms.values()) {
-            if (uniform.global && uniform.startIndex != -1)
+        for (StructArrayUniform uniform : globalStructArrayUniforms.values()) {
+            if (uniform.startIndex != -1)
                 uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
         }
     }
@@ -333,13 +378,11 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         graphShaderModelInstance.getRenderables(renderables, renderablesPool);
         for (Renderable renderable : renderables) {
             shaderContext.setRenderable(renderable);
-            for (Uniform uniform : uniforms.values()) {
-                if (!uniform.global)
-                    uniform.setter.set(this, uniform.location, shaderContext);
+            for (Uniform uniform : localUniforms.values()) {
+                uniform.setter.set(this, uniform.location, shaderContext);
             }
-            for (StructArrayUniform uniform : structArrayUniforms.values()) {
-                if (!uniform.global)
-                    uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
+            for (StructArrayUniform uniform : localStructArrayUniforms.values()) {
+                uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
             }
             MeshPart meshPart = renderable.meshPart;
             Mesh mesh = meshPart.mesh;
@@ -354,25 +397,21 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     }
 
     public void render(ShaderContext shaderContext, FullScreenRender fullScreenRender) {
-        for (Uniform uniform : uniforms.values()) {
-            if (!uniform.global)
-                uniform.setter.set(this, uniform.location, shaderContext);
+        for (Uniform uniform : localUniforms.values()) {
+            uniform.setter.set(this, uniform.location, shaderContext);
         }
-        for (StructArrayUniform uniform : structArrayUniforms.values()) {
-            if (!uniform.global)
-                uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
+        for (StructArrayUniform uniform : localStructArrayUniforms.values()) {
+            uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
         }
         fullScreenRender.renderFullScreen(program);
     }
 
     public void renderParticles(ShaderContext shaderContext, VertexBufferObject vertexBufferObject, IndexBufferObject indexBufferObject) {
-        for (Uniform uniform : uniforms.values()) {
-            if (!uniform.global)
-                uniform.setter.set(this, uniform.location, shaderContext);
+        for (Uniform uniform : localUniforms.values()) {
+            uniform.setter.set(this, uniform.location, shaderContext);
         }
-        for (StructArrayUniform uniform : structArrayUniforms.values()) {
-            if (!uniform.global)
-                uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
+        for (StructArrayUniform uniform : localStructArrayUniforms.values()) {
+            uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
         }
         vertexBufferObject.bind(program);
         indexBufferObject.bind();
@@ -392,8 +431,10 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     @Override
     public void dispose() {
         program = null;
-        uniforms.clear();
-        structArrayUniforms.clear();
+        globalUniforms.clear();
+        localUniforms.clear();
+        globalStructArrayUniforms.clear();
+        localStructArrayUniforms.clear();
         attributes.clear();
     }
 

@@ -27,9 +27,10 @@ public abstract class CommonShaderBuilder {
 
     public void addStructArrayUniformVariable(String name, String[] fieldNames, int size, String type, boolean global,
                                               UniformRegistry.StructArrayUniformSetter setter, String comment) {
-        if (uniformVariables.containsKey(name))
-            throw new IllegalStateException("Already contains uniform of that name");
-        uniformRegistry.registerStructArrayUniform(name, fieldNames, global, setter);
+        if (global)
+            uniformRegistry.registerGlobalStructArrayUniform(name, fieldNames, setter);
+        else
+            uniformRegistry.registerLocalStructArrayUniform(name, fieldNames, setter);
         uniformVariables.put(name + "[" + size + "]", new UniformVariable(type, global, null, comment));
     }
 
@@ -38,15 +39,11 @@ public abstract class CommonShaderBuilder {
     }
 
     public void addArrayUniformVariable(String name, int size, String type, boolean global, UniformRegistry.UniformSetter setter, String comment) {
-        UniformVariable uniformVariable = uniformVariables.get(name);
-        if (uniformVariable != null &&
-                (!uniformVariable.type.equals(type) || uniformVariable.global != global || uniformVariable.size != size))
-            throw new IllegalStateException("Already contains uniform of that name with a different type, size or global flag");
-
-        if (uniformVariable == null) {
-            uniformRegistry.registerUniform(name, global, setter);
-            uniformVariables.put(name, new UniformVariable(type, global, setter, comment, size));
-        }
+        if (global)
+            uniformRegistry.registerGlobalUniform(name, setter);
+        else
+            uniformRegistry.registerLocalUniform(name, setter);
+        uniformVariables.put(name, new UniformVariable(type, global, setter, comment, size));
     }
 
     public boolean hasUniformVariable(String name) {
