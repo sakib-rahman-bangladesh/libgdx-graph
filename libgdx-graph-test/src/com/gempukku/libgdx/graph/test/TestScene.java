@@ -74,12 +74,10 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private void createParticleEffects(GraphParticleEffects effects) {
-        for (int i = -30; i < 31; i++) {
-            PointParticleGenerator particleGenerator = new PointParticleGenerator(10f);
-            particleGenerator.getLocation().set(i * 0.1f, 0, 0);
-            String effectId = effects.createEffect("effect", particleGenerator);
-            effects.startEffect(effectId);
-        }
+        PointParticleGenerator particleGenerator = new PointParticleGenerator(10f);
+        particleGenerator.getLocation().set(0, 0, 0);
+        String effectId = effects.createEffect("effect", particleGenerator);
+        effects.startEffect(effectId);
     }
 
     private Stage createStage() {

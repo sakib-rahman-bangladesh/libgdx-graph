@@ -378,6 +378,10 @@ public class GraphShaderBuilder {
         ObjectMap<String, ObjectMap<String, GraphShaderNodeBuilder.FieldOutput>> vertexNodeOutputs = new ObjectMap<>();
         GraphShaderNodeBuilder.FieldOutput positionField = getOutput(findInputVertices(graph, "end", "position"),
                 designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, particleConfigurations);
+        GraphShaderNodeBuilder.FieldOutput sizeField = getOutput(findInputVertices(graph, "end", "size"),
+                designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, particleConfigurations);
+        GraphShaderNodeBuilder.FieldOutput rotationField = getOutput(findInputVertices(graph, "end", "rotation"),
+                designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, particleConfigurations);
         if (positionField == null) {
             vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), ShaderProgram.POSITION_ATTRIBUTE, "vec3");
 
@@ -387,14 +391,29 @@ public class GraphShaderBuilder {
 
             positionField = new DefaultFieldOutput(ShaderFieldType.Vector3, name);
         }
+        if (sizeField == null) {
+            sizeField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(0.1)");
+        } else if (sizeField.getFieldType() == ShaderFieldType.Float) {
+            sizeField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(" + sizeField.getRepresentation() + ")");
+        }
         vertexShaderBuilder.addUniformVariable("u_cameraUp", "vec3", true, UniformSetters.cameraUp);
         vertexShaderBuilder.addUniformVariable("u_cameraDirection", "vec3", true, UniformSetters.cameraDirection);
         String billboardPosition = "result_billboardPositionAttribute";
         vertexShaderBuilder.addMainLine("vec3 result_cameraRight = cross(u_cameraDirection, u_cameraUp);");
-        vertexShaderBuilder.addMainLine("vec3 result_rightAdjust = (a_texCoord0.x - 0.5) * normalize(result_cameraRight);");
-        vertexShaderBuilder.addMainLine("vec3 result_downAdjust = (a_texCoord0.y - 0.5) * normalize(-u_cameraUp);");
-        String size = "0.1";
-        vertexShaderBuilder.addMainLine("vec3 " + billboardPosition + " = " + positionField.getRepresentation() + " + " + size + " * (result_rightAdjust + result_downAdjust);");
+        String size = sizeField.getRepresentation();
+        vertexShaderBuilder.addMainLine("float result_xAdjust = " + size + ".x * (a_texCoord0.x - 0.5);");
+        vertexShaderBuilder.addMainLine("float result_yAdjust = " + size + ".y * (a_texCoord0.y - 0.5);");
+        if (rotationField != null) {
+            String rotation = rotationField.getRepresentation();
+            vertexShaderBuilder.addMainLine("float result_rotatedX = result_xAdjust * cos(" + rotation + ") - result_yAdjust * sin(" + rotation + ");");
+            vertexShaderBuilder.addMainLine("float result_rotatedY = result_xAdjust * sin(" + rotation + ") + result_yAdjust * cos(" + rotation + ");");
+        } else {
+            vertexShaderBuilder.addMainLine("float result_rotatedX = result_xAdjust;");
+            vertexShaderBuilder.addMainLine("float result_rotatedY = result_yAdjust;");
+        }
+        vertexShaderBuilder.addMainLine("vec3 result_rightAdjust = result_rotatedX * normalize(result_cameraRight);");
+        vertexShaderBuilder.addMainLine("vec3 result_downAdjust = result_rotatedY * normalize(-u_cameraUp);");
+        vertexShaderBuilder.addMainLine("vec3 " + billboardPosition + " = " + positionField.getRepresentation() + " + (result_rightAdjust + result_downAdjust);");
         vertexShaderBuilder.addUniformVariable("u_projViewTrans", "mat4", true, UniformSetters.projViewTrans);
         String worldPosition = "vec4(" + billboardPosition + ", 1.0)";
         vertexShaderBuilder.addMainLine("// End Graph Node");

@@ -12,7 +12,7 @@ public class EndBillboardParticlesShaderNodeConfiguration extends NodeConfigurat
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("rotation", "Rotation", false, false, ShaderFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("size", "Size", false, false, ShaderFieldType.Vector2));
+                new GraphNodeInputImpl<ShaderFieldType>("size", "Size", false, false, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("color", "Color", false, false,
                         ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
