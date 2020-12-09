@@ -24,8 +24,7 @@ public class TimeShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType>
 
     private GraphBox<ShaderFieldType> createBox(Skin skin, String id, float multiplier) {
         GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
-        FloatBoxPart<ShaderFieldType> multiplierPart = new FloatBoxPart<ShaderFieldType>(skin, "Multiplier", "multiplier");
-        multiplierPart.setValue(multiplier);
+        FloatBoxPart<ShaderFieldType> multiplierPart = new FloatBoxPart<ShaderFieldType>(skin, "Multiplier", "multiplier", multiplier, null);
         result.addGraphBoxPart(multiplierPart);
 
         addConfigurationInputsAndOutputs(skin, result);

@@ -162,8 +162,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
-        public void registerParticleEffect(String tag, int maxNumberOfParticles) {
-            particleEffects.registerEffect(tag, maxNumberOfParticles);
+        public void registerParticleEffect(String tag, int maxNumberOfParticles, int initialParticles, float particlesPerSecond) {
+            particleEffects.registerEffect(tag, maxNumberOfParticles, initialParticles, particlesPerSecond);
         }
 
         @Override

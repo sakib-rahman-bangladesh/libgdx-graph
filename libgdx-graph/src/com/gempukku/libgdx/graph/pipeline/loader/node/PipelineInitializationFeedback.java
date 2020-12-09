@@ -6,7 +6,7 @@ import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 public interface PipelineInitializationFeedback {
     void registerScreenShader(String tag, PropertyContainerImpl propertyContainer);
 
-    void registerParticleEffect(String tag, int maxNumberOfParticles);
+    void registerParticleEffect(String tag, int maxNumberOfParticles, int initialParticles, float particlesPerSecond);
 
     void registerModelAttribute(VertexAttribute vertexAttribute);
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
@@ -31,6 +32,7 @@ public class IntegerBoxPart<T extends FieldType> extends Table implements GraphB
             }
         };
         v1Input.setText(String.valueOf(defaultValue));
+        v1Input.setAlignment(Align.right);
         v1Input.addListener(
                 new ChangeListener() {
                     @Override
@@ -40,7 +42,7 @@ public class IntegerBoxPart<T extends FieldType> extends Table implements GraphB
                 });
 
         add(new Label(label, skin));
-        add(v1Input);
+        add(v1Input).growX();
         row();
     }
 

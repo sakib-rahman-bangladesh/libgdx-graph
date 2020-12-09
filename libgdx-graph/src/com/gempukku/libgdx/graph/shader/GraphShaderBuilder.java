@@ -40,7 +40,12 @@ public class GraphShaderBuilder {
         GraphNode<ShaderFieldType> endNode = graph.getNodeById("end");
         JsonValue data = endNode.getData();
         int maxNumberOfParticles = data.getInt("maxParticles", 100);
+        int initialParticles = data.getInt("initialParticles", 0);
+        float perSecondParticles = data.getFloat("perSecondParticles", 1f);
+
         graphShader.setMaxNumberOfParticles(maxNumberOfParticles);
+        graphShader.setInitialParticles(initialParticles);
+        graphShader.setPerSecondParticles(perSecondParticles);
 
         VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
         FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);

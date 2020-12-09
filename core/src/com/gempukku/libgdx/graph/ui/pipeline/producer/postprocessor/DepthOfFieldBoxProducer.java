@@ -9,6 +9,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.part.CheckboxBoxPart;
 import com.gempukku.libgdx.graph.ui.part.FloatBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
+import com.kotcrab.vis.ui.util.Validators;
 
 public class DepthOfFieldBoxProducer extends GraphBoxProducerImpl<PipelineFieldType> {
     public DepthOfFieldBoxProducer() {
@@ -19,7 +20,7 @@ public class DepthOfFieldBoxProducer extends GraphBoxProducerImpl<PipelineFieldT
     public GraphBox<PipelineFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         GraphBoxImpl<PipelineFieldType> result = createGraphBox(skin, id);
 
-        FloatBoxPart<PipelineFieldType> maxBlurPart = new FloatBoxPart<>(skin, "Max blur", "maxBlur");
+        FloatBoxPart<PipelineFieldType> maxBlurPart = new FloatBoxPart<>(skin, "Max blur", "maxBlur", 10, new Validators.GreaterThanValidator(0, false));
         maxBlurPart.setValue(10f);
         if (data != null)
             maxBlurPart.initialize(data);

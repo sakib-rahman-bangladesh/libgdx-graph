@@ -10,10 +10,10 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposabl
     private ObjectMap<String, ParticleEffectConfiguration> effectsConfiguration = new ObjectMap<>();
     private RandomIdGenerator randomIdGenerator = new RandomIdGenerator(16);
 
-    public void registerEffect(String tag, int maxNumberOfParticles) {
+    public void registerEffect(String tag, int maxNumberOfParticles, int initialParticles, float particlesPerSecond) {
         if (effectsConfiguration.containsKey(tag))
             throw new IllegalStateException("Duplicate particle effect with tag - " + tag);
-        effectsConfiguration.put(tag, new ParticleEffectConfiguration(maxNumberOfParticles));
+        effectsConfiguration.put(tag, new ParticleEffectConfiguration(maxNumberOfParticles, initialParticles, 1f / particlesPerSecond));
     }
 
     public ObjectMap.Values<GraphParticleEffect> getParticleEffects() {

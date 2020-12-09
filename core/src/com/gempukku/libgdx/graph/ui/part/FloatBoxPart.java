@@ -5,12 +5,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
+import com.kotcrab.vis.ui.util.InputValidator;
 import com.kotcrab.vis.ui.util.Validators;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 
@@ -19,17 +21,26 @@ public class FloatBoxPart<T extends FieldType> extends Table implements GraphBox
     private String property;
     private final VisValidatableTextField v1Input;
 
-    public FloatBoxPart(Skin skin, String label, String property) {
+    public FloatBoxPart(Skin skin, String label, String property, float defaultValue, InputValidator inputValidator) {
         super(skin);
 
         this.property = property;
-        v1Input = new VisValidatableTextField(Validators.FLOATS) {
-            @Override
-            public float getPrefWidth() {
-                return 50;
-            }
-        };
-        v1Input.setText(String.valueOf(0));
+        if (inputValidator != null)
+            v1Input = new VisValidatableTextField(Validators.FLOATS, inputValidator) {
+                @Override
+                public float getPrefWidth() {
+                    return 50;
+                }
+            };
+        else
+            v1Input = new VisValidatableTextField(Validators.FLOATS) {
+                @Override
+                public float getPrefWidth() {
+                    return 50;
+                }
+            };
+        v1Input.setText(String.valueOf(defaultValue));
+        v1Input.setAlignment(Align.right);
         v1Input.addListener(
                 new ChangeListener() {
                     @Override
@@ -39,7 +50,7 @@ public class FloatBoxPart<T extends FieldType> extends Table implements GraphBox
                 });
 
         add(new Label(label, skin));
-        add(v1Input);
+        add(v1Input).growX();
         row();
     }
 
