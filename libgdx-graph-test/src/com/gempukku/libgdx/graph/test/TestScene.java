@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.test;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -30,6 +31,7 @@ public class TestScene implements LibgdxGraphTestScene {
     private Stage stage;
     private Skin skin;
     private GraphShaderEnvironment lights;
+    private FPSLogger fpsLogger = new FPSLogger();
 
     @Override
     public void initializeScene() {
@@ -63,17 +65,21 @@ public class TestScene implements LibgdxGraphTestScene {
         PerspectiveCamera camera = new PerspectiveCamera();
         camera.near = 0.1f;
         camera.far = 100;
-        camera.position.set(0, 0, 3);
+        camera.position.set(0, 7, 5);
         camera.up.set(0f, 1f, 0f);
-        camera.lookAt(0, 0, 0f);
+        camera.lookAt(0, 4, 0f);
         camera.update();
 
         return camera;
     }
 
     private void createParticleEffects(GraphParticleEffects effects) {
-        String effectId = effects.createEffect("effect", new PointParticleGenerator(5f));
-        effects.startEffect(effectId);
+        for (int i = -30; i < 31; i++) {
+            PointParticleGenerator particleGenerator = new PointParticleGenerator(10f);
+            particleGenerator.getLocation().set(i * 0.1f, 0, 0);
+            String effectId = effects.createEffect("effect", particleGenerator);
+            effects.startEffect(effectId);
+        }
     }
 
     private Stage createStage() {
@@ -108,6 +114,7 @@ public class TestScene implements LibgdxGraphTestScene {
     @Override
     public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
+        fpsLogger.log();
 
         stage.act(delta);
 

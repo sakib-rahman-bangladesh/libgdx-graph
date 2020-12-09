@@ -90,22 +90,24 @@ public class GraphParticleEffect implements Disposable {
 
     public void generateParticles(TimeProvider timeProvider) {
         if (running) {
-            particleGenerator.generateParticle(tempInfo);
-            tempData[0] = tempInfo.location.x;
-            tempData[1] = tempInfo.location.y;
-            tempData[2] = tempInfo.location.z;
-            tempData[3] = tempInfo.seed;
-            tempData[4] = timeProvider.getTime();
-            tempData[5] = tempData[4] + tempInfo.lifeLength;
+            for (int i = 0; i < 10; i++) {
+                particleGenerator.generateParticle(tempInfo);
+                tempData[0] = tempInfo.location.x;
+                tempData[1] = tempInfo.location.y;
+                tempData[2] = tempInfo.location.z;
+                tempData[3] = tempInfo.seed;
+                tempData[4] = timeProvider.getTime();
+                tempData[5] = tempData[4] + tempInfo.lifeLength;
 
-            vbo.updateVertices(getVertexIndex(nextParticleIndex, 0), tempData, 0, tempData.length);
-            vbo.updateVertices(getVertexIndex(nextParticleIndex, 1), tempData, 0, tempData.length);
-            vbo.updateVertices(getVertexIndex(nextParticleIndex, 2), tempData, 0, tempData.length);
-            vbo.updateVertices(getVertexIndex(nextParticleIndex, 3), tempData, 0, tempData.length);
+                vbo.updateVertices(getVertexIndex(nextParticleIndex, 0), tempData, 0, tempData.length);
+                vbo.updateVertices(getVertexIndex(nextParticleIndex, 1), tempData, 0, tempData.length);
+                vbo.updateVertices(getVertexIndex(nextParticleIndex, 2), tempData, 0, tempData.length);
+                vbo.updateVertices(getVertexIndex(nextParticleIndex, 3), tempData, 0, tempData.length);
 
-            nextParticleIndex++;
-            if (nextParticleIndex == particleEffectConfiguration.getMaxNumberOfParticles())
-                nextParticleIndex = 0;
+                nextParticleIndex++;
+                if (nextParticleIndex == particleEffectConfiguration.getMaxNumberOfParticles())
+                    nextParticleIndex = 0;
+            }
         }
     }
 
