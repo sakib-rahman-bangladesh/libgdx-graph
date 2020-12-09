@@ -1,11 +1,12 @@
 package com.gempukku.libgdx.graph.ui.shader.particles;
 
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.config.particles.ParticleLocationShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.particles.ParticleUVShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.model.producer.attribute.AttributePositionBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.model.producer.attribute.AttributeUVBoxProducer;
+import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 import com.gempukku.libgdx.graph.ui.shader.particles.producer.EndBillboardParticlesShaderBoxProducer;
 
 import java.util.Collections;
@@ -19,8 +20,9 @@ public class UIParticlesShaderConfiguration implements UIGraphConfiguration<Shad
     static {
         graphBoxProducers.add(new EndBillboardParticlesShaderBoxProducer());
 
-        graphBoxProducers.add(new AttributePositionBoxProducer());
-        graphBoxProducers.add(new AttributeUVBoxProducer());
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ParticleLocationShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ParticleUVShaderNodeConfiguration()));
+
     }
 
     @Override

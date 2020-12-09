@@ -4,6 +4,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.particles.particle.ParticleLocationShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.particles.particle.ParticleUVShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
 
 public class ParticlesShaderConfiguration implements GraphConfiguration {
@@ -13,6 +15,10 @@ public class ParticlesShaderConfiguration implements GraphConfiguration {
     static {
         // End
         addGraphShaderNodeBuilder(new EndBillboardParticlesShaderNodeBuilder());
+
+        // Particle
+        addGraphShaderNodeBuilder(new ParticleLocationShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new ParticleUVShaderNodeBuilder());
 
         // Property
         addGraphShaderNodeBuilder(new ParticlesPropertyShaderNodeBuilder());
