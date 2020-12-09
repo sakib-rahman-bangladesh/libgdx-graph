@@ -127,6 +127,12 @@ public class UniformSetters {
             shader.setUniform(location, shaderContext.getCamera().direction);
         }
     };
+    public final static UniformRegistry.UniformSetter cameraUp = new UniformRegistry.UniformSetter() {
+        @Override
+        public void set(BasicShader shader, int location, ShaderContext shaderContext) {
+            shader.setUniform(location, shaderContext.getCamera().up);
+        }
+    };
     public final static UniformRegistry.UniformSetter cameraClipping = new UniformRegistry.UniformSetter() {
         @Override
         public void set(BasicShader shader, int location, ShaderContext shaderContext) {

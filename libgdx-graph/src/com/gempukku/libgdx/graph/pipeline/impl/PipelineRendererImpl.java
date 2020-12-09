@@ -18,6 +18,8 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
 import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelsImpl;
+import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
+import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectsImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.screen.ScreenShaders;
@@ -95,6 +97,12 @@ public class PipelineRendererImpl implements PipelineRenderer {
         return pipelineRenderingContext.getScreenShaders();
     }
 
+
+    @Override
+    public GraphParticleEffects getGraphParticleEffects() {
+        return pipelineRenderingContext.getGraphParticleEffects();
+    }
+
     @Override
     public void render(float delta, final RenderOutput renderOutput) {
         timeKeeper.updateTime(delta);
@@ -103,6 +111,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
         for (PipelineNode node : nodes) {
             node.startFrame(delta);
         }
+
+        pipelineRenderingContext.update();
 
         pipelineRenderingContext.getRenderContext().begin();
         RenderPipeline renderPipeline = endNode.executePipeline(pipelineRenderingContext);
@@ -133,6 +143,12 @@ public class PipelineRendererImpl implements PipelineRenderer {
 
         public void setRenderOutput(RenderOutput renderOutput) {
             this.renderOutput = renderOutput;
+        }
+
+        public void update() {
+            for (GraphParticleEffect particleEffect : particleEffects.getParticleEffects()) {
+                particleEffect.generateParticles(timeKeeper);
+            }
         }
 
         @Override
@@ -168,6 +184,11 @@ public class PipelineRendererImpl implements PipelineRenderer {
         @Override
         public ScreenShadersImpl getScreenShaders() {
             return screenShaders;
+        }
+
+        @Override
+        public GraphParticleEffectsImpl getGraphParticleEffects() {
+            return particleEffects;
         }
 
         @Override

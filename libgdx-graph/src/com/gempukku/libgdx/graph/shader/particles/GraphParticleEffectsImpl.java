@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.shader.particles;
 
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.shader.particles.generator.ParticleGenerator;
 import com.gempukku.libgdx.graph.util.RandomIdGenerator;
 
 public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposable {
@@ -15,6 +16,10 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposabl
         effectsConfiguration.put(tag, new ParticleEffectConfiguration(maxNumberOfParticles));
     }
 
+    public ObjectMap.Values<GraphParticleEffect> getParticleEffects() {
+        return particleEffects.values();
+    }
+
     @Override
     public String createEffect(String tag, ParticleGenerator particleGenerator) {
         ParticleEffectConfiguration configuration = effectsConfiguration.get(tag);
@@ -22,7 +27,7 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposabl
             throw new IllegalArgumentException("Unable to find particle effect with tag - " + tag);
 
         String effectId = randomIdGenerator.generateId();
-        GraphParticleEffect particleEffect = new GraphParticleEffect(configuration, particleGenerator);
+        GraphParticleEffect particleEffect = new GraphParticleEffect(tag, configuration, particleGenerator);
         particleEffects.put(effectId, particleEffect);
 
         return effectId;

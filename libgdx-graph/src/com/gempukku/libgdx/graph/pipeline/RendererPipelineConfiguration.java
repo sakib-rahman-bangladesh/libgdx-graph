@@ -19,6 +19,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.provided.TimePipelineNodeProduc
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.DefaultRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.EndPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.GraphShaderRendererPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ParticlesShaderRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.PipelineRendererNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ScreenShaderRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.StartPipelineNodeProducer;
@@ -51,6 +52,7 @@ public class RendererPipelineConfiguration {
         addNodeProducer(new DefaultRendererPipelineNodeProducer());
         addNodeProducer(new GraphShaderRendererPipelineNodeProducer());
         addNodeProducer(new ScreenShaderRendererPipelineNodeProducer());
+        addNodeProducer(new ParticlesShaderRendererPipelineNodeProducer());
         addNodeProducer(new PipelineRendererNodeProducer());
 
         addNodeProducer(new ValueFloatPipelineNodeProducer());

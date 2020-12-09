@@ -168,8 +168,6 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     private Blending blending = Blending.none;
     private DepthTesting depthTesting = DepthTesting.less;
 
-    private String tag;
-
     private boolean usingDepthTexture;
     private boolean usingColorTexture;
 
@@ -182,14 +180,6 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
     public BasicShader(Texture defaultTexture) {
         this.defaultTexture = defaultTexture;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
     }
 
     public Texture getDefaultTexture() {
@@ -409,7 +399,7 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         }
         vertexBufferObject.bind(program);
         indexBufferObject.bind();
-        Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLE_STRIP, indexBufferObject.getNumIndices(), GL20.GL_UNSIGNED_SHORT, 0);
+        Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, indexBufferObject.getNumIndices(), GL20.GL_UNSIGNED_SHORT, 0);
         vertexBufferObject.unbind(program);
         indexBufferObject.unbind();
     }

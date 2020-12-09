@@ -4,11 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -16,30 +12,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
-import com.gempukku.libgdx.graph.shader.TransformUpdate;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
-import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
+import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
+import com.gempukku.libgdx.graph.shader.particles.generator.PointParticleGenerator;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public class TestScene implements LibgdxGraphTestScene {
     private PipelineRenderer pipelineRenderer;
-    private Model model;
     private Camera camera;
     private Stage stage;
     private Skin skin;
-    private String modelInstance;
     private GraphShaderEnvironment lights;
-    private float cameraAngle = -0.5f;
-    private float cameraDistance = 1.3f;
 
     @Override
     public void initializeScene() {
@@ -52,7 +42,7 @@ public class TestScene implements LibgdxGraphTestScene {
         camera = createCamera();
 
         pipelineRenderer = loadPipelineRenderer();
-        createModels(pipelineRenderer.getGraphShaderModels());
+        createParticleEffects(pipelineRenderer.getGraphParticleEffects());
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -72,27 +62,18 @@ public class TestScene implements LibgdxGraphTestScene {
     private Camera createCamera() {
         PerspectiveCamera camera = new PerspectiveCamera();
         camera.near = 0.1f;
-        camera.far = 5;
+        camera.far = 100;
+        camera.position.set(0, 0, 3);
+        camera.up.set(0f, 1f, 0f);
+        camera.lookAt(0, 0, 0f);
+        camera.update();
+
         return camera;
     }
 
-    private void createModels(GraphShaderModels models) {
-        JsonReader jsonReader = new JsonReader();
-        G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-        model = modelLoader.loadModel(Gdx.files.classpath("model/luminaris/luminaris.g3dj"));
-
-        String modelId = models.registerModel(model);
-        final float scale = 0.025f;
-        modelInstance = models.createModelInstance(modelId);
-        models.updateTransform(modelInstance,
-                new TransformUpdate() {
-                    @Override
-                    public void updateTransform(Matrix4 transform) {
-                        transform.translate(-0.3f, 0.11f, 0).scale(scale, scale, scale);//.rotate(-1, 0, 0f, 90);
-                    }
-                }
-        );
-        models.addTag(modelInstance, "Default", TagOptimizationHint.Always);
+    private void createParticleEffects(GraphParticleEffects effects) {
+        String effectId = effects.createEffect("effect", new PointParticleGenerator(5f));
+        effects.startEffect(effectId);
     }
 
     private Stage createStage() {
@@ -128,12 +109,6 @@ public class TestScene implements LibgdxGraphTestScene {
     public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
 
-        float y = 0.3f;
-        camera.position.set(cameraDistance * MathUtils.sin(cameraAngle), y, cameraDistance * MathUtils.cos(cameraAngle));
-        camera.up.set(0f, 1f, 0f);
-        camera.lookAt(0, y - 0.3f, 0f);
-        camera.update();
-
         stage.act(delta);
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
@@ -141,7 +116,6 @@ public class TestScene implements LibgdxGraphTestScene {
 
     @Override
     public void disposeScene() {
-        model.dispose();
         stage.dispose();
         skin.dispose();
         pipelineRenderer.dispose();

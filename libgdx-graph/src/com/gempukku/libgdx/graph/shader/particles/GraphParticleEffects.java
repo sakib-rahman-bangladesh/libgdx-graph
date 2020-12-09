@@ -1,5 +1,7 @@
 package com.gempukku.libgdx.graph.shader.particles;
 
+import com.gempukku.libgdx.graph.shader.particles.generator.ParticleGenerator;
+
 /**
  * Main interface that is used to work with particle effects. Any operation done on the particle effects should
  * be done through this interface.

@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.particles;
+package com.gempukku.libgdx.graph.shader.particles.generator;
 
 import com.badlogic.gdx.math.Vector3;
 

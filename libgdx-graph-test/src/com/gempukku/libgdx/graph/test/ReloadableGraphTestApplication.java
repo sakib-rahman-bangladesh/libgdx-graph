@@ -48,7 +48,8 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
                 new Episode13Scene(),
                 new Episode14Scene(),
                 new Episode15Scene(),
-                new Episode16Scene()
+                new Episode16Scene(),
+                new TestScene()
         };
         loadedIndex = scenes.length - 1;
     }
