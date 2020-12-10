@@ -100,6 +100,7 @@ public class ScreenShaderPreviewWidget extends Widget implements Disposable {
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
             createModel(graphShader.getVertexAttributes());
 
+            shaderContext.setGraphShaderEnvironment(graphShaderEnvironment);
             shaderContext.setTimeProvider(timeKeeper);
             shaderContext.setPropertyContainer(
                     new PropertyContainer() {
