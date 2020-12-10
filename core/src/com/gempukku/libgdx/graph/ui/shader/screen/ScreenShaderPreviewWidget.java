@@ -7,13 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -30,14 +26,10 @@ import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContex
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
-import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModel;
-import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.FullScreenRenderImpl;
-import com.gempukku.libgdx.graph.util.RandomIdGenerator;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ScreenShaderPreviewWidget extends Widget implements Disposable {
@@ -48,13 +40,6 @@ public class ScreenShaderPreviewWidget extends Widget implements Disposable {
     private FrameBuffer frameBuffer;
     private ScreenGraphShader graphShader;
     private RenderContext renderContext;
-
-    private Model rectangleModel;
-    private GraphShaderModel rectangleShaderModel;
-    private GraphShaderModelInstance rectangleModelInstance;
-    private Model sphereModel;
-    private GraphShaderModel sphereShaderModel;
-    private GraphShaderModelInstance sphereModelInstance;
 
     private Camera camera;
     private DefaultTimeKeeper timeKeeper;
@@ -141,40 +126,13 @@ public class ScreenShaderPreviewWidget extends Widget implements Disposable {
     }
 
     private void createModel(Array<VertexAttribute> vertexAttributeArray) {
-        ModelBuilder modelBuilder = new ModelBuilder();
-        Material material = new Material();
-
         VertexAttribute[] vAttributes = new VertexAttribute[vertexAttributeArray.size];
         for (int i = 0; i < vAttributes.length; i++) {
             vAttributes[i] = vertexAttributeArray.get(i);
         }
-
-        VertexAttributes vertexAttributes = new VertexAttributes(vAttributes);
-
-        rectangleModel = modelBuilder.createRect(
-                0, -0.5f, -0.5f,
-                0, -0.5f, 0.5f,
-                0, 0.5f, 0.5f,
-                0, 0.5f, -0.5f,
-                1, 0, 0,
-                material,
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        rectangleShaderModel = new GraphShaderModel(new RandomIdGenerator(16), rectangleModel, vertexAttributes);
-        rectangleModelInstance = rectangleShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
-
-        float sphereDiameter = 0.8f;
-        sphereModel = modelBuilder.createSphere(sphereDiameter, sphereDiameter, sphereDiameter, 50, 50,
-                material,
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        sphereShaderModel = new GraphShaderModel(new RandomIdGenerator(16), sphereModel, vertexAttributes);
-        sphereModelInstance = sphereShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
     }
 
     private void destroyShader() {
-        sphereModel.dispose();
-        sphereShaderModel.dispose();
-        rectangleModel.dispose();
-        rectangleShaderModel.dispose();
         frameBuffer.dispose();
         frameBuffer = null;
         graphShader.dispose();
