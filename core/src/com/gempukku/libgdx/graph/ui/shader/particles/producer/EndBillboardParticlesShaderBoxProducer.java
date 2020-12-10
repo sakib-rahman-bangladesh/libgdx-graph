@@ -14,9 +14,9 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.FloatBoxPart;
 import com.gempukku.libgdx.graph.ui.part.IntegerBoxPart;
-import com.gempukku.libgdx.graph.ui.part.ModelShaderPreviewBoxPart;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
+import com.gempukku.libgdx.graph.ui.shader.model.ModelShaderPreviewBoxPart;
 import com.kotcrab.vis.ui.util.Validators;
 
 public class EndBillboardParticlesShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {

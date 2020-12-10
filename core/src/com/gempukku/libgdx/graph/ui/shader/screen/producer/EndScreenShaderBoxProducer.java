@@ -12,9 +12,9 @@ import com.gempukku.libgdx.graph.shader.config.screen.EndScreenShaderNodeConfigu
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
-import com.gempukku.libgdx.graph.ui.part.ScreenShaderPreviewBoxPart;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
+import com.gempukku.libgdx.graph.ui.shader.screen.ScreenShaderPreviewBoxPart;
 
 public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
     public EndScreenShaderBoxProducer() {

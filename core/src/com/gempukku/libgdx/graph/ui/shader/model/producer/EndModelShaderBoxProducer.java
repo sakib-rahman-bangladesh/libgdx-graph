@@ -12,9 +12,9 @@ import com.gempukku.libgdx.graph.shader.config.model.EndModelShaderNodeConfigura
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
-import com.gempukku.libgdx.graph.ui.part.ModelShaderPreviewBoxPart;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
+import com.gempukku.libgdx.graph.ui.shader.model.ModelShaderPreviewBoxPart;
 
 public class EndModelShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
     public EndModelShaderBoxProducer() {
