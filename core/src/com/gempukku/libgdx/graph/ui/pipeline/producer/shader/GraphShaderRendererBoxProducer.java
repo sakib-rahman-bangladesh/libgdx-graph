@@ -3,14 +3,14 @@ package com.gempukku.libgdx.graph.ui.pipeline.producer.shader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
-import com.gempukku.libgdx.graph.pipeline.config.rendering.GraphShaderRendererPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.rendering.ModelShaderRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 
 public class GraphShaderRendererBoxProducer extends GraphBoxProducerImpl<PipelineFieldType> {
     public GraphShaderRendererBoxProducer() {
-        super(new GraphShaderRendererPipelineNodeConfiguration());
+        super(new ModelShaderRendererPipelineNodeConfiguration());
     }
 
     @Override

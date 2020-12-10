@@ -13,14 +13,13 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeed
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
-import com.gempukku.libgdx.graph.shader.BasicShader;
-import com.gempukku.libgdx.graph.shader.GraphShader;
-import com.gempukku.libgdx.graph.shader.ShaderLoaderCallback;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
 import com.gempukku.libgdx.graph.shader.screen.ScreenShaderConfiguration;
+import com.gempukku.libgdx.graph.shader.screen.ScreenShaderLoaderCallback;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
@@ -39,9 +38,7 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
 
         final String tag = data.getString("tag");
         JsonValue shaderJson = data.get("shader");
-        final GraphShader graphShader = GraphLoader.loadGraph(shaderJson, new ShaderLoaderCallback(whitePixel.texture, true, configurations));
-        graphShader.setCulling(BasicShader.Culling.back);
-        graphShader.setDepthTesting(BasicShader.DepthTesting.disabled);
+        final ScreenGraphShader graphShader = GraphLoader.loadGraph(shaderJson, new ScreenShaderLoaderCallback(whitePixel.texture, configurations));
 
         final PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         final PipelineNode.FieldOutput<GraphShaderEnvironment> lightsInput = (PipelineNode.FieldOutput<GraphShaderEnvironment>) inputFields.get("lights");

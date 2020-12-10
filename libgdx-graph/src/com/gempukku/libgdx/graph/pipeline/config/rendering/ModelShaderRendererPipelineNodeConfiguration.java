@@ -9,8 +9,8 @@ import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Camera;
 import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.GraphLights;
 import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.RenderPipeline;
 
-public class GraphShaderRendererPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
-    public GraphShaderRendererPipelineNodeConfiguration() {
+public class ModelShaderRendererPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
+    public ModelShaderRendererPipelineNodeConfiguration() {
         super("GraphShaderRenderer", "Graph Shaders", "Pipeline");
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("camera", "Camera", true, Camera));

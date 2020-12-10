@@ -14,17 +14,17 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
-import com.gempukku.libgdx.graph.ui.shader.model.producer.ShaderPreviewWidget;
+import com.gempukku.libgdx.graph.ui.shader.model.producer.ModelShaderPreviewWidget;
 
 public class ShaderPreviewBoxPart extends Table implements GraphBoxPart<ShaderFieldType> {
-    private final ShaderPreviewWidget shaderPreviewWidget;
-    private final SelectBox<ShaderPreviewWidget.ShaderPreviewModel> selectBox;
+    private final ModelShaderPreviewWidget shaderPreviewWidget;
+    private final SelectBox<ModelShaderPreviewWidget.ShaderPreviewModel> selectBox;
 
     public ShaderPreviewBoxPart(Skin skin) {
         super(skin);
-        shaderPreviewWidget = new ShaderPreviewWidget(200, 200);
-        selectBox = new SelectBox<ShaderPreviewWidget.ShaderPreviewModel>(skin);
-        selectBox.setItems(ShaderPreviewWidget.ShaderPreviewModel.values());
+        shaderPreviewWidget = new ModelShaderPreviewWidget(200, 200);
+        selectBox = new SelectBox<ModelShaderPreviewWidget.ShaderPreviewModel>(skin);
+        selectBox.setItems(ModelShaderPreviewWidget.ShaderPreviewModel.values());
         add("Preview model: ");
         add(selectBox).growX().row();
         add(shaderPreviewWidget).colspan(2).grow().row();
@@ -41,7 +41,7 @@ public class ShaderPreviewBoxPart extends Table implements GraphBoxPart<ShaderFi
     public void initialize(JsonValue data) {
     }
 
-    public void setPreviewModel(ShaderPreviewWidget.ShaderPreviewModel previewModel) {
+    public void setPreviewModel(ModelShaderPreviewWidget.ShaderPreviewModel previewModel) {
         shaderPreviewWidget.setModel(previewModel);
         selectBox.setSelected(previewModel);
     }

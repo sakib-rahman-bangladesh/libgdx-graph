@@ -26,10 +26,10 @@ import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderContextImpl;
-import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
 import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModel;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelInstance;
@@ -38,7 +38,7 @@ import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.RandomIdGenerator;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
-public class ShaderPreviewWidget extends Widget implements Disposable {
+public class ModelShaderPreviewWidget extends Widget implements Disposable {
     public enum ShaderPreviewModel {
         Sphere, Rectangle
     }
@@ -48,7 +48,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
     private int height;
 
     private FrameBuffer frameBuffer;
-    private GraphShader graphShader;
+    private ModelGraphShader graphShader;
     private RenderContext renderContext;
 
     private Model rectangleModel;
@@ -64,7 +64,7 @@ public class ShaderPreviewWidget extends Widget implements Disposable {
     private ModelShaderContextImpl shaderContext;
     private ShaderPreviewModel model = ShaderPreviewModel.Sphere;
 
-    public ShaderPreviewWidget(int width, int height) {
+    public ModelShaderPreviewWidget(int width, int height) {
         this.width = width;
         this.height = height;
         renderContext = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.LRU, 1));

@@ -18,6 +18,7 @@ import com.gempukku.libgdx.graph.shader.builder.GLSLFragmentReader;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
+import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
 import com.gempukku.libgdx.graph.shader.model.ModelShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
@@ -25,6 +26,7 @@ import com.gempukku.libgdx.graph.shader.particles.ParticlesGraphShader;
 import com.gempukku.libgdx.graph.shader.particles.ParticlesShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
+import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
 import com.gempukku.libgdx.graph.shader.screen.ScreenShaderConfiguration;
 
 public class GraphShaderBuilder {
@@ -67,10 +69,10 @@ public class GraphShaderBuilder {
         return graphShader;
     }
 
-    public static GraphShader buildScreenShader(Texture defaultTexture,
-                                                Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
-                                                boolean designTime) {
-        GraphShader graphShader = new GraphShader(defaultTexture);
+    public static ScreenGraphShader buildScreenShader(Texture defaultTexture,
+                                                      Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
+                                                      boolean designTime) {
+        ScreenGraphShader graphShader = new ScreenGraphShader(defaultTexture);
 
         VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
         FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);
@@ -92,10 +94,10 @@ public class GraphShaderBuilder {
         return graphShader;
     }
 
-    public static GraphShader buildModelShader(Texture defaultTexture,
-                                               Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
-                                               boolean designTime) {
-        GraphShader graphShader = new GraphShader(defaultTexture);
+    public static ModelGraphShader buildModelShader(Texture defaultTexture,
+                                                    Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
+                                                    boolean designTime) {
+        ModelGraphShader graphShader = new ModelGraphShader(defaultTexture);
 
         VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
         FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);
@@ -117,10 +119,10 @@ public class GraphShaderBuilder {
         return graphShader;
     }
 
-    public static GraphShader buildModelDepthShader(Texture defaultTexture,
-                                                    Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
-                                                    boolean designTime) {
-        GraphShader graphShader = new GraphShader(defaultTexture);
+    public static ModelGraphShader buildModelDepthShader(Texture defaultTexture,
+                                                         Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
+                                                         boolean designTime) {
+        ModelGraphShader graphShader = new ModelGraphShader(defaultTexture);
 
         VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
         FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);

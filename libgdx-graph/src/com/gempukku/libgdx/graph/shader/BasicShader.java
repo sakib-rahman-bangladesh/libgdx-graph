@@ -5,11 +5,8 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GLTexture;
-import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Renderable;
-import com.badlogic.gdx.graphics.g3d.model.MeshPart;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.g3d.utils.TextureDescriptor;
 import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
@@ -23,11 +20,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.FlushablePool;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.pipeline.loader.FullScreenRender;
-import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderContextImpl;
-import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelInstance;
 
 import static com.badlogic.gdx.graphics.GL20.GL_BACK;
 import static com.badlogic.gdx.graphics.GL20.GL_FRONT;
@@ -89,7 +82,7 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         }
     }
 
-    private static class Attribute {
+    protected static class Attribute {
         private final String alias;
         private int location = -1;
 
@@ -100,9 +93,13 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         private void setLocation(int location) {
             this.location = location;
         }
+
+        public int getLocation() {
+            return location;
+        }
     }
 
-    private static class Uniform {
+    protected static class Uniform {
         private final String alias;
         private final UniformSetter setter;
         private int location = -1;
@@ -115,9 +112,17 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         private void setUniformLocation(int location) {
             this.location = location;
         }
+
+        public UniformSetter getSetter() {
+            return setter;
+        }
+
+        public int getLocation() {
+            return location;
+        }
     }
 
-    private static class StructArrayUniform {
+    protected static class StructArrayUniform {
         private final String alias;
         private final String[] fieldNames;
         private final StructArrayUniformSetter setter;
@@ -137,18 +142,33 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
             this.size = size;
             this.fieldOffsets = fieldOffsets;
         }
+
+        public StructArrayUniformSetter getSetter() {
+            return setter;
+        }
+
+        public int getStartIndex() {
+            return startIndex;
+        }
+
+        public int getSize() {
+            return size;
+        }
+
+        public int[] getFieldOffsets() {
+            return fieldOffsets;
+        }
     }
 
-    private final ObjectMap<String, Attribute> attributes = new ObjectMap<>();
-    private final ObjectMap<String, Uniform> globalUniforms = new ObjectMap<String, Uniform>();
-    private final ObjectMap<String, Uniform> localUniforms = new ObjectMap<String, Uniform>();
-    private final ObjectMap<String, StructArrayUniform> globalStructArrayUniforms = new ObjectMap<String, StructArrayUniform>();
-    private final ObjectMap<String, StructArrayUniform> localStructArrayUniforms = new ObjectMap<String, StructArrayUniform>();
+    protected final ObjectMap<String, Attribute> attributes = new ObjectMap<>();
+    protected final ObjectMap<String, Uniform> globalUniforms = new ObjectMap<String, Uniform>();
+    protected final ObjectMap<String, Uniform> localUniforms = new ObjectMap<String, Uniform>();
+    protected final ObjectMap<String, StructArrayUniform> globalStructArrayUniforms = new ObjectMap<String, StructArrayUniform>();
+    protected final ObjectMap<String, StructArrayUniform> localStructArrayUniforms = new ObjectMap<String, StructArrayUniform>();
 
-    private ShaderProgram program;
+    protected ShaderProgram program;
     private RenderContext context;
     private Texture defaultTexture;
-    private Mesh currentMesh;
     private Culling culling = Culling.back;
     private Blending blending = Blending.opaque;
     private DepthTesting depthTesting = DepthTesting.less;
@@ -317,21 +337,6 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         return program.fetchUniformLocation(alias, false);
     }
 
-    private final IntArray tempArray = new IntArray();
-
-    private final int[] getAttributeLocations(final VertexAttributes attrs) {
-        tempArray.clear();
-        final int n = attrs.size();
-        for (int i = 0; i < n; i++) {
-            Attribute attribute = attributes.get(attrs.get(i).alias);
-            if (attribute != null)
-                tempArray.add(attribute.location);
-            else
-                tempArray.add(-1);
-        }
-        return tempArray.items;
-    }
-
     public void setCulling(Culling culling) {
         this.culling = culling;
     }
@@ -373,39 +378,6 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
         }
     }
 
-    public void render(ModelShaderContextImpl shaderContext, GraphShaderModelInstance graphShaderModelInstance) {
-        shaderContext.setPropertyContainer(graphShaderModelInstance.getPropertyContainer());
-        graphShaderModelInstance.getRenderables(renderables, renderablesPool);
-        for (Renderable renderable : renderables) {
-            shaderContext.setRenderable(renderable);
-            for (Uniform uniform : localUniforms.values()) {
-                uniform.setter.set(this, uniform.location, shaderContext);
-            }
-            for (StructArrayUniform uniform : localStructArrayUniforms.values()) {
-                uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
-            }
-            MeshPart meshPart = renderable.meshPart;
-            Mesh mesh = meshPart.mesh;
-            if (currentMesh != mesh) {
-                if (currentMesh != null) currentMesh.unbind(program, tempArray.items);
-                currentMesh = mesh;
-                currentMesh.bind(program, getAttributeLocations(mesh.getVertexAttributes()));
-            }
-            meshPart.render(program, false);
-        }
-        renderables.clear();
-    }
-
-    public void render(ShaderContext shaderContext, FullScreenRender fullScreenRender) {
-        for (Uniform uniform : localUniforms.values()) {
-            uniform.setter.set(this, uniform.location, shaderContext);
-        }
-        for (StructArrayUniform uniform : localStructArrayUniforms.values()) {
-            uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
-        }
-        fullScreenRender.renderFullScreen(program);
-    }
-
     public void renderParticles(ShaderContext shaderContext, VertexBufferObject vertexBufferObject, IndexBufferObject indexBufferObject) {
         for (Uniform uniform : localUniforms.values()) {
             uniform.setter.set(this, uniform.location, shaderContext);
@@ -421,10 +393,6 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     }
 
     public void end() {
-        if (currentMesh != null) {
-            currentMesh.unbind(program, tempArray.items);
-            currentMesh = null;
-        }
         program.end();
     }
 
