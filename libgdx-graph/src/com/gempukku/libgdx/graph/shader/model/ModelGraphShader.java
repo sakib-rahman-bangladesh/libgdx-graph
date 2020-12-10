@@ -41,7 +41,7 @@ public class ModelGraphShader extends GraphShader {
         renderables.clear();
     }
 
-    private final int[] getAttributeLocations(final VertexAttributes attrs) {
+    private int[] getAttributeLocations(final VertexAttributes attrs) {
         tempArray.clear();
         final int n = attrs.size();
         for (int i = 0; i < n; i++) {
