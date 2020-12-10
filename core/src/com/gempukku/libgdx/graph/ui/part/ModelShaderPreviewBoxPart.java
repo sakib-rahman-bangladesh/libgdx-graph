@@ -14,13 +14,13 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
-import com.gempukku.libgdx.graph.ui.shader.model.producer.ModelShaderPreviewWidget;
+import com.gempukku.libgdx.graph.ui.shader.model.ModelShaderPreviewWidget;
 
-public class ShaderPreviewBoxPart extends Table implements GraphBoxPart<ShaderFieldType> {
+public class ModelShaderPreviewBoxPart extends Table implements GraphBoxPart<ShaderFieldType> {
     private final ModelShaderPreviewWidget shaderPreviewWidget;
     private final SelectBox<ModelShaderPreviewWidget.ShaderPreviewModel> selectBox;
 
-    public ShaderPreviewBoxPart(Skin skin) {
+    public ModelShaderPreviewBoxPart(Skin skin) {
         super(skin);
         shaderPreviewWidget = new ModelShaderPreviewWidget(200, 200);
         selectBox = new SelectBox<ModelShaderPreviewWidget.ShaderPreviewModel>(skin);

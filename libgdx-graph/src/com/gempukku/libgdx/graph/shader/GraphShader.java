@@ -10,7 +10,7 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
-public class GraphShader extends UniformCachingShader implements GraphShaderContext {
+public abstract class GraphShader extends UniformCachingShader implements GraphShaderContext {
     private Array<Disposable> disposableList = new Array<>();
     private ObjectMap<String, PropertySource> propertySourceMap;
     private ShaderProgram shaderProgram;

@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.shader;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,9 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.g3d.utils.TextureDescriptor;
-import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -376,20 +373,6 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
             if (uniform.startIndex != -1)
                 uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
         }
-    }
-
-    public void renderParticles(ShaderContext shaderContext, VertexBufferObject vertexBufferObject, IndexBufferObject indexBufferObject) {
-        for (Uniform uniform : localUniforms.values()) {
-            uniform.setter.set(this, uniform.location, shaderContext);
-        }
-        for (StructArrayUniform uniform : localStructArrayUniforms.values()) {
-            uniform.setter.set(this, uniform.startIndex, uniform.fieldOffsets, uniform.size, shaderContext);
-        }
-        vertexBufferObject.bind(program);
-        indexBufferObject.bind();
-        Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, indexBufferObject.getNumIndices(), GL20.GL_UNSIGNED_SHORT, 0);
-        vertexBufferObject.unbind(program);
-        indexBufferObject.unbind();
     }
 
     public void end() {

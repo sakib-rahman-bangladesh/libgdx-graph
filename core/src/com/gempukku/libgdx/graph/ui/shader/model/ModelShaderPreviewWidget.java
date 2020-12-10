@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.ui.shader.model.producer;
+package com.gempukku.libgdx.graph.ui.shader.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;

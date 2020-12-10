@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.PropertyContainer;
-import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.particles.generator.ParticleGenerator;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
@@ -135,7 +134,7 @@ public class GraphParticleEffect implements Disposable {
         nextParticleIndex = (nextParticleIndex + 1) % particleEffectConfiguration.getMaxNumberOfParticles();
     }
 
-    public void render(GraphShader graphShader, ShaderContext shaderContext) {
+    public void render(ParticlesGraphShader graphShader, ShaderContext shaderContext) {
         if (shaderContext.getTimeProvider().getTime() < maxParticleDeath) {
             graphShader.renderParticles(shaderContext, vbo, ibo);
         }
