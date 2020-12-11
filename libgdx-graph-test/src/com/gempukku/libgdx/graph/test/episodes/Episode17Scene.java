@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.test;
+package com.gempukku.libgdx.graph.test.episodes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -26,11 +26,13 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.Transforms;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
+import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
+import com.gempukku.libgdx.graph.test.WhitePixel;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class TestScene implements LibgdxGraphTestScene {
+public class Episode17Scene implements LibgdxGraphTestScene {
     private PipelineRenderer pipelineRenderer;
     private Camera camera;
     private Stage stage;

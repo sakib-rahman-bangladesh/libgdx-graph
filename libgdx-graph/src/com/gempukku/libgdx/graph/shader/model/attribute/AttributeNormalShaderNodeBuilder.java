@@ -35,7 +35,7 @@ public class AttributeNormalShaderNodeBuilder extends ConfigurationShaderNodeBui
         } else if (coordinates.equals("world")) {
             vertexShaderBuilder.addUniformVariable("u_normalWorldTrans", "mat4", false, UniformSetters.normalWorldTrans);
             String name = "result_" + nodeId;
-            vertexShaderBuilder.addMainLine("vec3" + " " + name + " = normalize((normalWorldTrans * skinning * vec4(a_normal, 0.0)).xyz);");
+            vertexShaderBuilder.addMainLine("vec3" + " " + name + " = normalize((u_normalWorldTrans * skinning * vec4(a_normal, 0.0)).xyz);");
             return LibGDXCollections.singletonMap("normal", new DefaultFieldOutput(ShaderFieldType.Vector3, name));
         }
         throw new IllegalArgumentException();
