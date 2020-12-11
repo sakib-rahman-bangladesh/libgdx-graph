@@ -10,21 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.gempukku.libgdx.graph.test.episodes.Episode11Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode12Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode13Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode14Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode15Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode16Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode1Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode2Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode3Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode4Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode5Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode6Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode7Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode8Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode9Scene;
+import com.gempukku.libgdx.graph.test.episodes.*;
 
 public class ReloadableGraphTestApplication extends ApplicationAdapter {
     private LibgdxGraphTestScene[] scenes;
@@ -49,7 +35,7 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
                 new Episode14Scene(),
                 new Episode15Scene(),
                 new Episode16Scene(),
-                new TestScene()
+                new Episode17Scene()
         };
         loadedIndex = scenes.length - 1;
     }

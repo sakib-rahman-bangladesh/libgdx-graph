@@ -113,7 +113,7 @@ public class Episode17Scene implements LibgdxGraphTestScene {
                     }
                 });
 
-        final Slider outlineWidth = new Slider(0f, 0.3f, 0.001f, false, skin);
+        final Slider outlineWidth = new Slider(0f, 0.1f, 0.001f, false, skin);
         outlineWidth.setValue(0.01f);
         outlineWidth.addListener(
                 new ChangeListener() {
@@ -126,7 +126,7 @@ public class Episode17Scene implements LibgdxGraphTestScene {
         Stage stage = new Stage(new ScreenViewport());
 
         Table tbl = new Table(skin);
-        tbl.add(selected).colspan(2).row();
+        tbl.add(selected).left().colspan(2).row();
         tbl.add("Width");
         tbl.add(outlineWidth).row();
 
@@ -170,7 +170,7 @@ public class Episode17Scene implements LibgdxGraphTestScene {
 
     private PipelineRenderer loadPipelineRenderer() {
         try {
-            InputStream stream = Gdx.files.local("test.json").read();
+            InputStream stream = Gdx.files.local("episodes/episode17.json").read();
             try {
                 PipelineRenderer pipelineRenderer = GraphLoader.loadGraph(stream, new PipelineLoaderCallback());
                 setupPipeline(pipelineRenderer);
