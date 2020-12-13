@@ -25,9 +25,6 @@ public class ParticlesShaderConfiguration implements GraphConfiguration {
         addGraphShaderNodeBuilder(new ParticleSeedShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ParticleLifetimeShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ParticleLifePercentageShaderNodeBuilder());
-
-        // Property
-        addGraphShaderNodeBuilder(new ParticlesPropertyShaderNodeBuilder());
     }
 
     private static void addGraphShaderNodeBuilder(GraphShaderNodeBuilder builder) {

@@ -27,9 +27,6 @@ public class ModelShaderConfiguration implements GraphConfiguration {
         // End
         addGraphShaderNodeBuilder(new EndGraphShaderNodeBuilder());
 
-        // Property
-        addGraphShaderNodeBuilder(new ModelPropertyShaderNodeBuilder());
-
         // Attributes
         addGraphShaderNodeBuilder(new AttributePositionShaderNodeBuilder());
         addGraphShaderNodeBuilder(new AttributeNormalShaderNodeBuilder());

@@ -13,9 +13,6 @@ public class ScreenShaderConfiguration implements GraphConfiguration {
     static {
         // End
         addGraphShaderNodeBuilder(new EndScreenShaderNodeBuilder());
-
-        // Property
-        addGraphShaderNodeBuilder(new ScreenPropertyShaderNodeBuilder());
     }
 
     private static void addGraphShaderNodeBuilder(GraphShaderNodeBuilder builder) {

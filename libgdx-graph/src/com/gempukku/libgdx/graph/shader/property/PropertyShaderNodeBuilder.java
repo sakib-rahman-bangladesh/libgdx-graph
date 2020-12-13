@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.particles;
+package com.gempukku.libgdx.graph.shader.property;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,7 +25,7 @@ import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.util.LibGDXCollections;
 
-public class ParticlesPropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
+public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
     @Override
     public String getType() {
         return "Property";
