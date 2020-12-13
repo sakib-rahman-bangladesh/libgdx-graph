@@ -20,6 +20,7 @@ public class ParticlesDataContainer implements Disposable {
     );
     private final static int numberOfFloatsInVertex = 3 + 1 + 1 + 1 + 2;
 
+    private Object[] particleDataStorage;
     private float[] particlesData;
     private VertexBufferObject vbo;
     private IndexBufferObject ibo;
@@ -31,9 +32,11 @@ public class ParticlesDataContainer implements Disposable {
     private int firstDirtyParticle = Integer.MAX_VALUE;
     private int lastDirtyParticle = -1;
 
-    public ParticlesDataContainer(int numberOfParticles) {
+    public ParticlesDataContainer(int numberOfParticles, boolean storeParticleData) {
         this.numberOfParticles = numberOfParticles;
         initBuffers();
+        if (storeParticleData)
+            particleDataStorage = new Object[numberOfParticles];
     }
 
     private void initBuffers() {
@@ -80,6 +83,9 @@ public class ParticlesDataContainer implements Disposable {
 
     public void generateParticle(float particleTime, ParticleGenerator particleGenerator) {
         particleGenerator.generateParticle(tempGenerateInfo);
+        if (particleDataStorage != null)
+            particleDataStorage[nextParticleIndex] = tempGenerateInfo.particleData;
+
         float particleDeath = particleTime + tempGenerateInfo.lifeLength;
         for (int i = 0; i < 4; i++) {
             int vertexIndex = getVertexIndex(nextParticleIndex, i);
@@ -136,6 +142,9 @@ public class ParticlesDataContainer implements Disposable {
                 tempUpdateInfo.location.set(particlesData[particleDataIndex + 0], particlesData[particleDataIndex + 1], particlesData[particleDataIndex + 2]);
                 tempUpdateInfo.seed = particlesData[particleDataIndex + 3];
                 particleUpdater.updateParticle(tempUpdateInfo);
+
+                if (particleDataStorage != null)
+                    particleDataStorage[i] = tempGenerateInfo.particleData;
 
                 for (int vertex = 0; vertex < 4; vertex++) {
                     int vertexIndex = getVertexIndex(i, vertex);

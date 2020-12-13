@@ -28,12 +28,17 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposabl
 
     @Override
     public String createEffect(String tag, ParticleGenerator particleGenerator) {
+        return createEffect(tag, particleGenerator, null);
+    }
+
+    @Override
+    public <T> String createEffect(String tag, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass) {
         ParticleEffectConfiguration configuration = effectsConfiguration.get(tag);
         if (configuration == null)
             throw new IllegalArgumentException("Unable to find particle effect with tag - " + tag);
 
         String effectId = randomIdGenerator.generateId();
-        GraphParticleEffect particleEffect = new GraphParticleEffect(tag, configuration, particleGenerator);
+        GraphParticleEffect particleEffect = new GraphParticleEffect(tag, configuration, particleGenerator, particleDataClass != null);
         particleEffects.put(effectId, particleEffect);
 
         return effectId;
@@ -46,6 +51,11 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposabl
 
     @Override
     public void updateParticles(String effectId, ParticleUpdater particleUpdater) {
+        updateParticles(effectId, particleUpdater, null);
+    }
+
+    @Override
+    public <T> void updateParticles(String effectId, ParticleUpdater<T> particleUpdater, Class<T> particleDataClass) {
         particleEffects.get(effectId).update(timeProvider, particleUpdater);
     }
 

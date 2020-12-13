@@ -17,6 +17,8 @@ public interface GraphParticleEffects {
      */
     String createEffect(String tag, ParticleGenerator particleGenerator);
 
+    <T> String createEffect(String tag, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass);
+
     /**
      * Starts generation of particles for the identified effect.
      *
@@ -31,6 +33,8 @@ public interface GraphParticleEffects {
      * @param particleUpdater A class that is called to update each particle.
      */
     void updateParticles(String effectId, ParticleUpdater particleUpdater);
+
+    <T> void updateParticles(String effectId, ParticleUpdater<T> particleUpdater, Class<T> particleDataClass);
 
     /**
      * Stops generation of particles for the identified effect.

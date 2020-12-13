@@ -25,12 +25,13 @@ public class GraphParticleEffect implements Disposable {
 
     private float lastParticleGenerated;
 
-    public GraphParticleEffect(String tag, ParticleEffectConfiguration particleEffectConfiguration, ParticleGenerator particleGenerator) {
+    public GraphParticleEffect(String tag, ParticleEffectConfiguration particleEffectConfiguration, ParticleGenerator particleGenerator,
+                               boolean storeParticleData) {
         this.tag = tag;
         this.particleEffectConfiguration = particleEffectConfiguration;
         this.particleGenerator = particleGenerator;
 
-        initializeBuffers(particleEffectConfiguration);
+        initializeBuffers(particleEffectConfiguration, storeParticleData);
     }
 
     public PropertyContainer getPropertyContainer() {
@@ -41,11 +42,11 @@ public class GraphParticleEffect implements Disposable {
         return tag;
     }
 
-    private void initializeBuffers(ParticleEffectConfiguration particleEffectConfiguration) {
+    private void initializeBuffers(ParticleEffectConfiguration particleEffectConfiguration, boolean storeParticleData) {
         int particlesToCreate = particleEffectConfiguration.getMaxNumberOfParticles();
         while (particlesToCreate > 0) {
             int containerCount = Math.min(particlesToCreate, MAX_NUMBER_OF_PARTICLES_PER_CONTAINER);
-            particlesData.add(new ParticlesDataContainer(containerCount));
+            particlesData.add(new ParticlesDataContainer(containerCount, storeParticleData));
             particlesToCreate -= containerCount;
         }
     }
