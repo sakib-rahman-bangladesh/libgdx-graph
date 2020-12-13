@@ -3,12 +3,18 @@ package com.gempukku.libgdx.graph.shader.particles;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.particles.generator.ParticleGenerator;
+import com.gempukku.libgdx.graph.time.TimeProvider;
 import com.gempukku.libgdx.graph.util.RandomIdGenerator;
 
 public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposable {
     private ObjectMap<String, GraphParticleEffect> particleEffects = new ObjectMap<>();
     private ObjectMap<String, ParticleEffectConfiguration> effectsConfiguration = new ObjectMap<>();
     private RandomIdGenerator randomIdGenerator = new RandomIdGenerator(16);
+    private TimeProvider timeProvider;
+
+    public void setTimeProvider(TimeProvider timeProvider) {
+        this.timeProvider = timeProvider;
+    }
 
     public void registerEffect(String tag, int maxNumberOfParticles, int initialParticles, float particlesPerSecond) {
         if (effectsConfiguration.containsKey(tag))
@@ -40,7 +46,7 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposabl
 
     @Override
     public void updateParticles(String effectId, ParticleUpdater particleUpdater) {
-        particleEffects.get(effectId).update(particleUpdater);
+        particleEffects.get(effectId).update(timeProvider, particleUpdater);
     }
 
     @Override

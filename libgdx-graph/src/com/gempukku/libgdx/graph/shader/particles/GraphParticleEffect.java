@@ -1,10 +1,7 @@
 package com.gempukku.libgdx.graph.shader.particles;
 
-import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
-import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
@@ -13,18 +10,9 @@ import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class GraphParticleEffect implements Disposable {
-    private final static int MAX_NUMBER_OF_PARTICLES = Short.MAX_VALUE / 4;
+    private final static int MAX_NUMBER_OF_PARTICLES_PER_CONTAINER = Short.MAX_VALUE / 4;
 
-    private final static ParticleGenerator.ParticleInfo tempInfo = new ParticleGenerator.ParticleInfo();
     private final static float[] tempData = new float[6];
-    private final static VertexAttributes vertexAttributes = new VertexAttributes(
-            VertexAttribute.Position(),
-            new VertexAttribute(512, 1, "a_seed"),
-            new VertexAttribute(1024, 1, "a_birthTime"),
-            new VertexAttribute(2048, 1, "a_deathTime"),
-            VertexAttribute.TexCoords(0)
-    );
-    private final static int numberOfFloatsInVertex = 3 + 1 + 1 + 1 + 2;
 
     private String tag;
     private ParticleEffectConfiguration particleEffectConfiguration;
@@ -32,12 +20,10 @@ public class GraphParticleEffect implements Disposable {
     private PropertyContainerImpl propertyContainer = new PropertyContainerImpl();
     private boolean running = false;
 
-    private VertexBufferObject vbo;
-    private IndexBufferObject ibo;
+    private Array<ParticlesDataContainer> particlesData = new Array<>();
     private int nextParticleIndex = 0;
 
     private float lastParticleGenerated;
-    private float maxParticleDeath;
 
     public GraphParticleEffect(String tag, ParticleEffectConfiguration particleEffectConfiguration, ParticleGenerator particleGenerator) {
         this.tag = tag;
@@ -55,39 +41,13 @@ public class GraphParticleEffect implements Disposable {
         return tag;
     }
 
-    private int getVertexIndex(int particleIndex, int vertexInParticle) {
-        return ((particleIndex * 4) + vertexInParticle) * numberOfFloatsInVertex;
-    }
-
     private void initializeBuffers(ParticleEffectConfiguration particleEffectConfiguration) {
-        int maxNumberOfParticles = particleEffectConfiguration.getMaxNumberOfParticles();
-        vbo = new VertexBufferObject(false, maxNumberOfParticles * 4, vertexAttributes);
-
-        int dataLength = maxNumberOfParticles * 4 * numberOfFloatsInVertex;
-        float[] vertexData = new float[dataLength];
-        for (int particle = 0; particle < maxNumberOfParticles; particle++) {
-            for (int vertex = 0; vertex < 4; vertex++) {
-                int dataIndex = getVertexIndex(particle, vertex);
-                vertexData[dataIndex + 6] = vertex % 2;
-                vertexData[dataIndex + 7] = (float) (vertex / 2);
-            }
+        int particlesToCreate = particleEffectConfiguration.getMaxNumberOfParticles();
+        while (particlesToCreate > 0) {
+            int containerCount = Math.min(particlesToCreate, MAX_NUMBER_OF_PARTICLES_PER_CONTAINER);
+            particlesData.add(new ParticlesDataContainer(containerCount));
+            particlesToCreate -= containerCount;
         }
-        vbo.setVertices(vertexData, 0, dataLength);
-
-        int numberOfIndices = 6 * maxNumberOfParticles;
-        ibo = new IndexBufferObject(false, numberOfIndices);
-        short[] indices = new short[numberOfIndices];
-        int vertexIndex = 0;
-        for (int i = 0; i < numberOfIndices; i += 6) {
-            indices[i + 0] = (short) (vertexIndex * 4 + 0);
-            indices[i + 1] = (short) (vertexIndex * 4 + 2);
-            indices[i + 2] = (short) (vertexIndex * 4 + 1);
-            indices[i + 3] = (short) (vertexIndex * 4 + 2);
-            indices[i + 4] = (short) (vertexIndex * 4 + 3);
-            indices[i + 5] = (short) (vertexIndex * 4 + 1);
-            vertexIndex++;
-        }
-        ibo.setIndices(indices, 0, indices.length);
     }
 
     public void generateParticles(TimeProvider timeProvider) {
@@ -97,45 +57,57 @@ public class GraphParticleEffect implements Disposable {
                 // This is first invocation after start
                 int particlesToGenerate = Math.min(particleEffectConfiguration.getInitialParticles(), particleEffectConfiguration.getMaxNumberOfParticles());
 
-                for (int i = 0; i < particlesToGenerate; i++) {
-                    generateParticle(currentTime);
+                for (ParticlesDataContainer particlesDatum : particlesData) {
+                    int numberOfParticles = particlesDatum.getNumberOfParticles();
+                    int toGenerate = Math.min(particlesToGenerate, numberOfParticles);
+                    for (int i = 0; i < toGenerate; i++) {
+                        particlesDatum.generateParticle(currentTime, particleGenerator);
+                    }
+                    particlesToGenerate -= toGenerate;
+                    if (particlesToGenerate == 0)
+                        break;
                 }
+                nextParticleIndex = (nextParticleIndex + particlesToGenerate) % particleEffectConfiguration.getMaxNumberOfParticles();
                 lastParticleGenerated = currentTime;
             } else {
                 float timeElapsed = currentTime - lastParticleGenerated;
                 float particleDelay = particleEffectConfiguration.getParticleDelay();
                 int particleCount = MathUtils.floor(timeElapsed / particleDelay);
-                for (int i = 0; i < particleCount; i++) {
-                    generateParticle(lastParticleGenerated + particleDelay * (i + 1));
+                while (particleCount > 0) {
+                    ParticlesDataContainer container = findContainerForIndex(nextParticleIndex);
+                    int remainingCapacity = container.getRemainingCapacity();
+                    int createCount = Math.min(remainingCapacity, particleCount);
+                    for (int i = 0; i < createCount; i++) {
+                        container.generateParticle(lastParticleGenerated + particleDelay * (i + 1), particleGenerator);
+                    }
+                    particleCount -= createCount;
+                    nextParticleIndex = (nextParticleIndex + createCount) % particleEffectConfiguration.getMaxNumberOfParticles();
+                    lastParticleGenerated += particleDelay * createCount;
                 }
-                lastParticleGenerated += particleDelay * particleCount;
             }
         }
     }
 
-    private void generateParticle(float currentTime) {
-        particleGenerator.generateParticle(tempInfo);
-        tempData[0] = tempInfo.location.x;
-        tempData[1] = tempInfo.location.y;
-        tempData[2] = tempInfo.location.z;
-        tempData[3] = tempInfo.seed;
-        tempData[4] = currentTime;
-        float particleDeath = tempData[4] + tempInfo.lifeLength;
-        tempData[5] = particleDeath;
-
-        maxParticleDeath = Math.max(maxParticleDeath, particleDeath);
-
-        vbo.updateVertices(getVertexIndex(nextParticleIndex, 0), tempData, 0, tempData.length);
-        vbo.updateVertices(getVertexIndex(nextParticleIndex, 1), tempData, 0, tempData.length);
-        vbo.updateVertices(getVertexIndex(nextParticleIndex, 2), tempData, 0, tempData.length);
-        vbo.updateVertices(getVertexIndex(nextParticleIndex, 3), tempData, 0, tempData.length);
-
-        nextParticleIndex = (nextParticleIndex + 1) % particleEffectConfiguration.getMaxNumberOfParticles();
+    private ParticlesDataContainer findContainerForIndex(int particleIndex) {
+        int skipped = 0;
+        for (ParticlesDataContainer particlesDatum : particlesData) {
+            int numberOfParticles = particlesDatum.getNumberOfParticles();
+            if (numberOfParticles > particleIndex - skipped) {
+                return particlesDatum;
+            } else {
+                skipped += numberOfParticles;
+            }
+        }
+        return null;
     }
 
     public void render(ParticlesGraphShader graphShader, ShaderContext shaderContext) {
-        if (shaderContext.getTimeProvider().getTime() < maxParticleDeath) {
-            graphShader.renderParticles(shaderContext, vbo, ibo);
+        for (ParticlesDataContainer particlesDatum : particlesData) {
+            particlesDatum.applyPendingChanges();
+        }
+        float currentTime = shaderContext.getTimeProvider().getTime();
+        for (ParticlesDataContainer particlesDatum : particlesData) {
+            particlesDatum.render(graphShader, shaderContext, currentTime);
         }
     }
 
@@ -146,8 +118,11 @@ public class GraphParticleEffect implements Disposable {
         lastParticleGenerated = -1f;
     }
 
-    public void update(ParticleUpdater particleUpdater) {
-        // TODO
+    public void update(TimeProvider timeProvider, ParticleUpdater particleUpdater) {
+        float currentTime = timeProvider.getTime();
+        for (ParticlesDataContainer particlesDatum : particlesData) {
+            particlesDatum.update(particleUpdater, currentTime);
+        }
     }
 
     public void stop() {
@@ -170,7 +145,8 @@ public class GraphParticleEffect implements Disposable {
 
     @Override
     public void dispose() {
-        vbo.dispose();
-        ibo.dispose();
+        for (ParticlesDataContainer particlesDatum : particlesData) {
+            particlesDatum.dispose();
+        }
     }
 }

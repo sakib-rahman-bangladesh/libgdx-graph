@@ -146,6 +146,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         public void update() {
+            particleEffects.setTimeProvider(timeKeeper);
             for (GraphParticleEffect particleEffect : particleEffects.getParticleEffects()) {
                 particleEffect.generateParticles(timeKeeper);
             }

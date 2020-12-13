@@ -34,7 +34,7 @@ public class PointParticleGenerator implements ParticleGenerator {
     }
 
     @Override
-    public void generateParticle(ParticleInfo particle) {
+    public void generateParticle(ParticleGenerateInfo particle) {
         particle.location.set(location);
         particle.seed = seed.getValue(MathUtils.random());
         particle.lifeLength = lifeLength.getValue(MathUtils.random());
