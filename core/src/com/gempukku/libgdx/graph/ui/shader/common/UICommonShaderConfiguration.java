@@ -70,6 +70,7 @@ import com.gempukku.libgdx.graph.shader.config.common.shape.CheckerboardShapeSha
 import com.gempukku.libgdx.graph.shader.config.common.shape.DotShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.shape.EllipseShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.shape.RectangleShapeShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.common.shape.StarShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.texture.Sampler2DShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.value.ValueBooleanShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.value.ValueColorShaderNodeConfiguration;
@@ -181,6 +182,7 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration<ShaderF
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CheckerboardShapeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new EllipseShapeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new RectangleShapeShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new StarShapeShaderNodeConfiguration()));
 
         graphBoxProducers.add(new TimeShaderBoxProducer());
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new CameraPositionShaderNodeConfiguration()));

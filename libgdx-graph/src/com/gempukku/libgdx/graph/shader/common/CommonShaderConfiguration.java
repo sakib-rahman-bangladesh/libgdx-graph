@@ -73,6 +73,7 @@ import com.gempukku.libgdx.graph.shader.common.shape.CheckerboardShapeShaderNode
 import com.gempukku.libgdx.graph.shader.common.shape.DotShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.shape.EllipseShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.shape.RectangleShapeShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.common.shape.StarShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.texture.Sampler2DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.value.ValueBooleanShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.value.ValueColorShaderNodeBuilder;
@@ -181,6 +182,7 @@ public class CommonShaderConfiguration implements GraphConfiguration {
         addGraphShaderNodeBuilder(new CheckerboardShapeShaderNodeBuilder());
         addGraphShaderNodeBuilder(new EllipseShapeShaderNodeBuilder());
         addGraphShaderNodeBuilder(new RectangleShapeShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new StarShapeShaderNodeBuilder());
 
         // Provided
         addGraphShaderNodeBuilder(new TimeGraphShaderNodeBuilder());

@@ -12,6 +12,7 @@
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/simplexNoise2d.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/simplexNoise3d.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/simplexNoise4d.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/shape/starShape.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/applyNormalMap.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/directionalLightContribution.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/packFloatToVec3.glsl"/>
