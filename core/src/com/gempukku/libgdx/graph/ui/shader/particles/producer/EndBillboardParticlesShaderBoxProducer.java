@@ -16,7 +16,7 @@ import com.gempukku.libgdx.graph.ui.part.FloatBoxPart;
 import com.gempukku.libgdx.graph.ui.part.IntegerBoxPart;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
-import com.gempukku.libgdx.graph.ui.shader.model.ModelShaderPreviewBoxPart;
+import com.gempukku.libgdx.graph.ui.shader.particles.ParticlesShaderPreviewBoxPart;
 import com.kotcrab.vis.ui.util.Validators;
 
 public class EndBillboardParticlesShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
@@ -31,7 +31,7 @@ public class EndBillboardParticlesShaderBoxProducer extends GraphBoxProducerImpl
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        final ModelShaderPreviewBoxPart previewBoxPart = new ModelShaderPreviewBoxPart(skin);
+        final ParticlesShaderPreviewBoxPart previewBoxPart = new ParticlesShaderPreviewBoxPart(skin);
         previewBoxPart.initialize(data);
 
         GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, getConfiguration(), skin) {
