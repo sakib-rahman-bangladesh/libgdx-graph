@@ -56,7 +56,7 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposabl
 
     @Override
     public <T> void updateParticles(String effectId, ParticleUpdater<T> particleUpdater, Class<T> particleDataClass) {
-        particleEffects.get(effectId).update(timeProvider, particleUpdater);
+        particleEffects.get(effectId).update(timeProvider, particleUpdater, particleDataClass != null);
     }
 
     @Override

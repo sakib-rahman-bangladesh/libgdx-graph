@@ -119,10 +119,10 @@ public class GraphParticleEffect implements Disposable {
         lastParticleGenerated = -1f;
     }
 
-    public void update(TimeProvider timeProvider, ParticleUpdater particleUpdater) {
+    public void update(TimeProvider timeProvider, ParticleUpdater particleUpdater, boolean accessToData) {
         float currentTime = timeProvider.getTime();
         for (ParticlesDataContainer particlesDatum : particlesData) {
-            particlesDatum.update(particleUpdater, currentTime);
+            particlesDatum.update(particleUpdater, currentTime, accessToData);
         }
     }
 

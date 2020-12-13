@@ -135,15 +135,17 @@ public class ParticlesDataContainer implements Disposable {
         ibo.dispose();
     }
 
-    public void update(ParticleUpdater particleUpdater, float currentTime) {
+    public void update(ParticleUpdater particleUpdater, float currentTime, boolean accessToData) {
         for (int i = 0; i < numberOfParticles; i++) {
             int particleDataIndex = getVertexIndex(i, 0);
             if (currentTime < particlesData[particleDataIndex + 5]) {
                 tempUpdateInfo.location.set(particlesData[particleDataIndex + 0], particlesData[particleDataIndex + 1], particlesData[particleDataIndex + 2]);
                 tempUpdateInfo.seed = particlesData[particleDataIndex + 3];
+                if (accessToData && particleDataStorage != null)
+                    tempUpdateInfo.particleData = particleDataStorage[i];
                 particleUpdater.updateParticle(tempUpdateInfo);
 
-                if (particleDataStorage != null)
+                if (accessToData && particleDataStorage != null)
                     particleDataStorage[i] = tempGenerateInfo.particleData;
 
                 for (int vertex = 0; vertex < 4; vertex++) {
