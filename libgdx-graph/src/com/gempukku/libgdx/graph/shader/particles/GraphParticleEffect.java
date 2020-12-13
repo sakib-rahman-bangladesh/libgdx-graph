@@ -10,9 +10,7 @@ import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class GraphParticleEffect implements Disposable {
-    private final static int MAX_NUMBER_OF_PARTICLES_PER_CONTAINER = Short.MAX_VALUE / 4;
-
-    private final static float[] tempData = new float[6];
+    private final static int MAX_NUMBER_OF_PARTICLES_PER_CONTAINER = 256 * 256 / 4 - 1;
 
     private String tag;
     private ParticleEffectConfiguration particleEffectConfiguration;
