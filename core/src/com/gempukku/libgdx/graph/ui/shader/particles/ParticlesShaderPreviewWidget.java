@@ -179,11 +179,12 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
         if (frameBuffer != null) {
             batch.end();
 
-            particleEffect.generateParticles(shaderContext.getTimeProvider());
 
             timeKeeper.updateTime(Gdx.graphics.getDeltaTime());
             Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
             try {
+                particleEffect.generateParticles(shaderContext.getTimeProvider());
+
                 frameBuffer.begin();
                 camera.viewportWidth = width;
                 camera.viewportHeight = height;
