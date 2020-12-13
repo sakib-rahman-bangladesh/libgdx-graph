@@ -19,7 +19,7 @@ const float SIGMA_HELPER = 3.5676;
 
 float kernel[MAX_BLUR];
 
-UNPACK_FUNCTION
+UNPACK_FUNCTION;
 
 void initializeKernel(int blur) {
     for (int i=0; i <= MAX_BLUR; i++) {
