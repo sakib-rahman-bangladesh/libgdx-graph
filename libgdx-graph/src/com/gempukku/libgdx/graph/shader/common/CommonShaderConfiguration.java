@@ -14,6 +14,7 @@ import com.gempukku.libgdx.graph.shader.common.math.arithmetic.AddShaderNodeBuil
 import com.gempukku.libgdx.graph.shader.common.math.arithmetic.DivideShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.arithmetic.MultiplyShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.arithmetic.OneMinusShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.common.math.arithmetic.ReciprocalShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.arithmetic.SubtractShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.common.AbsShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.common.CeilingShaderNodeBuilder;
@@ -101,6 +102,7 @@ public class CommonShaderConfiguration implements GraphConfiguration {
         addGraphShaderNodeBuilder(new OneMinusShaderNodeBuilder());
         addGraphShaderNodeBuilder(new MultiplyShaderNodeBuilder());
         addGraphShaderNodeBuilder(new DivideShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new ReciprocalShaderNodeBuilder());
 
         // Math - exponential
         addGraphShaderNodeBuilder(new PowerShaderNodeBuilder());

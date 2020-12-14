@@ -13,6 +13,7 @@ import com.gempukku.libgdx.graph.shader.config.common.math.arithmetic.AddShaderN
 import com.gempukku.libgdx.graph.shader.config.common.math.arithmetic.DivideShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.math.arithmetic.MultiplyShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.math.arithmetic.OneMinusShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.common.math.arithmetic.ReciprocalShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.math.arithmetic.SubtractShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.math.common.AbsShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.math.common.CeilingShaderNodeConfiguration;
@@ -122,6 +123,7 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration<ShaderF
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new OneMinusShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new MultiplyShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new DivideShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ReciprocalShaderNodeConfiguration()));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new PowerShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ExponentialShaderNodeConfiguration()));
