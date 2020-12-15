@@ -48,9 +48,4 @@ public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl<ShaderField
         result.addGraphBoxPart(previewBoxPart);
         return result;
     }
-
-    @Override
-    public GraphBox<ShaderFieldType> createDefault(Skin skin, String id) {
-        return createPipelineGraphBox(skin, id, null);
-    }
 }

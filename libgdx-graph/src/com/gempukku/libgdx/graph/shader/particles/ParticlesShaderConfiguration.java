@@ -7,6 +7,7 @@ import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.particles.particle.ParticleLifePercentageShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.particles.particle.ParticleLifetimeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.particles.particle.ParticleLocationShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.particles.particle.ParticleRandomShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.particles.particle.ParticleSeedShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.particles.particle.ParticleUVShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
@@ -23,6 +24,7 @@ public class ParticlesShaderConfiguration implements GraphConfiguration {
         addGraphShaderNodeBuilder(new ParticleLocationShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ParticleUVShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ParticleSeedShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new ParticleRandomShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ParticleLifetimeShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ParticleLifePercentageShaderNodeBuilder());
     }

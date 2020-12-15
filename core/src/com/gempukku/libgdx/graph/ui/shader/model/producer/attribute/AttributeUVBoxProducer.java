@@ -23,9 +23,4 @@ public class AttributeUVBoxProducer extends GraphBoxProducerImpl<ShaderFieldType
         result.addGraphBoxPart(attributeUV);
         return result;
     }
-
-    @Override
-    public GraphBox<ShaderFieldType> createDefault(Skin skin, String id) {
-        return createPipelineGraphBox(skin, id, null);
-    }
 }

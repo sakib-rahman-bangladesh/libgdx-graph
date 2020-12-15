@@ -25,11 +25,4 @@ public class ScreenShaderRendererBoxProducer extends GraphBoxProducerImpl<Pipeli
 
         return result;
     }
-
-    @Override
-    public GraphBox<PipelineFieldType> createDefault(Skin skin, String id) {
-        return createPipelineGraphBox(skin, id, null);
-    }
-
-
 }

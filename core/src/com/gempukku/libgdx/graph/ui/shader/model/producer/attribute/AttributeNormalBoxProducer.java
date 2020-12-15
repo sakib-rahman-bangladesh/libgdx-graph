@@ -22,9 +22,4 @@ public class AttributeNormalBoxProducer extends GraphBoxProducerImpl<ShaderField
         result.addGraphBoxPart(coordinatesBox);
         return result;
     }
-
-    @Override
-    public GraphBoxImpl<ShaderFieldType> createDefault(Skin skin, String id) {
-        return createPipelineGraphBox(skin, id, null);
-    }
 }

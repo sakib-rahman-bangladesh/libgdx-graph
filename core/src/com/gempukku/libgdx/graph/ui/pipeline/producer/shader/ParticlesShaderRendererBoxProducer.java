@@ -22,9 +22,4 @@ public class ParticlesShaderRendererBoxProducer extends GraphBoxProducerImpl<Pip
         result.addGraphBoxPart(graphBoxPart);
         return result;
     }
-
-    @Override
-    public GraphBox<PipelineFieldType> createDefault(Skin skin, String id) {
-        return createPipelineGraphBox(skin, id, null);
-    }
 }

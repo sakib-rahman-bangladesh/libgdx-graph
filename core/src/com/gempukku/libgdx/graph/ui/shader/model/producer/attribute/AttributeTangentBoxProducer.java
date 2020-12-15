@@ -23,9 +23,4 @@ public class AttributeTangentBoxProducer extends GraphBoxProducerImpl<ShaderFiel
         result.addGraphBoxPart(coordinatesBox);
         return result;
     }
-
-    @Override
-    public GraphBox<ShaderFieldType> createDefault(Skin skin, String id) {
-        return createPipelineGraphBox(skin, id, null);
-    }
 }

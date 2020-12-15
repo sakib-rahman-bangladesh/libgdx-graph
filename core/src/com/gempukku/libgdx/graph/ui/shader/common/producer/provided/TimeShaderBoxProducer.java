@@ -19,20 +19,12 @@ public class TimeShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType>
         float multiplier = 1f;
         if (data != null && data.has("multiplier"))
             multiplier = data.getFloat("multiplier");
-        return createBox(skin, id, multiplier);
-    }
 
-    private GraphBox<ShaderFieldType> createBox(Skin skin, String id, float multiplier) {
         GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
         FloatBoxPart<ShaderFieldType> multiplierPart = new FloatBoxPart<ShaderFieldType>(skin, "Multiplier", "multiplier", multiplier, null);
         result.addGraphBoxPart(multiplierPart);
 
         addConfigurationInputsAndOutputs(skin, result);
         return result;
-    }
-
-    @Override
-    public GraphBox<ShaderFieldType> createDefault(Skin skin, String id) {
-        return createBox(skin, id, 1f);
     }
 }
