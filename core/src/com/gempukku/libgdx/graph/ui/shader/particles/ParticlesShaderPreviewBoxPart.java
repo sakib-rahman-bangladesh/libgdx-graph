@@ -71,7 +71,7 @@ public class ParticlesShaderPreviewBoxPart extends Table implements GraphBoxPart
                     }
                 });
 
-        add(new Separator()).colspan(2).growX().row();
+        add(new Separator()).colspan(2).pad(5).growX().row();
         add("Shape: ");
         add(selectBox).growX().row();
         add("Lifetime:").colspan(2).growX().row();

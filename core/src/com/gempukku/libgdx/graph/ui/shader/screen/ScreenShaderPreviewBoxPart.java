@@ -21,7 +21,7 @@ public class ScreenShaderPreviewBoxPart extends Table implements GraphBoxPart<Sh
         super(skin);
         shaderPreviewWidget = new ScreenShaderPreviewWidget(200, 200);
 
-        add(new Separator()).growX().row();
+        add(new Separator()).pad(5).growX().row();
         add(shaderPreviewWidget).grow().row();
     }
 

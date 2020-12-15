@@ -34,7 +34,7 @@ public class ModelShaderPreviewBoxPart extends Table implements GraphBoxPart<Sha
                     }
                 });
 
-        add(new Separator()).colspan(2).growX().row();
+        add(new Separator()).colspan(2).pad(5).growX().row();
         add("Preview model: ");
         add(selectBox).growX().row();
         add(shaderPreviewWidget).colspan(2).grow().row();
