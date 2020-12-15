@@ -5,6 +5,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Cubemap;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureArray;
@@ -33,6 +34,7 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
     private int loadedIndex;
     private int width;
     private int height;
+    private FPSLogger fpsLogger = new FPSLogger();
 
     public ReloadableGraphTestApplication() {
         scenes = new LibgdxGraphTestScene[]{
@@ -88,6 +90,8 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
             scenes[loadedIndex].initializeScene();
             scenes[loadedIndex].resizeScene(width, height);
         }
+
+        fpsLogger.log();
 
         scenes[loadedIndex].renderScene();
     }

@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.test.episodes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
@@ -42,7 +41,6 @@ public class Episode18Scene implements LibgdxGraphTestScene {
     private Stage stage;
     private Skin skin;
     private GraphShaderEnvironment lights;
-    private FPSLogger fpsLogger = new FPSLogger();
 
     private Model model;
     private float cameraDistance = 2f;
@@ -170,8 +168,6 @@ public class Episode18Scene implements LibgdxGraphTestScene {
     @Override
     public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
-        fpsLogger.log();
-
         stage.act(delta);
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);

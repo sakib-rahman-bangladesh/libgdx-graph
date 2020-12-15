@@ -21,16 +21,12 @@ public class LineParticleGenerator<T> extends AbstractParticleGenerator<T> {
         super(lifeLength);
     }
 
-    public LineParticleGenerator(FloatValue seed, FloatValue lifeLength) {
-        super(seed, lifeLength);
+    public LineParticleGenerator(FloatValue lifeLength, Predicate<Vector3> locationPredicate) {
+        super(lifeLength, locationPredicate);
     }
 
-    public LineParticleGenerator(FloatValue seed, FloatValue lifeLength, Predicate<Vector3> locationPredicate) {
-        super(seed, lifeLength, locationPredicate);
-    }
-
-    public LineParticleGenerator(FloatValue seed, FloatValue lifeLength, Predicate<Vector3> locationPredicate, ParticleDataGenerator<T> particleDataGenerator) {
-        super(seed, lifeLength, locationPredicate, particleDataGenerator);
+    public LineParticleGenerator(FloatValue lifeLength, Predicate<Vector3> locationPredicate, ParticleDataGenerator<T> particleDataGenerator) {
+        super(lifeLength, locationPredicate, particleDataGenerator);
     }
 
     public Vector3 getPoint1() {

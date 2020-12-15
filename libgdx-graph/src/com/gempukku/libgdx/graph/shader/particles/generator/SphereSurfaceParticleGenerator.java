@@ -21,16 +21,12 @@ public class SphereSurfaceParticleGenerator<T> extends AbstractParticleGenerator
         super(lifeLength);
     }
 
-    public SphereSurfaceParticleGenerator(FloatValue seed, FloatValue lifeLength) {
-        super(seed, lifeLength);
+    public SphereSurfaceParticleGenerator(FloatValue lifeLength, Predicate<Vector3> locationPredicate) {
+        super(lifeLength, locationPredicate);
     }
 
-    public SphereSurfaceParticleGenerator(FloatValue seed, FloatValue lifeLength, Predicate<Vector3> locationPredicate) {
-        super(seed, lifeLength, locationPredicate);
-    }
-
-    public SphereSurfaceParticleGenerator(FloatValue seed, FloatValue lifeLength, Predicate<Vector3> locationPredicate, ParticleDataGenerator<T> particleDataGenerator) {
-        super(seed, lifeLength, locationPredicate, particleDataGenerator);
+    public SphereSurfaceParticleGenerator(FloatValue lifeLength, Predicate<Vector3> locationPredicate, ParticleDataGenerator<T> particleDataGenerator) {
+        super(lifeLength, locationPredicate, particleDataGenerator);
     }
 
     public Vector3 getCenter() {
