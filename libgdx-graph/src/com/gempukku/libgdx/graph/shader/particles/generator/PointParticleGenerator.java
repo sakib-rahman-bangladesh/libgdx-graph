@@ -1,32 +1,29 @@
 package com.gempukku.libgdx.graph.shader.particles.generator;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.gempukku.libgdx.graph.shader.particles.generator.value.FloatValue;
-import com.gempukku.libgdx.graph.shader.particles.generator.value.IdentityValue;
-import com.gempukku.libgdx.graph.shader.particles.generator.value.RangeFloatValue;
-import com.gempukku.libgdx.graph.shader.particles.generator.value.StaticFloatValue;
 
-public class PointParticleGenerator implements ParticleGenerator {
+public class PointParticleGenerator<T> extends AbstractParticleGenerator<T> {
     private Vector3 location = new Vector3();
-    private FloatValue seed;
-    private FloatValue lifeLength;
 
     public PointParticleGenerator(float lifeLength) {
-        this(new StaticFloatValue(lifeLength));
+        super(lifeLength);
     }
 
     public PointParticleGenerator(float minLifeLength, float maxLifeLength) {
-        this(new RangeFloatValue(minLifeLength, maxLifeLength));
+        super(minLifeLength, maxLifeLength);
     }
 
     public PointParticleGenerator(FloatValue lifeLength) {
-        this(IdentityValue.Instance, lifeLength);
+        super(lifeLength);
     }
 
     public PointParticleGenerator(FloatValue seed, FloatValue lifeLength) {
-        this.seed = seed;
-        this.lifeLength = lifeLength;
+        super(seed, lifeLength);
+    }
+
+    public PointParticleGenerator(FloatValue seed, FloatValue lifeLength, ParticleDataGenerator<T> particleDataGenerator) {
+        super(seed, lifeLength, particleDataGenerator);
     }
 
     public Vector3 getLocation() {
@@ -34,9 +31,7 @@ public class PointParticleGenerator implements ParticleGenerator {
     }
 
     @Override
-    public void generateParticle(ParticleGenerateInfo particle) {
+    protected void generateLocation(ParticleGenerateInfo<T> particle) {
         particle.location.set(location);
-        particle.seed = seed.getValue(MathUtils.random());
-        particle.lifeLength = lifeLength.getValue(MathUtils.random());
     }
 }
