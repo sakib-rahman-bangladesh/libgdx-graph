@@ -53,7 +53,7 @@ public class EndBillboardParticlesShaderBoxProducer extends GraphBoxProducerImpl
         initialCountBox.initialize(data);
         result.addGraphBoxPart(initialCountBox);
 
-        FloatBoxPart<ShaderFieldType> perSecondCountBox = new FloatBoxPart<>(skin, "Particles per second ", "perSecondParticles", 1f,
+        FloatBoxPart<ShaderFieldType> perSecondCountBox = new FloatBoxPart<>(skin, "Particles/second ", "perSecondParticles", 1f,
                 new Validators.GreaterThanValidator(0, false));
         perSecondCountBox.initialize(data);
         result.addGraphBoxPart(perSecondCountBox);

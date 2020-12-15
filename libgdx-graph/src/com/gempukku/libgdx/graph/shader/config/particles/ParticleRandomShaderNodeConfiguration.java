@@ -6,7 +6,7 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 
 public class ParticleRandomShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
     public ParticleRandomShaderNodeConfiguration() {
-        super("ParticleRandom", "Random", "Particle");
+        super("ParticleRandom", "Particle Random", "Particle");
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("value", "Value", ShaderFieldType.Float));
     }
