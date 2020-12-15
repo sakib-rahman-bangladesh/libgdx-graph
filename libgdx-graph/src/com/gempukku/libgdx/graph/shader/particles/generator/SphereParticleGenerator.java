@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.shader.particles.generator;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Predicate;
 import com.gempukku.libgdx.graph.shader.particles.generator.value.FloatValue;
 
 public class SphereParticleGenerator<T> extends AbstractParticleGenerator<T> {
@@ -24,8 +25,12 @@ public class SphereParticleGenerator<T> extends AbstractParticleGenerator<T> {
         super(seed, lifeLength);
     }
 
-    public SphereParticleGenerator(FloatValue seed, FloatValue lifeLength, ParticleDataGenerator<T> particleDataGenerator) {
-        super(seed, lifeLength, particleDataGenerator);
+    public SphereParticleGenerator(FloatValue seed, FloatValue lifeLength, Predicate<Vector3> locationPredicate) {
+        super(seed, lifeLength, locationPredicate);
+    }
+
+    public SphereParticleGenerator(FloatValue seed, FloatValue lifeLength, Predicate<Vector3> locationPredicate, ParticleDataGenerator<T> particleDataGenerator) {
+        super(seed, lifeLength, locationPredicate, particleDataGenerator);
     }
 
     public Vector3 getCenter() {
@@ -37,7 +42,7 @@ public class SphereParticleGenerator<T> extends AbstractParticleGenerator<T> {
     }
 
     @Override
-    protected void generateLocation(ParticleGenerateInfo<T> particle) {
+    protected void generateLocation(Vector3 location) {
         // Uniformly distribute the points on sphere using Marsaglia (1972) method from
         // https://mathworld.wolfram.com/SpherePointPicking.html
 
@@ -53,7 +58,7 @@ public class SphereParticleGenerator<T> extends AbstractParticleGenerator<T> {
                 float z = 1 - 2 * (x1Square + x2Square);
 
                 float r = (float) Math.pow(MathUtils.random(0, radius), 1d / 3d);
-                particle.location.set(r * x, r * y, r * z);
+                location.set(r * x, r * y, r * z);
                 break;
             }
         }

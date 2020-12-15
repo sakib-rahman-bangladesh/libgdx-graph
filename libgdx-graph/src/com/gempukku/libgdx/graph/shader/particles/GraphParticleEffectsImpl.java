@@ -45,6 +45,17 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposabl
     }
 
     @Override
+    public void setGenerator(String effectId, ParticleGenerator particleGenerator) {
+        setGenerator(effectId, particleGenerator, null);
+    }
+
+    @Override
+    public <T> void setGenerator(String effectId, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass) {
+        GraphParticleEffect particleEffect = particleEffects.get(effectId);
+        particleEffect.setParticleGenerator(particleGenerator);
+    }
+
+    @Override
     public void startEffect(String effectId) {
         particleEffects.get(effectId).start();
     }

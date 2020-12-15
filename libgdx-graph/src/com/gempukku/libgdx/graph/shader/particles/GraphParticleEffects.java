@@ -31,6 +31,10 @@ public interface GraphParticleEffects {
      */
     <T> String createEffect(String tag, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass);
 
+    void setGenerator(String effectId, ParticleGenerator particleGenerator);
+
+    <T> void setGenerator(String effectId, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass);
+
     /**
      * Starts generation of particles for the identified effect.
      *

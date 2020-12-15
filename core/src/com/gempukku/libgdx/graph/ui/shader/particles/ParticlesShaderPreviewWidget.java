@@ -29,12 +29,20 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.shader.particles.ParticleEffectConfiguration;
 import com.gempukku.libgdx.graph.shader.particles.ParticlesGraphShader;
+import com.gempukku.libgdx.graph.shader.particles.generator.LineParticleGenerator;
+import com.gempukku.libgdx.graph.shader.particles.generator.ParticleGenerator;
 import com.gempukku.libgdx.graph.shader.particles.generator.PointParticleGenerator;
+import com.gempukku.libgdx.graph.shader.particles.generator.SphereParticleGenerator;
+import com.gempukku.libgdx.graph.shader.particles.generator.SphereSurfaceParticleGenerator;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
+    public enum ShaderPreviewModel {
+        Point, SphereSurface, Sphere, Line
+    }
+
     private boolean shaderInitialized;
     private boolean running;
     private int width;
@@ -49,6 +57,8 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     private GraphShaderEnvironment graphShaderEnvironment;
     private ShaderContextImpl shaderContext;
     private GraphParticleEffect particleEffect;
+    private ShaderPreviewModel model = ShaderPreviewModel.Point;
+    private float lifetime = 3f;
 
     public ParticlesShaderPreviewWidget(int width, int height) {
         this.width = width;
@@ -74,6 +84,20 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
         shaderContext.setRenderWidth(width);
         shaderContext.setRenderHeight(height);
         shaderContext.setColorTexture(PatternTextures.sharedInstance.texture);
+    }
+
+    public void setLifetime(float lifetime) {
+        this.lifetime = lifetime;
+        if (particleEffect != null) {
+            particleEffect.setParticleGenerator(createGenerator());
+        }
+    }
+
+    public void setModel(ShaderPreviewModel model) {
+        this.model = model;
+        if (particleEffect != null) {
+            particleEffect.setParticleGenerator(createGenerator());
+        }
     }
 
     public void setCameraDistance(float distance) {
@@ -152,9 +176,28 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
 
         particleEffect = new GraphParticleEffect("tag", new ParticleEffectConfiguration(
                 graphShader.getMaxNumberOfParticles(), graphShader.getInitialParticles(), 1f / graphShader.getPerSecondParticles()),
-                new PointParticleGenerator(10), false);
+                createGenerator(), false);
         if (running)
             particleEffect.start();
+    }
+
+    private ParticleGenerator createGenerator() {
+        switch (model) {
+            case Point:
+                return new PointParticleGenerator(lifetime);
+            case Sphere:
+                return new SphereParticleGenerator(lifetime);
+            case SphereSurface:
+                return new SphereSurfaceParticleGenerator(lifetime);
+            case Line: {
+                LineParticleGenerator particleGenerator = new LineParticleGenerator(lifetime);
+                particleGenerator.getPoint1().set(0, 0, -1f);
+                particleGenerator.getPoint2().set(0, 0, 1f);
+                return particleGenerator;
+            }
+
+        }
+        return null;
     }
 
     private void destroyShader() {

@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.shader.particles.generator;
 
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Predicate;
 import com.gempukku.libgdx.graph.shader.particles.generator.value.FloatValue;
 
 public class PointParticleGenerator<T> extends AbstractParticleGenerator<T> {
@@ -22,8 +23,12 @@ public class PointParticleGenerator<T> extends AbstractParticleGenerator<T> {
         super(seed, lifeLength);
     }
 
-    public PointParticleGenerator(FloatValue seed, FloatValue lifeLength, ParticleDataGenerator<T> particleDataGenerator) {
-        super(seed, lifeLength, particleDataGenerator);
+    public PointParticleGenerator(FloatValue seed, FloatValue lifeLength, Predicate<Vector3> locationPredicate) {
+        super(seed, lifeLength, locationPredicate);
+    }
+
+    public PointParticleGenerator(FloatValue seed, FloatValue lifeLength, Predicate<Vector3> locationPredicate, ParticleDataGenerator<T> particleDataGenerator) {
+        super(seed, lifeLength, locationPredicate, particleDataGenerator);
     }
 
     public Vector3 getLocation() {
@@ -31,7 +36,7 @@ public class PointParticleGenerator<T> extends AbstractParticleGenerator<T> {
     }
 
     @Override
-    protected void generateLocation(ParticleGenerateInfo<T> particle) {
-        particle.location.set(location);
+    protected void generateLocation(Vector3 location) {
+        location.set(this.location);
     }
 }

@@ -14,6 +14,7 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
+import com.kotcrab.vis.ui.widget.Separator;
 
 public class ModelShaderPreviewBoxPart extends Table implements GraphBoxPart<ShaderFieldType> {
     private final ModelShaderPreviewWidget shaderPreviewWidget;
@@ -24,9 +25,6 @@ public class ModelShaderPreviewBoxPart extends Table implements GraphBoxPart<Sha
         shaderPreviewWidget = new ModelShaderPreviewWidget(200, 200);
         selectBox = new SelectBox<ModelShaderPreviewWidget.ShaderPreviewModel>(skin);
         selectBox.setItems(ModelShaderPreviewWidget.ShaderPreviewModel.values());
-        add("Preview model: ");
-        add(selectBox).growX().row();
-        add(shaderPreviewWidget).colspan(2).grow().row();
 
         selectBox.addListener(
                 new ChangeListener() {
@@ -35,6 +33,11 @@ public class ModelShaderPreviewBoxPart extends Table implements GraphBoxPart<Sha
                         shaderPreviewWidget.setModel(selectBox.getSelected());
                     }
                 });
+
+        add(new Separator()).colspan(2).growX().row();
+        add("Preview model: ");
+        add(selectBox).growX().row();
+        add(shaderPreviewWidget).colspan(2).grow().row();
     }
 
     public void initialize(JsonValue data) {

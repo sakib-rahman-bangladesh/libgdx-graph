@@ -32,6 +32,10 @@ public class GraphParticleEffect implements Disposable {
         initializeBuffers(particleEffectConfiguration, storeParticleData);
     }
 
+    public void setParticleGenerator(ParticleGenerator particleGenerator) {
+        this.particleGenerator = particleGenerator;
+    }
+
     public PropertyContainer getPropertyContainer() {
         return propertyContainer;
     }

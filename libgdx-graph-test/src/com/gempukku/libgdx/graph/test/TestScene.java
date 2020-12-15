@@ -17,7 +17,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
-import com.gempukku.libgdx.graph.shader.particles.generator.PointParticleGenerator;
+import com.gempukku.libgdx.graph.shader.particles.generator.SphereSurfaceParticleGenerator;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,8 +71,7 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private void createParticleEffects(GraphParticleEffects effects) {
-        PointParticleGenerator particleGenerator = new PointParticleGenerator(10f);
-        particleGenerator.getLocation().set(0, 0, 0);
+        SphereSurfaceParticleGenerator particleGenerator = new SphereSurfaceParticleGenerator(10f);
         String effectId = effects.createEffect("effect", particleGenerator);
         effects.startEffect(effectId);
     }

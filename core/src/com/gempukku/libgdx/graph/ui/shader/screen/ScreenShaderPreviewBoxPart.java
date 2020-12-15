@@ -12,6 +12,7 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
+import com.kotcrab.vis.ui.widget.Separator;
 
 public class ScreenShaderPreviewBoxPart extends Table implements GraphBoxPart<ShaderFieldType> {
     private final ScreenShaderPreviewWidget shaderPreviewWidget;
@@ -19,6 +20,8 @@ public class ScreenShaderPreviewBoxPart extends Table implements GraphBoxPart<Sh
     public ScreenShaderPreviewBoxPart(Skin skin) {
         super(skin);
         shaderPreviewWidget = new ScreenShaderPreviewWidget(200, 200);
+
+        add(new Separator()).growX().row();
         add(shaderPreviewWidget).grow().row();
     }
 
