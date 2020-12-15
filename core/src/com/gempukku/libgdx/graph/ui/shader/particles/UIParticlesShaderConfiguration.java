@@ -4,7 +4,6 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.config.particles.ParticleLifePercentageShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.particles.ParticleLifetimeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.particles.ParticleLocationShaderNodeConfiguration;
-import com.gempukku.libgdx.graph.shader.config.particles.ParticleSeedShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.particles.ParticleUVShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
@@ -26,7 +25,6 @@ public class UIParticlesShaderConfiguration implements UIGraphConfiguration<Shad
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ParticleLocationShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ParticleUVShaderNodeConfiguration()));
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ParticleSeedShaderNodeConfiguration()));
         graphBoxProducers.add(new ParticleRandomShaderBoxProducer());
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ParticleLifetimeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ParticleLifePercentageShaderNodeConfiguration()));
