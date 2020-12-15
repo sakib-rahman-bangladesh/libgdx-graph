@@ -27,6 +27,7 @@ public interface GraphParticleEffects {
      * @param tag               Tag identifying the particle effect to generate.
      * @param particleGenerator Particle generator used to generate particles.
      * @param particleDataClass Class used for storing per-particle data.
+     * @param <T>               Class used for particle data
      * @return Generated id of the particle effect, it is used to identify the particle effect.
      */
     <T> String createEffect(String tag, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass);
@@ -56,6 +57,7 @@ public interface GraphParticleEffects {
      * @param effectId          Id of the effect to update.
      * @param particleUpdater   A class that is called to update each particle.
      * @param particleDataClass Class used for storing per-particle data.
+     * @param <T>               Class used for particle data
      */
     <T> void updateParticles(String effectId, ParticleUpdater<T> particleUpdater, Class<T> particleDataClass);
 
