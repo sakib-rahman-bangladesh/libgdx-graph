@@ -1,6 +1,6 @@
 float permute(float x)
 {
-    return floor(mod(((x * 34.0) + 1.0) * x, 289.0));
+    return mod(((x * 34.0) + 1.0) * x, 289.0);
 }
 
 vec3 permute(vec3 x) {
