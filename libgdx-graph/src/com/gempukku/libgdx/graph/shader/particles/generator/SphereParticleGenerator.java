@@ -58,7 +58,7 @@ public class SphereParticleGenerator<T> extends AbstractParticleGenerator<T> {
                 float z = 1 - 2 * (x1Square + x2Square);
 
                 float r = (float) Math.pow(MathUtils.random(0, radius), 1d / 3d);
-                location.set(r * x, r * y, r * z);
+                location.set(center.x + r * x, center.y + r * y, center.z + r * z);
                 break;
             }
         }
