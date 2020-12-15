@@ -8,6 +8,8 @@
       "y": 50.0,
       "data": {
         "maxParticles": 100,
+        "initialParticles": 0,
+        "perSecondParticles": 1,
         "culling": "back",
         "transparency": "opaque",
         "blending": "alpha",

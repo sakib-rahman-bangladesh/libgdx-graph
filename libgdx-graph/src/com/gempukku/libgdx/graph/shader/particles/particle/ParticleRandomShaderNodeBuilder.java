@@ -21,11 +21,12 @@ public class ParticleRandomShaderNodeBuilder extends ConfigurationShaderNodeBuil
 
     public ParticleRandomShaderNodeBuilder() {
         super(new ParticleRandomShaderNodeConfiguration());
-        multiplier = MathUtils.random(1000f, 10000f);
     }
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildVertexNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
+        multiplier = MathUtils.random(1000f, 10000f);
+
         vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 1, "a_seed"), "a_seed", "float");
 
         float min = data.getFloat("min");
@@ -44,6 +45,8 @@ public class ParticleRandomShaderNodeBuilder extends ConfigurationShaderNodeBuil
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildFragmentNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
+        multiplier = MathUtils.random(1000f, 10000f);
+
         vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 1, "a_seed"), "a_seed", "float");
 
         if (!vertexShaderBuilder.hasVaryingVariable("v_seed")) {

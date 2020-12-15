@@ -1,0 +1,555 @@
+{
+  "version": "0.2.0",
+  "nodes": [
+    {
+      "id": "72be9695e45949ccb5f449dbacdfd619",
+      "type": "Property",
+      "x": 50.0,
+      "y": 700.0,
+      "data": {
+        "name": "Camera",
+        "type": "Camera"
+      }
+    },
+    {
+      "id": "a9ef339d56654f4c8f7445b45b3bed0b",
+      "type": "Property",
+      "x": 184.0,
+      "y": 133.0,
+      "data": {
+        "name": "Stage",
+        "type": "Stage"
+      }
+    },
+    {
+      "id": "3e7ce090af2a4abbbc187472adc25bcd",
+      "type": "GraphShaderRenderer",
+      "x": 312.0,
+      "y": 625.0,
+      "data": {
+        "shaders": [
+          {
+            "id": "d1c8d69e0ba54495a56ad6d13476fc2e",
+            "tag": "Default",
+            "shader": {
+              "version": "0.2.0",
+              "nodes": [
+                {
+                  "id": "5729fe78109c49c1b91ec0fb31c22e83",
+                  "type": "AttributeUV",
+                  "x": 109.0,
+                  "y": 396.0,
+                  "data": {
+                    "channel": "UV0"
+                  }
+                },
+                {
+                  "id": "493943d6bccf4f46b6370df948ebd8c3",
+                  "type": "DiffuseTexture",
+                  "x": 50.0,
+                  "y": 483.0,
+                  "data": {
+                    "previewPath": null
+                  }
+                },
+                {
+                  "id": "aa4a1c592eb0466ba51cf271272a1ce8",
+                  "type": "Sampler2D",
+                  "x": 302.0000305175781,
+                  "y": 351.0
+                },
+                {
+                  "id": "end",
+                  "type": "ShaderEnd",
+                  "x": 701.0,
+                  "y": 50.0,
+                  "data": {
+                    "culling": "back",
+                    "blending": "opaque",
+                    "depthTest": "less"
+                  }
+                }
+              ],
+              "connections": [
+                {
+                  "fromNode": "5729fe78109c49c1b91ec0fb31c22e83",
+                  "fromField": "uv",
+                  "toNode": "aa4a1c592eb0466ba51cf271272a1ce8",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "493943d6bccf4f46b6370df948ebd8c3",
+                  "fromField": "texture",
+                  "toNode": "aa4a1c592eb0466ba51cf271272a1ce8",
+                  "toField": "texture"
+                },
+                {
+                  "fromNode": "aa4a1c592eb0466ba51cf271272a1ce8",
+                  "fromField": "color",
+                  "toNode": "end",
+                  "toField": "color"
+                }
+              ],
+              "properties": [],
+              "groups": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "50f414bd4ecb4a01a52ae1e8be315763",
+      "type": "Property",
+      "x": 51.0,
+      "y": 634.0,
+      "data": {
+        "name": "Lights",
+        "type": "GraphLights"
+      }
+    },
+    {
+      "id": "6fc2003ff7514ec689c1f007eb36c3d0",
+      "type": "ParticlesShaderRenderer",
+      "x": 311.0,
+      "y": 280.0,
+      "data": {
+        "shaders": [
+          {
+            "id": "9b7b5c1020fa4d55bf43d0b7416382c6",
+            "tag": "exhaust",
+            "shader": {
+              "version": "0.2.0",
+              "nodes": [
+                {
+                  "id": "9b2635990a634b048d3e3f7f0382eb0a",
+                  "type": "ValueVector2",
+                  "x": 477.0,
+                  "y": 464.0,
+                  "data": {
+                    "v1": 0.0,
+                    "v2": 1.0
+                  }
+                },
+                {
+                  "id": "315fad323fff4ff0a9c30a6fc2d75c1c",
+                  "type": "ParticleRandom",
+                  "x": 50.0,
+                  "y": 769.0,
+                  "data": {
+                    "min": -0.10000000149011612,
+                    "max": 0.10000000149011612
+                  }
+                },
+                {
+                  "id": "be1fb036ff4d4530a4f5a482f5e999ca",
+                  "type": "ValueColor",
+                  "x": 544.0,
+                  "y": 234.0,
+                  "data": {
+                    "color": "1a1818ff"
+                  }
+                },
+                {
+                  "id": "7d3e4b0612ae448a848551e1a02d6481",
+                  "type": "Multiply",
+                  "x": 661.0,
+                  "y": 669.0
+                },
+                {
+                  "id": "952708382d0c4193ab2d06b70c422daf",
+                  "type": "Merge",
+                  "x": 250.0,
+                  "y": 795.0
+                },
+                {
+                  "id": "16d36a7bdf51433ba26679639a2c77ef",
+                  "type": "OneMinus",
+                  "x": 796.0,
+                  "y": 116.0
+                },
+                {
+                  "id": "a974867b59ab463bb942146e1330ea79",
+                  "type": "ParticleLifePercentage",
+                  "x": 586.0,
+                  "y": 82.0
+                },
+                {
+                  "id": "b37637924b3546b19177103e785f60b2",
+                  "type": "Multiply",
+                  "x": 1028.0,
+                  "y": 289.0
+                },
+                {
+                  "id": "end",
+                  "type": "BillboardParticlesShaderEnd",
+                  "x": 1234.0,
+                  "y": 141.99998474121094,
+                  "data": {
+                    "maxParticles": 500,
+                    "initialParticles": 0,
+                    "perSecondParticles": 500.0,
+                    "blending": "additive",
+                    "depthTest": "less"
+                  }
+                },
+                {
+                  "id": "59fe9aedee3b4ae4a8421e8c558762c8",
+                  "type": "ParticleLifePercentage",
+                  "x": 420.0,
+                  "y": 620.0
+                },
+                {
+                  "id": "65506f6339e4492fa87ca46b5610ffe6",
+                  "type": "ParticleUV",
+                  "x": 550.0,
+                  "y": 345.0
+                },
+                {
+                  "id": "2f3646a2246340a8aa44aff0deaefb4f",
+                  "type": "DotShape",
+                  "x": 777.0,
+                  "y": 417.0
+                },
+                {
+                  "id": "d41b58d10b6d4196b0908d674edb6f55",
+                  "type": "ParticleRandom",
+                  "x": 50.0,
+                  "y": 877.0,
+                  "data": {
+                    "min": -0.30000001192092896,
+                    "max": 0.30000001192092896
+                  }
+                },
+                {
+                  "id": "85f7cc5bd4ab4cb9be65db801d053153",
+                  "type": "ParticleLocation",
+                  "x": 688.0,
+                  "y": 906.0
+                },
+                {
+                  "id": "2406529cdc1b40c3a314a741f12c2d26",
+                  "type": "Multiply",
+                  "x": 965.0,
+                  "y": 405.0
+                },
+                {
+                  "id": "42520e86140942578052edb5a60d3f92",
+                  "type": "ValueVector2",
+                  "x": 475.0,
+                  "y": 403.0,
+                  "data": {
+                    "v1": 0.05000000074505806,
+                    "v2": 0.30000001192092896
+                  }
+                },
+                {
+                  "id": "376305f96994464db552fcc2a869e0fb",
+                  "type": "Mix",
+                  "x": 775.0,
+                  "y": 212.0
+                },
+                {
+                  "id": "1c3ef81bb27b41e2b65464b6e06763d3",
+                  "type": "ParticleLifePercentage",
+                  "x": 555.0,
+                  "y": 538.0
+                },
+                {
+                  "id": "1c11c7feaad743c0849bfdd6877abfe8",
+                  "type": "Remap",
+                  "x": 764.0,
+                  "y": 493.0
+                },
+                {
+                  "id": "dce5ee07f18f4dd9a68af5b7ec3439aa",
+                  "type": "ParticleLifePercentage",
+                  "x": 520.0,
+                  "y": 149.0
+                },
+                {
+                  "id": "c2596fc6d8894c7a83257d1716e79135",
+                  "type": "ValueColor",
+                  "x": 541.0,
+                  "y": 290.0,
+                  "data": {
+                    "color": "5659a3ff"
+                  }
+                },
+                {
+                  "id": "2d6592b5b56e40bdbec1154449f8d11f",
+                  "type": "Add",
+                  "x": 840.0,
+                  "y": 738.0
+                },
+                {
+                  "id": "975bd5fefcc24fe2a5166140143a2c96",
+                  "type": "ValueFloat",
+                  "x": 797.0,
+                  "y": 50.0,
+                  "data": {
+                    "v1": 0.30000001192092896
+                  }
+                },
+                {
+                  "id": "95c089c69bd540da894838ac08ae1603",
+                  "type": "ValueFloat",
+                  "x": 50.0,
+                  "y": 705.0,
+                  "data": {
+                    "v1": -0.5
+                  }
+                }
+              ],
+              "connections": [
+                {
+                  "fromNode": "59fe9aedee3b4ae4a8421e8c558762c8",
+                  "fromField": "percentage",
+                  "toNode": "7d3e4b0612ae448a848551e1a02d6481",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "85f7cc5bd4ab4cb9be65db801d053153",
+                  "fromField": "position",
+                  "toNode": "2d6592b5b56e40bdbec1154449f8d11f",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "7d3e4b0612ae448a848551e1a02d6481",
+                  "fromField": "output",
+                  "toNode": "2d6592b5b56e40bdbec1154449f8d11f",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "2d6592b5b56e40bdbec1154449f8d11f",
+                  "fromField": "output",
+                  "toNode": "end",
+                  "toField": "position"
+                },
+                {
+                  "fromNode": "1c3ef81bb27b41e2b65464b6e06763d3",
+                  "fromField": "percentage",
+                  "toNode": "1c11c7feaad743c0849bfdd6877abfe8",
+                  "toField": "input"
+                },
+                {
+                  "fromNode": "1c11c7feaad743c0849bfdd6877abfe8",
+                  "fromField": "output",
+                  "toNode": "end",
+                  "toField": "size"
+                },
+                {
+                  "fromNode": "9b2635990a634b048d3e3f7f0382eb0a",
+                  "fromField": "value",
+                  "toNode": "1c11c7feaad743c0849bfdd6877abfe8",
+                  "toField": "from"
+                },
+                {
+                  "fromNode": "42520e86140942578052edb5a60d3f92",
+                  "fromField": "value",
+                  "toNode": "1c11c7feaad743c0849bfdd6877abfe8",
+                  "toField": "to"
+                },
+                {
+                  "fromNode": "dce5ee07f18f4dd9a68af5b7ec3439aa",
+                  "fromField": "percentage",
+                  "toNode": "376305f96994464db552fcc2a869e0fb",
+                  "toField": "t"
+                },
+                {
+                  "fromNode": "a974867b59ab463bb942146e1330ea79",
+                  "fromField": "percentage",
+                  "toNode": "16d36a7bdf51433ba26679639a2c77ef",
+                  "toField": "input"
+                },
+                {
+                  "fromNode": "c2596fc6d8894c7a83257d1716e79135",
+                  "fromField": "value",
+                  "toNode": "376305f96994464db552fcc2a869e0fb",
+                  "toField": "a"
+                },
+                {
+                  "fromNode": "be1fb036ff4d4530a4f5a482f5e999ca",
+                  "fromField": "value",
+                  "toNode": "376305f96994464db552fcc2a869e0fb",
+                  "toField": "b"
+                },
+                {
+                  "fromNode": "65506f6339e4492fa87ca46b5610ffe6",
+                  "fromField": "uv",
+                  "toNode": "2f3646a2246340a8aa44aff0deaefb4f",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "2f3646a2246340a8aa44aff0deaefb4f",
+                  "fromField": "output",
+                  "toNode": "2406529cdc1b40c3a314a741f12c2d26",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "376305f96994464db552fcc2a869e0fb",
+                  "fromField": "output",
+                  "toNode": "2406529cdc1b40c3a314a741f12c2d26",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "2406529cdc1b40c3a314a741f12c2d26",
+                  "fromField": "output",
+                  "toNode": "end",
+                  "toField": "color"
+                },
+                {
+                  "fromNode": "b37637924b3546b19177103e785f60b2",
+                  "fromField": "output",
+                  "toNode": "end",
+                  "toField": "alpha"
+                },
+                {
+                  "fromNode": "16d36a7bdf51433ba26679639a2c77ef",
+                  "fromField": "output",
+                  "toNode": "b37637924b3546b19177103e785f60b2",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "975bd5fefcc24fe2a5166140143a2c96",
+                  "fromField": "value",
+                  "toNode": "b37637924b3546b19177103e785f60b2",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "d41b58d10b6d4196b0908d674edb6f55",
+                  "fromField": "value",
+                  "toNode": "952708382d0c4193ab2d06b70c422daf",
+                  "toField": "x"
+                },
+                {
+                  "fromNode": "315fad323fff4ff0a9c30a6fc2d75c1c",
+                  "fromField": "value",
+                  "toNode": "952708382d0c4193ab2d06b70c422daf",
+                  "toField": "y"
+                },
+                {
+                  "fromNode": "95c089c69bd540da894838ac08ae1603",
+                  "fromField": "value",
+                  "toNode": "952708382d0c4193ab2d06b70c422daf",
+                  "toField": "z"
+                },
+                {
+                  "fromNode": "952708382d0c4193ab2d06b70c422daf",
+                  "fromField": "v3",
+                  "toNode": "7d3e4b0612ae448a848551e1a02d6481",
+                  "toField": "inputs"
+                }
+              ],
+              "properties": [],
+              "groups": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "dffb152d405a49d38792e850749129b2",
+      "type": "UIRenderer",
+      "x": 391.0,
+      "y": 136.0
+    },
+    {
+      "id": "end",
+      "type": "PipelineEnd",
+      "x": 391.0,
+      "y": 50.0
+    },
+    {
+      "id": "d54b356d4a1242cab5e6cb3f836b1930",
+      "type": "ValueColor",
+      "x": 188.0,
+      "y": 966.0,
+      "data": {
+        "color": "000000ff"
+      }
+    },
+    {
+      "id": "746da9b276d442f0bc74ed9847a26a4b",
+      "type": "PipelineStart",
+      "x": 391.0,
+      "y": 943.0
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "d54b356d4a1242cab5e6cb3f836b1930",
+      "fromField": "value",
+      "toNode": "746da9b276d442f0bc74ed9847a26a4b",
+      "toField": "background"
+    },
+    {
+      "fromNode": "dffb152d405a49d38792e850749129b2",
+      "fromField": "output",
+      "toNode": "end",
+      "toField": "input"
+    },
+    {
+      "fromNode": "a9ef339d56654f4c8f7445b45b3bed0b",
+      "fromField": "value",
+      "toNode": "dffb152d405a49d38792e850749129b2",
+      "toField": "stage"
+    },
+    {
+      "fromNode": "6fc2003ff7514ec689c1f007eb36c3d0",
+      "fromField": "output",
+      "toNode": "dffb152d405a49d38792e850749129b2",
+      "toField": "input"
+    },
+    {
+      "fromNode": "72be9695e45949ccb5f449dbacdfd619",
+      "fromField": "value",
+      "toNode": "6fc2003ff7514ec689c1f007eb36c3d0",
+      "toField": "camera"
+    },
+    {
+      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
+      "fromField": "value",
+      "toNode": "6fc2003ff7514ec689c1f007eb36c3d0",
+      "toField": "lights"
+    },
+    {
+      "fromNode": "746da9b276d442f0bc74ed9847a26a4b",
+      "fromField": "output",
+      "toNode": "3e7ce090af2a4abbbc187472adc25bcd",
+      "toField": "input"
+    },
+    {
+      "fromNode": "3e7ce090af2a4abbbc187472adc25bcd",
+      "fromField": "output",
+      "toNode": "6fc2003ff7514ec689c1f007eb36c3d0",
+      "toField": "input"
+    },
+    {
+      "fromNode": "72be9695e45949ccb5f449dbacdfd619",
+      "fromField": "value",
+      "toNode": "3e7ce090af2a4abbbc187472adc25bcd",
+      "toField": "camera"
+    },
+    {
+      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
+      "fromField": "value",
+      "toNode": "3e7ce090af2a4abbbc187472adc25bcd",
+      "toField": "lights"
+    }
+  ],
+  "properties": [
+    {
+      "name": "Camera",
+      "type": "Camera"
+    },
+    {
+      "name": "Stage",
+      "type": "Stage"
+    },
+    {
+      "name": "Lights",
+      "type": "GraphLights"
+    }
+  ],
+  "groups": []
+}
