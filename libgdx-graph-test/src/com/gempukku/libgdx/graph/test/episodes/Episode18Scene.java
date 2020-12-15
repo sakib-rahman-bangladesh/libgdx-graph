@@ -43,7 +43,7 @@ public class Episode18Scene implements LibgdxGraphTestScene {
     private GraphShaderEnvironment lights;
 
     private Model model;
-    private float cameraDistance = 2f;
+    private float cameraDistance = 1.5f;
     private float cameraPositionAngle = 0f;
 
     @Override
