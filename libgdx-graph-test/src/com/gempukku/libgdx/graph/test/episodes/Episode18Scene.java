@@ -156,7 +156,7 @@ public class Episode18Scene implements LibgdxGraphTestScene {
     }
 
     private void updateCamera() {
-        camera.position.set(cameraDistance * MathUtils.cos(cameraPositionAngle), 0, cameraDistance * MathUtils.sin(cameraPositionAngle));
+        camera.position.set(cameraDistance * MathUtils.cos(cameraPositionAngle), 1f, cameraDistance * MathUtils.sin(cameraPositionAngle));
         camera.up.set(0f, 1f, 0f);
         camera.lookAt(0f, 0f, 0f);
         camera.update();
