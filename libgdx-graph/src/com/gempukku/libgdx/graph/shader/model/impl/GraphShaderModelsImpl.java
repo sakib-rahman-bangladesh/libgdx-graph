@@ -62,7 +62,7 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
             vertexAttributes = new VertexAttributes(vertexAttributeArr);
         }
         String id = idGenerator.generateId();
-        ModelBasedGraphShaderModel graphShaderModel = new ModelBasedGraphShaderModel(id, idGenerator, model, vertexAttributes);
+        ModelBasedGraphShaderModel graphShaderModel = new ModelBasedGraphShaderModel(id, model, vertexAttributes);
         graphShaderModels.put(id, graphShaderModel);
         return id;
     }
@@ -101,9 +101,10 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
 
     @Override
     public String createModelInstance(String modelId, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
-        GraphShaderModelInstance graphShaderModelInstance = graphShaderModels.get(modelId).createInstance(modelInstanceOptimizationHints);
+        String instanceId = idGenerator.generateId();
+        GraphShaderModelInstance graphShaderModelInstance = graphShaderModels.get(modelId).createInstance(instanceId, modelInstanceOptimizationHints);
         models.add(graphShaderModelInstance);
-        return graphShaderModelInstance.getId();
+        return instanceId;
     }
 
     @Override

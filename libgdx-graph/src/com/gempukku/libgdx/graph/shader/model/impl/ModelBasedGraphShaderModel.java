@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
-import com.gempukku.libgdx.graph.util.IdGenerator;
 
 import java.util.Arrays;
 
@@ -21,11 +20,9 @@ public class ModelBasedGraphShaderModel implements GraphShaderModel, Disposable 
     private Model internalModel;
     private ObjectMap<String, TagOptimizationHint> defaultTags = new ObjectMap<>();
     private String id;
-    private IdGenerator idGenerator;
 
-    public ModelBasedGraphShaderModel(String id, IdGenerator idGenerator, Model model, VertexAttributes attributes) {
+    public ModelBasedGraphShaderModel(String id, Model model, VertexAttributes attributes) {
         this.id = id;
-        this.idGenerator = idGenerator;
         this.attributes = attributes;
         init(model);
     }
@@ -131,8 +128,7 @@ public class ModelBasedGraphShaderModel implements GraphShaderModel, Disposable 
     }
 
     @Override
-    public GraphShaderModelInstance createInstance(ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
-        String instanceId = idGenerator.generateId();
+    public GraphShaderModelInstance createInstance(String instanceId, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
         ModelBasedGraphShaderModelInstance graphShaderModelInstance = new ModelBasedGraphShaderModelInstance(instanceId, id, new ModelInstance(internalModel), modelInstanceOptimizationHints);
         for (ObjectMap.Entry<String, TagOptimizationHint> defaultTag : defaultTags.entries())
             graphShaderModelInstance.addTag(defaultTag.key, defaultTag.value);

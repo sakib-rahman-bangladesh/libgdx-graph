@@ -9,5 +9,5 @@ public interface GraphShaderModel extends Disposable {
 
     void removeDefaultTag(String tag);
 
-    GraphShaderModelInstance createInstance(ModelInstanceOptimizationHints modelInstanceOptimizationHints);
+    GraphShaderModelInstance createInstance(String instanceId, ModelInstanceOptimizationHints modelInstanceOptimizationHints);
 }
