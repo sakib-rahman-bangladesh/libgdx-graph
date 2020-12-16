@@ -37,7 +37,9 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
     private DistanceRenderableSorter sorter = new DistanceRenderableSorter();
 
     private ObjectMap<String, GraphShaderModel> graphShaderModels = new ObjectMap<>();
-    private Array<GraphShaderModelInstance> models = new Array<>();
+    private ObjectMap<String, GraphShaderModelInstance> models = new ObjectMap<>();
+
+    private Array<GraphShaderModelInstance> preparedForRendering = new Array<>();
 
     private IdGenerator idGenerator = new RandomIdGenerator(16);
     private Matrix4 transformTempMatrix = new Matrix4();
@@ -70,11 +72,10 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
     @Override
     public void removeModel(String modelId) {
         GraphShaderModel model = graphShaderModels.remove(modelId);
-        Array.ArrayIterator<GraphShaderModelInstance> iterator = models.iterator();
-        for (GraphShaderModelInstance graphShaderModelInstance : iterator) {
-            if (graphShaderModelInstance.getModelId().equals(modelId)) {
+        ObjectMap.Entries<String, GraphShaderModelInstance> iterator = models.iterator();
+        for (ObjectMap.Entry<String, GraphShaderModelInstance> entry : iterator) {
+            if (entry.value.getModelId().equals(modelId))
                 iterator.remove();
-            }
         }
         model.dispose();
     }
@@ -103,18 +104,13 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
     public String createModelInstance(String modelId, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
         String instanceId = idGenerator.generateId();
         GraphShaderModelInstance graphShaderModelInstance = graphShaderModels.get(modelId).createInstance(instanceId, modelInstanceOptimizationHints);
-        models.add(graphShaderModelInstance);
+        models.put(instanceId, graphShaderModelInstance);
         return instanceId;
     }
 
     @Override
     public void destroyModelInstance(String modelInstanceId) {
-        Array.ArrayIterator<GraphShaderModelInstance> iterator = models.iterator();
-        for (GraphShaderModelInstance graphShaderModelInstance : iterator) {
-            if (graphShaderModelInstance.getId().equals(modelInstanceId)) {
-                iterator.remove();
-            }
-        }
+        models.remove(modelInstanceId);
     }
 
     @Override
@@ -130,11 +126,7 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
     }
 
     private GraphShaderModelInstance getModelInstance(String modelInstanceId) {
-        for (GraphShaderModelInstance model : models) {
-            if (model.getId().equals(modelInstanceId))
-                return model;
-        }
-        return null;
+        return models.get(modelInstanceId);
     }
 
     @Override
@@ -187,31 +179,33 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
     public void prepareForRendering(Camera camera) {
         cameraPosition.set(camera.position);
         order = null;
+        preparedForRendering.clear();
+        models.values().toArray(preparedForRendering);
     }
 
     public void orderFrontToBack() {
         if (order == Order.Back_To_Front)
-            models.reverse();
+            preparedForRendering.reverse();
         if (order == null)
-            sorter.sort(cameraPosition, models, Order.Front_To_Back);
+            sorter.sort(cameraPosition, preparedForRendering, Order.Front_To_Back);
         order = Order.Front_To_Back;
     }
 
     public void orderBackToFront() {
         if (order == Order.Front_To_Back)
-            models.reverse();
+            preparedForRendering.reverse();
         if (order == null)
-            sorter.sort(cameraPosition, models, Order.Back_To_Front);
+            sorter.sort(cameraPosition, preparedForRendering, Order.Back_To_Front);
         order = Order.Back_To_Front;
     }
 
     public Iterable<? extends GraphShaderModelInstance> getModels() {
-        return models;
+        return models.values();
     }
 
     public boolean hasModelWithTag(String tag) {
-        for (GraphShaderModelInstance model : models) {
-            if (model.hasTag(tag))
+        for (GraphShaderModelInstance value : models.values()) {
+            if (value.hasTag(tag))
                 return true;
         }
         return false;
