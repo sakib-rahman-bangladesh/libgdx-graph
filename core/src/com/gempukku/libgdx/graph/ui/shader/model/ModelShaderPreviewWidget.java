@@ -35,7 +35,6 @@ import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelInstance;
 import com.gempukku.libgdx.graph.shader.model.impl.ModelBasedGraphShaderModel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
-import com.gempukku.libgdx.graph.util.RandomIdGenerator;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ModelShaderPreviewWidget extends Widget implements Disposable {
@@ -149,15 +148,15 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
                 1, 0, 0,
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        rectangleShaderModel = new ModelBasedGraphShaderModel("rectangle", new RandomIdGenerator(16), rectangleModel, vertexAttributes);
-        rectangleModelInstance = rectangleShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
+        rectangleShaderModel = new ModelBasedGraphShaderModel("rectangle", rectangleModel, vertexAttributes);
+        rectangleModelInstance = rectangleShaderModel.createInstance("rectangleInstance", ModelInstanceOptimizationHints.unoptimized);
 
         float sphereDiameter = 0.8f;
         sphereModel = modelBuilder.createSphere(sphereDiameter, sphereDiameter, sphereDiameter, 50, 50,
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        sphereShaderModel = new ModelBasedGraphShaderModel("sphere", new RandomIdGenerator(16), sphereModel, vertexAttributes);
-        sphereModelInstance = sphereShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
+        sphereShaderModel = new ModelBasedGraphShaderModel("sphere", sphereModel, vertexAttributes);
+        sphereModelInstance = sphereShaderModel.createInstance("sphereInstance", ModelInstanceOptimizationHints.unoptimized);
     }
 
     private void destroyShader() {

@@ -129,7 +129,7 @@ public class ModelBasedGraphShaderModel implements GraphShaderModel, Disposable 
 
     @Override
     public GraphShaderModelInstance createInstance(String instanceId, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
-        ModelBasedGraphShaderModelInstance graphShaderModelInstance = new ModelBasedGraphShaderModelInstance(instanceId, id, new ModelInstance(internalModel), modelInstanceOptimizationHints);
+        ModelBasedGraphShaderModelInstance graphShaderModelInstance = new ModelBasedGraphShaderModelInstance(id, new ModelInstance(internalModel), modelInstanceOptimizationHints);
         for (ObjectMap.Entry<String, TagOptimizationHint> defaultTag : defaultTags.entries())
             graphShaderModelInstance.addTag(defaultTag.key, defaultTag.value);
         return graphShaderModelInstance;

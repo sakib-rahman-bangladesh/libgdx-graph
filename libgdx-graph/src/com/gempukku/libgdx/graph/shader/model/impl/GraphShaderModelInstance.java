@@ -7,8 +7,6 @@ import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 
 public interface GraphShaderModelInstance {
-    String getId();
-
     void addTag(String tag, TagOptimizationHint tagOptimizationHint);
 
     void removeTag(String tag);

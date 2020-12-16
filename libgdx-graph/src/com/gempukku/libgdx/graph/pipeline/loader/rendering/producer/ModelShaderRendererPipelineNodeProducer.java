@@ -256,36 +256,38 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
     private static ModelGraphShader createColorShader(JsonValue shaderDefinition, Texture defaultTexture) {
         JsonValue shaderGraph = shaderDefinition.get("shader");
-        return GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, false, configurations));
+        String tag = shaderDefinition.getString("tag");
+        ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, false, configurations));
+        modelGraphShader.setTag(tag);
+        return modelGraphShader;
     }
 
     private static ModelGraphShader createDepthShader(JsonValue shaderDefinition, Texture defaultTexture) {
         JsonValue shaderGraph = shaderDefinition.get("shader");
-        return GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, true, configurations));
+        String tag = shaderDefinition.getString("tag");
+        ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, true, configurations));
+        modelGraphShader.setTag(tag);
+        return modelGraphShader;
     }
 
     private class ShaderGroup implements Disposable {
         private JsonValue shaderDefinition;
         private WhitePixel whitePixel;
-        private final String tag;
         private ModelGraphShader colorShader;
         private ModelGraphShader depthShader;
 
         public ShaderGroup(JsonValue shaderDefinition, WhitePixel whitePixel) {
             this.shaderDefinition = shaderDefinition;
             this.whitePixel = whitePixel;
-            this.tag = shaderDefinition.getString("tag");
         }
 
         public void initialize() {
             colorShader = ModelShaderRendererPipelineNodeProducer.createColorShader(shaderDefinition, whitePixel.texture);
-            colorShader.setTag(tag);
         }
 
         public void initializeDepthShader() {
             if (depthShader == null && colorShader.getBlending() == BasicShader.Blending.opaque) {
                 depthShader = ModelShaderRendererPipelineNodeProducer.createDepthShader(shaderDefinition, whitePixel.texture);
-                depthShader.setTag(tag);
             }
         }
 
