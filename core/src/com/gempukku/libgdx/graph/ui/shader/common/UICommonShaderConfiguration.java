@@ -83,6 +83,7 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 import com.gempukku.libgdx.graph.ui.producer.IndexedBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.common.producer.math.common.ConditionalShaderBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.common.producer.property.PropertyColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.common.producer.property.PropertyFloatBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.common.producer.property.PropertyShaderGraphBoxProducer;
@@ -153,6 +154,7 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration<ShaderF
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ClampShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SaturateShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new LerpShaderNodeConfiguration()));
+        graphBoxProducers.add(new ConditionalShaderBoxProducer());
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new StepShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SmoothstepShaderNodeConfiguration()));
 

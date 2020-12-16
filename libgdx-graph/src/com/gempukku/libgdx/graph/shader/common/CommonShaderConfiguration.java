@@ -19,6 +19,7 @@ import com.gempukku.libgdx.graph.shader.common.math.arithmetic.SubtractShaderNod
 import com.gempukku.libgdx.graph.shader.common.math.common.AbsShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.common.CeilingShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.common.ClampShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.common.math.common.ConditionalShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.common.FloorShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.common.FractionalPartShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.common.LerpShaderNodeBuilder;
@@ -126,6 +127,7 @@ public class CommonShaderConfiguration implements GraphConfiguration {
         addGraphShaderNodeBuilder(new ClampShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SaturateShaderNodeBuilder());
         addGraphShaderNodeBuilder(new LerpShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new ConditionalShaderNodeBuilder());
         addGraphShaderNodeBuilder(new StepShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SmoothstepShaderNodeBuilder());
 
