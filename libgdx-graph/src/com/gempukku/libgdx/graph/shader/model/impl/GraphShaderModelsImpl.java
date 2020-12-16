@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
@@ -63,7 +62,7 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
             vertexAttributes = new VertexAttributes(vertexAttributeArr);
         }
         String id = idGenerator.generateId();
-        GraphShaderModel graphShaderModel = new GraphShaderModel(idGenerator, model, vertexAttributes);
+        ModelBasedGraphShaderModel graphShaderModel = new ModelBasedGraphShaderModel(id, idGenerator, model, vertexAttributes);
         graphShaderModels.put(id, graphShaderModel);
         return id;
     }
@@ -73,7 +72,7 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
         GraphShaderModel model = graphShaderModels.remove(modelId);
         Array.ArrayIterator<GraphShaderModelInstance> iterator = models.iterator();
         for (GraphShaderModelInstance graphShaderModelInstance : iterator) {
-            if (graphShaderModelInstance.getModel() == model) {
+            if (graphShaderModelInstance.getModelId().equals(modelId)) {
                 iterator.remove();
             }
         }
@@ -119,14 +118,14 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
 
     @Override
     public void updateTransform(String modelInstanceId, TransformUpdate transformUpdate) {
-        ModelInstance modelInstance = getModelInstance(modelInstanceId).getModelInstance();
-        transformTempMatrix.set(modelInstance.transform);
+        Matrix4 transformMatrix = getModelInstance(modelInstanceId).getTransformMatrix();
+        transformTempMatrix.set(transformMatrix);
         transformUpdate.updateTransform(transformTempMatrix);
-        modelInstance.transform.set(transformTempMatrix);
+        transformMatrix.set(transformTempMatrix);
     }
 
     public AnimationController createAnimationController(String modelInstanceId) {
-        return new AnimationController(getModelInstance(modelInstanceId).getModelInstance());
+        return getModelInstance(modelInstanceId).createAnimationController();
     }
 
     private GraphShaderModelInstance getModelInstance(String modelInstanceId) {
@@ -159,12 +158,12 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
 
     @Override
     public void setProperty(String modelInstanceId, String name, Object value) {
-        getModelInstance(modelInstanceId).setProperty(name, value);
+        getModelInstance(modelInstanceId).getPropertyContainer().setValue(name, value);
     }
 
     @Override
     public void unsetProperty(String modelInstanceId, String name) {
-        getModelInstance(modelInstanceId).unsetProperty(name);
+        getModelInstance(modelInstanceId).getPropertyContainer().remove(name);
     }
 
     @Override
@@ -174,7 +173,7 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
 
     @Override
     public Object getProperty(String modelInstanceId, String name) {
-        return getModelInstance(modelInstanceId).getProperty(name);
+        return getModelInstance(modelInstanceId).getPropertyContainer().getValue(name);
     }
 
     public void registerAttribute(VertexAttribute vertexAttribute) {

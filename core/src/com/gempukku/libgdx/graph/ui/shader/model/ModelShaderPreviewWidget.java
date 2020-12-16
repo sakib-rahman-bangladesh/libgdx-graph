@@ -31,8 +31,8 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
 import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
-import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModel;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelInstance;
+import com.gempukku.libgdx.graph.shader.model.impl.ModelBasedGraphShaderModel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.RandomIdGenerator;
@@ -52,10 +52,10 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
     private RenderContext renderContext;
 
     private Model rectangleModel;
-    private GraphShaderModel rectangleShaderModel;
+    private ModelBasedGraphShaderModel rectangleShaderModel;
     private GraphShaderModelInstance rectangleModelInstance;
     private Model sphereModel;
-    private GraphShaderModel sphereShaderModel;
+    private ModelBasedGraphShaderModel sphereShaderModel;
     private GraphShaderModelInstance sphereModelInstance;
 
     private Camera camera;
@@ -149,14 +149,14 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
                 1, 0, 0,
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        rectangleShaderModel = new GraphShaderModel(new RandomIdGenerator(16), rectangleModel, vertexAttributes);
+        rectangleShaderModel = new ModelBasedGraphShaderModel("rectangle", new RandomIdGenerator(16), rectangleModel, vertexAttributes);
         rectangleModelInstance = rectangleShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
 
         float sphereDiameter = 0.8f;
         sphereModel = modelBuilder.createSphere(sphereDiameter, sphereDiameter, sphereDiameter, 50, 50,
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        sphereShaderModel = new GraphShaderModel(new RandomIdGenerator(16), sphereModel, vertexAttributes);
+        sphereShaderModel = new ModelBasedGraphShaderModel("sphere", new RandomIdGenerator(16), sphereModel, vertexAttributes);
         sphereModelInstance = sphereShaderModel.createInstance(ModelInstanceOptimizationHints.unoptimized);
     }
 

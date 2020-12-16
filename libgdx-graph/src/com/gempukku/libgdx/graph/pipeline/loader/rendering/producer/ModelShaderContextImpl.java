@@ -1,17 +1,16 @@
 package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 
-import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.gempukku.libgdx.graph.shader.ModelShaderContext;
 
 public class ModelShaderContextImpl extends ShaderContextImpl implements ModelShaderContext {
-    private Renderable renderable;
-
-    public void setRenderable(Renderable renderable) {
-        this.renderable = renderable;
-    }
+    private ModelInstanceData modelInstanceData;
 
     @Override
-    public Renderable getRenderable() {
-        return renderable;
+    public ModelInstanceData getModelInstanceData() {
+        return modelInstanceData;
+    }
+
+    public void setModelInstanceData(ModelInstanceData modelInstanceData) {
+        this.modelInstanceData = modelInstanceData;
     }
 }

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GLTexture;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.g3d.utils.TextureDescriptor;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -13,9 +12,7 @@ import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.FlushablePool;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
 
@@ -174,11 +171,6 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     private boolean usingColorTexture;
 
     private boolean initialized = false;
-    protected final RenderablePool renderablesPool = new RenderablePool();
-    /**
-     * list of Renderables to be rendered in the current batch
-     **/
-    protected final Array<Renderable> renderables = new Array<Renderable>();
 
     public BasicShader(Texture defaultTexture) {
         this.defaultTexture = defaultTexture;
@@ -455,23 +447,5 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
     public void setUniformArray(final int location, float[] values) {
         program.setUniform3fv(location, values, 0, values.length);
-    }
-
-    protected static class RenderablePool extends FlushablePool<Renderable> {
-        @Override
-        protected Renderable newObject() {
-            return new Renderable();
-        }
-
-        @Override
-        public Renderable obtain() {
-            Renderable renderable = super.obtain();
-            renderable.environment = null;
-            renderable.material = null;
-            renderable.meshPart.set("", null, 0, 0, 0);
-            renderable.shader = null;
-            renderable.userData = null;
-            return renderable;
-        }
     }
 }

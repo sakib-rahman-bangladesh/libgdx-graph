@@ -1,79 +1,29 @@
 package com.gempukku.libgdx.graph.shader.model.impl;
 
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.Renderable;
+import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.Pool;
-import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelDataProducer;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 
-public class GraphShaderModelInstance {
-    private String id;
-    private GraphShaderModel model;
-    private ModelInstance modelInstance;
-    private ModelInstanceOptimizationHints modelInstanceOptimizationHints;
-    private ObjectMap<String, TagOptimizationHint> tags = new ObjectMap<>();
-    private PropertyContainerImpl propertyContainer = new PropertyContainerImpl();
+public interface GraphShaderModelInstance {
+    String getId();
 
-    public GraphShaderModelInstance(String id, GraphShaderModel model, ModelInstance modelInstance, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
-        this.id = id;
-        this.model = model;
-        this.modelInstance = modelInstance;
-        this.modelInstanceOptimizationHints = modelInstanceOptimizationHints;
-    }
+    void addTag(String tag, TagOptimizationHint tagOptimizationHint);
 
-    public String getId() {
-        return id;
-    }
+    void removeTag(String tag);
 
-    public void addTag(String tag, TagOptimizationHint tagOptimizationHint) {
-        tags.put(tag, tagOptimizationHint);
-    }
+    void removeAllTags();
 
-    public void removeTag(String tag) {
-        tags.remove(tag);
-    }
+    boolean hasTag(String tag);
 
-    public void removeAllTags() {
-        tags.clear();
-    }
+    PropertyContainerImpl getPropertyContainer();
 
-    public void setProperty(String name, Object value) {
-        propertyContainer.setValue(name, value);
-    }
+    Matrix4 getTransformMatrix();
 
-    public void unsetProperty(String name) {
-        propertyContainer.remove(name);
-    }
+    String getModelId();
 
-    public boolean hasTag(String tag) {
-        return tags.containsKey(tag);
-    }
+    AnimationController createAnimationController();
 
-    public Object getProperty(String name) {
-        return propertyContainer.getValue(name);
-    }
-
-    public PropertyContainerImpl getPropertyContainer() {
-        return propertyContainer;
-    }
-
-    public Matrix4 getTransformMatrix() {
-        return modelInstance.transform;
-    }
-
-    public GraphShaderModel getModel() {
-        return model;
-    }
-
-    public ModelInstance getModelInstance() {
-        return modelInstance;
-    }
-
-    public void getRenderables(Array<Renderable> renderables, Pool<Renderable> pool) {
-        modelInstance.getRenderables(renderables, pool);
-    }
+    Iterable<ModelDataProducer> getModelInstanceData();
 }

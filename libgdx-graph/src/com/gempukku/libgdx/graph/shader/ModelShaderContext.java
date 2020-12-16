@@ -1,7 +1,7 @@
 package com.gempukku.libgdx.graph.shader;
 
-import com.badlogic.gdx.graphics.g3d.Renderable;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelInstanceData;
 
 public interface ModelShaderContext extends ShaderContext {
-    Renderable getRenderable();
+    ModelInstanceData getModelInstanceData();
 }
