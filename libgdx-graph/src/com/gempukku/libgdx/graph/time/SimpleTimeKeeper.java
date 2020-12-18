@@ -1,7 +1,8 @@
 package com.gempukku.libgdx.graph.time;
 
 public class SimpleTimeKeeper implements TimeKeeper {
-    private float timeCumulative = -1;
+    private boolean firstUpdate = true;
+    private float timeCumulative = 0;
     private float delta;
     private boolean paused;
 
@@ -9,10 +10,9 @@ public class SimpleTimeKeeper implements TimeKeeper {
     public void updateTime(float delta) {
         if (!paused) {
             this.delta = delta;
-            if (timeCumulative > -1)
+            if (!firstUpdate)
                 timeCumulative += delta;
-            else
-                timeCumulative = 0;
+            firstUpdate = false;
         } else {
             this.delta = 0;
         }
@@ -38,5 +38,6 @@ public class SimpleTimeKeeper implements TimeKeeper {
 
     public void setTime(float time) {
         timeCumulative = time;
+        firstUpdate = true;
     }
 }
