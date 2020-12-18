@@ -25,6 +25,8 @@
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/voronoiDistance3d.glsl"/>
 
 	<!-- Shader code -->
+	<extend-configuration-property name="gdx.files.classpath" value="shader/draw/drawTexture.frag"/>
+	<extend-configuration-property name="gdx.files.classpath" value="shader/draw/drawTexture.vert"/>
 	<extend-configuration-property name="gdx.files.classpath" value="shader/bloomSum.frag"/>
 	<extend-configuration-property name="gdx.files.classpath" value="shader/brightnessFilter.frag"/>
 	<extend-configuration-property name="gdx.files.classpath" value="shader/depthOfField.frag"/>
