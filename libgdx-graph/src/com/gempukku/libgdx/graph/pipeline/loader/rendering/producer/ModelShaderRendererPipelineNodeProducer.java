@@ -2,7 +2,6 @@ package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -61,9 +60,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
                 for (ShaderGroup shaderGroup : shaderGroups) {
                     GraphShader shader = shaderGroup.getColorShader();
-                    for (VertexAttribute vertexAttribute : shader.getVertexAttributes()) {
-                        pipelineInitializationFeedback.registerModelAttribute(vertexAttribute);
-                    }
+                    pipelineInitializationFeedback.registerModelAttribute(shader.getTag(), shader.getVertexAttributes());
                 }
             }
 

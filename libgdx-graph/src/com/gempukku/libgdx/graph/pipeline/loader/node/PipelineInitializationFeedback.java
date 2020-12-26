@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.pipeline.loader.node;
 
 import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 
 public interface PipelineInitializationFeedback {
@@ -8,5 +9,7 @@ public interface PipelineInitializationFeedback {
 
     void registerParticleEffect(String tag, int maxNumberOfParticles, int initialParticles, float particlesPerSecond);
 
-    void registerModelAttribute(VertexAttribute vertexAttribute);
+    void registerModelAttribute(String tag, Array<VertexAttribute> vertexAttributes);
+
+    void registerSpriteShader(String tag, Array<VertexAttribute> vertexAttributes);
 }

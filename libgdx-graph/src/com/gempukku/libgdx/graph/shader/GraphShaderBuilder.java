@@ -42,8 +42,6 @@ public class GraphShaderBuilder {
 
         SpriteGraphShader graphShader = new SpriteGraphShader(defaultTexture);
 
-        GraphNode<ShaderFieldType> endNode = graph.getNodeById("end");
-
         VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
         FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);
 
@@ -57,7 +55,7 @@ public class GraphShaderBuilder {
 
         graphShader.setVertexAttributes(vertexShaderBuilder.getVertexAttributes());
 
-        debugShaders("particles", vertexShader, fragmentShader);
+        debugShaders("sprite", vertexShader, fragmentShader);
 
         finalizeShader(graphShader, vertexShader, fragmentShader);
 

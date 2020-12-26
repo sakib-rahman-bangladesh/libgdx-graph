@@ -54,7 +54,7 @@ public class ParticlesDataContainer implements Disposable {
         vbo.setVertices(particlesData, 0, dataLength);
 
         int numberOfIndices = 6 * numberOfParticles;
-        ibo = new IndexBufferObject(false, numberOfIndices);
+        ibo = new IndexBufferObject(true, numberOfIndices);
         short[] indices = new short[numberOfIndices];
         int vertexIndex = 0;
         for (int i = 0; i < numberOfIndices; i += 6) {

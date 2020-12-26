@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public interface GraphSprites {
-    String createSprite(Vector3 location, Vector2 anchor, Vector2 size);
+    String createSprite(Vector3 position, Vector2 anchor, Vector2 size);
 
     void updateSprite(String spriteId, SpriteUpdater spriteUpdater);
 

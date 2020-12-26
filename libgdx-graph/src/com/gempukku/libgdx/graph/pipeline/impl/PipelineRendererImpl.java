@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.pipeline.impl;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.data.FieldType;
@@ -24,6 +25,7 @@ import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectsImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.screen.ScreenShaders;
 import com.gempukku.libgdx.graph.shader.screen.ScreenShadersImpl;
+import com.gempukku.libgdx.graph.shader.sprite.impl.GraphSpritesImpl;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeProvider;
@@ -140,6 +142,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
         private GraphShaderModelsImpl graphShaderModels = new GraphShaderModelsImpl();
         private ScreenShadersImpl screenShaders = new ScreenShadersImpl();
         private GraphParticleEffectsImpl particleEffects = new GraphParticleEffectsImpl();
+        private GraphSpritesImpl graphSprites = new GraphSpritesImpl();
 
         public void setRenderOutput(RenderOutput renderOutput) {
             this.renderOutput = renderOutput;
@@ -153,8 +156,20 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
-        public void registerModelAttribute(VertexAttribute vertexAttribute) {
-            graphShaderModels.registerAttribute(vertexAttribute);
+        public void registerModelAttribute(String tag, Array<VertexAttribute> vertexAttributes) {
+            for (VertexAttribute vertexAttribute : vertexAttributes) {
+                graphShaderModels.registerAttribute(vertexAttribute);
+            }
+        }
+
+        @Override
+        public void registerSpriteShader(String tag, Array<VertexAttribute> vertexAttributes) {
+            graphSprites.registerTag(tag, vertexAttributes);
+        }
+
+        @Override
+        public GraphSpritesImpl getGraphSprites() {
+            return graphSprites;
         }
 
         @Override

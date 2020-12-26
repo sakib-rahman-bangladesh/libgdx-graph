@@ -1,11 +1,7 @@
 package com.gempukku.libgdx.graph.shader.sprite;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
-import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
 import com.badlogic.gdx.utils.IntArray;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
@@ -17,7 +13,7 @@ public class SpriteGraphShader extends GraphShader {
         super(defaultTexture);
     }
 
-    public void renderSprites(ShaderContext shaderContext, VertexBufferObject vertexBufferObject, IndexBufferObject indexBufferObject) {
+    public void renderSprites(ShaderContext shaderContext, VertexAttributes vertexAttributes, SpriteData spriteData) {
         for (Uniform uniform : localUniforms.values()) {
             uniform.getSetter().set(this, uniform.getLocation(), shaderContext);
         }
@@ -25,13 +21,9 @@ public class SpriteGraphShader extends GraphShader {
             uniform.getSetter().set(this, uniform.getStartIndex(), uniform.getFieldOffsets(), uniform.getSize(), shaderContext);
         }
         if (attributeLocations == null)
-            attributeLocations = getAttributeLocations(vertexBufferObject.getAttributes());
+            attributeLocations = getAttributeLocations(vertexAttributes);
 
-        vertexBufferObject.bind(program, attributeLocations);
-        indexBufferObject.bind();
-        Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, indexBufferObject.getNumIndices(), GL20.GL_UNSIGNED_SHORT, 0);
-        vertexBufferObject.unbind(program);
-        indexBufferObject.unbind();
+        spriteData.render(program, attributeLocations);
     }
 
     private int[] getAttributeLocations(final VertexAttributes attrs) {
