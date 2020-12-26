@@ -11,10 +11,10 @@ public class TextureShaderPropertyProducer implements GraphShaderPropertyProduce
     }
 
     @Override
-    public PropertySource createProperty(String name, JsonValue data, boolean designTime) {
+    public PropertySource createProperty(int index, String name, JsonValue data, boolean designTime) {
         if (designTime)
-            return new PropertySource(name, ShaderFieldType.TextureRegion, WhitePixel.sharedInstance.textureRegion);
+            return new PropertySource(index, name, ShaderFieldType.TextureRegion, WhitePixel.sharedInstance.textureRegion);
         else
-            return new PropertySource(name, ShaderFieldType.TextureRegion, null);
+            return new PropertySource(index, name, ShaderFieldType.TextureRegion, null);
     }
 }

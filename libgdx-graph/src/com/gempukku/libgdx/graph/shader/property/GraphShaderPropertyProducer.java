@@ -6,5 +6,5 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 public interface GraphShaderPropertyProducer {
     ShaderFieldType getType();
 
-    PropertySource createProperty(String name, JsonValue data, boolean designTime);
+    PropertySource createProperty(int index, String name, JsonValue data, boolean designTime);
 }

@@ -15,6 +15,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
+import com.gempukku.libgdx.graph.shader.common.PropertyAsUniformShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
@@ -25,7 +26,7 @@ import com.gempukku.libgdx.graph.shader.particles.ParticlesShaderLoaderCallback;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
-    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new ParticlesShaderConfiguration()};
+    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new ParticlesShaderConfiguration()};
 
     public ParticlesShaderRendererPipelineNodeProducer() {
         super(new ParticlesShaderRendererPipelineNodeConfiguration());

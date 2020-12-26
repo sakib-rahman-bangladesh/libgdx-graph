@@ -10,7 +10,7 @@ public class FloatShaderPropertyProducer implements GraphShaderPropertyProducer 
     }
 
     @Override
-    public PropertySource createProperty(String name, JsonValue data, boolean designTime) {
-        return new PropertySource(name, ShaderFieldType.Float, ShaderFieldType.Float.convertFromJson(data));
+    public PropertySource createProperty(int index, String name, JsonValue data, boolean designTime) {
+        return new PropertySource(index, name, ShaderFieldType.Float, ShaderFieldType.Float.convertFromJson(data));
     }
 }

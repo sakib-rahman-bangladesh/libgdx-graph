@@ -25,7 +25,7 @@ import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.util.LibGDXCollections;
 
-public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
+public class PropertyAsUniformShaderNodeBuilder implements GraphShaderNodeBuilder {
     @Override
     public String getType() {
         return "Property";

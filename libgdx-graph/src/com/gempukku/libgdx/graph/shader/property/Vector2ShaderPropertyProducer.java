@@ -10,7 +10,7 @@ public class Vector2ShaderPropertyProducer implements GraphShaderPropertyProduce
     }
 
     @Override
-    public PropertySource createProperty(String name, JsonValue data, boolean designTime) {
-        return new PropertySource(name, ShaderFieldType.Vector2, ShaderFieldType.Vector2.convertFromJson(data));
+    public PropertySource createProperty(int index, String name, JsonValue data, boolean designTime) {
+        return new PropertySource(index, name, ShaderFieldType.Vector2, ShaderFieldType.Vector2.convertFromJson(data));
     }
 }

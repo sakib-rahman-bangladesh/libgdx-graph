@@ -87,7 +87,6 @@ import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.ColorShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.FloatShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
-import com.gempukku.libgdx.graph.shader.property.PropertyShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.TextureShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.Vector2ShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.Vector3ShaderPropertyProducer;
@@ -206,9 +205,6 @@ public class CommonShaderConfiguration implements GraphConfiguration {
         addGraphShaderNodeBuilder(new ValueVector2ShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ValueVector3ShaderNodeBuilder());
 
-        // Property
-        addGraphShaderNodeBuilder(new PropertyShaderNodeBuilder());
-
         graphShaderPropertyProducers.add(new ColorShaderPropertyProducer());
         graphShaderPropertyProducers.add(new FloatShaderPropertyProducer());
         graphShaderPropertyProducers.add(new Vector2ShaderPropertyProducer());
@@ -218,10 +214,6 @@ public class CommonShaderConfiguration implements GraphConfiguration {
 
     private static void addGraphShaderNodeBuilder(GraphShaderNodeBuilder builder) {
         graphShaderNodeBuilders.put(builder.getType(), builder);
-    }
-
-    public CommonShaderConfiguration() {
-
     }
 
     @Override
