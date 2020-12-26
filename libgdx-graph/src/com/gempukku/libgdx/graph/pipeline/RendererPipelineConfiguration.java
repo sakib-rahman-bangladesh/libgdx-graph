@@ -9,7 +9,6 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.part.MergePipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.part.SplitPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.postprocessor.BloomPipelineNodeProducer;
-import com.gempukku.libgdx.graph.pipeline.loader.postprocessor.ColorTintPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.postprocessor.DepthOfFieldPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.postprocessor.GammaCorrectionPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.postprocessor.GaussianBlurPipelineNodeProducer;
@@ -76,7 +75,6 @@ public class RendererPipelineConfiguration {
         addNodeProducer(new GaussianBlurPipelineNodeProducer());
         addNodeProducer(new DepthOfFieldPipelineNodeProducer());
         addNodeProducer(new GammaCorrectionPipelineNodeProducer());
-        addNodeProducer(new ColorTintPipelineNodeProducer());
 
         pipelinePropertyProducers.add(new FloatPipelinePropertyProducer());
         pipelinePropertyProducers.add(new Vector2PipelinePropertyProducer());
