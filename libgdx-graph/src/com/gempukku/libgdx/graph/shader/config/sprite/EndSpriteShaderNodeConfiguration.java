@@ -1,14 +1,14 @@
-package com.gempukku.libgdx.graph.shader.config.particles;
+package com.gempukku.libgdx.graph.shader.config.sprite;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 
-public class EndBillboardParticlesShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
-    public EndBillboardParticlesShaderNodeConfiguration() {
-        super("BillboardParticlesShaderEnd", "Shader output", null);
+public class EndSpriteShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+    public EndSpriteShaderNodeConfiguration() {
+        super("SpriteShaderEnd", "Shader output", null);
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("position", "World position", false, false, ShaderFieldType.Vector3));
+                new GraphNodeInputImpl<ShaderFieldType>("position", "Position", false, false, ShaderFieldType.Vector3));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("size", "Size", false, false, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(

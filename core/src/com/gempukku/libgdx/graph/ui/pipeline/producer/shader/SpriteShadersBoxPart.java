@@ -23,7 +23,7 @@ import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.GraphShaderTemplate;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.GraphShaderTemplateRegistry;
 import com.gempukku.libgdx.graph.ui.shader.common.UICommonShaderConfiguration;
-import com.gempukku.libgdx.graph.ui.shader.model.UIModelShaderConfiguration;
+import com.gempukku.libgdx.graph.ui.shader.sprite.UISpriteShaderConfiguration;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
 import com.kotcrab.vis.ui.widget.MenuItem;
@@ -34,9 +34,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineFieldType> {
+public class SpriteShadersBoxPart extends Table implements GraphBoxPart<PipelineFieldType> {
     private static UIGraphConfiguration<ShaderFieldType>[] graphConfigurations = new UIGraphConfiguration[]{
-            new UIModelShaderConfiguration(),
+            new UISpriteShaderConfiguration(),
             new UICommonShaderConfiguration()
     };
 
@@ -46,7 +46,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
     private final Skin skin;
     private List<ShaderInfo> shaders = new LinkedList<>();
 
-    public GraphShadersBoxPart(Skin skin) {
+    public SpriteShadersBoxPart(Skin skin) {
         this.skin = skin;
 
         shaderGroup = new VerticalGroup();
@@ -69,7 +69,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         PopupMenu popupMenu = new PopupMenu();
-                        for (final GraphShaderTemplate graphShaderTemplate : GraphShaderTemplateRegistry.graphShaderTemplateList) {
+                        for (final GraphShaderTemplate graphShaderTemplate : GraphShaderTemplateRegistry.spriteShaderTemplateList) {
                             MenuItem menuItem = new MenuItem(graphShaderTemplate.getTitle());
                             popupMenu.addItem(menuItem);
                             menuItem.addListener(
@@ -189,7 +189,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
                             editButton.fire(new RequestGraphOpen(id, "Shader - " + textField.getText(), initialShaderJson,
-                                    GraphDesignTab.Type.Graph_Shader, graphConfigurations));
+                                    GraphDesignTab.Type.Sprite_Shader, graphConfigurations));
                         }
                     });
             table.add(editButton).width(EDIT_WIDTH);
@@ -203,7 +203,7 @@ public class GraphShadersBoxPart extends Table implements GraphBoxPart<PipelineF
                                         @Override
                                         public void yes() {
                                             fire(new GraphRemoved(id));
-                                            removeShaderGraph(ShaderInfo.this);
+                                            removeShaderGraph(SpriteShadersBoxPart.ShaderInfo.this);
                                         }
 
                                         @Override

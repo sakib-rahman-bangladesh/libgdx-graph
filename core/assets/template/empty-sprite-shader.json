@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "nodes": [
+    {
+      "id": "end",
+      "type": "SpriteShaderEnd",
+      "x": 50.0,
+      "y": 50.0,
+      "data": {
+        "blending": "opaque",
+        "depthTest": "less"
+      }
+    }
+  ],
+  "connections": [],
+  "properties": []
+}

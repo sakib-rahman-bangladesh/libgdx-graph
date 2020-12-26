@@ -25,9 +25,10 @@ import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.PropertyPipelineGraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.postprocessor.DepthOfFieldBoxProducer;
-import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.GraphShaderRendererBoxProducer;
+import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.ModelShaderRendererBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.ParticlesShaderRendererBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.ScreenShaderRendererBoxProducer;
+import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.SpriteShaderRendererBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyBooleanBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyCameraBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyColorBoxProducer;
@@ -82,9 +83,10 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new MergePipelineNodeConfiguration()));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new StartPipelineNodeConfiguration()));
-        graphBoxProducers.add(new GraphShaderRendererBoxProducer());
-        graphBoxProducers.add(new ScreenShaderRendererBoxProducer());
+        graphBoxProducers.add(new ModelShaderRendererBoxProducer());
+        graphBoxProducers.add(new SpriteShaderRendererBoxProducer());
         graphBoxProducers.add(new ParticlesShaderRendererBoxProducer());
+        graphBoxProducers.add(new ScreenShaderRendererBoxProducer());
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new UIRendererPipelineNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new PipelineRendererNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new DefaultRendererPipelineNodeConfiguration()));

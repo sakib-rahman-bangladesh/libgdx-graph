@@ -8,8 +8,8 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 
-public class GraphShaderRendererBoxProducer extends GraphBoxProducerImpl<PipelineFieldType> {
-    public GraphShaderRendererBoxProducer() {
+public class ModelShaderRendererBoxProducer extends GraphBoxProducerImpl<PipelineFieldType> {
+    public ModelShaderRendererBoxProducer() {
         super(new ModelShaderRendererPipelineNodeConfiguration());
     }
 
@@ -17,7 +17,7 @@ public class GraphShaderRendererBoxProducer extends GraphBoxProducerImpl<Pipelin
     public GraphBox<PipelineFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         GraphBoxImpl<PipelineFieldType> result = createGraphBox(skin, id);
         addConfigurationInputsAndOutputs(skin, result);
-        GraphShadersBoxPart graphBoxPart = new GraphShadersBoxPart(skin);
+        ModelShadersBoxPart graphBoxPart = new ModelShadersBoxPart(skin);
         graphBoxPart.initialize(data);
         result.addGraphBoxPart(graphBoxPart);
         return result;

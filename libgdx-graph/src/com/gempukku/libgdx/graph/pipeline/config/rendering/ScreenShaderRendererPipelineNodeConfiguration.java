@@ -11,7 +11,7 @@ import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.RenderPipelin
 
 public class ScreenShaderRendererPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
     public ScreenShaderRendererPipelineNodeConfiguration() {
-        super("FullScreenShaderRenderer", "Full Screen Shader", "Pipeline");
+        super("FullScreenShaderRenderer", "Full Screen Shader", "Shaders");
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
         addNodeInput(

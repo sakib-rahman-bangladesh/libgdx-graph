@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
-import com.gempukku.libgdx.graph.pipeline.config.rendering.ParticlesRendererPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.rendering.ParticlesShaderRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeedback;
@@ -28,7 +28,7 @@ public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodePro
     private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new ParticlesShaderConfiguration()};
 
     public ParticlesShaderRendererPipelineNodeProducer() {
-        super(new ParticlesRendererPipelineNodeConfiguration());
+        super(new ParticlesShaderRendererPipelineNodeConfiguration());
     }
 
     @Override
