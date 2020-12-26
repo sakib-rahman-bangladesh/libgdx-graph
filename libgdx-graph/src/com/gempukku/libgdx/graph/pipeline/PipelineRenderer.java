@@ -1,9 +1,10 @@
 package com.gempukku.libgdx.graph.pipeline;
 
 import com.badlogic.gdx.utils.Disposable;
-import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
-import com.gempukku.libgdx.graph.shader.screen.ScreenShaders;
+import com.gempukku.libgdx.graph.shader.screen.GraphScreenShaders;
+import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
 
 public interface PipelineRenderer extends PipelinePropertySource, Disposable {
@@ -11,9 +12,11 @@ public interface PipelineRenderer extends PipelinePropertySource, Disposable {
 
     void unsetPipelineProperty(String property);
 
-    GraphShaderModels getGraphShaderModels();
+    GraphModels getGraphShaderModels();
 
-    ScreenShaders getScreenShaders();
+    GraphSprites getGraphSprites();
+
+    GraphScreenShaders getGraphScreenShaders();
 
     GraphParticleEffects getGraphParticleEffects();
 

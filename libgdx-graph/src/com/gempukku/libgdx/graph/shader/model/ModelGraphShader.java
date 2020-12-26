@@ -8,7 +8,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelDataPro
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelInstanceDataImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.GraphShader;
-import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelInstance;
+import com.gempukku.libgdx.graph.shader.model.impl.GraphModelInstance;
 
 public class ModelGraphShader extends GraphShader {
     private final IntArray tempArray = new IntArray();
@@ -19,9 +19,9 @@ public class ModelGraphShader extends GraphShader {
         super(defaultTexture);
     }
 
-    public void render(ModelShaderContextImpl shaderContext, GraphShaderModelInstance graphShaderModelInstance) {
-        shaderContext.setPropertyContainer(graphShaderModelInstance.getPropertyContainer());
-        for (ModelDataProducer modelDataProducer : graphShaderModelInstance.getModelInstanceData()) {
+    public void render(ModelShaderContextImpl shaderContext, GraphModelInstance graphModelInstance) {
+        shaderContext.setPropertyContainer(graphModelInstance.getPropertyContainer());
+        for (ModelDataProducer modelDataProducer : graphModelInstance.getModelInstanceData()) {
             modelDataProducer.fillData(modelInstanceData);
             shaderContext.setModelInstanceData(modelInstanceData);
             for (Uniform uniform : localUniforms.values()) {

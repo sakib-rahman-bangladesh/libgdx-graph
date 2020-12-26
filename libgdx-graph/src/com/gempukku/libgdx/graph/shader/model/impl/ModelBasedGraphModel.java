@@ -15,13 +15,13 @@ import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 
 import java.util.Arrays;
 
-public class ModelBasedGraphShaderModel implements GraphShaderModel, Disposable {
+public class ModelBasedGraphModel implements GraphModel, Disposable {
     private VertexAttributes attributes;
     private Model internalModel;
     private ObjectMap<String, TagOptimizationHint> defaultTags = new ObjectMap<>();
     private String id;
 
-    public ModelBasedGraphShaderModel(String id, Model model, VertexAttributes attributes) {
+    public ModelBasedGraphModel(String id, Model model, VertexAttributes attributes) {
         this.id = id;
         this.attributes = attributes;
         init(model);
@@ -128,8 +128,8 @@ public class ModelBasedGraphShaderModel implements GraphShaderModel, Disposable 
     }
 
     @Override
-    public GraphShaderModelInstance createInstance(String instanceId, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
-        ModelBasedGraphShaderModelInstance graphShaderModelInstance = new ModelBasedGraphShaderModelInstance(id, new ModelInstance(internalModel), modelInstanceOptimizationHints);
+    public GraphModelInstance createInstance(String instanceId, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
+        ModelBasedGraphModelInstance graphShaderModelInstance = new ModelBasedGraphModelInstance(id, new ModelInstance(internalModel), modelInstanceOptimizationHints);
         for (ObjectMap.Entry<String, TagOptimizationHint> defaultTag : defaultTags.entries())
             graphShaderModelInstance.addTag(defaultTag.key, defaultTag.value);
         return graphShaderModelInstance;

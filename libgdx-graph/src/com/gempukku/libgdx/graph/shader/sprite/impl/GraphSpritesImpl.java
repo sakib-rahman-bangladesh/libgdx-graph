@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.shader.sprite.impl;
 
 import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -49,6 +50,16 @@ public class GraphSpritesImpl implements GraphSprites {
     }
 
     @Override
+    public void addTag(String spriteId, String tag) {
+        graphSprites.get(spriteId).addTag(tag);
+    }
+
+    @Override
+    public void removeTag(String spriteId, String tag) {
+        graphSprites.get(spriteId).removeTag(tag);
+    }
+
+    @Override
     public void setProperty(String spriteId, String name, Object value) {
         graphSprites.get(spriteId).getPropertyContainer().setValue(name, value);
     }
@@ -71,8 +82,10 @@ public class GraphSpritesImpl implements GraphSprites {
         return false;
     }
 
-    public void render(ShaderContext shaderContext, Array<SpriteGraphShader> shaders) {
+    public void render(ShaderContext shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
         for (SpriteGraphShader shader : shaders) {
+            shader.begin(shaderContext, renderContext);
+
             String tag = shader.getTag();
             TagSpriteShaderConfig tagSpriteShaderConfig = tagSpriteShaderData.get(tag);
 
@@ -96,6 +109,7 @@ public class GraphSpritesImpl implements GraphSprites {
             if (spriteTotal > 0) {
                 shader.renderSprites(shaderContext, tagSpriteShaderConfig.getVertexAttributes(), tagSpriteShaderConfig);
             }
+            shader.end();
         }
     }
 

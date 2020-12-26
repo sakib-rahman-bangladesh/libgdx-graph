@@ -25,7 +25,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -79,7 +79,7 @@ public class Episode16Scene implements LibgdxGraphTestScene {
         return camera;
     }
 
-    private void createModels(GraphShaderModels models) {
+    private void createModels(GraphModels models) {
         JsonReader jsonReader = new JsonReader();
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.classpath("model/luminaris/luminaris.g3dj"));
@@ -116,7 +116,7 @@ public class Episode16Scene implements LibgdxGraphTestScene {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        pipelineRenderer.getScreenShaders().setProperty("CRT Monitor", "Distortion", distortion.getValue());
+                        pipelineRenderer.getGraphScreenShaders().setProperty("CRT Monitor", "Distortion", distortion.getValue());
                     }
                 });
 

@@ -3,7 +3,7 @@ package com.gempukku.libgdx.graph.shader.screen;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 
-public class ScreenShadersImpl implements ScreenShaders {
+public class GraphScreenShadersImpl implements GraphScreenShaders {
     private ObjectMap<String, PropertyContainerImpl> propertyContainers = new ObjectMap<>();
 
     public void setPropertyContainer(String tag, PropertyContainerImpl propertyContainer) {

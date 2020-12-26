@@ -25,7 +25,7 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
     private int spriteCount = 0;
 
     public TagSpriteShaderConfig(Array<VertexAttribute> vertexAttributes) {
-        this.vertexAttributes = new VertexAttributes(vertexAttributes.toArray());
+        this.vertexAttributes = new VertexAttributes(vertexAttributes.toArray(VertexAttribute.class));
 
         int fCount = 0;
         for (VertexAttribute vertexAttribute : vertexAttributes) {
@@ -36,6 +36,8 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
         tempVertices = new float[4 * floatCount];
 
         vbo = new VertexBufferObject(false, 4 * NUMBER_OF_SPRITES, this.vertexAttributes);
+        float[] vertices = new float[4 * NUMBER_OF_SPRITES * floatCount];
+        vbo.setVertices(vertices, 0, vertices.length);
 
         int numberOfIndices = 6 * NUMBER_OF_SPRITES;
         ibo = new IndexBufferObject(false, numberOfIndices);
@@ -62,7 +64,7 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
             int floatIndex = 0;
             for (VertexAttribute vertexAttribute : vertexAttributes) {
                 String alias = vertexAttribute.alias;
-                if (alias.equals("a_position")) {
+                if (alias.equals(ShaderProgram.POSITION_ATTRIBUTE)) {
                     Vector3 position = sprite.getPosition();
                     tempVertices[vertexIndex * floatCount + floatIndex + 0] = position.x;
                     tempVertices[vertexIndex * floatCount + floatIndex + 1] = position.y;
@@ -74,9 +76,13 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
                     tempVertices[vertexIndex * floatCount + floatIndex + 1] = anchor.y;
                     floatIndex += 2;
                 } else if (alias.equals("a_size")) {
-                    Vector2 size = sprite.getAnchor();
+                    Vector2 size = sprite.getSize();
                     tempVertices[vertexIndex * floatCount + floatIndex + 0] = size.x;
                     tempVertices[vertexIndex * floatCount + floatIndex + 1] = size.y;
+                    floatIndex += 2;
+                } else if (alias.equals(ShaderProgram.TEXCOORD_ATTRIBUTE + 0)) {
+                    tempVertices[vertexIndex * floatCount + floatIndex + 0] = vertexIndex % 2;
+                    tempVertices[vertexIndex * floatCount + floatIndex + 1] = (float) (vertexIndex / 2);
                     floatIndex += 2;
                 }
             }

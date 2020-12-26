@@ -25,7 +25,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.Transforms;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
@@ -83,7 +83,7 @@ public class Episode11Scene implements LibgdxGraphTestScene {
         return camera;
     }
 
-    private void createModels(GraphShaderModels models) {
+    private void createModels(GraphModels models) {
         ModelBuilder modelBuilder = new ModelBuilder();
         Model forceField = modelBuilder.createRect(
                 0, 10, 10,
@@ -124,7 +124,7 @@ public class Episode11Scene implements LibgdxGraphTestScene {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        GraphShaderModels models = pipelineRenderer.getGraphShaderModels();
+                        GraphModels models = pipelineRenderer.getGraphShaderModels();
                         models.updateTransform(sphereInstanceId,
                                 Transforms.create().idt().translate(slider.getValue(), 0, 0));
                     }

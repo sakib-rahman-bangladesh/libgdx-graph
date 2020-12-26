@@ -17,14 +17,15 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeedback;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
-import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
-import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelsImpl;
+import com.gempukku.libgdx.graph.shader.model.GraphModels;
+import com.gempukku.libgdx.graph.shader.model.impl.GraphModelsImpl;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectsImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
-import com.gempukku.libgdx.graph.shader.screen.ScreenShaders;
-import com.gempukku.libgdx.graph.shader.screen.ScreenShadersImpl;
+import com.gempukku.libgdx.graph.shader.screen.GraphScreenShaders;
+import com.gempukku.libgdx.graph.shader.screen.GraphScreenShadersImpl;
+import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.shader.sprite.impl.GraphSpritesImpl;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
@@ -90,12 +91,17 @@ public class PipelineRendererImpl implements PipelineRenderer {
     }
 
     @Override
-    public GraphShaderModels getGraphShaderModels() {
+    public GraphModels getGraphShaderModels() {
         return pipelineRenderingContext.getGraphShaderModels();
     }
 
     @Override
-    public ScreenShaders getScreenShaders() {
+    public GraphSprites getGraphSprites() {
+        return pipelineRenderingContext.getGraphSprites();
+    }
+
+    @Override
+    public GraphScreenShaders getGraphScreenShaders() {
         return pipelineRenderingContext.getScreenShaders();
     }
 
@@ -139,8 +145,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
         private RenderOutput renderOutput;
         private FullScreenRenderImpl fullScreenRender = new FullScreenRenderImpl();
 
-        private GraphShaderModelsImpl graphShaderModels = new GraphShaderModelsImpl();
-        private ScreenShadersImpl screenShaders = new ScreenShadersImpl();
+        private GraphModelsImpl graphShaderModels = new GraphModelsImpl();
+        private GraphScreenShadersImpl screenShaders = new GraphScreenShadersImpl();
         private GraphParticleEffectsImpl particleEffects = new GraphParticleEffectsImpl();
         private GraphSpritesImpl graphSprites = new GraphSpritesImpl();
 
@@ -193,12 +199,12 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
-        public GraphShaderModelsImpl getGraphShaderModels() {
+        public GraphModelsImpl getGraphShaderModels() {
             return graphShaderModels;
         }
 
         @Override
-        public ScreenShadersImpl getScreenShaders() {
+        public GraphScreenShadersImpl getScreenShaders() {
             return screenShaders;
         }
 

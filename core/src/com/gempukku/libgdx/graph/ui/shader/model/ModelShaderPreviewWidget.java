@@ -31,8 +31,8 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
 import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
-import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelInstance;
-import com.gempukku.libgdx.graph.shader.model.impl.ModelBasedGraphShaderModel;
+import com.gempukku.libgdx.graph.shader.model.impl.GraphModelInstance;
+import com.gempukku.libgdx.graph.shader.model.impl.ModelBasedGraphModel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.WhitePixel;
@@ -51,11 +51,11 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
     private RenderContext renderContext;
 
     private Model rectangleModel;
-    private ModelBasedGraphShaderModel rectangleShaderModel;
-    private GraphShaderModelInstance rectangleModelInstance;
+    private ModelBasedGraphModel rectangleShaderModel;
+    private GraphModelInstance rectangleModelInstance;
     private Model sphereModel;
-    private ModelBasedGraphShaderModel sphereShaderModel;
-    private GraphShaderModelInstance sphereModelInstance;
+    private ModelBasedGraphModel sphereShaderModel;
+    private GraphModelInstance sphereModelInstance;
 
     private Camera camera;
     private DefaultTimeKeeper timeKeeper;
@@ -148,14 +148,14 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
                 1, 0, 0,
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        rectangleShaderModel = new ModelBasedGraphShaderModel("rectangle", rectangleModel, vertexAttributes);
+        rectangleShaderModel = new ModelBasedGraphModel("rectangle", rectangleModel, vertexAttributes);
         rectangleModelInstance = rectangleShaderModel.createInstance("rectangleInstance", ModelInstanceOptimizationHints.unoptimized);
 
         float sphereDiameter = 0.8f;
         sphereModel = modelBuilder.createSphere(sphereDiameter, sphereDiameter, sphereDiameter, 50, 50,
                 material,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        sphereShaderModel = new ModelBasedGraphShaderModel("sphere", sphereModel, vertexAttributes);
+        sphereShaderModel = new ModelBasedGraphModel("sphere", sphereModel, vertexAttributes);
         sphereModelInstance = sphereShaderModel.createInstance("sphereInstance", ModelInstanceOptimizationHints.unoptimized);
     }
 

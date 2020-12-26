@@ -23,7 +23,7 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
-import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -71,7 +71,7 @@ public class Episode5Scene implements LibgdxGraphTestScene {
         return camera;
     }
 
-    private void createModels(GraphShaderModels models) {
+    private void createModels(GraphModels models) {
         String modelId = models.registerModel(sphereModel);
         sphereModelInstance = models.createModelInstance(modelId);
         models.addTag(sphereModelInstance, "Cover", TagOptimizationHint.Always);

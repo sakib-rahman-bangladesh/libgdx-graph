@@ -8,7 +8,7 @@ import com.gempukku.libgdx.graph.shader.TransformUpdate;
  * Main interface that is used to operate on models rendered by GraphShaders. Any operation done on the models should
  * be done via use of this interface.
  */
-public interface GraphShaderModels {
+public interface GraphModels {
     /**
      * Registers the specified model with Graph Shaders.
      *

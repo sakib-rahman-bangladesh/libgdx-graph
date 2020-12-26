@@ -429,8 +429,8 @@ public class GraphShaderBuilder {
 
     private static void buildSpriteVertexShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         // Vertex part
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 1, "a_anchor"), "a_anchor", "vec2");
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, "a_size"), "a_size", "vec2");
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 2, "a_anchor"), "a_anchor", "vec2");
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 2, "a_size"), "a_size", "vec2");
         vertexShaderBuilder.addAttributeVariable(VertexAttribute.TexCoords(0), ShaderProgram.TEXCOORD_ATTRIBUTE + 0, "vec2");
 
         ObjectMap<String, ObjectMap<String, GraphShaderNodeBuilder.FieldOutput>> vertexNodeOutputs = new ObjectMap<>();

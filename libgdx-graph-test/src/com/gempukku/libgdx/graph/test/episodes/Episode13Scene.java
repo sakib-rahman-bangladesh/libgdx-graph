@@ -22,7 +22,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.Transforms;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 
@@ -82,7 +82,7 @@ public class Episode13Scene implements LibgdxGraphTestScene {
         return camera;
     }
 
-    private void createModels(GraphShaderModels models) {
+    private void createModels(GraphModels models) {
         ModelBuilder modelBuilder = new ModelBuilder();
 
         float x = -5f;
@@ -114,7 +114,7 @@ public class Episode13Scene implements LibgdxGraphTestScene {
         registerModels(models);
     }
 
-    private void registerModels(GraphShaderModels models) {
+    private void registerModels(GraphModels models) {
         float cylinderHeight = 8f;
         String tiledWallId = models.registerModel(tiledWall);
         models.addModelDefaultTag(tiledWallId, "tiled-wall");

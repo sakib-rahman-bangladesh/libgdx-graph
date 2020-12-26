@@ -14,7 +14,7 @@ public class SpriteShaderRendererPipelineNodeConfiguration extends NodeConfigura
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("camera", "Camera", false, Camera));
+                new GraphNodeInputImpl<PipelineFieldType>("camera", "Camera", true, Camera));
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("input", "Input", true, true, RenderPipeline));
         addNodeOutput(

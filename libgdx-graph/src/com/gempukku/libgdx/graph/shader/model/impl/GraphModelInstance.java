@@ -6,7 +6,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelDataPro
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 
-public interface GraphShaderModelInstance {
+public interface GraphModelInstance {
     void addTag(String tag, TagOptimizationHint tagOptimizationHint);
 
     void removeTag(String tag);

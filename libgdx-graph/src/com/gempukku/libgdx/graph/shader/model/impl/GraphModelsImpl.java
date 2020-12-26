@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
-import com.gempukku.libgdx.graph.shader.model.GraphShaderModels;
+import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.util.IdGenerator;
@@ -20,7 +20,7 @@ import com.gempukku.libgdx.graph.util.RandomIdGenerator;
 
 import java.util.Comparator;
 
-public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
+public class GraphModelsImpl implements GraphModels, Disposable {
     private enum Order {
         Front_To_Back, Back_To_Front;
 
@@ -36,10 +36,10 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
     private Order order;
     private DistanceRenderableSorter sorter = new DistanceRenderableSorter();
 
-    private ObjectMap<String, GraphShaderModel> graphShaderModels = new ObjectMap<>();
-    private ObjectMap<String, GraphShaderModelInstance> models = new ObjectMap<>();
+    private ObjectMap<String, GraphModel> graphShaderModels = new ObjectMap<>();
+    private ObjectMap<String, GraphModelInstance> models = new ObjectMap<>();
 
-    private Array<GraphShaderModelInstance> preparedForRendering = new Array<>();
+    private Array<GraphModelInstance> preparedForRendering = new Array<>();
 
     private IdGenerator idGenerator = new RandomIdGenerator(16);
     private Matrix4 transformTempMatrix = new Matrix4();
@@ -64,16 +64,16 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
             vertexAttributes = new VertexAttributes(vertexAttributeArr);
         }
         String id = idGenerator.generateId();
-        ModelBasedGraphShaderModel graphShaderModel = new ModelBasedGraphShaderModel(id, model, vertexAttributes);
+        ModelBasedGraphModel graphShaderModel = new ModelBasedGraphModel(id, model, vertexAttributes);
         graphShaderModels.put(id, graphShaderModel);
         return id;
     }
 
     @Override
     public void removeModel(String modelId) {
-        GraphShaderModel model = graphShaderModels.remove(modelId);
-        ObjectMap.Entries<String, GraphShaderModelInstance> iterator = models.iterator();
-        for (ObjectMap.Entry<String, GraphShaderModelInstance> entry : iterator) {
+        GraphModel model = graphShaderModels.remove(modelId);
+        ObjectMap.Entries<String, GraphModelInstance> iterator = models.iterator();
+        for (ObjectMap.Entry<String, GraphModelInstance> entry : iterator) {
             if (entry.value.getModelId().equals(modelId))
                 iterator.remove();
         }
@@ -103,8 +103,8 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
     @Override
     public String createModelInstance(String modelId, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
         String instanceId = idGenerator.generateId();
-        GraphShaderModelInstance graphShaderModelInstance = graphShaderModels.get(modelId).createInstance(instanceId, modelInstanceOptimizationHints);
-        models.put(instanceId, graphShaderModelInstance);
+        GraphModelInstance graphModelInstance = graphShaderModels.get(modelId).createInstance(instanceId, modelInstanceOptimizationHints);
+        models.put(instanceId, graphModelInstance);
         return instanceId;
     }
 
@@ -125,7 +125,7 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
         return getModelInstance(modelInstanceId).createAnimationController();
     }
 
-    private GraphShaderModelInstance getModelInstance(String modelInstanceId) {
+    private GraphModelInstance getModelInstance(String modelInstanceId) {
         return models.get(modelInstanceId);
     }
 
@@ -199,12 +199,12 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
         order = Order.Back_To_Front;
     }
 
-    public Iterable<? extends GraphShaderModelInstance> getModels() {
+    public Iterable<? extends GraphModelInstance> getModels() {
         return models.values();
     }
 
     public boolean hasModelWithTag(String tag) {
-        for (GraphShaderModelInstance value : models.values()) {
+        for (GraphModelInstance value : models.values()) {
             if (value.hasTag(tag))
                 return true;
         }
@@ -213,20 +213,20 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
 
     @Override
     public void dispose() {
-        for (GraphShaderModel model : graphShaderModels.values()) {
+        for (GraphModel model : graphShaderModels.values()) {
             model.dispose();
         }
         graphShaderModels.clear();
         models.clear();
     }
 
-    private static class DistanceRenderableSorter implements Comparator<GraphShaderModelInstance> {
+    private static class DistanceRenderableSorter implements Comparator<GraphModelInstance> {
         private Vector3 cameraPosition;
         private Order order;
         private final Vector3 tmpV1 = new Vector3();
         private final Vector3 tmpV2 = new Vector3();
 
-        public void sort(Vector3 cameraPosition, Array<GraphShaderModelInstance> renderables, Order order) {
+        public void sort(Vector3 cameraPosition, Array<GraphModelInstance> renderables, Order order) {
             this.cameraPosition = cameraPosition;
             this.order = order;
             renderables.sort(this);
@@ -238,7 +238,7 @@ public class GraphShaderModelsImpl implements GraphShaderModels, Disposable {
         }
 
         @Override
-        public int compare(GraphShaderModelInstance o1, GraphShaderModelInstance o2) {
+        public int compare(GraphModelInstance o1, GraphModelInstance o2) {
             getTranslation(o1.getTransformMatrix(), tmpV1);
             getTranslation(o2.getTransformMatrix(), tmpV2);
             final float dst = (int) (1000f * cameraPosition.dst2(tmpV1)) - (int) (1000f * cameraPosition.dst2(tmpV2));

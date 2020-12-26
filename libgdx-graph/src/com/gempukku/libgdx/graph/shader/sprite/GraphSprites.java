@@ -10,6 +10,10 @@ public interface GraphSprites {
 
     void destroySprite(String spriteId);
 
+    void addTag(String spriteId, String tag);
+
+    void removeTag(String spriteId, String tag);
+
     void setProperty(String spriteId, String name, Object value);
 
     void unsetProperty(String spriteId, String name);

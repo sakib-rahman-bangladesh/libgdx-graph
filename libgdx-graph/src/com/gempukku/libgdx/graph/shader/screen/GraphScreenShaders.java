@@ -1,6 +1,6 @@
 package com.gempukku.libgdx.graph.shader.screen;
 
-public interface ScreenShaders {
+public interface GraphScreenShaders {
     /**
      * Sets property on the given screen shader.
      *

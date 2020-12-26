@@ -14,7 +14,7 @@ import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 
-public class ModelBasedGraphShaderModelInstance implements GraphShaderModelInstance {
+public class ModelBasedGraphModelInstance implements GraphModelInstance {
     private String modelId;
     private ModelInstance modelInstance;
     private ModelInstanceOptimizationHints modelInstanceOptimizationHints;
@@ -22,7 +22,7 @@ public class ModelBasedGraphShaderModelInstance implements GraphShaderModelInsta
     private PropertyContainerImpl propertyContainer = new PropertyContainerImpl();
     private Array<ModelDataProducer> dataProducers = new Array<>();
 
-    public ModelBasedGraphShaderModelInstance(String modelId, ModelInstance modelInstance, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
+    public ModelBasedGraphModelInstance(String modelId, ModelInstance modelInstance, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
         this.modelId = modelId;
         this.modelInstance = modelInstance;
         this.modelInstanceOptimizationHints = modelInstanceOptimizationHints;

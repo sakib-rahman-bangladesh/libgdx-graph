@@ -111,7 +111,7 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
 
                 currentBuffer.beginColor();
 
-                sprites.render(shaderContext, shaders);
+                sprites.render(shaderContext, pipelineRenderingContext.getRenderContext(), shaders);
 
                 if (sceneColorBuffer != null)
                     renderPipeline.returnFrameBuffer(sceneColorBuffer);

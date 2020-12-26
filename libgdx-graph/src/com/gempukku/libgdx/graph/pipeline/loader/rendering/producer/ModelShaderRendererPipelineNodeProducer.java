@@ -25,8 +25,8 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
 import com.gempukku.libgdx.graph.shader.model.ModelShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.model.ModelShaderLoaderCallback;
-import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelInstance;
-import com.gempukku.libgdx.graph.shader.model.impl.GraphShaderModelsImpl;
+import com.gempukku.libgdx.graph.shader.model.impl.GraphModelInstance;
+import com.gempukku.libgdx.graph.shader.model.impl.GraphModelsImpl;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
@@ -72,7 +72,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 }
             }
 
-            public boolean needsDepth(GraphShaderModelsImpl graphShaderModels) {
+            public boolean needsDepth(GraphModelsImpl graphShaderModels) {
                 for (ShaderGroup shaderGroup : shaderGroups) {
                     GraphShader colorShader = shaderGroup.getColorShader();
                     if (colorShader.isUsingDepthTexture() && graphShaderModels.hasModelWithTag(colorShader.getTag()))
@@ -81,7 +81,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 return false;
             }
 
-            public boolean isRequiringSceneColor(GraphShaderModelsImpl graphShaderModels) {
+            public boolean isRequiringSceneColor(GraphModelsImpl graphShaderModels) {
                 for (ShaderGroup shaderGroup : shaderGroups) {
                     GraphShader colorShader = shaderGroup.getColorShader();
                     if (colorShader.isUsingColorTexture() && graphShaderModels.hasModelWithTag(colorShader.getTag()))
@@ -92,7 +92,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
-                GraphShaderModelsImpl models = pipelineRenderingContext.getGraphShaderModels();
+                GraphModelsImpl models = pipelineRenderingContext.getGraphShaderModels();
 
                 boolean needsToDrawDepth = pipelineRequirements.isRequiringDepthTexture();
                 if (needsToDrawDepth)
@@ -177,18 +177,18 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 // Then render transparent models
                 models.orderBackToFront();
                 GraphShader lastShader = null;
-                for (GraphShaderModelInstance graphShaderModelInstance : models.getModels()) {
+                for (GraphModelInstance graphModelInstance : models.getModels()) {
                     for (ShaderGroup shaderGroup : shaderGroups) {
                         ModelGraphShader colorShader = shaderGroup.getColorShader();
                         if (colorShader.getBlending() != BasicShader.Blending.opaque) {
                             String tag = colorShader.getTag();
-                            if (graphShaderModelInstance.hasTag(tag)) {
+                            if (graphModelInstance.hasTag(tag)) {
                                 if (lastShader != colorShader) {
                                     if (lastShader != null)
                                         lastShader.end();
                                     colorShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
                                 }
-                                colorShader.render(shaderContext, graphShaderModelInstance);
+                                colorShader.render(shaderContext, graphModelInstance);
                                 lastShader = colorShader;
                             }
                         }
@@ -225,16 +225,16 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 }
             }
 
-            private void renderWithShaderOpaquePass(String tag, ModelGraphShader shader, GraphShaderModelsImpl models, ModelShaderContextImpl shaderContext,
+            private void renderWithShaderOpaquePass(String tag, ModelGraphShader shader, GraphModelsImpl models, ModelShaderContextImpl shaderContext,
                                                     RenderContext renderContext) {
                 boolean begun = false;
-                for (GraphShaderModelInstance graphShaderModelInstance : models.getModels()) {
-                    if (graphShaderModelInstance.hasTag(tag)) {
+                for (GraphModelInstance graphModelInstance : models.getModels()) {
+                    if (graphModelInstance.hasTag(tag)) {
                         if (!begun) {
                             shader.begin(shaderContext, renderContext);
                             begun = true;
                         }
-                        shader.render(shaderContext, graphShaderModelInstance);
+                        shader.render(shaderContext, graphModelInstance);
                     }
                 }
                 if (begun)
