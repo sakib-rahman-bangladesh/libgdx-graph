@@ -236,7 +236,7 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
         String textureVariableName = "u_property_" + nodeId;
         String uvTransformAttributeName = "a_property_" + propertySource.getPropertyIndex();
         String uvTransformVariableName = "v_property_" + propertySource.getPropertyIndex();
-        vertexShaderBuilder.addUniformVariable(textureVariableName, "sampler2D", false,
+        fragmentShaderBuilder.addUniformVariable(textureVariableName, "sampler2D", false,
                 new UniformRegistry.UniformSetter() {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {

@@ -1,18 +1,21 @@
 package com.gempukku.libgdx.graph.shader.sprite.impl;
 
 import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.shader.ShaderContext;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
 import com.gempukku.libgdx.graph.util.IdGenerator;
 import com.gempukku.libgdx.graph.util.RandomIdGenerator;
+
+import java.util.Arrays;
 
 public class GraphSpritesImpl implements GraphSprites {
     private ObjectMap<String, GraphSprite> graphSprites = new ObjectMap<>();
@@ -23,6 +26,9 @@ public class GraphSpritesImpl implements GraphSprites {
     private Vector2 tempSize = new Vector2();
 
     private ObjectMap<String, TagSpriteShaderConfig> tagSpriteShaderData = new ObjectMap<>();
+    // TODO limitation on number of textures of 16
+    private int[] processingTextureIds = new int[16];
+    private int[] tempTextureIds = new int[16];
 
     @Override
     public String createSprite(Vector3 position, Vector2 anchor, Vector2 size) {
@@ -83,8 +89,11 @@ public class GraphSpritesImpl implements GraphSprites {
         return false;
     }
 
-    public void render(ShaderContext shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
+    public void render(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
         for (SpriteGraphShader shader : shaders) {
+            Array<String> textureUniformNames = shader.getTextureUniformNames();
+            Arrays.fill(processingTextureIds, 0, textureUniformNames.size, -1);
+
             shader.begin(shaderContext, renderContext);
 
             String tag = shader.getTag();
@@ -96,14 +105,9 @@ public class GraphSpritesImpl implements GraphSprites {
             tagSpriteShaderConfig.clear();
             for (GraphSprite sprite : graphSprites.values()) {
                 if (sprite.hasTag(tag)) {
+                    spriteTotal = switchToNewTexturesIfNeeded(shaderContext, shader, textureUniformNames, tagSpriteShaderConfig, spriteTotal, capacity, sprite);
                     tagSpriteShaderConfig.appendSprite(sprite);
                     spriteTotal++;
-
-                    if (capacity == spriteTotal) {
-                        shader.renderSprites(shaderContext, tagSpriteShaderConfig.getVertexAttributes(), tagSpriteShaderConfig);
-                        tagSpriteShaderConfig.clear();
-                        spriteTotal = 0;
-                    }
                 }
             }
 
@@ -111,6 +115,41 @@ public class GraphSpritesImpl implements GraphSprites {
                 shader.renderSprites(shaderContext, tagSpriteShaderConfig.getVertexAttributes(), tagSpriteShaderConfig);
             }
             shader.end();
+        }
+    }
+
+    private int switchToNewTexturesIfNeeded(ShaderContextImpl shaderContext, SpriteGraphShader shader, Array<String> textureUniformNames, TagSpriteShaderConfig tagSpriteShaderConfig, int spriteTotal, int capacity, GraphSprite sprite) {
+        fetchTextureIds(shader, textureUniformNames, sprite);
+        // Not the MOST effective, but good enough
+        if (capacity == spriteTotal || !sameValues(processingTextureIds, tempTextureIds, 0, textureUniformNames.size)) {
+            if (spriteTotal > 0) {
+                shader.renderSprites(shaderContext, tagSpriteShaderConfig.getVertexAttributes(), tagSpriteShaderConfig);
+                tagSpriteShaderConfig.clear();
+                spriteTotal = 0;
+            }
+
+            shaderContext.setPropertyContainer(sprite.getPropertyContainer());
+            System.arraycopy(tempTextureIds, 0, processingTextureIds, 0, textureUniformNames.size);
+        }
+        return spriteTotal;
+    }
+
+    private boolean sameValues(int[] a, int[] b, int start, int count) {
+        for (int i = start; i < start + count; i++) {
+            if (a[i] != b[i])
+                return false;
+        }
+        return true;
+    }
+
+    private void fetchTextureIds(SpriteGraphShader spriteGraphShader, Array<String> textureUniformNames, GraphSprite graphSprite) {
+        for (int i = 0; i < textureUniformNames.size; i++) {
+            String propertyName = textureUniformNames.get(i);
+            Object value = graphSprite.getPropertyContainer().getValue(propertyName);
+            if (!(value instanceof TextureRegion))
+                value = spriteGraphShader.getPropertySource(propertyName).getDefaultValue();
+            TextureRegion region = (TextureRegion) value;
+            tempTextureIds[i] = region.getTexture().getTextureObjectHandle();
         }
     }
 
