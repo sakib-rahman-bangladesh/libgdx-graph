@@ -57,6 +57,7 @@ public class TestScene implements LibgdxGraphTestScene {
 
         String spriteId2 = graphSprites.createSprite(new Vector3(20, 0, 10f), new Vector2(0.5f, 0.5f), new Vector2(5, 10));
         graphSprites.addTag(spriteId2, "Default");
+        graphSprites.setProperty(spriteId2, "Prop", 0.7f);
     }
 
     private Stage createStage() {

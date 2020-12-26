@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
+import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
@@ -113,7 +114,7 @@ public class GraphSpritesImpl implements GraphSprites {
         }
     }
 
-    public void registerTag(String tag, Array<VertexAttribute> vertexAttributes) {
-        tagSpriteShaderData.put(tag, new TagSpriteShaderConfig(vertexAttributes));
+    public void registerTag(String tag, Array<VertexAttribute> vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
+        tagSpriteShaderData.put(tag, new TagSpriteShaderConfig(vertexAttributes, shaderProperties));
     }
 }

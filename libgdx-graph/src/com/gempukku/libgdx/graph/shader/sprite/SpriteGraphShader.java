@@ -3,14 +3,20 @@ package com.gempukku.libgdx.graph.shader.sprite;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.utils.IntArray;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
+import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
 public class SpriteGraphShader extends GraphShader {
     private int[] attributeLocations;
 
     public SpriteGraphShader(Texture defaultTexture) {
         super(defaultTexture);
+    }
+
+    public ObjectMap<String, PropertySource> getProperties() {
+        return propertySourceMap;
     }
 
     public void renderSprites(ShaderContext shaderContext, VertexAttributes vertexAttributes, SpriteData spriteData) {

@@ -23,6 +23,7 @@ import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectsImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.shader.screen.GraphScreenShaders;
 import com.gempukku.libgdx.graph.shader.screen.GraphScreenShadersImpl;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
@@ -169,8 +170,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
-        public void registerSpriteShader(String tag, Array<VertexAttribute> vertexAttributes) {
-            graphSprites.registerTag(tag, vertexAttributes);
+        public void registerSpriteShader(String tag, Array<VertexAttribute> vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
+            graphSprites.registerTag(tag, vertexAttributes, shaderProperties);
         }
 
         @Override

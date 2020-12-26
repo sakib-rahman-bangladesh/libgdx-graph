@@ -54,7 +54,7 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
             @Override
             public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
                 for (SpriteGraphShader shader : shaders) {
-                    pipelineInitializationFeedback.registerSpriteShader(shader.getTag(), shader.getVertexAttributes());
+                    pipelineInitializationFeedback.registerSpriteShader(shader.getTag(), shader.getVertexAttributes(), shader.getProperties());
                 }
             }
 

@@ -12,7 +12,7 @@ import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public abstract class GraphShader extends UniformCachingShader implements GraphShaderContext {
     private Array<Disposable> disposableList = new Array<>();
-    private ObjectMap<String, PropertySource> propertySourceMap;
+    protected ObjectMap<String, PropertySource> propertySourceMap;
     private ShaderProgram shaderProgram;
     private TimeProvider timeProvider;
     private GraphShaderEnvironment environment;
