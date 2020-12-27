@@ -10,6 +10,8 @@ import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 public interface IGraphModelInstance extends GraphModelInstance {
     void addTag(String tag, TagOptimizationHint tagOptimizationHint);
 
+    Iterable<String> getAllTags();
+
     void removeTag(String tag);
 
     void removeAllTags();

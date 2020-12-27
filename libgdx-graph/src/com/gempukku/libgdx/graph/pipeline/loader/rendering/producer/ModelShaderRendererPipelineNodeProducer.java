@@ -65,7 +65,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
                 for (ShaderGroup shaderGroup : shaderGroups) {
                     GraphShader shader = shaderGroup.getColorShader();
-                    pipelineInitializationFeedback.registerModelAttribute(shader.getTag(), shader.getVertexAttributes());
+                    pipelineInitializationFeedback.registerModelVertexAttributes(shader.getTag(), shader.getVertexAttributes());
                 }
             }
 

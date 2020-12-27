@@ -59,6 +59,11 @@ public class ModelBasedGraphModelInstance implements IGraphModelInstance {
     }
 
     @Override
+    public Iterable<String> getAllTags() {
+        return tags.keys();
+    }
+
+    @Override
     public void removeTag(String tag) {
         tags.remove(tag);
     }

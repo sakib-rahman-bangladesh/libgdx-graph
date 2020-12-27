@@ -10,7 +10,7 @@ public interface PipelineInitializationFeedback {
 
     void registerParticleEffect(String tag, VertexAttributes vertexAttributes, int maxNumberOfParticles, int initialParticles, float particlesPerSecond);
 
-    void registerModelAttribute(String tag, VertexAttributes vertexAttributes);
+    void registerModelVertexAttributes(String tag, VertexAttributes vertexAttributes);
 
     void registerSpriteShader(String tag, VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties);
 }

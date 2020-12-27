@@ -31,6 +31,11 @@ public class ModelBasedGraphModel implements IGraphModel, Disposable {
     }
 
     @Override
+    public ObjectMap.Entries<String, TagOptimizationHint> getDefaultTags() {
+        return defaultTags.entries();
+    }
+
+    @Override
     public void removeDefaultTag(String tag) {
         defaultTags.remove(tag);
     }
@@ -127,10 +132,7 @@ public class ModelBasedGraphModel implements IGraphModel, Disposable {
 
     @Override
     public IGraphModelInstance createInstance(ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
-        ModelBasedGraphModelInstance graphShaderModelInstance = new ModelBasedGraphModelInstance(this, new ModelInstance(internalModel), modelInstanceOptimizationHints);
-        for (ObjectMap.Entry<String, TagOptimizationHint> defaultTag : defaultTags.entries())
-            graphShaderModelInstance.addTag(defaultTag.key, defaultTag.value);
-        return graphShaderModelInstance;
+        return new ModelBasedGraphModelInstance(this, new ModelInstance(internalModel), modelInstanceOptimizationHints);
     }
 
     @Override

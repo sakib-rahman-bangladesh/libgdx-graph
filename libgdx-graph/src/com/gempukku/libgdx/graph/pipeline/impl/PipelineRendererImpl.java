@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.pipeline.impl;
 
-import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
@@ -163,10 +162,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
-        public void registerModelAttribute(String tag, VertexAttributes vertexAttributes) {
-            for (VertexAttribute vertexAttribute : vertexAttributes) {
-                graphShaderModels.registerAttribute(vertexAttribute);
-            }
+        public void registerModelVertexAttributes(String tag, VertexAttributes vertexAttributes) {
+            graphShaderModels.registerVertexAttributes(tag, vertexAttributes);
         }
 
         @Override

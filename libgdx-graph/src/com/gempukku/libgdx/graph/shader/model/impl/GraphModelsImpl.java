@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
@@ -34,12 +35,13 @@ public class GraphModelsImpl implements GraphModels, Disposable {
 
     private Vector3 cameraPosition = new Vector3();
     private Order order;
-    private Iterable<String> modelTags;
     private DistanceRenderableSorter sorter = new DistanceRenderableSorter();
 
     private ObjectSet<IGraphModel> graphShaderModels = new ObjectSet<>();
     private ObjectSet<IGraphModelInstance> models = new ObjectSet<>();
+    private ObjectMap<String, Array<IGraphModelInstance>> instancesByTag = new ObjectMap<>();
 
+    private ObjectSet<IGraphModelInstance> tempForUniqness = new ObjectSet<>();
     private Array<IGraphModelInstance> preparedForRendering = new Array<>();
 
     private Matrix4 transformTempMatrix = new Matrix4();
@@ -101,8 +103,13 @@ public class GraphModelsImpl implements GraphModels, Disposable {
 
     @Override
     public GraphModelInstance createModelInstance(GraphModel model, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
-        IGraphModelInstance graphModelInstance = getModel(model).createInstance(modelInstanceOptimizationHints);
+        IGraphModel iModel = getModel(model);
+        IGraphModelInstance graphModelInstance = iModel.createInstance(modelInstanceOptimizationHints);
         models.add(graphModelInstance);
+        for (ObjectMap.Entry<String, TagOptimizationHint> defaultTag : iModel.getDefaultTags()) {
+            addTag(graphModelInstance, defaultTag.key, defaultTag.value);
+        }
+
         return graphModelInstance;
     }
 
@@ -130,17 +137,25 @@ public class GraphModelsImpl implements GraphModels, Disposable {
 
     @Override
     public void addTag(GraphModelInstance modelInstance, String tag, TagOptimizationHint tagOptimizationHint) {
-        getModelInstance(modelInstance).addTag(tag, tagOptimizationHint);
+        IGraphModelInstance iModelInstance = getModelInstance(modelInstance);
+        iModelInstance.addTag(tag, tagOptimizationHint);
+        instancesByTag.get(tag).add(iModelInstance);
     }
 
     @Override
     public void removeTag(GraphModelInstance modelInstance, String tag) {
-        getModelInstance(modelInstance).removeTag(tag);
+        IGraphModelInstance iModelInstance = getModelInstance(modelInstance);
+        instancesByTag.get(tag).removeValue(iModelInstance, true);
+        iModelInstance.removeTag(tag);
     }
 
     @Override
     public void removeAllTags(GraphModelInstance modelInstance) {
-        getModelInstance(modelInstance).removeAllTags();
+        IGraphModelInstance iModelInstance = getModelInstance(modelInstance);
+        for (String tag : iModelInstance.getAllTags()) {
+            instancesByTag.get(tag).removeValue(iModelInstance, true);
+        }
+        iModelInstance.removeAllTags();
     }
 
     @Override
@@ -177,30 +192,28 @@ public class GraphModelsImpl implements GraphModels, Disposable {
         return iModelInstance;
     }
 
-    public void registerAttribute(VertexAttribute vertexAttribute) {
-        if (vertexAttribute.usage == VertexAttributes.Usage.ColorPacked)
-            vertexAttribute = VertexAttribute.ColorUnpacked();
-        if (!registeredAttributes.contains(vertexAttribute, false))
-            registeredAttributes.add(vertexAttribute);
+    public void registerVertexAttributes(String tag, VertexAttributes vertexAttributes) {
+        instancesByTag.put(tag, new Array<IGraphModelInstance>());
+
+        for (VertexAttribute vertexAttribute : vertexAttributes) {
+            if (vertexAttribute.usage == VertexAttributes.Usage.ColorPacked)
+                vertexAttribute = VertexAttribute.ColorUnpacked();
+            if (!registeredAttributes.contains(vertexAttribute, false))
+                registeredAttributes.add(vertexAttribute);
+        }
     }
 
     public void prepareForRendering(Camera camera, Iterable<String> modelTags) {
         cameraPosition.set(camera.position);
-        this.modelTags = modelTags;
         order = null;
         preparedForRendering.clear();
-        for (IGraphModelInstance model : models) {
-            if (hasTag(model, modelTags))
-                preparedForRendering.add(model);
-        }
-    }
-
-    private boolean hasTag(IGraphModelInstance modelInstance, Iterable<String> modelTags) {
+        tempForUniqness.clear();
         for (String modelTag : modelTags) {
-            if (modelInstance.hasTag(modelTag))
-                return true;
+            for (IGraphModelInstance iGraphModelInstance : instancesByTag.get(modelTag)) {
+                if (tempForUniqness.add(iGraphModelInstance))
+                    preparedForRendering.add(iGraphModelInstance);
+            }
         }
-        return false;
     }
 
     public void orderFrontToBack() {
