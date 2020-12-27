@@ -3,6 +3,8 @@ package com.gempukku.libgdx.graph.test;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,10 +26,13 @@ public class TestScene implements LibgdxGraphTestScene {
     private Camera camera;
     private Stage stage;
     private Skin skin;
+    private Texture treeTexture;
 
     @Override
     public void initializeScene() {
         WhitePixel.initialize();
+
+        treeTexture = new Texture(Gdx.files.classpath("image/oak-tree-transparent-background.png"));
 
         stage = createStage();
 
@@ -45,19 +50,21 @@ public class TestScene implements LibgdxGraphTestScene {
         camera.far = 100;
         camera.position.set(0, 0, 0);
         camera.up.set(0f, 1f, 0f);
-        camera.lookAt(0, 0, 1f);
+        camera.lookAt(0, 0, -1f);
         camera.update();
 
         return camera;
     }
 
     private void createModels(GraphSprites graphSprites) {
-        String spriteId = graphSprites.createSprite(new Vector3(0, 0, 10f), new Vector2(0.5f, 0.5f), new Vector2(10, 10));
-        graphSprites.addTag(spriteId, "Default");
-
-        String spriteId2 = graphSprites.createSprite(new Vector3(20, 0, 10f), new Vector2(0.5f, 0.5f), new Vector2(5, 10));
+//        String spriteId = graphSprites.createSprite(new Vector3(0, 0, -10f), new Vector2(0.5f, 0.5f), new Vector2(20, 20));
+//        graphSprites.addTag(spriteId, "Default");
+//        graphSprites.setProperty(spriteId, "Texture", new TextureRegion(treeTexture));
+//
+        String spriteId2 = graphSprites.createSprite(new Vector3(0, 0, -10f), new Vector2(0.5f, 1f), new Vector2(-200, 200));
         graphSprites.addTag(spriteId2, "Default");
         graphSprites.setProperty(spriteId2, "Prop", 0.7f);
+        graphSprites.setProperty(spriteId2, "Texture", new TextureRegion(treeTexture, 0, 0, 350, 175));
     }
 
     private Stage createStage() {
@@ -89,6 +96,7 @@ public class TestScene implements LibgdxGraphTestScene {
 
     @Override
     public void disposeScene() {
+        treeTexture.dispose();
         stage.dispose();
         skin.dispose();
         pipelineRenderer.dispose();

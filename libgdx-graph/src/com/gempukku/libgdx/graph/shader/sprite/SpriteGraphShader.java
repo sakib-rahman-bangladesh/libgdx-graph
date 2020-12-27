@@ -35,17 +35,14 @@ public class SpriteGraphShader extends GraphShader {
         return textureUniformNames;
     }
 
-    public void renderSprites(ShaderContext shaderContext, VertexAttributes vertexAttributes, SpriteData spriteData) {
+    public void renderSprites(ShaderContext shaderContext, SpriteData spriteData) {
         for (Uniform uniform : localUniforms.values()) {
             uniform.getSetter().set(this, uniform.getLocation(), shaderContext);
         }
         for (StructArrayUniform uniform : localStructArrayUniforms.values()) {
             uniform.getSetter().set(this, uniform.getStartIndex(), uniform.getFieldOffsets(), uniform.getSize(), shaderContext);
         }
-        if (attributeLocations == null)
-            attributeLocations = getAttributeLocations(vertexAttributes);
-
-        spriteData.render(program, attributeLocations);
+        spriteData.render(program, getAttributeLocations());
     }
 
     private int[] getAttributeLocations(final VertexAttributes attrs) {

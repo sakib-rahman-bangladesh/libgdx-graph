@@ -1,9 +1,9 @@
 package com.gempukku.libgdx.graph.pipeline.impl;
 
 import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.data.FieldType;
@@ -163,14 +163,14 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
-        public void registerModelAttribute(String tag, Array<VertexAttribute> vertexAttributes) {
+        public void registerModelAttribute(String tag, VertexAttributes vertexAttributes) {
             for (VertexAttribute vertexAttribute : vertexAttributes) {
                 graphShaderModels.registerAttribute(vertexAttribute);
             }
         }
 
         @Override
-        public void registerSpriteShader(String tag, Array<VertexAttribute> vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
+        public void registerSpriteShader(String tag, VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
             graphSprites.registerTag(tag, vertexAttributes, shaderProperties);
         }
 
@@ -185,8 +185,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
-        public void registerParticleEffect(String tag, int maxNumberOfParticles, int initialParticles, float particlesPerSecond) {
-            particleEffects.registerEffect(tag, maxNumberOfParticles, initialParticles, particlesPerSecond);
+        public void registerParticleEffect(String tag, VertexAttributes vertexAttributes, int maxNumberOfParticles, int initialParticles, float particlesPerSecond) {
+            particleEffects.registerEffect(tag, vertexAttributes, maxNumberOfParticles, initialParticles, particlesPerSecond);
         }
 
         @Override

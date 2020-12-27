@@ -1,6 +1,6 @@
 package com.gempukku.libgdx.graph.shader.sprite.impl;
 
-import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.math.Vector2;
@@ -112,7 +112,7 @@ public class GraphSpritesImpl implements GraphSprites {
             }
 
             if (spriteTotal > 0) {
-                shader.renderSprites(shaderContext, tagSpriteShaderConfig.getVertexAttributes(), tagSpriteShaderConfig);
+                shader.renderSprites(shaderContext, tagSpriteShaderConfig);
             }
             shader.end();
         }
@@ -123,7 +123,7 @@ public class GraphSpritesImpl implements GraphSprites {
         // Not the MOST effective, but good enough
         if (capacity == spriteTotal || !sameValues(processingTextureIds, tempTextureIds, 0, textureUniformNames.size)) {
             if (spriteTotal > 0) {
-                shader.renderSprites(shaderContext, tagSpriteShaderConfig.getVertexAttributes(), tagSpriteShaderConfig);
+                shader.renderSprites(shaderContext, tagSpriteShaderConfig);
                 tagSpriteShaderConfig.clear();
                 spriteTotal = 0;
             }
@@ -153,7 +153,7 @@ public class GraphSpritesImpl implements GraphSprites {
         }
     }
 
-    public void registerTag(String tag, Array<VertexAttribute> vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
+    public void registerTag(String tag, VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
         tagSpriteShaderData.put(tag, new TagSpriteShaderConfig(vertexAttributes, shaderProperties));
     }
 }

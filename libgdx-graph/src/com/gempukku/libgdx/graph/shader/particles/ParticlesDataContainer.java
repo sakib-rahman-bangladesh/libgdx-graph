@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.shader.particles;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
@@ -11,14 +12,6 @@ import com.gempukku.libgdx.graph.shader.particles.generator.ParticleGenerator;
 public class ParticlesDataContainer implements Disposable {
     private final static ParticleGenerator.ParticleGenerateInfo tempGenerateInfo = new ParticleGenerator.ParticleGenerateInfo();
     private final static ParticleUpdater.ParticleUpdateInfo tempUpdateInfo = new ParticleUpdater.ParticleUpdateInfo();
-    private final static VertexAttributes vertexAttributes = new VertexAttributes(
-            VertexAttribute.Position(),
-            new VertexAttribute(512, 1, "a_seed"),
-            new VertexAttribute(1024, 1, "a_birthTime"),
-            new VertexAttribute(2048, 1, "a_deathTime"),
-            VertexAttribute.TexCoords(0)
-    );
-    private final static int numberOfFloatsInVertex = 3 + 1 + 1 + 1 + 2;
 
     private Object[] particleDataStorage;
     private float[] particlesData;
@@ -26,29 +19,57 @@ public class ParticlesDataContainer implements Disposable {
     private IndexBufferObject ibo;
 
     private final int numberOfParticles;
+    private final int numberOfFloatsInVertex;
     private int nextParticleIndex = 0;
     private float maxParticleDeath;
 
     private int firstDirtyParticle = Integer.MAX_VALUE;
     private int lastDirtyParticle = -1;
 
-    public ParticlesDataContainer(int numberOfParticles, boolean storeParticleData) {
+    private int positionOffset = -1;
+    private int uvOffset = -1;
+    private int seedOffset = -1;
+    private int birthTimeOffset = -1;
+    private int deathTimeOffset = -1;
+
+    public ParticlesDataContainer(VertexAttributes vertexAttributes, int numberOfParticles, boolean storeParticleData) {
         this.numberOfParticles = numberOfParticles;
-        initBuffers();
+        this.numberOfFloatsInVertex = vertexAttributes.vertexSize / 4;
+        initOffsets(vertexAttributes);
+        initBuffers(vertexAttributes);
         if (storeParticleData)
             particleDataStorage = new Object[numberOfParticles];
     }
 
-    private void initBuffers() {
+    private void initOffsets(VertexAttributes vertexAttributes) {
+        positionOffset = getAliasOffset(vertexAttributes, ShaderProgram.POSITION_ATTRIBUTE);
+        uvOffset = getAliasOffset(vertexAttributes, ShaderProgram.TEXCOORD_ATTRIBUTE + 0);
+        seedOffset = getAliasOffset(vertexAttributes, "a_seed");
+        birthTimeOffset = getAliasOffset(vertexAttributes, "a_birthTime");
+        deathTimeOffset = getAliasOffset(vertexAttributes, "a_deathTime");
+    }
+
+    private int getAliasOffset(VertexAttributes vertexAttributes, String alias) {
+        for (VertexAttribute vertexAttribute : vertexAttributes) {
+            if (vertexAttribute.alias.equals(alias))
+                return vertexAttribute.offset / 4;
+        }
+        return -1;
+    }
+
+    private void initBuffers(VertexAttributes vertexAttributes) {
         vbo = new VertexBufferObject(false, numberOfParticles * 4, vertexAttributes);
 
         int dataLength = numberOfParticles * 4 * numberOfFloatsInVertex;
         particlesData = new float[dataLength];
-        for (int particle = 0; particle < numberOfParticles; particle++) {
-            for (int vertex = 0; vertex < 4; vertex++) {
-                int dataIndex = getVertexIndex(particle, vertex);
-                particlesData[dataIndex + 6] = vertex % 2;
-                particlesData[dataIndex + 7] = (float) (vertex / 2);
+        if (uvOffset != -1) {
+            for (int particle = 0; particle < numberOfParticles; particle++) {
+                // Don't need to set UV for first vertex, as it's 0,0
+                for (int vertex = 1; vertex < 4; vertex++) {
+                    int dataIndex = getVertexIndex(particle, vertex);
+                    particlesData[dataIndex + uvOffset] = vertex % 2;
+                    particlesData[dataIndex + uvOffset + 1] = (float) (vertex / 2);
+                }
             }
         }
         vbo.setVertices(particlesData, 0, dataLength);
@@ -89,12 +110,17 @@ public class ParticlesDataContainer implements Disposable {
         float particleDeath = particleTime + tempGenerateInfo.lifeLength;
         for (int i = 0; i < 4; i++) {
             int vertexIndex = getVertexIndex(nextParticleIndex, i);
-            particlesData[vertexIndex + 0] = tempGenerateInfo.location.x;
-            particlesData[vertexIndex + 1] = tempGenerateInfo.location.y;
-            particlesData[vertexIndex + 2] = tempGenerateInfo.location.z;
-            particlesData[vertexIndex + 3] = tempGenerateInfo.seed;
-            particlesData[vertexIndex + 4] = particleTime;
-            particlesData[vertexIndex + 5] = particleDeath;
+            if (positionOffset != -1) {
+                particlesData[vertexIndex + positionOffset + 0] = tempGenerateInfo.location.x;
+                particlesData[vertexIndex + positionOffset + 1] = tempGenerateInfo.location.y;
+                particlesData[vertexIndex + positionOffset + 2] = tempGenerateInfo.location.z;
+            }
+            if (seedOffset != -1)
+                particlesData[vertexIndex + seedOffset] = tempGenerateInfo.seed;
+            if (birthTimeOffset != -1)
+                particlesData[vertexIndex + birthTimeOffset] = particleTime;
+            if (deathTimeOffset != -1)
+                particlesData[vertexIndex + deathTimeOffset] = particleDeath;
         }
         maxParticleDeath = Math.max(maxParticleDeath, particleDeath);
 
@@ -150,10 +176,13 @@ public class ParticlesDataContainer implements Disposable {
 
                 for (int vertex = 0; vertex < 4; vertex++) {
                     int vertexIndex = getVertexIndex(i, vertex);
-                    particlesData[vertexIndex + 0] = tempUpdateInfo.location.x;
-                    particlesData[vertexIndex + 1] = tempUpdateInfo.location.x;
-                    particlesData[vertexIndex + 2] = tempUpdateInfo.location.x;
-                    particlesData[vertexIndex + 3] = tempUpdateInfo.seed;
+                    if (positionOffset > -1) {
+                        particlesData[vertexIndex + positionOffset + 0] = tempUpdateInfo.location.x;
+                        particlesData[vertexIndex + positionOffset + 1] = tempUpdateInfo.location.x;
+                        particlesData[vertexIndex + positionOffset + 2] = tempUpdateInfo.location.x;
+                    }
+                    if (seedOffset > -1)
+                        particlesData[vertexIndex + seedOffset] = tempUpdateInfo.seed;
                 }
 
                 firstDirtyParticle = Math.min(firstDirtyParticle, i);

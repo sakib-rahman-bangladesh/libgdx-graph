@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -32,8 +31,8 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
     private final int floatCount;
     private int spriteCount = 0;
 
-    public TagSpriteShaderConfig(Array<VertexAttribute> vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
-        this.vertexAttributes = new VertexAttributes(vertexAttributes.toArray(VertexAttribute.class));
+    public TagSpriteShaderConfig(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
+        this.vertexAttributes = vertexAttributes;
         this.shaderProperties = shaderProperties;
 
         for (ObjectMap.Entry<String, PropertySource> shaderProperty : shaderProperties) {

@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.shader.particles;
 
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.particles.generator.ParticleGenerator;
@@ -16,10 +17,10 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposabl
         this.timeProvider = timeProvider;
     }
 
-    public void registerEffect(String tag, int maxNumberOfParticles, int initialParticles, float particlesPerSecond) {
+    public void registerEffect(String tag, VertexAttributes vertexAttributes, int maxNumberOfParticles, int initialParticles, float particlesPerSecond) {
         if (effectsConfiguration.containsKey(tag))
             throw new IllegalStateException("Duplicate particle effect with tag - " + tag);
-        effectsConfiguration.put(tag, new ParticleEffectConfiguration(maxNumberOfParticles, initialParticles, 1f / particlesPerSecond));
+        effectsConfiguration.put(tag, new ParticleEffectConfiguration(vertexAttributes, maxNumberOfParticles, initialParticles, 1f / particlesPerSecond));
     }
 
     public ObjectMap.Values<GraphParticleEffect> getParticleEffects() {

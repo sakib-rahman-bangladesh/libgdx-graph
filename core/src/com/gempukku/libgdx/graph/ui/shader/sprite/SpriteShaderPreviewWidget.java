@@ -1,94 +1,72 @@
-package com.gempukku.libgdx.graph.ui.shader.model;
+package com.gempukku.libgdx.graph.ui.shader.sprite;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
-import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderContextImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.PropertyContainer;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
-import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
-import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
-import com.gempukku.libgdx.graph.shader.model.impl.GraphModelInstance;
-import com.gempukku.libgdx.graph.shader.model.impl.ModelBasedGraphModel;
+import com.gempukku.libgdx.graph.shader.property.PropertySource;
+import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
+import com.gempukku.libgdx.graph.shader.sprite.impl.GraphSprite;
+import com.gempukku.libgdx.graph.shader.sprite.impl.TagSpriteShaderConfig;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
-public class ModelShaderPreviewWidget extends Widget implements Disposable {
-    public enum ShaderPreviewModel {
-        Sphere, Rectangle
-    }
-
+public class SpriteShaderPreviewWidget extends Widget implements Disposable {
     private boolean shaderInitialized;
     private int width;
     private int height;
 
     private FrameBuffer frameBuffer;
-    private ModelGraphShader graphShader;
+    private SpriteGraphShader graphShader;
     private RenderContext renderContext;
-
-    private Model rectangleModel;
-    private ModelBasedGraphModel rectangleShaderModel;
-    private GraphModelInstance rectangleModelInstance;
-    private Model sphereModel;
-    private ModelBasedGraphModel sphereShaderModel;
-    private GraphModelInstance sphereModelInstance;
 
     private Camera camera;
     private DefaultTimeKeeper timeKeeper;
-    private GraphShaderEnvironment graphShaderEnvironment;
-    private ModelShaderContextImpl shaderContext;
-    private ShaderPreviewModel model = ShaderPreviewModel.Sphere;
+    private ShaderContextImpl shaderContext;
+    private GraphSprite graphSprite;
+    private TagSpriteShaderConfig spriteData;
 
-    public ModelShaderPreviewWidget(int width, int height) {
+    public SpriteShaderPreviewWidget(int width, int height) {
         this.width = width;
         this.height = height;
         renderContext = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.LRU, 1));
         camera = new PerspectiveCamera();
         camera.near = 0.1f;
         camera.far = 100f;
-        camera.position.set(-0.9f, 0f, 0f);
+        camera.position.set(0f, 0f, 0f);
         camera.up.set(0f, 1f, 0f);
-        camera.lookAt(0, 0f, 0f);
+        camera.lookAt(0, 0f, 1f);
         camera.update();
 
-        graphShaderEnvironment = new GraphShaderEnvironment();
-        graphShaderEnvironment.setAmbientColor(Color.DARK_GRAY);
-        PointLight pointLight = new PointLight();
-        pointLight.set(Color.WHITE, -2f, 1f, 1f, 2f);
-        graphShaderEnvironment.addPointLight(pointLight);
-
-        shaderContext = new ModelShaderContextImpl();
-        shaderContext.setGraphShaderEnvironment(graphShaderEnvironment);
+        shaderContext = new ShaderContextImpl();
         shaderContext.setCamera(camera);
         shaderContext.setRenderWidth(width);
         shaderContext.setRenderHeight(height);
         shaderContext.setColorTexture(PatternTextures.sharedInstance.texture);
-    }
 
-    public void setModel(ShaderPreviewModel model) {
-        this.model = model;
+        graphSprite = new GraphSprite(new Vector3(0, 0, 0), new Vector2(0.5f, 0.5f), new Vector2(1, 1));
     }
 
     @Override
@@ -109,15 +87,29 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
         return height;
     }
 
-    private void createShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
+    private void createShader(final Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
         try {
             timeKeeper = new DefaultTimeKeeper();
-            graphShader = GraphShaderBuilder.buildModelShader(WhitePixel.sharedInstance.texture, graph, true);
+            graphShader = GraphShaderBuilder.buildSpriteShader(WhitePixel.sharedInstance.texture, graph, true);
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
-            createModel(graphShader.getVertexAttributes());
+            createModel(graphShader.getVertexAttributes(), graphShader.getProperties());
 
-            shaderContext.setGraphShaderEnvironment(graphShaderEnvironment);
             shaderContext.setTimeProvider(timeKeeper);
+            shaderContext.setPropertyContainer(
+                    new PropertyContainer() {
+                        @Override
+                        public Object getValue(String name) {
+                            for (GraphProperty<ShaderFieldType> property : graph.getProperties()) {
+                                if (property.getName().equals(name)) {
+                                    ShaderFieldType propertyType = property.getType();
+                                    return propertyType.convertFromJson(property.getData());
+                                }
+                            }
+
+                            return null;
+                        }
+                    }
+            );
 
             shaderInitialized = true;
         } catch (Exception exp) {
@@ -127,34 +119,13 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
         }
     }
 
-    private void createModel(VertexAttributes vertexAttributes) {
-        ModelBuilder modelBuilder = new ModelBuilder();
-        Material material = new Material();
-
-        rectangleModel = modelBuilder.createRect(
-                0, -0.5f, -0.5f,
-                0, -0.5f, 0.5f,
-                0, 0.5f, 0.5f,
-                0, 0.5f, -0.5f,
-                1, 0, 0,
-                material,
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        rectangleShaderModel = new ModelBasedGraphModel("rectangle", rectangleModel, vertexAttributes);
-        rectangleModelInstance = rectangleShaderModel.createInstance("rectangleInstance", ModelInstanceOptimizationHints.unoptimized);
-
-        float sphereDiameter = 0.8f;
-        sphereModel = modelBuilder.createSphere(sphereDiameter, sphereDiameter, sphereDiameter, 50, 50,
-                material,
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.Tangent | VertexAttributes.Usage.TextureCoordinates);
-        sphereShaderModel = new ModelBasedGraphModel("sphere", sphereModel, vertexAttributes);
-        sphereModelInstance = sphereShaderModel.createInstance("sphereInstance", ModelInstanceOptimizationHints.unoptimized);
+    private void createModel(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> properties) {
+        spriteData = new TagSpriteShaderConfig(vertexAttributes, properties);
+        spriteData.clear();
+        spriteData.appendSprite(graphSprite);
     }
 
     private void destroyShader() {
-        sphereModel.dispose();
-        sphereShaderModel.dispose();
-        rectangleModel.dispose();
-        rectangleShaderModel.dispose();
         frameBuffer.dispose();
         frameBuffer = null;
         graphShader.dispose();
@@ -174,6 +145,7 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
         if (frameBuffer != null) {
             batch.end();
 
+
             timeKeeper.updateTime(Gdx.graphics.getDeltaTime());
             Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
             try {
@@ -188,10 +160,7 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
                 Gdx.gl.glClearColor(0, 0, 0, 1);
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
                 graphShader.begin(shaderContext, renderContext);
-                if (model == ShaderPreviewModel.Sphere)
-                    graphShader.render(shaderContext, sphereModelInstance);
-                else if (model == ShaderPreviewModel.Rectangle)
-                    graphShader.render(shaderContext, rectangleModelInstance);
+                graphShader.renderSprites(shaderContext, spriteData);
                 graphShader.end();
                 frameBuffer.end();
                 renderContext.end();

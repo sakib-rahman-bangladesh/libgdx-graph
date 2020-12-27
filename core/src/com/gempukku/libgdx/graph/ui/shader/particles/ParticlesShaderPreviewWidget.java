@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
@@ -168,14 +167,9 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
         }
     }
 
-    private void createModel(Array<VertexAttribute> vertexAttributeArray) {
-        VertexAttribute[] vAttributes = new VertexAttribute[vertexAttributeArray.size];
-        for (int i = 0; i < vAttributes.length; i++) {
-            vAttributes[i] = vertexAttributeArray.get(i);
-        }
-
+    private void createModel(VertexAttributes vertexAttributes) {
         particleEffect = new GraphParticleEffect("tag", new ParticleEffectConfiguration(
-                graphShader.getMaxNumberOfParticles(), graphShader.getInitialParticles(), 1f / graphShader.getPerSecondParticles()),
+                vertexAttributes, graphShader.getMaxNumberOfParticles(), graphShader.getInitialParticles(), 1f / graphShader.getPerSecondParticles()),
                 createGenerator(), false);
         if (running)
             particleEffect.start();

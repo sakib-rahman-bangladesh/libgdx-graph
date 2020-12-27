@@ -1,7 +1,7 @@
 package com.gempukku.libgdx.graph.shader.builder;
 
 import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.gempukku.libgdx.graph.shader.UniformRegistry;
@@ -50,7 +50,7 @@ public class VertexShaderBuilder extends CommonShaderBuilder {
         return result.toString();
     }
 
-    public Array<VertexAttribute> getVertexAttributes() {
-        return attributeVertexVariables.values().toArray();
+    public VertexAttributes getVertexAttributes() {
+        return new VertexAttributes(attributeVertexVariables.values().toArray().toArray(VertexAttribute.class));
     }
 }

@@ -14,7 +14,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
-import com.gempukku.libgdx.graph.ui.shader.particles.ParticlesShaderPreviewBoxPart;
+import com.gempukku.libgdx.graph.ui.shader.sprite.SpriteShaderPreviewBoxPart;
 
 public class EndSpriteShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
     public EndSpriteShaderBoxProducer() {
@@ -28,7 +28,7 @@ public class EndSpriteShaderBoxProducer extends GraphBoxProducerImpl<ShaderField
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        final ParticlesShaderPreviewBoxPart previewBoxPart = new ParticlesShaderPreviewBoxPart(skin);
+        final SpriteShaderPreviewBoxPart previewBoxPart = new SpriteShaderPreviewBoxPart(skin);
         previewBoxPart.initialize(data);
 
         GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, getConfiguration(), skin) {

@@ -1,10 +1,11 @@
 package com.gempukku.libgdx.graph.shader;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
@@ -16,7 +17,8 @@ public abstract class GraphShader extends UniformCachingShader implements GraphS
     private ShaderProgram shaderProgram;
     private TimeProvider timeProvider;
     private GraphShaderEnvironment environment;
-    private Array<VertexAttribute> vertexAttributes;
+    private VertexAttributes vertexAttributes;
+    private int[] attributeLocations;
     private String tag;
 
     public GraphShader(Texture defaultTexture) {
@@ -35,12 +37,28 @@ public abstract class GraphShader extends UniformCachingShader implements GraphS
         this.shaderProgram = shaderProgram;
     }
 
-    public void setVertexAttributes(Array<VertexAttribute> vertexAttributes) {
+    public void setVertexAttributes(VertexAttributes vertexAttributes) {
         this.vertexAttributes = vertexAttributes;
     }
 
-    public Array<VertexAttribute> getVertexAttributes() {
+    public VertexAttributes getVertexAttributes() {
         return vertexAttributes;
+    }
+
+    public int[] getAttributeLocations() {
+        if (attributeLocations == null) {
+            IntArray tempArray = new IntArray();
+            final int n = vertexAttributes.size();
+            for (int i = 0; i < n; i++) {
+                Attribute attribute = attributes.get(vertexAttributes.get(i).alias);
+                if (attribute != null)
+                    tempArray.add(attribute.getLocation());
+                else
+                    tempArray.add(-1);
+            }
+            attributeLocations = tempArray.items;
+        }
+        return attributeLocations;
     }
 
     public void init() {
