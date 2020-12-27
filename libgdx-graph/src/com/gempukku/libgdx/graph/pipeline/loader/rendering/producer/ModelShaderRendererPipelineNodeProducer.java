@@ -162,7 +162,6 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                     currentBuffer.endColor();
                     currentBuffer.beginDepth();
 
-                    models.orderFrontToBack();
                     for (ShaderGroup shaderGroup : shaderGroups) {
                         ModelGraphShader depthShader = shaderGroup.getDepthShader();
                         if (depthShader != null) {
