@@ -28,5 +28,7 @@ public interface GraphShaderNodeBuilder {
         String getRepresentation();
 
         String getSamplerRepresentation();
+
+        String toString();
     }
 }

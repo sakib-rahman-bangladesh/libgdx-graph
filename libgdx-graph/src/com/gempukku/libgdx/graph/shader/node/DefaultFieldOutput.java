@@ -31,4 +31,8 @@ public class DefaultFieldOutput implements GraphShaderNodeBuilder.FieldOutput {
     public String getSamplerRepresentation() {
         return samplerRepresentation;
     }
+
+    public String toString() {
+        return getRepresentation();
+    }
 }

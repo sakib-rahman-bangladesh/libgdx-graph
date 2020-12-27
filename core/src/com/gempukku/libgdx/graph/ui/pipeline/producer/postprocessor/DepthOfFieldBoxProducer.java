@@ -28,8 +28,7 @@ public class DepthOfFieldBoxProducer extends GraphBoxProducerImpl<PipelineFieldT
 
         CheckboxBoxPart<PipelineFieldType> blurBackground = new CheckboxBoxPart<>(skin, "Blur background", "blurBackground");
         blurBackground.setValue(false);
-        if (data != null)
-            blurBackground.initialize(data);
+        blurBackground.initialize(data);
         result.addGraphBoxPart(blurBackground);
 
         addConfigurationInputsAndOutputs(skin, result);

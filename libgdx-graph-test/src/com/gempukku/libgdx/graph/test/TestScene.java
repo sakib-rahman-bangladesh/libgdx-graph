@@ -27,13 +27,13 @@ public class TestScene implements LibgdxGraphTestScene {
     private Camera camera;
     private Stage stage;
     private Skin skin;
-    private Texture treeTexture;
+    private Texture texture;
 
     @Override
     public void initializeScene() {
         WhitePixel.initialize();
 
-        treeTexture = new Texture(Gdx.files.classpath("image/oak-tree-transparent-background.png"));
+        texture = new Texture(Gdx.files.classpath("image/professor_walk_cycle_no_hat.png"));
 
         stage = createStage();
 
@@ -59,10 +59,11 @@ public class TestScene implements LibgdxGraphTestScene {
 
     private void createModels(GraphSprites graphSprites) {
         GraphSprite sprite = graphSprites.createSprite(new Vector3(0, 0, -10f), "Default");
-        graphSprites.setProperty(sprite, "Prop", 0.7f);
-        graphSprites.setProperty(sprite, "Texture", new TextureRegion(treeTexture, 0, 0, 350, 175));
-        graphSprites.setProperty(sprite, "Size", new Vector2(-200, 200));
+        graphSprites.setProperty(sprite, "Texture", new TextureRegion(texture, 1 / 9f, 0.25f, 1, 0.5f));
+        graphSprites.setProperty(sprite, "Size", new Vector2(100, 100));
         graphSprites.setProperty(sprite, "Anchor", new Vector2(0.5f, 1));
+        graphSprites.setProperty(sprite, "Tile Count", new Vector2(8, 1));
+        graphSprites.setProperty(sprite, "Tiles Per Second", 20f);
     }
 
     private Stage createStage() {
@@ -94,7 +95,7 @@ public class TestScene implements LibgdxGraphTestScene {
 
     @Override
     public void disposeScene() {
-        treeTexture.dispose();
+        texture.dispose();
         stage.dispose();
         skin.dispose();
         pipelineRenderer.dispose();

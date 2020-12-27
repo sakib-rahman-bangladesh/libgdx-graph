@@ -92,6 +92,7 @@ import com.gempukku.libgdx.graph.ui.shader.common.producer.property.PropertyVect
 import com.gempukku.libgdx.graph.ui.shader.common.producer.property.PropertyVector3BoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.common.producer.provided.SceneColorShaderBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.common.producer.provided.TimeShaderBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.common.producer.texture.UVFlipbookShaderBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueBooleanBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueFloatBoxProducer;
@@ -118,6 +119,7 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration<ShaderF
         graphBoxProducers.add(new IndexedBoxProducer<ShaderFieldType>(new SpotLightShaderNodeConfiguration()));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new Sampler2DShaderNodeConfiguration()));
+        graphBoxProducers.add(new UVFlipbookShaderBoxProducer());
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new AddShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SubtractShaderNodeConfiguration()));

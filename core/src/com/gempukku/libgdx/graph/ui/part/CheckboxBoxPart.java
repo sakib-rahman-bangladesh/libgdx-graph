@@ -43,7 +43,9 @@ public class CheckboxBoxPart<T extends FieldType> extends Table implements Graph
     }
 
     public void initialize(JsonValue data) {
-        input.setChecked(data.getBoolean(property, false));
+        if (data != null) {
+            input.setChecked(data.getBoolean(property, false));
+        }
     }
 
     public void setValue(boolean value) {

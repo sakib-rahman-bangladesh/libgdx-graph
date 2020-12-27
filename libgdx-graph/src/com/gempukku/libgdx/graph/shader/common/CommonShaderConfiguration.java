@@ -77,6 +77,7 @@ import com.gempukku.libgdx.graph.shader.common.shape.EllipseShapeShaderNodeBuild
 import com.gempukku.libgdx.graph.shader.common.shape.RectangleShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.shape.StarShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.texture.Sampler2DShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.common.texture.UVFlipbookShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.value.ValueBooleanShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.value.ValueColorShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.value.ValueFloatShaderNodeBuilder;
@@ -169,6 +170,7 @@ public class CommonShaderConfiguration implements GraphConfiguration {
 
         // Texture
         addGraphShaderNodeBuilder(new Sampler2DShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new UVFlipbookShaderNodeBuilder());
 
         // Noise
         addGraphShaderNodeBuilder(new SimplexNoise2DShaderNodeBuilder());
