@@ -59,10 +59,6 @@ public class ModelShaderConfiguration implements GraphConfiguration {
         graphShaderNodeBuilders.put(builder.getType(), builder);
     }
 
-    public ModelShaderConfiguration() {
-
-    }
-
     @Override
     public Array<GraphShaderPropertyProducer> getPropertyProducers() {
         return graphShaderPropertyProducers;

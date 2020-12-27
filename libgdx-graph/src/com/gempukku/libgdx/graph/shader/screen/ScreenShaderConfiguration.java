@@ -19,10 +19,6 @@ public class ScreenShaderConfiguration implements GraphConfiguration {
         graphShaderNodeBuilders.put(builder.getType(), builder);
     }
 
-    public ScreenShaderConfiguration() {
-
-    }
-
     @Override
     public Array<GraphShaderPropertyProducer> getPropertyProducers() {
         return graphShaderPropertyProducers;

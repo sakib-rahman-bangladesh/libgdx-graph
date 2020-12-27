@@ -31,10 +31,6 @@ public class ParticlesShaderConfiguration implements GraphConfiguration {
         graphShaderNodeBuilders.put(builder.getType(), builder);
     }
 
-    public ParticlesShaderConfiguration() {
-
-    }
-
     @Override
     public Array<GraphShaderPropertyProducer> getPropertyProducers() {
         return graphShaderPropertyProducers;

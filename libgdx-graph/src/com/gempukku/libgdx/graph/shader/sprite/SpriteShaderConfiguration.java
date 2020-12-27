@@ -23,10 +23,6 @@ public class SpriteShaderConfiguration implements GraphConfiguration {
         graphShaderNodeBuilders.put(builder.getType(), builder);
     }
 
-    public SpriteShaderConfiguration() {
-
-    }
-
     @Override
     public Array<GraphShaderPropertyProducer> getPropertyProducers() {
         return graphShaderPropertyProducers;
