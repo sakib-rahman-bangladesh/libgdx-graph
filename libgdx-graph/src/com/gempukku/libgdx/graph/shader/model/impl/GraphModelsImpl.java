@@ -207,7 +207,7 @@ public class GraphModelsImpl implements GraphModels, Disposable {
     }
 
     public Iterable<? extends IGraphModelInstance> getModels() {
-        return models;
+        return preparedForRendering;
     }
 
     public boolean hasModelWithTag(String tag) {
