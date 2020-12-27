@@ -1,10 +1,9 @@
 package com.gempukku.libgdx.graph.shader.sprite;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public interface GraphSprites {
-    GraphSprite createSprite(Vector3 position, Vector2 anchor, Vector2 size);
+    GraphSprite createSprite(Vector3 position, String... tags);
 
     void updateSprite(GraphSprite sprite, SpriteUpdater spriteUpdater);
 

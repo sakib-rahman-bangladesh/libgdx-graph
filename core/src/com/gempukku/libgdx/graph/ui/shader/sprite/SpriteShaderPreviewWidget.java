@@ -3,14 +3,13 @@ package com.gempukku.libgdx.graph.ui.shader.sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
@@ -52,7 +51,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
         this.width = width;
         this.height = height;
         renderContext = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.LRU, 1));
-        camera = new PerspectiveCamera();
+        camera = new OrthographicCamera(width, height);
         camera.near = 0.1f;
         camera.far = 100f;
         camera.position.set(0f, 0f, 0f);
@@ -66,7 +65,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
         shaderContext.setRenderHeight(height);
         shaderContext.setColorTexture(PatternTextures.sharedInstance.texture);
 
-        graphSprite = new GraphSpriteImpl(new Vector3(0, 0, 2f), new Vector2(0.5f, 0.5f), new Vector2(1, 1));
+        graphSprite = new GraphSpriteImpl(new Vector3(0, 0, 2f));
     }
 
     @Override

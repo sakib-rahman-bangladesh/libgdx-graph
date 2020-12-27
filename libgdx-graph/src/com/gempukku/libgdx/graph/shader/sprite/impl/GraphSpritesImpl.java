@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -43,8 +42,6 @@ public class GraphSpritesImpl implements GraphSprites {
     private ObjectMap<String, ObjectSet<GraphSpriteImpl>> spritesByTag = new ObjectMap<>();
 
     private Vector3 tempPosition = new Vector3();
-    private Vector2 tempAnchor = new Vector2();
-    private Vector2 tempSize = new Vector2();
 
     private ObjectMap<String, TagSpriteShaderConfig> tagSpriteShaderData = new ObjectMap<>();
     // TODO limitation on number of textures of 16
@@ -52,9 +49,13 @@ public class GraphSpritesImpl implements GraphSprites {
     private int[] tempTextureIds = new int[16];
 
     @Override
-    public GraphSprite createSprite(Vector3 position, Vector2 anchor, Vector2 size) {
-        GraphSpriteImpl graphSprite = new GraphSpriteImpl(position, anchor, size);
+    public GraphSprite createSprite(Vector3 position, String... tags) {
+        GraphSpriteImpl graphSprite = new GraphSpriteImpl(position);
         graphSprites.add(graphSprite);
+        for (String tag : tags) {
+            addTag(graphSprite, tag);
+        }
+
         return graphSprite;
     }
 
@@ -62,14 +63,10 @@ public class GraphSpritesImpl implements GraphSprites {
     public void updateSprite(GraphSprite sprite, SpriteUpdater spriteUpdater) {
         GraphSpriteImpl graphSprite = getSprite(sprite);
         tempPosition.set(graphSprite.getPosition());
-        tempAnchor.set(graphSprite.getAnchor());
-        tempSize.set(graphSprite.getSize());
 
-        spriteUpdater.processUpdate(tempPosition, tempAnchor, tempSize);
+        spriteUpdater.processUpdate(tempPosition);
 
         graphSprite.getPosition().set(tempPosition);
-        graphSprite.getAnchor().set(tempAnchor);
-        graphSprite.getSize().set(tempSize);
     }
 
     @Override

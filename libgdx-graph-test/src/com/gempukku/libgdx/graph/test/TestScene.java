@@ -58,10 +58,11 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private void createModels(GraphSprites graphSprites) {
-        GraphSprite sprite = graphSprites.createSprite(new Vector3(0, 0, -10f), new Vector2(0.5f, 1f), new Vector2(-200, 200));
-        graphSprites.addTag(sprite, "Default");
+        GraphSprite sprite = graphSprites.createSprite(new Vector3(0, 0, -10f), "Default");
         graphSprites.setProperty(sprite, "Prop", 0.7f);
         graphSprites.setProperty(sprite, "Texture", new TextureRegion(treeTexture, 0, 0, 350, 175));
+        graphSprites.setProperty(sprite, "Size", new Vector2(-200, 200));
+        graphSprites.setProperty(sprite, "Anchor", new Vector2(0.5f, 1));
     }
 
     private Stage createStage() {

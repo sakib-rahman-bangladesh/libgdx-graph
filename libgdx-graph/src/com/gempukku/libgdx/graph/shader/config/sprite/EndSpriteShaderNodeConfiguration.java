@@ -10,6 +10,8 @@ public class EndSpriteShaderNodeConfiguration extends NodeConfigurationImpl<Shad
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("position", "Position", false, false, ShaderFieldType.Vector3));
         addNodeInput(
+                new GraphNodeInputImpl<ShaderFieldType>("anchor", "Anchor", false, false, ShaderFieldType.Vector2, ShaderFieldType.Float));
+        addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("size", "Size", false, false, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("rotation", "Rotation", false, false, ShaderFieldType.Float));

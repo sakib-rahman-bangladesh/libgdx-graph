@@ -82,16 +82,6 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
                     tempVertices[vertexIndex * floatCount + floatIndex + 1] = position.y;
                     tempVertices[vertexIndex * floatCount + floatIndex + 2] = position.z;
                     floatIndex += 3;
-                } else if (alias.equals("a_anchor")) {
-                    Vector2 anchor = sprite.getAnchor();
-                    tempVertices[vertexIndex * floatCount + floatIndex + 0] = anchor.x;
-                    tempVertices[vertexIndex * floatCount + floatIndex + 1] = anchor.y;
-                    floatIndex += 2;
-                } else if (alias.equals("a_size")) {
-                    Vector2 size = sprite.getSize();
-                    tempVertices[vertexIndex * floatCount + floatIndex + 0] = size.x;
-                    tempVertices[vertexIndex * floatCount + floatIndex + 1] = size.y;
-                    floatIndex += 2;
                 } else if (alias.equals(ShaderProgram.TEXCOORD_ATTRIBUTE + 0)) {
                     tempVertices[vertexIndex * floatCount + floatIndex + 0] = vertexIndex % 2;
                     tempVertices[vertexIndex * floatCount + floatIndex + 1] = (float) (vertexIndex / 2);

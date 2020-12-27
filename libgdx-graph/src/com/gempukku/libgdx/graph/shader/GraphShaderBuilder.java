@@ -432,12 +432,12 @@ public class GraphShaderBuilder {
 
     private static void buildSpriteVertexShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         // Vertex part
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 2, "a_anchor"), "a_anchor", "vec2");
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 2, "a_size"), "a_size", "vec2");
         vertexShaderBuilder.addAttributeVariable(VertexAttribute.TexCoords(0), ShaderProgram.TEXCOORD_ATTRIBUTE + 0, "vec2");
 
         ObjectMap<String, ObjectMap<String, GraphShaderNodeBuilder.FieldOutput>> vertexNodeOutputs = new ObjectMap<>();
         GraphShaderNodeBuilder.FieldOutput positionField = getOutput(findInputVertices(graph, "end", "position"),
+                designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, spriteConfigurations);
+        GraphShaderNodeBuilder.FieldOutput anchorField = getOutput(findInputVertices(graph, "end", "anchor"),
                 designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, spriteConfigurations);
         GraphShaderNodeBuilder.FieldOutput sizeField = getOutput(findInputVertices(graph, "end", "size"),
                 designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, spriteConfigurations);
@@ -452,8 +452,13 @@ public class GraphShaderBuilder {
 
             positionField = new DefaultFieldOutput(ShaderFieldType.Vector3, name);
         }
+        if (anchorField == null) {
+            anchorField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(0.5, 0.5)");
+        } else if (anchorField.getFieldType() == ShaderFieldType.Float) {
+            anchorField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(" + anchorField.getRepresentation() + ")");
+        }
         if (sizeField == null) {
-            sizeField = new DefaultFieldOutput(ShaderFieldType.Vector2, "a_size");
+            sizeField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(32, 32)");
         } else if (sizeField.getFieldType() == ShaderFieldType.Float) {
             sizeField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(" + sizeField.getRepresentation() + ")");
         }
@@ -463,8 +468,8 @@ public class GraphShaderBuilder {
         String billboardPosition = "result_billboardPositionAttribute";
         vertexShaderBuilder.addMainLine("vec3 result_cameraRight = cross(u_cameraDirection, u_cameraUp);");
         String size = sizeField.getRepresentation();
-        vertexShaderBuilder.addMainLine("float result_xAdjust = " + size + ".x * (a_texCoord0.x - a_anchor.x);");
-        vertexShaderBuilder.addMainLine("float result_yAdjust = " + size + ".y * (a_texCoord0.y - a_anchor.y);");
+        vertexShaderBuilder.addMainLine("float result_xAdjust = " + size + ".x * (a_texCoord0.x - " + anchorField.getRepresentation() + ".x);");
+        vertexShaderBuilder.addMainLine("float result_yAdjust = " + size + ".y * (a_texCoord0.y - " + anchorField.getRepresentation() + ".y);");
         if (rotationField != null) {
             String rotation = rotationField.getRepresentation();
             vertexShaderBuilder.addMainLine("float result_rotatedX = result_xAdjust * cos(" + rotation + ") - result_yAdjust * sin(" + rotation + ");");
