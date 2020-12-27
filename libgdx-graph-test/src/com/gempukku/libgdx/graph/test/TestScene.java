@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.test;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -28,6 +29,9 @@ public class TestScene implements LibgdxGraphTestScene {
     private Stage stage;
     private Skin skin;
     private Texture texture;
+    private GraphSprite doctorSprite;
+    private boolean doctorWalking = false;
+    private boolean doctorRight = true;
 
     @Override
     public void initializeScene() {
@@ -58,12 +62,23 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private void createModels(GraphSprites graphSprites) {
-        GraphSprite sprite = graphSprites.createSprite(new Vector3(0, 0, -10f), "Default");
-        graphSprites.setProperty(sprite, "Texture", new TextureRegion(texture, 1 / 9f, 0.25f, 1, 0.5f));
-        graphSprites.setProperty(sprite, "Size", new Vector2(100, 100));
-        graphSprites.setProperty(sprite, "Anchor", new Vector2(0.5f, 1));
-        graphSprites.setProperty(sprite, "Tile Count", new Vector2(8, 1));
-        graphSprites.setProperty(sprite, "Tiles Per Second", 20f);
+        doctorSprite = graphSprites.createSprite(new Vector3(0, 0, -10f), "Default");
+
+        graphSprites.setProperty(doctorSprite, "Size", new Vector2(100, 100));
+        graphSprites.setProperty(doctorSprite, "Anchor", new Vector2(0.5f, 1));
+        graphSprites.setProperty(doctorSprite, "Tiles Per Second", 12f);
+
+        updateAnimated(doctorSprite, doctorWalking, doctorRight, 9);
+    }
+
+    private void updateAnimated(GraphSprite graphSprite, boolean walking, boolean right, int spriteCount) {
+        GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
+
+        float startX = walking ? 1f / spriteCount : 0f;
+        float endX = walking ? 1f : 1f / spriteCount;
+        float startY = right ? 0.75f : 0.25f;
+        graphSprites.setProperty(graphSprite, "Texture", new TextureRegion(texture, startX, startY, endX, startY + 0.25f));
+        graphSprites.setProperty(graphSprite, "Tile Count", new Vector2(walking ? (spriteCount - 1) : 1, 1));
     }
 
     private Stage createStage() {
@@ -89,6 +104,17 @@ public class TestScene implements LibgdxGraphTestScene {
     public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
         stage.act(delta);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            doctorWalking = true;
+            doctorRight = true;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            doctorWalking = true;
+            doctorRight = false;
+        } else {
+            doctorWalking = false;
+        }
+        updateAnimated(doctorSprite, doctorWalking, doctorRight, 9);
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
     }
