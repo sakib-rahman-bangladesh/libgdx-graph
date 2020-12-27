@@ -1,13 +1,14 @@
 package com.gempukku.libgdx.graph.shader.model.impl;
 
 import com.badlogic.gdx.utils.Disposable;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
 import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 
-public interface GraphModel extends Disposable {
+public interface IGraphModel extends GraphModel, Disposable {
     void addDefaultTag(String tag, TagOptimizationHint tagOptimizationHint);
 
     void removeDefaultTag(String tag);
 
-    GraphModelInstance createInstance(String instanceId, ModelInstanceOptimizationHints modelInstanceOptimizationHints);
+    IGraphModelInstance createInstance(ModelInstanceOptimizationHints modelInstanceOptimizationHints);
 }

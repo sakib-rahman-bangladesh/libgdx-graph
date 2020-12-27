@@ -27,7 +27,7 @@ import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
-import com.gempukku.libgdx.graph.shader.sprite.impl.GraphSprite;
+import com.gempukku.libgdx.graph.shader.sprite.impl.GraphSpriteImpl;
 import com.gempukku.libgdx.graph.shader.sprite.impl.TagSpriteShaderConfig;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
@@ -45,7 +45,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
     private Camera camera;
     private DefaultTimeKeeper timeKeeper;
     private ShaderContextImpl shaderContext;
-    private GraphSprite graphSprite;
+    private GraphSpriteImpl graphSprite;
     private TagSpriteShaderConfig spriteData;
 
     public SpriteShaderPreviewWidget(int width, int height) {
@@ -66,7 +66,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
         shaderContext.setRenderHeight(height);
         shaderContext.setColorTexture(PatternTextures.sharedInstance.texture);
 
-        graphSprite = new GraphSprite(new Vector3(0, 0, 2f), new Vector2(0.5f, 0.5f), new Vector2(1, 1));
+        graphSprite = new GraphSpriteImpl(new Vector3(0, 0, 2f), new Vector2(0.5f, 0.5f), new Vector2(1, 1));
     }
 
     @Override

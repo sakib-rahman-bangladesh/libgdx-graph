@@ -20,6 +20,8 @@ import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
+import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
@@ -33,7 +35,7 @@ public class Episode6Scene implements LibgdxGraphTestScene {
     private Model model;
     private Camera camera;
     private Stage stage;
-    private String shipInstance;
+    private GraphModelInstance shipInstance;
     private Skin skin;
 
     @Override
@@ -66,7 +68,7 @@ public class Episode6Scene implements LibgdxGraphTestScene {
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.classpath("model/fighter/fighter.g3db"));
 
-        String modelId = models.registerModel(model);
+        GraphModel modelId = models.registerModel(model);
         final float scale = 0.0008f;
         shipInstance = models.createModelInstance(modelId);
         models.updateTransform(shipInstance,

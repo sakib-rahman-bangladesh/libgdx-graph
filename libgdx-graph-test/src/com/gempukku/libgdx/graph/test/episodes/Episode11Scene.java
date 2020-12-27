@@ -25,6 +25,8 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.Transforms;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
+import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -40,7 +42,7 @@ public class Episode11Scene implements LibgdxGraphTestScene {
     private Stage stage;
     private Skin skin;
     private GraphShaderEnvironment lights;
-    private String sphereInstanceId;
+    private GraphModelInstance sphereInstanceId;
 
     @Override
     public void initializeScene() {
@@ -97,8 +99,8 @@ public class Episode11Scene implements LibgdxGraphTestScene {
         Model sphere = modelBuilder.createSphere(4f, 4f, 4f, 50, 50, new Material(), VertexAttributes.Usage.Position);
         disposables.add(sphere);
 
-        String forceFieldId = models.registerModel(forceField);
-        String sphereId = models.registerModel(sphere);
+        GraphModel forceFieldId = models.registerModel(forceField);
+        GraphModel sphereId = models.registerModel(sphere);
 
         models.addModelDefaultTag(forceFieldId, "force-field");
         models.addModelDefaultTag(sphereId, "default");

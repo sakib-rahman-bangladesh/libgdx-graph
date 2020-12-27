@@ -9,14 +9,14 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
+import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
-import com.gempukku.libgdx.graph.util.IdGenerator;
-import com.gempukku.libgdx.graph.util.RandomIdGenerator;
 
 import java.util.Comparator;
 
@@ -36,19 +36,18 @@ public class GraphModelsImpl implements GraphModels, Disposable {
     private Order order;
     private DistanceRenderableSorter sorter = new DistanceRenderableSorter();
 
-    private ObjectMap<String, GraphModel> graphShaderModels = new ObjectMap<>();
-    private ObjectMap<String, GraphModelInstance> models = new ObjectMap<>();
+    private ObjectSet<IGraphModel> graphShaderModels = new ObjectSet<>();
+    private ObjectSet<IGraphModelInstance> models = new ObjectSet<>();
 
-    private Array<GraphModelInstance> preparedForRendering = new Array<>();
+    private Array<IGraphModelInstance> preparedForRendering = new Array<>();
 
-    private IdGenerator idGenerator = new RandomIdGenerator(16);
     private Matrix4 transformTempMatrix = new Matrix4();
 
     private Array<VertexAttribute> registeredAttributes = new Array<>();
     private VertexAttributes vertexAttributes;
 
     @Override
-    public String registerModel(Model model) {
+    public GraphModel registerModel(Model model) {
         if (vertexAttributes == null) {
             int maxNumberOfBoneWeights = GraphShaderConfig.getMaxNumberOfBoneWeights();
 
@@ -63,110 +62,118 @@ public class GraphModelsImpl implements GraphModels, Disposable {
             }
             vertexAttributes = new VertexAttributes(vertexAttributeArr);
         }
-        String id = idGenerator.generateId();
-        ModelBasedGraphModel graphShaderModel = new ModelBasedGraphModel(id, model, vertexAttributes);
-        graphShaderModels.put(id, graphShaderModel);
-        return id;
+        ModelBasedGraphModel graphShaderModel = new ModelBasedGraphModel(model, vertexAttributes);
+        graphShaderModels.add(graphShaderModel);
+        return graphShaderModel;
     }
 
     @Override
-    public void removeModel(String modelId) {
-        GraphModel model = graphShaderModels.remove(modelId);
-        ObjectMap.Entries<String, GraphModelInstance> iterator = models.iterator();
-        for (ObjectMap.Entry<String, GraphModelInstance> entry : iterator) {
-            if (entry.value.getModelId().equals(modelId))
+    public void removeModel(GraphModel model) {
+        IGraphModel iModel = getModel(model);
+        ObjectSet.ObjectSetIterator<IGraphModelInstance> iterator = models.iterator();
+        for (IGraphModelInstance modelInstance : iterator) {
+            if (modelInstance.getGraphModel() == iModel)
                 iterator.remove();
         }
-        model.dispose();
+        iModel.dispose();
     }
 
     @Override
-    public void addModelDefaultTag(String modelId, String tag) {
-        addModelDefaultTag(modelId, tag, TagOptimizationHint.Flash);
+    public void addModelDefaultTag(GraphModel model, String tag) {
+        addModelDefaultTag(model, tag, TagOptimizationHint.Flash);
     }
 
     @Override
-    public void addModelDefaultTag(String modelId, String tag, TagOptimizationHint tagOptimizationHint) {
-        graphShaderModels.get(modelId).addDefaultTag(tag, tagOptimizationHint);
+    public void addModelDefaultTag(GraphModel model, String tag, TagOptimizationHint tagOptimizationHint) {
+        getModel(model).addDefaultTag(tag, tagOptimizationHint);
     }
 
     @Override
-    public void removeModelDefaultTag(String modelId, String tag) {
-        graphShaderModels.get(modelId).removeDefaultTag(tag);
+    public void removeModelDefaultTag(GraphModel model, String tag) {
+        getModel(model).removeDefaultTag(tag);
     }
 
     @Override
-    public String createModelInstance(String modelId) {
-        return createModelInstance(modelId, ModelInstanceOptimizationHints.unoptimized);
+    public GraphModelInstance createModelInstance(GraphModel model) {
+        return createModelInstance(model, ModelInstanceOptimizationHints.unoptimized);
     }
 
     @Override
-    public String createModelInstance(String modelId, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
-        String instanceId = idGenerator.generateId();
-        GraphModelInstance graphModelInstance = graphShaderModels.get(modelId).createInstance(instanceId, modelInstanceOptimizationHints);
-        models.put(instanceId, graphModelInstance);
-        return instanceId;
+    public GraphModelInstance createModelInstance(GraphModel model, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
+        IGraphModelInstance graphModelInstance = getModel(model).createInstance(modelInstanceOptimizationHints);
+        models.add(graphModelInstance);
+        return graphModelInstance;
     }
 
     @Override
-    public void destroyModelInstance(String modelInstanceId) {
-        models.remove(modelInstanceId);
+    public void destroyModelInstance(GraphModelInstance modelInstance) {
+        models.remove(getModelInstance(modelInstance));
     }
 
     @Override
-    public void updateTransform(String modelInstanceId, TransformUpdate transformUpdate) {
-        Matrix4 transformMatrix = getModelInstance(modelInstanceId).getTransformMatrix();
+    public void updateTransform(GraphModelInstance modelInstance, TransformUpdate transformUpdate) {
+        Matrix4 transformMatrix = getModelInstance(modelInstance).getTransformMatrix();
         transformTempMatrix.set(transformMatrix);
         transformUpdate.updateTransform(transformTempMatrix);
         transformMatrix.set(transformTempMatrix);
     }
 
-    public AnimationController createAnimationController(String modelInstanceId) {
-        return getModelInstance(modelInstanceId).createAnimationController();
-    }
-
-    private GraphModelInstance getModelInstance(String modelInstanceId) {
-        return models.get(modelInstanceId);
+    public AnimationController createAnimationController(GraphModelInstance modelInstance) {
+        return getModelInstance(modelInstance).createAnimationController();
     }
 
     @Override
-    public void addTag(String modelInstanceId, String tag) {
-        addTag(modelInstanceId, tag, TagOptimizationHint.Flash);
+    public void addTag(GraphModelInstance modelInstance, String tag) {
+        addTag(modelInstance, tag, TagOptimizationHint.Flash);
     }
 
     @Override
-    public void addTag(String modelInstanceId, String tag, TagOptimizationHint tagOptimizationHint) {
-        getModelInstance(modelInstanceId).addTag(tag, tagOptimizationHint);
+    public void addTag(GraphModelInstance modelInstance, String tag, TagOptimizationHint tagOptimizationHint) {
+        getModelInstance(modelInstance).addTag(tag, tagOptimizationHint);
     }
 
     @Override
-    public void removeTag(String modelInstanceId, String tag) {
-        getModelInstance(modelInstanceId).removeTag(tag);
+    public void removeTag(GraphModelInstance modelInstance, String tag) {
+        getModelInstance(modelInstance).removeTag(tag);
     }
 
     @Override
-    public void removeAllTags(String modelInstanceId) {
-        getModelInstance(modelInstanceId).removeAllTags();
+    public void removeAllTags(GraphModelInstance modelInstance) {
+        getModelInstance(modelInstance).removeAllTags();
     }
 
     @Override
-    public void setProperty(String modelInstanceId, String name, Object value) {
-        getModelInstance(modelInstanceId).getPropertyContainer().setValue(name, value);
+    public void setProperty(GraphModelInstance modelInstance, String name, Object value) {
+        getModelInstance(modelInstance).getPropertyContainer().setValue(name, value);
     }
 
     @Override
-    public void unsetProperty(String modelInstanceId, String name) {
-        getModelInstance(modelInstanceId).getPropertyContainer().remove(name);
+    public void unsetProperty(GraphModelInstance modelInstance, String name) {
+        getModelInstance(modelInstance).getPropertyContainer().remove(name);
     }
 
     @Override
-    public boolean hasTag(String modelInstanceId, String tag) {
-        return getModelInstance(modelInstanceId).hasTag(tag);
+    public boolean hasTag(GraphModelInstance modelInstance, String tag) {
+        return getModelInstance(modelInstance).hasTag(tag);
     }
 
     @Override
-    public Object getProperty(String modelInstanceId, String name) {
-        return getModelInstance(modelInstanceId).getPropertyContainer().getValue(name);
+    public Object getProperty(GraphModelInstance modelInstance, String name) {
+        return getModelInstance(modelInstance).getPropertyContainer().getValue(name);
+    }
+
+    private IGraphModel getModel(GraphModel model) {
+        IGraphModel iModel = (IGraphModel) model;
+        if (!graphShaderModels.contains(iModel))
+            throw new IllegalArgumentException("Unable to find the graph model");
+        return iModel;
+    }
+
+    private IGraphModelInstance getModelInstance(GraphModelInstance modelInstance) {
+        IGraphModelInstance iModelInstance = (IGraphModelInstance) modelInstance;
+        if (!models.contains(iModelInstance))
+            throw new IllegalArgumentException("Unable to find the graph model instance");
+        return iModelInstance;
     }
 
     public void registerAttribute(VertexAttribute vertexAttribute) {
@@ -180,7 +187,7 @@ public class GraphModelsImpl implements GraphModels, Disposable {
         cameraPosition.set(camera.position);
         order = null;
         preparedForRendering.clear();
-        models.values().toArray(preparedForRendering);
+        models.iterator().toArray(preparedForRendering);
     }
 
     public void orderFrontToBack() {
@@ -199,12 +206,12 @@ public class GraphModelsImpl implements GraphModels, Disposable {
         order = Order.Back_To_Front;
     }
 
-    public Iterable<? extends GraphModelInstance> getModels() {
-        return models.values();
+    public Iterable<? extends IGraphModelInstance> getModels() {
+        return models;
     }
 
     public boolean hasModelWithTag(String tag) {
-        for (GraphModelInstance value : models.values()) {
+        for (IGraphModelInstance value : models) {
             if (value.hasTag(tag))
                 return true;
         }
@@ -213,20 +220,20 @@ public class GraphModelsImpl implements GraphModels, Disposable {
 
     @Override
     public void dispose() {
-        for (GraphModel model : graphShaderModels.values()) {
+        for (IGraphModel model : graphShaderModels) {
             model.dispose();
         }
         graphShaderModels.clear();
         models.clear();
     }
 
-    private static class DistanceRenderableSorter implements Comparator<GraphModelInstance> {
+    private static class DistanceRenderableSorter implements Comparator<IGraphModelInstance> {
         private Vector3 cameraPosition;
         private Order order;
         private final Vector3 tmpV1 = new Vector3();
         private final Vector3 tmpV2 = new Vector3();
 
-        public void sort(Vector3 cameraPosition, Array<GraphModelInstance> renderables, Order order) {
+        public void sort(Vector3 cameraPosition, Array<IGraphModelInstance> renderables, Order order) {
             this.cameraPosition = cameraPosition;
             this.order = order;
             renderables.sort(this);
@@ -238,7 +245,7 @@ public class GraphModelsImpl implements GraphModels, Disposable {
         }
 
         @Override
-        public int compare(GraphModelInstance o1, GraphModelInstance o2) {
+        public int compare(IGraphModelInstance o1, IGraphModelInstance o2) {
             getTranslation(o1.getTransformMatrix(), tmpV1);
             getTranslation(o2.getTransformMatrix(), tmpV2);
             final float dst = (int) (1000f * cameraPosition.dst2(tmpV1)) - (int) (1000f * cameraPosition.dst2(tmpV2));

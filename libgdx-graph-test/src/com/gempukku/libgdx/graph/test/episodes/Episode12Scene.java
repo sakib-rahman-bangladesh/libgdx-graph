@@ -24,6 +24,8 @@ import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
+import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -39,7 +41,7 @@ public class Episode12Scene implements LibgdxGraphTestScene {
     private Stage stage;
     private Skin skin;
     private GraphShaderEnvironment lights;
-    private String sphereInstanceId;
+    private GraphModelInstance sphereInstanceId;
 
     @Override
     public void initializeScene() {
@@ -89,7 +91,7 @@ public class Episode12Scene implements LibgdxGraphTestScene {
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
         disposables.add(sphere);
 
-        String sphereId = models.registerModel(sphere);
+        GraphModel sphereId = models.registerModel(sphere);
 
         models.addModelDefaultTag(sphereId, "dissolve");
 

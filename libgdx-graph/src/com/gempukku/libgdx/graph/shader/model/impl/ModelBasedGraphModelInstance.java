@@ -14,16 +14,16 @@ import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 
-public class ModelBasedGraphModelInstance implements GraphModelInstance {
-    private String modelId;
+public class ModelBasedGraphModelInstance implements IGraphModelInstance {
+    private IGraphModel model;
     private ModelInstance modelInstance;
     private ModelInstanceOptimizationHints modelInstanceOptimizationHints;
     private ObjectMap<String, TagOptimizationHint> tags = new ObjectMap<>();
     private PropertyContainerImpl propertyContainer = new PropertyContainerImpl();
     private Array<ModelDataProducer> dataProducers = new Array<>();
 
-    public ModelBasedGraphModelInstance(String modelId, ModelInstance modelInstance, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
-        this.modelId = modelId;
+    public ModelBasedGraphModelInstance(IGraphModel model, ModelInstance modelInstance, ModelInstanceOptimizationHints modelInstanceOptimizationHints) {
+        this.model = model;
         this.modelInstance = modelInstance;
         this.modelInstanceOptimizationHints = modelInstanceOptimizationHints;
         initializeDataProducers();
@@ -83,11 +83,6 @@ public class ModelBasedGraphModelInstance implements GraphModelInstance {
     }
 
     @Override
-    public String getModelId() {
-        return modelId;
-    }
-
-    @Override
     public AnimationController createAnimationController() {
         return new AnimationController(modelInstance);
     }
@@ -95,6 +90,11 @@ public class ModelBasedGraphModelInstance implements GraphModelInstance {
     @Override
     public Iterable<ModelDataProducer> getModelInstanceData() {
         return dataProducers;
+    }
+
+    @Override
+    public IGraphModel getGraphModel() {
+        return model;
     }
 
     private class NodePartModelDataProducer implements ModelDataProducer, ModelInstanceDataImpl.MeshRenderer {

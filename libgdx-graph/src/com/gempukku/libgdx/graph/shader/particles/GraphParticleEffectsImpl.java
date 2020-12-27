@@ -3,14 +3,13 @@ package com.gempukku.libgdx.graph.shader.particles;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.shader.particles.generator.ParticleGenerator;
 import com.gempukku.libgdx.graph.time.TimeProvider;
-import com.gempukku.libgdx.graph.util.RandomIdGenerator;
 
 public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposable {
-    private ObjectMap<String, GraphParticleEffect> particleEffects = new ObjectMap<>();
+    private ObjectSet<GraphParticleEffectImpl> particleEffects = new ObjectSet<>();
     private ObjectMap<String, ParticleEffectConfiguration> effectsConfiguration = new ObjectMap<>();
-    private RandomIdGenerator randomIdGenerator = new RandomIdGenerator(16);
     private TimeProvider timeProvider;
 
     public void setTimeProvider(TimeProvider timeProvider) {
@@ -23,84 +22,89 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, Disposabl
         effectsConfiguration.put(tag, new ParticleEffectConfiguration(vertexAttributes, maxNumberOfParticles, initialParticles, 1f / particlesPerSecond));
     }
 
-    public ObjectMap.Values<GraphParticleEffect> getParticleEffects() {
-        return particleEffects.values();
+    public Iterable<GraphParticleEffectImpl> getParticleEffects() {
+        return particleEffects;
     }
 
     @Override
-    public String createEffect(String tag, ParticleGenerator particleGenerator) {
+    public GraphParticleEffect createEffect(String tag, ParticleGenerator particleGenerator) {
         return createEffect(tag, particleGenerator, null);
     }
 
     @Override
-    public <T> String createEffect(String tag, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass) {
+    public <T> GraphParticleEffect createEffect(String tag, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass) {
         ParticleEffectConfiguration configuration = effectsConfiguration.get(tag);
         if (configuration == null)
             throw new IllegalArgumentException("Unable to find particle effect with tag - " + tag);
 
-        String effectId = randomIdGenerator.generateId();
-        GraphParticleEffect particleEffect = new GraphParticleEffect(tag, configuration, particleGenerator, particleDataClass != null);
-        particleEffects.put(effectId, particleEffect);
-
-        return effectId;
+        GraphParticleEffectImpl particleEffect = new GraphParticleEffectImpl(tag, configuration, particleGenerator, particleDataClass != null);
+        particleEffects.add(particleEffect);
+        return particleEffect;
     }
 
     @Override
-    public void setGenerator(String effectId, ParticleGenerator particleGenerator) {
-        setGenerator(effectId, particleGenerator, null);
+    public void setGenerator(GraphParticleEffect effect, ParticleGenerator particleGenerator) {
+        setGenerator(effect, particleGenerator, null);
     }
 
     @Override
-    public <T> void setGenerator(String effectId, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass) {
-        GraphParticleEffect particleEffect = particleEffects.get(effectId);
-        particleEffect.setParticleGenerator(particleGenerator);
+    public <T> void setGenerator(GraphParticleEffect effect, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass) {
+        getEffect(effect).setParticleGenerator(particleGenerator);
     }
 
     @Override
-    public void startEffect(String effectId) {
-        particleEffects.get(effectId).start();
+    public void startEffect(GraphParticleEffect effect) {
+        getEffect(effect).start();
     }
 
     @Override
-    public void updateParticles(String effectId, ParticleUpdater particleUpdater) {
-        updateParticles(effectId, particleUpdater, null);
+    public void updateParticles(GraphParticleEffect effect, ParticleUpdater particleUpdater) {
+        updateParticles(effect, particleUpdater, null);
     }
 
     @Override
-    public <T> void updateParticles(String effectId, ParticleUpdater<T> particleUpdater, Class<T> particleDataClass) {
-        particleEffects.get(effectId).update(timeProvider, particleUpdater, particleDataClass != null);
+    public <T> void updateParticles(GraphParticleEffect effect, ParticleUpdater<T> particleUpdater, Class<T> particleDataClass) {
+        getEffect(effect).update(timeProvider, particleUpdater, particleDataClass != null);
     }
 
     @Override
-    public void stopEffect(String effectId) {
-        particleEffects.get(effectId).stop();
+    public void stopEffect(GraphParticleEffect effect) {
+        getEffect(effect).stop();
     }
 
     @Override
-    public void destroyEffect(String effectId) {
-        GraphParticleEffect effect = particleEffects.remove(effectId);
-        effect.dispose();
+    public void destroyEffect(GraphParticleEffect effect) {
+        GraphParticleEffectImpl effectImpl = getEffect(effect);
+        particleEffects.remove(effectImpl);
+        effectImpl.dispose();
     }
 
     @Override
-    public void setProperty(String effectId, String name, Object value) {
-        particleEffects.get(effectId).setProperty(name, value);
+    public void setProperty(GraphParticleEffect effect, String name, Object value) {
+        getEffect(effect).setProperty(name, value);
     }
 
     @Override
-    public void unsetProperty(String effectId, String name) {
-        particleEffects.get(effectId).unsetProperty(name);
+    public void unsetProperty(GraphParticleEffect effect, String name) {
+        getEffect(effect).unsetProperty(name);
     }
 
     @Override
-    public Object getProperty(String effectId, String name) {
-        return particleEffects.get(effectId).getProperty(name);
+    public Object getProperty(GraphParticleEffect effect, String name) {
+        return getEffect(effect).getProperty(name);
     }
 
     @Override
     public void dispose() {
-        for (GraphParticleEffect value : particleEffects.values()) {
+        for (GraphParticleEffectImpl value : particleEffects) {
             value.dispose();
         }
+    }
+
+    private GraphParticleEffectImpl getEffect(GraphParticleEffect effect) {
+        GraphParticleEffectImpl effectImpl = (GraphParticleEffectImpl) effect;
+        if (!particleEffects.contains(effectImpl))
+            throw new IllegalArgumentException("Unable to find the graph particle effect");
+        return effectImpl;
     }
 }

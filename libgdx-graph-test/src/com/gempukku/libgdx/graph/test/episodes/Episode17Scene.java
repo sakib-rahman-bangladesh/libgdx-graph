@@ -25,6 +25,8 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.Transforms;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
+import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -44,7 +46,7 @@ public class Episode17Scene implements LibgdxGraphTestScene {
     private AnimationController animationController;
 
     private Model model;
-    private String mainRobot;
+    private GraphModelInstance mainRobot;
 
     @Override
     public void initializeScene() {
@@ -85,7 +87,7 @@ public class Episode17Scene implements LibgdxGraphTestScene {
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.classpath("model/gold-robot/gold-robot.g3dj"));
 
-        String modelId = models.registerModel(model);
+        GraphModel modelId = models.registerModel(model);
         models.addModelDefaultTag(modelId, "Default");
         final float scale = 0.008f;
 
@@ -94,7 +96,7 @@ public class Episode17Scene implements LibgdxGraphTestScene {
         animationController = models.createAnimationController(mainRobot);
         animationController.animate("Root|jog", -1, null, 0f);
 
-        String secondRobot = models.createModelInstance(modelId);
+        GraphModelInstance secondRobot = models.createModelInstance(modelId);
         models.updateTransform(secondRobot, Transforms.create().idt().translate(1.5f, 0, 0).scale(scale, scale, scale));
     }
 

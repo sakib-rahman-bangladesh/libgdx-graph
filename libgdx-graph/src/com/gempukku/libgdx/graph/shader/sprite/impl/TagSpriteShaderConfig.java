@@ -71,7 +71,7 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
         spriteCount = 0;
     }
 
-    public void appendSprite(GraphSprite sprite) {
+    public void appendSprite(GraphSpriteImpl sprite) {
         for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
             int floatIndex = 0;
             for (VertexAttribute vertexAttribute : vertexAttributes) {

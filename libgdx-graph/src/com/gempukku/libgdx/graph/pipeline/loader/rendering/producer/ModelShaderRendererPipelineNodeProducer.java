@@ -26,8 +26,8 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
 import com.gempukku.libgdx.graph.shader.model.ModelShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.model.ModelShaderLoaderCallback;
-import com.gempukku.libgdx.graph.shader.model.impl.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphModelsImpl;
+import com.gempukku.libgdx.graph.shader.model.impl.IGraphModelInstance;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
@@ -178,7 +178,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 // Then render transparent models
                 models.orderBackToFront();
                 GraphShader lastShader = null;
-                for (GraphModelInstance graphModelInstance : models.getModels()) {
+                for (IGraphModelInstance graphModelInstance : models.getModels()) {
                     for (ShaderGroup shaderGroup : shaderGroups) {
                         ModelGraphShader colorShader = shaderGroup.getColorShader();
                         if (colorShader.getBlending() != BasicShader.Blending.opaque) {
@@ -229,7 +229,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             private void renderWithShaderOpaquePass(String tag, ModelGraphShader shader, GraphModelsImpl models, ModelShaderContextImpl shaderContext,
                                                     RenderContext renderContext) {
                 boolean begun = false;
-                for (GraphModelInstance graphModelInstance : models.getModels()) {
+                for (IGraphModelInstance graphModelInstance : models.getModels()) {
                     if (graphModelInstance.hasTag(tag)) {
                         if (!begun) {
                             shader.begin(shaderContext, renderContext);

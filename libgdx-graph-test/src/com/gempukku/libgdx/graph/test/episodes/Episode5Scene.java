@@ -23,6 +23,8 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
+import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
@@ -34,7 +36,7 @@ import java.io.InputStream;
 public class Episode5Scene implements LibgdxGraphTestScene {
     private PipelineRenderer pipelineRenderer;
     private Model sphereModel;
-    private String sphereModelInstance;
+    private GraphModelInstance sphereModelInstance;
     private Camera camera;
     private Texture rockTexture;
     private Stage stage;
@@ -72,7 +74,7 @@ public class Episode5Scene implements LibgdxGraphTestScene {
     }
 
     private void createModels(GraphModels models) {
-        String modelId = models.registerModel(sphereModel);
+        GraphModel modelId = models.registerModel(sphereModel);
         sphereModelInstance = models.createModelInstance(modelId);
         models.addTag(sphereModelInstance, "Cover", TagOptimizationHint.Always);
     }

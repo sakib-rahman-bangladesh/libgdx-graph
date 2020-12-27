@@ -27,6 +27,8 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.Transforms;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
+import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -49,8 +51,8 @@ public class Episode14Scene implements LibgdxGraphTestScene {
 
     private Vector3 blackHolePosition = new Vector3(0, 0, 0);
     private Vector3 starPosition = new Vector3(-10, 0, -10);
-    private String starInstance;
-    private String starCoronaInstance;
+    private GraphModelInstance starInstance;
+    private GraphModelInstance starCoronaInstance;
 
     private float cameraPositionAngle;
     private float cameraAngle;
@@ -119,19 +121,19 @@ public class Episode14Scene implements LibgdxGraphTestScene {
     }
 
     private void registerModels(GraphModels models) {
-        String starfieldId = models.registerModel(starfield);
+        GraphModel starfieldId = models.registerModel(starfield);
         models.addModelDefaultTag(starfieldId, "starfield");
         models.createModelInstance(starfieldId);
 
-        String blackHoleId = models.registerModel(blackHole);
+        GraphModel blackHoleId = models.registerModel(blackHole);
         models.addModelDefaultTag(blackHoleId, "black-hole");
         models.createModelInstance(blackHoleId);
 
-        String starId = models.registerModel(star);
+        GraphModel starId = models.registerModel(star);
         starInstance = models.createModelInstance(starId);
         models.updateTransform(starInstance, Transforms.create().idt().translate(starPosition.x, starPosition.y, starPosition.z));
 
-        String starCoronaId = models.registerModel(starCorona);
+        GraphModel starCoronaId = models.registerModel(starCorona);
         starCoronaInstance = models.createModelInstance(starCoronaId);
         models.updateTransform(starCoronaInstance, Transforms.create().idt().translate(starPosition.x, starPosition.y, starPosition.z));
     }

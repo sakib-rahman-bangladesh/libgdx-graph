@@ -19,7 +19,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphModelsImpl;
-import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
+import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectImpl;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectsImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
@@ -157,7 +157,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
 
         public void update() {
             particleEffects.setTimeProvider(timeKeeper);
-            for (GraphParticleEffect particleEffect : particleEffects.getParticleEffects()) {
+            for (GraphParticleEffectImpl particleEffect : particleEffects.getParticleEffects()) {
                 particleEffect.generateParticles(timeKeeper);
             }
         }

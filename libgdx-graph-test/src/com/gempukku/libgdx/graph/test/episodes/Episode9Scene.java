@@ -23,6 +23,8 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
+import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
@@ -47,7 +49,7 @@ public class Episode9Scene implements LibgdxGraphTestScene {
     private float robotAngle = 0f;
     private float robotSpeed = -0.4f;
     private AnimationController robotAnimation;
-    private String robotInstance;
+    private GraphModelInstance robotInstance;
     private AnimationController robot2Animation;
 
     @Override
@@ -95,9 +97,9 @@ public class Episode9Scene implements LibgdxGraphTestScene {
         this.shipModel = loadShipModel();
         this.robotModel = loadRobotModel();
 
-        String shipModelId = models.registerModel(this.shipModel);
+        GraphModel shipModelId = models.registerModel(this.shipModel);
         final float shipScale = 0.0008f;
-        String shipModelInstance = models.createModelInstance(shipModelId);
+        GraphModelInstance shipModelInstance = models.createModelInstance(shipModelId);
         models.updateTransform(shipModelInstance,
                 new TransformUpdate() {
                     @Override
@@ -107,14 +109,14 @@ public class Episode9Scene implements LibgdxGraphTestScene {
                 });
         models.addTag(shipModelInstance, "Environment", TagOptimizationHint.Always);
 
-        String robotModelId = models.registerModel(this.robotModel);
+        GraphModel robotModelId = models.registerModel(this.robotModel);
 
         robotInstance = models.createModelInstance(robotModelId);
         models.addTag(robotInstance, "Seen-through", TagOptimizationHint.Always);
         robotAnimation = models.createAnimationController(robotInstance);
         robotAnimation.animate("Root|jog", -1, null, 0f);
 
-        String robot2 = models.createModelInstance(robotModelId);
+        GraphModelInstance robot2 = models.createModelInstance(robotModelId);
         models.updateTransform(robot2,
                 new TransformUpdate() {
                     @Override

@@ -25,8 +25,11 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
+import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
+import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.shader.particles.generator.LineParticleGenerator;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
@@ -92,9 +95,9 @@ public class Episode18Scene implements LibgdxGraphTestScene {
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.classpath("model/fighter/fighter.g3db"));
 
-        String modelId = models.registerModel(model);
+        GraphModel modelId = models.registerModel(model);
         final float scale = 0.0008f;
-        String shipInstance = models.createModelInstance(modelId);
+        GraphModelInstance shipInstance = models.createModelInstance(modelId);
         models.updateTransform(shipInstance,
                 new TransformUpdate() {
                     @Override
@@ -119,9 +122,9 @@ public class Episode18Scene implements LibgdxGraphTestScene {
         LineParticleGenerator particleGenerator = new LineParticleGenerator(0.5f);
         particleGenerator.getPoint1().set(point1);
         particleGenerator.getPoint2().set(point2);
-        String effectId = effects.createEffect("exhaust", particleGenerator);
-        effects.setProperty(effectId, "Move Distance", new Vector3(0, 0, -0.5f));
-        effects.startEffect(effectId);
+        GraphParticleEffect effect = effects.createEffect("exhaust", particleGenerator);
+        effects.setProperty(effect, "Move Distance", new Vector3(0, 0, -0.5f));
+        effects.startEffect(effect);
     }
 
     private Stage createStage() {

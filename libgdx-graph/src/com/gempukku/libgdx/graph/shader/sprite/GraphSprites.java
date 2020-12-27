@@ -4,19 +4,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public interface GraphSprites {
-    String createSprite(Vector3 position, Vector2 anchor, Vector2 size);
+    GraphSprite createSprite(Vector3 position, Vector2 anchor, Vector2 size);
 
-    void updateSprite(String spriteId, SpriteUpdater spriteUpdater);
+    void updateSprite(GraphSprite sprite, SpriteUpdater spriteUpdater);
 
-    void destroySprite(String spriteId);
+    void destroySprite(GraphSprite sprite);
 
-    void addTag(String spriteId, String tag);
+    void addTag(GraphSprite sprite, String tag);
 
-    void removeTag(String spriteId, String tag);
+    void removeTag(GraphSprite sprite, String tag);
 
-    void setProperty(String spriteId, String name, Object value);
+    void setProperty(GraphSprite sprite, String name, Object value);
 
-    void unsetProperty(String spriteId, String name);
+    void unsetProperty(GraphSprite sprite, String name);
 
-    Object getProperty(String spriteId, String name);
+    Object getProperty(GraphSprite sprite, String name);
 }

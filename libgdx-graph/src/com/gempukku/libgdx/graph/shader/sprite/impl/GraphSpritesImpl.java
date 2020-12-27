@@ -7,19 +7,18 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
+import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
-import com.gempukku.libgdx.graph.util.IdGenerator;
-import com.gempukku.libgdx.graph.util.RandomIdGenerator;
 
 import java.util.Arrays;
 
 public class GraphSpritesImpl implements GraphSprites {
-    private ObjectMap<String, GraphSprite> graphSprites = new ObjectMap<>();
-    private IdGenerator idGenerator = new RandomIdGenerator(16);
+    private ObjectSet<GraphSpriteImpl> graphSprites = new ObjectSet<>();
 
     private Vector3 tempPosition = new Vector3();
     private Vector2 tempAnchor = new Vector2();
@@ -31,15 +30,15 @@ public class GraphSpritesImpl implements GraphSprites {
     private int[] tempTextureIds = new int[16];
 
     @Override
-    public String createSprite(Vector3 position, Vector2 anchor, Vector2 size) {
-        String id = idGenerator.generateId();
-        graphSprites.put(id, new GraphSprite(position, anchor, size));
-        return id;
+    public GraphSprite createSprite(Vector3 position, Vector2 anchor, Vector2 size) {
+        GraphSpriteImpl graphSprite = new GraphSpriteImpl(position, anchor, size);
+        graphSprites.add(graphSprite);
+        return graphSprite;
     }
 
     @Override
-    public void updateSprite(String spriteId, SpriteUpdater spriteUpdater) {
-        GraphSprite graphSprite = graphSprites.get(spriteId);
+    public void updateSprite(GraphSprite sprite, SpriteUpdater spriteUpdater) {
+        GraphSpriteImpl graphSprite = getSprite(sprite);
         tempPosition.set(graphSprite.getPosition());
         tempAnchor.set(graphSprite.getAnchor());
         tempSize.set(graphSprite.getSize());
@@ -52,37 +51,44 @@ public class GraphSpritesImpl implements GraphSprites {
     }
 
     @Override
-    public void destroySprite(String spriteId) {
-        graphSprites.remove(spriteId);
+    public void destroySprite(GraphSprite sprite) {
+        graphSprites.remove(getSprite(sprite));
     }
 
     @Override
-    public void addTag(String spriteId, String tag) {
-        graphSprites.get(spriteId).addTag(tag);
+    public void addTag(GraphSprite sprite, String tag) {
+        getSprite(sprite).addTag(tag);
     }
 
     @Override
-    public void removeTag(String spriteId, String tag) {
-        graphSprites.get(spriteId).removeTag(tag);
+    public void removeTag(GraphSprite sprite, String tag) {
+        getSprite(sprite).removeTag(tag);
     }
 
     @Override
-    public void setProperty(String spriteId, String name, Object value) {
-        graphSprites.get(spriteId).getPropertyContainer().setValue(name, value);
+    public void setProperty(GraphSprite sprite, String name, Object value) {
+        getSprite(sprite).getPropertyContainer().setValue(name, value);
     }
 
     @Override
-    public void unsetProperty(String spriteId, String name) {
-        graphSprites.get(spriteId).getPropertyContainer().remove(name);
+    public void unsetProperty(GraphSprite sprite, String name) {
+        getSprite(sprite).getPropertyContainer().remove(name);
     }
 
     @Override
-    public Object getProperty(String spriteId, String name) {
-        return graphSprites.get(spriteId).getPropertyContainer().getValue(name);
+    public Object getProperty(GraphSprite sprite, String name) {
+        return getSprite(sprite).getPropertyContainer().getValue(name);
+    }
+
+    private GraphSpriteImpl getSprite(GraphSprite graphSprite) {
+        GraphSpriteImpl spriteImpl = (GraphSpriteImpl) graphSprite;
+        if (!graphSprites.contains(spriteImpl))
+            throw new IllegalArgumentException("Unable to find the graph sprite");
+        return spriteImpl;
     }
 
     public boolean hasSpriteWithTag(String tag) {
-        for (GraphSprite value : graphSprites.values()) {
+        for (GraphSpriteImpl value : graphSprites) {
             if (value.hasTag(tag))
                 return true;
         }
@@ -103,7 +109,7 @@ public class GraphSpritesImpl implements GraphSprites {
             int capacity = tagSpriteShaderConfig.getCapacity();
 
             tagSpriteShaderConfig.clear();
-            for (GraphSprite sprite : graphSprites.values()) {
+            for (GraphSpriteImpl sprite : graphSprites) {
                 if (sprite.hasTag(tag)) {
                     spriteTotal = switchToNewTexturesIfNeeded(shaderContext, shader, textureUniformNames, tagSpriteShaderConfig, spriteTotal, capacity, sprite);
                     tagSpriteShaderConfig.appendSprite(sprite);
@@ -118,7 +124,7 @@ public class GraphSpritesImpl implements GraphSprites {
         }
     }
 
-    private int switchToNewTexturesIfNeeded(ShaderContextImpl shaderContext, SpriteGraphShader shader, Array<String> textureUniformNames, TagSpriteShaderConfig tagSpriteShaderConfig, int spriteTotal, int capacity, GraphSprite sprite) {
+    private int switchToNewTexturesIfNeeded(ShaderContextImpl shaderContext, SpriteGraphShader shader, Array<String> textureUniformNames, TagSpriteShaderConfig tagSpriteShaderConfig, int spriteTotal, int capacity, GraphSpriteImpl sprite) {
         fetchTextureIds(shader, textureUniformNames, sprite);
         // Not the MOST effective, but good enough
         if (capacity == spriteTotal || !sameValues(processingTextureIds, tempTextureIds, 0, textureUniformNames.size)) {
@@ -142,7 +148,7 @@ public class GraphSpritesImpl implements GraphSprites {
         return true;
     }
 
-    private void fetchTextureIds(SpriteGraphShader spriteGraphShader, Array<String> textureUniformNames, GraphSprite graphSprite) {
+    private void fetchTextureIds(SpriteGraphShader spriteGraphShader, Array<String> textureUniformNames, GraphSpriteImpl graphSprite) {
         for (int i = 0; i < textureUniformNames.size; i++) {
             String propertyName = textureUniformNames.get(i);
             Object value = graphSprite.getPropertyContainer().getValue(propertyName);

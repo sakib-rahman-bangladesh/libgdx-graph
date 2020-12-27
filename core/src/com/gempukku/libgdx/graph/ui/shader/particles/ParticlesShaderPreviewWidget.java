@@ -25,7 +25,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContex
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
+import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectImpl;
 import com.gempukku.libgdx.graph.shader.particles.ParticleEffectConfiguration;
 import com.gempukku.libgdx.graph.shader.particles.ParticlesGraphShader;
 import com.gempukku.libgdx.graph.shader.particles.generator.LineParticleGenerator;
@@ -55,7 +55,7 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     private DefaultTimeKeeper timeKeeper;
     private GraphShaderEnvironment graphShaderEnvironment;
     private ShaderContextImpl shaderContext;
-    private GraphParticleEffect particleEffect;
+    private GraphParticleEffectImpl particleEffect;
     private ShaderPreviewModel model = ShaderPreviewModel.Point;
     private float lifetime = 3f;
 
@@ -168,7 +168,7 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     }
 
     private void createModel(VertexAttributes vertexAttributes) {
-        particleEffect = new GraphParticleEffect("tag", new ParticleEffectConfiguration(
+        particleEffect = new GraphParticleEffectImpl("tag", new ParticleEffectConfiguration(
                 vertexAttributes, graphShader.getMaxNumberOfParticles(), graphShader.getInitialParticles(), 1f / graphShader.getPerSecondParticles()),
                 createGenerator(), false);
         if (running)

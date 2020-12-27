@@ -16,6 +16,7 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 
 import java.io.IOException;
@@ -57,14 +58,10 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private void createModels(GraphSprites graphSprites) {
-//        String spriteId = graphSprites.createSprite(new Vector3(0, 0, -10f), new Vector2(0.5f, 0.5f), new Vector2(20, 20));
-//        graphSprites.addTag(spriteId, "Default");
-//        graphSprites.setProperty(spriteId, "Texture", new TextureRegion(treeTexture));
-//
-        String spriteId2 = graphSprites.createSprite(new Vector3(0, 0, -10f), new Vector2(0.5f, 1f), new Vector2(-200, 200));
-        graphSprites.addTag(spriteId2, "Default");
-        graphSprites.setProperty(spriteId2, "Prop", 0.7f);
-        graphSprites.setProperty(spriteId2, "Texture", new TextureRegion(treeTexture, 0, 0, 350, 175));
+        GraphSprite sprite = graphSprites.createSprite(new Vector3(0, 0, -10f), new Vector2(0.5f, 1f), new Vector2(-200, 200));
+        graphSprites.addTag(sprite, "Default");
+        graphSprites.setProperty(sprite, "Prop", 0.7f);
+        graphSprites.setProperty(sprite, "Texture", new TextureRegion(treeTexture, 0, 0, 350, 175));
     }
 
     private Stage createStage() {

@@ -24,6 +24,8 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
+import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
@@ -38,7 +40,7 @@ public class Episode15Scene implements LibgdxGraphTestScene {
     private Camera camera;
     private Stage stage;
     private Skin skin;
-    private String modelInstance;
+    private GraphModelInstance modelInstance;
     private GraphShaderEnvironment lights;
     private float cameraAngle = -0.5f;
     private float cameraDistance = 1.3f;
@@ -83,7 +85,7 @@ public class Episode15Scene implements LibgdxGraphTestScene {
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.classpath("model/luminaris/luminaris.g3dj"));
 
-        String modelId = models.registerModel(model);
+        GraphModel modelId = models.registerModel(model);
         final float scale = 0.025f;
         modelInstance = models.createModelInstance(modelId);
         models.updateTransform(modelInstance,

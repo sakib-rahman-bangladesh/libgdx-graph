@@ -22,6 +22,8 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.Transforms;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
+import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -116,17 +118,17 @@ public class Episode13Scene implements LibgdxGraphTestScene {
 
     private void registerModels(GraphModels models) {
         float cylinderHeight = 8f;
-        String tiledWallId = models.registerModel(tiledWall);
+        GraphModel tiledWallId = models.registerModel(tiledWall);
         models.addModelDefaultTag(tiledWallId, "tiled-wall");
         models.createModelInstance(tiledWallId);
 
-        String burnerId = models.registerModel(burner);
+        GraphModel burnerId = models.registerModel(burner);
         models.addModelDefaultTag(burnerId, "burner");
         models.createModelInstance(burnerId);
 
-        String cylinderId = models.registerModel(cylinder);
+        GraphModel cylinderId = models.registerModel(cylinder);
         models.addModelDefaultTag(cylinderId, "heat-displacement");
-        String cylinderInstanceId = models.createModelInstance(cylinderId);
+        GraphModelInstance cylinderInstanceId = models.createModelInstance(cylinderId);
         models.updateTransform(cylinderInstanceId, Transforms.create().translate(0, 0.05f + cylinderHeight / 2f, 0f));
     }
 

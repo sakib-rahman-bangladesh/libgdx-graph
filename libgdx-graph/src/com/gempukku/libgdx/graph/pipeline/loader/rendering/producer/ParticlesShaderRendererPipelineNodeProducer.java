@@ -18,7 +18,7 @@ import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyAsUniformShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
+import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectImpl;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectsImpl;
 import com.gempukku.libgdx.graph.shader.particles.ParticlesGraphShader;
 import com.gempukku.libgdx.graph.shader.particles.ParticlesShaderConfiguration;
@@ -119,7 +119,7 @@ public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodePro
                     for (ParticlesGraphShader particleShader : particleShaders) {
                         particleShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
                         String tag = particleShader.getTag();
-                        for (GraphParticleEffect particleEffect : particleEffects.getParticleEffects()) {
+                        for (GraphParticleEffectImpl particleEffect : particleEffects.getParticleEffects()) {
                             if (particleEffect.getTag().equals(tag)) {
                                 shaderContext.setPropertyContainer(particleEffect.getPropertyContainer());
                                 particleEffect.render(particleShader, shaderContext);
