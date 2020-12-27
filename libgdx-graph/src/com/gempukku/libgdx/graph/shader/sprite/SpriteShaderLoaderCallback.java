@@ -45,7 +45,7 @@ public class SpriteShaderLoaderCallback extends GraphDataLoaderCallback<SpriteGr
     @Override
     protected NodeConfiguration<ShaderFieldType> getNodeConfiguration(String type, JsonValue data) {
         for (GraphConfiguration graphConfiguration : graphConfigurations) {
-            GraphShaderNodeBuilder graphShaderNodeBuilder = graphConfiguration.getGraphShaderNodeBuilders().get(type);
+            GraphShaderNodeBuilder graphShaderNodeBuilder = graphConfiguration.getGraphShaderNodeBuilder(type);
             if (graphShaderNodeBuilder != null)
                 return graphShaderNodeBuilder.getConfiguration(data);
         }

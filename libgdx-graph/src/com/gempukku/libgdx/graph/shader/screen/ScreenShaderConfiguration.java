@@ -25,7 +25,7 @@ public class ScreenShaderConfiguration implements GraphConfiguration {
     }
 
     @Override
-    public ObjectMap<String, GraphShaderNodeBuilder> getGraphShaderNodeBuilders() {
-        return graphShaderNodeBuilders;
+    public GraphShaderNodeBuilder getGraphShaderNodeBuilder(String type) {
+        return graphShaderNodeBuilders.get(type);
     }
 }

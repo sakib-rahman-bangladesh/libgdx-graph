@@ -632,7 +632,7 @@ public class GraphShaderBuilder {
 
     private static GraphShaderNodeBuilder getNodeBuilder(String nodeInfoType, GraphConfiguration... graphConfigurations) {
         for (GraphConfiguration configuration : graphConfigurations) {
-            GraphShaderNodeBuilder graphShaderNodeBuilder = configuration.getGraphShaderNodeBuilders().get(nodeInfoType);
+            GraphShaderNodeBuilder graphShaderNodeBuilder = configuration.getGraphShaderNodeBuilder(nodeInfoType);
             if (graphShaderNodeBuilder != null)
                 return graphShaderNodeBuilder;
         }
