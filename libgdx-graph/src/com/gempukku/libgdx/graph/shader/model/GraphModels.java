@@ -39,10 +39,12 @@ public interface GraphModels {
      * Note, that adding the same tag multiple times with different TagPerformanceHint will result in using only the
      * last setting.
      *
-     * @param model             model that was returned from the registerModel call.
+     * @param model               model that was returned from the registerModel call.
      * @param tag                 Tag that should be added to each subsequently created model instance.
      * @param tagOptimizationHint Specifies, how this tag will be used with model instances subsequently created.
+     * @deprecated Not yet finalized - do not use
      */
+    @Deprecated
     void addModelDefaultTag(GraphModel model, String tag, TagOptimizationHint tagOptimizationHint);
 
     /**
@@ -69,7 +71,9 @@ public interface GraphModels {
      * @param model                        model that was returned from the registerModel call.
      * @param modelInstanceOptimizationHints Provides the engine some hints on how this model will be utilized.
      * @return Returns modelInstance that is used further on, when referring to the model instance.
+     * @deprecated Not yet finalized - do not use
      */
+    @Deprecated
     GraphModelInstance createModelInstance(GraphModel model, ModelInstanceOptimizationHints modelInstanceOptimizationHints);
 
     /**

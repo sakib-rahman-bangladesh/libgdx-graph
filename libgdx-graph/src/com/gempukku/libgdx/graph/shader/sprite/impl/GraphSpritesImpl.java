@@ -1,11 +1,8 @@
 package com.gempukku.libgdx.graph.shader.sprite.impl;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -41,16 +38,14 @@ public class GraphSpritesImpl implements GraphSprites {
     private ObjectSet<GraphSpriteImpl> graphSprites = new ObjectSet<>();
     private ObjectMap<String, ObjectSet<GraphSpriteImpl>> spritesByTag = new ObjectMap<>();
 
-    private Vector3 tempPosition = new Vector3();
-
     private ObjectMap<String, TagSpriteShaderConfig> tagSpriteShaderData = new ObjectMap<>();
     // TODO limitation on number of textures of 16
     private int[] processingTextureIds = new int[16];
     private int[] tempTextureIds = new int[16];
 
     @Override
-    public GraphSprite createSprite(Vector3 position, String... tags) {
-        GraphSpriteImpl graphSprite = new GraphSpriteImpl(position);
+    public GraphSprite createSprite(float layer, String... tags) {
+        GraphSpriteImpl graphSprite = new GraphSpriteImpl(layer);
         graphSprites.add(graphSprite);
         for (String tag : tags) {
             addTag(graphSprite, tag);
@@ -62,11 +57,8 @@ public class GraphSpritesImpl implements GraphSprites {
     @Override
     public void updateSprite(GraphSprite sprite, SpriteUpdater spriteUpdater) {
         GraphSpriteImpl graphSprite = getSprite(sprite);
-        tempPosition.set(graphSprite.getPosition());
-
-        spriteUpdater.processUpdate(tempPosition);
-
-        graphSprite.getPosition().set(tempPosition);
+        float updateResult = spriteUpdater.processUpdate(graphSprite.getLayer());
+        graphSprite.setLayer(updateResult);
     }
 
     @Override
@@ -122,7 +114,7 @@ public class GraphSpritesImpl implements GraphSprites {
         return false;
     }
 
-    public void render(Camera camera, ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
+    public void render(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
         // First - all opaque shaders
         for (SpriteGraphShader shader : shaders) {
             if (shader.getBlending() == BasicShader.Blending.opaque) {
@@ -166,7 +158,7 @@ public class GraphSpritesImpl implements GraphSprites {
             }
         }
 
-        distanceSpriteSorter.sort(camera.position, tempSorting, Order.Back_To_Front);
+        distanceSpriteSorter.sort(tempSorting, Order.Back_To_Front);
         GraphShader lastShader = null;
         for (GraphSpriteImpl sprite : tempSorting) {
             for (SpriteGraphShader shader : shaders) {
@@ -235,23 +227,16 @@ public class GraphSpritesImpl implements GraphSprites {
     }
 
     private static class DistanceSpriteSorter implements Comparator<GraphSpriteImpl> {
-        private Vector3 cameraPosition;
         private Order order;
 
-        public void sort(Vector3 cameraPosition, Array<GraphSpriteImpl> sprites, Order order) {
-            this.cameraPosition = cameraPosition;
+        public void sort(Array<GraphSpriteImpl> sprites, Order order) {
             this.order = order;
             sprites.sort(this);
         }
 
-        private Vector3 getTranslation(Matrix4 worldTransform, Vector3 output) {
-            worldTransform.getTranslation(output);
-            return output;
-        }
-
         @Override
         public int compare(GraphSpriteImpl o1, GraphSpriteImpl o2) {
-            final float dst = (int) (1000f * cameraPosition.dst2(o1.getPosition())) - (int) (1000f * cameraPosition.dst2(o2.getPosition()));
+            final float dst = (int) (1000f * o1.getLayer()) - (int) (1000f * o2.getLayer());
             return order.result(dst);
         }
     }

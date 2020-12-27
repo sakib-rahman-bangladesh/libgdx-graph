@@ -76,12 +76,10 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
             int floatIndex = 0;
             for (VertexAttribute vertexAttribute : vertexAttributes) {
                 String alias = vertexAttribute.alias;
-                if (alias.equals(ShaderProgram.POSITION_ATTRIBUTE)) {
-                    Vector3 position = sprite.getPosition();
-                    tempVertices[vertexIndex * floatCount + floatIndex + 0] = position.x;
-                    tempVertices[vertexIndex * floatCount + floatIndex + 1] = position.y;
-                    tempVertices[vertexIndex * floatCount + floatIndex + 2] = position.z;
-                    floatIndex += 3;
+                if (alias.equals("a_layer")) {
+                    float layer = sprite.getLayer();
+                    tempVertices[vertexIndex * floatCount + floatIndex] = layer;
+                    floatIndex += 1;
                 } else if (alias.equals(ShaderProgram.TEXCOORD_ATTRIBUTE + 0)) {
                     tempVertices[vertexIndex * floatCount + floatIndex + 0] = vertexIndex % 2;
                     tempVertices[vertexIndex * floatCount + floatIndex + 1] = (float) (vertexIndex / 2);
