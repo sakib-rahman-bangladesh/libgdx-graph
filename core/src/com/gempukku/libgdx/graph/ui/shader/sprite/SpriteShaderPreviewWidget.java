@@ -120,7 +120,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
     }
 
     private void createModel(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> properties) {
-        spriteData = new TagSpriteShaderConfig(vertexAttributes, properties);
+        spriteData = new TagSpriteShaderConfig(vertexAttributes, 1, properties);
         spriteData.clear();
         spriteData.appendSprite(graphSprite);
     }

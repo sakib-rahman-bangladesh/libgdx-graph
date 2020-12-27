@@ -44,6 +44,10 @@ public class GraphSpriteImpl implements GraphSprite {
         return tags.contains(tag);
     }
 
+    public Iterable<String> getAllTags() {
+        return tags;
+    }
+
     public void removeTag(String tag) {
         tags.remove(tag);
     }

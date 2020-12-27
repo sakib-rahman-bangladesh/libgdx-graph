@@ -167,8 +167,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
-        public void registerSpriteShader(String tag, VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
-            graphSprites.registerTag(tag, vertexAttributes, shaderProperties);
+        public void registerSpriteShader(String tag, VertexAttributes vertexAttributes, boolean opaque, ObjectMap<String, PropertySource> shaderProperties) {
+            graphSprites.registerTag(tag, vertexAttributes, opaque, shaderProperties);
         }
 
         @Override

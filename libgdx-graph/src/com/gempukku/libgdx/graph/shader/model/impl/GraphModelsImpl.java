@@ -33,13 +33,14 @@ public class GraphModelsImpl implements GraphModels, Disposable {
         }
     }
 
+    private static DistanceRenderableSorter sorter = new DistanceRenderableSorter();
+
     private Vector3 cameraPosition = new Vector3();
     private Order order;
-    private DistanceRenderableSorter sorter = new DistanceRenderableSorter();
 
     private ObjectSet<IGraphModel> graphShaderModels = new ObjectSet<>();
     private ObjectSet<IGraphModelInstance> models = new ObjectSet<>();
-    private ObjectMap<String, Array<IGraphModelInstance>> instancesByTag = new ObjectMap<>();
+    private ObjectMap<String, ObjectSet<IGraphModelInstance>> instancesByTag = new ObjectMap<>();
 
     private ObjectSet<IGraphModelInstance> tempForUniqness = new ObjectSet<>();
     private Array<IGraphModelInstance> preparedForRendering = new Array<>();
@@ -145,7 +146,7 @@ public class GraphModelsImpl implements GraphModels, Disposable {
     @Override
     public void removeTag(GraphModelInstance modelInstance, String tag) {
         IGraphModelInstance iModelInstance = getModelInstance(modelInstance);
-        instancesByTag.get(tag).removeValue(iModelInstance, true);
+        instancesByTag.get(tag).remove(iModelInstance);
         iModelInstance.removeTag(tag);
     }
 
@@ -153,7 +154,7 @@ public class GraphModelsImpl implements GraphModels, Disposable {
     public void removeAllTags(GraphModelInstance modelInstance) {
         IGraphModelInstance iModelInstance = getModelInstance(modelInstance);
         for (String tag : iModelInstance.getAllTags()) {
-            instancesByTag.get(tag).removeValue(iModelInstance, true);
+            instancesByTag.get(tag).remove(iModelInstance);
         }
         iModelInstance.removeAllTags();
     }
@@ -193,7 +194,7 @@ public class GraphModelsImpl implements GraphModels, Disposable {
     }
 
     public void registerVertexAttributes(String tag, VertexAttributes vertexAttributes) {
-        instancesByTag.put(tag, new Array<IGraphModelInstance>());
+        instancesByTag.put(tag, new ObjectSet<IGraphModelInstance>());
 
         for (VertexAttribute vertexAttribute : vertexAttributes) {
             if (vertexAttribute.usage == VertexAttributes.Usage.ColorPacked)

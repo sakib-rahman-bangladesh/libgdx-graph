@@ -1,8 +1,10 @@
 package com.gempukku.libgdx.graph.shader.sprite.impl;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -10,6 +12,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.BasicShader;
+import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
@@ -17,9 +20,27 @@ import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class GraphSpritesImpl implements GraphSprites {
+    private enum Order {
+        Front_To_Back, Back_To_Front;
+
+        public int result(float dst) {
+            if (this == Front_To_Back)
+                return dst > 0 ? 1 : (dst < 0 ? -1 : 0);
+            else
+                return dst < 0 ? 1 : (dst > 0 ? -1 : 0);
+        }
+    }
+
+    private static final int NUMBER_OF_SPRITES = 2500;
+    private static DistanceSpriteSorter distanceSpriteSorter = new DistanceSpriteSorter();
+
+    private ObjectSet<GraphSpriteImpl> tempForUniqness = new ObjectSet<>();
+    private Array<GraphSpriteImpl> tempSorting = new Array<>();
     private ObjectSet<GraphSpriteImpl> graphSprites = new ObjectSet<>();
+    private ObjectMap<String, ObjectSet<GraphSpriteImpl>> spritesByTag = new ObjectMap<>();
 
     private Vector3 tempPosition = new Vector3();
     private Vector2 tempAnchor = new Vector2();
@@ -53,17 +74,25 @@ public class GraphSpritesImpl implements GraphSprites {
 
     @Override
     public void destroySprite(GraphSprite sprite) {
-        graphSprites.remove(getSprite(sprite));
+        GraphSpriteImpl spriteImpl = getSprite(sprite);
+        for (String tag : spriteImpl.getAllTags()) {
+            spritesByTag.get(tag).remove(spriteImpl);
+        }
+        graphSprites.remove(spriteImpl);
     }
 
     @Override
     public void addTag(GraphSprite sprite, String tag) {
-        getSprite(sprite).addTag(tag);
+        GraphSpriteImpl spriteImpl = getSprite(sprite);
+        spriteImpl.addTag(tag);
+        spritesByTag.get(tag).add(spriteImpl);
     }
 
     @Override
     public void removeTag(GraphSprite sprite, String tag) {
-        getSprite(sprite).removeTag(tag);
+        GraphSpriteImpl spriteImpl = getSprite(sprite);
+        spritesByTag.get(tag).remove(spriteImpl);
+        spriteImpl.removeTag(tag);
     }
 
     @Override
@@ -96,7 +125,7 @@ public class GraphSpritesImpl implements GraphSprites {
         return false;
     }
 
-    public void render(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
+    public void render(Camera camera, ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
         // First - all opaque shaders
         for (SpriteGraphShader shader : shaders) {
             if (shader.getBlending() == BasicShader.Blending.opaque) {
@@ -128,7 +157,44 @@ public class GraphSpritesImpl implements GraphSprites {
         }
 
         // Then - all the translucent shaders
+        tempSorting.clear();
+        tempForUniqness.clear();
+        for (SpriteGraphShader shader : shaders) {
+            if (shader.getBlending() != BasicShader.Blending.opaque) {
+                String tag = shader.getTag();
+                for (GraphSpriteImpl graphSprite : spritesByTag.get(tag)) {
+                    if (tempForUniqness.add(graphSprite))
+                        tempSorting.add(graphSprite);
+                }
+            }
+        }
 
+        distanceSpriteSorter.sort(camera.position, tempSorting, Order.Back_To_Front);
+        GraphShader lastShader = null;
+        for (GraphSpriteImpl sprite : tempSorting) {
+            for (SpriteGraphShader shader : shaders) {
+                if (shader.getBlending() != BasicShader.Blending.opaque) {
+                    String tag = shader.getTag();
+                    if (sprite.hasTag(tag)) {
+                        shaderContext.setPropertyContainer(sprite.getPropertyContainer());
+
+                        TagSpriteShaderConfig tagSpriteShaderConfig = tagSpriteShaderData.get(tag);
+                        tagSpriteShaderConfig.clear();
+                        tagSpriteShaderConfig.appendSprite(sprite);
+
+                        if (lastShader != shader) {
+                            if (lastShader != null)
+                                lastShader.end();
+                            shader.begin(shaderContext, renderContext);
+                            lastShader = shader;
+                        }
+                        shader.renderSprites(shaderContext, tagSpriteShaderConfig);
+                    }
+                }
+            }
+        }
+        if (lastShader != null)
+            lastShader.end();
     }
 
     private int switchToNewTexturesIfNeeded(ShaderContextImpl shaderContext, SpriteGraphShader shader, Array<String> textureUniformNames, TagSpriteShaderConfig tagSpriteShaderConfig, int spriteTotal, int capacity, GraphSpriteImpl sprite) {
@@ -166,7 +232,30 @@ public class GraphSpritesImpl implements GraphSprites {
         }
     }
 
-    public void registerTag(String tag, VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
-        tagSpriteShaderData.put(tag, new TagSpriteShaderConfig(vertexAttributes, shaderProperties));
+    public void registerTag(String tag, VertexAttributes vertexAttributes, boolean opaque, ObjectMap<String, PropertySource> shaderProperties) {
+        tagSpriteShaderData.put(tag, new TagSpriteShaderConfig(vertexAttributes, opaque ? NUMBER_OF_SPRITES : 1, shaderProperties));
+        spritesByTag.put(tag, new ObjectSet<GraphSpriteImpl>());
+    }
+
+    private static class DistanceSpriteSorter implements Comparator<GraphSpriteImpl> {
+        private Vector3 cameraPosition;
+        private Order order;
+
+        public void sort(Vector3 cameraPosition, Array<GraphSpriteImpl> sprites, Order order) {
+            this.cameraPosition = cameraPosition;
+            this.order = order;
+            sprites.sort(this);
+        }
+
+        private Vector3 getTranslation(Matrix4 worldTransform, Vector3 output) {
+            worldTransform.getTranslation(output);
+            return output;
+        }
+
+        @Override
+        public int compare(GraphSpriteImpl o1, GraphSpriteImpl o2) {
+            final float dst = (int) (1000f * cameraPosition.dst2(o1.getPosition())) - (int) (1000f * cameraPosition.dst2(o2.getPosition()));
+            return order.result(dst);
+        }
     }
 }

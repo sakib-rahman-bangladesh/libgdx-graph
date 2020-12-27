@@ -12,5 +12,5 @@ public interface PipelineInitializationFeedback {
 
     void registerModelVertexAttributes(String tag, VertexAttributes vertexAttributes);
 
-    void registerSpriteShader(String tag, VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties);
+    void registerSpriteShader(String tag, VertexAttributes vertexAttributes, boolean opaque, ObjectMap<String, PropertySource> shaderProperties);
 }

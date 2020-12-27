@@ -203,9 +203,9 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                                 if (lastShader != null)
                                     lastShader.end();
                                 colorShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
+                                lastShader = colorShader;
                             }
                             colorShader.render(shaderContext, graphModelInstance);
-                            lastShader = colorShader;
                         }
                     }
                 }

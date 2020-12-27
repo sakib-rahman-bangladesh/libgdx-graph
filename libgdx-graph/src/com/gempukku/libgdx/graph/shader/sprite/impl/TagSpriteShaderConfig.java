@@ -19,9 +19,8 @@ import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteData;
 
 public class TagSpriteShaderConfig implements SpriteData, Disposable {
-    private static final int NUMBER_OF_SPRITES = 2500;
-
     private VertexAttributes vertexAttributes;
+    private int numberOfSprites;
     private ObjectMap<String, PropertySource> shaderProperties;
     private IntMap<String> propertyIndexNames = new IntMap<>();
     private VertexBufferObject vbo;
@@ -31,8 +30,9 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
     private final int floatCount;
     private int spriteCount = 0;
 
-    public TagSpriteShaderConfig(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
+    public TagSpriteShaderConfig(VertexAttributes vertexAttributes, int numberOfSprites, ObjectMap<String, PropertySource> shaderProperties) {
         this.vertexAttributes = vertexAttributes;
+        this.numberOfSprites = numberOfSprites;
         this.shaderProperties = shaderProperties;
 
         for (ObjectMap.Entry<String, PropertySource> shaderProperty : shaderProperties) {
@@ -47,11 +47,11 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
 
         tempVertices = new float[4 * floatCount];
 
-        vbo = new VertexBufferObject(false, 4 * NUMBER_OF_SPRITES, this.vertexAttributes);
-        float[] vertices = new float[4 * NUMBER_OF_SPRITES * floatCount];
+        vbo = new VertexBufferObject(false, 4 * numberOfSprites, this.vertexAttributes);
+        float[] vertices = new float[4 * numberOfSprites * floatCount];
         vbo.setVertices(vertices, 0, vertices.length);
 
-        int numberOfIndices = 6 * NUMBER_OF_SPRITES;
+        int numberOfIndices = 6 * numberOfSprites;
         ibo = new IndexBufferObject(false, numberOfIndices);
         short[] indices = new short[numberOfIndices];
         int vertexIndex = 0;
@@ -149,7 +149,7 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
     }
 
     public int getCapacity() {
-        return NUMBER_OF_SPRITES;
+        return numberOfSprites;
     }
 
     public VertexAttributes getVertexAttributes() {
