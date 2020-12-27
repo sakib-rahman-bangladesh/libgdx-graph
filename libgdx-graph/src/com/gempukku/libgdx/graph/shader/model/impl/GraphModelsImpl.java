@@ -34,6 +34,7 @@ public class GraphModelsImpl implements GraphModels, Disposable {
 
     private Vector3 cameraPosition = new Vector3();
     private Order order;
+    private Iterable<String> modelTags;
     private DistanceRenderableSorter sorter = new DistanceRenderableSorter();
 
     private ObjectSet<IGraphModel> graphShaderModels = new ObjectSet<>();
@@ -183,11 +184,23 @@ public class GraphModelsImpl implements GraphModels, Disposable {
             registeredAttributes.add(vertexAttribute);
     }
 
-    public void prepareForRendering(Camera camera) {
+    public void prepareForRendering(Camera camera, Iterable<String> modelTags) {
         cameraPosition.set(camera.position);
+        this.modelTags = modelTags;
         order = null;
         preparedForRendering.clear();
-        models.iterator().toArray(preparedForRendering);
+        for (IGraphModelInstance model : models) {
+            if (hasTag(model, modelTags))
+                preparedForRendering.add(model);
+        }
+    }
+
+    private boolean hasTag(IGraphModelInstance modelInstance, Iterable<String> modelTags) {
+        for (String modelTag : modelTags) {
+            if (modelInstance.hasTag(modelTag))
+                return true;
+        }
+        return false;
     }
 
     public void orderFrontToBack() {

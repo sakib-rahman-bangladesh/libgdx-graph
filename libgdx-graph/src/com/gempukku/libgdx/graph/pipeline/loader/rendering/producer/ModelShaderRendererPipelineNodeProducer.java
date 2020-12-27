@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
@@ -44,12 +45,15 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         final ModelShaderContextImpl shaderContext = new ModelShaderContextImpl();
 
         final Array<ShaderGroup> shaderGroups = new Array<>();
+        final ObjectSet<String> shaderTags = new ObjectSet<>();
 
         final JsonValue shaderDefinitions = data.get("shaders");
         for (JsonValue shaderDefinition : shaderDefinitions) {
             ShaderGroup shaderGroup = new ShaderGroup(shaderDefinition, whitePixel);
             shaderGroup.initialize();
             shaderGroups.add(shaderGroup);
+
+            shaderTags.add(shaderGroup.getTag());
         }
 
         final PipelineNode.FieldOutput<GraphShaderEnvironment> lightsInput = (PipelineNode.FieldOutput<GraphShaderEnvironment>) inputFields.get("lights");
@@ -113,7 +117,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
                 updateCamera(camera, width, height);
                 GraphShaderEnvironment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext, null) : null;
-                models.prepareForRendering(camera);
+                models.prepareForRendering(camera, shaderTags);
 
                 shaderContext.setCamera(camera);
                 shaderContext.setGraphShaderEnvironment(environment);
@@ -294,6 +298,10 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
         public ModelGraphShader getDepthShader() {
             return depthShader;
+        }
+
+        public String getTag() {
+            return colorShader.getTag();
         }
 
         @Override
