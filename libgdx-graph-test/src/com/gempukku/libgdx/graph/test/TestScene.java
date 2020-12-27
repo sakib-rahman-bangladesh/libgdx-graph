@@ -50,7 +50,7 @@ public class TestScene implements LibgdxGraphTestScene {
         OrthographicCamera camera = new OrthographicCamera();
         camera.near = 0.1f;
         camera.far = 100;
-        camera.position.set(300, 0, 0);
+        camera.position.set(0, 300, 0);
         camera.up.set(0f, 1f, 0f);
         camera.direction.set(0, 0, -1f);
         camera.update();
@@ -61,7 +61,7 @@ public class TestScene implements LibgdxGraphTestScene {
     private void createModels(GraphSprites graphSprites) {
         GraphSprite doctor = graphSprites.createSprite(10f, "Animated");
 
-        graphSprites.setProperty(doctor, "Position", new Vector2(300, 0));
+        graphSprites.setProperty(doctor, "Position", new Vector2(0, 0));
         graphSprites.setProperty(doctor, "Size", new Vector2(200, 200));
         graphSprites.setProperty(doctor, "Anchor", new Vector2(0.5f, 1));
         graphSprites.setProperty(doctor, "Tiles Per Second", 12f);

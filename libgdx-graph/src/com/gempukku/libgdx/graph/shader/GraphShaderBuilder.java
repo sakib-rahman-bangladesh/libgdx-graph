@@ -469,7 +469,7 @@ public class GraphShaderBuilder {
 
         String billboardPosition = "result_billboardPosition";
         vertexShaderBuilder.addMainLine("vec3 result_cameraRight = normalize(cross(u_cameraDirection, u_cameraUp));");
-        vertexShaderBuilder.addMainLine("vec3 result_cameraUp = normalize(-u_cameraUp);");
+        vertexShaderBuilder.addMainLine("vec3 result_cameraUp = normalize(u_cameraUp);");
         String size = sizeField.getRepresentation();
         vertexShaderBuilder.addMainLine("float result_xAdjust = " + size + ".x * (a_texCoord0.x - " + anchorField.getRepresentation() + ".x);");
         vertexShaderBuilder.addMainLine("float result_yAdjust = " + size + ".y * (a_texCoord0.y - " + anchorField.getRepresentation() + ".y);");
@@ -482,7 +482,7 @@ public class GraphShaderBuilder {
             vertexShaderBuilder.addMainLine("float result_rotatedY = result_yAdjust;");
         }
         vertexShaderBuilder.addMainLine("vec3 xBillboardPosition = (" + positionField + ".x + result_rotatedX) * result_cameraRight;");
-        vertexShaderBuilder.addMainLine("vec3 yBillboardPosition = (-" + positionField + ".y + result_rotatedY) * result_cameraUp;");
+        vertexShaderBuilder.addMainLine("vec3 yBillboardPosition = (" + positionField + ".y - result_rotatedY) * result_cameraUp;");
         vertexShaderBuilder.addMainLine("vec3 zBillboardPosition = vec3(0.0, 0.0, u_cameraPosition.z) + normalize(u_cameraDirection) * " + layerField.getRepresentation() + ";");
         vertexShaderBuilder.addMainLine("vec3 " + billboardPosition + " = xBillboardPosition + yBillboardPosition + zBillboardPosition;");
         vertexShaderBuilder.addUniformVariable("u_projViewTrans", "mat4", true, UniformSetters.projViewTrans);
