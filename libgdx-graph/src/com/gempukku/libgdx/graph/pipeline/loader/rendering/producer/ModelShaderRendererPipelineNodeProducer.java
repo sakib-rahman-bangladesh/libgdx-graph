@@ -44,16 +44,23 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
         final ModelShaderContextImpl shaderContext = new ModelShaderContextImpl();
 
-        final Array<ShaderGroup> shaderGroups = new Array<>();
-        final ObjectSet<String> shaderTags = new ObjectSet<>();
+        final Array<ShaderGroup> opaqueShaderGroups = new Array<>();
+        final Array<ShaderGroup> translucentShaderGroups = new Array<>();
+        final ObjectSet<String> opaqueShaderTags = new ObjectSet<>();
+        final ObjectSet<String> translucentShaderTags = new ObjectSet<>();
 
         final JsonValue shaderDefinitions = data.get("shaders");
         for (JsonValue shaderDefinition : shaderDefinitions) {
             ShaderGroup shaderGroup = new ShaderGroup(shaderDefinition, whitePixel);
             shaderGroup.initialize();
-            shaderGroups.add(shaderGroup);
 
-            shaderTags.add(shaderGroup.getTag());
+            if (shaderGroup.getColorShader().getBlending() == BasicShader.Blending.opaque) {
+                opaqueShaderGroups.add(shaderGroup);
+                opaqueShaderTags.add(shaderGroup.getTag());
+            } else {
+                translucentShaderGroups.add(shaderGroup);
+                translucentShaderTags.add(shaderGroup.getTag());
+            }
         }
 
         final PipelineNode.FieldOutput<GraphShaderEnvironment> lightsInput = (PipelineNode.FieldOutput<GraphShaderEnvironment>) inputFields.get("lights");
@@ -63,22 +70,30 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
             public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
-                for (ShaderGroup shaderGroup : shaderGroups) {
+                for (ShaderGroup shaderGroup : opaqueShaderGroups) {
+                    GraphShader shader = shaderGroup.getColorShader();
+                    pipelineInitializationFeedback.registerModelVertexAttributes(shader.getTag(), shader.getVertexAttributes());
+                }
+                for (ShaderGroup shaderGroup : translucentShaderGroups) {
                     GraphShader shader = shaderGroup.getColorShader();
                     pipelineInitializationFeedback.registerModelVertexAttributes(shader.getTag(), shader.getVertexAttributes());
                 }
             }
 
             private void initializeDepthShaders() {
-                for (ShaderGroup shaderGroup : shaderGroups) {
+                for (ShaderGroup shaderGroup : opaqueShaderGroups) {
                     GraphShader colorShader = shaderGroup.getColorShader();
-                    if (colorShader.getBlending() == BasicShader.Blending.opaque)
-                        shaderGroup.initializeDepthShader();
+                    shaderGroup.initializeDepthShader();
                 }
             }
 
             public boolean needsDepth(GraphModelsImpl graphShaderModels) {
-                for (ShaderGroup shaderGroup : shaderGroups) {
+                for (ShaderGroup shaderGroup : opaqueShaderGroups) {
+                    GraphShader colorShader = shaderGroup.getColorShader();
+                    if (colorShader.isUsingDepthTexture() && graphShaderModels.hasModelWithTag(colorShader.getTag()))
+                        return true;
+                }
+                for (ShaderGroup shaderGroup : translucentShaderGroups) {
                     GraphShader colorShader = shaderGroup.getColorShader();
                     if (colorShader.isUsingDepthTexture() && graphShaderModels.hasModelWithTag(colorShader.getTag()))
                         return true;
@@ -87,7 +102,12 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             }
 
             public boolean isRequiringSceneColor(GraphModelsImpl graphShaderModels) {
-                for (ShaderGroup shaderGroup : shaderGroups) {
+                for (ShaderGroup shaderGroup : opaqueShaderGroups) {
+                    GraphShader colorShader = shaderGroup.getColorShader();
+                    if (colorShader.isUsingColorTexture() && graphShaderModels.hasModelWithTag(colorShader.getTag()))
+                        return true;
+                }
+                for (ShaderGroup shaderGroup : translucentShaderGroups) {
                     GraphShader colorShader = shaderGroup.getColorShader();
                     if (colorShader.isUsingColorTexture() && graphShaderModels.hasModelWithTag(colorShader.getTag()))
                         return true;
@@ -117,7 +137,6 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
                 updateCamera(camera, width, height);
                 GraphShaderEnvironment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext, null) : null;
-                models.prepareForRendering(camera, shaderTags);
 
                 shaderContext.setCamera(camera);
                 shaderContext.setGraphShaderEnvironment(environment);
@@ -138,27 +157,20 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 currentBuffer.beginColor();
 
                 // Initialize shaders for this frame
-                for (ShaderGroup shaderGroup : shaderGroups) {
-                    GraphShader colorShader = shaderGroup.getColorShader();
-                    colorShader.setTimeProvider(pipelineRenderingContext.getTimeProvider());
-                    colorShader.setEnvironment(environment);
-                    if (needsToDrawDepth) {
-                        GraphShader depthShader = shaderGroup.getDepthShader();
-                        if (depthShader != null) {
-                            depthShader.setTimeProvider(pipelineRenderingContext.getTimeProvider());
-                            depthShader.setEnvironment(environment);
-                        }
-                    }
+                for (ShaderGroup shaderGroup : opaqueShaderGroups) {
+                    initializeShaderForFrame(pipelineRenderingContext, needsToDrawDepth, environment, shaderGroup);
+                }
+                for (ShaderGroup shaderGroup : translucentShaderGroups) {
+                    initializeShaderForFrame(pipelineRenderingContext, needsToDrawDepth, environment, shaderGroup);
                 }
 
                 // First render opaque models
+                models.prepareForRendering(camera, opaqueShaderTags);
                 models.orderFrontToBack();
-                for (ShaderGroup shaderGroup : shaderGroups) {
+                for (ShaderGroup shaderGroup : opaqueShaderGroups) {
                     ModelGraphShader colorShader = shaderGroup.getColorShader();
-                    if (colorShader.getBlending() == BasicShader.Blending.opaque) {
-                        String tag = colorShader.getTag();
-                        renderWithShaderOpaquePass(tag, colorShader, models, shaderContext, pipelineRenderingContext.getRenderContext());
-                    }
+                    String tag = colorShader.getTag();
+                    renderWithShaderOpaquePass(tag, colorShader, models, shaderContext, pipelineRenderingContext.getRenderContext());
                 }
 
                 // Then if depth buffer is needed for later passes - draw to it
@@ -166,7 +178,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                     currentBuffer.endColor();
                     currentBuffer.beginDepth();
 
-                    for (ShaderGroup shaderGroup : shaderGroups) {
+                    for (ShaderGroup shaderGroup : opaqueShaderGroups) {
                         ModelGraphShader depthShader = shaderGroup.getDepthShader();
                         if (depthShader != null) {
                             String tag = depthShader.getTag();
@@ -179,22 +191,21 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 }
 
                 // Then render transparent models
+                models.prepareForRendering(camera, translucentShaderTags);
                 models.orderBackToFront();
                 GraphShader lastShader = null;
                 for (IGraphModelInstance graphModelInstance : models.getModels()) {
-                    for (ShaderGroup shaderGroup : shaderGroups) {
+                    for (ShaderGroup shaderGroup : translucentShaderGroups) {
                         ModelGraphShader colorShader = shaderGroup.getColorShader();
-                        if (colorShader.getBlending() != BasicShader.Blending.opaque) {
-                            String tag = colorShader.getTag();
-                            if (graphModelInstance.hasTag(tag)) {
-                                if (lastShader != colorShader) {
-                                    if (lastShader != null)
-                                        lastShader.end();
-                                    colorShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
-                                }
-                                colorShader.render(shaderContext, graphModelInstance);
-                                lastShader = colorShader;
+                        String tag = colorShader.getTag();
+                        if (graphModelInstance.hasTag(tag)) {
+                            if (lastShader != colorShader) {
+                                if (lastShader != null)
+                                    lastShader.end();
+                                colorShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
                             }
+                            colorShader.render(shaderContext, graphModelInstance);
+                            lastShader = colorShader;
                         }
                     }
                 }
@@ -209,6 +220,19 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 OutputValue<RenderPipeline> output = outputValues.get("output");
                 if (output != null)
                     output.setValue(renderPipeline);
+            }
+
+            private void initializeShaderForFrame(final PipelineRenderingContext pipelineRenderingContext, final boolean needsToDrawDepth, final GraphShaderEnvironment environment, final ShaderGroup shaderGroup) {
+                GraphShader colorShader = shaderGroup.getColorShader();
+                colorShader.setTimeProvider(pipelineRenderingContext.getTimeProvider());
+                colorShader.setEnvironment(environment);
+                if (needsToDrawDepth) {
+                    GraphShader depthShader = shaderGroup.getDepthShader();
+                    if (depthShader != null) {
+                        depthShader.setTimeProvider(pipelineRenderingContext.getTimeProvider());
+                        depthShader.setEnvironment(environment);
+                    }
+                }
             }
 
             private RenderPipelineBuffer setupColorTexture(final RenderPipeline renderPipeline, final RenderPipelineBuffer currentBuffer,
@@ -247,7 +271,10 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
             @Override
             public void dispose() {
-                for (ShaderGroup shaderGroup : shaderGroups) {
+                for (ShaderGroup shaderGroup : opaqueShaderGroups) {
+                    shaderGroup.dispose();
+                }
+                for (ShaderGroup shaderGroup : translucentShaderGroups) {
                     shaderGroup.dispose();
                 }
                 whitePixel.dispose();
