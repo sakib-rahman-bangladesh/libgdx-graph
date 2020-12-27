@@ -66,7 +66,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
         shaderContext.setRenderHeight(height);
         shaderContext.setColorTexture(PatternTextures.sharedInstance.texture);
 
-        graphSprite = new GraphSprite(new Vector3(0, 0, 0), new Vector2(0.5f, 0.5f), new Vector2(1, 1));
+        graphSprite = new GraphSprite(new Vector3(0, 0, 2f), new Vector2(0.5f, 0.5f), new Vector2(1, 1));
     }
 
     @Override
