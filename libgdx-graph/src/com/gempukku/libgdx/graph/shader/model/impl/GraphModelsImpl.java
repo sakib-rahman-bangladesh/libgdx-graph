@@ -72,7 +72,7 @@ public class GraphModelsImpl implements GraphModels, Disposable {
         IGraphModel iModel = getModel(model);
         ObjectSet.ObjectSetIterator<IGraphModelInstance> iterator = models.iterator();
         for (IGraphModelInstance modelInstance : iterator) {
-            if (modelInstance.getGraphModel() == iModel)
+            if (modelInstance.getModel() == model)
                 iterator.remove();
         }
         iModel.dispose();

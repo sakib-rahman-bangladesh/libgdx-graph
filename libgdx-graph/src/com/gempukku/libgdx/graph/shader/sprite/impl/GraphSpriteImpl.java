@@ -39,6 +39,7 @@ public class GraphSpriteImpl implements GraphSprite {
         tags.add(tag);
     }
 
+    @Override
     public boolean hasTag(String tag) {
         return tags.contains(tag);
     }

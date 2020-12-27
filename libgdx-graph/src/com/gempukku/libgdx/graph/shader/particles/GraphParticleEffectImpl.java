@@ -40,6 +40,7 @@ public class GraphParticleEffectImpl implements GraphParticleEffect, Disposable 
         return propertyContainer;
     }
 
+    @Override
     public String getTag() {
         return tag;
     }

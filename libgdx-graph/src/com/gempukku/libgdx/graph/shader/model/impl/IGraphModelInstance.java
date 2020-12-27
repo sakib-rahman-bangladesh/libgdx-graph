@@ -14,8 +14,6 @@ public interface IGraphModelInstance extends GraphModelInstance {
 
     void removeAllTags();
 
-    boolean hasTag(String tag);
-
     PropertyContainerImpl getPropertyContainer();
 
     Matrix4 getTransformMatrix();
@@ -23,6 +21,4 @@ public interface IGraphModelInstance extends GraphModelInstance {
     AnimationController createAnimationController();
 
     Iterable<ModelDataProducer> getModelInstanceData();
-
-    IGraphModel getGraphModel();
 }

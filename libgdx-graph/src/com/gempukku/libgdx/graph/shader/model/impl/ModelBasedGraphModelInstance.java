@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelDataProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelInstanceDataImpl;
+import com.gempukku.libgdx.graph.shader.model.GraphModel;
 import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
@@ -93,7 +94,7 @@ public class ModelBasedGraphModelInstance implements IGraphModelInstance {
     }
 
     @Override
-    public IGraphModel getGraphModel() {
+    public GraphModel getModel() {
         return model;
     }
 
