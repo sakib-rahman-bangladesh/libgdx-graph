@@ -247,8 +247,8 @@ public class TestScene implements LibgdxGraphTestScene {
                     graphSprites.setProperty(graphSprite, "Animated Texture", animationData.sprites);
                     graphSprites.setProperty(graphSprite, "Animation Speed", animationData.speed);
                     graphSprites.setProperty(graphSprite, "Animation Looping", animationData.looping ? 1f : 0f);
-                    graphSprites.setProperty(graphSprite, "Tiles Width", animationData.spriteWidth);
-                    graphSprites.setProperty(graphSprite, "Tiles Height", animationData.spriteHeight);
+                    graphSprites.setProperty(graphSprite, "Sprite Width", animationData.spriteWidth);
+                    graphSprites.setProperty(graphSprite, "Sprite Height", animationData.spriteHeight);
                     graphSprites.setProperty(graphSprite, "Animation Start", pipelineRenderer.getTime());
                 }
 
