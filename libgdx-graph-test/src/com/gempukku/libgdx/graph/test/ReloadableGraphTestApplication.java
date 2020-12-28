@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.test;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -62,7 +61,7 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
 
     @Override
     public void create() {
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        //Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
         scenes[loadedIndex].initializeScene();
     }
@@ -92,7 +91,8 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
             scenes[loadedIndex].resizeScene(width, height);
         }
 
-        fpsLogger.log();
+        if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
+            fpsLogger.log();
 
         scenes[loadedIndex].renderScene();
     }

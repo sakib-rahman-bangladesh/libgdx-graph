@@ -10,6 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
@@ -22,24 +25,23 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class TestScene implements LibgdxGraphTestScene {
+    private Array<Disposable> resources = new Array<>();
     private PipelineRenderer pipelineRenderer;
     private OrthographicCamera camera;
     private Stage stage;
     private Skin skin;
-    private Texture texture;
     private AnimatedSprite doctorSprite;
 
     @Override
     public void initializeScene() {
         WhitePixel.initialize();
 
-        texture = new Texture(Gdx.files.classpath("image/professor_walk_cycle_no_hat.png"));
-
         stage = createStage();
-
         camera = createCamera();
 
         pipelineRenderer = loadPipelineRenderer();
+        resources.add(pipelineRenderer);
+
         createModels(pipelineRenderer.getGraphSprites());
 
         Gdx.input.setInputProcessor(stage);
@@ -57,42 +59,29 @@ public class TestScene implements LibgdxGraphTestScene {
     private void createModels(GraphSprites graphSprites) {
         GraphSprite doctor = graphSprites.createSprite(10f, "Animated");
 
-        graphSprites.setProperty(doctor, "Position", new Vector2(0, 0));
-        graphSprites.setProperty(doctor, "Size", new Vector2(200, 200));
-        graphSprites.setProperty(doctor, "Anchor", new Vector2(0.5f, 1));
-        graphSprites.setProperty(doctor, "Tiles Per Second", 12f);
+        graphSprites.setProperty(doctor, "Anchor", new Vector2(0.5f, 0.8f));
 
-        doctorSprite = new AnimatedSprite(doctor, new Vector2(0, 0), WalkDirection.Right, 9);
-        updateAnimated(doctorSprite);
-    }
+        Texture idleTexture = new Texture(Gdx.files.classpath("image/BlueWizardIdle.png"));
+        resources.add(idleTexture);
+        Texture walkTexture = new Texture(Gdx.files.classpath("image/BlueWizardWalk.png"));
+        resources.add(walkTexture);
+        Texture jumpTexture = new Texture(Gdx.files.classpath("image/BlueWizardJump.png"));
+        resources.add(jumpTexture);
 
-    private void updateAnimated(AnimatedSprite animatedSprite) {
-        GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
+        ObjectMap<String, AnimationData> animationData = new ObjectMap<>();
+        animationData.put("Idle", new AnimationData(new TextureRegion(idleTexture), 20, 1, 20f, true));
+        animationData.put("Walk", new AnimationData(new TextureRegion(walkTexture), 5, 4, 20f, true));
+        animationData.put("Jump", new AnimationData(new TextureRegion(jumpTexture), 8, 1, 20f, false));
 
-        GraphSprite sprite = animatedSprite.getGraphSprite();
-        int spriteCount = animatedSprite.getSpriteCount();
-        boolean walking = animatedSprite.isWalking();
-        WalkDirection walkDirection = animatedSprite.getWalkDirection();
-
-        float startX = walking ? 1f / spriteCount : 0f;
-        float endX = walking ? 1f : 1f / spriteCount;
-        float startY = 0f;
-        if (walkDirection == WalkDirection.Left)
-            startY = 0.25f;
-        else if (walkDirection == WalkDirection.Down)
-            startY = 0.5f;
-        else if (walkDirection == WalkDirection.Right)
-            startY = 0.75f;
-
-        graphSprites.setProperty(sprite, "Animated Texture", new TextureRegion(texture, startX, startY, endX, startY + 0.25f));
-        graphSprites.setProperty(sprite, "Tile Count", new Vector2(walking ? (spriteCount - 1) : 1, 1));
-        graphSprites.setProperty(sprite, "Position", animatedSprite.getPosition());
+        doctorSprite = new AnimatedSprite(doctor, new Vector2(0, 0), new Vector2(300, 300), "Idle", FaceDirection.Right, animationData);
     }
 
     private Stage createStage() {
         skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
+        resources.add(skin);
 
         Stage stage = new Stage(new ScreenViewport());
+        resources.add(stage);
 
         Table tbl = new Table(skin);
 
@@ -113,30 +102,31 @@ public class TestScene implements LibgdxGraphTestScene {
         float delta = Math.min(0.03f, Gdx.graphics.getDeltaTime());
         stage.act(delta);
 
-        boolean update;
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            update = doctorSprite.walkDirection(delta, 100f, WalkDirection.Right);
+            doctorSprite.addPosition(delta * 100f, 0);
+            doctorSprite.setFaceDirection(FaceDirection.Right);
+            doctorSprite.setState("Walk");
         } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            update = doctorSprite.walkDirection(delta, 100f, WalkDirection.Left);
+            doctorSprite.addPosition(-delta * 100f, 0);
+            doctorSprite.setFaceDirection(FaceDirection.Left);
+            doctorSprite.setState("Walk");
         } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            update = doctorSprite.walkDirection(delta, 100f, WalkDirection.Up);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            update = doctorSprite.walkDirection(delta, 100f, WalkDirection.Down);
+            doctorSprite.setState("Jump");
         } else {
-            update = doctorSprite.stopWalking();
+            doctorSprite.setState("Idle");
         }
-        if (update)
-            updateAnimated(doctorSprite);
+        if (doctorSprite.isDirty())
+            doctorSprite.updateSprite(pipelineRenderer);
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
     }
 
     @Override
     public void disposeScene() {
-        texture.dispose();
-        stage.dispose();
-        skin.dispose();
-        pipelineRenderer.dispose();
+        for (Disposable resource : resources) {
+            resource.dispose();
+        }
+
         WhitePixel.dispose();
     }
 
@@ -160,13 +150,13 @@ public class TestScene implements LibgdxGraphTestScene {
         pipelineRenderer.setPipelineProperty("Stage", stage);
     }
 
-    private enum WalkDirection {
-        Left(-1, 0), Right(1, 0), Up(0, 1), Down(0, -1);
+    private enum FaceDirection {
+        Left(-1, 0), Right(1, 0);
 
         private int x;
         private int y;
 
-        WalkDirection(int x, int y) {
+        FaceDirection(int x, int y) {
             this.x = x;
             this.y = y;
         }
@@ -180,52 +170,91 @@ public class TestScene implements LibgdxGraphTestScene {
         }
     }
 
+    private class AnimationData {
+        private TextureRegion sprites;
+        private int spriteWidth;
+        private int spriteHeight;
+        private float speed;
+        private boolean looping;
+
+        public AnimationData(TextureRegion sprites, int spriteWidth, int spriteHeight, float speed, boolean looping) {
+            this.sprites = sprites;
+            this.spriteWidth = spriteWidth;
+            this.spriteHeight = spriteHeight;
+            this.speed = speed;
+            this.looping = looping;
+        }
+    }
+
     private class AnimatedSprite {
         private GraphSprite graphSprite;
-        private int spriteCount;
-        private boolean walking = false;
-        private WalkDirection walkDirection;
         private Vector2 position = new Vector2();
+        private Vector2 size = new Vector2();
+        private Vector2 mergedSize = new Vector2();
+        private FaceDirection faceDirection;
+        private String state;
+        private ObjectMap<String, AnimationData> statesData;
+        private boolean dirty = true;
+        private boolean animationDirty = true;
 
-        public AnimatedSprite(GraphSprite graphSprite, Vector2 position, WalkDirection walkDirection, int spriteCount) {
+        public AnimatedSprite(GraphSprite graphSprite, Vector2 position, Vector2 size,
+                              String state, FaceDirection faceDirection,
+                              ObjectMap<String, AnimationData> statesData) {
             this.graphSprite = graphSprite;
             this.position.set(position);
-            this.walkDirection = walkDirection;
-            this.spriteCount = spriteCount;
+            this.size.set(size);
+            this.state = state;
+            this.faceDirection = faceDirection;
+            this.statesData = statesData;
         }
 
-        public boolean stopWalking() {
-            boolean needsUpdate = walking;
-            walking = false;
-            return needsUpdate;
+        public void setState(String state) {
+            if (!statesData.containsKey(state))
+                throw new IllegalArgumentException("Undefined state for the sprite");
+            if (!this.state.equals(state)) {
+                animationDirty = true;
+                dirty = true;
+                this.state = state;
+            }
         }
 
-        public boolean walkDirection(float delta, float speed, WalkDirection walkDirection) {
-            position.add(walkDirection.getX() * delta * speed, walkDirection.getY() * delta * speed);
-            boolean needsUpdate = !walking || this.walkDirection != walkDirection;
-            walking = true;
-            this.walkDirection = walkDirection;
-            return needsUpdate;
+        public void setFaceDirection(FaceDirection faceDirection) {
+            if (this.faceDirection != faceDirection) {
+                dirty = true;
+                this.faceDirection = faceDirection;
+            }
         }
 
-        public GraphSprite getGraphSprite() {
-            return graphSprite;
+        public void addPosition(float x, float y) {
+            if (x != 0 || y != 0) {
+                this.position.add(x, y);
+                dirty = true;
+            }
         }
 
-        public int getSpriteCount() {
-            return spriteCount;
+        public boolean isDirty() {
+            return dirty;
         }
 
-        public boolean isWalking() {
-            return walking;
-        }
+        public void updateSprite(PipelineRenderer pipelineRenderer) {
+            if (dirty) {
+                AnimationData animationData = statesData.get(state);
 
-        public WalkDirection getWalkDirection() {
-            return walkDirection;
-        }
+                GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
+                graphSprites.setProperty(graphSprite, "Position", position);
+                graphSprites.setProperty(graphSprite, "Size", mergedSize.set(faceDirection.x, 1).scl(size));
+                if (animationDirty) {
+                    graphSprites.setProperty(graphSprite, "Animated Texture", animationData.sprites);
+                    graphSprites.setProperty(graphSprite, "Animation Speed", animationData.speed);
+                    graphSprites.setProperty(graphSprite, "Animation Looping", animationData.looping ? 1f : 0f);
+                    graphSprites.setProperty(graphSprite, "Tiles Width", animationData.spriteWidth);
+                    graphSprites.setProperty(graphSprite, "Tiles Height", animationData.spriteHeight);
+                    graphSprites.setProperty(graphSprite, "Animation Start", pipelineRenderer.getTime());
+                }
 
-        public Vector2 getPosition() {
-            return position;
+                dirty = false;
+                animationDirty = false;
+            }
         }
     }
 }

@@ -57,6 +57,11 @@ public class PipelineRendererImpl implements PipelineRenderer {
     }
 
     @Override
+    public float getTime() {
+        return this.timeKeeper.getTime();
+    }
+
+    @Override
     public void setPipelineProperty(String property, Object value) {
         WritablePipelineProperty propertyValue = pipelinePropertyMap.get(property);
         if (propertyValue == null)

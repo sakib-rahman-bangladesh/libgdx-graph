@@ -22,5 +22,7 @@ public interface PipelineRenderer extends PipelinePropertySource, Disposable {
 
     void setTimeKeeper(TimeKeeper timeKeeper);
 
+    float getTime();
+
     void render(float delta, RenderOutput renderOutput);
 }
