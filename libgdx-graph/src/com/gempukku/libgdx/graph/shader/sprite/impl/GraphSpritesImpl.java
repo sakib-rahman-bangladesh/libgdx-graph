@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.shader.sprite.impl;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
@@ -115,50 +116,53 @@ public class GraphSpritesImpl implements GraphSprites {
     }
 
     public void render(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
+        Gdx.app.debug("Sprite", "Starting drawing sprites");
         // First - all opaque shaders
-        for (SpriteGraphShader shader : shaders) {
-            if (shader.getBlending() == BasicShader.Blending.opaque) {
-                Array<String> textureUniformNames = shader.getTextureUniformNames();
-                Arrays.fill(processingTextureIds, 0, textureUniformNames.size, -1);
-
-                shader.begin(shaderContext, renderContext);
-
-                String tag = shader.getTag();
-                TagSpriteShaderConfig tagSpriteShaderConfig = tagSpriteShaderData.get(tag);
-
-                int spriteTotal = 0;
-                int capacity = tagSpriteShaderConfig.getCapacity();
-
-                tagSpriteShaderConfig.clear();
-                for (GraphSpriteImpl sprite : graphSprites) {
-                    if (sprite.hasTag(tag)) {
-                        spriteTotal = switchToNewTexturesIfNeeded(shaderContext, shader, textureUniformNames, tagSpriteShaderConfig, spriteTotal, capacity, sprite);
-                        tagSpriteShaderConfig.appendSprite(sprite);
-                        spriteTotal++;
-                    }
-                }
-
-                if (spriteTotal > 0) {
-                    shader.renderSprites(shaderContext, tagSpriteShaderConfig);
-                }
-                shader.end();
-            }
-        }
+        drawOpaqueSprites(shaderContext, renderContext, shaders);
 
         // Then - all the translucent shaders
-        tempSorting.clear();
-        tempForUniqness.clear();
+        drawTranslucentSprites(shaderContext, renderContext, shaders);
+        Gdx.app.debug("Sprite", "Finished drawing sprites");
+    }
+
+    private void drawOpaqueSprites(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
         for (SpriteGraphShader shader : shaders) {
-            if (shader.getBlending() != BasicShader.Blending.opaque) {
+            if (shader.getBlending() == BasicShader.Blending.opaque) {
                 String tag = shader.getTag();
-                for (GraphSpriteImpl graphSprite : spritesByTag.get(tag)) {
-                    if (tempForUniqness.add(graphSprite))
-                        tempSorting.add(graphSprite);
+                if (hasSpriteWithTag(tag)) {
+                    Gdx.app.debug("Sprite", "Starting drawing opaque with tag - " + tag);
+                    Array<String> textureUniformNames = shader.getTextureUniformNames();
+                    Arrays.fill(processingTextureIds, 0, textureUniformNames.size, -1);
+
+                    shader.begin(shaderContext, renderContext);
+
+                    TagSpriteShaderConfig tagSpriteShaderConfig = tagSpriteShaderData.get(tag);
+
+                    int spriteTotal = 0;
+                    int capacity = tagSpriteShaderConfig.getCapacity();
+
+                    tagSpriteShaderConfig.clear();
+                    for (GraphSpriteImpl sprite : graphSprites) {
+                        if (sprite.hasTag(tag)) {
+                            spriteTotal = appendSprite(shaderContext, shader, textureUniformNames, tagSpriteShaderConfig, spriteTotal, capacity, sprite);
+                        }
+                    }
+
+                    if (spriteTotal > 0) {
+                        Gdx.app.debug("Sprite", "Rendering " + spriteTotal + " sprite(s)");
+                        shader.renderSprites(shaderContext, tagSpriteShaderConfig);
+                    }
+                    shader.end();
+                    Gdx.app.debug("Sprite", "Finished drawing opaque with tag - " + tag);
                 }
             }
         }
+    }
 
+    private void drawTranslucentSprites(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
+        selectApplicableSpritesForSorting(shaders);
         distanceSpriteSorter.sort(tempSorting, Order.Back_To_Front);
+
         GraphShader lastShader = null;
         for (GraphSpriteImpl sprite : tempSorting) {
             for (SpriteGraphShader shader : shaders) {
@@ -172,33 +176,60 @@ public class GraphSpritesImpl implements GraphSprites {
                         tagSpriteShaderConfig.appendSprite(sprite);
 
                         if (lastShader != shader) {
-                            if (lastShader != null)
+                            if (lastShader != null) {
+                                Gdx.app.debug("Sprite", "Finished drawing translucent");
                                 lastShader.end();
+                            }
                             shader.begin(shaderContext, renderContext);
+                            Gdx.app.debug("Sprite", "Starting drawing translucent with tag - " + tag);
                             lastShader = shader;
                         }
+                        Gdx.app.debug("Sprite", "Rendering 1 sprite(s)");
                         shader.renderSprites(shaderContext, tagSpriteShaderConfig);
                     }
                 }
             }
         }
-        if (lastShader != null)
+        if (lastShader != null) {
+            Gdx.app.debug("Sprite", "Finished drawing translucent");
             lastShader.end();
+        }
     }
 
-    private int switchToNewTexturesIfNeeded(ShaderContextImpl shaderContext, SpriteGraphShader shader, Array<String> textureUniformNames, TagSpriteShaderConfig tagSpriteShaderConfig, int spriteTotal, int capacity, GraphSpriteImpl sprite) {
+    private void selectApplicableSpritesForSorting(Array<SpriteGraphShader> shaders) {
+        tempSorting.clear();
+        tempForUniqness.clear();
+        for (SpriteGraphShader shader : shaders) {
+            if (shader.getBlending() != BasicShader.Blending.opaque) {
+                String tag = shader.getTag();
+                for (GraphSpriteImpl graphSprite : spritesByTag.get(tag)) {
+                    if (tempForUniqness.add(graphSprite))
+                        tempSorting.add(graphSprite);
+                }
+            }
+        }
+    }
+
+    private int appendSprite(ShaderContextImpl shaderContext, SpriteGraphShader shader, Array<String> textureUniformNames, TagSpriteShaderConfig tagSpriteShaderConfig, int spriteTotal, int capacity, GraphSpriteImpl sprite) {
         fetchTextureIds(shader, textureUniformNames, sprite);
         // Not the MOST effective, but good enough
-        if (capacity == spriteTotal || !sameValues(processingTextureIds, tempTextureIds, 0, textureUniformNames.size)) {
+        boolean needToSwitchTextures = !sameValues(processingTextureIds, tempTextureIds, 0, textureUniformNames.size);
+        boolean batchFull = capacity == spriteTotal;
+        if (batchFull || needToSwitchTextures) {
             if (spriteTotal > 0) {
+                Gdx.app.debug("Sprite", "Rendering " + spriteTotal + " sprite(s)");
                 shader.renderSprites(shaderContext, tagSpriteShaderConfig);
                 tagSpriteShaderConfig.clear();
                 spriteTotal = 0;
             }
-
+        }
+        if (needToSwitchTextures) {
+            Gdx.app.debug("Sprite", "Switching textures");
             shaderContext.setPropertyContainer(sprite.getPropertyContainer());
             System.arraycopy(tempTextureIds, 0, processingTextureIds, 0, textureUniformNames.size);
         }
+        tagSpriteShaderConfig.appendSprite(sprite);
+        spriteTotal++;
         return spriteTotal;
     }
 

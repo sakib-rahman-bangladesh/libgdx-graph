@@ -10,7 +10,6 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
 public class SpriteGraphShader extends GraphShader {
-    private int[] attributeLocations;
     private Array<String> textureUniformNames;
 
     public SpriteGraphShader(Texture defaultTexture) {

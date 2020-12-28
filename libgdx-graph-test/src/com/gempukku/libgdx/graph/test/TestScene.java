@@ -2,7 +2,6 @@ package com.gempukku.libgdx.graph.test;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -24,7 +23,7 @@ import java.io.InputStream;
 
 public class TestScene implements LibgdxGraphTestScene {
     private PipelineRenderer pipelineRenderer;
-    private Camera camera;
+    private OrthographicCamera camera;
     private Stage stage;
     private Skin skin;
     private Texture texture;
@@ -46,13 +45,10 @@ public class TestScene implements LibgdxGraphTestScene {
         Gdx.input.setInputProcessor(stage);
     }
 
-    private Camera createCamera() {
+    private OrthographicCamera createCamera() {
         OrthographicCamera camera = new OrthographicCamera();
-        camera.near = 0.1f;
-        camera.far = 100;
-        camera.position.set(0, 300, 0);
-        camera.up.set(0f, 1f, 0f);
-        camera.direction.set(0, 0, -1f);
+        camera.setToOrtho(false);
+        camera.position.set(0, 0, 0);
         camera.update();
 
         return camera;
