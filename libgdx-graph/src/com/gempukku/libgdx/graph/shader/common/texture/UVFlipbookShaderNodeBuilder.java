@@ -29,21 +29,19 @@ public class UVFlipbookShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
         FieldOutput uvValue = inputs.get("uv");
         FieldOutput tileCountValue = inputs.get("tileCount");
         FieldOutput indexValue = inputs.get("index");
+        FieldOutput loopingValue = inputs.get("looping");
+        if (loopingValue == null) {
+            loopingValue = new DefaultFieldOutput(ShaderFieldType.Float, "1.0");
+        }
+
+        loadFragmentIfNotDefined(commonShaderBuilder, "uvFlipbook");
 
         commonShaderBuilder.addMainLine("// UV Flipbook Node");
         boolean invertX = data.getBoolean("invertX");
         boolean invertY = data.getBoolean("invertY");
 
         String resultName = "result_" + nodeId;
-        String tileIndexVarName = "tileIndex_" + nodeId;
-        String tileCountVarName = "tileCount_" + nodeId;
-        String invertVarName = "invert_" + nodeId;
-        commonShaderBuilder.addMainLine("int " + tileIndexVarName + " = int(mod(" + indexValue.getRepresentation() + ", " + tileCountValue + ".x * " + tileCountValue + ".y));");
-        commonShaderBuilder.addMainLine("vec2 " + tileCountVarName + " = vec2(1.0) / " + tileCountValue.getRepresentation() + ";");
-        commonShaderBuilder.addMainLine("vec2 " + invertVarName + " = vec2(" + (invertX ? "1.0" : "0.0") + ", " + (invertY ? "1.0" : "0.0") + ");");
-        String tileX = "abs(" + invertVarName + ".x * " + tileCountValue + ".x - ((float(" + tileIndexVarName + ") - " + tileCountValue + ".x * floor(float(" + tileIndexVarName + ") * " + tileCountVarName + ".x)) + " + invertVarName + ".x * 1.0))";
-        String tileY = "abs(" + invertVarName + ".y * " + tileCountValue + ".y - (floor(float(" + tileIndexVarName + ") * " + tileCountVarName + ".x) + " + invertVarName + ".y * 1.0))";
-        commonShaderBuilder.addMainLine("vec2 " + resultName + " = (" + uvValue + " + vec2(" + tileX + ", " + tileY + ")) * " + tileCountVarName + ";");
+        commonShaderBuilder.addMainLine("vec2 " + resultName + " = uvFlipbook(" + uvValue + ", " + tileCountValue + ".x, " + tileCountValue + ".y, " + indexValue + ", " + loopingValue + ", vec2(" + (invertX ? "1.0" : "0.0") + ", " + (invertY ? "1.0" : "0.0") + "));");
 
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(ShaderFieldType.Vector2, resultName));
     }

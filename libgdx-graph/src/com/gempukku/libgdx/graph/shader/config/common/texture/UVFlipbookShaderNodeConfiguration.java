@@ -14,6 +14,8 @@ public class UVFlipbookShaderNodeConfiguration extends NodeConfigurationImpl<Sha
                 new GraphNodeInputImpl<ShaderFieldType>("tileCount", "Tile count", true, ShaderFieldType.Vector2));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("index", "Index", true, ShaderFieldType.Float));
+        addNodeInput(
+                new GraphNodeInputImpl<ShaderFieldType>("looping", "Looping", false, ShaderFieldType.Float));
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("output", "UV", ShaderFieldType.Vector2));
     }

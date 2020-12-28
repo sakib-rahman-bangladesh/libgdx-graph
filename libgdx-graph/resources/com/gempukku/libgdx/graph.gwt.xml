@@ -19,6 +19,7 @@
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/pointLightContribution.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/spotLightContribution.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/unpackVec3ToFloat.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/uvFlipbook.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/voronoiBorder2d.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/voronoiBorder3d.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/voronoiDistance2d.glsl"/>
