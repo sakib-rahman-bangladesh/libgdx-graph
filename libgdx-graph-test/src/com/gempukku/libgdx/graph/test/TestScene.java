@@ -73,7 +73,7 @@ public class TestScene implements LibgdxGraphTestScene {
         animationData.put("Walk", new AnimationData(new TextureRegion(walkTexture), 5, 4, 20f, true));
         animationData.put("Jump", new AnimationData(new TextureRegion(jumpTexture), 8, 1, 20f, false));
 
-        doctorSprite = new AnimatedSprite(doctor, new Vector2(0, 0), new Vector2(300, 300), "Idle", FaceDirection.Right, animationData);
+        doctorSprite = new AnimatedSprite(doctor, new Vector2(0, 0), new Vector2(450, 450), "Idle", FaceDirection.Right, animationData);
     }
 
     private Stage createStage() {
