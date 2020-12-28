@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -44,9 +45,18 @@ public class GraphSpritesImpl implements GraphSprites {
     private int[] processingTextureIds = new int[16];
     private int[] tempTextureIds = new int[16];
 
+    private Vector2 tempPosition = new Vector2();
+    private Vector2 tempSize = new Vector2();
+    private Vector2 tempAnchor = new Vector2();
+
     @Override
-    public GraphSprite createSprite(float layer, String... tags) {
-        GraphSpriteImpl graphSprite = new GraphSpriteImpl(layer);
+    public GraphSprite createSprite(float layer, Vector2 position, Vector2 size, String... tags) {
+        return createSprite(layer, position, size, new Vector2(0.5f, 0.5f), tags);
+    }
+
+    @Override
+    public GraphSprite createSprite(float layer, Vector2 position, Vector2 size, Vector2 anchor, String... tags) {
+        GraphSpriteImpl graphSprite = new GraphSpriteImpl(layer, position, size, anchor);
         graphSprites.add(graphSprite);
         for (String tag : tags) {
             addTag(graphSprite, tag);
@@ -58,8 +68,14 @@ public class GraphSpritesImpl implements GraphSprites {
     @Override
     public void updateSprite(GraphSprite sprite, SpriteUpdater spriteUpdater) {
         GraphSpriteImpl graphSprite = getSprite(sprite);
-        float updateResult = spriteUpdater.processUpdate(graphSprite.getLayer());
+        tempPosition.set(graphSprite.getPosition());
+        tempSize.set(graphSprite.getSize());
+        tempAnchor.set(graphSprite.getAnchor());
+        float updateResult = spriteUpdater.processUpdate(graphSprite.getLayer(), tempPosition, tempSize, tempAnchor);
         graphSprite.setLayer(updateResult);
+        graphSprite.getPosition().set(tempPosition);
+        graphSprite.getSize().set(tempSize);
+        graphSprite.getAnchor().set(tempAnchor);
     }
 
     @Override

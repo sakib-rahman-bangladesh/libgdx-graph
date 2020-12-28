@@ -76,10 +76,25 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
             int floatIndex = 0;
             for (VertexAttribute vertexAttribute : vertexAttributes) {
                 String alias = vertexAttribute.alias;
-                if (alias.equals("a_layer")) {
+                if (alias.equals("a_position")) {
+                    Vector2 position = sprite.getPosition();
+                    tempVertices[vertexIndex * floatCount + floatIndex + 0] = position.x;
+                    tempVertices[vertexIndex * floatCount + floatIndex + 1] = position.y;
+                    floatIndex += 2;
+                } else if (alias.equals("a_layer")) {
                     float layer = sprite.getLayer();
                     tempVertices[vertexIndex * floatCount + floatIndex] = layer;
                     floatIndex += 1;
+                } else if (alias.equals("a_size")) {
+                    Vector2 size = sprite.getSize();
+                    tempVertices[vertexIndex * floatCount + floatIndex + 0] = size.x;
+                    tempVertices[vertexIndex * floatCount + floatIndex + 1] = size.y;
+                    floatIndex += 2;
+                } else if (alias.equals("a_anchor")) {
+                    Vector2 anchor = sprite.getAnchor();
+                    tempVertices[vertexIndex * floatCount + floatIndex + 0] = anchor.x;
+                    tempVertices[vertexIndex * floatCount + floatIndex + 1] = anchor.y;
+                    floatIndex += 2;
                 } else if (alias.equals(ShaderProgram.TEXCOORD_ATTRIBUTE + 0)) {
                     tempVertices[vertexIndex * floatCount + floatIndex + 0] = vertexIndex % 2;
                     tempVertices[vertexIndex * floatCount + floatIndex + 1] = (float) (vertexIndex / 2);

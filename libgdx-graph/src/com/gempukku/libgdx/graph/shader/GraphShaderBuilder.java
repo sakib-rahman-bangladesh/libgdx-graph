@@ -445,6 +445,10 @@ public class GraphShaderBuilder {
                 designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, spriteConfigurations);
         GraphShaderNodeBuilder.FieldOutput rotationField = getOutput(findInputVertices(graph, "end", "rotation"),
                 designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, spriteConfigurations);
+        if (positionField == null) {
+            vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 2, "a_position"), "a_position", "vec2");
+            positionField = new DefaultFieldOutput(ShaderFieldType.Vector2, "a_position");
+        }
         if (layerField == null) {
             vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 1, "a_layer"), "a_layer", "float");
 
@@ -453,15 +457,17 @@ public class GraphShaderBuilder {
 
             layerField = new DefaultFieldOutput(ShaderFieldType.Float, name);
         }
-        if (anchorField == null) {
-            anchorField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(0.5, 0.5)");
-        } else if (anchorField.getFieldType() == ShaderFieldType.Float) {
-            anchorField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(" + anchorField.getRepresentation() + ")");
-        }
         if (sizeField == null) {
-            sizeField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(32, 32)");
+            vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 2, "a_size"), "a_size", "vec2");
+            sizeField = new DefaultFieldOutput(ShaderFieldType.Vector2, "a_size");
         } else if (sizeField.getFieldType() == ShaderFieldType.Float) {
             sizeField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(" + sizeField.getRepresentation() + ")");
+        }
+        if (anchorField == null) {
+            vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 2, "a_anchor"), "a_anchor", "vec2");
+            anchorField = new DefaultFieldOutput(ShaderFieldType.Vector2, "a_anchor");
+        } else if (anchorField.getFieldType() == ShaderFieldType.Float) {
+            anchorField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(" + anchorField.getRepresentation() + ")");
         }
         vertexShaderBuilder.addUniformVariable("u_cameraUp", "vec3", true, UniformSetters.cameraUp);
         vertexShaderBuilder.addUniformVariable("u_cameraDirection", "vec3", true, UniformSetters.cameraDirection);

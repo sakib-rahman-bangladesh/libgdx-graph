@@ -8,7 +8,7 @@ public class EndSpriteShaderNodeConfiguration extends NodeConfigurationImpl<Shad
     public EndSpriteShaderNodeConfiguration() {
         super("SpriteShaderEnd", "Shader output", null);
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("position", "Position", true, false, ShaderFieldType.Vector2));
+                new GraphNodeInputImpl<ShaderFieldType>("position", "Position", false, false, ShaderFieldType.Vector2));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("layer", "Layer", false, false, ShaderFieldType.Float));
         addNodeInput(

@@ -1,7 +1,11 @@
 package com.gempukku.libgdx.graph.shader.sprite;
 
+import com.badlogic.gdx.math.Vector2;
+
 public interface GraphSprites {
-    GraphSprite createSprite(float layer, String... tags);
+    GraphSprite createSprite(float layer, Vector2 position, Vector2 size, String... tags);
+
+    GraphSprite createSprite(float layer, Vector2 position, Vector2 size, Vector2 anchor, String... tags);
 
     void updateSprite(GraphSprite sprite, SpriteUpdater spriteUpdater);
 

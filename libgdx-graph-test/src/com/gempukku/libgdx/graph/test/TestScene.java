@@ -20,6 +20,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
+import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,9 +58,7 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private void createModels(GraphSprites graphSprites) {
-        GraphSprite doctor = graphSprites.createSprite(10f, "Animated");
-
-        graphSprites.setProperty(doctor, "Anchor", new Vector2(0.5f, 0.8f));
+        GraphSprite doctor = graphSprites.createSprite(10f, new Vector2(0, 0), new Vector2(450, 450), new Vector2(0.5f, 0.5f), "Animated");
 
         Texture idleTexture = new Texture(Gdx.files.classpath("image/BlueWizardIdle.png"));
         resources.add(idleTexture);
@@ -241,8 +240,17 @@ public class TestScene implements LibgdxGraphTestScene {
                 AnimationData animationData = statesData.get(state);
 
                 GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
-                graphSprites.setProperty(graphSprite, "Position", position);
-                graphSprites.setProperty(graphSprite, "Size", mergedSize.set(faceDirection.x, 1).scl(size));
+                graphSprites.updateSprite(graphSprite,
+                        new SpriteUpdater() {
+                            @Override
+                            public float processUpdate(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
+                                mergedSize.set(faceDirection.x, 1).scl(AnimatedSprite.this.size);
+
+                                position.set(AnimatedSprite.this.position);
+                                size.set(AnimatedSprite.this.mergedSize);
+                                return layer;
+                            }
+                        });
                 if (animationDirty) {
                     graphSprites.setProperty(graphSprite, "Animated Texture", animationData.sprites);
                     graphSprites.setProperty(graphSprite, "Animation Speed", animationData.speed);

@@ -1,7 +1,10 @@
 package com.gempukku.libgdx.graph.ui.shader.sprite;
 
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.config.sprite.SpriteAnchorShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.sprite.SpriteLayerShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.sprite.SpritePositionShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.sprite.SpriteSizeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.sprite.SpriteUVShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
@@ -20,8 +23,11 @@ public class UISpriteShaderConfiguration implements UIGraphConfiguration<ShaderF
     static {
         graphBoxProducers.add(new EndSpriteShaderBoxProducer());
 
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteUVShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SpritePositionShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteLayerShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteSizeShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteAnchorShaderNodeConfiguration()));
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteUVShaderNodeConfiguration()));
     }
 
     @Override
