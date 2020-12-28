@@ -193,7 +193,7 @@ public class TestScene implements LibgdxGraphTestScene {
         private FaceDirection faceDirection;
         private String state;
         private ObjectMap<String, AnimationData> statesData;
-        private boolean dirty = true;
+        private boolean attributesDirty = true;
         private boolean animationDirty = true;
 
         public AnimatedSprite(GraphSprite graphSprite, Vector2 position, Vector2 size,
@@ -212,14 +212,13 @@ public class TestScene implements LibgdxGraphTestScene {
                 throw new IllegalArgumentException("Undefined state for the sprite");
             if (!this.state.equals(state)) {
                 animationDirty = true;
-                dirty = true;
                 this.state = state;
             }
         }
 
         public void setFaceDirection(FaceDirection faceDirection) {
             if (this.faceDirection != faceDirection) {
-                dirty = true;
+                attributesDirty = true;
                 this.faceDirection = faceDirection;
             }
         }
@@ -227,40 +226,41 @@ public class TestScene implements LibgdxGraphTestScene {
         public void addPosition(float x, float y) {
             if (x != 0 || y != 0) {
                 this.position.add(x, y);
-                dirty = true;
+                attributesDirty = true;
             }
         }
 
         public boolean isDirty() {
-            return dirty;
+            return attributesDirty || animationDirty;
         }
 
         public void updateSprite(PipelineRenderer pipelineRenderer) {
-            if (dirty) {
+            if (isDirty()) {
                 AnimationData animationData = statesData.get(state);
 
                 GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
-                graphSprites.updateSprite(graphSprite,
-                        new SpriteUpdater() {
-                            @Override
-                            public float processUpdate(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
-                                mergedSize.set(faceDirection.x, 1).scl(AnimatedSprite.this.size);
+                if (attributesDirty) {
+                    graphSprites.updateSprite(graphSprite,
+                            new SpriteUpdater() {
+                                @Override
+                                public float processUpdate(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
+                                    mergedSize.set(faceDirection.x, 1).scl(AnimatedSprite.this.size);
 
-                                position.set(AnimatedSprite.this.position);
-                                size.set(AnimatedSprite.this.mergedSize);
-                                return layer;
-                            }
-                        });
+                                    position.set(AnimatedSprite.this.position);
+                                    size.set(AnimatedSprite.this.mergedSize);
+                                    return layer;
+                                }
+                            });
+                }
                 if (animationDirty) {
                     graphSprites.setProperty(graphSprite, "Animated Texture", animationData.sprites);
                     graphSprites.setProperty(graphSprite, "Animation Speed", animationData.speed);
                     graphSprites.setProperty(graphSprite, "Animation Looping", animationData.looping ? 1f : 0f);
-                    graphSprites.setProperty(graphSprite, "Sprite Width", animationData.spriteWidth);
-                    graphSprites.setProperty(graphSprite, "Sprite Height", animationData.spriteHeight);
+                    graphSprites.setProperty(graphSprite, "Sprite Count", new Vector2(animationData.spriteWidth, animationData.spriteHeight));
                     graphSprites.setProperty(graphSprite, "Animation Start", pipelineRenderer.getTime());
                 }
 
-                dirty = false;
+                attributesDirty = false;
                 animationDirty = false;
             }
         }
