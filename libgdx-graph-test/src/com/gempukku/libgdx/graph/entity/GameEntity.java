@@ -28,13 +28,15 @@ public class GameEntity<T extends Sprite> {
         return dynamic;
     }
 
-    public void createDynamicBody(PhysicsSystem physicsSystem, Vector2 colliderAnchor, Vector2 colliderScale) {
-        body = physicsSystem.createDynamicBody(sprite, colliderAnchor, colliderScale);
+    public void createDynamicBody(PhysicsSystem physicsSystem, Vector2 colliderAnchor, Vector2 colliderScale,
+                                  String category, String[] mask) {
+        body = physicsSystem.createDynamicBody(sprite, colliderAnchor, colliderScale, category, mask);
         dynamic = true;
     }
 
-    public void createStaticBody(PhysicsSystem physicsSystem, Vector2 colliderAnchor, Vector2 colliderScale) {
-        body = physicsSystem.createStaticBody(sprite, colliderAnchor, colliderScale);
+    public void createStaticBody(PhysicsSystem physicsSystem, Vector2 colliderAnchor, Vector2 colliderScale,
+                                 String category, String[] mask) {
+        body = physicsSystem.createStaticBody(sprite, colliderAnchor, colliderScale, category, mask);
         dynamic = false;
     }
 

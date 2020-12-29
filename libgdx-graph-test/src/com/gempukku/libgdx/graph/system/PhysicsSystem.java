@@ -24,6 +24,7 @@ public class PhysicsSystem implements GameSystem {
 
     private World world;
     private ObjectMap<String, SensorContactListener> sensorContactListeners = new ObjectMap<>();
+    private ObjectMap<String, Short> categoryBits = new ObjectMap<>();
 
     public PhysicsSystem(float gravity) {
         world = new World(new Vector2(0, gravity), true);
@@ -50,6 +51,8 @@ public class PhysicsSystem implements GameSystem {
                     }
                 }
         );
+        categoryBits.put("Character", CHARACTER_GEOMETRY);
+        categoryBits.put("Environment", ENVIRONMENT_GEOMETRY);
     }
 
     public void addSensorContactListener(String type, SensorContactListener sensorContactListener) {
@@ -64,7 +67,8 @@ public class PhysicsSystem implements GameSystem {
         return world;
     }
 
-    public Body createDynamicBody(Sprite sprite, Vector2 colliderAnchor, Vector2 colliderScale) {
+    public Body createDynamicBody(Sprite sprite, Vector2 colliderAnchor, Vector2 colliderScale,
+                                  String category, String[] mask) {
         Vector2 position = sprite.getPosition(new Vector2());
         Vector2 size = sprite.getSize(new Vector2());
         Vector2 anchor = sprite.getAnchor(new Vector2());
@@ -83,8 +87,8 @@ public class PhysicsSystem implements GameSystem {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0f;
-        fixtureDef.filter.categoryBits = CHARACTER_GEOMETRY;
-        fixtureDef.filter.maskBits = ENVIRONMENT_GEOMETRY;
+        fixtureDef.filter.categoryBits = getBits(category);
+        fixtureDef.filter.maskBits = getBits(mask);
         body.createFixture(fixtureDef);
 
         shape.dispose();
@@ -92,7 +96,8 @@ public class PhysicsSystem implements GameSystem {
         return body;
     }
 
-    public Body createStaticBody(Sprite sprite, Vector2 colliderAnchor, Vector2 colliderScale) {
+    public Body createStaticBody(Sprite sprite, Vector2 colliderAnchor, Vector2 colliderScale,
+                                 String category, String[] mask) {
         Vector2 position = sprite.getPosition(new Vector2());
         Vector2 size = sprite.getSize(new Vector2());
         Vector2 anchor = sprite.getAnchor(new Vector2());
@@ -110,14 +115,24 @@ public class PhysicsSystem implements GameSystem {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
-        fixtureDef.filter.categoryBits = ENVIRONMENT_GEOMETRY;
-        fixtureDef.filter.maskBits = CHARACTER_GEOMETRY;
+        fixtureDef.filter.categoryBits = getBits(category);
+        fixtureDef.filter.maskBits = getBits(mask);
 
         body.createFixture(fixtureDef);
 
         shape.dispose();
 
         return body;
+    }
+
+    private short getBits(String... categories) {
+        short result = 0;
+        if (categories != null) {
+            for (String category : categories) {
+                result |= categoryBits.get(category);
+            }
+        }
+        return result;
     }
 
     @Override

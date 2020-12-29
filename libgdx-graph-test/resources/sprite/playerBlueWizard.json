@@ -63,6 +63,10 @@
       "x": 0.2734375,
       "y": 0.5859375
     },
+    "category": "Character",
+    "mask": [
+      "Environment"
+    ],
     "sensors": [
       {
         "type": "foot",
