@@ -2,8 +2,6 @@ package com.gempukku.libgdx.graph.test;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -15,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gempukku.libgdx.graph.camera.CameraController;
 import com.gempukku.libgdx.graph.camera.FocusWindowCameraController;
@@ -27,13 +25,15 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
-import com.gempukku.libgdx.graph.sprite.SpriteFaceDirection;
-import com.gempukku.libgdx.graph.sprite.SpriteStateData;
+import com.gempukku.libgdx.graph.sprite.Sprite;
+import com.gempukku.libgdx.graph.sprite.SpriteProducer;
 import com.gempukku.libgdx.graph.sprite.StateBasedSprite;
-import com.gempukku.libgdx.graph.sprite.TiledSprite;
+import com.gempukku.libgdx.graph.sprite.def.PhysicsDef;
+import com.gempukku.libgdx.graph.sprite.def.SpriteDef;
 import com.gempukku.libgdx.graph.system.EntitySystem;
 import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
+import com.gempukku.libgdx.graph.system.TextureSystem;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +45,7 @@ public class TestScene implements LibgdxGraphTestScene {
     private Stage stage;
     private Skin skin;
 
+    private TextureSystem textureSystem;
     private CameraController cameraController;
     private PhysicsSystem physicsSystem;
     private EntitySystem entitySystem;
@@ -70,7 +71,8 @@ public class TestScene implements LibgdxGraphTestScene {
         pipelineRenderer = loadPipelineRenderer();
         resources.add(pipelineRenderer);
 
-        GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
+        textureSystem = new TextureSystem();
+        resources.add(textureSystem);
 
         physicsSystem = new PhysicsSystem(-30f);
         resources.add(physicsSystem);
@@ -81,13 +83,12 @@ public class TestScene implements LibgdxGraphTestScene {
         playerControlSystem = new PlayerControlSystem();
         resources.add(playerControlSystem);
 
-        GameEntity<StateBasedSprite> playerEntity = entitySystem.createGameEntity(createPlayerSprite());
-        playerEntity.createDynamicBody(physicsSystem, new Vector2(0.5f, 0.5f), new Vector2(70f / 256, 150f / 256));
+        Json json = new Json();
 
+        GameEntity<StateBasedSprite> playerEntity = (GameEntity<StateBasedSprite>) readEntity(json, "sprite/playerBlueWizard.json");
         playerControlSystem.setPlayerEntity(playerEntity);
 
-        GameEntity<TiledSprite> groundEntity = entitySystem.createGameEntity(createGroundSprite());
-        groundEntity.createStaticBody(physicsSystem, new Vector2(0.5f, 0.6f), new Vector2(1, 0.8f));
+        readEntity(json, "sprite/ground.json");
 
         cameraController = new FocusWindowCameraController(camera, new SpriteFocus(playerEntity.getSprite()),
                 new Rectangle(0.1f, 0.1f, 0.4f, 0.4f),
@@ -102,6 +103,25 @@ public class TestScene implements LibgdxGraphTestScene {
         }
     }
 
+    private GameEntity<? extends Sprite> readEntity(Json json, String path) {
+        SpriteDef player = json.fromJson(SpriteDef.class, Gdx.files.internal(path));
+
+        return createEntity(pipelineRenderer.getGraphSprites(), player);
+    }
+
+    private GameEntity<? extends Sprite> createEntity(GraphSprites graphSprites, SpriteDef spriteDef) {
+        GraphSprite graphSprite = graphSprites.createSprite(spriteDef.getLayer(), spriteDef.getTags());
+        GameEntity<? extends Sprite> gameEntity = entitySystem.createGameEntity(SpriteProducer.createSprite(textureSystem, graphSprite, spriteDef));
+        PhysicsDef physicsDef = spriteDef.getPhysicsDef();
+        String physicsType = physicsDef.getType();
+        if (physicsType.equals("dynamic")) {
+            gameEntity.createDynamicBody(physicsSystem, physicsDef.getColliderAnchor(), physicsDef.getColliderScale());
+        } else if (physicsType.equals("static")) {
+            gameEntity.createStaticBody(physicsSystem, physicsDef.getColliderAnchor(), physicsDef.getColliderScale());
+        }
+        return gameEntity;
+    }
+
     private OrthographicCamera createCamera() {
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false);
@@ -109,40 +129,6 @@ public class TestScene implements LibgdxGraphTestScene {
         camera.update();
 
         return camera;
-    }
-
-    private StateBasedSprite createPlayerSprite() {
-        GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
-
-        GraphSprite player = graphSprites.createSprite(10f, "Animated");
-
-        Texture idleTexture = new Texture(Gdx.files.classpath("image/BlueWizardIdle.png"));
-        resources.add(idleTexture);
-        Texture walkTexture = new Texture(Gdx.files.classpath("image/BlueWizardWalk.png"));
-        resources.add(walkTexture);
-        Texture jumpTexture = new Texture(Gdx.files.classpath("image/BlueWizardJump.png"));
-        resources.add(jumpTexture);
-
-        ObjectMap<String, SpriteStateData> animationData = new ObjectMap<>();
-        animationData.put("Idle", new SpriteStateData(new TextureRegion(idleTexture), 20, 1, 20f, true));
-        animationData.put("Walk", new SpriteStateData(new TextureRegion(walkTexture), 5, 4, 20f, true));
-        animationData.put("Jump", new SpriteStateData(new TextureRegion(jumpTexture), 8, 1, 20f, false));
-
-        return new StateBasedSprite(player, new Vector2(-300, -200), new Vector2(256, 256), new Vector2(0.5f, 0.8f), "Idle", SpriteFaceDirection.Right, animationData);
-    }
-
-    private TiledSprite createGroundSprite() {
-        GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
-
-        GraphSprite ground = graphSprites.createSprite(9f, "Tiled");
-
-        Texture groundTexture = new Texture(Gdx.files.classpath("image/MossyGround.png"));
-        resources.add(groundTexture);
-
-        graphSprites.setProperty(ground, "Tile Texture", new TextureRegion(groundTexture));
-        graphSprites.setProperty(ground, "Tile Repeat", new Vector2(10, 1));
-
-        return new TiledSprite(ground, new Vector2(0, -350), new Vector2(10 * 512, 128), new Vector2(0.5f, 0.5f));
     }
 
     private Skin createSkin() {
@@ -171,11 +157,12 @@ public class TestScene implements LibgdxGraphTestScene {
         float delta = Math.min(0.03f, Gdx.graphics.getDeltaTime());
         stage.act(delta);
 
+        textureSystem.update(delta);
         playerControlSystem.update(delta);
         physicsSystem.update(delta);
         entitySystem.update(delta);
-
         cameraController.update(delta);
+
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
 
         if (debugRender) {
