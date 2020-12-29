@@ -14,13 +14,17 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.gempukku.libgdx.graph.camera.CameraController;
+import com.gempukku.libgdx.graph.camera.SpriteLockedCameraController;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
-import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
+import com.gempukku.libgdx.graph.sprite.SpriteFaceDirection;
+import com.gempukku.libgdx.graph.sprite.SpriteStateData;
+import com.gempukku.libgdx.graph.sprite.StateBasedSprite;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,9 +33,10 @@ public class TestScene implements LibgdxGraphTestScene {
     private Array<Disposable> resources = new Array<>();
     private PipelineRenderer pipelineRenderer;
     private OrthographicCamera camera;
+    private CameraController cameraController;
     private Stage stage;
     private Skin skin;
-    private AnimatedSprite doctorSprite;
+    private StateBasedSprite doctorSprite;
 
     @Override
     public void initializeScene() {
@@ -44,6 +49,8 @@ public class TestScene implements LibgdxGraphTestScene {
         resources.add(pipelineRenderer);
 
         createModels(pipelineRenderer.getGraphSprites());
+
+        cameraController = new SpriteLockedCameraController(camera, doctorSprite, new Vector2(0.5f, 0.8f));
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -58,7 +65,7 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private void createModels(GraphSprites graphSprites) {
-        GraphSprite doctor = graphSprites.createSprite(10f, new Vector2(0, 0), new Vector2(450, 450), new Vector2(0.5f, 0.5f), "Animated");
+        GraphSprite doctor = graphSprites.createSprite(10f, new Vector2(0, 0), new Vector2(450, 450), new Vector2(0.5f, 0.8f), "Animated");
 
         Texture idleTexture = new Texture(Gdx.files.classpath("image/BlueWizardIdle.png"));
         resources.add(idleTexture);
@@ -67,12 +74,12 @@ public class TestScene implements LibgdxGraphTestScene {
         Texture jumpTexture = new Texture(Gdx.files.classpath("image/BlueWizardJump.png"));
         resources.add(jumpTexture);
 
-        ObjectMap<String, AnimationData> animationData = new ObjectMap<>();
-        animationData.put("Idle", new AnimationData(new TextureRegion(idleTexture), 20, 1, 20f, true));
-        animationData.put("Walk", new AnimationData(new TextureRegion(walkTexture), 5, 4, 20f, true));
-        animationData.put("Jump", new AnimationData(new TextureRegion(jumpTexture), 8, 1, 20f, false));
+        ObjectMap<String, SpriteStateData> animationData = new ObjectMap<>();
+        animationData.put("Idle", new SpriteStateData(new TextureRegion(idleTexture), 20, 1, 20f, true));
+        animationData.put("Walk", new SpriteStateData(new TextureRegion(walkTexture), 5, 4, 20f, true));
+        animationData.put("Jump", new SpriteStateData(new TextureRegion(jumpTexture), 8, 1, 20f, false));
 
-        doctorSprite = new AnimatedSprite(doctor, new Vector2(0, 0), new Vector2(450, 450), "Idle", FaceDirection.Right, animationData);
+        doctorSprite = new StateBasedSprite(doctor, new Vector2(0, 0), new Vector2(450, 450), "Idle", SpriteFaceDirection.Right, animationData);
     }
 
     private Stage createStage() {
@@ -102,12 +109,12 @@ public class TestScene implements LibgdxGraphTestScene {
         stage.act(delta);
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            doctorSprite.addPosition(delta * 100f, 0);
-            doctorSprite.setFaceDirection(FaceDirection.Right);
+            doctorSprite.moveBy(delta * 100f, 0);
+            doctorSprite.setFaceDirection(SpriteFaceDirection.Right);
             doctorSprite.setState("Walk");
         } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            doctorSprite.addPosition(-delta * 100f, 0);
-            doctorSprite.setFaceDirection(FaceDirection.Left);
+            doctorSprite.moveBy(-delta * 100f, 0);
+            doctorSprite.setFaceDirection(SpriteFaceDirection.Left);
             doctorSprite.setState("Walk");
         } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             doctorSprite.setState("Jump");
@@ -116,6 +123,8 @@ public class TestScene implements LibgdxGraphTestScene {
         }
         if (doctorSprite.isDirty())
             doctorSprite.updateSprite(pipelineRenderer);
+
+        cameraController.update(delta);
 
         pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
     }
@@ -149,120 +158,5 @@ public class TestScene implements LibgdxGraphTestScene {
         pipelineRenderer.setPipelineProperty("Stage", stage);
     }
 
-    private enum FaceDirection {
-        Left(-1, 0), Right(1, 0);
 
-        private int x;
-        private int y;
-
-        FaceDirection(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-    }
-
-    private class AnimationData {
-        private TextureRegion sprites;
-        private int spriteWidth;
-        private int spriteHeight;
-        private float speed;
-        private boolean looping;
-
-        public AnimationData(TextureRegion sprites, int spriteWidth, int spriteHeight, float speed, boolean looping) {
-            this.sprites = sprites;
-            this.spriteWidth = spriteWidth;
-            this.spriteHeight = spriteHeight;
-            this.speed = speed;
-            this.looping = looping;
-        }
-    }
-
-    private class AnimatedSprite {
-        private GraphSprite graphSprite;
-        private Vector2 position = new Vector2();
-        private Vector2 size = new Vector2();
-        private Vector2 mergedSize = new Vector2();
-        private FaceDirection faceDirection;
-        private String state;
-        private ObjectMap<String, AnimationData> statesData;
-        private boolean attributesDirty = true;
-        private boolean animationDirty = true;
-
-        public AnimatedSprite(GraphSprite graphSprite, Vector2 position, Vector2 size,
-                              String state, FaceDirection faceDirection,
-                              ObjectMap<String, AnimationData> statesData) {
-            this.graphSprite = graphSprite;
-            this.position.set(position);
-            this.size.set(size);
-            this.state = state;
-            this.faceDirection = faceDirection;
-            this.statesData = statesData;
-        }
-
-        public void setState(String state) {
-            if (!statesData.containsKey(state))
-                throw new IllegalArgumentException("Undefined state for the sprite");
-            if (!this.state.equals(state)) {
-                animationDirty = true;
-                this.state = state;
-            }
-        }
-
-        public void setFaceDirection(FaceDirection faceDirection) {
-            if (this.faceDirection != faceDirection) {
-                attributesDirty = true;
-                this.faceDirection = faceDirection;
-            }
-        }
-
-        public void addPosition(float x, float y) {
-            if (x != 0 || y != 0) {
-                this.position.add(x, y);
-                attributesDirty = true;
-            }
-        }
-
-        public boolean isDirty() {
-            return attributesDirty || animationDirty;
-        }
-
-        public void updateSprite(PipelineRenderer pipelineRenderer) {
-            if (isDirty()) {
-                AnimationData animationData = statesData.get(state);
-
-                GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
-                if (attributesDirty) {
-                    graphSprites.updateSprite(graphSprite,
-                            new SpriteUpdater() {
-                                @Override
-                                public float processUpdate(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
-                                    mergedSize.set(faceDirection.x, 1).scl(AnimatedSprite.this.size);
-
-                                    position.set(AnimatedSprite.this.position);
-                                    size.set(AnimatedSprite.this.mergedSize);
-                                    return layer;
-                                }
-                            });
-                }
-                if (animationDirty) {
-                    graphSprites.setProperty(graphSprite, "Animated Texture", animationData.sprites);
-                    graphSprites.setProperty(graphSprite, "Animation Speed", animationData.speed);
-                    graphSprites.setProperty(graphSprite, "Animation Looping", animationData.looping ? 1f : 0f);
-                    graphSprites.setProperty(graphSprite, "Sprite Count", new Vector2(animationData.spriteWidth, animationData.spriteHeight));
-                    graphSprites.setProperty(graphSprite, "Animation Start", pipelineRenderer.getTime());
-                }
-
-                attributesDirty = false;
-                animationDirty = false;
-            }
-        }
-    }
 }

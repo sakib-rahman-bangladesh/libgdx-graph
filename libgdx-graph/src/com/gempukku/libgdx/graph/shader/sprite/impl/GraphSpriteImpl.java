@@ -20,6 +20,11 @@ public class GraphSpriteImpl implements GraphSprite {
         this.anchor = anchor;
     }
 
+    @Override
+    public Vector2 getPosition(Vector2 position) {
+        return position.set(this.position);
+    }
+
     public void setLayer(float layer) {
         this.layer = layer;
     }
