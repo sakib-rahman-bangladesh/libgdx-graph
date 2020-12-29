@@ -27,4 +27,9 @@ public class FocusLockedCameraController implements CameraController {
         camera.position.y = focus.y + camera.viewportHeight * (cameraAnchor.y - 0.5f);
         camera.update();
     }
+
+    @Override
+    public void dispose() {
+
+    }
 }

@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.camera;
 
-public interface CameraController {
-    void update(float delta);
+import com.gempukku.libgdx.graph.GameSystem;
+
+public interface CameraController extends GameSystem {
 }

@@ -11,24 +11,25 @@ public class StateBasedSprite implements Sprite {
     private GraphSprite graphSprite;
     private Vector2 position = new Vector2();
     private Vector2 size = new Vector2();
+    private Vector2 anchor = new Vector2();
     private SpriteFaceDirection faceDirection;
     private String state;
     private ObjectMap<String, SpriteStateData> statesData;
     private boolean attributesDirty = true;
     private boolean animationDirty = true;
 
-    public StateBasedSprite(GraphSprite graphSprite, Vector2 position, Vector2 size,
+    public StateBasedSprite(GraphSprite graphSprite, Vector2 position, Vector2 size, Vector2 anchor,
                             String state, SpriteFaceDirection faceDirection,
                             ObjectMap<String, SpriteStateData> statesData) {
         this.graphSprite = graphSprite;
         this.position.set(position);
         this.size.set(size);
+        this.anchor.set(anchor);
         this.state = state;
         this.faceDirection = faceDirection;
         this.statesData = statesData;
     }
 
-    @Override
     public SpriteFaceDirection getFaceDirection() {
         return faceDirection;
     }
@@ -36,6 +37,16 @@ public class StateBasedSprite implements Sprite {
     @Override
     public Vector2 getPosition(Vector2 position) {
         return position.set(this.position);
+    }
+
+    @Override
+    public Vector2 getSize(Vector2 size) {
+        return size.set(this.size);
+    }
+
+    @Override
+    public Vector2 getAnchor(Vector2 anchor) {
+        return anchor.set(this.anchor);
     }
 
     public void setState(String state) {
@@ -47,7 +58,6 @@ public class StateBasedSprite implements Sprite {
         }
     }
 
-    @Override
     public void setFaceDirection(SpriteFaceDirection faceDirection) {
         if (this.faceDirection != faceDirection) {
             attributesDirty = true;
@@ -56,9 +66,9 @@ public class StateBasedSprite implements Sprite {
     }
 
     @Override
-    public void moveBy(float x, float y) {
-        if (x != 0 || y != 0) {
-            this.position.add(x, y);
+    public void setPosition(float x, float y) {
+        if (!this.position.epsilonEquals(x, y)) {
+            this.position.set(x, y);
             attributesDirty = true;
         }
     }
@@ -81,6 +91,7 @@ public class StateBasedSprite implements Sprite {
                             public float processUpdate(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
                                 position.set(StateBasedSprite.this.position);
                                 size.set(faceDirection.getX(), 1).scl(StateBasedSprite.this.size);
+                                anchor.set(StateBasedSprite.this.anchor);
                                 return layer;
                             }
                         });

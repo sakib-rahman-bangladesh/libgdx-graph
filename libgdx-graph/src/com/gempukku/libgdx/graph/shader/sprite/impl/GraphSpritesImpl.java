@@ -50,6 +50,11 @@ public class GraphSpritesImpl implements GraphSprites {
     private Vector2 tempAnchor = new Vector2();
 
     @Override
+    public GraphSprite createSprite(float layer, String... tags) {
+        return createSprite(layer, new Vector2(0, 0), new Vector2(32, 32), tags);
+    }
+
+    @Override
     public GraphSprite createSprite(float layer, Vector2 position, Vector2 size, String... tags) {
         return createSprite(layer, position, size, new Vector2(0.5f, 0.5f), tags);
     }

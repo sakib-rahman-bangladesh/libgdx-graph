@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.camera;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -32,7 +33,7 @@ public class FocusWindowCameraController implements CameraController {
         float currentAnchorX = 0.5f + (focus.x - camera.position.x) / camera.viewportWidth;
         float currentAnchorY = 0.5f + (focus.y - camera.position.y) / camera.viewportHeight;
         Vector2 requiredChange = getRequiredChangeToRectangle(focusRectangle, currentAnchorX, currentAnchorY);
-        if (requiredChange.x != 0 || requiredChange.y != 0) {
+        if (!MathUtils.isEqual(requiredChange.x, 0) || !MathUtils.isEqual(requiredChange.y, 0)) {
             camera.position.x += camera.viewportWidth * requiredChange.x;
             camera.position.y += camera.viewportHeight * requiredChange.y;
             camera.update();
@@ -40,7 +41,7 @@ public class FocusWindowCameraController implements CameraController {
             Vector2 snapChange = getRequiredChangeToRectangle(snapRectangle, currentAnchorX, currentAnchorY);
             snapChange.x = Math.signum(snapChange.x) * Math.min(snapSpeed.x * delta, Math.abs(snapChange.x));
             snapChange.y = Math.signum(snapChange.y) * Math.min(snapSpeed.y * delta, Math.abs(snapChange.y));
-            if (snapChange.x != 0 || snapChange.y != 0) {
+            if (!MathUtils.isEqual(snapChange.x, 0) || !MathUtils.isEqual(snapChange.y, 0)) {
                 camera.position.x += camera.viewportWidth * snapChange.x;
                 camera.position.y += camera.viewportHeight * snapChange.y;
                 camera.update();
@@ -61,5 +62,10 @@ public class FocusWindowCameraController implements CameraController {
             requiredChange.y = desiredAnchorY - (rectangle.y + rectangle.height);
         }
         return requiredChange;
+    }
+
+    @Override
+    public void dispose() {
+
     }
 }
