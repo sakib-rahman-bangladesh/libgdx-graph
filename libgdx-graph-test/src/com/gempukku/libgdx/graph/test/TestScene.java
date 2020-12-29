@@ -26,8 +26,10 @@ import com.gempukku.libgdx.graph.sprite.Sprite;
 import com.gempukku.libgdx.graph.sprite.SpriteProducer;
 import com.gempukku.libgdx.graph.sprite.StateBasedSprite;
 import com.gempukku.libgdx.graph.sprite.def.PhysicsDef;
+import com.gempukku.libgdx.graph.sprite.def.SensorDef;
 import com.gempukku.libgdx.graph.sprite.def.SpriteDef;
 import com.gempukku.libgdx.graph.system.EntitySystem;
+import com.gempukku.libgdx.graph.system.FootSensorContactListener;
 import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
 import com.gempukku.libgdx.graph.system.TextureSystem;
@@ -102,6 +104,7 @@ public class TestScene implements LibgdxGraphTestScene {
         resources.add(textureSystem);
 
         physicsSystem = new PhysicsSystem(-30f);
+        physicsSystem.addSensorContactListener("foot", new FootSensorContactListener());
         resources.add(physicsSystem);
 
         entitySystem = new EntitySystem(pipelineRenderer);
@@ -127,6 +130,12 @@ public class TestScene implements LibgdxGraphTestScene {
         } else if (physicsType.equals("static")) {
             gameEntity.createStaticBody(physicsSystem, physicsDef.getColliderAnchor(), physicsDef.getColliderScale());
         }
+        if (physicsDef.getSensors() != null) {
+            for (SensorDef sensor : physicsDef.getSensors()) {
+                gameEntity.createSensor(physicsSystem, sensor.getType(), sensor.getAnchor(), sensor.getScale());
+            }
+        }
+
         return gameEntity;
     }
 

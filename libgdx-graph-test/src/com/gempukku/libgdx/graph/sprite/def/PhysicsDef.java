@@ -6,6 +6,7 @@ public class PhysicsDef {
     private String type;
     private Vector2 colliderAnchor;
     private Vector2 colliderScale;
+    private SensorDef[] sensors;
 
     public String getType() {
         return type;
@@ -17,5 +18,9 @@ public class PhysicsDef {
 
     public Vector2 getColliderScale() {
         return colliderScale;
+    }
+
+    public SensorDef[] getSensors() {
+        return sensors;
     }
 }

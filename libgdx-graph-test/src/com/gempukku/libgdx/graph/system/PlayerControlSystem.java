@@ -16,6 +16,9 @@ public class PlayerControlSystem implements GameSystem {
 
     @Override
     public void update(float delta) {
+        FootSensorData footSensorData = (FootSensorData) playerEntity.getSensorDataOfType("foot").getValue();
+        boolean grounded = (footSensorData != null) && footSensorData.isGrounded();
+
         Body playerBody = playerEntity.getBody();
         StateBasedSprite playerSprite = playerEntity.getSprite();
         float desiredHorizontalVelocity = getDesiredHorizontalVelocity();
@@ -28,14 +31,16 @@ public class PlayerControlSystem implements GameSystem {
         } else if (desiredHorizontalVelocity < 0) {
             playerSprite.setFaceDirection(SpriteFaceDirection.Left);
         }
-        if (desiredHorizontalVelocity != 0 && verticalVelocity == 0)
+        if (desiredHorizontalVelocity != 0 && grounded)
             playerSprite.setState("Walk");
         else if (verticalVelocity == 0)
             playerSprite.setState("Idle");
 
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) && verticalVelocity == 0f) {
-            playerBody.applyLinearImpulse(0f, 14f, 0, 0, true);
-            playerSprite.setState("Jump");
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            if (footSensorData != null && grounded) {
+                playerBody.setLinearVelocity(playerBody.getLinearVelocity().x, 15);
+                playerSprite.setState("Jump");
+            }
         }
     }
 
