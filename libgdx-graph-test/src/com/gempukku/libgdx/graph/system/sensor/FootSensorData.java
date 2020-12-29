@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.system;
+package com.gempukku.libgdx.graph.system.sensor;
 
 public class FootSensorData {
     private boolean grounded;

@@ -1,7 +1,8 @@
-package com.gempukku.libgdx.graph.system;
+package com.gempukku.libgdx.graph.system.sensor;
 
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.gempukku.libgdx.graph.entity.SensorData;
+import com.gempukku.libgdx.graph.system.PhysicsSystem;
 
 public class FootSensorContactListener implements SensorContactListener {
     @Override

@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.gempukku.libgdx.graph.entity.GameEntity;
 import com.gempukku.libgdx.graph.sprite.SpriteFaceDirection;
 import com.gempukku.libgdx.graph.sprite.StateBasedSprite;
+import com.gempukku.libgdx.graph.system.sensor.FootSensorData;
 
 public class PlayerControlSystem implements GameSystem {
     private GameEntity<StateBasedSprite> playerEntity;
@@ -38,7 +39,7 @@ public class PlayerControlSystem implements GameSystem {
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             if (footSensorData != null && grounded) {
-                playerBody.setLinearVelocity(playerBody.getLinearVelocity().x, 15);
+                playerBody.setLinearVelocity(playerBody.getLinearVelocity().x, 14);
                 playerSprite.setState("Jump");
             }
         }

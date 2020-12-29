@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.entity.SensorData;
 import com.gempukku.libgdx.graph.sprite.Sprite;
+import com.gempukku.libgdx.graph.system.sensor.SensorContactListener;
 
 public class PhysicsSystem implements GameSystem {
     public static final float PIXELS_TO_METERS = 100f;
