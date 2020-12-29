@@ -15,7 +15,8 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gempukku.libgdx.graph.camera.CameraController;
-import com.gempukku.libgdx.graph.camera.SpriteLockedCameraController;
+import com.gempukku.libgdx.graph.camera.FocusWindowCameraController;
+import com.gempukku.libgdx.graph.camera.SpriteFocus;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
@@ -50,7 +51,8 @@ public class TestScene implements LibgdxGraphTestScene {
 
         createModels(pipelineRenderer.getGraphSprites());
 
-        cameraController = new SpriteLockedCameraController(camera, doctorSprite, new Vector2(0.5f, 0.8f));
+//        cameraController = new FocusLockedCameraController(camera, new SpriteFocus(doctorSprite), new Vector2(0.5f, 0.8f));
+        cameraController = new FocusWindowCameraController(camera, new SpriteFocus(doctorSprite), new Vector2(0.3f, 0.5f), new Vector2(0.7f, 0.8f));
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -107,13 +109,14 @@ public class TestScene implements LibgdxGraphTestScene {
     public void renderScene() {
         float delta = Math.min(0.03f, Gdx.graphics.getDeltaTime());
         stage.act(delta);
+        float moveSpeed = 200f;
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            doctorSprite.moveBy(delta * 100f, 0);
+            doctorSprite.moveBy(delta * moveSpeed, 0);
             doctorSprite.setFaceDirection(SpriteFaceDirection.Right);
             doctorSprite.setState("Walk");
         } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            doctorSprite.moveBy(-delta * 100f, 0);
+            doctorSprite.moveBy(-delta * moveSpeed, 0);
             doctorSprite.setFaceDirection(SpriteFaceDirection.Left);
             doctorSprite.setState("Walk");
         } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
