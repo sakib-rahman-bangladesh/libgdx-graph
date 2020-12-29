@@ -73,6 +73,7 @@ import com.gempukku.libgdx.graph.shader.config.common.shape.EllipseShapeShaderNo
 import com.gempukku.libgdx.graph.shader.config.common.shape.RectangleShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.shape.StarShapeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.texture.Sampler2DShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.config.common.texture.UVTilingAndOffsetShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.value.ValueBooleanShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.value.ValueColorShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.value.ValueFloatShaderNodeConfiguration;
@@ -120,6 +121,7 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration<ShaderF
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new Sampler2DShaderNodeConfiguration()));
         graphBoxProducers.add(new UVFlipbookShaderBoxProducer());
+        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new UVTilingAndOffsetShaderNodeConfiguration()));
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new AddShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SubtractShaderNodeConfiguration()));
