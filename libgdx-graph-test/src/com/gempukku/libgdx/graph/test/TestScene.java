@@ -53,8 +53,8 @@ public class TestScene implements LibgdxGraphTestScene {
         createModels(pipelineRenderer.getGraphSprites());
 
         cameraController = new FocusWindowCameraController(camera, new SpriteFocus(doctorSprite),
-                new Rectangle(0.3f, 0.2f, 0.4f, 0.4f),
-                new Rectangle(0.4f, 0.4f, 0.2f, 0.2f), new Vector2(0.05f, 0.0f));
+                new Rectangle(0.1f, 0.2f, 0.4f, 0.4f),
+                new Rectangle(0.2f, 0.25f, 0.2f, 0.2f), new Vector2(0.05f, 0.05f));
 
         Gdx.input.setInputProcessor(stage);
     }
