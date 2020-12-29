@@ -75,8 +75,8 @@ public class TestScene implements LibgdxGraphTestScene {
 
         Json json = new Json();
 
-        GameEntity<StateBasedSprite> playerEntity = (GameEntity<StateBasedSprite>) readEntity(json, "sprite/playerBlueWizard.json");
-        playerControlSystem.setPlayerEntity(playerEntity);
+        GameEntity<? extends Sprite> playerEntity = readEntity(json, "sprite/playerBlueWizard.json");
+        playerControlSystem.setPlayerEntity((GameEntity<StateBasedSprite>) playerEntity);
 
         readEntity(json, "sprite/ground.json");
 
