@@ -33,20 +33,20 @@ public class FocusWindowCameraController implements CameraController {
         float currentAnchorX = 0.5f + (focus.x - camera.position.x) / camera.viewportWidth;
         float currentAnchorY = 0.5f + (focus.y - camera.position.y) / camera.viewportHeight;
         Vector2 requiredChange = getRequiredChangeToRectangle(focusRectangle, currentAnchorX, currentAnchorY);
-        if (!MathUtils.isEqual(requiredChange.x, 0) || !MathUtils.isEqual(requiredChange.y, 0)) {
+        Vector2 snapChange = getRequiredChangeToRectangle(snapRectangle, currentAnchorX, currentAnchorY);
+        if (!MathUtils.isEqual(requiredChange.x, 0)) {
             camera.position.x += camera.viewportWidth * requiredChange.x;
-            camera.position.y += camera.viewportHeight * requiredChange.y;
-            camera.update();
-        } else if (snapSpeed.x != 0 || snapSpeed.y != 0) {
-            Vector2 snapChange = getRequiredChangeToRectangle(snapRectangle, currentAnchorX, currentAnchorY);
+        } else if (snapSpeed.x != 0) {
             snapChange.x = Math.signum(snapChange.x) * Math.min(snapSpeed.x * delta, Math.abs(snapChange.x));
-            snapChange.y = Math.signum(snapChange.y) * Math.min(snapSpeed.y * delta, Math.abs(snapChange.y));
-            if (!MathUtils.isEqual(snapChange.x, 0) || !MathUtils.isEqual(snapChange.y, 0)) {
-                camera.position.x += camera.viewportWidth * snapChange.x;
-                camera.position.y += camera.viewportHeight * snapChange.y;
-                camera.update();
-            }
+            camera.position.x += camera.viewportWidth * snapChange.x;
         }
+        if (!MathUtils.isEqual(requiredChange.y, 0)) {
+            camera.position.y += camera.viewportHeight * requiredChange.y;
+        } else if (snapSpeed.y != 0) {
+            snapChange.y = Math.signum(snapChange.y) * Math.min(snapSpeed.y * delta, Math.abs(snapChange.y));
+            camera.position.y += camera.viewportHeight * snapChange.y;
+        }
+        camera.update();
     }
 
     private Vector2 getRequiredChangeToRectangle(Rectangle rectangle, float desiredAnchorX, float desiredAnchorY) {
