@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -51,8 +52,9 @@ public class TestScene implements LibgdxGraphTestScene {
 
         createModels(pipelineRenderer.getGraphSprites());
 
-//        cameraController = new FocusLockedCameraController(camera, new SpriteFocus(doctorSprite), new Vector2(0.5f, 0.8f));
-        cameraController = new FocusWindowCameraController(camera, new SpriteFocus(doctorSprite), new Vector2(0.3f, 0.5f), new Vector2(0.7f, 0.8f));
+        cameraController = new FocusWindowCameraController(camera, new SpriteFocus(doctorSprite),
+                new Rectangle(0.3f, 0.2f, 0.4f, 0.4f),
+                new Rectangle(0.4f, 0.4f, 0.2f, 0.2f), new Vector2(0.05f, 0.0f));
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -67,7 +69,7 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private void createModels(GraphSprites graphSprites) {
-        GraphSprite doctor = graphSprites.createSprite(10f, new Vector2(0, 0), new Vector2(450, 450), new Vector2(0.5f, 0.8f), "Animated");
+        GraphSprite doctor = graphSprites.createSprite(10f, new Vector2(0, -200), new Vector2(450, 450), new Vector2(0.5f, 0.8f), "Animated");
 
         Texture idleTexture = new Texture(Gdx.files.classpath("image/BlueWizardIdle.png"));
         resources.add(idleTexture);
@@ -81,7 +83,7 @@ public class TestScene implements LibgdxGraphTestScene {
         animationData.put("Walk", new SpriteStateData(new TextureRegion(walkTexture), 5, 4, 20f, true));
         animationData.put("Jump", new SpriteStateData(new TextureRegion(jumpTexture), 8, 1, 20f, false));
 
-        doctorSprite = new StateBasedSprite(doctor, new Vector2(0, 0), new Vector2(450, 450), "Idle", SpriteFaceDirection.Right, animationData);
+        doctorSprite = new StateBasedSprite(doctor, new Vector2(0, -200), new Vector2(450, 450), "Idle", SpriteFaceDirection.Right, animationData);
     }
 
     private Stage createStage() {

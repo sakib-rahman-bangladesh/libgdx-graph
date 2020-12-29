@@ -1,44 +1,65 @@
 package com.gempukku.libgdx.graph.camera;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class FocusWindowCameraController implements CameraController {
     private Camera camera;
     private CameraFocus cameraFocus;
-    private Vector2 min = new Vector2();
-    private Vector2 max = new Vector2();
+    private Rectangle focusRectangle = new Rectangle();
+    private Rectangle snapRectangle = new Rectangle();
+    private Vector2 snapSpeed = new Vector2();
 
     private Vector2 tmpVector = new Vector2();
 
-    public FocusWindowCameraController(Camera camera, CameraFocus cameraFocus, Vector2 min, Vector2 max) {
+    public FocusWindowCameraController(Camera camera, CameraFocus cameraFocus, Rectangle focusRectangle) {
+        this(camera, cameraFocus, focusRectangle, new Rectangle(0.5f, 0.5f, 0, 0), new Vector2(0, 0));
+    }
+
+    public FocusWindowCameraController(Camera camera, CameraFocus cameraFocus, Rectangle focusRectangle,
+                                       Rectangle snapRectangle, Vector2 snapSpeed) {
         this.camera = camera;
         this.cameraFocus = cameraFocus;
-        this.min.set(min);
-        this.max.set(max);
+        this.focusRectangle.set(focusRectangle);
+        this.snapRectangle.set(snapRectangle);
+        this.snapSpeed.set(snapSpeed);
     }
 
     @Override
     public void update(float delta) {
         Vector2 focus = cameraFocus.getFocus(tmpVector);
-        float desiredAnchorX = 0.5f + (focus.x - camera.position.x) / camera.viewportWidth;
-        float desiredAnchorY = 0.5f + (focus.y - camera.position.y) / camera.viewportHeight;
-        float xChange = 0;
-        float yChange = 0;
-        if (desiredAnchorX < min.x) {
-            xChange = desiredAnchorX - min.x;
-        } else if (desiredAnchorX > max.x) {
-            xChange = desiredAnchorX - max.x;
-        }
-        if (desiredAnchorY < min.y) {
-            yChange = desiredAnchorY - min.y;
-        } else if (desiredAnchorY > max.y) {
-            yChange = desiredAnchorY - max.y;
-        }
-        if (xChange != 0 || yChange != 0) {
-            camera.position.x += camera.viewportWidth * xChange;
-            camera.position.y += camera.viewportHeight * yChange;
+        float currentAnchorX = 0.5f + (focus.x - camera.position.x) / camera.viewportWidth;
+        float currentAnchorY = 0.5f + (focus.y - camera.position.y) / camera.viewportHeight;
+        Vector2 requiredChange = getRequiredChangeToRectangle(focusRectangle, currentAnchorX, currentAnchorY);
+        if (requiredChange.x != 0 || requiredChange.y != 0) {
+            camera.position.x += camera.viewportWidth * requiredChange.x;
+            camera.position.y += camera.viewportHeight * requiredChange.y;
             camera.update();
+        } else if (snapSpeed.x != 0 || snapSpeed.y != 0) {
+            Vector2 snapChange = getRequiredChangeToRectangle(snapRectangle, currentAnchorX, currentAnchorY);
+            snapChange.x = Math.signum(snapChange.x) * Math.min(snapSpeed.x * delta, Math.abs(snapChange.x));
+            snapChange.y = Math.signum(snapChange.y) * Math.min(snapSpeed.y * delta, Math.abs(snapChange.y));
+            if (snapChange.x != 0 || snapChange.y != 0) {
+                camera.position.x += camera.viewportWidth * snapChange.x;
+                camera.position.y += camera.viewportHeight * snapChange.y;
+                camera.update();
+            }
         }
+    }
+
+    private Vector2 getRequiredChangeToRectangle(Rectangle rectangle, float desiredAnchorX, float desiredAnchorY) {
+        Vector2 requiredChange = tmpVector.set(0, 0);
+        if (desiredAnchorX < rectangle.x) {
+            requiredChange.x = desiredAnchorX - rectangle.x;
+        } else if (desiredAnchorX > rectangle.x + rectangle.width) {
+            requiredChange.x = desiredAnchorX - (rectangle.x + rectangle.width);
+        }
+        if (desiredAnchorY < rectangle.y) {
+            requiredChange.y = desiredAnchorY - rectangle.y;
+        } else if (desiredAnchorY > rectangle.y + rectangle.height) {
+            requiredChange.y = desiredAnchorY - (rectangle.y + rectangle.height);
+        }
+        return requiredChange;
     }
 }
