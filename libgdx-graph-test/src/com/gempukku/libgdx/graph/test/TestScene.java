@@ -75,10 +75,10 @@ public class TestScene implements LibgdxGraphTestScene {
 
         Json json = new Json();
 
+        loadEnvironment(json);
+
         GameEntity<? extends Sprite> playerEntity = readEntity(json, "sprite/playerBlueWizard.json");
         playerControlSystem.setPlayerEntity((GameEntity<StateBasedSprite>) playerEntity);
-
-        readEntity(json, "sprite/ground.json");
 
         cameraController = new FocusWindowCameraController(camera, new SpriteFocus(playerEntity.getSprite()),
                 new Rectangle(0.1f, 0.1f, 0.4f, 0.4f),
@@ -91,6 +91,10 @@ public class TestScene implements LibgdxGraphTestScene {
             debugRenderer = new Box2DDebugRenderer();
             tmpMatrix = new Matrix4();
         }
+    }
+
+    private void loadEnvironment(Json json) {
+        readEntity(json, "sprite/ground.json");
     }
 
     private void createSystems() {
