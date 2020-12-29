@@ -69,7 +69,7 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private void createModels(GraphSprites graphSprites) {
-        GraphSprite doctor = graphSprites.createSprite(10f, new Vector2(0, -200), new Vector2(450, 450), new Vector2(0.5f, 0.8f), "Animated");
+        GraphSprite doctor = graphSprites.createSprite(10f, new Vector2(0, 0), new Vector2(250, 250), new Vector2(0.5f, 0.8f), "Animated");
 
         Texture idleTexture = new Texture(Gdx.files.classpath("image/BlueWizardIdle.png"));
         resources.add(idleTexture);
@@ -83,7 +83,7 @@ public class TestScene implements LibgdxGraphTestScene {
         animationData.put("Walk", new SpriteStateData(new TextureRegion(walkTexture), 5, 4, 20f, true));
         animationData.put("Jump", new SpriteStateData(new TextureRegion(jumpTexture), 8, 1, 20f, false));
 
-        doctorSprite = new StateBasedSprite(doctor, new Vector2(0, -200), new Vector2(450, 450), "Idle", SpriteFaceDirection.Right, animationData);
+        doctorSprite = new StateBasedSprite(doctor, new Vector2(-300, -200), new Vector2(250, 250), "Idle", SpriteFaceDirection.Right, animationData);
     }
 
     private Stage createStage() {
