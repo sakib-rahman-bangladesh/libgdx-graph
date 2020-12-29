@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.system;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.gempukku.libgdx.graph.GameSystem;
 import com.gempukku.libgdx.graph.entity.GameEntity;
 import com.gempukku.libgdx.graph.sprite.SpriteFaceDirection;
 import com.gempukku.libgdx.graph.sprite.StateBasedSprite;

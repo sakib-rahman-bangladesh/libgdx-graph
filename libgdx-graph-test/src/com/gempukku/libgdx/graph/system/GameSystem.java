@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph;
+package com.gempukku.libgdx.graph.system;
 
 import com.badlogic.gdx.utils.Disposable;
 

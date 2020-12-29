@@ -2,7 +2,6 @@ package com.gempukku.libgdx.graph.system;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.gempukku.libgdx.graph.GameSystem;
 import com.gempukku.libgdx.graph.entity.GameEntity;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.sprite.Sprite;

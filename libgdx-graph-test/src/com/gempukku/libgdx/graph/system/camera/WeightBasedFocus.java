@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.camera;
+package com.gempukku.libgdx.graph.system.camera;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectSet;
