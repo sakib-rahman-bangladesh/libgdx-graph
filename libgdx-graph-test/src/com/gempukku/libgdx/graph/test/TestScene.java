@@ -71,17 +71,7 @@ public class TestScene implements LibgdxGraphTestScene {
         pipelineRenderer = loadPipelineRenderer();
         resources.add(pipelineRenderer);
 
-        textureSystem = new TextureSystem();
-        resources.add(textureSystem);
-
-        physicsSystem = new PhysicsSystem(-30f);
-        resources.add(physicsSystem);
-
-        entitySystem = new EntitySystem(pipelineRenderer);
-        resources.add(entitySystem);
-
-        playerControlSystem = new PlayerControlSystem();
-        resources.add(playerControlSystem);
+        createSystems();
 
         Json json = new Json();
 
@@ -101,6 +91,20 @@ public class TestScene implements LibgdxGraphTestScene {
             debugRenderer = new Box2DDebugRenderer();
             tmpMatrix = new Matrix4();
         }
+    }
+
+    private void createSystems() {
+        textureSystem = new TextureSystem();
+        resources.add(textureSystem);
+
+        physicsSystem = new PhysicsSystem(-30f);
+        resources.add(physicsSystem);
+
+        entitySystem = new EntitySystem(pipelineRenderer);
+        resources.add(entitySystem);
+
+        playerControlSystem = new PlayerControlSystem();
+        resources.add(playerControlSystem);
     }
 
     private GameEntity<? extends Sprite> readEntity(Json json, String path) {
