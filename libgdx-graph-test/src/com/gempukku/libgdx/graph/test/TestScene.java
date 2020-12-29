@@ -81,7 +81,7 @@ public class TestScene implements LibgdxGraphTestScene {
         playerControlSystem.setPlayerEntity((GameEntity<StateBasedSprite>) playerEntity);
 
         cameraController = new FocusWindowCameraController(camera, new SpriteFocus(playerEntity.getSprite()),
-                new Rectangle(0.1f, 0.1f, 0.4f, 0.5f),
+                new Rectangle(0.1f, 0.1f, 0.4f, 0.6f),
                 new Rectangle(0.2f, 0.1f, 0.2f, 0.4f), new Vector2(0.1f, 0.1f));
         resources.add(cameraController);
 
