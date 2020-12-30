@@ -35,6 +35,7 @@ import com.gempukku.libgdx.graph.system.TextureSystem;
 import com.gempukku.libgdx.graph.system.camera.CameraController;
 import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraController;
 import com.gempukku.libgdx.graph.system.camera.constraint.FixedToWindowCameraConstraint;
+import com.gempukku.libgdx.graph.system.camera.constraint.SceneCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.SnapToWindowCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.focus.SpriteAdvanceFocus;
 import com.gempukku.libgdx.graph.system.sensor.FootSensorContactListener;
@@ -87,9 +88,15 @@ public class TestScene implements LibgdxGraphTestScene {
         GameEntity<StateBasedSprite> playerEntity = (GameEntity<StateBasedSprite>) readEntity(json, "sprite/playerBlueWizard.json");
         playerControlSystem.setPlayerEntity(playerEntity);
 
-        cameraController = new ConstraintCameraController(camera, new SpriteAdvanceFocus(playerEntity.getSprite(), 200f),
-                new SnapToWindowCameraConstraint(new Rectangle(0.5f, 0.1f, 0f, 0.5f), new Vector2(0.2f, 0.2f)),
-                new FixedToWindowCameraConstraint(new Rectangle(0.2f, 0.1f, 0.6f, 0.6f)));
+        cameraController = new ConstraintCameraController(camera,
+                // Try to focus on the point 200 pixels in front of player entity,
+                new SpriteAdvanceFocus(playerEntity.getSprite(), 200f),
+                // Move the camera to try to keep the focus point within the middle 10% of the screen, movement speed is 20% of screen/second
+                new SnapToWindowCameraConstraint(new Rectangle(0.45f, 0.45f, 0.1f, 0.1f), new Vector2(0.2f, 0.2f)),
+                // Move the camera to make sure the focused point is in the middle 50% of the screen
+                new FixedToWindowCameraConstraint(new Rectangle(0.25f, 0.25f, 0.5f, 0.5f)),
+                // Move the camera to make sure that pixels outside of the scene bounds are not shown
+                new SceneCameraConstraint(new Rectangle(-2560, -414, 5120, 2000)));
         resources.add(cameraController);
 
         Gdx.input.setInputProcessor(stage);

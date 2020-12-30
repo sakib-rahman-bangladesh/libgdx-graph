@@ -18,9 +18,12 @@ public class FixedToWindowCameraConstraint implements CameraConstraint {
         float currentAnchorX = 0.5f + (focus.x - camera.position.x) / camera.viewportWidth;
         float currentAnchorY = 0.5f + (focus.y - camera.position.y) / camera.viewportHeight;
         Vector2 snapChange = getRequiredChangeToRectangle(windowRectangle, tmpVector, currentAnchorX, currentAnchorY);
-        camera.position.x += camera.viewportWidth * snapChange.x;
-        camera.position.y += camera.viewportHeight * snapChange.y;
-        camera.update();
+        float moveX = camera.viewportWidth * snapChange.x;
+        float moveY = camera.viewportHeight * snapChange.y;
+        camera.position.x += moveX;
+        camera.position.y += moveY;
+        if (moveX != 0 || moveY != 0)
+            camera.update();
     }
 
     private Vector2 getRequiredChangeToRectangle(Rectangle rectangle, Vector2 tmpVector, float desiredAnchorX, float desiredAnchorY) {

@@ -14,8 +14,11 @@ public class LockedToCameraConstraint implements CameraConstraint {
     public void applyConstraint(Camera camera, Vector2 focus, float delta) {
         float currentAnchorX = 0.5f + (focus.x - camera.position.x) / camera.viewportWidth;
         float currentAnchorY = 0.5f + (focus.y - camera.position.y) / camera.viewportHeight;
-        camera.position.x += camera.viewportWidth * (currentAnchorX - anchor.x);
-        camera.position.y += camera.viewportHeight * (currentAnchorY - anchor.y);
-        camera.update();
+        float moveX = camera.viewportWidth * (currentAnchorX - anchor.x);
+        float moveY = camera.viewportHeight * (currentAnchorY - anchor.y);
+        camera.position.x += moveX;
+        camera.position.y += moveY;
+        if (moveX != 0 || moveY != 0)
+            camera.update();
     }
 }
