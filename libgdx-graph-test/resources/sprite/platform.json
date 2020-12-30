@@ -1,0 +1,43 @@
+{
+  "layer": 9,
+  "tags": [
+    "Tiled"
+  ],
+  "spriteType": "tiled",
+  "position": {
+    "x": 200,
+    "y": -50
+  },
+  "size": {
+    "x": 1024,
+    "y": 128
+  },
+  "anchor": {
+    "x": 0.5,
+    "y": 0.5
+  },
+  "tileTexture": "image/MossyGround.png",
+  "u": 0,
+  "v": 0,
+  "u2": 1,
+  "v2": 1,
+  "tileRepeat": {
+    "x": 2,
+    "y": 1
+  },
+  "physicsDef": {
+    "type": "static",
+    "colliderAnchor": {
+      "x": 0.5,
+      "y": 0.6
+    },
+    "colliderScale": {
+      "x": 1,
+      "y": 0.8
+    },
+    "category": "Environment",
+    "mask": [
+      "Character"
+    ]
+  }
+}

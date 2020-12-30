@@ -91,7 +91,7 @@ public class TestScene implements LibgdxGraphTestScene {
         cameraController = new ConstraintCameraController(camera,
                 // Try to focus on the point 200 pixels in front of player entity,
                 new SpriteAdvanceFocus(playerEntity.getSprite(), 200f),
-                // Move the camera to try to keep the focus point within the middle 10% of the screen, movement speed is 20% of screen/second
+                // Move the camera to try to keep the focus point within the middle 10% of the screen, camera movement speed is 20% of screen/second
                 new SnapToWindowCameraConstraint(new Rectangle(0.45f, 0.45f, 0.1f, 0.1f), new Vector2(0.2f, 0.2f)),
                 // Move the camera to make sure the focused point is in the middle 50% of the screen
                 new FixedToWindowCameraConstraint(new Rectangle(0.25f, 0.25f, 0.5f, 0.5f)),
@@ -108,6 +108,7 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private void loadEnvironment(Json json) {
+        readEntity(json, "sprite/platform.json");
         readEntity(json, "sprite/ground.json");
     }
 
