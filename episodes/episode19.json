@@ -1,0 +1,480 @@
+{
+  "version": "0.2.0",
+  "nodes": [
+    {
+      "id": "72be9695e45949ccb5f449dbacdfd619",
+      "type": "Property",
+      "x": 50.0,
+      "y": 700.0,
+      "data": {
+        "name": "Camera",
+        "type": "Camera"
+      }
+    },
+    {
+      "id": "a9ef339d56654f4c8f7445b45b3bed0b",
+      "type": "Property",
+      "x": 184.0,
+      "y": 133.0,
+      "data": {
+        "name": "Stage",
+        "type": "Stage"
+      }
+    },
+    {
+      "id": "dffb152d405a49d38792e850749129b2",
+      "type": "UIRenderer",
+      "x": 391.0,
+      "y": 136.0
+    },
+    {
+      "id": "end",
+      "type": "PipelineEnd",
+      "x": 391.0,
+      "y": 50.0
+    },
+    {
+      "id": "d54b356d4a1242cab5e6cb3f836b1930",
+      "type": "ValueColor",
+      "x": 188.0,
+      "y": 966.0,
+      "data": {
+        "color": "306630ff"
+      }
+    },
+    {
+      "id": "ce7263bb711843b590f125cc3f49f1e9",
+      "type": "SpriteShaderRenderer",
+      "x": 311.0,
+      "y": 532.0,
+      "data": {
+        "shaders": [
+          {
+            "id": "655a2dce015649fab9dbbde01974d0e9",
+            "tag": "Animated",
+            "shader": {
+              "version": "0.2.0",
+              "nodes": [
+                {
+                  "id": "cb06a9014aa14f6cbc8aba7c79ba4978",
+                  "type": "Subtract",
+                  "x": 264.0,
+                  "y": 161.0
+                },
+                {
+                  "id": "d9e1a2bf9834405aa5260163d8818f82",
+                  "type": "Property",
+                  "x": 262.0,
+                  "y": 245.0,
+                  "data": {
+                    "name": "Animation Speed",
+                    "type": "Float"
+                  }
+                },
+                {
+                  "id": "1140308b879e4cd7a4c96752e0708839",
+                  "type": "SpriteUV",
+                  "x": 618.0,
+                  "y": 409.0
+                },
+                {
+                  "id": "e99c9493abfa4c85b6b8d38e3e69dc4d",
+                  "type": "Time",
+                  "x": 52.0,
+                  "y": 115.0,
+                  "data": {
+                    "multiplier": 1.0
+                  }
+                },
+                {
+                  "id": "f3c5520f52974179af5ceb000f35f890",
+                  "type": "Property",
+                  "x": 618.0,
+                  "y": 350.0,
+                  "data": {
+                    "name": "Sprite Count",
+                    "type": "Vector2"
+                  }
+                },
+                {
+                  "id": "17061776ddbe4018b09cfe3a3574b454",
+                  "type": "Property",
+                  "x": 819.0,
+                  "y": 432.0,
+                  "data": {
+                    "name": "Animated Texture",
+                    "type": "TextureRegion"
+                  }
+                },
+                {
+                  "id": "180a7715db0d494784b6629bfb054c9b",
+                  "type": "Multiply",
+                  "x": 451.0,
+                  "y": 216.0
+                },
+                {
+                  "id": "3a83146b38634b1e812b8396fd2dfcc4",
+                  "type": "Property",
+                  "x": 50.0,
+                  "y": 50.0,
+                  "data": {
+                    "name": "Animation Start",
+                    "type": "Float"
+                  }
+                },
+                {
+                  "id": "2affc280f9074df4bcd62e7fcd2513c9",
+                  "type": "Sampler2D",
+                  "x": 1024.0,
+                  "y": 365.0
+                },
+                {
+                  "id": "a085b0923c604a9bb35c80b8cd602b0a",
+                  "type": "Property",
+                  "x": 621.0,
+                  "y": 158.0,
+                  "data": {
+                    "name": "Animation Looping",
+                    "type": "Float"
+                  }
+                },
+                {
+                  "id": "end",
+                  "type": "SpriteShaderEnd",
+                  "x": 1248.0,
+                  "y": 98.0,
+                  "data": {
+                    "blending": "opaque",
+                    "depthTest": "less"
+                  }
+                },
+                {
+                  "id": "656d45cb9eed4e4ebf7d010f93f67fb7",
+                  "type": "UVFlipbook",
+                  "x": 821.0,
+                  "y": 258.0,
+                  "data": {
+                    "invertX": false,
+                    "invertY": false
+                  }
+                }
+              ],
+              "connections": [
+                {
+                  "fromNode": "2affc280f9074df4bcd62e7fcd2513c9",
+                  "fromField": "a",
+                  "toNode": "end",
+                  "toField": "alpha"
+                },
+                {
+                  "fromNode": "1140308b879e4cd7a4c96752e0708839",
+                  "fromField": "uv",
+                  "toNode": "656d45cb9eed4e4ebf7d010f93f67fb7",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "656d45cb9eed4e4ebf7d010f93f67fb7",
+                  "fromField": "output",
+                  "toNode": "2affc280f9074df4bcd62e7fcd2513c9",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "2affc280f9074df4bcd62e7fcd2513c9",
+                  "fromField": "color",
+                  "toNode": "end",
+                  "toField": "color"
+                },
+                {
+                  "fromNode": "17061776ddbe4018b09cfe3a3574b454",
+                  "fromField": "value",
+                  "toNode": "2affc280f9074df4bcd62e7fcd2513c9",
+                  "toField": "texture"
+                },
+                {
+                  "fromNode": "e99c9493abfa4c85b6b8d38e3e69dc4d",
+                  "fromField": "time",
+                  "toNode": "cb06a9014aa14f6cbc8aba7c79ba4978",
+                  "toField": "a"
+                },
+                {
+                  "fromNode": "3a83146b38634b1e812b8396fd2dfcc4",
+                  "fromField": "value",
+                  "toNode": "cb06a9014aa14f6cbc8aba7c79ba4978",
+                  "toField": "b"
+                },
+                {
+                  "fromNode": "cb06a9014aa14f6cbc8aba7c79ba4978",
+                  "fromField": "output",
+                  "toNode": "180a7715db0d494784b6629bfb054c9b",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "d9e1a2bf9834405aa5260163d8818f82",
+                  "fromField": "value",
+                  "toNode": "180a7715db0d494784b6629bfb054c9b",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "a085b0923c604a9bb35c80b8cd602b0a",
+                  "fromField": "value",
+                  "toNode": "656d45cb9eed4e4ebf7d010f93f67fb7",
+                  "toField": "looping"
+                },
+                {
+                  "fromNode": "180a7715db0d494784b6629bfb054c9b",
+                  "fromField": "output",
+                  "toNode": "656d45cb9eed4e4ebf7d010f93f67fb7",
+                  "toField": "index"
+                },
+                {
+                  "fromNode": "f3c5520f52974179af5ceb000f35f890",
+                  "fromField": "value",
+                  "toNode": "656d45cb9eed4e4ebf7d010f93f67fb7",
+                  "toField": "tileCount"
+                }
+              ],
+              "properties": [
+                {
+                  "name": "Animated Texture",
+                  "type": "TextureRegion"
+                },
+                {
+                  "name": "Animation Start",
+                  "type": "Float",
+                  "data": {
+                    "x": 0.0
+                  }
+                },
+                {
+                  "name": "Animation Speed",
+                  "type": "Float",
+                  "data": {
+                    "x": 1.0
+                  }
+                },
+                {
+                  "name": "Animation Looping",
+                  "type": "Float",
+                  "data": {
+                    "x": 1.0
+                  }
+                },
+                {
+                  "name": "Sprite Count",
+                  "type": "Vector2",
+                  "data": {
+                    "x": 1.0,
+                    "y": 1.0
+                  }
+                }
+              ],
+              "groups": [
+                {
+                  "name": "Animation Frame",
+                  "nodes": [
+                    "180a7715db0d494784b6629bfb054c9b",
+                    "e99c9493abfa4c85b6b8d38e3e69dc4d",
+                    "d9e1a2bf9834405aa5260163d8818f82",
+                    "3a83146b38634b1e812b8396fd2dfcc4",
+                    "cb06a9014aa14f6cbc8aba7c79ba4978"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": "f5154f42a2b84096ab58d61817516535",
+            "tag": "Tiled",
+            "shader": {
+              "version": "0.2.0",
+              "nodes": [
+                {
+                  "id": "bfbfe2c23431449bb1334e16c764d540",
+                  "type": "Property",
+                  "x": 254.0,
+                  "y": 554.0,
+                  "data": {
+                    "uWrap": "Repeat",
+                    "vWrap": "Repeat",
+                    "name": "Tile Texture",
+                    "type": "TextureRegion"
+                  }
+                },
+                {
+                  "id": "f96fca98d0294cb093ba0ea6dd65772f",
+                  "type": "Property",
+                  "x": 51.0,
+                  "y": 340.0,
+                  "data": {
+                    "name": "Tile Offset",
+                    "type": "Vector2"
+                  }
+                },
+                {
+                  "id": "04220cbcdab142f29ba7570618f68c20",
+                  "type": "Property",
+                  "x": 50.0,
+                  "y": 397.0,
+                  "data": {
+                    "name": "Tile Repeat",
+                    "type": "Vector2"
+                  }
+                },
+                {
+                  "id": "847523885dc24a769f3aa2e8552f7e0e",
+                  "type": "UVTilingOffset",
+                  "x": 247.0,
+                  "y": 409.0
+                },
+                {
+                  "id": "60bba06234a9453294a88efa8fee7e72",
+                  "type": "SpriteUV",
+                  "x": 50.0,
+                  "y": 455.0
+                },
+                {
+                  "id": "8b6e6e7d79584a7f9464c299688aea36",
+                  "type": "Sampler2D",
+                  "x": 460.0,
+                  "y": 386.0
+                },
+                {
+                  "id": "end",
+                  "type": "SpriteShaderEnd",
+                  "x": 748.0,
+                  "y": 50.0,
+                  "data": {
+                    "blending": "opaque",
+                    "depthTest": "less"
+                  }
+                }
+              ],
+              "connections": [
+                {
+                  "fromNode": "bfbfe2c23431449bb1334e16c764d540",
+                  "fromField": "value",
+                  "toNode": "8b6e6e7d79584a7f9464c299688aea36",
+                  "toField": "texture"
+                },
+                {
+                  "fromNode": "8b6e6e7d79584a7f9464c299688aea36",
+                  "fromField": "color",
+                  "toNode": "end",
+                  "toField": "color"
+                },
+                {
+                  "fromNode": "8b6e6e7d79584a7f9464c299688aea36",
+                  "fromField": "a",
+                  "toNode": "end",
+                  "toField": "alpha"
+                },
+                {
+                  "fromNode": "04220cbcdab142f29ba7570618f68c20",
+                  "fromField": "value",
+                  "toNode": "847523885dc24a769f3aa2e8552f7e0e",
+                  "toField": "tiling"
+                },
+                {
+                  "fromNode": "f96fca98d0294cb093ba0ea6dd65772f",
+                  "fromField": "value",
+                  "toNode": "847523885dc24a769f3aa2e8552f7e0e",
+                  "toField": "offset"
+                },
+                {
+                  "fromNode": "60bba06234a9453294a88efa8fee7e72",
+                  "fromField": "uv",
+                  "toNode": "847523885dc24a769f3aa2e8552f7e0e",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "847523885dc24a769f3aa2e8552f7e0e",
+                  "fromField": "output",
+                  "toNode": "8b6e6e7d79584a7f9464c299688aea36",
+                  "toField": "uv"
+                }
+              ],
+              "properties": [
+                {
+                  "name": "Tile Repeat",
+                  "type": "Vector2",
+                  "data": {
+                    "x": 1.0,
+                    "y": 1.0
+                  }
+                },
+                {
+                  "name": "Tile Texture",
+                  "type": "TextureRegion"
+                },
+                {
+                  "name": "Tile Offset",
+                  "type": "Vector2",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0
+                  }
+                }
+              ],
+              "groups": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "746da9b276d442f0bc74ed9847a26a4b",
+      "type": "PipelineStart",
+      "x": 391.0,
+      "y": 943.0
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "d54b356d4a1242cab5e6cb3f836b1930",
+      "fromField": "value",
+      "toNode": "746da9b276d442f0bc74ed9847a26a4b",
+      "toField": "background"
+    },
+    {
+      "fromNode": "dffb152d405a49d38792e850749129b2",
+      "fromField": "output",
+      "toNode": "end",
+      "toField": "input"
+    },
+    {
+      "fromNode": "a9ef339d56654f4c8f7445b45b3bed0b",
+      "fromField": "value",
+      "toNode": "dffb152d405a49d38792e850749129b2",
+      "toField": "stage"
+    },
+    {
+      "fromNode": "72be9695e45949ccb5f449dbacdfd619",
+      "fromField": "value",
+      "toNode": "ce7263bb711843b590f125cc3f49f1e9",
+      "toField": "camera"
+    },
+    {
+      "fromNode": "746da9b276d442f0bc74ed9847a26a4b",
+      "fromField": "output",
+      "toNode": "ce7263bb711843b590f125cc3f49f1e9",
+      "toField": "input"
+    },
+    {
+      "fromNode": "ce7263bb711843b590f125cc3f49f1e9",
+      "fromField": "output",
+      "toNode": "dffb152d405a49d38792e850749129b2",
+      "toField": "input"
+    }
+  ],
+  "properties": [
+    {
+      "name": "Camera",
+      "type": "Camera"
+    },
+    {
+      "name": "Stage",
+      "type": "Stage"
+    }
+  ],
+  "groups": []
+}

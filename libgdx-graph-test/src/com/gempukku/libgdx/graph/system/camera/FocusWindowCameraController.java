@@ -12,7 +12,8 @@ public class FocusWindowCameraController implements CameraController {
     private Rectangle snapRectangle = new Rectangle();
     private Vector2 snapSpeed = new Vector2();
 
-    private Vector2 tmpVector = new Vector2();
+    private Vector2 tmpVector1 = new Vector2();
+    private Vector2 tmpVector2 = new Vector2();
 
     public FocusWindowCameraController(Camera camera, CameraFocus cameraFocus, Rectangle focusRectangle) {
         this(camera, cameraFocus, focusRectangle, new Rectangle(0.5f, 0.5f, 0, 0), new Vector2(0, 0));
@@ -29,11 +30,11 @@ public class FocusWindowCameraController implements CameraController {
 
     @Override
     public void update(float delta) {
-        Vector2 focus = cameraFocus.getFocus(tmpVector);
+        Vector2 focus = cameraFocus.getFocus(tmpVector1);
         float currentAnchorX = 0.5f + (focus.x - camera.position.x) / camera.viewportWidth;
         float currentAnchorY = 0.5f + (focus.y - camera.position.y) / camera.viewportHeight;
-        Vector2 requiredChange = getRequiredChangeToRectangle(focusRectangle, currentAnchorX, currentAnchorY);
-        Vector2 snapChange = getRequiredChangeToRectangle(snapRectangle, currentAnchorX, currentAnchorY);
+        Vector2 requiredChange = getRequiredChangeToRectangle(focusRectangle, tmpVector1, currentAnchorX, currentAnchorY);
+        Vector2 snapChange = getRequiredChangeToRectangle(snapRectangle, tmpVector2, currentAnchorX, currentAnchorY);
         if (!MathUtils.isEqual(requiredChange.x, 0)) {
             camera.position.x += camera.viewportWidth * requiredChange.x;
         } else if (snapSpeed.x != 0) {
@@ -49,7 +50,7 @@ public class FocusWindowCameraController implements CameraController {
         camera.update();
     }
 
-    private Vector2 getRequiredChangeToRectangle(Rectangle rectangle, float desiredAnchorX, float desiredAnchorY) {
+    private Vector2 getRequiredChangeToRectangle(Rectangle rectangle, Vector2 tmpVector, float desiredAnchorX, float desiredAnchorY) {
         Vector2 requiredChange = tmpVector.set(0, 0);
         if (desiredAnchorX < rectangle.x) {
             requiredChange.x = desiredAnchorX - rectangle.x;
