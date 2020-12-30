@@ -33,8 +33,10 @@ import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
 import com.gempukku.libgdx.graph.system.TextureSystem;
 import com.gempukku.libgdx.graph.system.camera.CameraController;
-import com.gempukku.libgdx.graph.system.camera.FocusWindowCameraController;
-import com.gempukku.libgdx.graph.system.camera.SpriteFocus;
+import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraController;
+import com.gempukku.libgdx.graph.system.camera.constraint.FixedToWindowCameraConstraint;
+import com.gempukku.libgdx.graph.system.camera.constraint.SnapToWindowCameraConstraint;
+import com.gempukku.libgdx.graph.system.camera.focus.SpriteAdvanceFocus;
 import com.gempukku.libgdx.graph.system.sensor.FootSensorContactListener;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
@@ -82,12 +84,12 @@ public class TestScene implements LibgdxGraphTestScene {
 
         loadEnvironment(json);
 
-        GameEntity<? extends Sprite> playerEntity = readEntity(json, "sprite/playerBlueWizard.json");
-        playerControlSystem.setPlayerEntity((GameEntity<StateBasedSprite>) playerEntity);
+        GameEntity<StateBasedSprite> playerEntity = (GameEntity<StateBasedSprite>) readEntity(json, "sprite/playerBlueWizard.json");
+        playerControlSystem.setPlayerEntity(playerEntity);
 
-        cameraController = new FocusWindowCameraController(camera, new SpriteFocus(playerEntity.getSprite()),
-                new Rectangle(0.1f, 0.1f, 0.4f, 0.6f),
-                new Rectangle(0.2f, 0.1f, 0.2f, 0.4f), new Vector2(0.1f, 0.1f));
+        cameraController = new ConstraintCameraController(camera, new SpriteAdvanceFocus(playerEntity.getSprite(), 100f),
+                new SnapToWindowCameraConstraint(new Rectangle(0.4f, 0.1f, 0.2f, 0.5f), new Vector2(0.1f, 0.1f)),
+                new FixedToWindowCameraConstraint(new Rectangle(0.2f, 0.1f, 0.6f, 0.6f)));
         resources.add(cameraController);
 
         Gdx.input.setInputProcessor(stage);

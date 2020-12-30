@@ -8,7 +8,7 @@ import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
-public class StateBasedSprite implements Sprite {
+public class StateBasedSprite implements FacedSprite {
     private GraphSprite graphSprite;
     private Vector2 position = new Vector2();
     private Vector2 size = new Vector2();
@@ -31,6 +31,7 @@ public class StateBasedSprite implements Sprite {
         this.statesData = statesData;
     }
 
+    @Override
     public SpriteFaceDirection getFaceDirection() {
         return faceDirection;
     }

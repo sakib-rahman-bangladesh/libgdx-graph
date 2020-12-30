@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.system.camera;
+package com.gempukku.libgdx.graph.system.camera.focus;
 
 import com.badlogic.gdx.math.Vector2;
 
