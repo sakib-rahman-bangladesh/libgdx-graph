@@ -69,7 +69,7 @@ public class ModelShadersBoxPart extends Table implements GraphBoxPart<PipelineF
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         PopupMenu popupMenu = new PopupMenu();
-                        for (final GraphShaderTemplate graphShaderTemplate : GraphShaderTemplateRegistry.graphShaderTemplateList) {
+                        for (final GraphShaderTemplate graphShaderTemplate : GraphShaderTemplateRegistry.modelShaderTemplateList) {
                             MenuItem menuItem = new MenuItem(graphShaderTemplate.getTitle());
                             popupMenu.addItem(menuItem);
                             menuItem.addListener(
