@@ -110,6 +110,8 @@ public class TestScene implements LibgdxGraphTestScene {
     private void loadEnvironment(Json json) {
         readEntity(json, "sprite/platform.json");
         readEntity(json, "sprite/ground.json");
+        readEntity(json, "sprite/hill1.json");
+        readEntity(json, "sprite/hill2.json");
     }
 
     private void createSystems() {
@@ -128,26 +130,28 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private GameEntity<? extends Sprite> readEntity(Json json, String path) {
-        SpriteDef player = json.fromJson(SpriteDef.class, Gdx.files.internal(path));
+        SpriteDef spriteDef = json.fromJson(SpriteDef.class, Gdx.files.internal(path));
 
-        return createEntity(pipelineRenderer.getGraphSprites(), player);
+        return createEntity(pipelineRenderer.getGraphSprites(), spriteDef);
     }
 
     private GameEntity<? extends Sprite> createEntity(GraphSprites graphSprites, SpriteDef spriteDef) {
         GraphSprite graphSprite = graphSprites.createSprite(spriteDef.getLayer(), spriteDef.getTags());
         GameEntity<? extends Sprite> gameEntity = entitySystem.createGameEntity(SpriteProducer.createSprite(textureSystem, graphSprite, spriteDef));
         PhysicsDef physicsDef = spriteDef.getPhysicsDef();
-        String physicsType = physicsDef.getType();
-        if (physicsType.equals("dynamic")) {
-            gameEntity.createDynamicBody(physicsSystem, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
-                    physicsDef.getCategory(), physicsDef.getMask());
-        } else if (physicsType.equals("static")) {
-            gameEntity.createStaticBody(physicsSystem, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
-                    physicsDef.getCategory(), physicsDef.getMask());
-        }
-        if (physicsDef.getSensors() != null) {
-            for (SensorDef sensor : physicsDef.getSensors()) {
-                gameEntity.createSensor(physicsSystem, sensor.getType(), sensor.getAnchor(), sensor.getScale());
+        if (physicsDef != null) {
+            String physicsType = physicsDef.getType();
+            if (physicsType.equals("dynamic")) {
+                gameEntity.createDynamicBody(physicsSystem, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
+                        physicsDef.getCategory(), physicsDef.getMask());
+            } else if (physicsType.equals("static")) {
+                gameEntity.createStaticBody(physicsSystem, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
+                        physicsDef.getCategory(), physicsDef.getMask());
+            }
+            if (physicsDef.getSensors() != null) {
+                for (SensorDef sensor : physicsDef.getSensors()) {
+                    gameEntity.createSensor(physicsSystem, sensor.getType(), sensor.getAnchor(), sensor.getScale());
+                }
             }
         }
 
@@ -209,6 +213,7 @@ public class TestScene implements LibgdxGraphTestScene {
         for (Disposable resource : resources) {
             resource.dispose();
         }
+        resources.clear();
 
         WhitePixel.dispose();
     }

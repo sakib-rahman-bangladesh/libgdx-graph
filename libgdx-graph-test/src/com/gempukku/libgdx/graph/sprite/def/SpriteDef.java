@@ -1,8 +1,6 @@
 package com.gempukku.libgdx.graph.sprite.def;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.sprite.SpriteFaceDirection;
 
 public class SpriteDef {
     // Sprite
@@ -15,18 +13,9 @@ public class SpriteDef {
     private Vector2 size;
     private Vector2 anchor;
 
-    // State based attributes
-    private SpriteFaceDirection faceDirection;
-    private String state;
-    private ObjectMap<String, SpriteStateDataDef> stateData;
-
-    // Tiled attributes
-    private String tileTexture;
-    private float u;
-    private float v;
-    private float u2;
-    private float v2;
-    private Vector2 tileRepeat;
+    private StateBasedSpriteDef stateBasedSprite;
+    private TiledSpriteDef tiledSprite;
+    private SimpleSpriteDef simpleSprite;
 
     // Physics def
     private PhysicsDef physicsDef;
@@ -55,43 +44,19 @@ public class SpriteDef {
         return anchor;
     }
 
-    public SpriteFaceDirection getFaceDirection() {
-        return faceDirection;
+    public StateBasedSpriteDef getStateBasedSprite() {
+        return stateBasedSprite;
     }
 
-    public String getState() {
-        return state;
+    public TiledSpriteDef getTiledSprite() {
+        return tiledSprite;
     }
 
-    public ObjectMap<String, SpriteStateDataDef> getStateData() {
-        return stateData;
+    public SimpleSpriteDef getSimpleSprite() {
+        return simpleSprite;
     }
 
     public PhysicsDef getPhysicsDef() {
         return physicsDef;
-    }
-
-    public String getTileTexture() {
-        return tileTexture;
-    }
-
-    public float getU() {
-        return u;
-    }
-
-    public float getV() {
-        return v;
-    }
-
-    public float getU2() {
-        return u2;
-    }
-
-    public float getV2() {
-        return v2;
-    }
-
-    public Vector2 getTileRepeat() {
-        return tileRepeat;
     }
 }
