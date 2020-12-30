@@ -70,22 +70,26 @@ public class SpriteShadersBoxPart extends Table implements GraphBoxPart<Pipeline
                     public void clicked(InputEvent event, float x, float y) {
                         PopupMenu popupMenu = new PopupMenu();
                         for (final GraphShaderTemplate graphShaderTemplate : GraphShaderTemplateRegistry.spriteShaderTemplateList) {
-                            MenuItem menuItem = new MenuItem(graphShaderTemplate.getTitle());
-                            popupMenu.addItem(menuItem);
-                            menuItem.addListener(
-                                    new ClickListener(Input.Buttons.LEFT) {
-                                        @Override
-                                        public void clicked(InputEvent event, float x, float y) {
-                                            graphShaderTemplate.invokeTemplate(getStage(),
-                                                    new GraphShaderTemplate.Callback() {
-                                                        @Override
-                                                        public void addShader(String tag, JsonValue shader) {
-                                                            String id = UUID.randomUUID().toString().replace("-", "");
-                                                            addShaderGraph(id, tag, shader);
-                                                        }
-                                                    });
-                                        }
-                                    });
+                            if (graphShaderTemplate != null) {
+                                MenuItem menuItem = new MenuItem(graphShaderTemplate.getTitle());
+                                popupMenu.addItem(menuItem);
+                                menuItem.addListener(
+                                        new ClickListener(Input.Buttons.LEFT) {
+                                            @Override
+                                            public void clicked(InputEvent event, float x, float y) {
+                                                graphShaderTemplate.invokeTemplate(getStage(),
+                                                        new GraphShaderTemplate.Callback() {
+                                                            @Override
+                                                            public void addShader(String tag, JsonValue shader) {
+                                                                String id = UUID.randomUUID().toString().replace("-", "");
+                                                                addShaderGraph(id, tag, shader);
+                                                            }
+                                                        });
+                                            }
+                                        });
+                            } else {
+                                popupMenu.addSeparator();
+                            }
                         }
                         popupMenu.showMenu(getStage(), newShader);
                     }
