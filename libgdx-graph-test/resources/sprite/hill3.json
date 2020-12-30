@@ -1,23 +1,23 @@
 {
-  "layer": 83,
+  "layer": 65,
   "tags": [
     "Background"
   ],
   "spriteType": "simple",
   "position": {
-    "x": 0,
+    "x": -250,
     "y": -550
   },
   "size": {
-    "x": 1393,
-    "y": 641
+    "x": 1330,
+    "y": 457
   },
   "anchor": {
     "x": 0.5,
     "y": 1
   },
   "simpleSprite": {
-    "texture": "image/MossyHill1.png",
+    "texture": "image/MossyHill2.png",
     "u": 0,
     "v": 0,
     "u2": 1,

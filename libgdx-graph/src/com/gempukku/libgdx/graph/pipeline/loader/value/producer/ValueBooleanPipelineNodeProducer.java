@@ -14,6 +14,6 @@ public class ValueBooleanPipelineNodeProducer extends PipelineNodeProducerImpl {
 
     @Override
     public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
-        return new ValuePipelineNode(configuration, "value", data.getBoolean("value"));
+        return new ValuePipelineNode(configuration, "value", data.getBoolean("v"));
     }
 }

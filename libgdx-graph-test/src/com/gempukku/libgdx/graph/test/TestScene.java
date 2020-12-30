@@ -112,6 +112,8 @@ public class TestScene implements LibgdxGraphTestScene {
         readEntity(json, "sprite/ground.json");
         readEntity(json, "sprite/hill1.json");
         readEntity(json, "sprite/hill2.json");
+        readEntity(json, "sprite/hill3.json");
+        readEntity(json, "sprite/hill4.json");
     }
 
     private void createSystems() {
