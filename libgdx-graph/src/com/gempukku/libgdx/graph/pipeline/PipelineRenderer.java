@@ -5,7 +5,6 @@ import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.shader.screen.GraphScreenShaders;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
-import com.gempukku.libgdx.graph.time.TimeKeeper;
 
 public interface PipelineRenderer extends PipelinePropertySource, Disposable {
     void setPipelineProperty(String property, Object value);
@@ -20,9 +19,5 @@ public interface PipelineRenderer extends PipelinePropertySource, Disposable {
 
     GraphParticleEffects getGraphParticleEffects();
 
-    void setTimeKeeper(TimeKeeper timeKeeper);
-
-    float getTime();
-
-    void render(float delta, RenderOutput renderOutput);
+    void render(RenderOutput renderOutput);
 }

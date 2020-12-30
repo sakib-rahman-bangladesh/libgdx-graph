@@ -50,7 +50,7 @@ public abstract class OncePerFrameMultipleInputsJobPipelineNode implements Pipel
     protected abstract void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues);
 
     @Override
-    public void startFrame(float delta) {
+    public void startFrame() {
 
     }
 

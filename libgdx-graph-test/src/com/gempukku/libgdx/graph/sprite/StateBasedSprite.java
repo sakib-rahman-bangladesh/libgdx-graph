@@ -6,6 +6,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
+import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class StateBasedSprite implements Sprite {
     private GraphSprite graphSprite;
@@ -79,7 +80,7 @@ public class StateBasedSprite implements Sprite {
     }
 
     @Override
-    public void updateSprite(PipelineRenderer pipelineRenderer) {
+    public void updateSprite(TimeProvider timeProvider, PipelineRenderer pipelineRenderer) {
         if (isDirty()) {
             SpriteStateData spriteStateData = statesData.get(state);
 
@@ -101,7 +102,7 @@ public class StateBasedSprite implements Sprite {
                 graphSprites.setProperty(graphSprite, "Animation Speed", spriteStateData.speed);
                 graphSprites.setProperty(graphSprite, "Animation Looping", spriteStateData.looping ? 1f : 0f);
                 graphSprites.setProperty(graphSprite, "Sprite Count", new Vector2(spriteStateData.spriteWidth, spriteStateData.spriteHeight));
-                graphSprites.setProperty(graphSprite, "Animation Start", pipelineRenderer.getTime());
+                graphSprites.setProperty(graphSprite, "Animation Start", timeProvider.getTime());
             }
 
             attributesDirty = false;

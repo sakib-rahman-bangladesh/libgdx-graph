@@ -41,7 +41,7 @@ public class ValuePipelineNode implements PipelineNode {
     }
 
     @Override
-    public void startFrame(float delta) {
+    public void startFrame() {
 
     }
 

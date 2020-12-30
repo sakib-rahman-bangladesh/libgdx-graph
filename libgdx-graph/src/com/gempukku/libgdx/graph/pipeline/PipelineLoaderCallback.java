@@ -16,8 +16,15 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.property.PipelinePropertyProducer;
+import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRenderer, PipelineFieldType> {
+    private TimeProvider timeProvider;
+
+    public PipelineLoaderCallback(TimeProvider timeProvider) {
+        this.timeProvider = timeProvider;
+    }
+
     @Override
     public void start() {
 
@@ -38,7 +45,7 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
             propertyMap.put(property.getName(), findPropertyProducerByType(property.getType()).createProperty(property.getData()));
         }
 
-        return new PipelineRendererImpl(
+        return new PipelineRendererImpl(timeProvider,
                 pipelineNodeMap.values().toArray(), propertyMap, (EndPipelineNode) pipelineNode);
     }
 

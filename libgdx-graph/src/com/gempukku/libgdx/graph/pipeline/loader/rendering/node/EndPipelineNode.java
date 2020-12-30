@@ -25,7 +25,7 @@ public class EndPipelineNode implements PipelineNode {
     }
 
     @Override
-    public void startFrame(float delta) {
+    public void startFrame() {
 
     }
 

@@ -36,6 +36,8 @@ import com.gempukku.libgdx.graph.system.camera.CameraController;
 import com.gempukku.libgdx.graph.system.camera.FocusWindowCameraController;
 import com.gempukku.libgdx.graph.system.camera.SpriteFocus;
 import com.gempukku.libgdx.graph.system.sensor.FootSensorContactListener;
+import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.time.TimeKeeper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +49,7 @@ public class TestScene implements LibgdxGraphTestScene {
     private Stage stage;
     private Skin skin;
 
+    private TimeKeeper timeKeeper = new DefaultTimeKeeper();
     private TextureSystem textureSystem;
     private CameraController cameraController;
     private PhysicsSystem physicsSystem;
@@ -107,7 +110,7 @@ public class TestScene implements LibgdxGraphTestScene {
         physicsSystem.addSensorContactListener("foot", new FootSensorContactListener());
         resources.add(physicsSystem);
 
-        entitySystem = new EntitySystem(pipelineRenderer);
+        entitySystem = new EntitySystem(timeKeeper, pipelineRenderer);
         resources.add(entitySystem);
 
         playerControlSystem = new PlayerControlSystem();
@@ -174,6 +177,7 @@ public class TestScene implements LibgdxGraphTestScene {
     @Override
     public void renderScene() {
         float delta = Math.min(0.03f, Gdx.graphics.getDeltaTime());
+        timeKeeper.updateTime(delta);
         stage.act(delta);
 
         textureSystem.update(delta);
@@ -182,7 +186,7 @@ public class TestScene implements LibgdxGraphTestScene {
         entitySystem.update(delta);
         cameraController.update(delta);
 
-        pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
+        pipelineRenderer.render(RenderOutputs.drawToScreen);
 
         if (debugRender) {
             tmpMatrix.set(camera.combined).scale(PhysicsSystem.PIXELS_TO_METERS, PhysicsSystem.PIXELS_TO_METERS, 0);
@@ -203,7 +207,7 @@ public class TestScene implements LibgdxGraphTestScene {
         try {
             InputStream stream = Gdx.files.local("test.json").read();
             try {
-                PipelineRenderer pipelineRenderer = GraphLoader.loadGraph(stream, new PipelineLoaderCallback());
+                PipelineRenderer pipelineRenderer = GraphLoader.loadGraph(stream, new PipelineLoaderCallback(timeKeeper));
                 setupPipeline(pipelineRenderer);
                 return pipelineRenderer;
             } finally {

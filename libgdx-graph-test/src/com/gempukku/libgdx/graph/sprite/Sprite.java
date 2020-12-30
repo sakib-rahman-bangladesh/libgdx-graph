@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.sprite;
 
 import com.badlogic.gdx.math.Vector2;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
+import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public interface Sprite {
     Vector2 getPosition(Vector2 position);
@@ -14,5 +15,5 @@ public interface Sprite {
 
     boolean isDirty();
 
-    void updateSprite(PipelineRenderer pipelineRenderer);
+    void updateSprite(TimeProvider timeProvider, PipelineRenderer pipelineRenderer);
 }

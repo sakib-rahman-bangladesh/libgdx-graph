@@ -6,6 +6,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
+import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class TiledSprite implements Sprite {
     private GraphSprite graphSprite;
@@ -56,7 +57,7 @@ public class TiledSprite implements Sprite {
     }
 
     @Override
-    public void updateSprite(PipelineRenderer pipelineRenderer) {
+    public void updateSprite(TimeProvider timeProvider, PipelineRenderer pipelineRenderer) {
         if (isDirty()) {
             GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
             if (attributesDirty) {

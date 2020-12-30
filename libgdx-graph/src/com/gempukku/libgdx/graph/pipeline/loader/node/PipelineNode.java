@@ -8,7 +8,7 @@ public interface PipelineNode {
 
     void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback);
 
-    void startFrame(float delta);
+    void startFrame();
 
     void endFrame();
 

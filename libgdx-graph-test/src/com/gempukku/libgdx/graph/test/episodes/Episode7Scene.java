@@ -31,6 +31,8 @@ import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
+import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.time.TimeKeeper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +49,7 @@ public class Episode7Scene implements LibgdxGraphTestScene {
     private float cameraAngle = 0f;
     private float cameraDistance = 1.7f;
     private AnimationController animationController;
+    private TimeKeeper timeKeeper = new DefaultTimeKeeper();
 
     @Override
     public void initializeScene() {
@@ -138,6 +141,7 @@ public class Episode7Scene implements LibgdxGraphTestScene {
     @Override
     public void renderScene() {
         float delta = Gdx.graphics.getDeltaTime();
+        timeKeeper.updateTime(delta);
         animationController.update(delta);
 
         cameraAngle += delta * cameraSpeed;
@@ -150,7 +154,7 @@ public class Episode7Scene implements LibgdxGraphTestScene {
 
         stage.act(delta);
 
-        pipelineRenderer.render(delta, RenderOutputs.drawToScreen);
+        pipelineRenderer.render(RenderOutputs.drawToScreen);
     }
 
     @Override
@@ -166,7 +170,7 @@ public class Episode7Scene implements LibgdxGraphTestScene {
         try {
             InputStream stream = Gdx.files.local("episodes/episode7.json").read();
             try {
-                PipelineRenderer pipelineRenderer = GraphLoader.loadGraph(stream, new PipelineLoaderCallback());
+                PipelineRenderer pipelineRenderer = GraphLoader.loadGraph(stream, new PipelineLoaderCallback(timeKeeper));
                 setupPipeline(pipelineRenderer);
                 return pipelineRenderer;
             } finally {

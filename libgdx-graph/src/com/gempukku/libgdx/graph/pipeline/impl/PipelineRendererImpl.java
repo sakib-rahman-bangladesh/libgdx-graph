@@ -27,38 +27,26 @@ import com.gempukku.libgdx.graph.shader.screen.GraphScreenShaders;
 import com.gempukku.libgdx.graph.shader.screen.GraphScreenShadersImpl;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.shader.sprite.impl.GraphSpritesImpl;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
-import com.gempukku.libgdx.graph.time.TimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 import com.gempukku.libgdx.graph.util.FullScreenRenderImpl;
 
 public class PipelineRendererImpl implements PipelineRenderer {
+    private TimeProvider timeProvider;
     private Iterable<PipelineNode> nodes;
     private ObjectMap<String, WritablePipelineProperty> pipelinePropertyMap;
     private EndPipelineNode endNode;
-    private TimeKeeper timeKeeper;
     private PipelineRenderingContextImpl pipelineRenderingContext;
 
-    public PipelineRendererImpl(Iterable<PipelineNode> nodes, ObjectMap<String, WritablePipelineProperty> pipelinePropertyMap, EndPipelineNode endNode) {
+    public PipelineRendererImpl(TimeProvider timeProvider, Iterable<PipelineNode> nodes, ObjectMap<String, WritablePipelineProperty> pipelinePropertyMap, EndPipelineNode endNode) {
+        this.timeProvider = timeProvider;
         this.nodes = nodes;
         this.pipelinePropertyMap = pipelinePropertyMap;
         this.endNode = endNode;
-        this.timeKeeper = new DefaultTimeKeeper();
         pipelineRenderingContext = new PipelineRenderingContextImpl();
 
         for (PipelineNode node : nodes) {
             node.initializePipeline(pipelineRenderingContext);
         }
-    }
-
-    @Override
-    public void setTimeKeeper(TimeKeeper timeKeeper) {
-        this.timeKeeper = timeKeeper;
-    }
-
-    @Override
-    public float getTime() {
-        return this.timeKeeper.getTime();
     }
 
     @Override
@@ -117,12 +105,11 @@ public class PipelineRendererImpl implements PipelineRenderer {
     }
 
     @Override
-    public void render(float delta, final RenderOutput renderOutput) {
-        timeKeeper.updateTime(delta);
+    public void render(final RenderOutput renderOutput) {
         pipelineRenderingContext.setRenderOutput(renderOutput);
 
         for (PipelineNode node : nodes) {
-            node.startFrame(delta);
+            node.startFrame();
         }
 
         pipelineRenderingContext.update();
@@ -160,9 +147,9 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         public void update() {
-            particleEffects.setTimeProvider(timeKeeper);
+            particleEffects.setTimeProvider(timeProvider);
             for (GraphParticleEffectImpl particleEffect : particleEffects.getParticleEffects()) {
-                particleEffect.generateParticles(timeKeeper);
+                particleEffect.generateParticles(timeProvider);
             }
         }
 
@@ -223,7 +210,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
 
         @Override
         public TimeProvider getTimeProvider() {
-            return timeKeeper;
+            return timeProvider;
         }
 
         @Override

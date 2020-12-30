@@ -44,7 +44,7 @@ public class PropertyPipelineNodeProducer implements PipelineNodeProducer {
             }
 
             @Override
-            public void startFrame(float delta) {
+            public void startFrame() {
 
             }
 

@@ -48,7 +48,7 @@ public abstract class OncePerFrameJobPipelineNode implements PipelineNode {
     protected abstract void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues);
 
     @Override
-    public void startFrame(float delta) {
+    public void startFrame() {
 
     }
 

@@ -5,12 +5,15 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.entity.GameEntity;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.sprite.Sprite;
+import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class EntitySystem implements GameSystem {
+    private TimeProvider timeProvider;
     private PipelineRenderer pipelineRenderer;
     private ObjectSet<GameEntity<?>> gameEntities = new ObjectSet<>();
 
-    public EntitySystem(PipelineRenderer pipelineRenderer) {
+    public EntitySystem(TimeProvider timeProvider, PipelineRenderer pipelineRenderer) {
+        this.timeProvider = timeProvider;
         this.pipelineRenderer = pipelineRenderer;
     }
 
@@ -31,7 +34,7 @@ public class EntitySystem implements GameSystem {
         for (GameEntity<?> gameEntity : gameEntities) {
             Sprite sprite = gameEntity.getSprite();
             if (sprite.isDirty())
-                sprite.updateSprite(pipelineRenderer);
+                sprite.updateSprite(timeProvider, pipelineRenderer);
         }
 
     }
