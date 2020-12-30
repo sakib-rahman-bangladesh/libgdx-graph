@@ -87,8 +87,8 @@ public class TestScene implements LibgdxGraphTestScene {
         GameEntity<StateBasedSprite> playerEntity = (GameEntity<StateBasedSprite>) readEntity(json, "sprite/playerBlueWizard.json");
         playerControlSystem.setPlayerEntity(playerEntity);
 
-        cameraController = new ConstraintCameraController(camera, new SpriteAdvanceFocus(playerEntity.getSprite(), 100f),
-                new SnapToWindowCameraConstraint(new Rectangle(0.4f, 0.1f, 0.2f, 0.5f), new Vector2(0.1f, 0.1f)),
+        cameraController = new ConstraintCameraController(camera, new SpriteAdvanceFocus(playerEntity.getSprite(), 200f),
+                new SnapToWindowCameraConstraint(new Rectangle(0.5f, 0.1f, 0f, 0.5f), new Vector2(0.2f, 0.2f)),
                 new FixedToWindowCameraConstraint(new Rectangle(0.2f, 0.1f, 0.6f, 0.6f)));
         resources.add(cameraController);
 
