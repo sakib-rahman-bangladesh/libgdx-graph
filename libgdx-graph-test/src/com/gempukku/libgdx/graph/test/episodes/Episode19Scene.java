@@ -29,10 +29,10 @@ import com.gempukku.libgdx.graph.sprite.def.PhysicsDef;
 import com.gempukku.libgdx.graph.sprite.def.SensorDef;
 import com.gempukku.libgdx.graph.sprite.def.SpriteDef;
 import com.gempukku.libgdx.graph.system.EntitySystem;
+import com.gempukku.libgdx.graph.system.GameSystem;
 import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
 import com.gempukku.libgdx.graph.system.TextureSystem;
-import com.gempukku.libgdx.graph.system.camera.CameraController;
 import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraController;
 import com.gempukku.libgdx.graph.system.camera.constraint.FixedToWindowCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.SnapToWindowCameraConstraint;
@@ -55,7 +55,7 @@ public class Episode19Scene implements LibgdxGraphTestScene {
 
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
     private TextureSystem textureSystem;
-    private CameraController cameraController;
+    private GameSystem cameraController;
     private PhysicsSystem physicsSystem;
     private EntitySystem entitySystem;
     private PlayerControlSystem playerControlSystem;

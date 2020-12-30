@@ -2,10 +2,10 @@ package com.gempukku.libgdx.graph.system.camera.constraint;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
-import com.gempukku.libgdx.graph.system.camera.CameraController;
+import com.gempukku.libgdx.graph.system.GameSystem;
 import com.gempukku.libgdx.graph.system.camera.focus.CameraFocus;
 
-public class ConstraintCameraController implements CameraController {
+public class ConstraintCameraController implements GameSystem {
     private Camera camera;
     private CameraFocus cameraFocus;
     private CameraConstraint[] constraints;
