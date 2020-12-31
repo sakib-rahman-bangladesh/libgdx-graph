@@ -59,11 +59,11 @@
     "type": "dynamic",
     "colliderAnchor": {
       "x": 0.5,
-      "y": 0.5
+      "y": 0.55
     },
     "colliderScale": {
-      "x": 0.2734375,
-      "y": 0.5859375
+      "x": 0.25,
+      "y": 0.5
     },
     "category": "Character",
     "mask": [
@@ -77,7 +77,7 @@
           "y": 0.8
         },
         "scale": {
-          "x": 0.2734375,
+          "x": 0.25,
           "y": 0.05
         }
       }
