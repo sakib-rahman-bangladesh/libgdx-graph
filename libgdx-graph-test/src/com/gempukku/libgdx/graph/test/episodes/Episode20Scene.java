@@ -28,11 +28,7 @@ import com.gempukku.libgdx.graph.sprite.StateBasedSprite;
 import com.gempukku.libgdx.graph.sprite.def.PhysicsDef;
 import com.gempukku.libgdx.graph.sprite.def.SensorDef;
 import com.gempukku.libgdx.graph.sprite.def.SpriteDef;
-import com.gempukku.libgdx.graph.system.EntitySystem;
-import com.gempukku.libgdx.graph.system.GameSystem;
-import com.gempukku.libgdx.graph.system.PhysicsSystem;
-import com.gempukku.libgdx.graph.system.PlayerControlSystem;
-import com.gempukku.libgdx.graph.system.TextureSystem;
+import com.gempukku.libgdx.graph.system.*;
 import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraController;
 import com.gempukku.libgdx.graph.system.camera.constraint.FixedToWindowCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.SceneCameraConstraint;
@@ -224,7 +220,7 @@ public class Episode20Scene implements LibgdxGraphTestScene {
 
     private PipelineRenderer loadPipelineRenderer() {
         try {
-            InputStream stream = Gdx.files.local("test.json").read();
+            InputStream stream = Gdx.files.local("episodes/episode20.json").read();
             try {
                 PipelineRenderer pipelineRenderer = GraphLoader.loadGraph(stream, new PipelineLoaderCallback(timeKeeper));
                 setupPipeline(pipelineRenderer);
