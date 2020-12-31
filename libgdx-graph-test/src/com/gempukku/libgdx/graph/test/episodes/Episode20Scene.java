@@ -61,7 +61,7 @@ public class Episode20Scene implements LibgdxGraphTestScene {
     private EntitySystem entitySystem;
     private PlayerControlSystem playerControlSystem;
 
-    private boolean debugRender = true;
+    private boolean debugRender = false;
     private Box2DDebugRenderer debugRenderer;
     private Matrix4 tmpMatrix;
 

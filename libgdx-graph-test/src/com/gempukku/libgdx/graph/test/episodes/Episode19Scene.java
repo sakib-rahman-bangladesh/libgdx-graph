@@ -203,6 +203,7 @@ public class Episode19Scene implements LibgdxGraphTestScene {
         for (Disposable resource : resources) {
             resource.dispose();
         }
+        resources.clear();
 
         WhitePixel.dispose();
     }
