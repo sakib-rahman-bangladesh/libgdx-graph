@@ -1,10 +1,10 @@
 package com.gempukku.libgdx.graph.system.sensor;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.gempukku.libgdx.graph.entity.GameEntity;
+import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.entity.SensorData;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
-import com.gempukku.libgdx.graph.sprite.Sprite;
 
 public class InteractSensorContactListener implements SensorContactListener {
     private PipelineRenderer pipelineRenderer;
@@ -15,15 +15,15 @@ public class InteractSensorContactListener implements SensorContactListener {
 
     @Override
     public void contactBegun(SensorData sensor, Fixture other) {
-        GameEntity entity = (GameEntity<?>) other.getUserData();
-        Sprite sprite = entity.getSprite();
+        Entity entity = (Entity) other.getUserData();
+        SpriteComponent sprite = entity.getComponent(SpriteComponent.class);
         pipelineRenderer.getGraphSprites().addTag(sprite.getGraphSprite(), "Outline");
     }
 
     @Override
     public void contactEnded(SensorData sensor, Fixture other) {
-        GameEntity entity = (GameEntity<?>) other.getUserData();
-        Sprite sprite = entity.getSprite();
+        Entity entity = (Entity) other.getUserData();
+        SpriteComponent sprite = entity.getComponent(SpriteComponent.class);
         pipelineRenderer.getGraphSprites().removeTag(sprite.getGraphSprite(), "Outline");
     }
 }

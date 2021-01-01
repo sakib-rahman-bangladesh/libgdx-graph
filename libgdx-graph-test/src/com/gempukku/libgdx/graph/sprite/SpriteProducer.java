@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.sprite;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -11,26 +12,25 @@ import com.gempukku.libgdx.graph.sprite.def.StateBasedSpriteDef;
 import com.gempukku.libgdx.graph.sprite.def.TiledSpriteDef;
 
 public class SpriteProducer {
-    public static Sprite createSprite(TextureLoader textureLoader, GraphSprite graphSprite, SpriteDef spriteDef) {
+    public static Sprite createSprite(Entity entity, TextureLoader textureLoader, GraphSprite graphSprite, SpriteDef spriteDef) {
         String spriteType = spriteDef.getSpriteType();
         switch (spriteType) {
             case "stateBased":
-                return createStateBasedSprite(textureLoader, graphSprite, spriteDef, spriteDef.getStateBasedSprite());
+                return createStateBasedSprite(entity, textureLoader, spriteDef.getStateBasedSprite());
             case "tiled":
-                return createTiledSprite(textureLoader, graphSprite, spriteDef, spriteDef.getTiledSprite());
+                return createTiledSprite(entity, textureLoader, spriteDef.getTiledSprite());
             case "simple":
-                return createSimpleSprite(textureLoader, graphSprite, spriteDef, spriteDef.getSimpleSprite());
+                return createSimpleSprite(entity, textureLoader, spriteDef.getSimpleSprite());
         }
         throw new IllegalArgumentException("Unknown type of sprite");
     }
 
-    private static Sprite createSimpleSprite(TextureLoader textureLoader, GraphSprite graphSprite, SpriteDef spriteDef, SimpleSpriteDef simpleSprite) {
-        return new SimpleSprite(graphSprite, spriteDef.getPosition(), spriteDef.getSize(), spriteDef.getAnchor(),
-                new TextureRegion(textureLoader.loadTexture(simpleSprite.getTexture()), simpleSprite.getU(), simpleSprite.getV(),
-                        simpleSprite.getU2(), simpleSprite.getV2()));
+    private static Sprite createSimpleSprite(Entity entity, TextureLoader textureLoader, SimpleSpriteDef simpleSprite) {
+        return new SimpleSprite(entity, new TextureRegion(textureLoader.loadTexture(simpleSprite.getTexture()), simpleSprite.getU(), simpleSprite.getV(),
+                simpleSprite.getU2(), simpleSprite.getV2()));
     }
 
-    public static Sprite createStateBasedSprite(TextureLoader textureLoader, GraphSprite graphSprite, SpriteDef spriteDef, StateBasedSpriteDef stateBasedSpriteDef) {
+    public static Sprite createStateBasedSprite(Entity entity, TextureLoader textureLoader, StateBasedSpriteDef stateBasedSpriteDef) {
         ObjectMap<String, SpriteStateData> stateData = new ObjectMap<>();
         for (ObjectMap.Entry<String, SpriteStateDataDef> stateEntry : stateBasedSpriteDef.getStateData().entries()) {
             String key = stateEntry.key;
@@ -41,11 +41,11 @@ public class SpriteProducer {
             stateData.put(key, data);
         }
 
-        return new StateBasedSprite(graphSprite, spriteDef.getPosition(), spriteDef.getSize(), spriteDef.getAnchor(), stateBasedSpriteDef.getState(), stateBasedSpriteDef.getFaceDirection(), stateData);
+        return new StateBasedSprite(entity, stateBasedSpriteDef.getState(), stateData);
     }
 
-    private static Sprite createTiledSprite(TextureLoader textureLoader, GraphSprite graphSprite, SpriteDef spriteDef, TiledSpriteDef tiledSpriteDef) {
-        return new TiledSprite(graphSprite, spriteDef.getPosition(), spriteDef.getSize(), spriteDef.getAnchor(),
+    private static Sprite createTiledSprite(Entity entity, TextureLoader textureLoader, TiledSpriteDef tiledSpriteDef) {
+        return new TiledSprite(entity,
                 new TextureRegion(textureLoader.loadTexture(tiledSpriteDef.getTileTexture()), tiledSpriteDef.getU(), tiledSpriteDef.getV(), tiledSpriteDef.getU2(), tiledSpriteDef.getV2()),
                 tiledSpriteDef.getTileRepeat());
     }

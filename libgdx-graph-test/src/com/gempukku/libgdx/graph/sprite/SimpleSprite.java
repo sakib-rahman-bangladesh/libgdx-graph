@@ -1,86 +1,56 @@
 package com.gempukku.libgdx.graph.sprite;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.gempukku.libgdx.graph.component.AnchorComponent;
+import com.gempukku.libgdx.graph.component.PositionComponent;
+import com.gempukku.libgdx.graph.component.SizeComponent;
+import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
-import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class SimpleSprite implements Sprite {
-    private GraphSprite graphSprite;
+    private Entity entity;
     private TextureRegion textureRegion;
-    private Vector2 position = new Vector2();
-    private Vector2 size = new Vector2();
-    private Vector2 anchor = new Vector2();
     private boolean textureDirty = true;
-    private boolean attributesDirty = true;
 
-    public SimpleSprite(GraphSprite graphSprite, Vector2 position, Vector2 size, Vector2 anchor,
-                        TextureRegion textureRegion) {
-        this.graphSprite = graphSprite;
+    public SimpleSprite(Entity entity, TextureRegion textureRegion) {
+        this.entity = entity;
         this.textureRegion = textureRegion;
-        this.position.set(position);
-        this.size.set(size);
-        this.anchor.set(anchor);
-    }
-
-    @Override
-    public GraphSprite getGraphSprite() {
-        return graphSprite;
-    }
-
-    @Override
-    public Vector2 getPosition(Vector2 position) {
-        return position.set(this.position);
-    }
-
-    @Override
-    public Vector2 getSize(Vector2 size) {
-        return size.set(this.size);
-    }
-
-    @Override
-    public Vector2 getAnchor(Vector2 anchor) {
-        return anchor.set(this.anchor);
-    }
-
-    @Override
-    public void setPosition(float x, float y) {
-        if (!this.position.epsilonEquals(x, y)) {
-            this.position.set(x, y);
-            attributesDirty = true;
-        }
-    }
-
-    @Override
-    public boolean isDirty() {
-        return attributesDirty || textureDirty;
     }
 
     @Override
     public void updateSprite(TimeProvider timeProvider, PipelineRenderer pipelineRenderer) {
-        if (isDirty()) {
-            GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
-            if (attributesDirty) {
-                graphSprites.updateSprite(graphSprite,
-                        new SpriteUpdater() {
-                            @Override
-                            public float processUpdate(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
-                                position.set(SimpleSprite.this.position);
-                                size.set(SimpleSprite.this.size);
-                                anchor.set(SimpleSprite.this.anchor);
-                                return layer;
-                            }
-                        });
-            }
-            if (textureDirty) {
-                graphSprites.setProperty(graphSprite, "Texture", textureRegion);
-            }
+        SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
+        final PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
+        boolean positionDirty = positionComponent.isDirty();
 
-            attributesDirty = false;
-            textureDirty = false;
+        GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
+
+        if (positionDirty) {
+            final SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);
+            final AnchorComponent anchorComponent = entity.getComponent(AnchorComponent.class);
+
+            graphSprites.updateSprite(spriteComponent.getGraphSprite(),
+                    new SpriteUpdater() {
+                        @Override
+                        public float processUpdate(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
+                            position.set(positionComponent.getPosition());
+                            size.set(sizeComponent.getSize());
+                            anchor.set(anchorComponent.getAnchor());
+                            return layer;
+                        }
+                    });
+
+            positionComponent.clean();
         }
+        if (textureDirty) {
+            graphSprites.setProperty(spriteComponent.getGraphSprite(), "Texture", textureRegion);
+        }
+
+        textureDirty = false;
     }
 }

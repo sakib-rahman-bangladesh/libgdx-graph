@@ -8,7 +8,6 @@ public class CameraSystem extends EntitySystem {
 
     public CameraSystem(int priority) {
         super(priority);
-        this.constraintCameraController = constraintCameraController;
     }
 
     public void setConstraintCameraController(ConstraintCameraController constraintCameraController) {

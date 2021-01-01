@@ -1,9 +1,4 @@
 {
-  "layer": 40,
-  "tags": [
-    "Background"
-  ],
-  "spriteType": "simple",
   "position": {
     "x": 200,
     "y": -550
@@ -16,11 +11,18 @@
     "x": 0.5,
     "y": 1
   },
-  "simpleSprite": {
-    "texture": "image/MossyHill2.png",
-    "u": 0,
-    "v": 0,
-    "u2": 1,
-    "v2": 1
+  "spriteDef": {
+    "layer": 40,
+    "tags": [
+      "Background"
+    ],
+    "spriteType": "simple",
+    "simpleSprite": {
+      "texture": "image/MossyHill2.png",
+      "u": 0,
+      "v": 0,
+      "u2": 1,
+      "v2": 1
+    }
   }
 }

@@ -1,9 +1,4 @@
 {
-  "layer": 9,
-  "tags": [
-    "Tiled"
-  ],
-  "spriteType": "tiled",
   "position": {
     "x": 200,
     "y": -50
@@ -16,15 +11,22 @@
     "x": 0.5,
     "y": 0.5
   },
-  "tiledSprite": {
-    "tileTexture": "image/MossyGround.png",
-    "u": 0,
-    "v": 0,
-    "u2": 1,
-    "v2": 1,
-    "tileRepeat": {
-      "x": 2,
-      "y": 1
+  "spriteDef": {
+    "layer": 9,
+    "tags": [
+      "Tiled"
+    ],
+    "spriteType": "tiled",
+    "tiledSprite": {
+      "tileTexture": "image/MossyGround.png",
+      "u": 0,
+      "v": 0,
+      "u2": 1,
+      "v2": 1,
+      "tileRepeat": {
+        "x": 2,
+        "y": 1
+      }
     }
   },
   "physicsDef": {

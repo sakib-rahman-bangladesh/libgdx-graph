@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.test;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
@@ -16,24 +17,15 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.gempukku.libgdx.graph.entity.GameEntity;
+import com.gempukku.libgdx.graph.entity.EntityLoader;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
-import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
-import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
-import com.gempukku.libgdx.graph.sprite.Sprite;
-import com.gempukku.libgdx.graph.sprite.SpriteProducer;
-import com.gempukku.libgdx.graph.sprite.StateBasedSprite;
-import com.gempukku.libgdx.graph.sprite.def.PhysicsDef;
-import com.gempukku.libgdx.graph.sprite.def.SensorDef;
-import com.gempukku.libgdx.graph.sprite.def.SpriteDef;
 import com.gempukku.libgdx.graph.system.CameraSystem;
-import com.gempukku.libgdx.graph.system.EntitySystem;
 import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
-import com.gempukku.libgdx.graph.system.TextureSystem;
+import com.gempukku.libgdx.graph.system.RenderingSystem;
 import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraController;
 import com.gempukku.libgdx.graph.system.camera.constraint.FixedToWindowCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.SceneCameraConstraint;
@@ -84,12 +76,12 @@ public class TestScene implements LibgdxGraphTestScene {
 
         loadEnvironment(json);
 
-        GameEntity<StateBasedSprite> playerEntity = (GameEntity<StateBasedSprite>) readEntity(json, "sprite/playerBlueWizard.json");
+        Entity playerEntity = EntityLoader.readEntity(engine, json, "sprite/playerBlueWizard.json");
         engine.getSystem(PlayerControlSystem.class).setPlayerEntity(playerEntity);
 
         ConstraintCameraController cameraController = new ConstraintCameraController(camera,
                 // Try to focus on the point 200 pixels in front of player entity,
-                new SpriteAdvanceFocus(playerEntity.getSprite(), 200f),
+                new SpriteAdvanceFocus(playerEntity, 200f),
                 // Move the camera to try to keep the focus point within the middle 10% of the screen, camera movement speed is 20% of screen/second
                 new SnapToWindowCameraConstraint(new Rectangle(0.45f, 0.45f, 0.1f, 0.1f), new Vector2(0.2f, 0.2f)),
                 // Move the camera to make sure the focused point is in the middle 50% of the screen
@@ -107,18 +99,16 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private void loadEnvironment(Json json) {
-        readEntity(json, "sprite/ground.json");
-        readEntity(json, "sprite/hill1.json");
-        readEntity(json, "sprite/hill2.json");
-        readEntity(json, "sprite/hill3.json");
-        readEntity(json, "sprite/hill4.json");
-        readEntity(json, "sprite/jumpPlant.json");
+        EntityLoader.readEntity(engine, json, "sprite/ground.json");
+        EntityLoader.readEntity(engine, json, "sprite/hill1.json");
+        EntityLoader.readEntity(engine, json, "sprite/hill2.json");
+        EntityLoader.readEntity(engine, json, "sprite/hill3.json");
+        EntityLoader.readEntity(engine, json, "sprite/hill4.json");
+        EntityLoader.readEntity(engine, json, "sprite/jumpPlant.json");
     }
 
     private void createSystems() {
         engine = new Engine();
-
-        engine.addSystem(new TextureSystem(10));
 
         engine.addSystem(new PlayerControlSystem(20));
 
@@ -127,43 +117,11 @@ public class TestScene implements LibgdxGraphTestScene {
         physicsSystem.addSensorContactListener("interact", new InteractSensorContactListener(pipelineRenderer));
         engine.addSystem(physicsSystem);
 
-        engine.addSystem(new EntitySystem(40, timeKeeper, pipelineRenderer));
+        engine.addSystem(new RenderingSystem(40, timeKeeper, pipelineRenderer));
 
         engine.addSystem(new CameraSystem(50));
     }
 
-    private GameEntity<? extends Sprite> readEntity(Json json, String path) {
-        SpriteDef spriteDef = json.fromJson(SpriteDef.class, Gdx.files.internal(path));
-
-        return createEntity(pipelineRenderer.getGraphSprites(), spriteDef);
-    }
-
-    private GameEntity<? extends Sprite> createEntity(GraphSprites graphSprites, SpriteDef spriteDef) {
-        EntitySystem entitySystem = engine.getSystem(EntitySystem.class);
-        TextureSystem textureSystem = engine.getSystem(TextureSystem.class);
-        PhysicsSystem physicsSystem = engine.getSystem(PhysicsSystem.class);
-
-        GraphSprite graphSprite = graphSprites.createSprite(spriteDef.getLayer(), spriteDef.getTags());
-        GameEntity<? extends Sprite> gameEntity = entitySystem.createGameEntity(SpriteProducer.createSprite(textureSystem, graphSprite, spriteDef));
-        PhysicsDef physicsDef = spriteDef.getPhysicsDef();
-        if (physicsDef != null) {
-            String physicsType = physicsDef.getType();
-            if (physicsType.equals("dynamic")) {
-                gameEntity.createDynamicBody(physicsSystem, gameEntity, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
-                        physicsDef.getCategory(), physicsDef.getMask());
-            } else if (physicsType.equals("static")) {
-                gameEntity.createStaticBody(physicsSystem, gameEntity, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
-                        physicsDef.getCategory(), physicsDef.getMask());
-            }
-            if (physicsDef.getSensors() != null) {
-                for (SensorDef sensor : physicsDef.getSensors()) {
-                    gameEntity.createSensor(physicsSystem, sensor.getType(), sensor.getAnchor(), sensor.getScale(), sensor.getMask());
-                }
-            }
-        }
-
-        return gameEntity;
-    }
 
     private OrthographicCamera createCamera() {
         OrthographicCamera camera = new OrthographicCamera();
