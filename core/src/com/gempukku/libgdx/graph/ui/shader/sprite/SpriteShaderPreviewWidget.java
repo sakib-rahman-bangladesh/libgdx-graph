@@ -22,7 +22,6 @@ import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
-import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -93,27 +92,15 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
             timeKeeper = new DefaultTimeKeeper();
             graphShader = GraphShaderBuilder.buildSpriteShader(WhitePixel.sharedInstance.texture, graph, true);
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
-            createModel(graphShader.getVertexAttributes(), graphShader.getProperties());
 
             for (GraphProperty<ShaderFieldType> property : graph.getProperties()) {
                 graphSprite.getPropertyContainer().setValue(property.getName(), getPropertyValue(property));
             }
 
-            shaderContext.setTimeProvider(timeKeeper);
-            shaderContext.setPropertyContainer(
-                    new PropertyContainer() {
-                        @Override
-                        public Object getValue(String name) {
-                            for (GraphProperty<ShaderFieldType> property : graph.getProperties()) {
-                                if (property.getName().equals(name)) {
-                                    return getPropertyValue(property);
-                                }
-                            }
+            createModel(graphShader.getVertexAttributes(), graphShader.getProperties());
 
-                            return null;
-                        }
-                    }
-            );
+            shaderContext.setTimeProvider(timeKeeper);
+            shaderContext.setPropertyContainer(graphSprite.getPropertyContainer());
 
             shaderInitialized = true;
         } catch (Exception exp) {
