@@ -1,7 +1,6 @@
 package com.gempukku.libgdx.graph.test;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
@@ -18,14 +17,9 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gempukku.libgdx.graph.entity.GameEntity;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
-import com.gempukku.libgdx.graph.pipeline.CustomRenderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
-import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
-import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
-import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
-import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.sprite.Sprite;
@@ -246,19 +240,5 @@ public class TestScene implements LibgdxGraphTestScene {
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
         pipelineRenderer.setPipelineProperty("Camera", camera);
         pipelineRenderer.setPipelineProperty("Stage", stage);
-        pipelineRenderer.setPipelineProperty("Clear",
-                new CustomRenderCallback() {
-                    @Override
-                    public void renderCallback(RenderPipeline renderPipeline, PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements) {
-                        RenderPipelineBuffer defaultBuffer = renderPipeline.getDefaultBuffer();
-
-                        defaultBuffer.beginColor();
-
-                        Gdx.gl.glClearColor(0, 0, 0, 1);
-                        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
-                        defaultBuffer.endColor();
-                    }
-                });
     }
 }
