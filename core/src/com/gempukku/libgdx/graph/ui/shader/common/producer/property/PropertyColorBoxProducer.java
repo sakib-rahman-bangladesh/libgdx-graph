@@ -1,16 +1,14 @@
 package com.gempukku.libgdx.graph.ui.shader.common.producer.property;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -71,9 +69,9 @@ public class PropertyColorBoxProducer implements PropertyBoxProducer<ShaderField
         picker.setColor(color);
 
         image.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
+                new ChangeListener() {
                     @Override
-                    public void clicked(InputEvent event, float x, float y) {
+                    public void changed(ChangeEvent event, Actor actor) {
                         //displaying picker with fade in animation
                         image.getStage().addActor(picker.fadeIn());
                     }

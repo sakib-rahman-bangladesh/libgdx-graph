@@ -3,13 +3,14 @@ package com.gempukku.libgdx.graph.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.JsonValue;
@@ -113,13 +114,13 @@ public class LibgdxGraphScreen extends Table {
                 });
     }
 
-    private void addControlShortcut(int key, final MenuItem menuItem, final ClickListener listener) {
+    private void addControlShortcut(int key, final MenuItem menuItem, final ChangeListener listener) {
         menuItem.setShortcut(Input.Keys.CONTROL_LEFT, key);
         shortcuts.put(key, new Runnable() {
             @Override
             public void run() {
                 if (!menuItem.isDisabled())
-                    listener.clicked(null, 0, 0);
+                    listener.changed(null, null);
             }
         });
     }
@@ -164,9 +165,10 @@ public class LibgdxGraphScreen extends Table {
     private Menu createGraphMenu() {
         Menu graphMenu = new Menu("Graph");
 
-        ClickListener createGroupListener = new ClickListener(Input.Buttons.LEFT) {
+        ChangeListener createGroupListener = new ChangeListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void changed(ChangeEvent event, Actor actor) {
+
                 createGroup();
             }
         };
@@ -180,9 +182,9 @@ public class LibgdxGraphScreen extends Table {
         exportShader = new MenuItem("Export shader");
         exportShader.setDisabled(true);
         exportShader.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
+                new ChangeListener() {
                     @Override
-                    public void clicked(InputEvent event, float x, float y) {
+                    public void changed(ChangeEvent event, Actor actor) {
                         exportShader();
                     }
                 });
@@ -200,17 +202,17 @@ public class LibgdxGraphScreen extends Table {
 
         MenuItem open = new MenuItem("Open");
         open.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
+                new ChangeListener() {
                     @Override
-                    public void clicked(InputEvent event, float x, float y) {
+                    public void changed(ChangeEvent event, Actor actor) {
                         open();
                     }
                 });
         fileMenu.addItem(open);
 
-        ClickListener saveListener = new ClickListener(Input.Buttons.LEFT) {
+        ChangeListener saveListener = new ChangeListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void changed(ChangeEvent event, Actor actor) {
                 save();
             }
         };
@@ -223,9 +225,9 @@ public class LibgdxGraphScreen extends Table {
         saveAs = new MenuItem("Save As");
         saveAs.setDisabled(true);
         saveAs.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
+                new ChangeListener() {
                     @Override
-                    public void clicked(InputEvent event, float x, float y) {
+                    public void changed(ChangeEvent event, Actor actor) {
                         saveAs();
                     }
                 });
@@ -236,9 +238,9 @@ public class LibgdxGraphScreen extends Table {
         close = new MenuItem("Close pipeline");
         close.setDisabled(true);
         close.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
+                new ChangeListener() {
                     @Override
-                    public void clicked(InputEvent event, float x, float y) {
+                    public void changed(ChangeEvent event, Actor actor) {
                         closePipeline();
                     }
                 });
@@ -247,9 +249,9 @@ public class LibgdxGraphScreen extends Table {
         fileMenu.addSeparator();
         MenuItem exit = new MenuItem("Exit");
         exit.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
+                new ChangeListener() {
                     @Override
-                    public void clicked(InputEvent event, float x, float y) {
+                    public void changed(ChangeEvent event, Actor actor) {
                         closeApplication();
                     }
                 });
@@ -430,9 +432,9 @@ public class LibgdxGraphScreen extends Table {
         PopupMenu templateMenu = new PopupMenu();
         MenuItem menuItem = new MenuItem("Empty");
         menuItem.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
+                new ChangeListener() {
                     @Override
-                    public void clicked(InputEvent event, float x, float y) {
+                    public void changed(ChangeEvent event, Actor actor) {
                         loadPipelineFromFile(Gdx.files.classpath("template/empty-pipeline.json"));
                     }
                 });

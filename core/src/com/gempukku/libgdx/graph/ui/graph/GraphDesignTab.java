@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
@@ -128,9 +129,9 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         HorizontalGroup buttons = new HorizontalGroup();
         TextButton center = new TextButton("Center", skin);
         center.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
+                new ChangeListener() {
                     @Override
-                    public void clicked(InputEvent event, float x, float y) {
+                    public void changed(ChangeEvent event, Actor actor) {
                         graphContainer.centerCanvas();
                         event.stop();
                     }
@@ -201,9 +202,9 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
                     final String title = producer.getName();
                     MenuItem valueMenuItem = new MenuItem(title);
                     valueMenuItem.addListener(
-                            new ClickListener(Input.Buttons.LEFT) {
+                            new ChangeListener() {
                                 @Override
-                                public void clicked(InputEvent event, float x, float y) {
+                                public void changed(ChangeEvent event, Actor actor) {
                                     String id = UUID.randomUUID().toString().replace("-", "");
                                     GraphBox<T> graphBox = producer.createDefault(skin, id);
                                     graphContainer.addGraphBox(graphBox, title, true, popupX, popupY);
@@ -221,9 +222,9 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
                 final String name = propertyProducer.getName();
                 MenuItem valueMenuItem = new MenuItem(name);
                 valueMenuItem.addListener(
-                        new ClickListener(Input.Buttons.LEFT) {
+                        new ChangeListener() {
                             @Override
-                            public void clicked(InputEvent event, float x, float y) {
+                            public void changed(ChangeEvent event, Actor actor) {
                                 String id = UUID.randomUUID().toString().replace("-", "");
                                 GraphBox<T> graphBox = propertyProducer.createPropertyBox(skin, id, popupX, popupY);
                                 graphContainer.addGraphBox(graphBox, "Property", true, popupX, popupY);
@@ -269,9 +270,9 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
                 final PropertyBoxProducer<T> value = propertyEntry.getValue();
                 MenuItem valueMenuItem = new MenuItem(name);
                 valueMenuItem.addListener(
-                        new ClickListener(Input.Buttons.LEFT) {
+                        new ChangeListener() {
                             @Override
-                            public void clicked(InputEvent event, float x, float y) {
+                            public void changed(ChangeEvent event, Actor actor) {
                                 PropertyBox<T> defaultPropertyBox = value.createDefaultPropertyBox(skin);
                                 addPropertyBox(skin, name, defaultPropertyBox);
                             }
@@ -355,9 +356,9 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         table.add(new Label(type, skin)).growX();
         VisImageButton removeButton = new VisImageButton("close-window");
         removeButton.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
+                new ChangeListener() {
                     @Override
-                    public void clicked(InputEvent event, float x, float y) {
+                    public void changed(ChangeEvent event, Actor actor) {
                         removePropertyBox(propertyBox);
                     }
                 });

@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
@@ -118,9 +119,9 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
                                 PopupMenu popupMenu = new PopupMenu();
                                 MenuItem rename = new MenuItem("Rename group");
                                 rename.addListener(
-                                        new ClickListener(Input.Buttons.LEFT) {
+                                        new ChangeListener() {
                                             @Override
-                                            public void clicked(InputEvent event, float x, float y) {
+                                            public void changed(ChangeEvent event, Actor actor) {
                                                 Dialogs.showInputDialog(getStage(), "Enter group name", "Name",
                                                         new InputValidator() {
                                                             @Override
@@ -146,9 +147,9 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
                                 MenuItem remove = new MenuItem("Remove group");
                                 remove.addListener(
-                                        new ClickListener(Input.Buttons.LEFT) {
+                                        new ChangeListener() {
                                             @Override
-                                            public void clicked(InputEvent event, float x, float y) {
+                                            public void changed(ChangeEvent event, Actor actor) {
                                                 nodeGroups.remove(finalNodeGroup);
                                                 fire(new GraphChangedEvent(false, false));
                                             }

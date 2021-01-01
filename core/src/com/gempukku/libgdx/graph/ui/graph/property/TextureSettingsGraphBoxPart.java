@@ -1,15 +1,13 @@
 package com.gempukku.libgdx.graph.ui.graph.property;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.utils.TextureDescriptor;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
@@ -43,9 +41,9 @@ public class TextureSettingsGraphBoxPart<T extends FieldType> extends Table impl
         final TextButton settingsButton = new TextButton("Texture settings", skin);
 
         settingsButton.addListener(
-                new ClickListener(Input.Buttons.LEFT) {
+                new ChangeListener() {
                     @Override
-                    public void clicked(InputEvent event, float x, float y) {
+                    public void changed(ChangeEvent event, Actor actor) {
                         SettingsWindow settingsWindow = new SettingsWindow(textureDescriptor, skin);
                         settingsWindow.setSize(250, 260);
                         settingsButton.getStage().addActor(settingsWindow);
@@ -151,9 +149,9 @@ public class TextureSettingsGraphBoxPart<T extends FieldType> extends Table impl
             add(saveButton).center().padTop(5).row();
 
             saveButton.addListener(
-                    new ClickListener(Input.Buttons.LEFT) {
+                    new ChangeListener() {
                         @Override
-                        public void clicked(InputEvent event, float x, float y) {
+                        public void changed(ChangeEvent event, Actor actor) {
                             textureDescriptor.minFilter = minFilterBox.getSelected().getValue();
                             textureDescriptor.magFilter = magFilterBox.getSelected().getValue();
                             textureDescriptor.uWrap = uWrapBox.getSelected().getValue();
