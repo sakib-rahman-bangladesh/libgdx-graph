@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.test.episodes;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
@@ -28,16 +29,15 @@ import com.gempukku.libgdx.graph.sprite.StateBasedSprite;
 import com.gempukku.libgdx.graph.sprite.def.PhysicsDef;
 import com.gempukku.libgdx.graph.sprite.def.SensorDef;
 import com.gempukku.libgdx.graph.sprite.def.SpriteDef;
+import com.gempukku.libgdx.graph.system.CameraSystem;
 import com.gempukku.libgdx.graph.system.EntitySystem;
-import com.gempukku.libgdx.graph.system.GameSystem;
 import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
 import com.gempukku.libgdx.graph.system.TextureSystem;
 import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraController;
 import com.gempukku.libgdx.graph.system.camera.constraint.FixedToWindowCameraConstraint;
-import com.gempukku.libgdx.graph.system.camera.constraint.SceneCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.SnapToWindowCameraConstraint;
-import com.gempukku.libgdx.graph.system.camera.focus.SpriteAdvanceFocus;
+import com.gempukku.libgdx.graph.system.camera.focus.SpriteFocus;
 import com.gempukku.libgdx.graph.system.sensor.FootSensorContactListener;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -55,11 +55,7 @@ public class Episode20Scene implements LibgdxGraphTestScene {
     private Skin skin;
 
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
-    private TextureSystem textureSystem;
-    private GameSystem cameraController;
-    private PhysicsSystem physicsSystem;
-    private EntitySystem entitySystem;
-    private PlayerControlSystem playerControlSystem;
+    private Engine engine;
 
     private boolean debugRender = false;
     private Box2DDebugRenderer debugRenderer;
@@ -88,18 +84,12 @@ public class Episode20Scene implements LibgdxGraphTestScene {
         loadEnvironment(json);
 
         GameEntity<StateBasedSprite> playerEntity = (GameEntity<StateBasedSprite>) readEntity(json, "sprite/playerBlueWizard.json");
-        playerControlSystem.setPlayerEntity(playerEntity);
+        engine.getSystem(PlayerControlSystem.class).setPlayerEntity(playerEntity);
+        ConstraintCameraController cameraController = new ConstraintCameraController(camera, new SpriteFocus(playerEntity.getSprite()),
+                new SnapToWindowCameraConstraint(new Rectangle(0.2f, 0.1f, 0.2f, 0.4f), new Vector2(0.1f, 0.1f)),
+                new FixedToWindowCameraConstraint(new Rectangle(0.1f, 0.1f, 0.4f, 0.6f)));
+        engine.getSystem(CameraSystem.class).setConstraintCameraController(cameraController);
 
-        cameraController = new ConstraintCameraController(camera,
-                // Try to focus on the point 200 pixels in front of player entity,
-                new SpriteAdvanceFocus(playerEntity.getSprite(), 200f),
-                // Move the camera to try to keep the focus point within the middle 10% of the screen, camera movement speed is 20% of screen/second
-                new SnapToWindowCameraConstraint(new Rectangle(0.45f, 0.45f, 0.1f, 0.1f), new Vector2(0.2f, 0.2f)),
-                // Move the camera to make sure the focused point is in the middle 50% of the screen
-                new FixedToWindowCameraConstraint(new Rectangle(0.25f, 0.25f, 0.5f, 0.5f)),
-                // Move the camera to make sure that pixels outside of the scene bounds are not shown
-                new SceneCameraConstraint(new Rectangle(-2560, -414, 5120, 2000)));
-        resources.add(cameraController);
 
         Gdx.input.setInputProcessor(stage);
 
@@ -119,18 +109,19 @@ public class Episode20Scene implements LibgdxGraphTestScene {
     }
 
     private void createSystems() {
-        textureSystem = new TextureSystem();
-        resources.add(textureSystem);
+        engine = new Engine();
 
-        physicsSystem = new PhysicsSystem(-30f);
+        engine.addSystem(new TextureSystem(10));
+
+        engine.addSystem(new PlayerControlSystem(20));
+
+        PhysicsSystem physicsSystem = new PhysicsSystem(30, -30f);
         physicsSystem.addSensorContactListener("foot", new FootSensorContactListener());
-        resources.add(physicsSystem);
+        engine.addSystem(physicsSystem);
 
-        entitySystem = new EntitySystem(timeKeeper, pipelineRenderer);
-        resources.add(entitySystem);
+        engine.addSystem(new EntitySystem(40, timeKeeper, pipelineRenderer));
 
-        playerControlSystem = new PlayerControlSystem();
-        resources.add(playerControlSystem);
+        engine.addSystem(new CameraSystem(50));
     }
 
     private GameEntity<? extends Sprite> readEntity(Json json, String path) {
@@ -140,6 +131,10 @@ public class Episode20Scene implements LibgdxGraphTestScene {
     }
 
     private GameEntity<? extends Sprite> createEntity(GraphSprites graphSprites, SpriteDef spriteDef) {
+        EntitySystem entitySystem = engine.getSystem(EntitySystem.class);
+        TextureSystem textureSystem = engine.getSystem(TextureSystem.class);
+        PhysicsSystem physicsSystem = engine.getSystem(PhysicsSystem.class);
+
         GraphSprite graphSprite = graphSprites.createSprite(spriteDef.getLayer(), spriteDef.getTags());
         GameEntity<? extends Sprite> gameEntity = entitySystem.createGameEntity(SpriteProducer.createSprite(textureSystem, graphSprite, spriteDef));
         PhysicsDef physicsDef = spriteDef.getPhysicsDef();
@@ -198,22 +193,23 @@ public class Episode20Scene implements LibgdxGraphTestScene {
         timeKeeper.updateTime(delta);
         stage.act(delta);
 
-        textureSystem.update(delta);
-        playerControlSystem.update(delta);
-        physicsSystem.update(delta);
-        entitySystem.update(delta);
-        cameraController.update(delta);
+        engine.update(delta);
 
         pipelineRenderer.render(RenderOutputs.drawToScreen);
 
         if (debugRender) {
             tmpMatrix.set(camera.combined).scale(PhysicsSystem.PIXELS_TO_METERS, PhysicsSystem.PIXELS_TO_METERS, 0);
-            debugRenderer.render(physicsSystem.getWorld(), tmpMatrix);
+            debugRenderer.render(engine.getSystem(PhysicsSystem.class).getWorld(), tmpMatrix);
         }
     }
 
     @Override
     public void disposeScene() {
+        for (com.badlogic.ashley.core.EntitySystem system : engine.getSystems()) {
+            if (system instanceof Disposable)
+                ((Disposable) system).dispose();
+        }
+
         for (Disposable resource : resources) {
             resource.dispose();
         }

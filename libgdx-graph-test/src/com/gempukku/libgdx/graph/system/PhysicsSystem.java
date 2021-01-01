@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.system;
 
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -11,13 +12,14 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.entity.GameEntity;
 import com.gempukku.libgdx.graph.entity.SensorData;
 import com.gempukku.libgdx.graph.sprite.Sprite;
 import com.gempukku.libgdx.graph.system.sensor.SensorContactListener;
 
-public class PhysicsSystem implements GameSystem {
+public class PhysicsSystem extends EntitySystem implements Disposable {
     public static final float PIXELS_TO_METERS = 100f;
 
     public static final short SENSOR = 0x1;
@@ -29,7 +31,8 @@ public class PhysicsSystem implements GameSystem {
     private ObjectMap<String, SensorContactListener> sensorContactListeners = new ObjectMap<>();
     private ObjectMap<String, Short> categoryBits = new ObjectMap<>();
 
-    public PhysicsSystem(float gravity) {
+    public PhysicsSystem(int priority, float gravity) {
+        super(priority);
         world = new World(new Vector2(0, gravity), true);
         world.setContactListener(
                 new ContactListener() {

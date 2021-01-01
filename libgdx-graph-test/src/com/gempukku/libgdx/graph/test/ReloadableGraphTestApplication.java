@@ -65,7 +65,7 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
 
     @Override
     public void create() {
-        //Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
+        Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
 
         scenes[loadedIndex].initializeScene();
     }

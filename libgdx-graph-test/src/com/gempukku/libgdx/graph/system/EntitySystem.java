@@ -7,12 +7,13 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.sprite.Sprite;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
-public class EntitySystem implements GameSystem {
+public class EntitySystem extends com.badlogic.ashley.core.EntitySystem {
     private TimeProvider timeProvider;
     private PipelineRenderer pipelineRenderer;
     private ObjectSet<GameEntity<?>> gameEntities = new ObjectSet<>();
 
-    public EntitySystem(TimeProvider timeProvider, PipelineRenderer pipelineRenderer) {
+    public EntitySystem(int priority, TimeProvider timeProvider, PipelineRenderer pipelineRenderer) {
+        super(priority);
         this.timeProvider = timeProvider;
         this.pipelineRenderer = pipelineRenderer;
     }
@@ -36,11 +37,6 @@ public class EntitySystem implements GameSystem {
             if (sprite.isDirty())
                 sprite.updateSprite(timeProvider, pipelineRenderer);
         }
-
-    }
-
-    @Override
-    public void dispose() {
 
     }
 }

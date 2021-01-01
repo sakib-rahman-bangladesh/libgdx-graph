@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.system;
 
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -8,8 +9,12 @@ import com.gempukku.libgdx.graph.sprite.SpriteFaceDirection;
 import com.gempukku.libgdx.graph.sprite.StateBasedSprite;
 import com.gempukku.libgdx.graph.system.sensor.FootSensorData;
 
-public class PlayerControlSystem implements GameSystem {
+public class PlayerControlSystem extends EntitySystem {
     private GameEntity<StateBasedSprite> playerEntity;
+
+    public PlayerControlSystem(int priority) {
+        super(priority);
+    }
 
     public void setPlayerEntity(GameEntity<StateBasedSprite> playerEntity) {
         this.playerEntity = playerEntity;
@@ -58,10 +63,5 @@ public class PlayerControlSystem implements GameSystem {
 
     private boolean isLeftPressed() {
         return Gdx.input.isKeyPressed(Input.Keys.LEFT);
-    }
-
-    @Override
-    public void dispose() {
-
     }
 }
