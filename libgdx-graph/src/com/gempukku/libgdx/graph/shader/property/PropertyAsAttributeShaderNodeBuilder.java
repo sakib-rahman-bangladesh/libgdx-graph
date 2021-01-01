@@ -43,15 +43,15 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
 
         switch (propertyType) {
             case Vector4:
-                return buildColorPropertyVertexNode(nodeId, name, graphShaderContext, vertexShaderBuilder);
+                return buildColorPropertyVertexNode(name, graphShaderContext, vertexShaderBuilder);
             case Float:
-                return buildFloatPropertyVertexNode(nodeId, name, graphShaderContext, vertexShaderBuilder);
+                return buildFloatPropertyVertexNode(name, graphShaderContext, vertexShaderBuilder);
             case Vector2:
-                return buildVector2PropertyVertexNode(nodeId, name, graphShaderContext, vertexShaderBuilder);
+                return buildVector2PropertyVertexNode(name, graphShaderContext, vertexShaderBuilder);
             case Vector3:
-                return buildVector3PropertyVertexNode(nodeId, name, graphShaderContext, vertexShaderBuilder);
+                return buildVector3PropertyVertexNode(name, graphShaderContext, vertexShaderBuilder);
             case TextureRegion:
-                return buildTexturePropertyVertexNode(nodeId, name, data, graphShaderContext, vertexShaderBuilder);
+                return buildTexturePropertyVertexNode(name, data, graphShaderContext, vertexShaderBuilder);
         }
 
         return null;
@@ -65,21 +65,21 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
 
         switch (propertyType) {
             case Vector4:
-                return buildColorPropertyFragmentNode(nodeId, name, graphShaderContext, vertexShaderBuilder, fragmentShaderBuilder);
+                return buildColorPropertyFragmentNode(name, graphShaderContext, vertexShaderBuilder, fragmentShaderBuilder);
             case Float:
-                return buildFloatPropertyFragmentNode(nodeId, name, graphShaderContext, vertexShaderBuilder, fragmentShaderBuilder);
+                return buildFloatPropertyFragmentNode(name, graphShaderContext, vertexShaderBuilder, fragmentShaderBuilder);
             case Vector2:
-                return buildVector2PropertyFragmentNode(nodeId, name, graphShaderContext, vertexShaderBuilder, fragmentShaderBuilder);
+                return buildVector2PropertyFragmentNode(name, graphShaderContext, vertexShaderBuilder, fragmentShaderBuilder);
             case Vector3:
-                return buildVector3PropertyFragmentNode(nodeId, name, graphShaderContext, vertexShaderBuilder, fragmentShaderBuilder);
+                return buildVector3PropertyFragmentNode(name, graphShaderContext, vertexShaderBuilder, fragmentShaderBuilder);
             case TextureRegion:
-                return buildTexturePropertyFragmentNode(nodeId, name, data, graphShaderContext, vertexShaderBuilder, fragmentShaderBuilder);
+                return buildTexturePropertyFragmentNode(name, data, graphShaderContext, vertexShaderBuilder, fragmentShaderBuilder);
         }
 
         return null;
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildColorPropertyVertexNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildColorPropertyVertexNode(final String name, final GraphShaderContext graphShaderContext,
                                                                                VertexShaderBuilder vertexShaderBuilder) {
         PropertySource propertySource = graphShaderContext.getPropertySource(name);
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
@@ -89,7 +89,7 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Vector4, attributeName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildColorPropertyFragmentNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildColorPropertyFragmentNode(final String name, final GraphShaderContext graphShaderContext,
                                                                                  VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         PropertySource propertySource = graphShaderContext.getPropertySource(name);
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
@@ -106,7 +106,7 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Vector4, variableName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildFloatPropertyVertexNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildFloatPropertyVertexNode(final String name, final GraphShaderContext graphShaderContext,
                                                                                VertexShaderBuilder vertexShaderBuilder) {
         PropertySource propertySource = graphShaderContext.getPropertySource(name);
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
@@ -116,7 +116,7 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Float, attributeName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildFloatPropertyFragmentNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildFloatPropertyFragmentNode(final String name, final GraphShaderContext graphShaderContext,
                                                                                  VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         PropertySource propertySource = graphShaderContext.getPropertySource(name);
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
@@ -133,7 +133,7 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Float, variableName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildVector2PropertyVertexNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildVector2PropertyVertexNode(final String name, final GraphShaderContext graphShaderContext,
                                                                                  VertexShaderBuilder vertexShaderBuilder) {
         PropertySource propertySource = graphShaderContext.getPropertySource(name);
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
@@ -143,7 +143,7 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Vector2, attributeName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildVector2PropertyFragmentNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildVector2PropertyFragmentNode(final String name, final GraphShaderContext graphShaderContext,
                                                                                    VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         PropertySource propertySource = graphShaderContext.getPropertySource(name);
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
@@ -160,7 +160,7 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Vector2, variableName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildVector3PropertyVertexNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildVector3PropertyVertexNode(final String name, final GraphShaderContext graphShaderContext,
                                                                                  VertexShaderBuilder vertexShaderBuilder) {
         PropertySource propertySource = graphShaderContext.getPropertySource(name);
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
@@ -170,7 +170,7 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Vector3, attributeName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildVector3PropertyFragmentNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildVector3PropertyFragmentNode(final String name, final GraphShaderContext graphShaderContext,
                                                                                    VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         PropertySource propertySource = graphShaderContext.getPropertySource(name);
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
@@ -187,7 +187,7 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Vector3, variableName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildTexturePropertyVertexNode(String nodeId, final String name, JsonValue data, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildTexturePropertyVertexNode(final String name, JsonValue data, final GraphShaderContext graphShaderContext,
                                                                                  VertexShaderBuilder vertexShaderBuilder) {
         PropertySource propertySource = graphShaderContext.getPropertySource(name);
 
@@ -201,7 +201,7 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
         if (data.has("vWrap"))
             textureDescriptor.vWrap = Texture.TextureWrap.valueOf(data.getString("vWrap"));
 
-        String textureVariableName = "u_property_" + nodeId;
+        String textureVariableName = "u_property_" + propertySource.getPropertyIndex();
         String uvTransformAttributeName = "a_property_" + propertySource.getPropertyIndex();
         vertexShaderBuilder.addUniformVariable(textureVariableName, "sampler2D", false,
                 new UniformRegistry.UniformSetter() {
@@ -219,7 +219,7 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.TextureRegion, uvTransformAttributeName, textureVariableName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildTexturePropertyFragmentNode(String nodeId, final String name, JsonValue data, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildTexturePropertyFragmentNode(final String name, JsonValue data, final GraphShaderContext graphShaderContext,
                                                                                    VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         PropertySource propertySource = graphShaderContext.getPropertySource(name);
 
@@ -233,7 +233,7 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
         if (data.has("vWrap"))
             textureDescriptor.vWrap = Texture.TextureWrap.valueOf(data.getString("vWrap"));
 
-        String textureVariableName = "u_property_" + nodeId;
+        String textureVariableName = "u_property_" + propertySource.getPropertyIndex();
         String uvTransformAttributeName = "a_property_" + propertySource.getPropertyIndex();
         String uvTransformVariableName = "v_property_" + propertySource.getPropertyIndex();
         fragmentShaderBuilder.addUniformVariable(textureVariableName, "sampler2D", false,

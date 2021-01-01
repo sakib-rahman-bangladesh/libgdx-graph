@@ -57,24 +57,26 @@ public class PropertyAsUniformShaderNodeBuilder implements GraphShaderNodeBuilde
 
         switch (propertyType) {
             case Vector4:
-                return buildColorPropertyNode(nodeId, name, graphShaderContext, commonShaderBuilder);
+                return buildColorPropertyNode(name, graphShaderContext, commonShaderBuilder);
             case Float:
-                return buildFloatPropertyNode(nodeId, name, graphShaderContext, commonShaderBuilder);
+                return buildFloatPropertyNode(name, graphShaderContext, commonShaderBuilder);
             case Vector2:
-                return buildVector2PropertyNode(nodeId, name, graphShaderContext, commonShaderBuilder);
+                return buildVector2PropertyNode(name, graphShaderContext, commonShaderBuilder);
             case Vector3:
-                return buildVector3PropertyNode(nodeId, name, graphShaderContext, commonShaderBuilder);
+                return buildVector3PropertyNode(name, graphShaderContext, commonShaderBuilder);
             case TextureRegion:
-                return buildTexturePropertyNode(nodeId, name, data, graphShaderContext, commonShaderBuilder);
+                return buildTexturePropertyNode(name, data, graphShaderContext, commonShaderBuilder);
         }
 
         return null;
     }
 
 
-    private ObjectMap<String, DefaultFieldOutput> buildColorPropertyNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildColorPropertyNode(final String name, final GraphShaderContext graphShaderContext,
                                                                          CommonShaderBuilder commonShaderBuilder) {
-        String variableName = "u_property_" + nodeId;
+        PropertySource propertySource = graphShaderContext.getPropertySource(name);
+
+        String variableName = "u_property_" + propertySource.getPropertyIndex();
         commonShaderBuilder.addUniformVariable(variableName, "vec4", false,
                 new UniformRegistry.UniformSetter() {
                     @Override
@@ -89,9 +91,11 @@ public class PropertyAsUniformShaderNodeBuilder implements GraphShaderNodeBuilde
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Vector4, variableName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildFloatPropertyNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildFloatPropertyNode(final String name, final GraphShaderContext graphShaderContext,
                                                                          CommonShaderBuilder commonShaderBuilder) {
-        String variableName = "u_property_" + nodeId;
+        PropertySource propertySource = graphShaderContext.getPropertySource(name);
+
+        String variableName = "u_property_" + propertySource.getPropertyIndex();
         commonShaderBuilder.addUniformVariable(variableName, "float", false,
                 new UniformRegistry.UniformSetter() {
                     @Override
@@ -106,9 +110,11 @@ public class PropertyAsUniformShaderNodeBuilder implements GraphShaderNodeBuilde
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Float, variableName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildVector2PropertyNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildVector2PropertyNode(final String name, final GraphShaderContext graphShaderContext,
                                                                            CommonShaderBuilder commonShaderBuilder) {
-        String variableName = "u_property_" + nodeId;
+        PropertySource propertySource = graphShaderContext.getPropertySource(name);
+
+        String variableName = "u_property_" + propertySource.getPropertyIndex();
         commonShaderBuilder.addUniformVariable(variableName, "vec2", false,
                 new UniformRegistry.UniformSetter() {
                     @Override
@@ -123,9 +129,11 @@ public class PropertyAsUniformShaderNodeBuilder implements GraphShaderNodeBuilde
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Vector2, variableName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildVector3PropertyNode(String nodeId, final String name, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildVector3PropertyNode(final String name, final GraphShaderContext graphShaderContext,
                                                                            CommonShaderBuilder commonShaderBuilder) {
-        String variableName = "u_property_" + nodeId;
+        PropertySource propertySource = graphShaderContext.getPropertySource(name);
+
+        String variableName = "u_property_" + propertySource.getPropertyIndex();
         commonShaderBuilder.addUniformVariable(variableName, "vec3", false,
                 new UniformRegistry.UniformSetter() {
                     @Override
@@ -140,8 +148,10 @@ public class PropertyAsUniformShaderNodeBuilder implements GraphShaderNodeBuilde
         return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Vector3, variableName));
     }
 
-    private ObjectMap<String, DefaultFieldOutput> buildTexturePropertyNode(String nodeId, final String name, JsonValue data, final GraphShaderContext graphShaderContext,
+    private ObjectMap<String, DefaultFieldOutput> buildTexturePropertyNode(final String name, JsonValue data, final GraphShaderContext graphShaderContext,
                                                                            CommonShaderBuilder commonShaderBuilder) {
+        PropertySource propertySource = graphShaderContext.getPropertySource(name);
+
         final TextureDescriptor<Texture> textureDescriptor = new TextureDescriptor<>();
         if (data.has("minFilter"))
             textureDescriptor.minFilter = Texture.TextureFilter.valueOf(data.getString("minFilter"));
@@ -152,8 +162,8 @@ public class PropertyAsUniformShaderNodeBuilder implements GraphShaderNodeBuilde
         if (data.has("vWrap"))
             textureDescriptor.vWrap = Texture.TextureWrap.valueOf(data.getString("vWrap"));
 
-        String textureVariableName = "u_property_" + nodeId;
-        String uvTransformVariableName = "u_uvTransform_" + nodeId;
+        String textureVariableName = "u_property_" + propertySource.getPropertyIndex();
+        String uvTransformVariableName = "u_uvTransform_" + propertySource.getPropertyIndex();
         commonShaderBuilder.addUniformVariable(textureVariableName, "sampler2D", false,
                 new UniformRegistry.UniformSetter() {
                     @Override
