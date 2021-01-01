@@ -7,7 +7,7 @@ import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 public enum PipelineFieldType implements FieldType {
     Float, Vector2, Vector3, Color, Boolean,
     Stage, Camera, Lights, Models, GraphLights,
-    RenderPipeline;
+    RenderPipeline, Callback;
 
     @Override
     public boolean accepts(Object value) {
@@ -34,6 +34,8 @@ public enum PipelineFieldType implements FieldType {
                 return value instanceof Environment;
             case GraphLights:
                 return value instanceof GraphShaderEnvironment;
+            case Callback:
+                return value instanceof CustomRenderCallback;
         }
         return false;
     }

@@ -15,6 +15,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.postprocessor.GaussianBlurPipel
 import com.gempukku.libgdx.graph.pipeline.loader.property.PropertyPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.provided.RenderSizePipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.provided.TimePipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.CustomRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.DefaultRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.EndPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderRendererPipelineNodeProducer;
@@ -30,6 +31,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.value.producer.ValueFloatPipeli
 import com.gempukku.libgdx.graph.pipeline.loader.value.producer.ValueVector2PipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.value.producer.ValueVector3PipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.property.BooleanPipelinePropertyProducer;
+import com.gempukku.libgdx.graph.pipeline.property.CallbackPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.CameraPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.ColorPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.FloatPipelinePropertyProducer;
@@ -50,6 +52,7 @@ public class RendererPipelineConfiguration {
         addNodeProducer(new EndPipelineNodeProducer());
         addNodeProducer(new UIRendererPipelineNodeProducer());
         addNodeProducer(new DefaultRendererPipelineNodeProducer());
+        addNodeProducer(new CustomRendererPipelineNodeProducer());
         addNodeProducer(new ModelShaderRendererPipelineNodeProducer());
         addNodeProducer(new SpriteShaderRendererPipelineNodeProducer());
         addNodeProducer(new ScreenShaderRendererPipelineNodeProducer());
@@ -88,6 +91,7 @@ public class RendererPipelineConfiguration {
         pipelinePropertyProducers.add(new LightsPipelinePropertyProducer());
         pipelinePropertyProducers.add(new GraphLightsPipelinePropertyProducer());
         pipelinePropertyProducers.add(new CameraPipelinePropertyProducer());
+        pipelinePropertyProducers.add(new CallbackPipelinePropertyProducer());
     }
 
     private static void addNodeProducer(PipelineNodeProducer producer) {
