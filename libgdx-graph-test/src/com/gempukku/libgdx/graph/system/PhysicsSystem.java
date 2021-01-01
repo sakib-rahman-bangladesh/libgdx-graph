@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.entity.GameEntity;
 import com.gempukku.libgdx.graph.entity.SensorData;
 import com.gempukku.libgdx.graph.sprite.Sprite;
 import com.gempukku.libgdx.graph.system.sensor.SensorContactListener;
@@ -19,8 +20,10 @@ import com.gempukku.libgdx.graph.system.sensor.SensorContactListener;
 public class PhysicsSystem implements GameSystem {
     public static final float PIXELS_TO_METERS = 100f;
 
-    public static final short CHARACTER_GEOMETRY = 0x1;
-    public static final short ENVIRONMENT_GEOMETRY = 0x1 << 1;
+    public static final short SENSOR = 0x1;
+    public static final short CHARACTER = 0x1 << 1;
+    public static final short ENVIRONMENT = 0x1 << 2;
+    public static final short INTERACTIVE = 0x1 << 3;
 
     private World world;
     private ObjectMap<String, SensorContactListener> sensorContactListeners = new ObjectMap<>();
@@ -51,8 +54,10 @@ public class PhysicsSystem implements GameSystem {
                     }
                 }
         );
-        categoryBits.put("Character", CHARACTER_GEOMETRY);
-        categoryBits.put("Environment", ENVIRONMENT_GEOMETRY);
+        categoryBits.put("Sensor", SENSOR);
+        categoryBits.put("Character", CHARACTER);
+        categoryBits.put("Environment", ENVIRONMENT);
+        categoryBits.put("Interactive", INTERACTIVE);
     }
 
     public void addSensorContactListener(String type, SensorContactListener sensorContactListener) {
@@ -67,8 +72,8 @@ public class PhysicsSystem implements GameSystem {
         return world;
     }
 
-    public Body createDynamicBody(Sprite sprite, Vector2 colliderAnchor, Vector2 colliderScale,
-                                  String category, String[] mask) {
+    public Body createDynamicBody(GameEntity<?> gameEntity, Sprite sprite, Vector2 colliderAnchor, Vector2 colliderScale,
+                                  String[] category, String[] mask) {
         Vector2 position = sprite.getPosition(new Vector2());
         Vector2 size = sprite.getSize(new Vector2());
         Vector2 anchor = sprite.getAnchor(new Vector2());
@@ -89,15 +94,17 @@ public class PhysicsSystem implements GameSystem {
         fixtureDef.density = 0f;
         fixtureDef.filter.categoryBits = getBits(category);
         fixtureDef.filter.maskBits = getBits(mask);
-        body.createFixture(fixtureDef);
+
+        Fixture fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(gameEntity);
 
         shape.dispose();
 
         return body;
     }
 
-    public Body createStaticBody(Sprite sprite, Vector2 colliderAnchor, Vector2 colliderScale,
-                                 String category, String[] mask) {
+    public Body createStaticBody(GameEntity<?> gameEntity, Sprite sprite, Vector2 colliderAnchor, Vector2 colliderScale,
+                                 String[] category, String[] mask) {
         Vector2 position = sprite.getPosition(new Vector2());
         Vector2 size = sprite.getSize(new Vector2());
         Vector2 anchor = sprite.getAnchor(new Vector2());
@@ -118,7 +125,8 @@ public class PhysicsSystem implements GameSystem {
         fixtureDef.filter.categoryBits = getBits(category);
         fixtureDef.filter.maskBits = getBits(mask);
 
-        body.createFixture(fixtureDef);
+        Fixture fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(gameEntity);
 
         shape.dispose();
 
@@ -145,7 +153,7 @@ public class PhysicsSystem implements GameSystem {
         world.dispose();
     }
 
-    public SensorData createSensor(Sprite sprite, Body body, String type, Vector2 sensorAnchor, Vector2 sensorScale) {
+    public SensorData createSensor(Sprite sprite, Body body, String type, Vector2 sensorAnchor, Vector2 sensorScale, String[] mask) {
         Vector2 size = sprite.getSize(new Vector2());
         Vector2 anchor = sprite.getAnchor(new Vector2());
 
@@ -155,6 +163,8 @@ public class PhysicsSystem implements GameSystem {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.isSensor = true;
+        fixtureDef.filter.categoryBits = SENSOR;
+        fixtureDef.filter.maskBits = getBits(mask);
 
         Fixture fixture = body.createFixture(fixtureDef);
         SensorData sensorData = new SensorData(type);
@@ -171,13 +181,13 @@ public class PhysicsSystem implements GameSystem {
         processContactBegun(fixtureA, fixtureB);
     }
 
-    private void processContactBegun(Fixture fixtureA, Fixture fixtureB) {
-        if (fixtureB.getUserData() != null) {
-            SensorData sensorData = (SensorData) fixtureB.getUserData();
+    private void processContactBegun(Fixture fixture1, Fixture fixture2) {
+        if (fixture2.getUserData() != null && fixture2.isSensor()) {
+            SensorData sensorData = (SensorData) fixture2.getUserData();
             String type = sensorData.getType();
             SensorContactListener sensorContactListener = sensorContactListeners.get(type);
             if (sensorContactListener != null) {
-                sensorContactListener.contactBegun(sensorData, fixtureA);
+                sensorContactListener.contactBegun(sensorData, fixture1);
             }
         }
     }
@@ -190,13 +200,13 @@ public class PhysicsSystem implements GameSystem {
         processContactEnded(fixtureA, fixtureB);
     }
 
-    private void processContactEnded(Fixture fixtureA, Fixture fixtureB) {
-        if (fixtureB.getUserData() != null) {
-            SensorData sensorData = (SensorData) fixtureB.getUserData();
+    private void processContactEnded(Fixture fixture1, Fixture fixture2) {
+        if (fixture2.getUserData() != null && fixture2.isSensor()) {
+            SensorData sensorData = (SensorData) fixture2.getUserData();
             String type = sensorData.getType();
             SensorContactListener sensorContactListener = sensorContactListeners.get(type);
             if (sensorContactListener != null) {
-                sensorContactListener.contactEnded(sensorData, fixtureA);
+                sensorContactListener.contactEnded(sensorData, fixture1);
             }
         }
     }

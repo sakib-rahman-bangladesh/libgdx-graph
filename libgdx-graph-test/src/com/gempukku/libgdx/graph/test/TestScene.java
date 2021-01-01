@@ -39,6 +39,7 @@ import com.gempukku.libgdx.graph.system.camera.constraint.SceneCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.SnapToWindowCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.focus.SpriteAdvanceFocus;
 import com.gempukku.libgdx.graph.system.sensor.FootSensorContactListener;
+import com.gempukku.libgdx.graph.system.sensor.InteractSensorContactListener;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
 
@@ -108,12 +109,12 @@ public class TestScene implements LibgdxGraphTestScene {
     }
 
     private void loadEnvironment(Json json) {
-        readEntity(json, "sprite/platform.json");
         readEntity(json, "sprite/ground.json");
         readEntity(json, "sprite/hill1.json");
         readEntity(json, "sprite/hill2.json");
         readEntity(json, "sprite/hill3.json");
         readEntity(json, "sprite/hill4.json");
+        readEntity(json, "sprite/jumpPlant.json");
     }
 
     private void createSystems() {
@@ -122,6 +123,7 @@ public class TestScene implements LibgdxGraphTestScene {
 
         physicsSystem = new PhysicsSystem(-30f);
         physicsSystem.addSensorContactListener("foot", new FootSensorContactListener());
+        physicsSystem.addSensorContactListener("interact", new InteractSensorContactListener(pipelineRenderer));
         resources.add(physicsSystem);
 
         entitySystem = new EntitySystem(timeKeeper, pipelineRenderer);
@@ -144,15 +146,15 @@ public class TestScene implements LibgdxGraphTestScene {
         if (physicsDef != null) {
             String physicsType = physicsDef.getType();
             if (physicsType.equals("dynamic")) {
-                gameEntity.createDynamicBody(physicsSystem, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
+                gameEntity.createDynamicBody(physicsSystem, gameEntity, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
                         physicsDef.getCategory(), physicsDef.getMask());
             } else if (physicsType.equals("static")) {
-                gameEntity.createStaticBody(physicsSystem, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
+                gameEntity.createStaticBody(physicsSystem, gameEntity, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
                         physicsDef.getCategory(), physicsDef.getMask());
             }
             if (physicsDef.getSensors() != null) {
                 for (SensorDef sensor : physicsDef.getSensors()) {
-                    gameEntity.createSensor(physicsSystem, sensor.getType(), sensor.getAnchor(), sensor.getScale());
+                    gameEntity.createSensor(physicsSystem, sensor.getType(), sensor.getAnchor(), sensor.getScale(), sensor.getMask());
                 }
             }
         }

@@ -1,5 +1,4 @@
-vec2 uvFlipbook(vec2 uv, float width, float height, float index, float looping, vec2 invert)
-{
+vec2 uvFlipbook(vec2 uv, float width, float height, float index, float looping, vec2 invert) {
     float spriteCount = width * height;
     float indexAdjusted = mix(min(index, spriteCount - 1.0), index, step(1.0, looping));
     float spriteIndex = floor(mod(indexAdjusted, spriteCount));

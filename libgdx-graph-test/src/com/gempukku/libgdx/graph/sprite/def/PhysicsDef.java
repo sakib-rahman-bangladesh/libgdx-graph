@@ -6,7 +6,7 @@ public class PhysicsDef {
     private String type;
     private Vector2 colliderAnchor;
     private Vector2 colliderScale;
-    private String category;
+    private String[] category;
     private String[] mask;
 
     private SensorDef[] sensors;
@@ -23,7 +23,7 @@ public class PhysicsDef {
         return colliderScale;
     }
 
-    public String getCategory() {
+    public String[] getCategory() {
         return category;
     }
 

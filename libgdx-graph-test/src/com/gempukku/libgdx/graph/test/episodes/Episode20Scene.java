@@ -146,15 +146,15 @@ public class Episode20Scene implements LibgdxGraphTestScene {
         if (physicsDef != null) {
             String physicsType = physicsDef.getType();
             if (physicsType.equals("dynamic")) {
-                gameEntity.createDynamicBody(physicsSystem, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
+                gameEntity.createDynamicBody(physicsSystem, gameEntity, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
                         physicsDef.getCategory(), physicsDef.getMask());
             } else if (physicsType.equals("static")) {
-                gameEntity.createStaticBody(physicsSystem, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
+                gameEntity.createStaticBody(physicsSystem, gameEntity, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
                         physicsDef.getCategory(), physicsDef.getMask());
             }
             if (physicsDef.getSensors() != null) {
                 for (SensorDef sensor : physicsDef.getSensors()) {
-                    gameEntity.createSensor(physicsSystem, sensor.getType(), sensor.getAnchor(), sensor.getScale());
+                    gameEntity.createSensor(physicsSystem, sensor.getType(), sensor.getAnchor(), sensor.getScale(), sensor.getMask());
                 }
             }
         }

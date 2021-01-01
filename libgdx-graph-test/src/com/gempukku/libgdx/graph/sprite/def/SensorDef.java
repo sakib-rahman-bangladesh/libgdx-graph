@@ -6,6 +6,7 @@ public class SensorDef {
     private String type;
     private Vector2 anchor;
     private Vector2 scale;
+    private String[] mask;
 
     public String getType() {
         return type;
@@ -17,5 +18,9 @@ public class SensorDef {
 
     public Vector2 getScale() {
         return scale;
+    }
+
+    public String[] getMask() {
+        return mask;
     }
 }

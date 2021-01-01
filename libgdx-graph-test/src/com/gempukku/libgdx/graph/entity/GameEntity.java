@@ -28,20 +28,20 @@ public class GameEntity<T extends Sprite> {
         return dynamic;
     }
 
-    public void createDynamicBody(PhysicsSystem physicsSystem, Vector2 colliderAnchor, Vector2 colliderScale,
-                                  String category, String[] mask) {
-        body = physicsSystem.createDynamicBody(sprite, colliderAnchor, colliderScale, category, mask);
+    public void createDynamicBody(PhysicsSystem physicsSystem, GameEntity<?> gameEntity, Vector2 colliderAnchor, Vector2 colliderScale,
+                                  String[] category, String[] mask) {
+        body = physicsSystem.createDynamicBody(gameEntity, sprite, colliderAnchor, colliderScale, category, mask);
         dynamic = true;
     }
 
-    public void createStaticBody(PhysicsSystem physicsSystem, Vector2 colliderAnchor, Vector2 colliderScale,
-                                 String category, String[] mask) {
-        body = physicsSystem.createStaticBody(sprite, colliderAnchor, colliderScale, category, mask);
+    public void createStaticBody(PhysicsSystem physicsSystem, GameEntity<?> gameEntity, Vector2 colliderAnchor, Vector2 colliderScale,
+                                 String[] category, String[] mask) {
+        body = physicsSystem.createStaticBody(gameEntity, sprite, colliderAnchor, colliderScale, category, mask);
         dynamic = false;
     }
 
-    public void createSensor(PhysicsSystem physicsSystem, String type, Vector2 sensorAnchor, Vector2 sensorScale) {
-        sensorData.add(physicsSystem.createSensor(sprite, body, type, sensorAnchor, sensorScale));
+    public void createSensor(PhysicsSystem physicsSystem, String type, Vector2 sensorAnchor, Vector2 sensorScale, String[] mask) {
+        sensorData.add(physicsSystem.createSensor(sprite, body, type, sensorAnchor, sensorScale, mask));
     }
 
     public SensorData getSensorDataOfType(String type) {

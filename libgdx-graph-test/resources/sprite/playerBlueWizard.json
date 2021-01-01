@@ -6,7 +6,7 @@
   "spriteType": "stateBased",
   "position": {
     "x": -300,
-    "y": -200
+    "y": -290
   },
   "size": {
     "x": 256,
@@ -65,7 +65,9 @@
       "x": 0.25,
       "y": 0.5
     },
-    "category": "Character",
+    "category": [
+      "Character"
+    ],
     "mask": [
       "Environment"
     ],
@@ -79,7 +81,24 @@
         "scale": {
           "x": 0.25,
           "y": 0.05
-        }
+        },
+        "mask": [
+          "Environment"
+        ]
+      },
+      {
+        "type": "interact",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.55
+        },
+        "scale": {
+          "x": 1.2,
+          "y": 0.5
+        },
+        "mask": [
+          "Interactive"
+        ]
       }
     ]
   }

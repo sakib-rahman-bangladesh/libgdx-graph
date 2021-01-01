@@ -96,7 +96,12 @@ public class GraphSpritesImpl implements GraphSprites {
     public void addTag(GraphSprite sprite, String tag) {
         GraphSpriteImpl spriteImpl = getSprite(sprite);
         spriteImpl.addTag(tag);
-        spritesByTag.get(tag).add(spriteImpl);
+        ObjectSet<GraphSpriteImpl> graphSprites = spritesByTag.get(tag);
+        if (graphSprites == null) {
+            graphSprites = new ObjectSet<>();
+            spritesByTag.put(tag, graphSprites);
+        }
+        graphSprites.add(spriteImpl);
     }
 
     @Override
@@ -275,7 +280,6 @@ public class GraphSpritesImpl implements GraphSprites {
 
     public void registerTag(String tag, VertexAttributes vertexAttributes, boolean opaque, ObjectMap<String, PropertySource> shaderProperties) {
         tagSpriteShaderData.put(tag, new TagSpriteShaderConfig(vertexAttributes, opaque ? NUMBER_OF_SPRITES : 1, shaderProperties));
-        spritesByTag.put(tag, new ObjectSet<GraphSpriteImpl>());
     }
 
     private static class DistanceSpriteSorter implements Comparator<GraphSpriteImpl> {

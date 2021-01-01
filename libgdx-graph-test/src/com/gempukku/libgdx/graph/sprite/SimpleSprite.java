@@ -27,6 +27,11 @@ public class SimpleSprite implements Sprite {
     }
 
     @Override
+    public GraphSprite getGraphSprite() {
+        return graphSprite;
+    }
+
+    @Override
     public Vector2 getPosition(Vector2 position) {
         return position.set(this.position);
     }

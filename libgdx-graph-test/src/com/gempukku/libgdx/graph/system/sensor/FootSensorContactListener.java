@@ -7,7 +7,7 @@ import com.gempukku.libgdx.graph.system.PhysicsSystem;
 public class FootSensorContactListener implements SensorContactListener {
     @Override
     public void contactBegun(SensorData sensor, Fixture other) {
-        if (other.getFilterData().categoryBits == PhysicsSystem.ENVIRONMENT_GEOMETRY) {
+        if (other.getFilterData().categoryBits == PhysicsSystem.ENVIRONMENT) {
             FootSensorData footSensorData = (FootSensorData) sensor.getValue();
             if (footSensorData == null) {
                 footSensorData = new FootSensorData();
@@ -19,7 +19,7 @@ public class FootSensorContactListener implements SensorContactListener {
 
     @Override
     public void contactEnded(SensorData sensor, Fixture other) {
-        if (other.getFilterData().categoryBits == PhysicsSystem.ENVIRONMENT_GEOMETRY) {
+        if (other.getFilterData().categoryBits == PhysicsSystem.ENVIRONMENT) {
             FootSensorData footSensorData = (FootSensorData) sensor.getValue();
             footSensorData.setGrounded(false);
         }

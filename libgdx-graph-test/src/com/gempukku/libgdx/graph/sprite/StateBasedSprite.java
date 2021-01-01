@@ -32,6 +32,11 @@ public class StateBasedSprite implements FacedSprite {
     }
 
     @Override
+    public GraphSprite getGraphSprite() {
+        return graphSprite;
+    }
+
+    @Override
     public SpriteFaceDirection getFaceDirection() {
         return faceDirection;
     }
