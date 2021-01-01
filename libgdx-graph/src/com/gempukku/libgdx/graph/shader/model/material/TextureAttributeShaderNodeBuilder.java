@@ -50,7 +50,6 @@ public class TextureAttributeShaderNodeBuilder extends ConfigurationCommonShader
             if (texture == null)
                 texture = WhitePixel.sharedInstance.texture;
 
-
             final Texture finalTexture = texture;
             commonShaderBuilder.addUniformVariable(textureName, "sampler2D", false,
                     new UniformRegistry.UniformSetter() {

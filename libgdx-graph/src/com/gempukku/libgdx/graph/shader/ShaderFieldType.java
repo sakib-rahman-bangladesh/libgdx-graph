@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
-import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public enum ShaderFieldType implements FieldType {
     Float("float"), Vector2("vec2"), Vector3("vec3"), Vector4("vec4"), Boolean("bool"),
@@ -70,8 +69,11 @@ public enum ShaderFieldType implements FieldType {
         }
         if (this == Vector4)
             return Color.valueOf(data.getString("color"));
-        if (this == TextureRegion)
-            return WhitePixel.sharedInstance.textureRegion;
+        if (this == TextureRegion) {
+            if (data == null)
+                return null;
+            return data.getString("previewPath", null);
+        }
 
         return null;
     }

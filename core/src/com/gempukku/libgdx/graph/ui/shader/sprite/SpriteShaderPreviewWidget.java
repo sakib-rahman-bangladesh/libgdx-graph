@@ -5,8 +5,10 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -65,7 +67,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
         shaderContext.setRenderHeight(height);
         shaderContext.setColorTexture(PatternTextures.sharedInstance.texture);
 
-        graphSprite = new GraphSpriteImpl(2f, new Vector2(0, 0), new Vector2(100, 100), new Vector2(0.5f, 0.5f));
+        graphSprite = new GraphSpriteImpl(2f, new Vector2(0, 0), new Vector2(150, 150), new Vector2(0.5f, 0.5f));
     }
 
     @Override
@@ -93,6 +95,10 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
             createModel(graphShader.getVertexAttributes(), graphShader.getProperties());
 
+            for (GraphProperty<ShaderFieldType> property : graph.getProperties()) {
+                graphSprite.getPropertyContainer().setValue(property.getName(), getPropertyValue(property));
+            }
+
             shaderContext.setTimeProvider(timeKeeper);
             shaderContext.setPropertyContainer(
                     new PropertyContainer() {
@@ -100,8 +106,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
                         public Object getValue(String name) {
                             for (GraphProperty<ShaderFieldType> property : graph.getProperties()) {
                                 if (property.getName().equals(name)) {
-                                    ShaderFieldType propertyType = property.getType();
-                                    return propertyType.convertFromJson(property.getData());
+                                    return getPropertyValue(property);
                                 }
                             }
 
@@ -115,6 +120,25 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
             exp.printStackTrace();
             if (graphShader != null)
                 graphShader.dispose();
+        }
+    }
+
+    private Object getPropertyValue(final GraphProperty<ShaderFieldType> property) {
+        ShaderFieldType propertyType = property.getType();
+        Object value = propertyType.convertFromJson(property.getData());
+        if (propertyType == ShaderFieldType.TextureRegion) {
+            if (value != null) {
+                try {
+                    Texture texture = new Texture(Gdx.files.absolute((String) value));
+                    graphShader.addManagedResource(texture);
+                    return new TextureRegion(texture);
+                } catch (Exception exp) {
+
+                }
+            }
+            return WhitePixel.sharedInstance.textureRegion;
+        } else {
+            return value;
         }
     }
 
@@ -143,7 +167,6 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
 
         if (frameBuffer != null) {
             batch.end();
-
 
             timeKeeper.updateTime(Gdx.graphics.getDeltaTime());
             Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);

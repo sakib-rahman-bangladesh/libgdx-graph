@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
@@ -150,7 +152,21 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
                             for (GraphProperty<ShaderFieldType> property : graph.getProperties()) {
                                 if (property.getName().equals(name)) {
                                     ShaderFieldType propertyType = property.getType();
-                                    return propertyType.convertFromJson(property.getData());
+                                    Object value = propertyType.convertFromJson(property.getData());
+                                    if (propertyType == ShaderFieldType.TextureRegion) {
+                                        if (value != null) {
+                                            try {
+                                                Texture texture = new Texture(Gdx.files.absolute((String) value));
+                                                graphShader.addManagedResource(texture);
+                                                return new TextureRegion(texture);
+                                            } catch (Exception exp) {
+
+                                            }
+                                        }
+                                        return WhitePixel.sharedInstance.textureRegion;
+                                    } else {
+                                        return value;
+                                    }
                                 }
                             }
 
