@@ -47,6 +47,7 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
             shaders.add(shader);
         }
 
+        final PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         final PipelineNode.FieldOutput<GraphShaderEnvironment> lightsInput = (PipelineNode.FieldOutput<GraphShaderEnvironment>) inputFields.get("lights");
         final PipelineNode.FieldOutput<Camera> cameraInput = (PipelineNode.FieldOutput<Camera>) inputFields.get("camera");
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
@@ -78,48 +79,53 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
 
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                boolean enabled = processorEnabled == null || processorEnabled.getValue(pipelineRenderingContext, null);
+
                 GraphSpritesImpl sprites = pipelineRenderingContext.getGraphSprites();
-
                 boolean usesDepth = false;
-                if (needsDepth(sprites)) {
-                    usesDepth = true;
-                    pipelineRequirements.setRequiringDepthTexture();
+                if (enabled) {
+                    if (needsDepth(sprites)) {
+                        usesDepth = true;
+                        pipelineRequirements.setRequiringDepthTexture();
+                    }
                 }
-                boolean needsSceneColor = isRequiringSceneColor(sprites);
-
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
 
-                RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
-                int width = currentBuffer.getWidth();
-                int height = currentBuffer.getHeight();
-                Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
-                updateCamera(camera, width, height);
-                GraphShaderEnvironment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext, null) : null;
+                if (enabled) {
+                    boolean needsSceneColor = isRequiringSceneColor(sprites);
 
-                shaderContext.setCamera(camera);
-                shaderContext.setGraphShaderEnvironment(environment);
-                shaderContext.setTimeProvider(pipelineRenderingContext.getTimeProvider());
-                shaderContext.setRenderWidth(pipelineRenderingContext.getRenderWidth());
-                shaderContext.setRenderHeight(pipelineRenderingContext.getRenderHeight());
+                    RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
+                    int width = currentBuffer.getWidth();
+                    int height = currentBuffer.getHeight();
+                    Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
+                    updateCamera(camera, width, height);
+                    GraphShaderEnvironment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext, null) : null;
 
-                if (usesDepth) {
-                    renderPipeline.enrichWithDepthBuffer(currentBuffer);
-                    shaderContext.setDepthTexture(currentBuffer.getDepthBufferTexture());
+                    shaderContext.setCamera(camera);
+                    shaderContext.setGraphShaderEnvironment(environment);
+                    shaderContext.setTimeProvider(pipelineRenderingContext.getTimeProvider());
+                    shaderContext.setRenderWidth(pipelineRenderingContext.getRenderWidth());
+                    shaderContext.setRenderHeight(pipelineRenderingContext.getRenderHeight());
+
+                    if (usesDepth) {
+                        renderPipeline.enrichWithDepthBuffer(currentBuffer);
+                        shaderContext.setDepthTexture(currentBuffer.getDepthBufferTexture());
+                    }
+
+                    RenderPipelineBuffer sceneColorBuffer = null;
+                    if (needsSceneColor) {
+                        sceneColorBuffer = setupColorTexture(renderPipeline, currentBuffer, pipelineRenderingContext);
+                    }
+
+                    currentBuffer.beginColor();
+
+                    sprites.render(shaderContext, pipelineRenderingContext.getRenderContext(), shaders);
+
+                    if (sceneColorBuffer != null)
+                        renderPipeline.returnFrameBuffer(sceneColorBuffer);
+
+                    currentBuffer.endColor();
                 }
-
-                RenderPipelineBuffer sceneColorBuffer = null;
-                if (needsSceneColor) {
-                    sceneColorBuffer = setupColorTexture(renderPipeline, currentBuffer, pipelineRenderingContext);
-                }
-
-                currentBuffer.beginColor();
-
-                sprites.render(shaderContext, pipelineRenderingContext.getRenderContext(), shaders);
-
-                if (sceneColorBuffer != null)
-                    renderPipeline.returnFrameBuffer(sceneColorBuffer);
-
-                currentBuffer.endColor();
 
                 OutputValue<RenderPipeline> output = outputValues.get("output");
                 if (output != null)

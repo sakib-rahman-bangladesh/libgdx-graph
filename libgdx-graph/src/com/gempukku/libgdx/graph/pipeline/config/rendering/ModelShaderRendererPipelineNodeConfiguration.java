@@ -13,6 +13,8 @@ public class ModelShaderRendererPipelineNodeConfiguration extends NodeConfigurat
     public ModelShaderRendererPipelineNodeConfiguration() {
         super("GraphShaderRenderer", "Model Shaders", "Shaders");
         addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
+        addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("camera", "Camera", true, Camera));
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("lights", "Graph Lights", GraphLights));

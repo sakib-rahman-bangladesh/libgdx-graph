@@ -19,22 +19,26 @@ public class CustomRendererPipelineNodeProducer extends PipelineNodeProducerImpl
 
     @Override
     protected PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
+        final PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         final PipelineNode.FieldOutput<CustomRenderCallback> callbackInput = (PipelineNode.FieldOutput<CustomRenderCallback>) inputFields.get("callback");
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
 
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
-                RenderContext renderContext = pipelineRenderingContext.getRenderContext();
-
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
-                CustomRenderCallback callback = callbackInput.getValue(pipelineRenderingContext, pipelineRequirements);
 
-                renderContext.end();
+                boolean enabled = processorEnabled == null || processorEnabled.getValue(pipelineRenderingContext, null);
+                if (enabled) {
+                    RenderContext renderContext = pipelineRenderingContext.getRenderContext();
+                    CustomRenderCallback callback = callbackInput.getValue(pipelineRenderingContext, pipelineRequirements);
 
-                callback.renderCallback(renderPipeline, pipelineRenderingContext, pipelineRequirements);
+                    renderContext.end();
 
-                renderContext.begin();
+                    callback.renderCallback(renderPipeline, pipelineRenderingContext, pipelineRequirements);
+
+                    renderContext.begin();
+                }
 
                 OutputValue<RenderPipeline> output = outputValues.get("output");
                 if (output != null)

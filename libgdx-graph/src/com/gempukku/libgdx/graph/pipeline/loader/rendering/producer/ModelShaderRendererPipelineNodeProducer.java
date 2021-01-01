@@ -63,6 +63,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             }
         }
 
+        final PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         final PipelineNode.FieldOutput<GraphShaderEnvironment> lightsInput = (PipelineNode.FieldOutput<GraphShaderEnvironment>) inputFields.get("lights");
         final PipelineNode.FieldOutput<Camera> cameraInput = (PipelineNode.FieldOutput<Camera>) inputFields.get("camera");
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
@@ -117,105 +118,112 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
+                boolean enabled = processorEnabled == null || processorEnabled.getValue(pipelineRenderingContext, null);
+
                 GraphModelsImpl models = pipelineRenderingContext.getGraphShaderModels();
 
                 boolean needsToDrawDepth = pipelineRequirements.isRequiringDepthTexture();
-                if (needsToDrawDepth)
-                    initializeDepthShaders();
                 boolean usesDepth = false;
-                if (needsDepth(models)) {
-                    usesDepth = true;
-                    pipelineRequirements.setRequiringDepthTexture();
+                if (enabled) {
+                    if (needsToDrawDepth)
+                        initializeDepthShaders();
+                    if (needsDepth(models)) {
+                        usesDepth = true;
+                        pipelineRequirements.setRequiringDepthTexture();
+                    }
                 }
-                boolean needsSceneColor = isRequiringSceneColor(models);
 
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
 
-                RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
-                int width = currentBuffer.getWidth();
-                int height = currentBuffer.getHeight();
-                Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
-                updateCamera(camera, width, height);
-                GraphShaderEnvironment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext, null) : null;
+                if (enabled) {
+                    boolean needsSceneColor = isRequiringSceneColor(models);
 
-                shaderContext.setCamera(camera);
-                shaderContext.setGraphShaderEnvironment(environment);
-                shaderContext.setTimeProvider(pipelineRenderingContext.getTimeProvider());
-                shaderContext.setRenderWidth(pipelineRenderingContext.getRenderWidth());
-                shaderContext.setRenderHeight(pipelineRenderingContext.getRenderHeight());
+                    RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
+                    int width = currentBuffer.getWidth();
+                    int height = currentBuffer.getHeight();
+                    Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
+                    updateCamera(camera, width, height);
+                    GraphShaderEnvironment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext, null) : null;
 
-                if (needsToDrawDepth || usesDepth) {
-                    renderPipeline.enrichWithDepthBuffer(currentBuffer);
-                    shaderContext.setDepthTexture(currentBuffer.getDepthBufferTexture());
-                }
+                    shaderContext.setCamera(camera);
+                    shaderContext.setGraphShaderEnvironment(environment);
+                    shaderContext.setTimeProvider(pipelineRenderingContext.getTimeProvider());
+                    shaderContext.setRenderWidth(pipelineRenderingContext.getRenderWidth());
+                    shaderContext.setRenderHeight(pipelineRenderingContext.getRenderHeight());
 
-                RenderPipelineBuffer sceneColorBuffer = null;
-                if (needsSceneColor) {
-                    sceneColorBuffer = setupColorTexture(renderPipeline, currentBuffer, pipelineRenderingContext);
-                }
-
-                currentBuffer.beginColor();
-
-                // Initialize shaders for this frame
-                for (ShaderGroup shaderGroup : opaqueShaderGroups) {
-                    initializeShaderForFrame(pipelineRenderingContext, needsToDrawDepth, environment, shaderGroup);
-                }
-                for (ShaderGroup shaderGroup : translucentShaderGroups) {
-                    initializeShaderForFrame(pipelineRenderingContext, needsToDrawDepth, environment, shaderGroup);
-                }
-
-                // First render opaque models
-                models.prepareForRendering(camera, opaqueShaderTags);
-                models.orderFrontToBack();
-                for (ShaderGroup shaderGroup : opaqueShaderGroups) {
-                    ModelGraphShader colorShader = shaderGroup.getColorShader();
-                    String tag = colorShader.getTag();
-                    renderWithShaderOpaquePass(tag, colorShader, models, shaderContext, pipelineRenderingContext.getRenderContext());
-                }
-
-                // Then if depth buffer is needed for later passes - draw to it
-                if (needsToDrawDepth) {
-                    currentBuffer.endColor();
-                    currentBuffer.beginDepth();
-
-                    for (ShaderGroup shaderGroup : opaqueShaderGroups) {
-                        ModelGraphShader depthShader = shaderGroup.getDepthShader();
-                        if (depthShader != null) {
-                            String tag = depthShader.getTag();
-                            renderWithShaderOpaquePass(tag, depthShader, models, shaderContext, pipelineRenderingContext.getRenderContext());
-                        }
+                    if (needsToDrawDepth || usesDepth) {
+                        renderPipeline.enrichWithDepthBuffer(currentBuffer);
+                        shaderContext.setDepthTexture(currentBuffer.getDepthBufferTexture());
                     }
 
-                    currentBuffer.endDepth();
-                    currentBuffer.beginColor();
-                }
+                    RenderPipelineBuffer sceneColorBuffer = null;
+                    if (needsSceneColor) {
+                        sceneColorBuffer = setupColorTexture(renderPipeline, currentBuffer, pipelineRenderingContext);
+                    }
 
-                // Then render transparent models
-                models.prepareForRendering(camera, translucentShaderTags);
-                models.orderBackToFront();
-                GraphShader lastShader = null;
-                for (IGraphModelInstance graphModelInstance : models.getModels()) {
+                    currentBuffer.beginColor();
+
+                    // Initialize shaders for this frame
+                    for (ShaderGroup shaderGroup : opaqueShaderGroups) {
+                        initializeShaderForFrame(pipelineRenderingContext, needsToDrawDepth, environment, shaderGroup);
+                    }
                     for (ShaderGroup shaderGroup : translucentShaderGroups) {
+                        initializeShaderForFrame(pipelineRenderingContext, needsToDrawDepth, environment, shaderGroup);
+                    }
+
+                    // First render opaque models
+                    models.prepareForRendering(camera, opaqueShaderTags);
+                    models.orderFrontToBack();
+                    for (ShaderGroup shaderGroup : opaqueShaderGroups) {
                         ModelGraphShader colorShader = shaderGroup.getColorShader();
                         String tag = colorShader.getTag();
-                        if (graphModelInstance.hasTag(tag)) {
-                            if (lastShader != colorShader) {
-                                if (lastShader != null)
-                                    lastShader.end();
-                                colorShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
-                                lastShader = colorShader;
+                        renderWithShaderOpaquePass(tag, colorShader, models, shaderContext, pipelineRenderingContext.getRenderContext());
+                    }
+
+                    // Then if depth buffer is needed for later passes - draw to it
+                    if (needsToDrawDepth) {
+                        currentBuffer.endColor();
+                        currentBuffer.beginDepth();
+
+                        for (ShaderGroup shaderGroup : opaqueShaderGroups) {
+                            ModelGraphShader depthShader = shaderGroup.getDepthShader();
+                            if (depthShader != null) {
+                                String tag = depthShader.getTag();
+                                renderWithShaderOpaquePass(tag, depthShader, models, shaderContext, pipelineRenderingContext.getRenderContext());
                             }
-                            colorShader.render(shaderContext, graphModelInstance);
+                        }
+
+                        currentBuffer.endDepth();
+                        currentBuffer.beginColor();
+                    }
+
+                    // Then render transparent models
+                    models.prepareForRendering(camera, translucentShaderTags);
+                    models.orderBackToFront();
+                    GraphShader lastShader = null;
+                    for (IGraphModelInstance graphModelInstance : models.getModels()) {
+                        for (ShaderGroup shaderGroup : translucentShaderGroups) {
+                            ModelGraphShader colorShader = shaderGroup.getColorShader();
+                            String tag = colorShader.getTag();
+                            if (graphModelInstance.hasTag(tag)) {
+                                if (lastShader != colorShader) {
+                                    if (lastShader != null)
+                                        lastShader.end();
+                                    colorShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
+                                    lastShader = colorShader;
+                                }
+                                colorShader.render(shaderContext, graphModelInstance);
+                            }
                         }
                     }
+                    if (lastShader != null)
+                        lastShader.end();
+
+                    if (sceneColorBuffer != null)
+                        renderPipeline.returnFrameBuffer(sceneColorBuffer);
+
+                    currentBuffer.endColor();
                 }
-                if (lastShader != null)
-                    lastShader.end();
-
-                if (sceneColorBuffer != null)
-                    renderPipeline.returnFrameBuffer(sceneColorBuffer);
-
-                currentBuffer.endColor();
 
                 OutputValue<RenderPipeline> output = outputValues.get("output");
                 if (output != null)
