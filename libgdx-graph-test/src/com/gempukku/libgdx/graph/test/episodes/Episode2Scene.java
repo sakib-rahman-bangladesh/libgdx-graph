@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.RenderableProvider;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
@@ -16,12 +18,17 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.gempukku.libgdx.graph.libgdx.LibGDXModels;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
+import com.gempukku.libgdx.graph.pipeline.CustomRenderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
+import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
+import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
+import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -35,11 +42,12 @@ public class Episode2Scene implements LibgdxGraphTestScene {
     private Skin skin;
 
     private PipelineRenderer pipelineRenderer;
-    private LibGDXModels models;
     private Model sphereModel;
+    private Array<RenderableProvider> renderableProviders = new Array<>();
     private Environment environment;
     private Camera camera;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
+    private ModelBatch modelBatch;
 
     @Override
     public void initializeScene() {
@@ -47,11 +55,13 @@ public class Episode2Scene implements LibgdxGraphTestScene {
         skin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
         constructStage();
 
-        models = createModels();
+        createModels();
         environment = createEnvironment();
         camera = createCamera();
 
         pipelineRenderer = loadPipelineRenderer();
+
+        modelBatch = new ModelBatch();
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -71,15 +81,13 @@ public class Episode2Scene implements LibgdxGraphTestScene {
         return environment;
     }
 
-    private LibGDXModels createModels() {
+    private void createModels() {
         ModelBuilder modelBuilder = new ModelBuilder();
         sphereModel = modelBuilder.createSphere(1, 1, 1, 20, 20,
                 new Material(TextureAttribute.createDiffuse(WhitePixel.texture)),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates);
 
-        LibGDXModels models = new LibGDXModels();
-        models.addRenderableProvider(new ModelInstance(sphereModel));
-        return models;
+        renderableProviders.add(new ModelInstance(sphereModel));
     }
 
     private void constructStage() {
@@ -110,6 +118,8 @@ public class Episode2Scene implements LibgdxGraphTestScene {
 
     @Override
     public void disposeScene() {
+        renderableProviders.clear();
+        modelBatch.dispose();
         sphereModel.dispose();
         pipelineRenderer.dispose();
         skin.dispose();
@@ -136,8 +146,29 @@ public class Episode2Scene implements LibgdxGraphTestScene {
         if (pipelineRenderer.hasPipelineProperty("Stage"))
             pipelineRenderer.setPipelineProperty("Stage", stage);
 
-        pipelineRenderer.setPipelineProperty("Models", models);
-        pipelineRenderer.setPipelineProperty("Lights", environment);
-        pipelineRenderer.setPipelineProperty("Camera", camera);
+        pipelineRenderer.setPipelineProperty("Callback", new CustomRenderCallback() {
+            @Override
+            public void renderCallback(RenderPipeline renderPipeline, PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements) {
+                RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
+
+                int width = currentBuffer.getWidth();
+                int height = currentBuffer.getHeight();
+                float viewportWidth = camera.viewportWidth;
+                float viewportHeight = camera.viewportHeight;
+                if (width != viewportWidth || height != viewportHeight) {
+                    camera.viewportWidth = width;
+                    camera.viewportHeight = height;
+                    camera.update();
+                }
+
+                currentBuffer.beginColor();
+
+                modelBatch.begin(camera);
+                modelBatch.render(renderableProviders, environment);
+                modelBatch.end();
+
+                currentBuffer.endColor();
+            }
+        });
     }
 }

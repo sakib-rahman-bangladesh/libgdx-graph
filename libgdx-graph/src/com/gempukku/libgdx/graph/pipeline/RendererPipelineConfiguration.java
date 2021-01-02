@@ -16,7 +16,6 @@ import com.gempukku.libgdx.graph.pipeline.loader.property.PropertyPipelineNodePr
 import com.gempukku.libgdx.graph.pipeline.loader.provided.RenderSizePipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.provided.TimePipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.CustomRendererPipelineNodeProducer;
-import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.DefaultRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.EndPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ParticlesShaderRendererPipelineNodeProducer;
@@ -36,8 +35,6 @@ import com.gempukku.libgdx.graph.pipeline.property.CameraPipelinePropertyProduce
 import com.gempukku.libgdx.graph.pipeline.property.ColorPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.FloatPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.GraphLightsPipelinePropertyProducer;
-import com.gempukku.libgdx.graph.pipeline.property.LightsPipelinePropertyProducer;
-import com.gempukku.libgdx.graph.pipeline.property.ModelsPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.PipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.StagePipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.Vector2PipelinePropertyProducer;
@@ -51,7 +48,6 @@ public class RendererPipelineConfiguration {
         addNodeProducer(new StartPipelineNodeProducer());
         addNodeProducer(new EndPipelineNodeProducer());
         addNodeProducer(new UIRendererPipelineNodeProducer());
-        addNodeProducer(new DefaultRendererPipelineNodeProducer());
         addNodeProducer(new CustomRendererPipelineNodeProducer());
         addNodeProducer(new ModelShaderRendererPipelineNodeProducer());
         addNodeProducer(new SpriteShaderRendererPipelineNodeProducer());
@@ -87,8 +83,6 @@ public class RendererPipelineConfiguration {
         pipelinePropertyProducers.add(new ColorPipelinePropertyProducer());
         pipelinePropertyProducers.add(new BooleanPipelinePropertyProducer());
         pipelinePropertyProducers.add(new StagePipelinePropertyProducer());
-        pipelinePropertyProducers.add(new ModelsPipelinePropertyProducer());
-        pipelinePropertyProducers.add(new LightsPipelinePropertyProducer());
         pipelinePropertyProducers.add(new GraphLightsPipelinePropertyProducer());
         pipelinePropertyProducers.add(new CameraPipelinePropertyProducer());
         pipelinePropertyProducers.add(new CallbackPipelinePropertyProducer());

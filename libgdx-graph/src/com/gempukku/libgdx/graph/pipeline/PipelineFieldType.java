@@ -1,13 +1,11 @@
 package com.gempukku.libgdx.graph.pipeline;
 
-import com.badlogic.gdx.graphics.g3d.Environment;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 
 public enum PipelineFieldType implements FieldType {
     Float, Vector2, Vector3, Color, Boolean,
-    Stage, Camera, Lights, Models, GraphLights,
-    RenderPipeline, Callback;
+    Stage, Camera, GraphLights, RenderPipeline, Callback;
 
     @Override
     public boolean accepts(Object value) {
@@ -28,10 +26,6 @@ public enum PipelineFieldType implements FieldType {
                 return value instanceof com.badlogic.gdx.scenes.scene2d.Stage;
             case Camera:
                 return value instanceof com.badlogic.gdx.graphics.Camera;
-            case Models:
-                return value instanceof PipelineRendererModels;
-            case Lights:
-                return value instanceof Environment;
             case GraphLights:
                 return value instanceof GraphShaderEnvironment;
             case Callback:
