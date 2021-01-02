@@ -163,14 +163,6 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
                     currentBuffer.beginColor();
 
-                    // Initialize shaders for this frame
-                    for (ShaderGroup shaderGroup : opaqueShaderGroups) {
-                        initializeShaderForFrame(pipelineRenderingContext, needsToDrawDepth, environment, shaderGroup);
-                    }
-                    for (ShaderGroup shaderGroup : translucentShaderGroups) {
-                        initializeShaderForFrame(pipelineRenderingContext, needsToDrawDepth, environment, shaderGroup);
-                    }
-
                     // First render opaque models
                     models.prepareForRendering(camera, opaqueShaderTags);
                     models.orderFrontToBack();
@@ -228,19 +220,6 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                 OutputValue<RenderPipeline> output = outputValues.get("output");
                 if (output != null)
                     output.setValue(renderPipeline);
-            }
-
-            private void initializeShaderForFrame(final PipelineRenderingContext pipelineRenderingContext, final boolean needsToDrawDepth, final GraphShaderEnvironment environment, final ShaderGroup shaderGroup) {
-                GraphShader colorShader = shaderGroup.getColorShader();
-                colorShader.setTimeProvider(pipelineRenderingContext.getTimeProvider());
-                colorShader.setEnvironment(environment);
-                if (needsToDrawDepth) {
-                    GraphShader depthShader = shaderGroup.getDepthShader();
-                    if (depthShader != null) {
-                        depthShader.setTimeProvider(pipelineRenderingContext.getTimeProvider());
-                        depthShader.setEnvironment(environment);
-                    }
-                }
             }
 
             private RenderPipelineBuffer setupColorTexture(final RenderPipeline renderPipeline, final RenderPipelineBuffer currentBuffer,
