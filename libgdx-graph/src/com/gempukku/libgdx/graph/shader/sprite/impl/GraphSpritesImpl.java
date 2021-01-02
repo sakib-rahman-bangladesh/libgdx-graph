@@ -228,9 +228,12 @@ public class GraphSpritesImpl implements GraphSprites {
         for (SpriteGraphShader shader : shaders) {
             if (shader.getBlending() != BasicShader.Blending.opaque) {
                 String tag = shader.getTag();
-                for (GraphSpriteImpl graphSprite : spritesByTag.get(tag)) {
-                    if (tempForUniqness.add(graphSprite))
-                        tempSorting.add(graphSprite);
+                ObjectSet<GraphSpriteImpl> graphSprites = spritesByTag.get(tag);
+                if (graphSprites != null) {
+                    for (GraphSpriteImpl graphSprite : graphSprites) {
+                        if (tempForUniqness.add(graphSprite))
+                            tempSorting.add(graphSprite);
+                    }
                 }
             }
         }
