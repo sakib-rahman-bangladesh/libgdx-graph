@@ -188,7 +188,7 @@ public class Episode21Scene implements LibgdxGraphTestScene {
 
     private PipelineRenderer loadPipelineRenderer() {
         try {
-            InputStream stream = Gdx.files.local("test.json").read();
+            InputStream stream = Gdx.files.local("episodes/episode21.json").read();
             try {
                 PipelineRenderer pipelineRenderer = GraphLoader.loadGraph(stream, new PipelineLoaderCallback(timeKeeper));
                 setupPipeline(pipelineRenderer);
