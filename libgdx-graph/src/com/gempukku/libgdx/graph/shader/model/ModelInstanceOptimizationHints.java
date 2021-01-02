@@ -48,7 +48,7 @@ public class ModelInstanceOptimizationHints {
         this.propertyModification = propertyModification;
     }
 
-    public static final Builder create() {
+    public static Builder create() {
         return new Builder();
     }
 

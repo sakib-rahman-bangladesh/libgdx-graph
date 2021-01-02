@@ -48,19 +48,17 @@ public class DefaultRendererPipelineNodeProducer extends PipelineNodeProducerImp
                     camera.update();
                 }
                 Environment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext, null) : null;
+
+                currentBuffer.beginColor();
+                modelBatch.begin(camera);
                 if (environment != null) {
-                    currentBuffer.beginColor();
-                    modelBatch.begin(camera);
                     modelBatch.render(models.getModels(), environment);
-                    modelBatch.end();
-                    currentBuffer.endColor();
                 } else {
-                    currentBuffer.beginColor();
-                    modelBatch.begin(camera);
                     modelBatch.render(models.getModels());
-                    modelBatch.end();
-                    currentBuffer.endColor();
                 }
+                modelBatch.end();
+                currentBuffer.endColor();
+
                 pipelineRenderingContext.getRenderContext().begin();
 
                 OutputValue output = outputValues.get("output");
