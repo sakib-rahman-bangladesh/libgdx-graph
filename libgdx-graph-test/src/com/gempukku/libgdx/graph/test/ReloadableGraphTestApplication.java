@@ -59,14 +59,15 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
                 new Episode18Scene(),
                 new Episode19Scene(),
                 new Episode20Scene(),
-                new Episode21Scene()
+                new Episode21Scene(),
+                new TestScene()
         };
         loadedIndex = scenes.length - 1;
     }
 
     @Override
     public void create() {
-        Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
+        //Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
 
         scenes[loadedIndex].initializeScene();
     }
