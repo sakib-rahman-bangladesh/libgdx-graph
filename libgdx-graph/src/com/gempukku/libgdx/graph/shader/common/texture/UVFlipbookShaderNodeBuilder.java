@@ -35,7 +35,7 @@ public class UVFlipbookShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
         boolean invertY = data.getBoolean("invertY");
 
         String resultName = "result_" + nodeId;
-        commonShaderBuilder.addMainLine("vec2 " + resultName + " = uvFlipbook(" + uvValue + ", " + tileCountValue + ".x, " + tileCountValue + ".y, " + indexValue + ", " + loopingValue + ", vec2(" + (invertX ? "1.0" : "0.0") + ", " + (invertY ? "1.0" : "0.0") + "));");
+        commonShaderBuilder.addMainLine("vec2 " + resultName + " = uvFlipbook(" + uvValue + ", int(" + tileCountValue + ".x), int(" + tileCountValue + ".y), int(" + indexValue + "), " + loopingValue + " == 1.0, bvec2(" + invertX + ", " + invertY + "));");
 
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(ShaderFieldType.Vector2, resultName));
     }
