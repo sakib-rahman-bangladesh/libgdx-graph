@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.sprite.def;
+package com.gempukku.libgdx.graph.entity.def;
 
 public class SimpleSpriteDef {
     private String texture;

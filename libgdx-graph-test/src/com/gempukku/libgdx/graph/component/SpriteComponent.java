@@ -1,11 +1,11 @@
 package com.gempukku.libgdx.graph.component;
 
 import com.badlogic.ashley.core.Component;
+import com.gempukku.libgdx.graph.entity.def.SimpleSpriteDef;
+import com.gempukku.libgdx.graph.entity.def.StateBasedSpriteDef;
+import com.gempukku.libgdx.graph.entity.def.TiledSpriteDef;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.sprite.Sprite;
-import com.gempukku.libgdx.graph.sprite.def.SimpleSpriteDef;
-import com.gempukku.libgdx.graph.sprite.def.StateBasedSpriteDef;
-import com.gempukku.libgdx.graph.sprite.def.TiledSpriteDef;
 
 public class SpriteComponent implements Component {
     private float layer;

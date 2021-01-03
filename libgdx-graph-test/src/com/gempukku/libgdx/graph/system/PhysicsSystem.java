@@ -24,7 +24,7 @@ import com.gempukku.libgdx.graph.component.PhysicsComponent;
 import com.gempukku.libgdx.graph.component.PositionComponent;
 import com.gempukku.libgdx.graph.component.SizeComponent;
 import com.gempukku.libgdx.graph.entity.SensorData;
-import com.gempukku.libgdx.graph.sprite.def.SensorDef;
+import com.gempukku.libgdx.graph.entity.def.SensorDef;
 import com.gempukku.libgdx.graph.system.sensor.SensorContactListener;
 
 public class PhysicsSystem extends EntitySystem implements Disposable, EntityListener {

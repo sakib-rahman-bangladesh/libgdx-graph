@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.component.SpriteComponent;
+import com.gempukku.libgdx.graph.entity.def.SimpleSpriteDef;
+import com.gempukku.libgdx.graph.entity.def.SpriteStateDataDef;
+import com.gempukku.libgdx.graph.entity.def.StateBasedSpriteDef;
+import com.gempukku.libgdx.graph.entity.def.TiledSpriteDef;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
-import com.gempukku.libgdx.graph.sprite.def.SimpleSpriteDef;
-import com.gempukku.libgdx.graph.sprite.def.SpriteStateDataDef;
-import com.gempukku.libgdx.graph.sprite.def.StateBasedSpriteDef;
-import com.gempukku.libgdx.graph.sprite.def.TiledSpriteDef;
 
 public class SpriteProducer {
     public static Sprite createSprite(Entity entity, TextureLoader textureLoader, GraphSprite graphSprite, SpriteComponent spriteComponent) {

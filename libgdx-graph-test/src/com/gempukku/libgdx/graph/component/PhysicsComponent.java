@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.graph.entity.SensorData;
-import com.gempukku.libgdx.graph.sprite.def.SensorDef;
+import com.gempukku.libgdx.graph.entity.def.SensorDef;
 
 public class PhysicsComponent implements Component {
     private String type;

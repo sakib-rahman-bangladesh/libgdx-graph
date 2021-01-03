@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.sprite.def;
+package com.gempukku.libgdx.graph.entity.def;
 
 import com.badlogic.gdx.utils.ObjectMap;
 
