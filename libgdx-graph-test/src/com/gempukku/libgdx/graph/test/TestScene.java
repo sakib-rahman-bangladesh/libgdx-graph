@@ -51,7 +51,7 @@ public class TestScene implements LibgdxGraphTestScene {
 
     private Engine engine;
 
-    private boolean debugRender = true;
+    private boolean debugRender = false;
     private Box2DDebugRenderer debugRenderer;
     private Matrix4 tmpMatrix;
 
