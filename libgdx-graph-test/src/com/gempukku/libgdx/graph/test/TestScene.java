@@ -107,6 +107,7 @@ public class TestScene implements LibgdxGraphTestScene {
         EntityLoader.readEntity(engine, json, "sprite/hill4.json");
         EntityLoader.readEntity(engine, json, "sprite/jumpPlant.json");
         EntityLoader.readEntity(engine, json, "sprite/slime.json");
+        EntityLoader.readEntity(engine, json, "sprite/characterPortrait.json");
     }
 
     private void createSystems() {
