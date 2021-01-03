@@ -368,7 +368,7 @@
                   "x": 819.0,
                   "y": 432.0,
                   "data": {
-                    "name": "Animated Texture",
+                    "name": "Texture",
                     "type": "TextureRegion"
                   }
                 },
@@ -501,7 +501,7 @@
               ],
               "properties": [
                 {
-                  "name": "Animated Texture",
+                  "name": "Texture",
                   "type": "TextureRegion"
                 },
                 {
@@ -790,7 +790,7 @@
                   "x": 688.0,
                   "y": 766.0,
                   "data": {
-                    "name": "Animated Texture",
+                    "name": "Texture",
                     "type": "TextureRegion"
                   }
                 },
@@ -996,7 +996,7 @@
               ],
               "properties": [
                 {
-                  "name": "Animated Texture",
+                  "name": "Texture",
                   "type": "TextureRegion",
                   "data": {
                     "previewPath": "/Users/marcin.sciesinski/Downloads/Plant Animations/PlantJump2/JumpPlant 2_00000.png"

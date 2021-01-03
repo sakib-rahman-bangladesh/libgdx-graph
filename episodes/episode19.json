@@ -102,7 +102,7 @@
                   "x": 819.0,
                   "y": 432.0,
                   "data": {
-                    "name": "Animated Texture",
+                    "name": "Texture",
                     "type": "TextureRegion"
                   }
                 },
@@ -235,7 +235,7 @@
               ],
               "properties": [
                 {
-                  "name": "Animated Texture",
+                  "name": "Texture",
                   "type": "TextureRegion"
                 },
                 {

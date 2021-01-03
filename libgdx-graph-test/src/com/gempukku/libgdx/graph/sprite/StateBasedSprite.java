@@ -67,11 +67,11 @@ public class StateBasedSprite implements Sprite {
 
         if (animationDirty) {
             GraphSprite graphSprite = spriteComponent.getGraphSprite();
-            graphSprites.setProperty(graphSprite, "Animated Texture", spriteStateData.sprites);
+            graphSprites.setProperty(graphSprite, "Texture", spriteStateData.sprites);
+            graphSprites.setProperty(graphSprite, "Animation Start", timeProvider.getTime());
             graphSprites.setProperty(graphSprite, "Animation Speed", spriteStateData.speed);
             graphSprites.setProperty(graphSprite, "Animation Looping", spriteStateData.looping ? 1f : 0f);
             graphSprites.setProperty(graphSprite, "Sprite Count", new Vector2(spriteStateData.spriteWidth, spriteStateData.spriteHeight));
-            graphSprites.setProperty(graphSprite, "Animation Start", timeProvider.getTime());
         }
 
         animationDirty = false;
