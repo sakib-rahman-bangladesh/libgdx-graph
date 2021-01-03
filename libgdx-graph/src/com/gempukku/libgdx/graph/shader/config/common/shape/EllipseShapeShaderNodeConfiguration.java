@@ -11,9 +11,9 @@ public class EllipseShapeShaderNodeConfiguration extends NodeConfigurationImpl<S
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("uv", "UV", true, ShaderFieldType.Vector2));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("size", "Size", false, ShaderFieldType.Vector2));
+                new GraphNodeInputImpl<ShaderFieldType>("size", "Size", false, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("width", "Width", false, ShaderFieldType.Float));
+                new GraphNodeInputImpl<ShaderFieldType>("border", "Border", false, ShaderFieldType.Float));
         addNodeOutput(
                 new GraphNodeOutputImpl<ShaderFieldType>("output", "Output", ShaderFieldType.Float));
     }

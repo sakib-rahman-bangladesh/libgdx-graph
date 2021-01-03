@@ -21,11 +21,13 @@ public class RectangleShapeShaderNodeBuilder extends ConfigurationCommonShaderNo
     protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         FieldOutput uvValue = inputs.get("uv");
         FieldOutput sizeValue = inputs.get("size");
-        FieldOutput widthValue = inputs.get("width");
+        FieldOutput borderValue = inputs.get("border");
+        if (sizeValue != null && sizeValue.getFieldType() == ShaderFieldType.Float)
+            sizeValue = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(" + sizeValue.getRepresentation() + ")");
 
         String uv = uvValue.getRepresentation();
         String size = sizeValue != null ? sizeValue.getRepresentation() : "vec2(1.0)";
-        String width = widthValue != null ? widthValue.getRepresentation() : "1.0";
+        String border = borderValue != null ? borderValue.getRepresentation() : "0.0";
 
         commonShaderBuilder.addMainLine("// Rectangle shape node");
         String temp1 = "temp_" + nodeId;
@@ -33,7 +35,7 @@ public class RectangleShapeShaderNodeBuilder extends ConfigurationCommonShaderNo
         ShaderFieldType resultType = ShaderFieldType.Float;
 
         commonShaderBuilder.addMainLine("vec2 " + temp1 + " = abs(" + uv + " * 2.0 - 1.0);");
-        commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = step(0.0, min(" + size + ".x - " + temp1 + ".x, " + size + ".y - " + temp1 + ".y)) - step(0.0, min(" + size + ".x - " + width + " * 2.0 - " + temp1 + ".x, " + size + ".y - " + width + " * 2.0 - " + temp1 + ".y));");
+        commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = smoothstep(0.0, " + border + ", min(" + size + ".x - " + temp1 + ".x, " + size + ".y - " + temp1 + ".y));");
 
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(ShaderFieldType.Float, name));
     }
