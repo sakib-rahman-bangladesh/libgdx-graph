@@ -6,11 +6,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.gempukku.libgdx.graph.component.AnchorComponent;
 import com.gempukku.libgdx.graph.component.FacingComponent;
+import com.gempukku.libgdx.graph.component.OutlineComponent;
 import com.gempukku.libgdx.graph.component.PhysicsComponent;
 import com.gempukku.libgdx.graph.component.PositionComponent;
 import com.gempukku.libgdx.graph.component.SizeComponent;
 import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.sprite.def.EntityDef;
+import com.gempukku.libgdx.graph.sprite.def.OutlineDef;
 import com.gempukku.libgdx.graph.sprite.def.PhysicsDef;
 import com.gempukku.libgdx.graph.sprite.def.SpriteDef;
 
@@ -48,6 +50,14 @@ public class EntityLoader {
 
                 entity.add(facingComponent);
             }
+        }
+
+        OutlineDef outlineDef = entityDef.getOutlineDef();
+        if (outlineDef != null) {
+            OutlineComponent outlineComponent = engine.createComponent(OutlineComponent.class);
+            outlineComponent.setType(outlineDef.getType());
+
+            entity.add(outlineComponent);
         }
 
         PhysicsDef physicsDef = entityDef.getPhysicsDef();

@@ -23,6 +23,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.system.CameraSystem;
+import com.gempukku.libgdx.graph.system.OutlineSystem;
 import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
 import com.gempukku.libgdx.graph.system.RenderingSystem;
@@ -116,8 +117,10 @@ public class Episode21Scene implements LibgdxGraphTestScene {
 
         PhysicsSystem physicsSystem = new PhysicsSystem(30, -30f);
         physicsSystem.addSensorContactListener("foot", new FootSensorContactListener());
-        physicsSystem.addSensorContactListener("interact", new InteractSensorContactListener(pipelineRenderer));
+        physicsSystem.addSensorContactListener("interact", new InteractSensorContactListener());
         engine.addSystem(physicsSystem);
+
+        engine.addSystem(new OutlineSystem(35, pipelineRenderer));
 
         engine.addSystem(new RenderingSystem(40, timeKeeper, pipelineRenderer));
 

@@ -35,6 +35,9 @@
       }
     }
   },
+  "outlineDef": {
+    "type": "asTag"
+  },
   "physicsDef": {
     "type": "dynamic",
     "colliderAnchor": {

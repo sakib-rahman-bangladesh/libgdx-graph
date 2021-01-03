@@ -19,8 +19,11 @@ public class StepShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder 
 
     @Override
     protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        FieldOutput edgeValue = inputs.get("edge");
         FieldOutput inputValue = inputs.get("input");
+        FieldOutput edgeValue = inputs.get("edge");
+        if (edgeValue == null)
+            edgeValue = new DefaultFieldOutput(ShaderFieldType.Float, "1.0");
+
         ShaderFieldType resultType = inputValue.getFieldType();
 
         commonShaderBuilder.addMainLine("// Step node");

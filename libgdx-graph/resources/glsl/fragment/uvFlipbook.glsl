@@ -6,7 +6,7 @@ vec2 uvFlipbook(vec2 uv, int width, int height, int index, bool looping, bvec2 i
     int column = spriteIndex - (spriteIndex / width) * width;
     int row = spriteIndex / width;
 
-    column = invert.x ? width - column-1 : column;
+    column = invert.x ? width - column - 1 : column;
     row = invert.y ? height - row - 1 : row;
 
     vec2 spriteSize = vec2(1.0) / vec2(float(width), float(height));

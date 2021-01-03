@@ -9,7 +9,7 @@ public class EntityDef {
     private Vector2 anchor;
 
     private SpriteDef spriteDef;
-
+    private OutlineDef outlineDef;
     private PhysicsDef physicsDef;
 
     public Vector2 getPosition() {
@@ -26,6 +26,10 @@ public class EntityDef {
 
     public SpriteDef getSpriteDef() {
         return spriteDef;
+    }
+
+    public OutlineDef getOutlineDef() {
+        return outlineDef;
     }
 
     public PhysicsDef getPhysicsDef() {
