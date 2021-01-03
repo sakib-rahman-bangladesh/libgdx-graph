@@ -1,23 +1,46 @@
 package com.gempukku.libgdx.graph.component;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.graph.entity.SensorData;
-import com.gempukku.libgdx.graph.sprite.def.PhysicsDef;
+import com.gempukku.libgdx.graph.sprite.def.SensorDef;
 
 public class PhysicsComponent implements Component {
-    private PhysicsDef physicsDef;
+    private String type;
+    private Vector2 colliderAnchor;
+    private Vector2 colliderScale;
+    private String[] category;
+    private String[] mask;
+
+    private SensorDef[] sensors;
 
     private Body body;
     private Array<SensorData> sensorDataArray = new Array<>();
 
-    public PhysicsDef getPhysicsDef() {
-        return physicsDef;
+    public String getType() {
+        return type;
     }
 
-    public void setPhysicsDef(PhysicsDef physicsDef) {
-        this.physicsDef = physicsDef;
+    public Vector2 getColliderAnchor() {
+        return colliderAnchor;
+    }
+
+    public Vector2 getColliderScale() {
+        return colliderScale;
+    }
+
+    public String[] getCategory() {
+        return category;
+    }
+
+    public String[] getMask() {
+        return mask;
+    }
+
+    public SensorDef[] getSensors() {
+        return sensors;
     }
 
     public Body getBody() {

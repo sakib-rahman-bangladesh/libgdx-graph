@@ -38,9 +38,9 @@ public class SimpleSprite implements Sprite {
                     new SpriteUpdater() {
                         @Override
                         public float processUpdate(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
-                            position.set(positionComponent.getPosition());
-                            size.set(sizeComponent.getSize());
-                            anchor.set(anchorComponent.getAnchor());
+                            positionComponent.getPosition(position);
+                            sizeComponent.getSize(size);
+                            anchorComponent.getAnchor(anchor);
                             return layer;
                         }
                     });

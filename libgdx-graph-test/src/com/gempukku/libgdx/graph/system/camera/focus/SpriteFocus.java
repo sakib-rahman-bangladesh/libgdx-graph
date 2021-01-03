@@ -20,7 +20,7 @@ public class SpriteFocus implements WeightedCameraFocus {
     @Override
     public Vector2 getFocus(Vector2 focus) {
         PositionComponent position = entity.getComponent(PositionComponent.class);
-        return focus.set(position.getPosition());
+        return position.getPosition(focus);
     }
 
     @Override

@@ -4,23 +4,23 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.sprite.def.SimpleSpriteDef;
-import com.gempukku.libgdx.graph.sprite.def.SpriteDef;
 import com.gempukku.libgdx.graph.sprite.def.SpriteStateDataDef;
 import com.gempukku.libgdx.graph.sprite.def.StateBasedSpriteDef;
 import com.gempukku.libgdx.graph.sprite.def.TiledSpriteDef;
 
 public class SpriteProducer {
-    public static Sprite createSprite(Entity entity, TextureLoader textureLoader, GraphSprite graphSprite, SpriteDef spriteDef) {
-        String spriteType = spriteDef.getSpriteType();
+    public static Sprite createSprite(Entity entity, TextureLoader textureLoader, GraphSprite graphSprite, SpriteComponent spriteComponent) {
+        String spriteType = spriteComponent.getSpriteType();
         switch (spriteType) {
             case "stateBased":
-                return createStateBasedSprite(entity, textureLoader, spriteDef.getStateBasedSprite());
+                return createStateBasedSprite(entity, textureLoader, spriteComponent.getStateBasedSprite());
             case "tiled":
-                return createTiledSprite(entity, textureLoader, spriteDef.getTiledSprite());
+                return createTiledSprite(entity, textureLoader, spriteComponent.getTiledSprite());
             case "simple":
-                return createSimpleSprite(entity, textureLoader, spriteDef.getSimpleSprite());
+                return createSimpleSprite(entity, textureLoader, spriteComponent.getSimpleSprite());
         }
         throw new IllegalArgumentException("Unknown type of sprite");
     }
@@ -51,6 +51,6 @@ public class SpriteProducer {
     }
 
     public interface TextureLoader {
-        public Texture loadTexture(String path);
+        Texture loadTexture(String path);
     }
 }

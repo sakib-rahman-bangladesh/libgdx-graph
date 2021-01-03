@@ -16,7 +16,6 @@ import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.sprite.Sprite;
 import com.gempukku.libgdx.graph.sprite.SpriteProducer;
-import com.gempukku.libgdx.graph.sprite.def.SpriteDef;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class RenderingSystem extends EntitySystem implements SpriteProducer.TextureLoader, Disposable, EntityListener {
@@ -42,13 +41,11 @@ public class RenderingSystem extends EntitySystem implements SpriteProducer.Text
     public void entityAdded(Entity entity) {
         SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
 
-        SpriteDef spriteDef = spriteComponent.getSpriteDef();
-
         GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
-        GraphSprite graphSprite = graphSprites.createSprite(spriteDef.getLayer(), spriteDef.getTags());
+        GraphSprite graphSprite = graphSprites.createSprite(spriteComponent.getLayer(), spriteComponent.getTags());
         spriteComponent.setGraphSprite(graphSprite);
 
-        Sprite sprite = SpriteProducer.createSprite(entity, this, graphSprite, spriteDef);
+        Sprite sprite = SpriteProducer.createSprite(entity, this, graphSprite, spriteComponent);
         spriteComponent.setSprite(sprite);
     }
 

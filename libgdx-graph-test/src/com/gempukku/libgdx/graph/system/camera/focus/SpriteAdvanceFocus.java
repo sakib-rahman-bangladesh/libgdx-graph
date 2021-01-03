@@ -31,7 +31,7 @@ public class SpriteAdvanceFocus implements WeightedCameraFocus {
         PositionComponent position = entity.getComponent(PositionComponent.class);
         FacingComponent facing = entity.getComponent(FacingComponent.class);
 
-        Vector2 result = focus.set(position.getPosition());
+        Vector2 result = position.getPosition(focus);
         SpriteFaceDirection faceDirection = facing.getFaceDirection();
         result.add(faceDirection.getX() * advanceDistance, faceDirection.getY() * advanceDistance);
         return result;

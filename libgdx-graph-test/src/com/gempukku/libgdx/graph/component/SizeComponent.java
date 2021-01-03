@@ -4,13 +4,15 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
 
 public class SizeComponent implements Component {
-    private Vector2 size;
+    private float x;
+    private float y;
 
-    public Vector2 getSize() {
-        return size;
+    public Vector2 getSize(Vector2 position) {
+        return position.set(x, y);
     }
 
-    public void setSize(Vector2 size) {
-        this.size = size;
+    public void setSize(float x, float y) {
+        this.x = x;
+        this.y = y;
     }
 }

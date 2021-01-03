@@ -107,7 +107,9 @@ public class GraphSpritesImpl implements GraphSprites {
     @Override
     public void removeTag(GraphSprite sprite, String tag) {
         GraphSpriteImpl spriteImpl = getSprite(sprite);
-        spritesByTag.get(tag).remove(spriteImpl);
+        ObjectSet<GraphSpriteImpl> graphSprites = spritesByTag.get(tag);
+        if (graphSprites != null)
+            graphSprites.remove(spriteImpl);
         spriteImpl.removeTag(tag);
     }
 

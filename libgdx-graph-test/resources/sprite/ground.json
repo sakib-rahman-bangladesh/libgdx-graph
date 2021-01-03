@@ -1,50 +1,57 @@
 {
-  "position": {
-    "x": 0,
-    "y": -350
-  },
-  "size": {
-    "x": 5120,
-    "y": 128
-  },
-  "anchor": {
-    "x": 0.5,
-    "y": 0.5
-  },
-  "spriteDef": {
-    "layer": 9,
-    "tags": [
-      "Tiled"
-    ],
-    "spriteType": "tiled",
-    "tiledSprite": {
-      "tileTexture": "image/MossyGround.png",
-      "u": 0,
-      "v": 0,
-      "u2": 1,
-      "v2": 1,
-      "tileRepeat": {
-        "x": 10,
-        "y": 1
-      }
-    }
-  },
-  "physicsDef": {
-    "type": "static",
-    "colliderAnchor": {
+  "components": [
+    {
+      "class": "com.gempukku.libgdx.graph.component.PositionComponent",
+      "x": 0,
+      "y": -350
+    },
+    {
+      "class": "com.gempukku.libgdx.graph.component.SizeComponent",
+      "x": 5120,
+      "y": 128
+    },
+    {
+      "class": "com.gempukku.libgdx.graph.component.AnchorComponent",
       "x": 0.5,
-      "y": 0.6
+      "y": 0.5
     },
-    "colliderScale": {
-      "x": 1,
-      "y": 0.8
+    {
+      "class": "com.gempukku.libgdx.graph.component.SpriteComponent",
+      "layer": 9,
+      "tags": [
+        "Tiled"
+      ],
+      "spriteType": "tiled",
+      "tiledSprite": {
+        "tileTexture": "image/MossyGround.png",
+        "u": 0,
+        "v": 0,
+        "u2": 1,
+        "v2": 1,
+        "tileRepeat": {
+          "x": 10,
+          "y": 1
+        }
+      }
     },
-    "category": [
-      "Environment"
-    ],
-    "mask": [
-      "Character",
-      "Sensor"
-    ]
-  }
+    {
+      "class": "com.gempukku.libgdx.graph.component.PhysicsComponent",
+      "type": "static",
+      "colliderAnchor": {
+        "x": 0.5,
+        "y": 0.6
+      },
+      "colliderScale": {
+        "x": 1,
+        "y": 0.8
+      },
+      "category": [
+        "Environment"
+      ],
+      "mask": [
+        "Character",
+        "Sensor"
+      ]
+    }
+  ]
 }

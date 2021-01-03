@@ -24,7 +24,6 @@ import com.gempukku.libgdx.graph.component.PhysicsComponent;
 import com.gempukku.libgdx.graph.component.PositionComponent;
 import com.gempukku.libgdx.graph.component.SizeComponent;
 import com.gempukku.libgdx.graph.entity.SensorData;
-import com.gempukku.libgdx.graph.sprite.def.PhysicsDef;
 import com.gempukku.libgdx.graph.sprite.def.SensorDef;
 import com.gempukku.libgdx.graph.system.sensor.SensorContactListener;
 
@@ -83,18 +82,17 @@ public class PhysicsSystem extends EntitySystem implements Disposable, EntityLis
     @Override
     public void entityAdded(Entity entity) {
         PhysicsComponent physicsComponent = entity.getComponent(PhysicsComponent.class);
-        PhysicsDef physicsDef = physicsComponent.getPhysicsDef();
-        String bodyType = physicsDef.getType();
+        String bodyType = physicsComponent.getType();
         Body body = null;
         if (bodyType.equals("dynamic")) {
-            body = createDynamicBody(entity, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
-                    physicsDef.getCategory(), physicsDef.getMask());
+            body = createDynamicBody(entity, physicsComponent.getColliderAnchor(), physicsComponent.getColliderScale(),
+                    physicsComponent.getCategory(), physicsComponent.getMask());
         } else if (bodyType.equals("static")) {
-            body = createStaticBody(entity, physicsDef.getColliderAnchor(), physicsDef.getColliderScale(),
-                    physicsDef.getCategory(), physicsDef.getMask());
+            body = createStaticBody(entity, physicsComponent.getColliderAnchor(), physicsComponent.getColliderScale(),
+                    physicsComponent.getCategory(), physicsComponent.getMask());
         }
 
-        SensorDef[] sensors = physicsDef.getSensors();
+        SensorDef[] sensors = physicsComponent.getSensors();
         if (sensors != null) {
             for (SensorDef sensor : sensors) {
                 physicsComponent.addSensor(createSensor(entity, body, sensor.getType(), sensor.getAnchor(), sensor.getScale(), sensor.getMask()));
@@ -127,9 +125,9 @@ public class PhysicsSystem extends EntitySystem implements Disposable, EntityLis
         PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
         SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);
         AnchorComponent anchorComponent = entity.getComponent(AnchorComponent.class);
-        Vector2 position = new Vector2().set(positionComponent.getPosition());
-        Vector2 size = new Vector2().set(sizeComponent.getSize());
-        Vector2 anchor = new Vector2().set(anchorComponent.getAnchor());
+        Vector2 position = positionComponent.getPosition(new Vector2());
+        Vector2 size = sizeComponent.getSize(new Vector2());
+        Vector2 anchor = anchorComponent.getAnchor(new Vector2());
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = true;
@@ -161,9 +159,9 @@ public class PhysicsSystem extends EntitySystem implements Disposable, EntityLis
         PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
         SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);
         AnchorComponent anchorComponent = entity.getComponent(AnchorComponent.class);
-        Vector2 position = new Vector2().set(positionComponent.getPosition());
-        Vector2 size = new Vector2().set(sizeComponent.getSize());
-        Vector2 anchor = new Vector2().set(anchorComponent.getAnchor());
+        Vector2 position = positionComponent.getPosition(new Vector2());
+        Vector2 size = sizeComponent.getSize(new Vector2());
+        Vector2 anchor = anchorComponent.getAnchor(new Vector2());
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = true;
@@ -221,8 +219,8 @@ public class PhysicsSystem extends EntitySystem implements Disposable, EntityLis
     private SensorData createSensor(Entity entity, Body body, String type, Vector2 sensorAnchor, Vector2 sensorScale, String[] mask) {
         SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);
         AnchorComponent anchorComponent = entity.getComponent(AnchorComponent.class);
-        Vector2 size = new Vector2().set(sizeComponent.getSize());
-        Vector2 anchor = new Vector2().set(anchorComponent.getAnchor());
+        Vector2 size = sizeComponent.getSize(new Vector2());
+        Vector2 anchor = anchorComponent.getAnchor(new Vector2());
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(size.x * sensorScale.x / 2 / PIXELS_TO_METERS, size.y * sensorScale.y / 2 / PIXELS_TO_METERS, new Vector2(size.x * (anchor.x - sensorAnchor.x) / PIXELS_TO_METERS, size.y * (anchor.y - sensorAnchor.y) / PIXELS_TO_METERS), 0f);

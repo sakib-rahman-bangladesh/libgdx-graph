@@ -54,10 +54,10 @@ public class StateBasedSprite implements Sprite {
                     new SpriteUpdater() {
                         @Override
                         public float processUpdate(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
-                            position.set(positionComponent.getPosition());
+                            positionComponent.getPosition(position);
                             SpriteFaceDirection faceDirection = facingComponent.getFaceDirection();
-                            size.set(faceDirection.getX(), 1).scl(sizeComponent.getSize());
-                            anchor.set(anchorComponent.getAnchor());
+                            sizeComponent.getSize(size).scl(faceDirection.getX(), 1);
+                            anchorComponent.getAnchor(anchor);
                             return layer;
                         }
                     });
