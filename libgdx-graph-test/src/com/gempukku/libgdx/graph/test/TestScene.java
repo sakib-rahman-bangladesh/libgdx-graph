@@ -23,6 +23,9 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
+import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
+import com.gempukku.libgdx.graph.shader.particles.generator.ParallelogramParticleGenerator;
 import com.gempukku.libgdx.graph.system.CameraSystem;
 import com.gempukku.libgdx.graph.system.OutlineSystem;
 import com.gempukku.libgdx.graph.system.PhysicsSystem;
@@ -113,6 +116,14 @@ public class TestScene implements LibgdxGraphTestScene {
         EntityLoader.readEntity(engine, json, "sprite/jumpPlant.json");
         EntityLoader.readEntity(engine, json, "sprite/slime.json");
         EntityLoader.readEntity(engine, json, "sprite/characterPortrait.json");
+
+        GraphParticleEffects particleEffects = pipelineRenderer.getGraphParticleEffects();
+        ParallelogramParticleGenerator particleGenerator = new ParallelogramParticleGenerator(5);
+        particleGenerator.getOrigin().set(0, 0, -10);
+        particleGenerator.getDirection1().set(5000, 0, 0);
+        particleGenerator.getDirection2().set(0, 5000, 0);
+        GraphParticleEffect dustEffect = particleEffects.createEffect("Dust", particleGenerator);
+        particleEffects.startEffect(dustEffect);
     }
 
     private void createSystems() {
