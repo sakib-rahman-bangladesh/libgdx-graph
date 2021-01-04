@@ -242,7 +242,8 @@ public class GraphSpritesImpl implements GraphSprites {
 
         if (opaque)
             dynamicCachedTagSpriteData.put(tag, new CachedTagSpriteData(vertexAttributes, NUMBER_OF_SPRITES, shaderProperties, textureUniformNames));
-        nonCachedTagSpriteDataObjectMap.put(tag, new NonCachedTagSpriteData(vertexAttributes, shaderProperties));
+        else
+            nonCachedTagSpriteDataObjectMap.put(tag, new NonCachedTagSpriteData(vertexAttributes, shaderProperties));
     }
 
     private static class DistanceSpriteSorter implements Comparator<GraphSpriteImpl> {
