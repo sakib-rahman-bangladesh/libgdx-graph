@@ -3,9 +3,9 @@ package com.gempukku.libgdx.graph.shader.sprite;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
-import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
@@ -32,13 +32,13 @@ public class SpriteGraphShader extends GraphShader {
         return textureUniformNames;
     }
 
-    public void renderSprites(ShaderContext shaderContext, SpriteData spriteData) {
+    public void renderSprites(ShaderContextImpl shaderContext, SpriteData spriteData) {
         for (Uniform uniform : localUniforms.values()) {
             uniform.getSetter().set(this, uniform.getLocation(), shaderContext);
         }
         for (StructArrayUniform uniform : localStructArrayUniforms.values()) {
             uniform.getSetter().set(this, uniform.getStartIndex(), uniform.getFieldOffsets(), uniform.getSize(), shaderContext);
         }
-        spriteData.render(program, getAttributeLocations());
+        spriteData.render(shaderContext, program, getAttributeLocations());
     }
 }

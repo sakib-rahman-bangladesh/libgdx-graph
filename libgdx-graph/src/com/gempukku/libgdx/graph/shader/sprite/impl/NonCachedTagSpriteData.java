@@ -14,13 +14,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteData;
 
-public class TagSpriteShaderConfig implements SpriteData, Disposable {
+public class NonCachedTagSpriteData implements SpriteData, Disposable {
     private VertexAttributes vertexAttributes;
-    private int numberOfSprites;
     private ObjectMap<String, PropertySource> shaderProperties;
     private IntMap<String> propertyIndexNames = new IntMap<>();
     private VertexBufferObject vbo;
@@ -28,11 +28,9 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
 
     private float[] tempVertices;
     private final int floatCount;
-    private int spriteCount = 0;
 
-    public TagSpriteShaderConfig(VertexAttributes vertexAttributes, int numberOfSprites, ObjectMap<String, PropertySource> shaderProperties) {
+    public NonCachedTagSpriteData(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
         this.vertexAttributes = vertexAttributes;
-        this.numberOfSprites = numberOfSprites;
         this.shaderProperties = shaderProperties;
 
         for (ObjectMap.Entry<String, PropertySource> shaderProperty : shaderProperties) {
@@ -47,11 +45,11 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
 
         tempVertices = new float[4 * floatCount];
 
-        vbo = new VertexBufferObject(false, 4 * numberOfSprites, this.vertexAttributes);
-        float[] vertices = new float[4 * numberOfSprites * floatCount];
+        vbo = new VertexBufferObject(false, 4, this.vertexAttributes);
+        float[] vertices = new float[4 * floatCount];
         vbo.setVertices(vertices, 0, vertices.length);
 
-        int numberOfIndices = 6 * numberOfSprites;
+        int numberOfIndices = 6;
         ibo = new IndexBufferObject(false, numberOfIndices);
         short[] indices = new short[numberOfIndices];
         int vertexIndex = 0;
@@ -67,11 +65,7 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
         ibo.setIndices(indices, 0, indices.length);
     }
 
-    public void clear() {
-        spriteCount = 0;
-    }
-
-    public void appendSprite(GraphSpriteImpl sprite) {
+    public void setSprite(GraphSpriteImpl sprite) {
         for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
             int floatIndex = 0;
             for (VertexAttribute vertexAttribute : vertexAttributes) {
@@ -147,23 +141,14 @@ public class TagSpriteShaderConfig implements SpriteData, Disposable {
                 }
             }
         }
-        vbo.updateVertices(spriteCount * (4 * floatCount), tempVertices, 0, 4 * floatCount);
-        spriteCount++;
-    }
-
-    public int getCapacity() {
-        return numberOfSprites;
-    }
-
-    public VertexAttributes getVertexAttributes() {
-        return vertexAttributes;
+        vbo.updateVertices(0, tempVertices, 0, 4 * floatCount);
     }
 
     @Override
-    public void render(ShaderProgram shaderProgram, int[] attributeLocations) {
+    public void render(ShaderContextImpl shaderContext, ShaderProgram shaderProgram, int[] attributeLocations) {
         vbo.bind(shaderProgram, attributeLocations);
         ibo.bind();
-        Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, 6 * spriteCount, GL20.GL_UNSIGNED_SHORT, 0);
+        Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, 6, GL20.GL_UNSIGNED_SHORT, 0);
         vbo.unbind(shaderProgram);
         ibo.unbind();
     }

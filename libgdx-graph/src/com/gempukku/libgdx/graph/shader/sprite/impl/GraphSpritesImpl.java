@@ -2,7 +2,6 @@ package com.gempukku.libgdx.graph.shader.sprite.impl;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -17,7 +16,6 @@ import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
 
-import java.util.Arrays;
 import java.util.Comparator;
 
 public class GraphSpritesImpl implements GraphSprites {
@@ -37,37 +35,29 @@ public class GraphSpritesImpl implements GraphSprites {
 
     private ObjectSet<GraphSpriteImpl> tempForUniqness = new ObjectSet<>();
     private Array<GraphSpriteImpl> tempSorting = new Array<>();
-    private ObjectSet<GraphSpriteImpl> graphSprites = new ObjectSet<>();
-    private ObjectMap<String, ObjectSet<GraphSpriteImpl>> spritesByTag = new ObjectMap<>();
 
-    private ObjectMap<String, TagSpriteShaderConfig> tagSpriteShaderData = new ObjectMap<>();
-    // TODO limitation on number of textures of 16
-    private int[] processingTextureIds = new int[16];
-    private int[] tempTextureIds = new int[16];
+    private ObjectMap<String, CachedTagSpriteData> dynamicCachedTagSpriteData = new ObjectMap<>();
+    private ObjectMap<String, NonCachedTagSpriteData> nonCachedTagSpriteDataObjectMap = new ObjectMap<>();
+
+    private ObjectMap<String, ObjectSet<GraphSpriteImpl>> nonCachedSpritesByTag = new ObjectMap<>();
 
     private Vector2 tempPosition = new Vector2();
     private Vector2 tempSize = new Vector2();
     private Vector2 tempAnchor = new Vector2();
 
     @Override
-    public GraphSprite createSprite(float layer, String... tags) {
-        return createSprite(layer, new Vector2(0, 0), new Vector2(32, 32), tags);
+    public GraphSprite createSprite(float layer) {
+        return createSprite(layer, new Vector2(0, 0), new Vector2(32, 32));
     }
 
     @Override
-    public GraphSprite createSprite(float layer, Vector2 position, Vector2 size, String... tags) {
-        return createSprite(layer, position, size, new Vector2(0.5f, 0.5f), tags);
+    public GraphSprite createSprite(float layer, Vector2 position, Vector2 size) {
+        return createSprite(layer, position, size, new Vector2(0.5f, 0.5f));
     }
 
     @Override
-    public GraphSprite createSprite(float layer, Vector2 position, Vector2 size, Vector2 anchor, String... tags) {
-        GraphSpriteImpl graphSprite = new GraphSpriteImpl(layer, position, size, anchor);
-        graphSprites.add(graphSprite);
-        for (String tag : tags) {
-            addTag(graphSprite, tag);
-        }
-
-        return graphSprite;
+    public GraphSprite createSprite(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
+        return new GraphSpriteImpl(layer, position, size, anchor);
     }
 
     @Override
@@ -81,46 +71,74 @@ public class GraphSpritesImpl implements GraphSprites {
         graphSprite.getPosition().set(tempPosition);
         graphSprite.getSize().set(tempSize);
         graphSprite.getAnchor().set(tempAnchor);
+
+        spriteUpdated(graphSprite);
+    }
+
+    private void spriteUpdated(GraphSpriteImpl graphSprite) {
+        for (String tag : graphSprite.getAllTags()) {
+            CachedTagSpriteData cachedTagSpriteData = dynamicCachedTagSpriteData.get(tag);
+            if (cachedTagSpriteData != null)
+                cachedTagSpriteData.spriteUpdated(graphSprite);
+        }
     }
 
     @Override
     public void destroySprite(GraphSprite sprite) {
         GraphSpriteImpl spriteImpl = getSprite(sprite);
         for (String tag : spriteImpl.getAllTags()) {
-            spritesByTag.get(tag).remove(spriteImpl);
+            CachedTagSpriteData cachedTagSpriteData = dynamicCachedTagSpriteData.get(tag);
+            if (cachedTagSpriteData != null)
+                cachedTagSpriteData.removeSprite(spriteImpl);
+            nonCachedSpritesByTag.get(tag).remove(spriteImpl);
         }
-        graphSprites.remove(spriteImpl);
     }
 
     @Override
     public void addTag(GraphSprite sprite, String tag) {
         GraphSpriteImpl spriteImpl = getSprite(sprite);
         spriteImpl.addTag(tag);
-        ObjectSet<GraphSpriteImpl> graphSprites = spritesByTag.get(tag);
-        if (graphSprites == null) {
-            graphSprites = new ObjectSet<>();
-            spritesByTag.put(tag, graphSprites);
+
+        CachedTagSpriteData cachedTagSpriteData = dynamicCachedTagSpriteData.get(tag);
+        if (cachedTagSpriteData != null) {
+            cachedTagSpriteData.addSprite(spriteImpl);
+        } else {
+            ObjectSet<GraphSpriteImpl> graphSprites = nonCachedSpritesByTag.get(tag);
+            if (graphSprites == null) {
+                graphSprites = new ObjectSet<>();
+                nonCachedSpritesByTag.put(tag, graphSprites);
+            }
+            graphSprites.add(spriteImpl);
         }
-        graphSprites.add(spriteImpl);
     }
 
     @Override
     public void removeTag(GraphSprite sprite, String tag) {
         GraphSpriteImpl spriteImpl = getSprite(sprite);
-        ObjectSet<GraphSpriteImpl> graphSprites = spritesByTag.get(tag);
-        if (graphSprites != null)
+        CachedTagSpriteData cachedTagSpriteData = dynamicCachedTagSpriteData.get(tag);
+        if (cachedTagSpriteData != null) {
+            cachedTagSpriteData.removeSprite(spriteImpl);
+        } else {
+            ObjectSet<GraphSpriteImpl> graphSprites = nonCachedSpritesByTag.get(tag);
             graphSprites.remove(spriteImpl);
+            if (graphSprites.isEmpty())
+                nonCachedSpritesByTag.remove(tag);
+        }
         spriteImpl.removeTag(tag);
     }
 
     @Override
     public void setProperty(GraphSprite sprite, String name, Object value) {
-        getSprite(sprite).getPropertyContainer().setValue(name, value);
+        GraphSpriteImpl spriteImpl = getSprite(sprite);
+        spriteImpl.getPropertyContainer().setValue(name, value);
+        spriteUpdated(spriteImpl);
     }
 
     @Override
     public void unsetProperty(GraphSprite sprite, String name) {
-        getSprite(sprite).getPropertyContainer().remove(name);
+        GraphSpriteImpl spriteImpl = getSprite(sprite);
+        spriteImpl.getPropertyContainer().remove(name);
+        spriteUpdated(spriteImpl);
     }
 
     @Override
@@ -129,18 +147,15 @@ public class GraphSpritesImpl implements GraphSprites {
     }
 
     private GraphSpriteImpl getSprite(GraphSprite graphSprite) {
-        GraphSpriteImpl spriteImpl = (GraphSpriteImpl) graphSprite;
-        if (!graphSprites.contains(spriteImpl))
-            throw new IllegalArgumentException("Unable to find the graph sprite");
-        return spriteImpl;
+        return (GraphSpriteImpl) graphSprite;
     }
 
     public boolean hasSpriteWithTag(String tag) {
-        for (GraphSpriteImpl value : graphSprites) {
-            if (value.hasTag(tag))
-                return true;
-        }
-        return false;
+        CachedTagSpriteData cachedTagSpriteData = dynamicCachedTagSpriteData.get(tag);
+        if (cachedTagSpriteData != null && cachedTagSpriteData.hasSprites())
+            return true;
+
+        return !nonCachedSpritesByTag.get(tag).isEmpty();
     }
 
     public void render(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
@@ -157,32 +172,14 @@ public class GraphSpritesImpl implements GraphSprites {
         for (SpriteGraphShader shader : shaders) {
             if (shader.getBlending() == BasicShader.Blending.opaque) {
                 String tag = shader.getTag();
-                if (hasSpriteWithTag(tag)) {
-                    Gdx.app.debug("Sprite", "Starting drawing opaque with tag - " + tag);
-                    Array<String> textureUniformNames = shader.getTextureUniformNames();
-                    Arrays.fill(processingTextureIds, 0, textureUniformNames.size, -1);
-
+                Gdx.app.debug("Sprite", "Starting drawing opaque with tag - " + tag);
+                CachedTagSpriteData dynamicSprites = dynamicCachedTagSpriteData.get(tag);
+                if (dynamicSprites.hasSprites()) {
                     shader.begin(shaderContext, renderContext);
-
-                    TagSpriteShaderConfig tagSpriteShaderConfig = tagSpriteShaderData.get(tag);
-
-                    int spriteTotal = 0;
-                    int capacity = tagSpriteShaderConfig.getCapacity();
-
-                    tagSpriteShaderConfig.clear();
-                    for (GraphSpriteImpl sprite : graphSprites) {
-                        if (sprite.hasTag(tag)) {
-                            spriteTotal = appendSprite(shaderContext, shader, textureUniformNames, tagSpriteShaderConfig, spriteTotal, capacity, sprite);
-                        }
-                    }
-
-                    if (spriteTotal > 0) {
-                        Gdx.app.debug("Sprite", "Rendering " + spriteTotal + " sprite(s)");
-                        shader.renderSprites(shaderContext, tagSpriteShaderConfig);
-                    }
+                    dynamicSprites.render(shader, shaderContext);
                     shader.end();
-                    Gdx.app.debug("Sprite", "Finished drawing opaque with tag - " + tag);
                 }
+                Gdx.app.debug("Sprite", "Finished drawing opaque with tag - " + tag);
             }
         }
     }
@@ -199,9 +196,8 @@ public class GraphSpritesImpl implements GraphSprites {
                     if (sprite.hasTag(tag)) {
                         shaderContext.setPropertyContainer(sprite.getPropertyContainer());
 
-                        TagSpriteShaderConfig tagSpriteShaderConfig = tagSpriteShaderData.get(tag);
-                        tagSpriteShaderConfig.clear();
-                        tagSpriteShaderConfig.appendSprite(sprite);
+                        NonCachedTagSpriteData nonCachedTagSpriteData = nonCachedTagSpriteDataObjectMap.get(tag);
+                        nonCachedTagSpriteData.setSprite(sprite);
 
                         if (lastShader != shader) {
                             if (lastShader != null) {
@@ -213,7 +209,7 @@ public class GraphSpritesImpl implements GraphSprites {
                             lastShader = shader;
                         }
                         Gdx.app.debug("Sprite", "Rendering 1 sprite(s)");
-                        shader.renderSprites(shaderContext, tagSpriteShaderConfig);
+                        shader.renderSprites(shaderContext, nonCachedTagSpriteData);
                     }
                 }
             }
@@ -230,61 +226,23 @@ public class GraphSpritesImpl implements GraphSprites {
         for (SpriteGraphShader shader : shaders) {
             if (shader.getBlending() != BasicShader.Blending.opaque) {
                 String tag = shader.getTag();
-                ObjectSet<GraphSpriteImpl> graphSprites = spritesByTag.get(tag);
-                if (graphSprites != null) {
-                    for (GraphSpriteImpl graphSprite : graphSprites) {
-                        if (tempForUniqness.add(graphSprite))
-                            tempSorting.add(graphSprite);
-                    }
+                for (GraphSpriteImpl graphSprite : nonCachedSpritesByTag.get(tag)) {
+                    if (tempForUniqness.add(graphSprite))
+                        tempSorting.add(graphSprite);
                 }
             }
         }
     }
 
-    private int appendSprite(ShaderContextImpl shaderContext, SpriteGraphShader shader, Array<String> textureUniformNames, TagSpriteShaderConfig tagSpriteShaderConfig, int spriteTotal, int capacity, GraphSpriteImpl sprite) {
-        fetchTextureIds(shader, textureUniformNames, sprite);
-        // Not the MOST effective, but good enough
-        boolean needToSwitchTextures = !sameValues(processingTextureIds, tempTextureIds, 0, textureUniformNames.size);
-        boolean batchFull = capacity == spriteTotal;
-        if (batchFull || needToSwitchTextures) {
-            if (spriteTotal > 0) {
-                Gdx.app.debug("Sprite", "Rendering " + spriteTotal + " sprite(s)");
-                shader.renderSprites(shaderContext, tagSpriteShaderConfig);
-                tagSpriteShaderConfig.clear();
-                spriteTotal = 0;
-            }
-        }
-        if (needToSwitchTextures) {
-            Gdx.app.debug("Sprite", "Switching textures");
-            shaderContext.setPropertyContainer(sprite.getPropertyContainer());
-            System.arraycopy(tempTextureIds, 0, processingTextureIds, 0, textureUniformNames.size);
-        }
-        tagSpriteShaderConfig.appendSprite(sprite);
-        spriteTotal++;
-        return spriteTotal;
-    }
+    public void registerTag(String tag, SpriteGraphShader shader) {
+        boolean opaque = (shader.getBlending() == BasicShader.Blending.opaque);
+        VertexAttributes vertexAttributes = shader.getVertexAttributes();
+        ObjectMap<String, PropertySource> shaderProperties = shader.getProperties();
+        Array<String> textureUniformNames = shader.getTextureUniformNames();
 
-    private boolean sameValues(int[] a, int[] b, int start, int count) {
-        for (int i = start; i < start + count; i++) {
-            if (a[i] != b[i])
-                return false;
-        }
-        return true;
-    }
-
-    private void fetchTextureIds(SpriteGraphShader spriteGraphShader, Array<String> textureUniformNames, GraphSpriteImpl graphSprite) {
-        for (int i = 0; i < textureUniformNames.size; i++) {
-            String propertyName = textureUniformNames.get(i);
-            Object value = graphSprite.getPropertyContainer().getValue(propertyName);
-            if (!(value instanceof TextureRegion))
-                value = spriteGraphShader.getPropertySource(propertyName).getDefaultValue();
-            TextureRegion region = (TextureRegion) value;
-            tempTextureIds[i] = region.getTexture().getTextureObjectHandle();
-        }
-    }
-
-    public void registerTag(String tag, VertexAttributes vertexAttributes, boolean opaque, ObjectMap<String, PropertySource> shaderProperties) {
-        tagSpriteShaderData.put(tag, new TagSpriteShaderConfig(vertexAttributes, opaque ? NUMBER_OF_SPRITES : 1, shaderProperties));
+        if (opaque)
+            dynamicCachedTagSpriteData.put(tag, new CachedTagSpriteData(vertexAttributes, NUMBER_OF_SPRITES, shaderProperties, textureUniformNames));
+        nonCachedTagSpriteDataObjectMap.put(tag, new NonCachedTagSpriteData(vertexAttributes, shaderProperties));
     }
 
     private static class DistanceSpriteSorter implements Comparator<GraphSpriteImpl> {

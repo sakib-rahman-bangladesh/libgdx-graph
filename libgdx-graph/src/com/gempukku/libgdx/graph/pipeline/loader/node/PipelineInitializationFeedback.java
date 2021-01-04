@@ -1,9 +1,8 @@
 package com.gempukku.libgdx.graph.pipeline.loader.node;
 
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
-import com.gempukku.libgdx.graph.shader.property.PropertySource;
+import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
 
 public interface PipelineInitializationFeedback {
     void registerScreenShader(String tag, PropertyContainerImpl propertyContainer);
@@ -12,5 +11,5 @@ public interface PipelineInitializationFeedback {
 
     void registerModelVertexAttributes(String tag, VertexAttributes vertexAttributes);
 
-    void registerSpriteShader(String tag, VertexAttributes vertexAttributes, boolean opaque, ObjectMap<String, PropertySource> shaderProperties);
+    void registerSpriteShader(String tag, SpriteGraphShader shader);
 }

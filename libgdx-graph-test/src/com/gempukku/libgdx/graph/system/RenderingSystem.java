@@ -42,11 +42,16 @@ public class RenderingSystem extends EntitySystem implements SpriteProducer.Text
         SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
 
         GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
-        GraphSprite graphSprite = graphSprites.createSprite(spriteComponent.getLayer(), spriteComponent.getTags());
+        GraphSprite graphSprite = graphSprites.createSprite(spriteComponent.getLayer());
         spriteComponent.setGraphSprite(graphSprite);
 
         Sprite sprite = SpriteProducer.createSprite(entity, this, graphSprite, spriteComponent);
+        sprite.updateSprite(timeProvider, pipelineRenderer);
         spriteComponent.setSprite(sprite);
+
+        for (String tag : spriteComponent.getTags()) {
+            graphSprites.addTag(graphSprite, tag);
+        }
     }
 
     @Override

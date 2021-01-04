@@ -28,7 +28,7 @@ import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
 import com.gempukku.libgdx.graph.shader.sprite.impl.GraphSpriteImpl;
-import com.gempukku.libgdx.graph.shader.sprite.impl.TagSpriteShaderConfig;
+import com.gempukku.libgdx.graph.shader.sprite.impl.NonCachedTagSpriteData;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.WhitePixel;
@@ -46,7 +46,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
     private DefaultTimeKeeper timeKeeper;
     private ShaderContextImpl shaderContext;
     private GraphSpriteImpl graphSprite;
-    private TagSpriteShaderConfig spriteData;
+    private NonCachedTagSpriteData spriteData;
 
     public SpriteShaderPreviewWidget(int width, int height) {
         this.width = width;
@@ -130,9 +130,8 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
     }
 
     private void createModel(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> properties) {
-        spriteData = new TagSpriteShaderConfig(vertexAttributes, 1, properties);
-        spriteData.clear();
-        spriteData.appendSprite(graphSprite);
+        spriteData = new NonCachedTagSpriteData(vertexAttributes, properties);
+        spriteData.setSprite(graphSprite);
     }
 
     private void destroyShader() {

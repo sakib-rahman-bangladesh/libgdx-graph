@@ -15,7 +15,6 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeed
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
-import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyAsAttributeShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
@@ -56,8 +55,7 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
             @Override
             public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
                 for (SpriteGraphShader shader : shaders) {
-                    pipelineInitializationFeedback.registerSpriteShader(shader.getTag(), shader.getVertexAttributes(),
-                            shader.getBlending() == BasicShader.Blending.opaque, shader.getProperties());
+                    pipelineInitializationFeedback.registerSpriteShader(shader.getTag(), shader);
                 }
             }
 
