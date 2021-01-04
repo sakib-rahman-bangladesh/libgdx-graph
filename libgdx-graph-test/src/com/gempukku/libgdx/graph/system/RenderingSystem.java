@@ -6,10 +6,8 @@ import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
@@ -19,15 +17,17 @@ import com.gempukku.libgdx.graph.sprite.SpriteProducer;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class RenderingSystem extends EntitySystem implements SpriteProducer.TextureLoader, Disposable, EntityListener {
-    private ObjectMap<String, Texture> textures = new ObjectMap<>();
     private TimeProvider timeProvider;
     private PipelineRenderer pipelineRenderer;
+    private SpriteProducer.TextureLoader textureLoader;
     private ImmutableArray<Entity> spriteEntities;
 
-    public RenderingSystem(int priority, TimeProvider timeProvider, PipelineRenderer pipelineRenderer) {
+    public RenderingSystem(int priority, TimeProvider timeProvider, PipelineRenderer pipelineRenderer,
+                           SpriteProducer.TextureLoader textureLoader) {
         super(priority);
         this.timeProvider = timeProvider;
         this.pipelineRenderer = pipelineRenderer;
+        this.textureLoader = textureLoader;
     }
 
     @Override
@@ -65,18 +65,10 @@ public class RenderingSystem extends EntitySystem implements SpriteProducer.Text
 
     @Override
     public Texture loadTexture(String path) {
-        Texture texture = textures.get(path);
-        if (texture == null) {
-            texture = new Texture(Gdx.files.internal(path));
-            textures.put(path, texture);
-        }
-        return texture;
+        return textureLoader.loadTexture(path);
     }
 
     @Override
     public void dispose() {
-        for (Texture texture : textures.values()) {
-            texture.dispose();
-        }
     }
 }

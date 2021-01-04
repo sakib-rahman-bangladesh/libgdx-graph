@@ -27,6 +27,7 @@ import com.gempukku.libgdx.graph.system.OutlineSystem;
 import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
 import com.gempukku.libgdx.graph.system.RenderingSystem;
+import com.gempukku.libgdx.graph.system.TextureHolder;
 import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraController;
 import com.gempukku.libgdx.graph.system.camera.constraint.FixedToWindowCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.SceneCameraConstraint;
@@ -50,6 +51,7 @@ public class TestScene implements LibgdxGraphTestScene {
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
 
     private Engine engine;
+    private TextureHolder textureHolder;
 
     private boolean debugRender = false;
     private Box2DDebugRenderer debugRenderer;
@@ -70,6 +72,8 @@ public class TestScene implements LibgdxGraphTestScene {
 
         pipelineRenderer = loadPipelineRenderer();
         resources.add(pipelineRenderer);
+
+        textureHolder = new TextureHolder();
 
         createSystems();
 
@@ -122,7 +126,7 @@ public class TestScene implements LibgdxGraphTestScene {
 
         engine.addSystem(new OutlineSystem(35, pipelineRenderer));
 
-        engine.addSystem(new RenderingSystem(40, timeKeeper, pipelineRenderer));
+        engine.addSystem(new RenderingSystem(40, timeKeeper, pipelineRenderer, textureHolder));
 
         engine.addSystem(new CameraSystem(50));
     }

@@ -26,6 +26,7 @@ import com.gempukku.libgdx.graph.system.CameraSystem;
 import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
 import com.gempukku.libgdx.graph.system.RenderingSystem;
+import com.gempukku.libgdx.graph.system.TextureHolder;
 import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraController;
 import com.gempukku.libgdx.graph.system.camera.constraint.FixedToWindowCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.SnapToWindowCameraConstraint;
@@ -48,6 +49,7 @@ public class Episode19Scene implements LibgdxGraphTestScene {
 
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
     private Engine engine;
+    private TextureHolder textureHolder;
 
     private boolean debugRender = false;
     private Box2DDebugRenderer debugRenderer;
@@ -68,6 +70,8 @@ public class Episode19Scene implements LibgdxGraphTestScene {
 
         pipelineRenderer = loadPipelineRenderer();
         resources.add(pipelineRenderer);
+
+        textureHolder = new TextureHolder();
 
         createSystems();
 
@@ -103,7 +107,7 @@ public class Episode19Scene implements LibgdxGraphTestScene {
         physicsSystem.addSensorContactListener("foot", new FootSensorContactListener());
         engine.addSystem(physicsSystem);
 
-        engine.addSystem(new RenderingSystem(40, timeKeeper, pipelineRenderer));
+        engine.addSystem(new RenderingSystem(40, timeKeeper, pipelineRenderer, textureHolder));
 
         engine.addSystem(new CameraSystem(50));
     }
