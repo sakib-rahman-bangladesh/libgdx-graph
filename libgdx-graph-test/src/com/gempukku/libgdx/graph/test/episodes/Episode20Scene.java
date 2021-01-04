@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.test.episodes;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
@@ -166,7 +167,7 @@ public class Episode20Scene implements LibgdxGraphTestScene {
 
     @Override
     public void disposeScene() {
-        for (com.badlogic.ashley.core.EntitySystem system : engine.getSystems()) {
+        for (EntitySystem system : engine.getSystems()) {
             if (system instanceof Disposable)
                 ((Disposable) system).dispose();
         }
