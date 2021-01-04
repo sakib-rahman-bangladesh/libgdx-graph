@@ -17,7 +17,9 @@ public class OutlineComponent extends DirtyComponent {
     }
 
     public void setOutline(boolean outline) {
-        this.outline = outline;
-        setDirty();
+        if (this.outline != outline) {
+            this.outline = outline;
+            setDirty();
+        }
     }
 }

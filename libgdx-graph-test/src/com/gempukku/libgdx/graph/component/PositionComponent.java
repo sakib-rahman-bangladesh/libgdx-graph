@@ -11,8 +11,10 @@ public class PositionComponent extends DirtyComponent {
     }
 
     public void setPosition(float x, float y) {
-        this.x = x;
-        this.y = y;
-        setDirty();
+        if (this.x != x || this.y != y) {
+            this.x = x;
+            this.y = y;
+            setDirty();
+        }
     }
 }

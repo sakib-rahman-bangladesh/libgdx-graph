@@ -63,6 +63,7 @@ public class StateBasedSprite implements Sprite {
                     });
 
             positionComponent.clean();
+            facingComponent.clean();
         }
 
         if (animationDirty) {
