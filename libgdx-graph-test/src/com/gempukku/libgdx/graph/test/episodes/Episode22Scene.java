@@ -77,6 +77,7 @@ public class Episode22Scene implements LibgdxGraphTestScene {
         resources.add(pipelineRenderer);
 
         textureHolder = new TextureHolder();
+        resources.add(textureHolder);
 
         createSystems();
 
