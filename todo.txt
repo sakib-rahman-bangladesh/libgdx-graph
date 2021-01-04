@@ -1,0 +1,18 @@
+Essential before beta:
+- Support for named buffers
+- Shader copy/paste
+- Nodes copy/paste
+
+Improvements:
+- Model caching for Model graph shaders
+- Advanced control of OpenGL settings in shaders
+- Larger shader preview popup
+- Previews for some shader nodes
+- Shortcut to create and connect a property, when clicking on node circle in graph.
+
+Possible future features:
+- Stencil support
+- Line particles
+- Non-billboard particles
+- Pipeline transitions (i.e. between scenes)
+- Support for plugins with data
