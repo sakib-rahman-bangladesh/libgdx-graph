@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.shader.common;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.common.effect.FresnelEffectShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.common.effect.GradientShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.effect.IntensityShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.lighting.AmbientLightShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.lighting.ApplyNormalMapShaderNodeBuilder;
@@ -173,6 +174,7 @@ public class CommonShaderConfiguration implements GraphConfiguration {
         // Effect
         addGraphShaderNodeBuilder(new FresnelEffectShaderNodeBuilder());
         addGraphShaderNodeBuilder(new IntensityShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new GradientShaderNodeBuilder());
 
         // Texture
         addGraphShaderNodeBuilder(new Sampler2DShaderNodeBuilder());
