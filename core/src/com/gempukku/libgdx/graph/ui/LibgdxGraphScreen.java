@@ -62,6 +62,7 @@ public class LibgdxGraphScreen extends Table {
         this.skin = skin;
         setFillParent(true);
         insideTable = new Table(skin);
+        insideTable.add(new EmptyTabWidget(skin));
 
         tabbedPane = new TabbedPane();
         tabbedPane.addListener(
@@ -503,6 +504,7 @@ public class LibgdxGraphScreen extends Table {
     private void removeAllTabs() {
         tabbedPane.removeAll();
         insideTable.clearChildren();
+        insideTable.add(new EmptyTabWidget(skin));
     }
 
     public void dispose() {

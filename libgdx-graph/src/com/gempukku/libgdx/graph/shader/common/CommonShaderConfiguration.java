@@ -53,6 +53,7 @@ import com.gempukku.libgdx.graph.shader.common.math.trigonometry.TanShaderNodeBu
 import com.gempukku.libgdx.graph.shader.common.math.utility.DistanceFromPlaneShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.value.MergeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.value.RemapShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.common.math.value.RemapValueShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.value.RemapVectorShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.value.SplitShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.noise.PerlinNoise2DShaderNodeBuilder;
@@ -146,6 +147,7 @@ public class CommonShaderConfiguration implements GraphConfiguration {
         addGraphShaderNodeBuilder(new SplitShaderNodeBuilder());
         addGraphShaderNodeBuilder(new RemapShaderNodeBuilder());
         addGraphShaderNodeBuilder(new RemapVectorShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new RemapValueShaderNodeBuilder());
 
         // Math - trigonometry
         addGraphShaderNodeBuilder(new SinShaderNodeBuilder());
