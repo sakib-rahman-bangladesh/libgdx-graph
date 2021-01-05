@@ -120,8 +120,8 @@ public class TestScene implements LibgdxGraphTestScene {
         GraphParticleEffects particleEffects = pipelineRenderer.getGraphParticleEffects();
         ParallelogramParticleGenerator particleGenerator = new ParallelogramParticleGenerator(5);
         particleGenerator.getOrigin().set(0, 0, -10);
-        particleGenerator.getDirection1().set(5000, 0, 0);
-        particleGenerator.getDirection2().set(0, 5000, 0);
+        particleGenerator.getDirection1().set(1, 0, 0);
+        particleGenerator.getDirection2().set(0, 1, 0);
         GraphParticleEffect dustEffect = particleEffects.createEffect("Dust", particleGenerator);
         particleEffects.startEffect(dustEffect);
     }

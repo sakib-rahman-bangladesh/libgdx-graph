@@ -206,28 +206,28 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
     @Override
     public void registerGlobalUniform(final String alias, final UniformSetter setter) {
         if (initialized) throw new GdxRuntimeException("Cannot register an uniform after initialization");
-        validateNewUniform(alias, true, setter);
+        //validateNewUniform(alias, true, setter);
         globalUniforms.put(alias, new Uniform(alias, setter));
     }
 
     @Override
     public void registerLocalUniform(final String alias, final UniformSetter setter) {
         if (initialized) throw new GdxRuntimeException("Cannot register an uniform after initialization");
-        validateNewUniform(alias, false, setter);
+        //validateNewUniform(alias, false, setter);
         localUniforms.put(alias, new Uniform(alias, setter));
     }
 
     @Override
     public void registerGlobalStructArrayUniform(final String alias, String[] fieldNames, StructArrayUniformSetter setter) {
         if (initialized) throw new GdxRuntimeException("Cannot register an uniform after initialization");
-        validateNewStructArrayUniform(alias, true, setter);
+        //validateNewStructArrayUniform(alias, true, setter);
         globalStructArrayUniforms.put(alias, new StructArrayUniform(alias, fieldNames, setter));
     }
 
     @Override
     public void registerLocalStructArrayUniform(final String alias, String[] fieldNames, StructArrayUniformSetter setter) {
         if (initialized) throw new GdxRuntimeException("Cannot register an uniform after initialization");
-        validateNewStructArrayUniform(alias, false, setter);
+        //validateNewStructArrayUniform(alias, false, setter);
         localStructArrayUniforms.put(alias, new StructArrayUniform(alias, fieldNames, setter));
     }
 
