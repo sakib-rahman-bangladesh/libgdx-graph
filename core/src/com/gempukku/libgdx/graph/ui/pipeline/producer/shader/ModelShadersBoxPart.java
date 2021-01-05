@@ -191,7 +191,7 @@ public class ModelShadersBoxPart extends Table implements GraphBoxPart<PipelineF
                         @Override
                         public void changed(ChangeEvent event, Actor actor) {
                             editButton.fire(new RequestGraphOpen(id, "Shader - " + textField.getText(), initialShaderJson,
-                                    GraphDesignTab.Type.Graph_Shader, graphConfigurations));
+                                    GraphDesignTab.Type.Model_Shader, graphConfigurations));
                         }
                     });
             table.add(editButton).width(EDIT_WIDTH);

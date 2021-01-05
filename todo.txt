@@ -1,6 +1,5 @@
 Essential before beta:
 - Support for named buffers
-- Shader copy/paste
 - Nodes copy/paste
 
 Improvements:
@@ -9,8 +8,6 @@ Improvements:
 - Larger shader preview popup
 - Previews for some shader nodes
 - Shortcut to create and connect a property, when clicking on node circle in graph.
-- Value mapping with graph
-- Gradients
 
 Possible future features:
 - Stencil support

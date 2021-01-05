@@ -43,6 +43,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LibgdxGraphScreen extends Table {
+    public static GraphInClipboard graphInClipboard = new GraphInClipboard();
+
     private Map<String, JsonValue> savedGraphs = new HashMap<>();
     private FileHandle editedFile;
     private final TabbedPane tabbedPane;
@@ -53,6 +55,7 @@ public class LibgdxGraphScreen extends Table {
     private MenuItem save;
     private MenuItem saveAs;
     private MenuItem exportShader;
+    private MenuItem copyShader;
     private MenuItem close;
     private MenuItem createGroup;
 
@@ -79,6 +82,7 @@ public class LibgdxGraphScreen extends Table {
 
                         GraphDesignTab<?> designTab = (GraphDesignTab<?>) tab;
                         exportShader.setDisabled(!designTab.getType().isExportable());
+                        copyShader.setDisabled(!designTab.getType().isExportable());
                     }
 
                     @Override
@@ -88,6 +92,7 @@ public class LibgdxGraphScreen extends Table {
                         close.setDisabled(true);
                         createGroup.setDisabled(true);
                         exportShader.setDisabled(true);
+                        copyShader.setDisabled(true);
                     }
                 });
 
@@ -190,6 +195,17 @@ public class LibgdxGraphScreen extends Table {
                     }
                 });
         graphMenu.addItem(exportShader);
+
+        copyShader = new MenuItem("Copy shader");
+        copyShader.setDisabled(true);
+        copyShader.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        copyShader();
+                    }
+                });
+        graphMenu.addItem(copyShader);
 
         return graphMenu;
     }
@@ -360,6 +376,12 @@ public class LibgdxGraphScreen extends Table {
             }
         });
         getStage().addActor(fileChooser.fadeIn());
+    }
+
+    private void copyShader() {
+        GraphDesignTab<?> activeTab = (GraphDesignTab<?>) tabbedPane.getActiveTab();
+        graphInClipboard.graphType = activeTab.getType();
+        graphInClipboard.graph = activeTab.serializeGraph();
     }
 
     private void saveAs() {

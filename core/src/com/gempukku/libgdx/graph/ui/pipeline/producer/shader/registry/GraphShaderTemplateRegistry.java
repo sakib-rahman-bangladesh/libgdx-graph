@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
+import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 
 public class GraphShaderTemplateRegistry {
     public static Array<GraphShaderTemplate> modelShaderTemplateList = new Array<>();
@@ -14,12 +15,16 @@ public class GraphShaderTemplateRegistry {
         modelShaderTemplateList.add(null);
         modelShaderTemplateList.add(
                 new LoadFileGraphShaderTemplate("From file..."));
+        modelShaderTemplateList.add(
+                new PasteGraphShaderTemplate(GraphDesignTab.Type.Model_Shader));
 
         particlesShaderTemplateList.add(
                 new FileGraphShaderTemplate("Empty billboard", Gdx.files.classpath("template/particles/empty-billboard-particles-shader.json")));
         particlesShaderTemplateList.add(null);
         particlesShaderTemplateList.add(
                 new LoadFileGraphShaderTemplate("From file..."));
+        particlesShaderTemplateList.add(
+                new PasteGraphShaderTemplate(GraphDesignTab.Type.Particle_Effect));
 
         spriteShaderTemplateList.add(
                 new FileGraphShaderTemplate("Empty", Gdx.files.classpath("template/sprite/empty-sprite-shader.json")));
@@ -31,6 +36,8 @@ public class GraphShaderTemplateRegistry {
         spriteShaderTemplateList.add(null);
         spriteShaderTemplateList.add(
                 new LoadFileGraphShaderTemplate("From file..."));
+        spriteShaderTemplateList.add(
+                new PasteGraphShaderTemplate(GraphDesignTab.Type.Sprite_Shader));
     }
 
     private GraphShaderTemplateRegistry() {
