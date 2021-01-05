@@ -2,10 +2,13 @@ package com.gempukku.libgdx.graph.ui.shader.common.producer.math.value;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
+import com.gempukku.libgdx.graph.shader.ClampMethod;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.config.common.math.value.RemapValueShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
@@ -58,6 +61,33 @@ public class RemapValueShaderBoxProducer extends GraphBoxProducerImpl<ShaderFiel
                                     pointsValue.addChild(new JsonValue(SimpleNumberFormatter.format(point.x) + "," + SimpleNumberFormatter.format(point.y)));
                                 }
                                 object.addChild("points", pointsValue);
+                            }
+                        }
+                ));
+
+        final SelectBox<ClampMethod> clampMethodSelectBox = new SelectBox<ClampMethod>(skin);
+        clampMethodSelectBox.setItems(ClampMethod.values());
+        if (data != null)
+            clampMethodSelectBox.setSelected(ClampMethod.valueOf(data.getString("clamp", "Normal")));
+        clampMethodSelectBox.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        clampMethodSelectBox.fire(new GraphChangedEvent(false, true));
+                    }
+                });
+
+        Table clampActor = new Table(skin);
+        clampActor.add("Clamp method:").row();
+        clampActor.add(clampMethodSelectBox).growX();
+
+        result.addGraphBoxPart(
+                new GraphBoxPartImpl<ShaderFieldType>(
+                        clampActor,
+                        new GraphBoxPartImpl.Callback() {
+                            @Override
+                            public void serialize(JsonValue object) {
+                                object.addChild("clamp", new JsonValue(clampMethodSelectBox.getSelected().name()));
                             }
                         }
                 ));

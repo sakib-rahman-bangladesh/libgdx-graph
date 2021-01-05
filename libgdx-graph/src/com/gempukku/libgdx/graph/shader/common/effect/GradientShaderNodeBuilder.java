@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.gempukku.libgdx.graph.shader.ClampMethod;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -30,10 +31,11 @@ public class GradientShaderNodeBuilder extends ConfigurationCommonShaderNodeBuil
             String[] split = point.split(",");
             pointArray.add(new ColorPoint(Color.valueOf(split[0]), Float.parseFloat(split[1])));
         }
+        ClampMethod clampMethod = ClampMethod.valueOf(data.getString("clamp", "Normal"));
 
         String remapValueFunctionName = "gradient_" + nodeId;
 
-        String functionText = createGradientFunction(remapValueFunctionName, pointArray);
+        String functionText = createGradientFunction(remapValueFunctionName, pointArray, clampMethod);
         commonShaderBuilder.addFunction(remapValueFunctionName, functionText);
 
         String name = "result_" + nodeId;
@@ -43,11 +45,11 @@ public class GradientShaderNodeBuilder extends ConfigurationCommonShaderNodeBuil
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(ShaderFieldType.Vector4, name));
     }
 
-    private String createGradientFunction(String remapValueFunctionName, Array<ColorPoint> pointArray) {
+    private String createGradientFunction(String remapValueFunctionName, Array<ColorPoint> pointArray, ClampMethod clampMethod) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("vec4 " + remapValueFunctionName + "(float value) {\n");
-        sb.append("  value = clamp(value, 0.0, 1.0);\n");
+        sb.append("  value = " + clampMethod.getShaderCode("value") + ";\n");
         sb.append("  vec4 result = vec4(0.0);\n");
         float lastX = 0;
         Color lastColor = pointArray.get(0).color;

@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.gempukku.libgdx.graph.shader.ClampMethod;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -30,10 +31,11 @@ public class RemapValueShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
             String[] split = point.split(",");
             pointArray.add(new Vector2(Float.parseFloat(split[0]), Float.parseFloat(split[1])));
         }
+        ClampMethod clampMethod = ClampMethod.valueOf(data.getString("clamp", "Normal"));
 
         String remapValueFunctionName = "remapValue_" + nodeId;
 
-        String functionText = createRemapValueFunction(remapValueFunctionName, pointArray);
+        String functionText = createRemapValueFunction(remapValueFunctionName, pointArray, clampMethod);
         commonShaderBuilder.addFunction(remapValueFunctionName, functionText);
 
         String name = "result_" + nodeId;
@@ -43,11 +45,11 @@ public class RemapValueShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(ShaderFieldType.Float, name));
     }
 
-    private String createRemapValueFunction(String remapValueFunctionName, Array<Vector2> pointArray) {
+    private String createRemapValueFunction(String remapValueFunctionName, Array<Vector2> pointArray, ClampMethod clampMethod) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("float " + remapValueFunctionName + "(float value) {\n");
-        sb.append("  value = clamp(value, 0.0, 1.0);\n");
+        sb.append("  value = " + clampMethod.getShaderCode("value") + ";\n");
         sb.append("  float result = 0.0;\n");
         float lastX = 0;
         float lastY = pointArray.get(0).y;
