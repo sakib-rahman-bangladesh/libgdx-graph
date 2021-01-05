@@ -86,6 +86,7 @@ import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 import com.gempukku.libgdx.graph.ui.producer.IndexedBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.common.producer.math.common.ConditionalShaderBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.common.producer.math.value.RemapVectorShaderBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.common.producer.property.PropertyColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.common.producer.property.PropertyFloatBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.common.producer.property.PropertyShaderGraphBoxProducer;
@@ -175,6 +176,7 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration<ShaderF
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SplitShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new MergeShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new RemapShaderNodeConfiguration()));
+        graphBoxProducers.add(new RemapVectorShaderBoxProducer());
 
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new IntensityShaderNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new FresnelEffectShaderNodeConfiguration()));

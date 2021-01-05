@@ -51,8 +51,7 @@ public class GraphBoxProducerImpl<T extends FieldType> implements GraphBoxProduc
     }
 
     protected GraphBoxImpl<T> createGraphBox(Skin skin, String id) {
-        GraphBoxImpl<T> start = new GraphBoxImpl<T>(id, configuration, skin);
-        return start;
+        return new GraphBoxImpl<T>(id, configuration, skin);
     }
 
     protected void addConfigurationInputsAndOutputs(Skin skin, GraphBoxImpl<T> graphBox) {
