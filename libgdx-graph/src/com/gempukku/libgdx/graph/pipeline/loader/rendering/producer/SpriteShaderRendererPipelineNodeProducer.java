@@ -15,6 +15,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeed
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
+import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyAsAttributeShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
@@ -38,12 +39,16 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
 
         final ModelShaderContextImpl shaderContext = new ModelShaderContextImpl();
 
-        final Array<SpriteGraphShader> shaders = new Array<>();
+        final Array<SpriteGraphShader> opaqueShaders = new Array<>();
+        final Array<SpriteGraphShader> translucentShaders = new Array<>();
 
         final JsonValue shaderDefinitions = data.get("shaders");
         for (JsonValue shaderDefinition : shaderDefinitions) {
             SpriteGraphShader shader = createColorShader(shaderDefinition, whitePixel.texture);
-            shaders.add(shader);
+            if (shader.getBlending() == BasicShader.Blending.opaque)
+                opaqueShaders.add(shader);
+            else
+                translucentShaders.add(shader);
         }
 
         final PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
@@ -54,13 +59,20 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
             public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
-                for (SpriteGraphShader shader : shaders) {
+                for (SpriteGraphShader shader : opaqueShaders) {
+                    pipelineInitializationFeedback.registerSpriteShader(shader.getTag(), shader);
+                }
+                for (SpriteGraphShader shader : translucentShaders) {
                     pipelineInitializationFeedback.registerSpriteShader(shader.getTag(), shader);
                 }
             }
 
             public boolean needsDepth(GraphSpritesImpl graphSprites) {
-                for (SpriteGraphShader shader : shaders) {
+                for (SpriteGraphShader shader : opaqueShaders) {
+                    if (shader.isUsingDepthTexture() && graphSprites.hasSpriteWithTag(shader.getTag()))
+                        return true;
+                }
+                for (SpriteGraphShader shader : translucentShaders) {
                     if (shader.isUsingDepthTexture() && graphSprites.hasSpriteWithTag(shader.getTag()))
                         return true;
                 }
@@ -68,7 +80,11 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
             }
 
             public boolean isRequiringSceneColor(GraphSpritesImpl graphSprites) {
-                for (SpriteGraphShader shader : shaders) {
+                for (SpriteGraphShader shader : opaqueShaders) {
+                    if (shader.isUsingColorTexture() && graphSprites.hasSpriteWithTag(shader.getTag()))
+                        return true;
+                }
+                for (SpriteGraphShader shader : translucentShaders) {
                     if (shader.isUsingColorTexture() && graphSprites.hasSpriteWithTag(shader.getTag()))
                         return true;
                 }
@@ -117,7 +133,7 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
 
                     currentBuffer.beginColor();
 
-                    sprites.render(shaderContext, pipelineRenderingContext.getRenderContext(), shaders);
+                    sprites.render(shaderContext, pipelineRenderingContext.getRenderContext(), opaqueShaders, translucentShaders);
 
                     if (sceneColorBuffer != null)
                         renderPipeline.returnFrameBuffer(sceneColorBuffer);
@@ -150,7 +166,10 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
 
             @Override
             public void dispose() {
-                for (SpriteGraphShader shader : shaders) {
+                for (SpriteGraphShader shader : opaqueShaders) {
+                    shader.dispose();
+                }
+                for (SpriteGraphShader shader : translucentShaders) {
                     shader.dispose();
                 }
                 whitePixel.dispose();

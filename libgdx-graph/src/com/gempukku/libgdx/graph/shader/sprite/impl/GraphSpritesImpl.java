@@ -158,59 +158,57 @@ public class GraphSpritesImpl implements GraphSprites {
         return !nonCachedSpritesByTag.get(tag).isEmpty();
     }
 
-    public void render(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
+    public void render(ShaderContextImpl shaderContext, RenderContext renderContext,
+                       Array<SpriteGraphShader> opaqueShaders, Array<SpriteGraphShader> translucentShaders) {
         Gdx.app.debug("Sprite", "Starting drawing sprites");
         // First - all opaque shaders
-        drawOpaqueSprites(shaderContext, renderContext, shaders);
+        drawOpaqueSprites(shaderContext, renderContext, opaqueShaders);
 
         // Then - all the translucent shaders
-        drawTranslucentSprites(shaderContext, renderContext, shaders);
+        drawTranslucentSprites(shaderContext, renderContext, translucentShaders);
         Gdx.app.debug("Sprite", "Finished drawing sprites");
     }
 
-    private void drawOpaqueSprites(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
-        for (SpriteGraphShader shader : shaders) {
-            if (shader.getBlending() == BasicShader.Blending.opaque) {
-                String tag = shader.getTag();
-                Gdx.app.debug("Sprite", "Starting drawing opaque with tag - " + tag);
-                CachedTagSpriteData dynamicSprites = dynamicCachedTagSpriteData.get(tag);
-                if (dynamicSprites.hasSprites()) {
-                    shader.begin(shaderContext, renderContext);
-                    dynamicSprites.render(shader, shaderContext);
-                    shader.end();
-                }
-                Gdx.app.debug("Sprite", "Finished drawing opaque with tag - " + tag);
+    private void drawOpaqueSprites(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> opaqueShaders) {
+        for (SpriteGraphShader shader : opaqueShaders) {
+            String tag = shader.getTag();
+            Gdx.app.debug("Sprite", "Starting drawing opaque with tag - " + tag);
+            CachedTagSpriteData dynamicSprites = dynamicCachedTagSpriteData.get(tag);
+            if (dynamicSprites.hasSprites()) {
+                shader.begin(shaderContext, renderContext);
+                dynamicSprites.render(shader, shaderContext);
+                shader.end();
             }
+            Gdx.app.debug("Sprite", "Finished drawing opaque with tag - " + tag);
         }
     }
 
-    private void drawTranslucentSprites(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> shaders) {
-        selectApplicableSpritesForSorting(shaders);
+    private void drawTranslucentSprites(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> translucentShaders) {
+        selectApplicableSpritesForSorting(translucentShaders);
         distanceSpriteSorter.sort(tempSorting, Order.Back_To_Front);
 
         GraphShader lastShader = null;
         for (GraphSpriteImpl sprite : tempSorting) {
-            for (SpriteGraphShader shader : shaders) {
-                if (shader.getBlending() != BasicShader.Blending.opaque) {
-                    String tag = shader.getTag();
-                    if (sprite.hasTag(tag)) {
-                        shaderContext.setPropertyContainer(sprite.getPropertyContainer());
+            for (SpriteGraphShader shader : translucentShaders) {
+                String tag = shader.getTag();
+                if (sprite.hasTag(tag)) {
+                    shaderContext.setPropertyContainer(sprite.getPropertyContainer());
 
-                        NonCachedTagSpriteData nonCachedTagSpriteData = nonCachedTagSpriteDataObjectMap.get(tag);
-                        nonCachedTagSpriteData.setSprite(sprite);
+                    NonCachedTagSpriteData nonCachedTagSpriteData = nonCachedTagSpriteDataObjectMap.get(tag);
+                    nonCachedTagSpriteData.setSprite(sprite);
 
-                        if (lastShader != shader) {
-                            if (lastShader != null) {
-                                Gdx.app.debug("Sprite", "Finished drawing translucent");
-                                lastShader.end();
-                            }
-                            shader.begin(shaderContext, renderContext);
-                            Gdx.app.debug("Sprite", "Starting drawing translucent with tag - " + tag);
-                            lastShader = shader;
+                    if (lastShader != shader) {
+                        if (lastShader != null) {
+                            Gdx.app.debug("Sprite", "Finished drawing translucent");
+                            lastShader.end();
                         }
-                        Gdx.app.debug("Sprite", "Rendering 1 sprite(s)");
-                        shader.renderSprites(shaderContext, nonCachedTagSpriteData);
+                        shader.begin(shaderContext, renderContext);
+                        Gdx.app.debug("Sprite", "Starting drawing translucent with tag - " + tag);
+                        lastShader = shader;
                     }
+                    Gdx.app.debug("Sprite", "Rendering 1 sprite(s)");
+                    shader.renderSprites(shaderContext, nonCachedTagSpriteData);
+
                 }
             }
         }
@@ -220,16 +218,14 @@ public class GraphSpritesImpl implements GraphSprites {
         }
     }
 
-    private void selectApplicableSpritesForSorting(Array<SpriteGraphShader> shaders) {
+    private void selectApplicableSpritesForSorting(Array<SpriteGraphShader> translucentShaders) {
         tempSorting.clear();
         tempForUniqness.clear();
-        for (SpriteGraphShader shader : shaders) {
-            if (shader.getBlending() != BasicShader.Blending.opaque) {
-                String tag = shader.getTag();
-                for (GraphSpriteImpl graphSprite : nonCachedSpritesByTag.get(tag)) {
-                    if (tempForUniqness.add(graphSprite))
-                        tempSorting.add(graphSprite);
-                }
+        for (SpriteGraphShader shader : translucentShaders) {
+            String tag = shader.getTag();
+            for (GraphSpriteImpl graphSprite : nonCachedSpritesByTag.get(tag)) {
+                if (tempForUniqness.add(graphSprite))
+                    tempSorting.add(graphSprite);
             }
         }
     }
