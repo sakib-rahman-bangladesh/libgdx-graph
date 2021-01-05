@@ -17,7 +17,6 @@ import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyAsUniformShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
 import com.gempukku.libgdx.graph.shader.screen.ScreenShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.screen.ScreenShaderLoaderCallback;
@@ -35,7 +34,6 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
         final WhitePixel whitePixel = new WhitePixel();
 
         final ShaderContextImpl shaderContext = new ShaderContextImpl();
-        final PropertyContainerImpl propertyContainer = new PropertyContainerImpl();
 
         final String tag = data.getString("tag");
         JsonValue shaderJson = data.get("shader");
@@ -49,7 +47,7 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
             public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
-                pipelineInitializationFeedback.registerScreenShader(tag, propertyContainer);
+                pipelineInitializationFeedback.registerScreenShader(tag, graphShader);
             }
 
             @Override
@@ -96,7 +94,7 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
 
                     currentBuffer.beginColor();
 
-                    shaderContext.setPropertyContainer(propertyContainer);
+                    shaderContext.setPropertyContainer(graphShader.getPropertyContainer());
                     graphShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
                     graphShader.render(shaderContext, pipelineRenderingContext.getFullScreenRender());
                     graphShader.end();

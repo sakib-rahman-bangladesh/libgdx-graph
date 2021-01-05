@@ -1,15 +1,16 @@
 package com.gempukku.libgdx.graph.pipeline.loader.node;
 
-import com.badlogic.gdx.graphics.VertexAttributes;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
+import com.gempukku.libgdx.graph.shader.particles.ParticlesGraphShader;
+import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
 
 public interface PipelineInitializationFeedback {
-    void registerScreenShader(String tag, PropertyContainerImpl propertyContainer);
+    void registerScreenShader(String tag, ScreenGraphShader shader);
 
-    void registerParticleEffect(String tag, VertexAttributes vertexAttributes, int maxNumberOfParticles, int initialParticles, float particlesPerSecond);
+    void registerParticleEffectShader(String tag, ParticlesGraphShader shader);
 
-    void registerModelVertexAttributes(String tag, VertexAttributes vertexAttributes);
+    void registerModelShader(String tag, ModelGraphShader shader);
 
     void registerSpriteShader(String tag, SpriteGraphShader shader);
 }

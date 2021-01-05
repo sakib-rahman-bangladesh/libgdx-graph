@@ -57,9 +57,7 @@ public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodePro
             @Override
             public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
                 for (ParticlesGraphShader particleShader : particleShaders) {
-                    pipelineInitializationFeedback.registerParticleEffect(particleShader.getTag(),
-                            particleShader.getVertexAttributes(),
-                            particleShader.getMaxNumberOfParticles(), particleShader.getInitialParticles(), particleShader.getPerSecondParticles());
+                    pipelineInitializationFeedback.registerParticleEffectShader(particleShader.getTag(), particleShader);
                 }
             }
 

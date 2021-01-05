@@ -72,12 +72,12 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             @Override
             public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
                 for (ShaderGroup shaderGroup : opaqueShaderGroups) {
-                    GraphShader shader = shaderGroup.getColorShader();
-                    pipelineInitializationFeedback.registerModelVertexAttributes(shader.getTag(), shader.getVertexAttributes());
+                    ModelGraphShader shader = shaderGroup.getColorShader();
+                    pipelineInitializationFeedback.registerModelShader(shader.getTag(), shader);
                 }
                 for (ShaderGroup shaderGroup : translucentShaderGroups) {
-                    GraphShader shader = shaderGroup.getColorShader();
-                    pipelineInitializationFeedback.registerModelVertexAttributes(shader.getTag(), shader.getVertexAttributes());
+                    ModelGraphShader shader = shaderGroup.getColorShader();
+                    pipelineInitializationFeedback.registerModelShader(shader.getTag(), shader);
                 }
             }
 

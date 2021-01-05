@@ -5,8 +5,11 @@ import com.gempukku.libgdx.graph.pipeline.loader.FullScreenRender;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
+import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 
 public class ScreenGraphShader extends GraphShader {
+    private PropertyContainerImpl propertyContainer = new PropertyContainerImpl();
+
     public ScreenGraphShader(Texture defaultTexture) {
         super(defaultTexture);
         setCulling(BasicShader.Culling.back);
@@ -21,5 +24,9 @@ public class ScreenGraphShader extends GraphShader {
             uniform.getSetter().set(this, uniform.getStartIndex(), uniform.getFieldOffsets(), uniform.getSize(), shaderContext);
         }
         fullScreenRender.renderFullScreen(program);
+    }
+
+    public PropertyContainerImpl getPropertyContainer() {
+        return propertyContainer;
     }
 }

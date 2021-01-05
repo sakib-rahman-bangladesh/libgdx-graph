@@ -6,10 +6,10 @@ import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 public class GraphScreenShadersImpl implements GraphScreenShaders {
     private ObjectMap<String, PropertyContainerImpl> propertyContainers = new ObjectMap<>();
 
-    public void setPropertyContainer(String tag, PropertyContainerImpl propertyContainer) {
+    public void registerTag(String tag, ScreenGraphShader shader) {
         if (propertyContainers.containsKey(tag))
             throw new IllegalStateException("Duplicate screen shader with tag - " + tag);
-        propertyContainers.put(tag, propertyContainer);
+        propertyContainers.put(tag, shader.getPropertyContainer());
     }
 
     @Override

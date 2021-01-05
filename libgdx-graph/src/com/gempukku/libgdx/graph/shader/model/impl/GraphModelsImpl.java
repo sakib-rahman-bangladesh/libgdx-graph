@@ -16,6 +16,7 @@ import com.gempukku.libgdx.graph.shader.TransformUpdate;
 import com.gempukku.libgdx.graph.shader.model.GraphModel;
 import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
+import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
 import com.gempukku.libgdx.graph.shader.model.ModelInstanceOptimizationHints;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 
@@ -193,10 +194,10 @@ public class GraphModelsImpl implements GraphModels, Disposable {
         return iModelInstance;
     }
 
-    public void registerVertexAttributes(String tag, VertexAttributes vertexAttributes) {
+    public void registerTag(String tag, ModelGraphShader shader) {
         instancesByTag.put(tag, new ObjectSet<IGraphModelInstance>());
 
-        for (VertexAttribute vertexAttribute : vertexAttributes) {
+        for (VertexAttribute vertexAttribute : shader.getVertexAttributes()) {
             if (vertexAttribute.usage == VertexAttributes.Usage.ColorPacked)
                 vertexAttribute = VertexAttribute.ColorUnpacked();
             if (!registeredAttributes.contains(vertexAttribute, false))

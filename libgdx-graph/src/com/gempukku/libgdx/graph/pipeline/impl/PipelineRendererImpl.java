@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.pipeline.impl;
 
-import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.utils.Disposable;
@@ -17,13 +16,15 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeed
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
+import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphModelsImpl;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectImpl;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectsImpl;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.particles.ParticlesGraphShader;
 import com.gempukku.libgdx.graph.shader.screen.GraphScreenShaders;
 import com.gempukku.libgdx.graph.shader.screen.GraphScreenShadersImpl;
+import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
 import com.gempukku.libgdx.graph.shader.sprite.impl.GraphSpritesImpl;
@@ -154,8 +155,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
-        public void registerModelVertexAttributes(String tag, VertexAttributes vertexAttributes) {
-            graphShaderModels.registerVertexAttributes(tag, vertexAttributes);
+        public void registerModelShader(String tag, ModelGraphShader shader) {
+            graphShaderModels.registerTag(tag, shader);
         }
 
         @Override
@@ -164,18 +165,18 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
+        public void registerScreenShader(String tag, ScreenGraphShader shader) {
+            screenShaders.registerTag(tag, shader);
+        }
+
+        @Override
+        public void registerParticleEffectShader(String tag, ParticlesGraphShader shader) {
+            particleEffects.registerEffect(tag, shader);
+        }
+
+        @Override
         public GraphSpritesImpl getGraphSprites() {
             return graphSprites;
-        }
-
-        @Override
-        public void registerScreenShader(String tag, PropertyContainerImpl propertyContainer) {
-            screenShaders.setPropertyContainer(tag, propertyContainer);
-        }
-
-        @Override
-        public void registerParticleEffect(String tag, VertexAttributes vertexAttributes, int maxNumberOfParticles, int initialParticles, float particlesPerSecond) {
-            particleEffects.registerEffect(tag, vertexAttributes, maxNumberOfParticles, initialParticles, particlesPerSecond);
         }
 
         @Override
