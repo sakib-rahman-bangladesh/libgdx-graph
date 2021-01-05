@@ -30,7 +30,7 @@ public class GradientShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
         addConfigurationInputsAndOutputs(skin, result);
 
         final GradientWidget gradientWidget = new GradientWidget();
-        gradientWidget.setSize(300, 80);
+        gradientWidget.setSize(300, 40);
 
         if (data != null) {
             JsonValue points = data.get("points");

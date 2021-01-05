@@ -31,7 +31,7 @@ public class GradientShaderNodeBuilder extends ConfigurationCommonShaderNodeBuil
             pointArray.add(new ColorPoint(Color.valueOf(split[0]), Float.parseFloat(split[1])));
         }
 
-        String remapValueFunctionName = "gradient" + nodeId;
+        String remapValueFunctionName = "gradient_" + nodeId;
 
         String functionText = createGradientFunction(remapValueFunctionName, pointArray);
         commonShaderBuilder.addFunction(remapValueFunctionName, functionText);
