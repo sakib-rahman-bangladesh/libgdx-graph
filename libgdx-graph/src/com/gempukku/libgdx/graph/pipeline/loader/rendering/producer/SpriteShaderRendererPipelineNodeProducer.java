@@ -109,10 +109,7 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
                     boolean needsSceneColor = isRequiringSceneColor(sprites);
 
                     RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
-                    int width = currentBuffer.getWidth();
-                    int height = currentBuffer.getHeight();
                     Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
-                    updateCamera(camera, width, height);
                     GraphShaderEnvironment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext, null) : null;
 
                     shaderContext.setCamera(camera);
@@ -152,16 +149,6 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
                 shaderContext.setColorTexture(sceneColorBuffer.getColorBufferTexture());
                 renderPipeline.drawTexture(currentBuffer, sceneColorBuffer, pipelineRenderingContext);
                 return sceneColorBuffer;
-            }
-
-            private void updateCamera(final Camera camera, final int width, final int height) {
-                float viewportWidth = camera.viewportWidth;
-                float viewportHeight = camera.viewportHeight;
-                if (width != viewportWidth || height != viewportHeight) {
-                    camera.viewportWidth = width;
-                    camera.viewportHeight = height;
-                    camera.update();
-                }
             }
 
             @Override

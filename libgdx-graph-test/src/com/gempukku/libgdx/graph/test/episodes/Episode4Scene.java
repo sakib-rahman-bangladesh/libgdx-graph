@@ -133,6 +133,12 @@ public class Episode4Scene implements LibgdxGraphTestScene {
     @Override
     public void resizeScene(int width, int height) {
         stage.getViewport().update(width, height, true);
+        camera1.viewportWidth = width / 2f;
+        camera1.viewportHeight = height;
+        camera1.update();
+        camera2.viewportWidth = width / 2f;
+        camera2.viewportHeight = height;
+        camera2.update();
     }
 
     @Override
@@ -172,7 +178,6 @@ public class Episode4Scene implements LibgdxGraphTestScene {
     }
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
-        //pipelineRenderer.setPipelineProperty("Background Color", Color.RED);
         pipelineRenderer.setPipelineProperty("Stage", stage);
         pipelineRenderer.setPipelineProperty("Callback1", new ModelsRenderCallback(camera1));
         pipelineRenderer.setPipelineProperty("Callback2", new ModelsRenderCallback(camera2));
@@ -193,16 +198,6 @@ public class Episode4Scene implements LibgdxGraphTestScene {
 
             Gdx.gl.glClearColor(0, 0, 0, 1);
             Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT);
-
-            int width = currentBuffer.getWidth();
-            int height = currentBuffer.getHeight();
-            float viewportWidth = camera.viewportWidth;
-            float viewportHeight = camera.viewportHeight;
-            if (width != viewportWidth || height != viewportHeight) {
-                camera.viewportWidth = width;
-                camera.viewportHeight = height;
-                camera.update();
-            }
 
             modelBatch.begin(camera);
             modelBatch.render(renderableProviders, environment);

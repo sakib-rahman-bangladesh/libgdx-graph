@@ -164,6 +164,9 @@ public class Episode23Scene implements LibgdxGraphTestScene {
     @Override
     public void resizeScene(int width, int height) {
         stage.getViewport().update(width, height, true);
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
+        camera.update();
     }
 
     @Override
