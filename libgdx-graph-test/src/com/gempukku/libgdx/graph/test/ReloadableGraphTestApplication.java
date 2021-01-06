@@ -85,7 +85,7 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
 
     @Override
     public void create() {
-        //Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
+        Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
 
         scenes[loadedIndex].initializeScene();
     }
@@ -122,8 +122,8 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
         }
 
         long start = 0;
-        //if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
-        fpsLogger.log();
+        if (profile)
+            fpsLogger.log();
 
         if (profile) {
             profiler.reset();

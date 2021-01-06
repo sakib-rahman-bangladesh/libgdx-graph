@@ -160,30 +160,30 @@ public class GraphSpritesImpl implements GraphSprites {
 
     public void render(ShaderContextImpl shaderContext, RenderContext renderContext,
                        Array<SpriteGraphShader> opaqueShaders, Array<SpriteGraphShader> translucentShaders) {
-        if (Gdx.app.getLogLevel() > Gdx.app.LOG_DEBUG)
+        if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
             Gdx.app.debug("Sprite", "Starting drawing sprites");
         // First - all opaque shaders
         drawOpaqueSprites(shaderContext, renderContext, opaqueShaders);
 
         // Then - all the translucent shaders
         drawTranslucentSprites(shaderContext, renderContext, translucentShaders);
-        if (Gdx.app.getLogLevel() > Gdx.app.LOG_DEBUG)
+        if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
             Gdx.app.debug("Sprite", "Finished drawing sprites");
     }
 
     private void drawOpaqueSprites(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> opaqueShaders) {
         for (SpriteGraphShader shader : opaqueShaders) {
             String tag = shader.getTag();
-            if (Gdx.app.getLogLevel() > Gdx.app.LOG_DEBUG)
-                Gdx.app.debug("Sprite", "Starting drawing opaque with tag - " + tag);
             CachedTagSpriteData dynamicSprites = dynamicCachedTagSpriteData.get(tag);
             if (dynamicSprites.hasSprites()) {
+                if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
+                    Gdx.app.debug("Sprite", "Starting drawing opaque with tag - " + tag);
                 shader.begin(shaderContext, renderContext);
                 dynamicSprites.render(shader, shaderContext);
                 shader.end();
+                if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
+                    Gdx.app.debug("Sprite", "Finished drawing opaque with tag - " + tag);
             }
-            if (Gdx.app.getLogLevel() > Gdx.app.LOG_DEBUG)
-                Gdx.app.debug("Sprite", "Finished drawing opaque with tag - " + tag);
         }
     }
 
@@ -203,16 +203,16 @@ public class GraphSpritesImpl implements GraphSprites {
 
                     if (lastShader != shader) {
                         if (lastShader != null) {
-                            if (Gdx.app.getLogLevel() > Gdx.app.LOG_DEBUG)
+                            if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
                                 Gdx.app.debug("Sprite", "Finished drawing translucent");
                             lastShader.end();
                         }
                         shader.begin(shaderContext, renderContext);
-                        if (Gdx.app.getLogLevel() > Gdx.app.LOG_DEBUG)
+                        if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
                             Gdx.app.debug("Sprite", "Starting drawing translucent with tag - " + tag);
                         lastShader = shader;
                     }
-                    if (Gdx.app.getLogLevel() > Gdx.app.LOG_DEBUG)
+                    if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
                         Gdx.app.debug("Sprite", "Rendering 1 sprite(s)");
                     shader.renderSprites(shaderContext, nonCachedTagSpriteData);
 
@@ -220,7 +220,7 @@ public class GraphSpritesImpl implements GraphSprites {
             }
         }
         if (lastShader != null) {
-            if (Gdx.app.getLogLevel() > Gdx.app.LOG_DEBUG)
+            if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
                 Gdx.app.debug("Sprite", "Finished drawing translucent");
             lastShader.end();
         }

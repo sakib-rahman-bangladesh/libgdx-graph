@@ -267,7 +267,7 @@ public class CachedSpriteData implements SpriteData {
 
     @Override
     public void render(ShaderContextImpl shaderContext, ShaderProgram shaderProgram, int[] attributeLocations) {
-        if (Gdx.app.getLogLevel() > Gdx.app.LOG_DEBUG)
+        if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
             Gdx.app.debug("Sprite", "Rendering " + spriteCount + " sprite(s)");
         vbo.bind(shaderProgram, attributeLocations);
         ibo.bind();
