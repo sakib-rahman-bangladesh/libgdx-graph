@@ -140,6 +140,8 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
             sb.append("Shader switches: " + profiler.getShaderSwitches() + "\n");
             sb.append("Texture bindings: " + profiler.getTextureBindings() + "\n");
             sb.append("Vertex calls: " + profiler.getVertexCount().total + "\n");
+            long memory = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024);
+            sb.append("Used memory: " + memory + "MB");
             profileLabel.setText(sb.toString());
 
             profileStage.draw();
