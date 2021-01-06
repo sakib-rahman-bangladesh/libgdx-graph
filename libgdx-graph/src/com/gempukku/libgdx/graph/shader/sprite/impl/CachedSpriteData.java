@@ -267,7 +267,8 @@ public class CachedSpriteData implements SpriteData {
 
     @Override
     public void render(ShaderContextImpl shaderContext, ShaderProgram shaderProgram, int[] attributeLocations) {
-        Gdx.app.debug("Sprite", "Rendering " + spriteCount + " sprite(s)");
+        if (Gdx.app.getLogLevel() > Gdx.app.LOG_DEBUG)
+            Gdx.app.debug("Sprite", "Rendering " + spriteCount + " sprite(s)");
         vbo.bind(shaderProgram, attributeLocations);
         ibo.bind();
         Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, 6 * spriteCount, GL20.GL_UNSIGNED_SHORT, 0);
