@@ -121,21 +121,22 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
         }
 
         long start = 0;
+        //if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
+        fpsLogger.log();
+
         if (profile) {
             profiler.reset();
             start = System.nanoTime();
         }
 
-        //if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
-        fpsLogger.log();
-
         scenes[loadedIndex].renderScene();
 
         if (profile) {
-            StringBuilder sb = new StringBuilder();
             float ms = (System.nanoTime() - start) / 1000000f;
+
+            StringBuilder sb = new StringBuilder();
             sb.append("Time: " + SimpleNumberFormatter.format(ms) + "ms\n");
-            sb.append("Calls: " + profiler.getCalls() + "\n");
+            sb.append("GL Calls: " + profiler.getCalls() + "\n");
             sb.append("Draw calls: " + profiler.getDrawCalls() + "\n");
             sb.append("Shader switches: " + profiler.getShaderSwitches() + "\n");
             sb.append("Texture bindings: " + profiler.getTextureBindings() + "\n");
