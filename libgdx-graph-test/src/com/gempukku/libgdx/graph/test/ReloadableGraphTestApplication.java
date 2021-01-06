@@ -10,6 +10,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureArray;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.profiling.GLProfiler;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.gempukku.libgdx.graph.test.episodes.Episode11Scene;
 import com.gempukku.libgdx.graph.test.episodes.Episode12Scene;
 import com.gempukku.libgdx.graph.test.episodes.Episode13Scene;
@@ -39,6 +45,12 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
     private int width;
     private int height;
     private FPSLogger fpsLogger = new FPSLogger();
+
+    private boolean profile = false;
+    private GLProfiler profiler;
+    private Skin profileSkin;
+    private Stage profileStage;
+    private Label profileLabel;
 
     public ReloadableGraphTestApplication() {
         scenes = new LibgdxGraphTestScene[]{
@@ -100,16 +112,46 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
             scenes[loadedIndex].initializeScene();
             scenes[loadedIndex].resizeScene(width, height);
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.O)) {
+            if (profile)
+                disableProfiler();
+            else
+                enableProfiler();
+        }
 
-        if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
-            fpsLogger.log();
+        long start = 0;
+        if (profile) {
+            profiler.reset();
+            start = System.currentTimeMillis();
+        }
+
+        //if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
+        fpsLogger.log();
 
         scenes[loadedIndex].renderScene();
+
+        if (profile) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Time: " + (System.currentTimeMillis() - start) + "ms\n");
+            sb.append("Calls: " + profiler.getCalls() + "\n");
+            sb.append("Draw calls: " + profiler.getDrawCalls() + "\n");
+            sb.append("Shader switches: " + profiler.getShaderSwitches() + "\n");
+            sb.append("Texture bindings: " + profiler.getTextureBindings() + "\n");
+            sb.append("Vertex calls: " + profiler.getVertexCount().total + "\n");
+            profileLabel.setText(sb.toString());
+
+            profileStage.draw();
+        }
     }
 
     @Override
     public void dispose() {
         scenes[loadedIndex].disposeScene();
+
+        if (profile) {
+            profileSkin.dispose();
+            profileStage.dispose();
+        }
 
         Gdx.app.debug("Unclosed", Cubemap.getManagedStatus());
         Gdx.app.debug("Unclosed", GLFrameBuffer.getManagedStatus());
@@ -117,5 +159,33 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
         Gdx.app.debug("Unclosed", Texture.getManagedStatus());
         Gdx.app.debug("Unclosed", TextureArray.getManagedStatus());
         Gdx.app.debug("Unclosed", ShaderProgram.getManagedStatus());
+    }
+
+    private void enableProfiler() {
+        profiler = new GLProfiler(Gdx.graphics);
+        profiler.enable();
+
+        profileSkin = new Skin(Gdx.files.classpath("skin/default/uiskin.json"));
+        profileStage = new Stage();
+        profileLabel = new Label("", profileSkin);
+
+        Table tbl = new Table(profileSkin);
+
+        tbl.setFillParent(true);
+        tbl.align(Align.topRight);
+
+        tbl.add(profileLabel).pad(10f);
+        tbl.row();
+
+        profileStage.addActor(tbl);
+
+        profile = true;
+    }
+
+    private void disableProfiler() {
+        profileSkin.dispose();
+        profileStage.dispose();
+
+        profile = false;
     }
 }
