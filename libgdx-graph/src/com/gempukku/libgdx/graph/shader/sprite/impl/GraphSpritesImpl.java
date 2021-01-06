@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
+import com.gempukku.libgdx.graph.shader.GraphShaderConfig;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
 import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
@@ -30,7 +31,6 @@ public class GraphSpritesImpl implements GraphSprites {
         }
     }
 
-    private static final int NUMBER_OF_SPRITES = 2500;
     private static DistanceSpriteSorter distanceSpriteSorter = new DistanceSpriteSorter();
 
     private ObjectSet<GraphSpriteImpl> tempForUniqness = new ObjectSet<>();
@@ -245,7 +245,7 @@ public class GraphSpritesImpl implements GraphSprites {
         Array<String> textureUniformNames = shader.getTextureUniformNames();
 
         if (opaque)
-            dynamicCachedTagSpriteData.put(tag, new CachedTagSpriteData(vertexAttributes, NUMBER_OF_SPRITES, shaderProperties, textureUniformNames));
+            dynamicCachedTagSpriteData.put(tag, new CachedTagSpriteData(vertexAttributes, GraphShaderConfig.getSpriteBatchSize(), shaderProperties, textureUniformNames));
         else
             nonCachedTagSpriteDataObjectMap.put(tag, new NonCachedTagSpriteData(vertexAttributes, shaderProperties));
     }

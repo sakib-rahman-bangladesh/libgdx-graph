@@ -7,6 +7,8 @@ public class GraphShaderConfig {
     private static int MAX_NUMBER_OF_POINT_LIGHTS = 5;
     private static int MAX_NUMBER_OF_SPOTLIGHTS = 5;
 
+    private static int SPRITE_BATCH_SIZE = 1000;
+
     private static boolean SET_IN_STONE = false;
 
     private GraphShaderConfig() {
@@ -25,6 +27,12 @@ public class GraphShaderConfig {
         MAX_NUMBER_OF_DIRECTIONAL_LIGHTS = maxNumberOfDirectionalLights;
         MAX_NUMBER_OF_POINT_LIGHTS = maxNumberOfPointLights;
         MAX_NUMBER_OF_SPOTLIGHTS = maxNumberOfSpotlights;
+    }
+
+    public static void initSpriteBatchSize(int spriteBatchSize) {
+        if (SET_IN_STONE)
+            throw new IllegalStateException();
+        SPRITE_BATCH_SIZE = spriteBatchSize;
     }
 
     public static int getMaxNumberOfBonesPerMesh() {
@@ -50,6 +58,11 @@ public class GraphShaderConfig {
     public static int getMaxNumberOfSpotlights() {
         freezeSettings();
         return MAX_NUMBER_OF_SPOTLIGHTS;
+    }
+
+    public static int getSpriteBatchSize() {
+        freezeSettings();
+        return SPRITE_BATCH_SIZE;
     }
 
     private static void freezeSettings() {
