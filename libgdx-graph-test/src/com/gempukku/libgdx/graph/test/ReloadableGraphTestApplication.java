@@ -38,6 +38,7 @@ import com.gempukku.libgdx.graph.test.episodes.Episode6Scene;
 import com.gempukku.libgdx.graph.test.episodes.Episode7Scene;
 import com.gempukku.libgdx.graph.test.episodes.Episode8Scene;
 import com.gempukku.libgdx.graph.test.episodes.Episode9Scene;
+import com.gempukku.libgdx.graph.util.SimpleNumberFormatter;
 
 public class ReloadableGraphTestApplication extends ApplicationAdapter {
     private LibgdxGraphTestScene[] scenes;
@@ -122,7 +123,7 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
         long start = 0;
         if (profile) {
             profiler.reset();
-            start = System.currentTimeMillis();
+            start = System.nanoTime();
         }
 
         //if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
@@ -132,7 +133,8 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
 
         if (profile) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Time: " + (System.currentTimeMillis() - start) + "ms\n");
+            float ms = (System.nanoTime() - start) / 1000000f;
+            sb.append("Time: " + SimpleNumberFormatter.format(ms) + "ms\n");
             sb.append("Calls: " + profiler.getCalls() + "\n");
             sb.append("Draw calls: " + profiler.getDrawCalls() + "\n");
             sb.append("Shader switches: " + profiler.getShaderSwitches() + "\n");
@@ -185,6 +187,8 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
     private void disableProfiler() {
         profileSkin.dispose();
         profileStage.dispose();
+
+        profiler.disable();
 
         profile = false;
     }
