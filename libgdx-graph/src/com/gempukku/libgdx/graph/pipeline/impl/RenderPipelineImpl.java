@@ -15,8 +15,8 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import java.util.Iterator;
 
 public class RenderPipelineImpl implements RenderPipeline {
-    private BufferCopyHelper bufferCopyHelper = new BufferCopyHelper();
-    private RenderPipelineBufferImpl defaultBuffer;
+    private final BufferCopyHelper bufferCopyHelper = new BufferCopyHelper();
+    private final RenderPipelineBufferImpl defaultBuffer = new RenderPipelineBufferImpl();
 
     private Array<TextureFrameBuffer> oldFrameBuffers = new Array<>();
     private Array<TextureFrameBuffer> newFrameBuffers = new Array<>();
@@ -25,7 +25,6 @@ public class RenderPipelineImpl implements RenderPipeline {
     }
 
     public void endFrame() {
-        defaultBuffer = null;
         for (FrameBuffer freeFrameBuffer : oldFrameBuffers) {
             freeFrameBuffer.dispose();
         }
@@ -48,9 +47,8 @@ public class RenderPipelineImpl implements RenderPipeline {
 
     @Override
     public RenderPipelineBufferImpl initializeDefaultBuffer(int width, int height, Pixmap.Format format) {
-        if (defaultBuffer != null)
-            throw new IllegalStateException("Default buffer already initialized");
-        return defaultBuffer = getNewFrameBuffer(width, height, format);
+        defaultBuffer.setColorBuffer(getOrCreateFrameBuffer(width, height, format));
+        return defaultBuffer;
     }
 
     @Override
@@ -78,7 +76,9 @@ public class RenderPipelineImpl implements RenderPipeline {
     @Override
     public RenderPipelineBufferImpl getNewFrameBuffer(int width, int height, Pixmap.Format format) {
         TextureFrameBuffer frameBuffer = getOrCreateFrameBuffer(width, height, format);
-        return new RenderPipelineBufferImpl(frameBuffer);
+        RenderPipelineBufferImpl renderPipelineBuffer = new RenderPipelineBufferImpl();
+        renderPipelineBuffer.setColorBuffer(frameBuffer);
+        return renderPipelineBuffer;
     }
 
     private TextureFrameBuffer getOrCreateFrameBuffer(int width, int height, Pixmap.Format format) {
@@ -109,8 +109,10 @@ public class RenderPipelineImpl implements RenderPipeline {
         RenderPipelineBufferImpl buffer = (RenderPipelineBufferImpl) frameBuffer;
         newFrameBuffers.add(buffer.getColorBuffer());
         TextureFrameBuffer depthBuffer = buffer.getDepthBuffer();
-        if (depthBuffer != null)
+        if (depthBuffer != null) {
             newFrameBuffers.add(depthBuffer);
+            buffer.setDepthBuffer(null);
+        }
     }
 
     @Override

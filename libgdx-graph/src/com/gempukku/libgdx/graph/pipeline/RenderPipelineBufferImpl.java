@@ -6,10 +6,6 @@ public class RenderPipelineBufferImpl implements RenderPipelineBuffer {
     private TextureFrameBuffer colorBuffer;
     private TextureFrameBuffer depthBuffer;
 
-    public RenderPipelineBufferImpl(TextureFrameBuffer colorBuffer) {
-        this.colorBuffer = colorBuffer;
-    }
-
     public TextureFrameBuffer getDepthBuffer() {
         return depthBuffer;
     }
@@ -24,6 +20,10 @@ public class RenderPipelineBufferImpl implements RenderPipelineBuffer {
 
     public TextureFrameBuffer getColorBuffer() {
         return colorBuffer;
+    }
+
+    public void setColorBuffer(TextureFrameBuffer colorBuffer) {
+        this.colorBuffer = colorBuffer;
     }
 
     public Texture getColorBufferTexture() {

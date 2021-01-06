@@ -196,7 +196,7 @@ public class Episode4Scene implements LibgdxGraphTestScene {
 
             currentBuffer.beginColor();
 
-            Gdx.gl.glClearColor(0, 0, 0, 1);
+            // No idea, why I need to call this
             Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT);
 
             modelBatch.begin(camera);
