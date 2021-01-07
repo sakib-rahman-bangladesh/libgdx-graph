@@ -1,16 +1,16 @@
 package com.gempukku.libgdx.graph.system;
 
 import com.badlogic.ashley.core.EntitySystem;
-import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraController;
+import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraFocusController;
 
 public class CameraSystem extends EntitySystem {
-    private ConstraintCameraController constraintCameraController;
+    private ConstraintCameraFocusController constraintCameraController;
 
     public CameraSystem(int priority) {
         super(priority);
     }
 
-    public void setConstraintCameraController(ConstraintCameraController constraintCameraController) {
+    public void setConstraintCameraController(ConstraintCameraFocusController constraintCameraController) {
         this.constraintCameraController = constraintCameraController;
     }
 

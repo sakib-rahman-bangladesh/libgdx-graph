@@ -1,10 +1,10 @@
-package com.gempukku.libgdx.graph.system.camera.constraint;
+package com.gempukku.libgdx.graph.system.camera.constraint.focus;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class FixedToWindowCameraConstraint implements CameraConstraint {
+public class FixedToWindowCameraConstraint implements CameraFocusConstraint {
     private Rectangle windowRectangle;
 
     private Vector2 tmpVector = new Vector2();

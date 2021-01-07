@@ -28,9 +28,10 @@ import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
 import com.gempukku.libgdx.graph.system.RenderingSystem;
 import com.gempukku.libgdx.graph.system.TextureHolder;
-import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraController;
-import com.gempukku.libgdx.graph.system.camera.constraint.FixedToWindowCameraConstraint;
-import com.gempukku.libgdx.graph.system.camera.constraint.SnapToWindowCameraConstraint;
+import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraFocusController;
+import com.gempukku.libgdx.graph.system.camera.constraint.focus.CameraFocusConstraint;
+import com.gempukku.libgdx.graph.system.camera.constraint.focus.FixedToWindowCameraConstraint;
+import com.gempukku.libgdx.graph.system.camera.constraint.focus.SnapToWindowCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.focus.SpriteFocus;
 import com.gempukku.libgdx.graph.system.sensor.FootSensorContactListener;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
@@ -83,9 +84,11 @@ public class Episode19Scene implements LibgdxGraphTestScene {
 
         Entity playerEntity = EntityLoader.readEntity(engine, json, "sprite/playerBlueWizard.json");
         engine.getSystem(PlayerControlSystem.class).setPlayerEntity(playerEntity);
-        ConstraintCameraController cameraController = new ConstraintCameraController(camera, new SpriteFocus(playerEntity),
-                new SnapToWindowCameraConstraint(new Rectangle(0.2f, 0.1f, 0.2f, 0.4f), new Vector2(0.1f, 0.1f)),
-                new FixedToWindowCameraConstraint(new Rectangle(0.1f, 0.1f, 0.4f, 0.6f)));
+        ConstraintCameraFocusController cameraController = new ConstraintCameraFocusController(camera, new SpriteFocus(playerEntity),
+                new CameraFocusConstraint[]{
+                        new SnapToWindowCameraConstraint(new Rectangle(0.2f, 0.1f, 0.2f, 0.4f), new Vector2(0.1f, 0.1f)),
+                        new FixedToWindowCameraConstraint(new Rectangle(0.1f, 0.1f, 0.4f, 0.6f))
+                });
         engine.getSystem(CameraSystem.class).setConstraintCameraController(cameraController);
 
         Gdx.input.setInputProcessor(stage);

@@ -1,10 +1,10 @@
-package com.gempukku.libgdx.graph.system.camera.constraint;
+package com.gempukku.libgdx.graph.system.camera.constraint.focus;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class SnapToWindowCameraConstraint implements CameraConstraint {
+public class SnapToWindowCameraConstraint implements CameraFocusConstraint {
     private Rectangle snapRectangle;
     private Vector2 snapSpeed;
 
