@@ -18,7 +18,7 @@ public abstract class GraphDataLoaderCallback<T, U extends FieldType> implements
 
     @Override
     public void addPipelineNode(String id, String type, float x, float y, JsonValue data) {
-        graphNodes.put(id, new GraphNodeData<U>(id, type, getNodeConfiguration(type, data), data));
+        graphNodes.put(id, new GraphNodeData<U>(id, getNodeConfiguration(type, data), data));
     }
 
     @Override
@@ -67,13 +67,11 @@ public abstract class GraphDataLoaderCallback<T, U extends FieldType> implements
 
     private static class GraphNodeData<T extends FieldType> implements GraphNode<T> {
         private String id;
-        private String type;
         private NodeConfiguration<T> configuration;
         private JsonValue data;
 
-        public GraphNodeData(String id, String type, NodeConfiguration<T> configuration, JsonValue data) {
+        public GraphNodeData(String id, NodeConfiguration<T> configuration, JsonValue data) {
             this.id = id;
-            this.type = type;
             this.configuration = configuration;
             this.data = data;
         }
@@ -81,16 +79,6 @@ public abstract class GraphDataLoaderCallback<T, U extends FieldType> implements
         @Override
         public String getId() {
             return id;
-        }
-
-        @Override
-        public String getType() {
-            return type;
-        }
-
-        @Override
-        public boolean isInputField(String fieldId) {
-            return configuration.getNodeInputs().containsKey(fieldId);
         }
 
         @Override

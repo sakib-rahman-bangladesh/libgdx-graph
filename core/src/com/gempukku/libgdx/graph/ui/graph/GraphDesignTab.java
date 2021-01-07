@@ -409,7 +409,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
             Window window = graphContainer.getBoxWindow(graphBox.getId());
             JsonValue object = new JsonValue(JsonValue.ValueType.object);
             object.addChild("id", new JsonValue(graphBox.getId()));
-            object.addChild("type", new JsonValue(graphBox.getType()));
+            object.addChild("type", new JsonValue(graphBox.getConfiguration().getType()));
             object.addChild("x", new JsonValue(tmp.x + window.getX()));
             object.addChild("y", new JsonValue(tmp.y + window.getY()));
 

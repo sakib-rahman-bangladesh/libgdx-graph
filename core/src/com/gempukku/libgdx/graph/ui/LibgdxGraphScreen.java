@@ -44,6 +44,7 @@ import java.util.Map;
 
 public class LibgdxGraphScreen extends Table {
     public static GraphInClipboard graphInClipboard = new GraphInClipboard();
+    public static NodesInClipboard nodesInClipboard = new NodesInClipboard();
 
     private Map<String, JsonValue> savedGraphs = new HashMap<>();
     private FileHandle editedFile;

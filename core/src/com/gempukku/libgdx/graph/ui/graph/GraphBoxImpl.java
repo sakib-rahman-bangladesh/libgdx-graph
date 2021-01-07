@@ -41,16 +41,6 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
     }
 
     @Override
-    public String getType() {
-        return configuration.getType();
-    }
-
-    @Override
-    public boolean isInputField(String fieldId) {
-        return inputConnectors.containsKey(fieldId);
-    }
-
-    @Override
     public void graphChanged(GraphChangedEvent event, boolean hasErrors, Graph<? extends GraphNode<T>, ? extends GraphConnection, ? extends GraphProperty<T>, T> graph) {
 
     }

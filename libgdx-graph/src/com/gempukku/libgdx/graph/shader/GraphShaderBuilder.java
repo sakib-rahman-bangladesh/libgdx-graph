@@ -601,7 +601,7 @@ public class GraphShaderBuilder {
         ObjectMap<String, GraphShaderNodeBuilder.FieldOutput> nodeOutput = nodeOutputs.get(nodeId);
         if (nodeOutput == null) {
             GraphNode<ShaderFieldType> nodeInfo = graph.getNodeById(nodeId);
-            String nodeInfoType = nodeInfo.getType();
+            String nodeInfoType = nodeInfo.getConfiguration().getType();
             GraphShaderNodeBuilder nodeBuilder = getNodeBuilder(nodeInfoType, graphConfigurations);
             if (nodeBuilder == null)
                 throw new IllegalStateException("Unable to find graph shader node builder for type: " + nodeInfoType);

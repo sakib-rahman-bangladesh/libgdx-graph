@@ -375,8 +375,8 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
             if (!drawingFromConnector.equals(clickedNodeConnector)) {
                 GraphBox<T> drawingFromNode = getGraphBoxById(drawingFromConnector.getNodeId());
 
-                boolean drawingFromIsInput = drawingFromNode.isInputField(drawingFromConnector.getFieldId());
-                if (drawingFromIsInput == clickedNode.isInputField(clickedNodeConnector.getFieldId())) {
+                boolean drawingFromIsInput = drawingFromNode.getConfiguration().getNodeInputs().containsKey(drawingFromConnector.getFieldId());
+                if (drawingFromIsInput == clickedNode.getConfiguration().getNodeInputs().containsKey(clickedNodeConnector.getFieldId())) {
                     drawingFromConnector = null;
                 } else {
                     NodeConnector connectorFrom = drawingFromIsInput ? clickedNodeConnector : drawingFromConnector;
@@ -410,7 +410,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
                 drawingFromConnector = null;
             }
         } else {
-            boolean input = clickedNode.isInputField(clickedNodeConnector.getFieldId());
+            boolean input = clickedNode.getConfiguration().getNodeInputs().containsKey(clickedNodeConnector.getFieldId());
             if ((input && !clickedNode.getConfiguration().getNodeInputs().get(clickedNodeConnector.getFieldId()).isAcceptingMultiple())
                     || (!input && !clickedNode.getConfiguration().getNodeOutputs().get(clickedNodeConnector.getFieldId()).supportsMultiple())) {
                 List<GraphConnection> nodeConnections = findNodeConnections(clickedNodeConnector);
@@ -794,7 +794,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
             shapeRenderer.setColor(LINE_COLOR);
             GraphBox<T> drawingFromNode = getGraphBoxById(drawingFromConnector.getNodeId());
             Window fromWindow = getBoxWindow(drawingFromConnector.getNodeId());
-            if (drawingFromNode.isInputField(drawingFromConnector.getFieldId())) {
+            if (drawingFromNode.getConfiguration().getNodeInputs().containsKey(drawingFromConnector.getFieldId())) {
                 GraphBoxInputConnector<T> input = drawingFromNode.getInputs().get(drawingFromConnector.getFieldId());
                 calculateConnection(from, fromWindow, input);
                 Vector2 mouseLocation = getStage().getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));

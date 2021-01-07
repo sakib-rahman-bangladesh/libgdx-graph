@@ -73,7 +73,7 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
             return pipelineNode;
 
         GraphNode<PipelineFieldType> nodeInfo = getNodeById(nodeId);
-        String nodeInfoType = nodeInfo.getType();
+        String nodeInfoType = nodeInfo.getConfiguration().getType();
         PipelineNodeProducer nodeProducer = RendererPipelineConfiguration.pipelineNodeProducers.get(nodeInfoType);
         if (nodeProducer == null)
             throw new IllegalStateException("Unable to find node producer for type: " + nodeInfoType);
