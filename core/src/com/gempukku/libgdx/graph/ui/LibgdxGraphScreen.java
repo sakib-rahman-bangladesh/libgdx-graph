@@ -10,19 +10,29 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
+import com.gempukku.libgdx.graph.data.FieldType;
+import com.gempukku.libgdx.graph.data.GraphConnection;
+import com.gempukku.libgdx.graph.data.GraphNode;
+import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
+import com.gempukku.libgdx.graph.ui.graph.GraphBox;
+import com.gempukku.libgdx.graph.ui.graph.GraphContainer;
 import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 import com.gempukku.libgdx.graph.ui.graph.GraphRemoved;
 import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
 import com.gempukku.libgdx.graph.ui.graph.SaveCallback;
 import com.gempukku.libgdx.graph.ui.pipeline.UIPipelineConfiguration;
+import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.kotcrab.vis.ui.util.OsUtils;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
@@ -41,6 +51,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class LibgdxGraphScreen extends Table {
     public static GraphInClipboard graphInClipboard = new GraphInClipboard();
@@ -164,9 +175,40 @@ public class LibgdxGraphScreen extends Table {
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
         menuBar.addMenu(createFileMenu());
+        menuBar.addMenu(createEditMenu());
         menuBar.addMenu(createGraphMenu());
 
         return menuBar;
+    }
+
+    private Menu createEditMenu() {
+        Menu editMenu = new Menu("Edit");
+
+        ChangeListener copyListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                copy();
+            }
+        };
+
+        ChangeListener pasteListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                paste();
+            }
+        };
+
+        MenuItem copy = new MenuItem("Copy");
+        addControlShortcut(Input.Keys.C, copy, copyListener);
+        copy.addListener(copyListener);
+        editMenu.addItem(copy);
+
+        MenuItem paste = new MenuItem("Paste");
+        addControlShortcut(Input.Keys.V, paste, pasteListener);
+        paste.addListener(pasteListener);
+        editMenu.addItem(paste);
+
+        return editMenu;
     }
 
     private Menu createGraphMenu() {
@@ -175,7 +217,6 @@ public class LibgdxGraphScreen extends Table {
         ChangeListener createGroupListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
                 createGroup();
             }
         };
@@ -276,6 +317,78 @@ public class LibgdxGraphScreen extends Table {
         fileMenu.addItem(exit);
 
         return fileMenu;
+    }
+
+    private void copy() {
+        GraphDesignTab<?> activeTab = (GraphDesignTab<?>) tabbedPane.getActiveTab();
+        if (activeTab != null) {
+            GraphDesignTab.Type type = activeTab.getType();
+            GraphContainer<?> graphContainer = activeTab.getGraphContainer();
+            ObjectSet<String> selectedNodes = graphContainer.getSelectedNodes();
+
+            Array<NodesInClipboard.NodesData> nodesData = new Array<>();
+            Array<GraphConnection> graphConnections = new Array<>();
+
+            ObjectSet<String> copiedNodes = new ObjectSet<>();
+
+            for (GraphBox<?> graphBox : graphContainer.getGraphBoxes()) {
+                if (selectedNodes.contains(graphBox.getId()) && !graphBox.getId().equals("end")) {
+                    Window boxWindow = graphContainer.getBoxWindow(graphBox.getId());
+                    nodesData.add(
+                            new NodesInClipboard.NodesData(
+                                    new GraphNodeImpl(graphBox.getId(), graphBox.getData(), graphBox.getConfiguration()),
+                                    boxWindow.getX(), boxWindow.getY()));
+                    copiedNodes.add(graphBox.getId());
+                }
+            }
+
+            for (GraphConnection connection : graphContainer.getConnections()) {
+                if (copiedNodes.contains(connection.getNodeFrom()) && copiedNodes.contains(connection.getNodeTo()))
+                    graphConnections.add(connection);
+            }
+
+            nodesInClipboard.graphType = type;
+            nodesInClipboard.nodesData = nodesData;
+            nodesInClipboard.graphConnections = graphConnections;
+        }
+    }
+
+    private void paste() {
+        GraphDesignTab<?> activeTab = (GraphDesignTab<?>) tabbedPane.getActiveTab();
+        if (activeTab != null) {
+            GraphDesignTab.Type type = activeTab.getType();
+            if (type == nodesInClipboard.graphType) {
+                ObjectMap<String, String> oldToNewIdMapping = new ObjectMap<>();
+                UIGraphConfiguration<?>[] uiGraphConfigurations = activeTab.getUiGraphConfigurations();
+
+                // Do the actual paste
+                for (NodesInClipboard.NodesData nodesDatum : nodesInClipboard.nodesData) {
+                    String id = UUID.randomUUID().toString().replace("-", "");
+                    GraphBoxProducer<?> graphBoxProducer = findGraphBoxProducer(uiGraphConfigurations, nodesDatum.graphNode.getConfiguration().getType());
+                    GraphBox graphBox = graphBoxProducer.createPipelineGraphBox(skin, id, nodesDatum.graphNode.getData());
+                    activeTab.getGraphContainer().addGraphBox(graphBox, nodesDatum.graphNode.getConfiguration().getName(),
+                            true, nodesDatum.x, nodesDatum.y);
+                    oldToNewIdMapping.put(nodesDatum.graphNode.getId(), id);
+                }
+
+                for (GraphConnection graphConnection : nodesInClipboard.graphConnections) {
+                    activeTab.getGraphContainer().addGraphConnection(
+                            oldToNewIdMapping.get(graphConnection.getNodeFrom()), graphConnection.getFieldFrom(),
+                            oldToNewIdMapping.get(graphConnection.getNodeTo()), graphConnection.getFieldTo());
+                }
+            }
+        }
+    }
+
+    private GraphBoxProducer<?> findGraphBoxProducer(UIGraphConfiguration<?>[] configurations, String type) {
+        for (UIGraphConfiguration<?> configuration : configurations) {
+            for (GraphBoxProducer<?> graphBoxProducer : configuration.getGraphBoxProducers()) {
+                if (graphBoxProducer.getType().equals(type))
+                    return graphBoxProducer;
+            }
+        }
+
+        return null;
     }
 
     private void closeApplication() {
@@ -533,6 +646,33 @@ public class LibgdxGraphScreen extends Table {
     public void dispose() {
         for (Tab tab : tabbedPane.getTabs()) {
             tab.dispose();
+        }
+    }
+
+    private static class GraphNodeImpl<T extends FieldType> implements GraphNode<T> {
+        private String id;
+        private JsonValue data;
+        private NodeConfiguration<T> configuration;
+
+        public GraphNodeImpl(String id, JsonValue data, NodeConfiguration<T> configuration) {
+            this.id = id;
+            this.data = data;
+            this.configuration = configuration;
+        }
+
+        @Override
+        public String getId() {
+            return id;
+        }
+
+        @Override
+        public JsonValue getData() {
+            return data;
+        }
+
+        @Override
+        public NodeConfiguration<T> getConfiguration() {
+            return configuration;
         }
     }
 }

@@ -150,6 +150,10 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         contentTable.add(splitPane).grow().row();
     }
 
+    public UIGraphConfiguration<T>[] getUiGraphConfigurations() {
+        return uiGraphConfigurations;
+    }
+
     public Type getType() {
         return type;
     }

@@ -1,17 +1,24 @@
 package com.gempukku.libgdx.graph.ui;
 
-import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.Array;
+import com.gempukku.libgdx.graph.data.GraphConnection;
+import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 
 public class NodesInClipboard {
     public GraphDesignTab.Type graphType;
-    public NodesData[] nodesData;
+    public Array<NodesData> nodesData;
+    public Array<GraphConnection> graphConnections;
 
-    class NodesData {
-        public String id;
-        public String type;
+    static class NodesData {
+        public GraphNode<?> graphNode;
         public float x;
         public float y;
-        public JsonValue data;
+
+        public NodesData(GraphNode<?> graphNode, float x, float y) {
+            this.graphNode = graphNode;
+            this.x = x;
+            this.y = y;
+        }
     }
 }

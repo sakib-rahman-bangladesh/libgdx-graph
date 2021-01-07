@@ -1,6 +1,6 @@
 Essential before beta:
-- Nodes copy/paste
 - Shortcut to create and connect a property, when clicking on node circle in graph.
+- Figure out why Gradient node is difficult to close (click on button)
 
 Improvements:
 - Model caching for Model graph shaders

@@ -553,6 +553,10 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         }
     }
 
+    public ObjectSet<String> getSelectedNodes() {
+        return selectedNodes;
+    }
+
     private void removeGraphBox(GraphBox<T> graphBox) {
         Iterator<GraphConnection> graphConnectionIterator = graphConnections.iterator();
         String nodeId = graphBox.getId();
@@ -869,15 +873,6 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
     public GraphBox<T> getGraphBoxById(String id) {
         return graphBoxes.get(id);
-    }
-
-    public List<GraphConnection> getIncomingConnections(GraphBox<T> graphBox) {
-        List<GraphConnection> result = new LinkedList<>();
-        for (GraphConnection graphConnection : graphConnections) {
-            if (graphConnection.getNodeTo().equals(graphBox.getId()))
-                result.add(graphConnection);
-        }
-        return result;
     }
 
     public Iterable<GraphBox<T>> getGraphBoxes() {
