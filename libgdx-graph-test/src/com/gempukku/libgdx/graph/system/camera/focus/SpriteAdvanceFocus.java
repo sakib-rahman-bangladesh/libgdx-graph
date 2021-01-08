@@ -10,15 +10,23 @@ public class SpriteAdvanceFocus implements WeightedCameraFocus {
     private Entity entity;
     private float advanceDistance;
     private float weight;
+    private float x;
+    private float y;
 
     public SpriteAdvanceFocus(Entity entity, float advanceDistance) {
         this(entity, advanceDistance, 1f);
     }
 
     public SpriteAdvanceFocus(Entity entity, float advanceDistance, float weight) {
+        this(entity, advanceDistance, weight, 0, 0);
+    }
+
+    public SpriteAdvanceFocus(Entity entity, float advanceDistance, float weight, float x, float y) {
         this.entity = entity;
         this.advanceDistance = advanceDistance;
         this.weight = weight;
+        this.x = x;
+        this.y = y;
     }
 
     @Override
@@ -33,7 +41,7 @@ public class SpriteAdvanceFocus implements WeightedCameraFocus {
 
         Vector2 result = position.getPosition(focus);
         SpriteFaceDirection faceDirection = facing.getFaceDirection();
-        result.add(faceDirection.getX() * advanceDistance, faceDirection.getY() * advanceDistance);
+        result.add(faceDirection.getX() * advanceDistance + x, faceDirection.getY() * advanceDistance + y);
         return result;
     }
 }
