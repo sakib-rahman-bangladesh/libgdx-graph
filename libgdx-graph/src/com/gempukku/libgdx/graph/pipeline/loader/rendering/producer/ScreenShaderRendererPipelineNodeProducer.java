@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
@@ -35,9 +36,16 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
 
         final ShaderContextImpl shaderContext = new ShaderContextImpl();
 
-        final String tag = data.getString("tag");
-        JsonValue shaderJson = data.get("shader");
-        final ScreenGraphShader graphShader = GraphLoader.loadGraph(shaderJson, new ScreenShaderLoaderCallback(whitePixel.texture, configurations));
+        final Array<ScreenGraphShader> shaderArray = new Array<>();
+
+        final JsonValue shaderDefinitions = data.get("shaders");
+        for (JsonValue shaderDefinition : shaderDefinitions) {
+            JsonValue shaderGraph = shaderDefinition.get("shader");
+            String tag = shaderDefinition.getString("tag");
+            final ScreenGraphShader shader = GraphLoader.loadGraph(shaderGraph, new ScreenShaderLoaderCallback(whitePixel.texture, configurations));
+            shader.setTag(tag);
+            shaderArray.add(shader);
+        }
 
         final PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
         final PipelineNode.FieldOutput<GraphShaderEnvironment> lightsInput = (PipelineNode.FieldOutput<GraphShaderEnvironment>) inputFields.get("lights");
@@ -47,7 +55,25 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
             public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
-                pipelineInitializationFeedback.registerScreenShader(tag, graphShader);
+                for (ScreenGraphShader shader : shaderArray) {
+                    pipelineInitializationFeedback.registerScreenShader(shader.getTag(), shader);
+                }
+            }
+
+            public boolean needsDepth() {
+                for (ScreenGraphShader shader : shaderArray) {
+                    if (shader.isUsingDepthTexture())
+                        return true;
+                }
+                return false;
+            }
+
+            public boolean isRequiringSceneColor() {
+                for (ScreenGraphShader shader : shaderArray) {
+                    if (shader.isUsingColorTexture())
+                        return true;
+                }
+                return false;
             }
 
             @Override
@@ -56,7 +82,7 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
 
                 boolean enabled = processorEnabled == null || processorEnabled.getValue(pipelineRenderingContext, null);
                 if (enabled) {
-                    if (graphShader.isUsingDepthTexture()) {
+                    if (needsDepth()) {
                         usesDepth = true;
                         pipelineRequirements.setRequiringDepthTexture();
                     }
@@ -65,7 +91,7 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
 
                 if (enabled) {
-                    boolean needsSceneColor = graphShader.isUsingColorTexture();
+                    boolean needsSceneColor = isRequiringSceneColor();
 
                     RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
 
@@ -91,10 +117,12 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
 
                     currentBuffer.beginColor();
 
-                    shaderContext.setPropertyContainer(graphShader.getPropertyContainer());
-                    graphShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
-                    graphShader.render(shaderContext, pipelineRenderingContext.getFullScreenRender());
-                    graphShader.end();
+                    for (ScreenGraphShader shader : shaderArray) {
+                        shaderContext.setPropertyContainer(shader.getPropertyContainer());
+                        shader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
+                        shader.render(shaderContext, pipelineRenderingContext.getFullScreenRender());
+                        shader.end();
+                    }
 
                     currentBuffer.endColor();
 
@@ -117,7 +145,9 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
 
             @Override
             public void dispose() {
-                graphShader.dispose();
+                for (ScreenGraphShader shader : shaderArray) {
+                    shader.dispose();
+                }
                 whitePixel.dispose();
             }
         };

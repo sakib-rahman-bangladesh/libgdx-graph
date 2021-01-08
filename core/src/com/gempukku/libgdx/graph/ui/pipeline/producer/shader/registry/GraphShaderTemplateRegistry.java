@@ -8,6 +8,7 @@ public class GraphShaderTemplateRegistry {
     public static Array<GraphShaderTemplate> modelShaderTemplateList = new Array<>();
     public static Array<GraphShaderTemplate> particlesShaderTemplateList = new Array<>();
     public static Array<GraphShaderTemplate> spriteShaderTemplateList = new Array<>();
+    public static Array<GraphShaderTemplate> screenShaderTemplateList = new Array<>();
 
     static {
         modelShaderTemplateList.add(
@@ -38,6 +39,15 @@ public class GraphShaderTemplateRegistry {
                 new LoadFileGraphShaderTemplate("From file..."));
         spriteShaderTemplateList.add(
                 new PasteGraphShaderTemplate(GraphDesignTab.Type.Sprite_Shader));
+
+
+        screenShaderTemplateList.add(
+                new FileGraphShaderTemplate("Empty", Gdx.files.classpath("template/sprite/empty-sprite-shader.json")));
+        screenShaderTemplateList.add(null);
+        screenShaderTemplateList.add(
+                new LoadFileGraphShaderTemplate("From file..."));
+        screenShaderTemplateList.add(
+                new PasteGraphShaderTemplate(GraphDesignTab.Type.Screen_Shader));
     }
 
     private GraphShaderTemplateRegistry() {
