@@ -29,7 +29,7 @@ public class GradientShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
+        final GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
         addConfigurationInputsAndOutputs(skin, result);
 
         final GradientWidget gradientWidget = new GradientWidget();
@@ -65,6 +65,7 @@ public class GradientShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
                                 point.color.set(newColor);
                                 picker.dispose();
                                 onSuccess.run();
+                                result.getActor().fire(new GraphChangedEvent(false, true));
                             }
 
                             @Override
@@ -101,7 +102,7 @@ public class GradientShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        clampMethodSelectBox.fire(new GraphChangedEvent(false, true));
+                        result.getActor().fire(new GraphChangedEvent(false, true));
                     }
                 });
 
