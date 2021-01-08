@@ -4,18 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 
 public class RenderOutputs {
-    public static final RenderOutput drawToScreen = new DrawToScreen();
+    public static final RenderOutput drawToScreen = new DrawToScreenImpl();
 
-    private static class DrawToScreenSpecified implements RenderOutput {
+    public static class DrawToScreen implements RenderOutput {
         private int x;
         private int y;
         private int width;
         private int height;
 
-        public DrawToScreenSpecified(int x, int y, int width, int height) {
+        public DrawToScreen(int x, int y, int width, int height) {
             this.x = x;
             this.y = y;
             this.width = width;
@@ -41,22 +44,46 @@ public class RenderOutputs {
         }
     }
 
-    private static class DrawToScreen implements RenderOutput {
+    public class DrawToScreenScaled implements RenderOutput {
+        private Scaling scaling;
+        private int align;
+        private int width;
+        private int height;
+
+        public DrawToScreenScaled(Scaling scaling, int align, int width, int height) {
+            this.scaling = scaling;
+            this.align = align;
+            this.width = width;
+            this.height = height;
+        }
+
         @Override
         public int getRenderWidth() {
-            return Gdx.graphics.getWidth();
+            return width;
         }
 
         @Override
         public int getRenderHeight() {
-            return Gdx.graphics.getHeight();
+            return height;
         }
+
 
         @Override
         public void output(RenderPipeline renderPipeline, PipelineRenderingContext pipelineRenderingContext) {
-            renderPipeline.drawTexture(renderPipeline.getDefaultBuffer(), null, pipelineRenderingContext);
+            RenderPipelineBuffer defaultBuffer = renderPipeline.getDefaultBuffer();
 
-            renderPipeline.returnFrameBuffer(renderPipeline.getDefaultBuffer());
+            int screenWidth = Gdx.graphics.getWidth();
+            int screenHeight = Gdx.graphics.getHeight();
+
+            Vector2 size = scaling.apply(defaultBuffer.getWidth(), defaultBuffer.getHeight(), screenWidth, screenHeight);
+
+            float spaceX = Align.isLeft(align) ? 0 : (Align.isRight(align) ? (screenWidth - size.x) : ((screenWidth - size.x) / 2));
+            float spaceY = Align.isTop(align) ? 0 : (Align.isBottom(align) ? (screenHeight - size.y) : ((screenHeight - size.y) / 2));
+
+            renderPipeline.drawTexture(defaultBuffer, null, pipelineRenderingContext,
+                    spaceX, spaceY, size.x, size.y);
+
+            renderPipeline.returnFrameBuffer(defaultBuffer);
         }
     }
 
@@ -92,6 +119,25 @@ public class RenderOutputs {
                 pixmap.dispose();
 
             renderPipeline.returnFrameBuffer(currentBuffer);
+        }
+    }
+
+    private static class DrawToScreenImpl implements RenderOutput {
+        @Override
+        public int getRenderWidth() {
+            return Gdx.graphics.getWidth();
+        }
+
+        @Override
+        public int getRenderHeight() {
+            return Gdx.graphics.getHeight();
+        }
+
+        @Override
+        public void output(RenderPipeline renderPipeline, PipelineRenderingContext pipelineRenderingContext) {
+            renderPipeline.drawTexture(renderPipeline.getDefaultBuffer(), null, pipelineRenderingContext);
+
+            renderPipeline.returnFrameBuffer(renderPipeline.getDefaultBuffer());
         }
     }
 }
