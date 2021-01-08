@@ -90,9 +90,11 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
     private ObjectSet<String> selectedNodes = new ObjectSet<>();
     private boolean movingSelected = false;
     private Skin skin;
+    private PopupMenuProducer popupMenuProducer;
 
     public GraphContainer(Skin skin, final PopupMenuProducer popupMenuProducer) {
         this.skin = skin;
+        this.popupMenuProducer = popupMenuProducer;
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
 
@@ -103,65 +105,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
                 new ClickListener(Input.Buttons.RIGHT) {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        if (!containedInWindow(x, y)) {
-                            NodeGroupImpl nodeGroup = null;
-                            for (Map.Entry<NodeGroupImpl, Rectangle> nodeGroupEntry : nodeGroups.entrySet()) {
-                                Rectangle rectangle = nodeGroupEntry.getValue();
-                                if (rectangle.contains(x, y) && y > rectangle.y + rectangle.height - GROUP_LABEL_HEIGHT) {
-                                    // Hit the label
-                                    nodeGroup = nodeGroupEntry.getKey();
-                                    break;
-                                }
-                            }
-                            if (nodeGroup != null) {
-                                final NodeGroupImpl finalNodeGroup = nodeGroup;
-
-                                PopupMenu popupMenu = new PopupMenu();
-                                MenuItem rename = new MenuItem("Rename group");
-                                rename.addListener(
-                                        new ChangeListener() {
-                                            @Override
-                                            public void changed(ChangeEvent event, Actor actor) {
-                                                Dialogs.showInputDialog(getStage(), "Enter group name", "Name",
-                                                        new InputValidator() {
-                                                            @Override
-                                                            public boolean validateInput(String input) {
-                                                                return !input.trim().isEmpty();
-                                                            }
-                                                        },
-                                                        new InputDialogListener() {
-                                                            @Override
-                                                            public void finished(String input) {
-                                                                finalNodeGroup.setName(input.trim());
-                                                                fire(new GraphChangedEvent(false, false));
-                                                            }
-
-                                                            @Override
-                                                            public void canceled() {
-
-                                                            }
-                                                        });
-                                            }
-                                        });
-                                popupMenu.addItem(rename);
-
-                                MenuItem remove = new MenuItem("Remove group");
-                                remove.addListener(
-                                        new ChangeListener() {
-                                            @Override
-                                            public void changed(ChangeEvent event, Actor actor) {
-                                                nodeGroups.remove(finalNodeGroup);
-                                                fire(new GraphChangedEvent(false, false));
-                                            }
-                                        });
-                                popupMenu.addItem(remove);
-
-                                popupMenu.showMenu(getStage(), x + getX(), y + getY());
-                            } else {
-                                PopupMenu popupMenu = popupMenuProducer.createPopupMenu(x, y);
-                                popupMenu.showMenu(getStage(), x + getX(), y + getY());
-                            }
-                        }
+                        processRightClick(x, y);
                     }
                 });
         addListener(
@@ -325,6 +269,69 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
     public GraphValidator.ValidationResult<GraphBox<T>, GraphConnection, PropertyBox<T>, T> getValidationResult() {
         return validationResult;
+    }
+
+
+    private void processRightClick(float x, float y) {
+        if (!containedInWindow(x, y)) {
+            NodeGroupImpl nodeGroup = null;
+            for (Map.Entry<NodeGroupImpl, Rectangle> nodeGroupEntry : nodeGroups.entrySet()) {
+                Rectangle rectangle = nodeGroupEntry.getValue();
+                if (rectangle.contains(x, y) && y > rectangle.y + rectangle.height - GROUP_LABEL_HEIGHT) {
+                    // Hit the label
+                    nodeGroup = nodeGroupEntry.getKey();
+                    break;
+                }
+            }
+            if (nodeGroup != null) {
+                final NodeGroupImpl finalNodeGroup = nodeGroup;
+
+                PopupMenu popupMenu = new PopupMenu();
+                MenuItem rename = new MenuItem("Rename group");
+                rename.addListener(
+                        new ChangeListener() {
+                            @Override
+                            public void changed(ChangeEvent event, Actor actor) {
+                                Dialogs.showInputDialog(getStage(), "Enter group name", "Name",
+                                        new InputValidator() {
+                                            @Override
+                                            public boolean validateInput(String input) {
+                                                return !input.trim().isEmpty();
+                                            }
+                                        },
+                                        new InputDialogListener() {
+                                            @Override
+                                            public void finished(String input) {
+                                                finalNodeGroup.setName(input.trim());
+                                                fire(new GraphChangedEvent(false, false));
+                                            }
+
+                                            @Override
+                                            public void canceled() {
+
+                                            }
+                                        });
+                            }
+                        });
+                popupMenu.addItem(rename);
+
+                MenuItem remove = new MenuItem("Remove group");
+                remove.addListener(
+                        new ChangeListener() {
+                            @Override
+                            public void changed(ChangeEvent event, Actor actor) {
+                                nodeGroups.remove(finalNodeGroup);
+                                fire(new GraphChangedEvent(false, false));
+                            }
+                        });
+                popupMenu.addItem(remove);
+
+                popupMenu.showMenu(getStage(), x + getX(), y + getY());
+            } else {
+                PopupMenu popupMenu = popupMenuProducer.createPopupMenu(x, y);
+                popupMenu.showMenu(getStage(), x + getX(), y + getY());
+            }
+        }
     }
 
     private void processLeftClick(float x, float y) {
