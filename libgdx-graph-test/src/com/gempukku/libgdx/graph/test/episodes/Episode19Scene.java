@@ -28,7 +28,7 @@ import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
 import com.gempukku.libgdx.graph.system.RenderingSystem;
 import com.gempukku.libgdx.graph.system.TextureHolder;
-import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraFocusController;
+import com.gempukku.libgdx.graph.system.camera.FocusCameraController;
 import com.gempukku.libgdx.graph.system.camera.constraint.focus.CameraFocusConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.focus.FixedToWindowCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.focus.SnapToWindowCameraConstraint;
@@ -84,7 +84,7 @@ public class Episode19Scene implements LibgdxGraphTestScene {
 
         Entity playerEntity = EntityLoader.readEntity(engine, json, "sprite/playerBlueWizard.json");
         engine.getSystem(PlayerControlSystem.class).setPlayerEntity(playerEntity);
-        ConstraintCameraFocusController cameraController = new ConstraintCameraFocusController(camera, new SpriteFocus(playerEntity),
+        FocusCameraController cameraController = new FocusCameraController(camera, new SpriteFocus(playerEntity),
                 new CameraFocusConstraint[]{
                         new SnapToWindowCameraConstraint(new Rectangle(0.2f, 0.1f, 0.2f, 0.4f), new Vector2(0.1f, 0.1f)),
                         new FixedToWindowCameraConstraint(new Rectangle(0.1f, 0.1f, 0.4f, 0.6f))

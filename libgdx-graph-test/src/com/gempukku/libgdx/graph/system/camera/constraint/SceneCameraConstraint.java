@@ -19,11 +19,8 @@ public class SceneCameraConstraint implements CameraConstraint {
         Vector2 visibleMin = tmpVector1.set(camera.position.x, camera.position.y).add(-camera.viewportWidth / 2f, -camera.viewportHeight / 2f);
         Vector2 visibleMax = tmpVector2.set(camera.position.x, camera.position.y).add(+camera.viewportWidth / 2f, +camera.viewportHeight / 2f);
 
-        float moveX = 0;
-        float moveY = 0;
-
-        moveX = Math.min(Math.max(0, scene.x - visibleMin.x), scene.x + scene.width - visibleMax.x);
-        moveY = Math.min(Math.max(0, scene.y - visibleMin.y), scene.y + scene.width - visibleMax.y);
+        float moveX = Math.min(Math.max(0, scene.x - visibleMin.x), scene.x + scene.width - visibleMax.x);
+        float moveY = Math.min(Math.max(0, scene.y - visibleMin.y), scene.y + scene.width - visibleMax.y);
 
         camera.position.x += moveX;
         camera.position.y += moveY;

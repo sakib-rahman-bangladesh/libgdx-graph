@@ -29,7 +29,7 @@ import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
 import com.gempukku.libgdx.graph.system.RenderingSystem;
 import com.gempukku.libgdx.graph.system.TextureHolder;
-import com.gempukku.libgdx.graph.system.camera.constraint.ConstraintCameraFocusController;
+import com.gempukku.libgdx.graph.system.camera.FocusCameraController;
 import com.gempukku.libgdx.graph.system.camera.constraint.SceneCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.focus.CameraFocusConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.focus.FixedToWindowCameraConstraint;
@@ -89,7 +89,7 @@ public class Episode21Scene implements LibgdxGraphTestScene {
         Entity playerEntity = EntityLoader.readEntity(engine, json, "sprite/playerBlueWizard.json");
         engine.getSystem(PlayerControlSystem.class).setPlayerEntity(playerEntity);
 
-        ConstraintCameraFocusController cameraController = new ConstraintCameraFocusController(camera,
+        FocusCameraController cameraController = new FocusCameraController(camera,
                 // Try to focus on the point 200 pixels in front of player entity,
                 new SpriteAdvanceFocus(playerEntity, 200f),
                 new CameraFocusConstraint[]{
