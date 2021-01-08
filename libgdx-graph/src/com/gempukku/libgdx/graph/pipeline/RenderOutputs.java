@@ -9,6 +9,38 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 public class RenderOutputs {
     public static final RenderOutput drawToScreen = new DrawToScreen();
 
+    private static class DrawToScreenSpecified implements RenderOutput {
+        private int x;
+        private int y;
+        private int width;
+        private int height;
+
+        public DrawToScreenSpecified(int x, int y, int width, int height) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
+
+        @Override
+        public int getRenderWidth() {
+            return width;
+        }
+
+        @Override
+        public int getRenderHeight() {
+            return height;
+        }
+
+        @Override
+        public void output(RenderPipeline renderPipeline, PipelineRenderingContext pipelineRenderingContext) {
+            renderPipeline.drawTexture(renderPipeline.getDefaultBuffer(), null, pipelineRenderingContext,
+                    x, y, width, height);
+
+            renderPipeline.returnFrameBuffer(renderPipeline.getDefaultBuffer());
+        }
+    }
+
     private static class DrawToScreen implements RenderOutput {
         @Override
         public int getRenderWidth() {

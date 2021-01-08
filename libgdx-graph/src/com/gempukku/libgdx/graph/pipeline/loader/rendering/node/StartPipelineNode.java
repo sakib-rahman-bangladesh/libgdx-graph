@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.impl.RenderPipelineImpl;
@@ -27,43 +26,18 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
         color = (FieldOutput<Color>) inputFields.get("background");
         size = (FieldOutput<Vector2>) inputFields.get("size");
 
-        if (color == null) {
-            final Color defaultColor = Color.BLACK;
-            color = new FieldOutput<Color>() {
-                @Override
-                public PipelineFieldType getPropertyType() {
-                    return PipelineFieldType.Color;
-                }
-
-                @Override
-                public Color getValue(PipelineRenderingContext context, PipelineRequirements pipelineRequirements) {
-                    return defaultColor;
-                }
-            };
-        }
-        if (size == null) {
-            size = new FieldOutput<Vector2>() {
-                @Override
-                public PipelineFieldType getPropertyType() {
-                    return PipelineFieldType.Vector2;
-                }
-
-                @Override
-                public Vector2 getValue(PipelineRenderingContext context, PipelineRequirements pipelineRequirements) {
-                    return new Vector2(context.getRenderWidth(), context.getRenderHeight());
-                }
-            };
-        }
         renderPipeline = new RenderPipelineImpl();
     }
 
     @Override
     protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
-        Vector2 bufferSize = size.getValue(pipelineRenderingContext, null);
-        Color backgroundColor = color.getValue(pipelineRenderingContext, null);
+        float bufferX = (size != null) ? size.getValue(pipelineRenderingContext, null).x : pipelineRenderingContext.getRenderWidth();
+        float bufferY = (size != null) ? size.getValue(pipelineRenderingContext, null).y : pipelineRenderingContext.getRenderHeight();
 
-        int width = MathUtils.round(bufferSize.x);
-        int height = MathUtils.round(bufferSize.y);
+        Color backgroundColor = (color != null) ? color.getValue(pipelineRenderingContext, null) : Color.BLACK;
+
+        int width = MathUtils.round(bufferX);
+        int height = MathUtils.round(bufferY);
         renderPipeline.startFrame();
 
         RenderPipelineBuffer frameBuffer = renderPipeline.initializeDefaultBuffer(width, height, Pixmap.Format.RGB888);

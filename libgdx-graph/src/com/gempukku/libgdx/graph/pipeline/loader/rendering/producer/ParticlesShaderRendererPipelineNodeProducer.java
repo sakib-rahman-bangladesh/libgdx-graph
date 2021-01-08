@@ -100,8 +100,8 @@ public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodePro
                     shaderContext.setGraphShaderEnvironment(environment);
 
                     shaderContext.setTimeProvider(pipelineRenderingContext.getTimeProvider());
-                    shaderContext.setRenderWidth(pipelineRenderingContext.getRenderWidth());
-                    shaderContext.setRenderHeight(pipelineRenderingContext.getRenderHeight());
+                    shaderContext.setRenderWidth(currentBuffer.getWidth());
+                    shaderContext.setRenderHeight(currentBuffer.getHeight());
 
                     RenderPipelineBuffer sceneColorBuffer = null;
                     if (needsSceneColor) {

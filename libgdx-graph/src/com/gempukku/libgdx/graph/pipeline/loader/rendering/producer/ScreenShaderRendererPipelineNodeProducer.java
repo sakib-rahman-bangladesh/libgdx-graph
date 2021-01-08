@@ -81,8 +81,8 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
                     shaderContext.setGraphShaderEnvironment(environment);
 
                     shaderContext.setTimeProvider(pipelineRenderingContext.getTimeProvider());
-                    shaderContext.setRenderWidth(pipelineRenderingContext.getRenderWidth());
-                    shaderContext.setRenderHeight(pipelineRenderingContext.getRenderHeight());
+                    shaderContext.setRenderWidth(currentBuffer.getWidth());
+                    shaderContext.setRenderHeight(currentBuffer.getHeight());
 
                     RenderPipelineBuffer sceneColorBuffer = null;
                     if (needsSceneColor) {
