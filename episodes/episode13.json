@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.5.0",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -32,7 +32,7 @@
             "id": "a71e58b2d22b42eab7accbbc25f3adb7",
             "tag": "heat-displacement",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "389b41356e8d40c6b2d42589724d0162",
@@ -586,7 +586,7 @@
             "id": "2daebbc484de449d95bebc71b39fa6c0",
             "tag": "tiled-wall",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "fe89242b93514b40841bf847352b8b5a",
@@ -696,7 +696,7 @@
             "id": "67c4fc773c1e4cd188ecd0fc7fa9c80a",
             "tag": "burner",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "fb0e83e7b49a458a927fd57746b3cd7d",

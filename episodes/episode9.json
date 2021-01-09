@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.5.0",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -71,7 +71,7 @@
                 }
               ],
               "groups": [],
-              "version": "0.1.2",
+              "version": "0.5.0",
               "connections": [
                 {
                   "fromNode": "276582bdc9e9469795f4a8f0ff5beb3c",
@@ -142,7 +142,7 @@
             "id": "728c1b5a29f94be991cf761219dfef75",
             "tag": "Environment",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "ae38eb85cfd94057a9d2893cc7941aa9",
@@ -318,7 +318,7 @@
                 }
               ],
               "groups": [],
-              "version": "0.1.2",
+              "version": "0.5.0",
               "connections": [
                 {
                   "fromNode": "967c65cf2cec4d91b7e2201d41ad5620",

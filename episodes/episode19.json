@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.5.0",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -53,7 +53,7 @@
             "id": "655a2dce015649fab9dbbde01974d0e9",
             "tag": "Animated",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "cb06a9014aa14f6cbc8aba7c79ba4978",
@@ -286,7 +286,7 @@
             "id": "f5154f42a2b84096ab58d61817516535",
             "tag": "Tiled",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "bfbfe2c23431449bb1334e16c764d540",

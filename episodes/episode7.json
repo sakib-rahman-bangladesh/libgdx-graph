@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.5.0",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -63,7 +63,7 @@
             "id": "728c1b5a29f94be991cf761219dfef75",
             "tag": "Default",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "7dd083b41fc045a692c535c8728abba2",
@@ -382,7 +382,7 @@
             "id": "2b380a7d97174c5ba7ce7bd69e69972e",
             "tag": "Toon",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "72fbfc1b408146ec842185e243d51bc4",

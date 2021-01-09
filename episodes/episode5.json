@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.5.0",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -53,7 +53,7 @@
             "id": "57ca1ab002c74edfbf2557528065f3b5",
             "tag": "Cover",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "e6ffa810e40c42c78b618dfc70d1ee7b",

@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.5.0",
   "nodes": [
     {
       "id": "c7274c8066104f9fae86cba6bb9a45dd",
@@ -30,7 +30,7 @@
             "id": "bc4c1b5279584f5cbf7a2a9fe31bda61",
             "tag": "black-hole",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "728664a885e048ed8a2754e2c94eb214",
@@ -346,7 +346,7 @@
             "id": "5c80f2ba63ff4509a9e35f34d673c88b",
             "tag": "starfield",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "e28134dbd58c4f1cb8e9b9a11aca846a",
@@ -543,7 +543,7 @@
             "id": "ab9e838a48384735b18f8e4820d4b03b",
             "tag": "star-surface-behind",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "24c34494789f4e29aef3b0353f3bd126",
@@ -682,7 +682,7 @@
             "id": "e8c6e3707bfe4e13afa70edadfb54e94",
             "tag": "star-corona-behind",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "992f17f6fbab4d9881fb42b5e1753f78",
@@ -1130,7 +1130,7 @@
             "id": "9a7ca5b51dd3474c9d28ff71859b6a02",
             "tag": "star-surface-in-front",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "24c34494789f4e29aef3b0353f3bd126",
@@ -1269,7 +1269,7 @@
             "id": "08ef417688d6497c9b691778db3b8a46",
             "tag": "star-corona-in-front",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "992f17f6fbab4d9881fb42b5e1753f78",

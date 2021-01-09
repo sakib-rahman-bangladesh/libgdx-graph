@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.5.0",
   "nodes": [
     {
       "id": "ab9169f2cec74938876cc48202e635a1",
@@ -12,7 +12,7 @@
             "id": "8629233c7ee440bdba5ae52f1c27443e",
             "tag": "Default",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "d8764cf2efd544638ddbc51f3dfd6504",
@@ -78,7 +78,7 @@
             "id": "935255393ba04b9a991f12cbbc0d730f",
             "tag": "Outline",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "190ac1738d0b4f2495a16d6f668a7d31",

@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.5.0",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -32,7 +32,7 @@
             "id": "6f24d928d2a34b0086660402de7da94a",
             "tag": "force-field",
             "shader": {
-              "version": "0.1.2",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "a0a55f8b6fa54e09b8525bbce1a72c6f",
@@ -293,7 +293,7 @@
             "id": "e5fdf60cf0b748f1a7e7c6fe434a459b",
             "tag": "default",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "f5ef97f386a44afda8f88a7cdc09147d",

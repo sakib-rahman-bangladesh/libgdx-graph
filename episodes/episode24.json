@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.5.0",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -32,7 +32,7 @@
             "id": "01d1f6dce1e548769420cec52e5249a8",
             "tag": "Background",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "3f6b478b41fc4581ab632e3d059b3de1",
@@ -319,7 +319,7 @@
             "id": "655a2dce015649fab9dbbde01974d0e9",
             "tag": "Animated",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "cb06a9014aa14f6cbc8aba7c79ba4978",
@@ -552,7 +552,7 @@
             "id": "f5154f42a2b84096ab58d61817516535",
             "tag": "Tiled",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "bfbfe2c23431449bb1334e16c764d540",
@@ -691,7 +691,7 @@
             "id": "8a5d4a3743ae426481362f32d35bad71",
             "tag": "Outline",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "cb06a9014aa14f6cbc8aba7c79ba4978",
@@ -1067,7 +1067,7 @@
             "id": "4652bab2f2d044a59baeb613d2d76480",
             "tag": "Animated Outline",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "cb06a9014aa14f6cbc8aba7c79ba4978",
@@ -1390,7 +1390,7 @@
             "id": "747b58f69d314cb4b9eabe0433f4f22e",
             "tag": "Screen Masked",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "cb06a9014aa14f6cbc8aba7c79ba4978",
@@ -1871,7 +1871,7 @@
             "id": "0025e5fc840e4de6a96c77c23334a939",
             "tag": "Dust",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "bce32ff70d84405781424db55cacc2f8",

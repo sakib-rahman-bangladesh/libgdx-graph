@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.5.0",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -53,7 +53,7 @@
             "id": "728c1b5a29f94be991cf761219dfef75",
             "tag": "Default",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "a259b67d6ba44fc2aceb536edca5e9a9",
@@ -119,7 +119,7 @@
             "id": "2b380a7d97174c5ba7ce7bd69e69972e",
             "tag": "Hologram",
             "shader": {
-              "version": "0.2.0",
+              "version": "0.5.0",
               "nodes": [
                 {
                   "id": "a9ae5a3841fc4d65b3dc50275994f01f",
