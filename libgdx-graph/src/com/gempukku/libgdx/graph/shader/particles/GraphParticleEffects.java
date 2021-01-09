@@ -14,7 +14,7 @@ public interface GraphParticleEffects {
      *
      * @param tag               Tag identifying the particle effect to generate.
      * @param particleGenerator Particle generator used to generate particles.
-     * @return Generated id of the particle effect, it is used to identify the particle effect.
+     * @return Object identifying the particle effect.
      */
     GraphParticleEffect createEffect(String tag, ParticleGenerator particleGenerator);
 
@@ -28,7 +28,7 @@ public interface GraphParticleEffects {
      * @param particleGenerator Particle generator used to generate particles.
      * @param particleDataClass Class used for storing per-particle data.
      * @param <T>               Class used for particle data
-     * @return Generated id of the particle effect, it is used to identify the particle effect.
+     * @return Object identifying the particle effect.
      */
     <T> GraphParticleEffect createEffect(String tag, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass);
 
@@ -39,14 +39,14 @@ public interface GraphParticleEffects {
     /**
      * Starts generation of particles for the identified effect.
      *
-     * @param effectId Id of the effect to start.
+     * @param effect The effect object.
      */
     void startEffect(GraphParticleEffect effect);
 
     /**
      * Update all particles in the identified effect. This will not provide access to the per-particle data.
      *
-     * @param effectId        Id of the effect to update.
+     * @param effect          The effect object.
      * @param particleUpdater A class that is called to update each particle.
      */
     void updateParticles(GraphParticleEffect effect, ParticleUpdater particleUpdater);
@@ -54,7 +54,7 @@ public interface GraphParticleEffects {
     /**
      * Update all particles in the identified effect. This method allows access to the particle data.
      *
-     * @param effectId          Id of the effect to update.
+     * @param effect            The effect object.
      * @param particleUpdater   A class that is called to update each particle.
      * @param particleDataClass Class used for storing per-particle data.
      * @param <T>               Class used for particle data
@@ -64,23 +64,23 @@ public interface GraphParticleEffects {
     /**
      * Stops generation of particles for the identified effect.
      *
-     * @param effectId Id of the effect to stop.
+     * @param effect The effect object.
      */
     void stopEffect(GraphParticleEffect effect);
 
     /**
      * Destroys the identified effect.
      *
-     * @param effectId Id of the effect to destroy.
+     * @param effect The effect object.
      */
     void destroyEffect(GraphParticleEffect effect);
 
     /**
      * Sets property on the given particle effect.
      *
-     * @param effectId Effect id.
-     * @param name     Name of the property.
-     * @param value    Value of the property.
+     * @param effect The effect object.
+     * @param name   Name of the property.
+     * @param value  Value of the property.
      */
     void setProperty(GraphParticleEffect effect, String name, Object value);
 
@@ -88,8 +88,8 @@ public interface GraphParticleEffects {
      * Un-sets the property from the given particle effect. If the property is un-set, the default value for that
      * property will be used (specified in the Graph editor).
      *
-     * @param effectId Effect id.
-     * @param name     Name of the property.
+     * @param effect The effect object.
+     * @param name   Name of the property.
      */
     void unsetProperty(GraphParticleEffect effect, String name);
 
@@ -98,8 +98,8 @@ public interface GraphParticleEffects {
      * Please note - that if the property is not set on the model instance, a null is returned and NOT the default
      * value (from Graph editor).
      *
-     * @param effectId Effect id.
-     * @param name     Name of the property.
+     * @param effect The effect object.
+     * @param name   Name of the property.
      * @return Value of the property.
      */
     Object getProperty(GraphParticleEffect effect, String name);
