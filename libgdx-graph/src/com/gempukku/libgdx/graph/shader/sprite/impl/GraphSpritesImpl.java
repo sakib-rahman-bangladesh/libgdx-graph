@@ -231,9 +231,12 @@ public class GraphSpritesImpl implements GraphSprites {
         tempForUniqness.clear();
         for (SpriteGraphShader shader : translucentShaders) {
             String tag = shader.getTag();
-            for (GraphSpriteImpl graphSprite : nonCachedSpritesByTag.get(tag)) {
-                if (tempForUniqness.add(graphSprite))
-                    tempSorting.add(graphSprite);
+            ObjectSet<GraphSpriteImpl> graphSprites = nonCachedSpritesByTag.get(tag);
+            if (graphSprites != null) {
+                for (GraphSpriteImpl graphSprite : graphSprites) {
+                    if (tempForUniqness.add(graphSprite))
+                        tempSorting.add(graphSprite);
+                }
             }
         }
     }
