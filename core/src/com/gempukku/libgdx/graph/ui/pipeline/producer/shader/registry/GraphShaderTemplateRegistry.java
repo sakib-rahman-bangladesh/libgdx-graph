@@ -42,7 +42,7 @@ public class GraphShaderTemplateRegistry {
 
 
         screenShaderTemplateList.add(
-                new FileGraphShaderTemplate("Empty", Gdx.files.classpath("template/sprite/empty-sprite-shader.json")));
+                new FileGraphShaderTemplate("Empty", Gdx.files.classpath("template/screen/empty-screen-shader.json")));
         screenShaderTemplateList.add(null);
         screenShaderTemplateList.add(
                 new LoadFileGraphShaderTemplate("From file..."));
