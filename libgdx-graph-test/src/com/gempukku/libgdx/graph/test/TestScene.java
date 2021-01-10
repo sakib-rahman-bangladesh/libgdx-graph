@@ -119,6 +119,7 @@ public class TestScene implements LibgdxGraphTestScene {
         EntityLoader.readEntity(engine, json, "sprite/jumpPlant.json");
         EntityLoader.readEntity(engine, json, "sprite/slime.json");
         EntityLoader.readEntity(engine, json, "sprite/characterPortrait.json");
+        EntityLoader.readEntity(engine, json, "sprite/playerBlueWizard2.json");
 
         GraphParticleEffects particleEffects = pipelineRenderer.getGraphParticleEffects();
         ParallelogramParticleGenerator particleGenerator = new ParallelogramParticleGenerator(5);

@@ -160,7 +160,8 @@ public class CachedSpriteData implements SpriteData {
     }
 
     public void updateGraphSprite(GraphSpriteImpl sprite) {
-        int spriteDataStart = findSpritePosition(sprite);
+        int spriteIndex = findSpriteIndex(sprite);
+        int spriteDataStart = getSpriteDataStart(spriteIndex);
 
         for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
             int floatIndex = 0;
@@ -240,18 +241,21 @@ public class CachedSpriteData implements SpriteData {
             }
         }
 
-        markSpriteUpdated(spriteCount);
+        markSpriteUpdated(spriteIndex);
     }
 
     public boolean removeGraphSprite(GraphSpriteImpl sprite) {
-        int position = findSpritePosition(sprite);
+        int position = findSpriteIndex(sprite);
         if (position == -1)
             return false;
 
         if (spriteCount > 1 && position != spriteCount - 1) {
             // Need to shrink the arrays
             graphSpritesPosition[position] = graphSpritesPosition[spriteCount - 1];
-            System.arraycopy(graphSpritesPosition, getSpriteDataStart(spriteCount - 1), graphSpritesPosition, getSpriteDataStart(position), floatCountPerVertex * 4);
+            int sourcePosition = getSpriteDataStart(spriteCount - 1);
+            int destinationPosition = getSpriteDataStart(position);
+            int floatCount = floatCountPerVertex * 4;
+            System.arraycopy(vertexData, sourcePosition, vertexData, destinationPosition, floatCount);
 
             markSpriteUpdated(position);
         }
@@ -262,7 +266,11 @@ public class CachedSpriteData implements SpriteData {
 
     public void prepareForRender(ShaderContextImpl shaderContext) {
         shaderContext.setPropertyContainer(graphSpritesPosition[0].getPropertyContainer());
-        vbo.updateVertices(minUpdatedIndex, vertexData, minUpdatedIndex, maxUpdatedIndex - minUpdatedIndex);
+        if (minUpdatedIndex != Integer.MAX_VALUE) {
+            vbo.updateVertices(minUpdatedIndex, vertexData, minUpdatedIndex, maxUpdatedIndex - minUpdatedIndex);
+            minUpdatedIndex = Integer.MAX_VALUE;
+            maxUpdatedIndex = -1;
+        }
     }
 
     @Override
@@ -294,7 +302,7 @@ public class CachedSpriteData implements SpriteData {
         return spriteIndex * floatCountPerVertex * 4;
     }
 
-    private int findSpritePosition(GraphSpriteImpl sprite) {
+    private int findSpriteIndex(GraphSpriteImpl sprite) {
         for (int i = 0; i < spriteCount; i++) {
             if (graphSpritesPosition[i] == sprite)
                 return i;
@@ -303,10 +311,6 @@ public class CachedSpriteData implements SpriteData {
     }
 
     public boolean hasSprite(GraphSpriteImpl graphSprite) {
-        for (GraphSpriteImpl sprite : graphSpritesPosition) {
-            if (sprite == graphSprite)
-                return true;
-        }
-        return false;
+        return findSpriteIndex(graphSprite) != -1;
     }
 }
