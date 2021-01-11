@@ -37,7 +37,7 @@ public class VertexShaderBuilder extends CommonShaderBuilder {
     public String buildProgram() {
         StringBuilder result = new StringBuilder();
 
-        result.append(GdxCompatibilityUtils.getShaderPrefixCode());
+        result.append(GdxCompatibilityUtils.getShaderVersionCode());
         appendInitial(result);
         appendStructures(result);
         appendAttributeVariables(result);
