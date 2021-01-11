@@ -75,7 +75,7 @@ public class CachedSpriteData implements SpriteData {
 
         graphSpritesPosition[spriteCount] = sprite;
 
-        updateSpriteData(sprite, spriteCount);
+        updatedSprites.add(sprite);
 
         spriteCount++;
 
@@ -83,7 +83,29 @@ public class CachedSpriteData implements SpriteData {
     }
 
     public void updateGraphSprite(GraphSpriteImpl sprite) {
-        updateSpriteData(sprite, findSpriteIndex(sprite));
+        updatedSprites.add(sprite);
+    }
+
+    public boolean removeGraphSprite(GraphSpriteImpl sprite) {
+        int position = findSpriteIndex(sprite);
+        if (position == -1)
+            return false;
+
+        updatedSprites.remove(sprite);
+
+        if (spriteCount > 1 && position != spriteCount - 1) {
+            // Need to shrink the arrays
+            graphSpritesPosition[position] = graphSpritesPosition[spriteCount - 1];
+            int sourcePosition = getSpriteDataStart(spriteCount - 1);
+            int destinationPosition = getSpriteDataStart(position);
+            int floatCount = floatCountPerVertex * 4;
+            System.arraycopy(vertexData, sourcePosition, vertexData, destinationPosition, floatCount);
+
+            markSpriteUpdated(position);
+        }
+        spriteCount--;
+
+        return true;
     }
 
     private void updateSpriteData(GraphSpriteImpl sprite, int spriteIndex) {
@@ -170,27 +192,12 @@ public class CachedSpriteData implements SpriteData {
         markSpriteUpdated(spriteIndex);
     }
 
-    public boolean removeGraphSprite(GraphSpriteImpl sprite) {
-        int position = findSpriteIndex(sprite);
-        if (position == -1)
-            return false;
-
-        if (spriteCount > 1 && position != spriteCount - 1) {
-            // Need to shrink the arrays
-            graphSpritesPosition[position] = graphSpritesPosition[spriteCount - 1];
-            int sourcePosition = getSpriteDataStart(spriteCount - 1);
-            int destinationPosition = getSpriteDataStart(position);
-            int floatCount = floatCountPerVertex * 4;
-            System.arraycopy(vertexData, sourcePosition, vertexData, destinationPosition, floatCount);
-
-            markSpriteUpdated(position);
-        }
-        spriteCount--;
-
-        return true;
-    }
-
     public void prepareForRender(ShaderContextImpl shaderContext) {
+        for (GraphSpriteImpl updatedSprite : updatedSprites) {
+            updateSpriteData(updatedSprite, findSpriteIndex(updatedSprite));
+        }
+        updatedSprites.clear();
+
         shaderContext.setPropertyContainer(graphSpritesPosition[0].getPropertyContainer());
         if (minUpdatedIndex != Integer.MAX_VALUE) {
             vbo.updateVertices(minUpdatedIndex, vertexData, minUpdatedIndex, maxUpdatedIndex - minUpdatedIndex);
