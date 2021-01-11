@@ -3,8 +3,8 @@ package com.gempukku.libgdx.graph.shader.particles;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
-import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
+import com.badlogic.gdx.graphics.glutils.IndexData;
+import com.badlogic.gdx.graphics.glutils.VertexData;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
 
@@ -42,7 +42,7 @@ public class ParticlesGraphShader extends GraphShader {
         this.perSecondParticles = perSecondParticles;
     }
 
-    public void renderParticles(ShaderContext shaderContext, VertexBufferObject vertexBufferObject, IndexBufferObject indexBufferObject) {
+    public void renderParticles(ShaderContext shaderContext, VertexData vertexBufferObject, IndexData indexBufferObject) {
         for (Uniform uniform : localUniforms.values()) {
             uniform.getSetter().set(this, uniform.getLocation(), shaderContext);
         }

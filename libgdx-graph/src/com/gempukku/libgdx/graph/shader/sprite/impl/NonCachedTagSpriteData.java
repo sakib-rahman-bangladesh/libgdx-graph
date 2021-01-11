@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
+import com.badlogic.gdx.graphics.glutils.IndexData;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
+import com.badlogic.gdx.graphics.glutils.VertexData;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
@@ -18,13 +19,14 @@ import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContex
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteData;
+import com.gempukku.libgdx.graph.util.GdxCompatibilityUtils;
 
 public class NonCachedTagSpriteData implements SpriteData, Disposable {
     private VertexAttributes vertexAttributes;
     private ObjectMap<String, PropertySource> shaderProperties;
     private IntMap<String> propertyIndexNames = new IntMap<>();
-    private VertexBufferObject vbo;
-    private IndexBufferObject ibo;
+    private VertexData vbo;
+    private IndexData ibo;
 
     private float[] tempVertices;
     private final int floatCount;
@@ -45,7 +47,7 @@ public class NonCachedTagSpriteData implements SpriteData, Disposable {
 
         tempVertices = new float[4 * floatCount];
 
-        vbo = new VertexBufferObject(false, 4, this.vertexAttributes);
+        vbo = GdxCompatibilityUtils.createVertexBuffer(false, 4, this.vertexAttributes);
         float[] vertices = new float[4 * floatCount];
         vbo.setVertices(vertices, 0, vertices.length);
 

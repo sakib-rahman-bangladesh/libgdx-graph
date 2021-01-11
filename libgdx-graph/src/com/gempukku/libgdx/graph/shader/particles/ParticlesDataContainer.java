@@ -3,11 +3,13 @@ package com.gempukku.libgdx.graph.shader.particles;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
+import com.badlogic.gdx.graphics.glutils.IndexData;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
+import com.badlogic.gdx.graphics.glutils.VertexData;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.particles.generator.ParticleGenerator;
+import com.gempukku.libgdx.graph.util.GdxCompatibilityUtils;
 
 public class ParticlesDataContainer implements Disposable {
     private final static ParticleGenerator.ParticleGenerateInfo tempGenerateInfo = new ParticleGenerator.ParticleGenerateInfo();
@@ -15,8 +17,8 @@ public class ParticlesDataContainer implements Disposable {
 
     private Object[] particleDataStorage;
     private float[] particlesData;
-    private VertexBufferObject vbo;
-    private IndexBufferObject ibo;
+    private VertexData vbo;
+    private IndexData ibo;
 
     private final int numberOfParticles;
     private final int numberOfFloatsInVertex;
@@ -58,7 +60,7 @@ public class ParticlesDataContainer implements Disposable {
     }
 
     private void initBuffers(VertexAttributes vertexAttributes) {
-        vbo = new VertexBufferObject(false, numberOfParticles * 4, vertexAttributes);
+        vbo = GdxCompatibilityUtils.createVertexBuffer(false, numberOfParticles * 4, vertexAttributes);
 
         int dataLength = numberOfParticles * 4 * numberOfFloatsInVertex;
         particlesData = new float[dataLength];

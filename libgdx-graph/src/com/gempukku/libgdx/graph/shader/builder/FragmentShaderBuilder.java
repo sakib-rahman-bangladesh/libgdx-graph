@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.shader.builder;
 
 
 import com.gempukku.libgdx.graph.shader.UniformRegistry;
+import com.gempukku.libgdx.graph.util.GdxCompatibilityUtils;
 
 public class FragmentShaderBuilder extends CommonShaderBuilder {
     public FragmentShaderBuilder(UniformRegistry uniformRegistry) {
@@ -11,6 +12,7 @@ public class FragmentShaderBuilder extends CommonShaderBuilder {
     public String buildProgram() {
         StringBuilder result = new StringBuilder();
 
+        result.append(GdxCompatibilityUtils.getShaderPrefixCode());
         appendInitial(result);
         appendStructures(result);
         appendUniformVariables(result);

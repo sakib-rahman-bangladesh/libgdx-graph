@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.gempukku.libgdx.graph.shader.UniformRegistry;
+import com.gempukku.libgdx.graph.util.GdxCompatibilityUtils;
 
 public class VertexShaderBuilder extends CommonShaderBuilder {
     private ObjectMap<String, String> attributeVariables = new OrderedMap<>();
@@ -36,6 +37,7 @@ public class VertexShaderBuilder extends CommonShaderBuilder {
     public String buildProgram() {
         StringBuilder result = new StringBuilder();
 
+        result.append(GdxCompatibilityUtils.getShaderPrefixCode());
         appendInitial(result);
         appendStructures(result);
         appendAttributeVariables(result);

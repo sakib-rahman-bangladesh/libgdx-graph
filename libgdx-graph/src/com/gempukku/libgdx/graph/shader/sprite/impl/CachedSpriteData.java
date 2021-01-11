@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
+import com.badlogic.gdx.graphics.glutils.IndexData;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.glutils.VertexBufferObject;
+import com.badlogic.gdx.graphics.glutils.VertexData;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.IntMap;
@@ -18,6 +19,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContex
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteData;
+import com.gempukku.libgdx.graph.util.GdxCompatibilityUtils;
 
 public class CachedSpriteData implements SpriteData {
     private final int spriteCapacity;
@@ -27,8 +29,8 @@ public class CachedSpriteData implements SpriteData {
     private final IntMap<String> propertyIndexNames;
 
     private final GraphSpriteImpl[] graphSpritesPosition;
-    private VertexBufferObject vbo;
-    private IndexBufferObject ibo;
+    private VertexData vbo;
+    private IndexData ibo;
 
     private float[] vertexData;
     private int spriteCount = 0;
@@ -49,7 +51,7 @@ public class CachedSpriteData implements SpriteData {
         graphSpritesPosition = new GraphSpriteImpl[spriteCapacity];
         vertexData = new float[4 * floatCountPerVertex * spriteCapacity];
 
-        vbo = new VertexBufferObject(staticCache, 4 * spriteCapacity, this.vertexAttributes);
+        vbo = GdxCompatibilityUtils.createVertexBuffer(staticCache, 4 * spriteCapacity, this.vertexAttributes);
         float[] vertices = new float[4 * spriteCapacity * floatCountPerVertex];
         vbo.setVertices(vertices, 0, vertices.length);
 
