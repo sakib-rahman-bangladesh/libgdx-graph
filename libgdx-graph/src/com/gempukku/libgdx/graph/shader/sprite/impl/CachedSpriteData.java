@@ -195,6 +195,10 @@ public class CachedSpriteData implements SpriteData {
     }
 
     public void prepareForRender(ShaderContextImpl shaderContext) {
+        boolean debug = Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG;
+        if (debug && !updatedSprites.isEmpty())
+            Gdx.app.debug("Sprite", "Updating info of " + updatedSprites.size + " sprite(s)");
+
         for (GraphSpriteImpl updatedSprite : updatedSprites) {
             updateSpriteData(updatedSprite, findSpriteIndex(updatedSprite));
         }
@@ -202,6 +206,8 @@ public class CachedSpriteData implements SpriteData {
 
         shaderContext.setPropertyContainer(graphSpritesPosition[0].getPropertyContainer());
         if (minUpdatedIndex != Integer.MAX_VALUE) {
+            if (debug)
+                Gdx.app.debug("Sprite", "Updating vertex array - float count: " + (maxUpdatedIndex - minUpdatedIndex));
             vbo.updateVertices(minUpdatedIndex, vertexData, minUpdatedIndex, maxUpdatedIndex - minUpdatedIndex);
             minUpdatedIndex = Integer.MAX_VALUE;
             maxUpdatedIndex = -1;
