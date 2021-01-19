@@ -26,6 +26,8 @@ public class WhitePixel {
 
         texture = new Texture(pixmap);
         textureRegion = new TextureRegion(texture);
+
+        pixmap.dispose();
     }
 
     public void dispose() {
