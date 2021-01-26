@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 
 public class TextureFrameBuffer extends FrameBuffer {
     public TextureFrameBuffer(int width, int height, Pixmap.Format format) {
-        super(format, width, height, true, true);
+        super(format, width, height, true, false);
     }
 
     public Texture setColorTexture(Texture texture) {
