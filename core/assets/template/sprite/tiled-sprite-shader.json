@@ -9,7 +9,7 @@
       "data": {
         "uWrap": "Repeat",
         "vWrap": "Repeat",
-        "name": "Tile Texture",
+        "name": "Texture",
         "type": "TextureRegion"
       }
     },
@@ -116,7 +116,7 @@
       }
     },
     {
-      "name": "Tile Texture",
+      "name": "Texture",
       "type": "TextureRegion"
     },
     {
