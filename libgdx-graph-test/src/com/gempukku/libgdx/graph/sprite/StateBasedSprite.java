@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.sprite;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.component.AnchorComponent;
 import com.gempukku.libgdx.graph.component.FacingComponent;
@@ -15,6 +16,7 @@ import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class StateBasedSprite implements Sprite {
+    private static Vector2 tmpPosition = new Vector2();
     private String state;
     private ObjectMap<String, SpriteStateData> statesData;
     private boolean animationDirty = true;
@@ -53,12 +55,12 @@ public class StateBasedSprite implements Sprite {
             graphSprites.updateSprite(spriteComponent.getGraphSprite(),
                     new SpriteUpdater() {
                         @Override
-                        public float processUpdate(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
-                            positionComponent.getPosition(position);
+                        public void processUpdate(Vector3 position, Vector2 size, Vector2 anchor) {
+                            Vector2 tmpPosition = positionComponent.getPosition(StateBasedSprite.tmpPosition);
+                            position.set(tmpPosition.x, tmpPosition.y, position.z);
                             SpriteFaceDirection faceDirection = facingComponent.getFaceDirection();
                             sizeComponent.getSize(size).scl(faceDirection.getX(), 1);
                             anchorComponent.getAnchor(anchor);
-                            return layer;
                         }
                     });
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -41,7 +42,7 @@ public class GraphSpritesImpl implements GraphSprites {
 
     private ObjectMap<String, ObjectSet<GraphSpriteImpl>> nonCachedSpritesByTag = new ObjectMap<>();
 
-    private Vector2 tempPosition = new Vector2();
+    private Vector3 tempPosition = new Vector3();
     private Vector2 tempSize = new Vector2();
     private Vector2 tempAnchor = new Vector2();
 
@@ -63,12 +64,12 @@ public class GraphSpritesImpl implements GraphSprites {
     @Override
     public void updateSprite(GraphSprite sprite, SpriteUpdater spriteUpdater) {
         GraphSpriteImpl graphSprite = getSprite(sprite);
-        tempPosition.set(graphSprite.getPosition());
+        tempPosition.set(graphSprite.getPosition(), graphSprite.getLayer());
         tempSize.set(graphSprite.getSize());
         tempAnchor.set(graphSprite.getAnchor());
-        float updateResult = spriteUpdater.processUpdate(graphSprite.getLayer(), tempPosition, tempSize, tempAnchor);
-        graphSprite.setLayer(updateResult);
-        graphSprite.getPosition().set(tempPosition);
+        spriteUpdater.processUpdate(tempPosition, tempSize, tempAnchor);
+        graphSprite.setLayer(tempPosition.z);
+        graphSprite.getPosition().set(tempPosition.x, tempPosition.y);
         graphSprite.getSize().set(tempSize);
         graphSprite.getAnchor().set(tempAnchor);
 

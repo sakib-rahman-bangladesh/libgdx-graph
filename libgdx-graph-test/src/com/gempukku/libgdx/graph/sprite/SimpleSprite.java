@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.sprite;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.gempukku.libgdx.graph.component.AnchorComponent;
 import com.gempukku.libgdx.graph.component.PositionComponent;
 import com.gempukku.libgdx.graph.component.SizeComponent;
@@ -13,6 +14,7 @@ import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class SimpleSprite implements Sprite {
+    private static Vector2 tmpPosition = new Vector2();
     private Entity entity;
     private TextureRegion textureRegion;
     private boolean textureDirty = true;
@@ -37,11 +39,11 @@ public class SimpleSprite implements Sprite {
             graphSprites.updateSprite(spriteComponent.getGraphSprite(),
                     new SpriteUpdater() {
                         @Override
-                        public float processUpdate(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
-                            positionComponent.getPosition(position);
+                        public void processUpdate(Vector3 position, Vector2 size, Vector2 anchor) {
+                            Vector2 tmpPosition = positionComponent.getPosition(SimpleSprite.tmpPosition);
+                            position.set(tmpPosition.x, tmpPosition.y, position.z);
                             sizeComponent.getSize(size);
                             anchorComponent.getAnchor(anchor);
-                            return layer;
                         }
                     });
 

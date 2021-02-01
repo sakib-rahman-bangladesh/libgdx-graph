@@ -6,4 +6,6 @@ public interface GraphSprite {
     Vector2 getPosition(Vector2 position);
 
     boolean hasTag(String tag);
+
+    Iterable<String> getAllTags();
 }
