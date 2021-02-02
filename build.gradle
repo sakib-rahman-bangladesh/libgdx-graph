@@ -73,7 +73,6 @@ project(":libgdx-graph-test") {
 
     dependencies {
         implementation project(":libgdx-graph")
-        implementation project(":libgdx-graph-ui-runtime")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
@@ -90,20 +89,11 @@ project(":libgdx-graph") {
     }
 }
 
-project(":libgdx-graph-ui-runtime") {
-    apply plugin: "java-library"
-
-    dependencies {
-        implementation project(":libgdx-graph")
-    }
-}
-
 project(":libgdx-graph-ui-design") {
     apply plugin: "java-library"
 
     dependencies {
         implementation project(":core")
         implementation project(":libgdx-graph")
-        implementation project(":libgdx-graph-ui-runtime")
     }
 }
