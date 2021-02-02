@@ -15,6 +15,7 @@ import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeedback;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
+import com.gempukku.libgdx.graph.plugin.PluginRegistryImpl;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphModelsImpl;
@@ -37,8 +38,10 @@ public class PipelineRendererImpl implements PipelineRenderer {
     private ObjectMap<String, WritablePipelineProperty> pipelinePropertyMap;
     private EndPipelineNode endNode;
     private PipelineRenderingContextImpl pipelineRenderingContext;
+    private PluginRegistryImpl pluginRegistry;
 
-    public PipelineRendererImpl(TimeProvider timeProvider, Iterable<PipelineNode> nodes, ObjectMap<String, WritablePipelineProperty> pipelinePropertyMap, EndPipelineNode endNode) {
+    public PipelineRendererImpl(PluginRegistryImpl pluginRegistry, TimeProvider timeProvider, Iterable<PipelineNode> nodes, ObjectMap<String, WritablePipelineProperty> pipelinePropertyMap, EndPipelineNode endNode) {
+        this.pluginRegistry = pluginRegistry;
         this.timeProvider = timeProvider;
         this.nodes = nodes;
         this.pipelinePropertyMap = pipelinePropertyMap;
@@ -82,6 +85,11 @@ public class PipelineRendererImpl implements PipelineRenderer {
     @Override
     public Iterable<? extends PipelineProperty> getProperties() {
         return pipelinePropertyMap.values();
+    }
+
+    @Override
+    public <T> T getPluginData(Class<T> clazz) {
+        return pluginRegistry.getPublicData(clazz);
     }
 
     @Override
@@ -131,6 +139,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
             node.dispose();
         }
         pipelineRenderingContext.dispose();
+        pluginRegistry.dispose();
     }
 
     private class PipelineRenderingContextImpl implements PipelineRenderingContext, PipelineInitializationFeedback, Disposable {
@@ -187,6 +196,11 @@ public class PipelineRendererImpl implements PipelineRenderer {
         @Override
         public int getRenderHeight() {
             return renderOutput.getRenderHeight();
+        }
+
+        @Override
+        public <T> T getPrivatePluginData(Class<T> clazz) {
+            return pluginRegistry.getPrivateData(clazz);
         }
 
         @Override

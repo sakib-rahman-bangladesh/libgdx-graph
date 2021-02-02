@@ -12,16 +12,6 @@
       }
     },
     {
-      "id": "a9ef339d56654f4c8f7445b45b3bed0b",
-      "type": "Property",
-      "x": 184.0,
-      "y": 133.0,
-      "data": {
-        "name": "Stage",
-        "type": "Stage"
-      }
-    },
-    {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
       "x": 391.0,
@@ -442,12 +432,6 @@
       "toField": "input"
     },
     {
-      "fromNode": "a9ef339d56654f4c8f7445b45b3bed0b",
-      "fromField": "value",
-      "toNode": "dffb152d405a49d38792e850749129b2",
-      "toField": "stage"
-    },
-    {
       "fromNode": "72be9695e45949ccb5f449dbacdfd619",
       "fromField": "value",
       "toNode": "ce7263bb711843b590f125cc3f49f1e9",
@@ -471,10 +455,6 @@
       "name": "Camera",
       "type": "Camera"
     },
-    {
-      "name": "Stage",
-      "type": "Stage"
-    }
   ],
   "groups": []
 }

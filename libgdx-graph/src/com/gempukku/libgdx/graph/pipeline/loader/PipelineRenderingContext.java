@@ -13,6 +13,8 @@ public interface PipelineRenderingContext {
 
     int getRenderHeight();
 
+    <T> T getPrivatePluginData(Class<T> clazz);
+
     GraphModelsImpl getGraphShaderModels();
 
     GraphSpritesImpl getGraphSprites();

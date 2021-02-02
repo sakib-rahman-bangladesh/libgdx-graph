@@ -23,6 +23,7 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.system.CameraSystem;
 import com.gempukku.libgdx.graph.system.PhysicsSystem;
 import com.gempukku.libgdx.graph.system.PlayerControlSystem;
@@ -198,6 +199,6 @@ public class Episode19Scene implements LibgdxGraphTestScene {
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
         pipelineRenderer.setPipelineProperty("Camera", camera);
-        pipelineRenderer.setPipelineProperty("Stage", stage);
+        pipelineRenderer.getPluginData(UIPluginPublicData.class).setStage("", stage);
     }
 }

@@ -2,16 +2,6 @@
   "version": "0.5.0",
   "nodes": [
     {
-      "id": "58c3a27bddb24a3984e43402f5cd8117",
-      "type": "Property",
-      "x": 53.0,
-      "y": 148.0,
-      "data": {
-        "name": "Stage",
-        "type": "Stage"
-      }
-    },
-    {
       "id": "7bd6a2015adf4fdd9a1f75ed60398ced",
       "type": "UIRenderer",
       "x": 272.0,
@@ -54,12 +44,6 @@
       "toField": "input"
     },
     {
-      "fromNode": "58c3a27bddb24a3984e43402f5cd8117",
-      "fromField": "value",
-      "toNode": "7bd6a2015adf4fdd9a1f75ed60398ced",
-      "toField": "stage"
-    },
-    {
       "fromNode": "78f632288a564ce6a0bcde6f9dc1940f",
       "fromField": "output",
       "toNode": "d7873a60368647b2ba76e0cae7d1f00a",
@@ -79,10 +63,6 @@
     }
   ],
   "properties": [
-    {
-      "name": "Stage",
-      "type": "Stage"
-    },
     {
       "name": "Callback",
       "type": "Callback"

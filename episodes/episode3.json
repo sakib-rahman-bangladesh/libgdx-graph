@@ -94,16 +94,6 @@
       "y": 50.0
     },
     {
-      "id": "cff4d91ba45f499fb5fb55d43e6008f2",
-      "type": "Property",
-      "x": 55.0,
-      "y": 98.0,
-      "data": {
-        "name": "Stage",
-        "type": "Stage"
-      }
-    },
-    {
       "id": "552734594d93411cabb26a87a853c403",
       "type": "Property",
       "x": 100.0,
@@ -115,12 +105,6 @@
     }
   ],
   "connections": [
-    {
-      "fromNode": "cff4d91ba45f499fb5fb55d43e6008f2",
-      "fromField": "value",
-      "toNode": "7d2427e384c2498b88779e75f733c0ff",
-      "toField": "stage"
-    },
     {
       "fromNode": "7d2427e384c2498b88779e75f733c0ff",
       "fromField": "output",
@@ -195,10 +179,6 @@
     }
   ],
   "properties": [
-    {
-      "name": "Stage",
-      "type": "Stage"
-    },
     {
       "name": "Gamma Correction",
       "type": "Float",

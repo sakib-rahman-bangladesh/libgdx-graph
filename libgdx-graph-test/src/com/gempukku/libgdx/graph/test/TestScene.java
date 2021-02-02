@@ -23,6 +23,7 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.shader.particles.generator.ParallelogramParticleGenerator;
@@ -229,6 +230,6 @@ public class TestScene implements LibgdxGraphTestScene {
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
         pipelineRenderer.setPipelineProperty("Camera", camera);
-        pipelineRenderer.setPipelineProperty("Stage", stage);
+        pipelineRenderer.getPluginData(UIPluginPublicData.class).setStage("", stage);
     }
 }

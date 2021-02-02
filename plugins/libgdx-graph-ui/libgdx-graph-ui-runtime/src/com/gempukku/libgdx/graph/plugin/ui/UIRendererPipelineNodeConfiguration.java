@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.pipeline.config.rendering;
+package com.gempukku.libgdx.graph.plugin.ui;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
@@ -6,7 +6,6 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeOutputImpl;
 
 import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.RenderPipeline;
-import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Stage;
 
 public class UIRendererPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
     public UIRendererPipelineNodeConfiguration() {
@@ -15,8 +14,6 @@ public class UIRendererPipelineNodeConfiguration extends NodeConfigurationImpl<P
                 new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("input", "Input", true, true, RenderPipeline));
-        addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("stage", "Stage", true, Stage));
         addNodeOutput(
                 new GraphNodeOutputImpl<PipelineFieldType>("output", "Output", true, RenderPipeline));
     }

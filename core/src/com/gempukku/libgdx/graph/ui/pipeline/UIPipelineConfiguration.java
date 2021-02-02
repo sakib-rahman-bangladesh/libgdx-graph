@@ -15,7 +15,6 @@ import com.gempukku.libgdx.graph.pipeline.config.rendering.CustomRendererPipelin
 import com.gempukku.libgdx.graph.pipeline.config.rendering.EndPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.PipelineRendererNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.StartPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.rendering.UIRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.value.ValueBooleanPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.value.ValueColorPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.value.ValueFloatPipelineNodeConfiguration;
@@ -35,7 +34,6 @@ import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyCameraBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyFloatBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyGraphLightsBoxProducer;
-import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyStageBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyVector2BoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyVector3BoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
@@ -54,6 +52,10 @@ import java.util.Set;
 public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFieldType> {
     private static Set<GraphBoxProducer<PipelineFieldType>> graphBoxProducers = new LinkedHashSet<>();
     private static Map<String, PropertyBoxProducer<PipelineFieldType>> propertyProducers = new LinkedHashMap<>();
+
+    public static void register(GraphBoxProducer<PipelineFieldType> producer) {
+        graphBoxProducers.add(producer);
+    }
 
     static {
         GraphBoxProducer<PipelineFieldType> endProducer = new GraphBoxProducerImpl<PipelineFieldType>(new EndPipelineNodeConfiguration()) {
@@ -86,7 +88,6 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         graphBoxProducers.add(new SpriteShaderRendererBoxProducer());
         graphBoxProducers.add(new ParticlesShaderRendererBoxProducer());
         graphBoxProducers.add(new ScreenShaderRendererBoxProducer());
-        graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new UIRendererPipelineNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new PipelineRendererNodeConfiguration()));
         graphBoxProducers.add(new GraphBoxProducerImpl<PipelineFieldType>(new CustomRendererPipelineNodeConfiguration()));
 
@@ -100,7 +101,6 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         propertyProducers.put("Vector3", new PropertyVector3BoxProducer());
         propertyProducers.put("Color", new PropertyColorBoxProducer());
         propertyProducers.put("Boolean", new PropertyBooleanBoxProducer());
-        propertyProducers.put("Stage", new PropertyStageBoxProducer());
         propertyProducers.put("GraphLights", new PropertyGraphLightsBoxProducer());
         propertyProducers.put("Camera", new PropertyCameraBoxProducer());
         propertyProducers.put("Callback", new PropertyCallbackBoxProducer());

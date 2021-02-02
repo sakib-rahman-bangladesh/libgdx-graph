@@ -11,6 +11,8 @@ public interface PipelineRenderer extends PipelinePropertySource, Disposable {
 
     void unsetPipelineProperty(String property);
 
+    <T> T getPluginData(Class<T> clazz);
+
     GraphModels getGraphShaderModels();
 
     GraphSprites getGraphSprites();

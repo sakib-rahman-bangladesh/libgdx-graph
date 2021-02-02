@@ -22,8 +22,6 @@ public enum PipelineFieldType implements FieldType {
                 return value instanceof Boolean;
             case RenderPipeline:
                 return value instanceof com.gempukku.libgdx.graph.pipeline.RenderPipeline;
-            case Stage:
-                return value instanceof com.badlogic.gdx.scenes.scene2d.Stage;
             case Camera:
                 return value instanceof com.badlogic.gdx.graphics.Camera;
             case GraphLights:

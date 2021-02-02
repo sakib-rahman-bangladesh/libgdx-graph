@@ -36,6 +36,7 @@ import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
+import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -178,7 +179,7 @@ public class Episode4Scene implements LibgdxGraphTestScene {
     }
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
-        pipelineRenderer.setPipelineProperty("Stage", stage);
+        pipelineRenderer.getPluginData(UIPluginPublicData.class).setStage("", stage);
         pipelineRenderer.setPipelineProperty("Callback1", new ModelsRenderCallback(camera1));
         pipelineRenderer.setPipelineProperty("Callback2", new ModelsRenderCallback(camera2));
     }

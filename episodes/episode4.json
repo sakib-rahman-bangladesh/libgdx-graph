@@ -122,25 +122,9 @@
         "v1": 0.5,
         "v2": 1.0
       }
-    },
-    {
-      "id": "cff4d91ba45f499fb5fb55d43e6008f2",
-      "type": "Property",
-      "x": 703.0,
-      "y": 134.0,
-      "data": {
-        "name": "Stage",
-        "type": "Stage"
-      }
     }
   ],
   "connections": [
-    {
-      "fromNode": "cff4d91ba45f499fb5fb55d43e6008f2",
-      "fromField": "value",
-      "toNode": "7d2427e384c2498b88779e75f733c0ff",
-      "toField": "stage"
-    },
     {
       "fromNode": "7d2427e384c2498b88779e75f733c0ff",
       "fromField": "output",
@@ -251,10 +235,6 @@
     }
   ],
   "properties": [
-    {
-      "name": "Stage",
-      "type": "Stage"
-    },
     {
       "name": "Callback1",
       "type": "Callback"

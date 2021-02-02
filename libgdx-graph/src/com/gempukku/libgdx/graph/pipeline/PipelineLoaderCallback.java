@@ -1,8 +1,10 @@
 package com.gempukku.libgdx.graph.pipeline;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphNodeInput;
@@ -15,11 +17,12 @@ import com.gempukku.libgdx.graph.pipeline.impl.WritablePipelineProperty;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
-import com.gempukku.libgdx.graph.pipeline.property.PipelinePropertyProducer;
+import com.gempukku.libgdx.graph.plugin.PluginRegistryImpl;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRenderer, PipelineFieldType> {
     private TimeProvider timeProvider;
+    private PluginRegistryImpl pluginRegistry;
 
     public PipelineLoaderCallback(TimeProvider timeProvider) {
         this.timeProvider = timeProvider;
@@ -27,7 +30,11 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
 
     @Override
     public void start() {
-
+        try {
+            pluginRegistry = PluginRegistryImpl.initializePlugins();
+        } catch (ReflectionException e) {
+            throw new GdxRuntimeException(e);
+        }
     }
 
     @Override
@@ -42,10 +49,10 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
 
         ObjectMap<String, WritablePipelineProperty> propertyMap = new ObjectMap<>();
         for (GraphProperty<PipelineFieldType> property : getProperties()) {
-            propertyMap.put(property.getName(), findPropertyProducerByType(property.getType()).createProperty(property.getData()));
+            propertyMap.put(property.getName(), RendererPipelineConfiguration.findProperty(property.getType()).createProperty(property.getData()));
         }
 
-        return new PipelineRendererImpl(timeProvider,
+        return new PipelineRendererImpl(pluginRegistry, timeProvider,
                 pipelineNodeMap.values().toArray(), propertyMap, (EndPipelineNode) pipelineNode);
     }
 
@@ -56,15 +63,7 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
 
     @Override
     protected NodeConfiguration<PipelineFieldType> getNodeConfiguration(String type, JsonValue data) {
-        return RendererPipelineConfiguration.pipelineNodeProducers.get(type).getConfiguration(data);
-    }
-
-    private PipelinePropertyProducer findPropertyProducerByType(PipelineFieldType type) {
-        for (PipelinePropertyProducer pipelinePropertyProducer : RendererPipelineConfiguration.pipelinePropertyProducers) {
-            if (pipelinePropertyProducer.getType() == type)
-                return pipelinePropertyProducer;
-        }
-        return null;
+        return RendererPipelineConfiguration.findProducer(type).getConfiguration(data);
     }
 
     private PipelineNode populatePipelineNodes(String nodeId, ObjectMap<String, PipelineNode> pipelineNodeMap) {
@@ -74,7 +73,7 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
 
         GraphNode<PipelineFieldType> nodeInfo = getNodeById(nodeId);
         String nodeInfoType = nodeInfo.getConfiguration().getType();
-        PipelineNodeProducer nodeProducer = RendererPipelineConfiguration.pipelineNodeProducers.get(nodeInfoType);
+        PipelineNodeProducer nodeProducer = RendererPipelineConfiguration.findProducer(nodeInfoType);
         if (nodeProducer == null)
             throw new IllegalStateException("Unable to find node producer for type: " + nodeInfoType);
         ObjectMap<String, Array<PipelineNode.FieldOutput<?>>> inputFields = new ObjectMap<>();

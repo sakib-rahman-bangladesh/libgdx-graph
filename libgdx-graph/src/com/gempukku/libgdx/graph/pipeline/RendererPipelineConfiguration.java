@@ -23,7 +23,6 @@ import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.PipelineRend
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ScreenShaderRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.SpriteShaderRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.StartPipelineNodeProducer;
-import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.UIRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.value.producer.ValueBooleanPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.value.producer.ValueColorPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.value.producer.ValueFloatPipelineNodeProducer;
@@ -36,60 +35,69 @@ import com.gempukku.libgdx.graph.pipeline.property.ColorPipelinePropertyProducer
 import com.gempukku.libgdx.graph.pipeline.property.FloatPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.GraphLightsPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.PipelinePropertyProducer;
-import com.gempukku.libgdx.graph.pipeline.property.StagePipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.Vector2PipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.Vector3PipelinePropertyProducer;
 
 public class RendererPipelineConfiguration {
-    public static ObjectMap<String, PipelineNodeProducer> pipelineNodeProducers = new ObjectMap<>();
-    public static Array<PipelinePropertyProducer> pipelinePropertyProducers = new Array<>();
+    private static ObjectMap<String, PipelineNodeProducer> pipelineNodeProducers = new ObjectMap<>();
+    private static Array<PipelinePropertyProducer> pipelinePropertyProducers = new Array<>();
+
+    public static void register(PipelineNodeProducer pipelineNodeProducer) {
+        pipelineNodeProducers.put(pipelineNodeProducer.getType(), pipelineNodeProducer);
+    }
 
     static {
-        addNodeProducer(new StartPipelineNodeProducer());
-        addNodeProducer(new EndPipelineNodeProducer());
-        addNodeProducer(new UIRendererPipelineNodeProducer());
-        addNodeProducer(new CustomRendererPipelineNodeProducer());
-        addNodeProducer(new ModelShaderRendererPipelineNodeProducer());
-        addNodeProducer(new SpriteShaderRendererPipelineNodeProducer());
-        addNodeProducer(new ScreenShaderRendererPipelineNodeProducer());
-        addNodeProducer(new ParticlesShaderRendererPipelineNodeProducer());
-        addNodeProducer(new PipelineRendererNodeProducer());
+        register(new StartPipelineNodeProducer());
+        register(new EndPipelineNodeProducer());
+        register(new CustomRendererPipelineNodeProducer());
+        register(new ModelShaderRendererPipelineNodeProducer());
+        register(new SpriteShaderRendererPipelineNodeProducer());
+        register(new ScreenShaderRendererPipelineNodeProducer());
+        register(new ParticlesShaderRendererPipelineNodeProducer());
+        register(new PipelineRendererNodeProducer());
 
-        addNodeProducer(new ValueFloatPipelineNodeProducer());
-        addNodeProducer(new ValueVector2PipelineNodeProducer());
-        addNodeProducer(new ValueVector3PipelineNodeProducer());
-        addNodeProducer(new ValueColorPipelineNodeProducer());
-        addNodeProducer(new ValueBooleanPipelineNodeProducer());
+        register(new ValueFloatPipelineNodeProducer());
+        register(new ValueVector2PipelineNodeProducer());
+        register(new ValueVector3PipelineNodeProducer());
+        register(new ValueColorPipelineNodeProducer());
+        register(new ValueBooleanPipelineNodeProducer());
 
-        addNodeProducer(new RenderSizePipelineNodeProducer());
-        addNodeProducer(new TimePipelineNodeProducer());
+        register(new RenderSizePipelineNodeProducer());
+        register(new TimePipelineNodeProducer());
 
-        addNodeProducer(new AddPipelineNodeProducer());
-        addNodeProducer(new SubtractPipelineNodeProducer());
-        addNodeProducer(new MultiplyPipelineNodeProducer());
-        addNodeProducer(new MergePipelineNodeProducer());
-        addNodeProducer(new SplitPipelineNodeProducer());
+        register(new AddPipelineNodeProducer());
+        register(new SubtractPipelineNodeProducer());
+        register(new MultiplyPipelineNodeProducer());
+        register(new MergePipelineNodeProducer());
+        register(new SplitPipelineNodeProducer());
 
-        addNodeProducer(new PropertyPipelineNodeProducer());
+        register(new PropertyPipelineNodeProducer());
 
-        addNodeProducer(new BloomPipelineNodeProducer());
-        addNodeProducer(new GaussianBlurPipelineNodeProducer());
-        addNodeProducer(new DepthOfFieldPipelineNodeProducer());
-        addNodeProducer(new GammaCorrectionPipelineNodeProducer());
+        register(new BloomPipelineNodeProducer());
+        register(new GaussianBlurPipelineNodeProducer());
+        register(new DepthOfFieldPipelineNodeProducer());
+        register(new GammaCorrectionPipelineNodeProducer());
 
         pipelinePropertyProducers.add(new FloatPipelinePropertyProducer());
         pipelinePropertyProducers.add(new Vector2PipelinePropertyProducer());
         pipelinePropertyProducers.add(new Vector3PipelinePropertyProducer());
         pipelinePropertyProducers.add(new ColorPipelinePropertyProducer());
         pipelinePropertyProducers.add(new BooleanPipelinePropertyProducer());
-        pipelinePropertyProducers.add(new StagePipelinePropertyProducer());
         pipelinePropertyProducers.add(new GraphLightsPipelinePropertyProducer());
         pipelinePropertyProducers.add(new CameraPipelinePropertyProducer());
         pipelinePropertyProducers.add(new CallbackPipelinePropertyProducer());
     }
 
-    private static void addNodeProducer(PipelineNodeProducer producer) {
-        pipelineNodeProducers.put(producer.getType(), producer);
+    public static PipelineNodeProducer findProducer(String type) {
+        return pipelineNodeProducers.get(type);
+    }
+
+    public static PipelinePropertyProducer findProperty(PipelineFieldType type) {
+        for (PipelinePropertyProducer pipelinePropertyProducer : pipelinePropertyProducers) {
+            if (pipelinePropertyProducer.getType() == type)
+                return pipelinePropertyProducer;
+        }
+        return null;
     }
 
     private RendererPipelineConfiguration() {

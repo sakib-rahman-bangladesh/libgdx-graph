@@ -22,16 +22,6 @@
       }
     },
     {
-      "id": "a9ef339d56654f4c8f7445b45b3bed0b",
-      "type": "Property",
-      "x": 174.0,
-      "y": 143.0,
-      "data": {
-        "name": "Stage",
-        "type": "Stage"
-      }
-    },
-    {
       "id": "50f414bd4ecb4a01a52ae1e8be315763",
       "type": "Property",
       "x": 52.0,
@@ -1126,12 +1116,6 @@
       "toField": "input"
     },
     {
-      "fromNode": "a9ef339d56654f4c8f7445b45b3bed0b",
-      "fromField": "value",
-      "toNode": "dffb152d405a49d38792e850749129b2",
-      "toField": "stage"
-    },
-    {
       "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
       "fromField": "value",
       "toNode": "ff6f63af3181472da525343236652acd",
@@ -1160,10 +1144,6 @@
     {
       "name": "Camera",
       "type": "Camera"
-    },
-    {
-      "name": "Stage",
-      "type": "Stage"
     },
     {
       "name": "Lights",
