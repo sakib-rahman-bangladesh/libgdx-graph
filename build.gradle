@@ -54,6 +54,7 @@ project(":desktop") {
         implementation project(":core")
         implementation project(":libgdx-graph-ui-design")
         implementation project(":libgdx-graph-particles-design")
+        implementation project(":libgdx-graph-sprites-design")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     }
@@ -100,6 +101,15 @@ project(":libgdx-graph-ui-design") {
 }
 
 project(":libgdx-graph-particles-design") {
+    apply plugin: "java-library"
+
+    dependencies {
+        implementation project(":core")
+        implementation project(":libgdx-graph")
+    }
+}
+
+project(":libgdx-graph-sprites-design") {
     apply plugin: "java-library"
 
     dependencies {

@@ -22,9 +22,6 @@ import com.gempukku.libgdx.graph.shader.model.impl.GraphModelsImpl;
 import com.gempukku.libgdx.graph.shader.screen.GraphScreenShaders;
 import com.gempukku.libgdx.graph.shader.screen.GraphScreenShadersImpl;
 import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
-import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
-import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
-import com.gempukku.libgdx.graph.shader.sprite.impl.GraphSpritesImpl;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 import com.gempukku.libgdx.graph.util.FullScreenRenderImpl;
 
@@ -94,11 +91,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
     }
 
     @Override
-    public GraphSprites getGraphSprites() {
-        return pipelineRenderingContext.getGraphSprites();
-    }
-
-    @Override
     public GraphScreenShaders getGraphScreenShaders() {
         return pipelineRenderingContext.getScreenShaders();
     }
@@ -139,7 +131,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
 
         private GraphModelsImpl graphShaderModels = new GraphModelsImpl();
         private GraphScreenShadersImpl screenShaders = new GraphScreenShadersImpl();
-        private GraphSpritesImpl graphSprites = new GraphSpritesImpl();
 
         public void setRenderOutput(RenderOutput renderOutput) {
             this.renderOutput = renderOutput;
@@ -155,18 +146,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
-        public void registerSpriteShader(String tag, SpriteGraphShader shader) {
-            graphSprites.registerTag(tag, shader);
-        }
-
-        @Override
         public void registerScreenShader(String tag, ScreenGraphShader shader) {
             screenShaders.registerTag(tag, shader);
-        }
-
-        @Override
-        public GraphSpritesImpl getGraphSprites() {
-            return graphSprites;
         }
 
         @Override

@@ -9,8 +9,8 @@ import com.gempukku.libgdx.graph.component.PositionComponent;
 import com.gempukku.libgdx.graph.component.SizeComponent;
 import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
-import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
-import com.gempukku.libgdx.graph.shader.sprite.SpriteUpdater;
+import com.gempukku.libgdx.graph.plugin.sprites.GraphSprites;
+import com.gempukku.libgdx.graph.plugin.sprites.SpriteUpdater;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class SimpleSprite implements Sprite {
@@ -30,7 +30,7 @@ public class SimpleSprite implements Sprite {
         final PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
         boolean positionDirty = positionComponent.isDirty();
 
-        GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
+        GraphSprites graphSprites = pipelineRenderer.getPluginData(GraphSprites.class);
 
         if (positionDirty) {
             final SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);

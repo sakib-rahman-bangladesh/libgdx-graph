@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
-import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
-import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
+import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
+import com.gempukku.libgdx.graph.plugin.sprites.GraphSprites;
 import com.gempukku.libgdx.graph.sprite.Sprite;
 import com.gempukku.libgdx.graph.sprite.SpriteProducer;
 import com.gempukku.libgdx.graph.time.TimeProvider;
@@ -41,7 +41,7 @@ public class RenderingSystem extends EntitySystem implements SpriteProducer.Text
     public void entityAdded(Entity entity) {
         SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
 
-        GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
+        GraphSprites graphSprites = pipelineRenderer.getPluginData(GraphSprites.class);
         GraphSprite graphSprite = graphSprites.createSprite(spriteComponent.getLayer());
         spriteComponent.setGraphSprite(graphSprite);
 

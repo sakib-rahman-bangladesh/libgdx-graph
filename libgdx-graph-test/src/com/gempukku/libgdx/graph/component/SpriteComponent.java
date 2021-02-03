@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.gempukku.libgdx.graph.entity.def.SimpleSpriteDef;
 import com.gempukku.libgdx.graph.entity.def.StateBasedSpriteDef;
 import com.gempukku.libgdx.graph.entity.def.TiledSpriteDef;
-import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
+import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
 import com.gempukku.libgdx.graph.sprite.Sprite;
 
 public class SpriteComponent implements Component {

@@ -9,7 +9,7 @@ import com.gempukku.libgdx.graph.entity.def.SimpleSpriteDef;
 import com.gempukku.libgdx.graph.entity.def.SpriteStateDataDef;
 import com.gempukku.libgdx.graph.entity.def.StateBasedSpriteDef;
 import com.gempukku.libgdx.graph.entity.def.TiledSpriteDef;
-import com.gempukku.libgdx.graph.shader.sprite.GraphSprite;
+import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
 
 public class SpriteProducer {
     public static Sprite createSprite(Entity entity, TextureLoader textureLoader, GraphSprite graphSprite, SpriteComponent spriteComponent) {

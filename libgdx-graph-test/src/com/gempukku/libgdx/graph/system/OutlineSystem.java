@@ -8,7 +8,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.gempukku.libgdx.graph.component.OutlineComponent;
 import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
-import com.gempukku.libgdx.graph.shader.sprite.GraphSprites;
+import com.gempukku.libgdx.graph.plugin.sprites.GraphSprites;
 
 public class OutlineSystem extends EntitySystem {
     private ImmutableArray<Entity> outlineEntities;
@@ -27,7 +27,7 @@ public class OutlineSystem extends EntitySystem {
 
     @Override
     public void update(float delta) {
-        GraphSprites graphSprites = pipelineRenderer.getGraphSprites();
+        GraphSprites graphSprites = pipelineRenderer.getPluginData(GraphSprites.class);
         for (Entity outlineEntity : outlineEntities) {
             OutlineComponent outlineComponent = outlineEntity.getComponent(OutlineComponent.class);
             SpriteComponent spriteComponent = outlineEntity.getComponent(SpriteComponent.class);

@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.plugin.particles;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.plugin.particles.particle.EndBillboardParticlesShaderNodeBuilder;
 import com.gempukku.libgdx.graph.plugin.particles.particle.ParticleLifePercentageShaderNodeBuilder;
 import com.gempukku.libgdx.graph.plugin.particles.particle.ParticleLifetimeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.plugin.particles.particle.ParticleLocationShaderNodeBuilder;
