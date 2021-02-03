@@ -23,10 +23,10 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffect;
+import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
+import com.gempukku.libgdx.graph.plugin.particles.generator.ParallelogramParticleGenerator;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
-import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
-import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
-import com.gempukku.libgdx.graph.shader.particles.generator.ParallelogramParticleGenerator;
 import com.gempukku.libgdx.graph.system.CameraSystem;
 import com.gempukku.libgdx.graph.system.OutlineSystem;
 import com.gempukku.libgdx.graph.system.PhysicsSystem;
@@ -124,7 +124,7 @@ public class Episode24Scene implements LibgdxGraphTestScene {
         EntityLoader.readEntity(engine, json, "sprite/slime.json");
         EntityLoader.readEntity(engine, json, "sprite/characterPortrait.json");
 
-        GraphParticleEffects particleEffects = pipelineRenderer.getGraphParticleEffects();
+        GraphParticleEffects particleEffects = pipelineRenderer.getPluginData(GraphParticleEffects.class);
         ParallelogramParticleGenerator particleGenerator = new ParallelogramParticleGenerator(5);
         particleGenerator.getOrigin().set(0, 0, -10);
         particleGenerator.getDirection1().set(1, 0, 0);

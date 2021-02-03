@@ -23,6 +23,9 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffect;
+import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
+import com.gempukku.libgdx.graph.plugin.particles.generator.LineParticleGenerator;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
@@ -30,9 +33,6 @@ import com.gempukku.libgdx.graph.shader.model.GraphModel;
 import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
-import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffect;
-import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
-import com.gempukku.libgdx.graph.shader.particles.generator.LineParticleGenerator;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -55,7 +55,6 @@ public class Episode18Scene implements LibgdxGraphTestScene {
 
     @Override
     public void initializeScene() {
-
         WhitePixel.initialize();
 
         lights = createLights();
@@ -65,7 +64,7 @@ public class Episode18Scene implements LibgdxGraphTestScene {
         updateCamera();
 
         pipelineRenderer = loadPipelineRenderer();
-        createModels(pipelineRenderer.getGraphShaderModels(), pipelineRenderer.getGraphParticleEffects());
+        createModels(pipelineRenderer.getGraphShaderModels(), pipelineRenderer.getPluginData(GraphParticleEffects.class));
 
         Gdx.input.setInputProcessor(stage);
     }

@@ -18,44 +18,50 @@ import com.gempukku.libgdx.graph.ui.shader.model.producer.material.FloatAttribut
 import com.gempukku.libgdx.graph.ui.shader.model.producer.material.TextureAttributeBoxProducer;
 
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
+import java.util.TreeMap;
 
 public class UIModelShaderConfiguration implements UIGraphConfiguration<ShaderFieldType> {
-    public static Set<GraphBoxProducer<ShaderFieldType>> graphBoxProducers = new LinkedHashSet<>();
+    private static Map<String, GraphBoxProducer<ShaderFieldType>> graphBoxProducers = new TreeMap<>();
+
+    public static void register(GraphBoxProducer<ShaderFieldType> producer) {
+        String menuLocation = producer.getMenuLocation();
+        if (menuLocation == null)
+            menuLocation = "Dummy";
+        graphBoxProducers.put(menuLocation + "/" + producer.getName(), producer);
+    }
 
     static {
-        graphBoxProducers.add(new EndModelShaderBoxProducer());
+        register(new EndModelShaderBoxProducer());
 
-        graphBoxProducers.add(new AttributePositionBoxProducer());
-        graphBoxProducers.add(new AttributeNormalBoxProducer());
-        graphBoxProducers.add(new AttributeTangentBoxProducer());
-        graphBoxProducers.add(new AttributeUVBoxProducer());
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new AttributeColorShaderNodeConfiguration()));
+        register(new AttributePositionBoxProducer());
+        register(new AttributeNormalBoxProducer());
+        register(new AttributeTangentBoxProducer());
+        register(new AttributeUVBoxProducer());
+        register(new GraphBoxProducerImpl<ShaderFieldType>(new AttributeColorShaderNodeConfiguration()));
 
-        graphBoxProducers.add(new FloatAttributeBoxProducer("Shininess", "Shininess"));
-        graphBoxProducers.add(new FloatAttributeBoxProducer("AlphaTest", "Alpha test"));
-        graphBoxProducers.add(new TextureAttributeBoxProducer("AmbientTexture", "Ambient texture"));
-        graphBoxProducers.add(new ColorAttributeBoxProducer("AmbientColor", "Ambient color"));
-        graphBoxProducers.add(new TextureAttributeBoxProducer("BumpTexture", "Bump texture"));
-        graphBoxProducers.add(new TextureAttributeBoxProducer("DiffuseTexture", "Diffuse texture"));
-        graphBoxProducers.add(new ColorAttributeBoxProducer("DiffuseColor", "Diffuse color"));
-        graphBoxProducers.add(new TextureAttributeBoxProducer("EmissiveTexture", "Emissive texture"));
-        graphBoxProducers.add(new ColorAttributeBoxProducer("EmissiveColor", "Emissive color"));
-        graphBoxProducers.add(new TextureAttributeBoxProducer("NormalTexture", "Normal texture"));
-        graphBoxProducers.add(new TextureAttributeBoxProducer("ReflectionTexture", "Reflection texture"));
-        graphBoxProducers.add(new ColorAttributeBoxProducer("ReflectionColor", "Reflection color"));
-        graphBoxProducers.add(new TextureAttributeBoxProducer("SpecularTexture", "Specular texture"));
-        graphBoxProducers.add(new ColorAttributeBoxProducer("SpecularColor", "Specular color"));
+        register(new FloatAttributeBoxProducer("Shininess", "Shininess"));
+        register(new FloatAttributeBoxProducer("AlphaTest", "Alpha test"));
+        register(new TextureAttributeBoxProducer("AmbientTexture", "Ambient texture"));
+        register(new ColorAttributeBoxProducer("AmbientColor", "Ambient color"));
+        register(new TextureAttributeBoxProducer("BumpTexture", "Bump texture"));
+        register(new TextureAttributeBoxProducer("DiffuseTexture", "Diffuse texture"));
+        register(new ColorAttributeBoxProducer("DiffuseColor", "Diffuse color"));
+        register(new TextureAttributeBoxProducer("EmissiveTexture", "Emissive texture"));
+        register(new ColorAttributeBoxProducer("EmissiveColor", "Emissive color"));
+        register(new TextureAttributeBoxProducer("NormalTexture", "Normal texture"));
+        register(new TextureAttributeBoxProducer("ReflectionTexture", "Reflection texture"));
+        register(new ColorAttributeBoxProducer("ReflectionColor", "Reflection color"));
+        register(new TextureAttributeBoxProducer("SpecularTexture", "Specular texture"));
+        register(new ColorAttributeBoxProducer("SpecularColor", "Specular color"));
 
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new ModelFragmentCoordinateShaderNodeConfiguration()));
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new InstanceIdShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl<ShaderFieldType>(new ModelFragmentCoordinateShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl<ShaderFieldType>(new InstanceIdShaderNodeConfiguration()));
     }
 
     @Override
-    public Set<GraphBoxProducer<ShaderFieldType>> getGraphBoxProducers() {
-        return graphBoxProducers;
+    public Iterable<GraphBoxProducer<ShaderFieldType>> getGraphBoxProducers() {
+        return graphBoxProducers.values();
     }
 
     @Override

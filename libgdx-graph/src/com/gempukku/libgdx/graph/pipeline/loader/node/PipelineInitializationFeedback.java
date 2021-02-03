@@ -1,14 +1,13 @@
 package com.gempukku.libgdx.graph.pipeline.loader.node;
 
 import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
-import com.gempukku.libgdx.graph.shader.particles.ParticlesGraphShader;
 import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
 import com.gempukku.libgdx.graph.shader.sprite.SpriteGraphShader;
 
 public interface PipelineInitializationFeedback {
-    void registerScreenShader(String tag, ScreenGraphShader shader);
+    <T> T getPrivatePluginData(Class<T> clazz);
 
-    void registerParticleEffectShader(String tag, ParticlesGraphShader shader);
+    void registerScreenShader(String tag, ScreenGraphShader shader);
 
     void registerModelShader(String tag, ModelGraphShader shader);
 

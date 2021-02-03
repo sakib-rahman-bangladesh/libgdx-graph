@@ -7,20 +7,26 @@ import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.screen.producer.EndScreenShaderBoxProducer;
 
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
+import java.util.TreeMap;
 
 public class UIScreenShaderConfiguration implements UIGraphConfiguration<ShaderFieldType> {
-    public static Set<GraphBoxProducer<ShaderFieldType>> graphBoxProducers = new LinkedHashSet<>();
+    private static Map<String, GraphBoxProducer<ShaderFieldType>> graphBoxProducers = new TreeMap<>();
+
+    public static void register(GraphBoxProducer<ShaderFieldType> producer) {
+        String menuLocation = producer.getMenuLocation();
+        if (menuLocation == null)
+            menuLocation = "Dummy";
+        graphBoxProducers.put(menuLocation + "/" + producer.getName(), producer);
+    }
 
     static {
-        graphBoxProducers.add(new EndScreenShaderBoxProducer());
+        register(new EndScreenShaderBoxProducer());
     }
 
     @Override
-    public Set<GraphBoxProducer<ShaderFieldType>> getGraphBoxProducers() {
-        return graphBoxProducers;
+    public Iterable<GraphBoxProducer<ShaderFieldType>> getGraphBoxProducers() {
+        return graphBoxProducers.values();
     }
 
     @Override

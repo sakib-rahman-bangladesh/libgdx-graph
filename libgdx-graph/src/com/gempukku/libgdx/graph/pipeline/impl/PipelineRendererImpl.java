@@ -19,10 +19,6 @@ import com.gempukku.libgdx.graph.plugin.PluginRegistryImpl;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphModelsImpl;
-import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectImpl;
-import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffects;
-import com.gempukku.libgdx.graph.shader.particles.GraphParticleEffectsImpl;
-import com.gempukku.libgdx.graph.shader.particles.ParticlesGraphShader;
 import com.gempukku.libgdx.graph.shader.screen.GraphScreenShaders;
 import com.gempukku.libgdx.graph.shader.screen.GraphScreenShadersImpl;
 import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
@@ -107,12 +103,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
         return pipelineRenderingContext.getScreenShaders();
     }
 
-
-    @Override
-    public GraphParticleEffects getGraphParticleEffects() {
-        return pipelineRenderingContext.getGraphParticleEffects();
-    }
-
     @Override
     public void render(final RenderOutput renderOutput) {
         pipelineRenderingContext.setRenderOutput(renderOutput);
@@ -149,7 +139,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
 
         private GraphModelsImpl graphShaderModels = new GraphModelsImpl();
         private GraphScreenShadersImpl screenShaders = new GraphScreenShadersImpl();
-        private GraphParticleEffectsImpl particleEffects = new GraphParticleEffectsImpl();
         private GraphSpritesImpl graphSprites = new GraphSpritesImpl();
 
         public void setRenderOutput(RenderOutput renderOutput) {
@@ -157,10 +146,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         public void update() {
-            particleEffects.setTimeProvider(timeProvider);
-            for (GraphParticleEffectImpl particleEffect : particleEffects.getParticleEffects()) {
-                particleEffect.generateParticles(timeProvider);
-            }
+            pluginRegistry.update(timeProvider);
         }
 
         @Override
@@ -176,11 +162,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
         @Override
         public void registerScreenShader(String tag, ScreenGraphShader shader) {
             screenShaders.registerTag(tag, shader);
-        }
-
-        @Override
-        public void registerParticleEffectShader(String tag, ParticlesGraphShader shader) {
-            particleEffects.registerEffect(tag, shader);
         }
 
         @Override
@@ -214,11 +195,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
-        public GraphParticleEffectsImpl getGraphParticleEffects() {
-            return particleEffects;
-        }
-
-        @Override
         public PipelinePropertySource getPipelinePropertySource() {
             return PipelineRendererImpl.this;
         }
@@ -242,7 +218,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
         public void dispose() {
             graphShaderModels.dispose();
             fullScreenRender.dispose();
-            particleEffects.dispose();
         }
     }
 }

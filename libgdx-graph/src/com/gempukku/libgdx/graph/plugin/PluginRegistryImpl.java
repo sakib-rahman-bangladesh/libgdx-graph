@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class PluginRegistryImpl implements PluginRegistry, Disposable {
     private static ObjectSet<Class<? extends PluginRuntimeInitializer>> plugins = new ObjectSet<>();
@@ -24,7 +25,7 @@ public class PluginRegistryImpl implements PluginRegistry, Disposable {
     }
 
     private ObjectSet<Disposable> resources = new ObjectSet<>();
-    private ObjectMap<String, Object> privateData = new ObjectMap<>();
+    private ObjectMap<String, RuntimePipelinePlugin> privateData = new ObjectMap<>();
     private ObjectMap<String, Object> publicData = new ObjectMap<>();
 
     @Override
@@ -33,7 +34,7 @@ public class PluginRegistryImpl implements PluginRegistry, Disposable {
     }
 
     @Override
-    public <T> void registerPrivateData(Class<T> clazz, T value) {
+    public <T extends RuntimePipelinePlugin> void registerPrivateData(Class<T> clazz, T value) {
         privateData.put(clazz.getName(), value);
     }
 
@@ -43,6 +44,12 @@ public class PluginRegistryImpl implements PluginRegistry, Disposable {
 
     public <T> T getPublicData(Class<T> clazz) {
         return (T) publicData.get(clazz.getName());
+    }
+
+    public void update(TimeProvider timeProvider) {
+        for (RuntimePipelinePlugin plugin : privateData.values()) {
+            plugin.update(timeProvider);
+        }
     }
 
     @Override

@@ -197,7 +197,11 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     private PopupMenu createGraphPopupMenu(final float popupX, final float popupY) {
         PopupMenu popupMenu = new PopupMenu();
 
+        boolean first = true;
         for (UIGraphConfiguration<T> uiGraphConfiguration : uiGraphConfigurations) {
+            if (!first) {
+                popupMenu.addSeparator();
+            }
             for (final GraphBoxProducer<T> producer : uiGraphConfiguration.getGraphBoxProducers()) {
                 String menuLocation = producer.getMenuLocation();
                 if (menuLocation != null) {
@@ -217,6 +221,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
                     targetMenu.addItem(valueMenuItem);
                 }
             }
+            first = false;
         }
 
         if (!propertyBoxes.isEmpty()) {
@@ -245,12 +250,14 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
 
     private PopupMenu findOrCreatePopupMenu(PopupMenu popupMenu, String[] menuSplit, int startIndex) {
         for (Actor child : popupMenu.getChildren()) {
-            MenuItem childMenuItem = (MenuItem) child;
-            if (childMenuItem.getLabel().getText().toString().equals(menuSplit[startIndex]) && childMenuItem.getSubMenu() != null) {
-                if (startIndex + 1 < menuSplit.length) {
-                    return findOrCreatePopupMenu(childMenuItem.getSubMenu(), menuSplit, startIndex + 1);
-                } else {
-                    return childMenuItem.getSubMenu();
+            if (child instanceof MenuItem) {
+                MenuItem childMenuItem = (MenuItem) child;
+                if (childMenuItem.getLabel().getText().toString().equals(menuSplit[startIndex]) && childMenuItem.getSubMenu() != null) {
+                    if (startIndex + 1 < menuSplit.length) {
+                        return findOrCreatePopupMenu(childMenuItem.getSubMenu(), menuSplit, startIndex + 1);
+                    } else {
+                        return childMenuItem.getSubMenu();
+                    }
                 }
             }
         }

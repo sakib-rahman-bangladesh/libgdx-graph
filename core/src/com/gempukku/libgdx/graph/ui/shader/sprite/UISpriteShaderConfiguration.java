@@ -13,26 +13,32 @@ import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 import com.gempukku.libgdx.graph.ui.shader.sprite.producer.EndSpriteShaderBoxProducer;
 
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
+import java.util.TreeMap;
 
 public class UISpriteShaderConfiguration implements UIGraphConfiguration<ShaderFieldType> {
-    public static Set<GraphBoxProducer<ShaderFieldType>> graphBoxProducers = new LinkedHashSet<>();
+    private static Map<String, GraphBoxProducer<ShaderFieldType>> graphBoxProducers = new TreeMap<>();
+
+    public static void register(GraphBoxProducer<ShaderFieldType> producer) {
+        String menuLocation = producer.getMenuLocation();
+        if (menuLocation == null)
+            menuLocation = "Dummy";
+        graphBoxProducers.put(menuLocation + "/" + producer.getName(), producer);
+    }
 
     static {
-        graphBoxProducers.add(new EndSpriteShaderBoxProducer());
+        register(new EndSpriteShaderBoxProducer());
 
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SpritePositionShaderNodeConfiguration()));
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteLayerShaderNodeConfiguration()));
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteSizeShaderNodeConfiguration()));
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteAnchorShaderNodeConfiguration()));
-        graphBoxProducers.add(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteUVShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl<ShaderFieldType>(new SpritePositionShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteLayerShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteSizeShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteAnchorShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl<ShaderFieldType>(new SpriteUVShaderNodeConfiguration()));
     }
 
     @Override
-    public Set<GraphBoxProducer<ShaderFieldType>> getGraphBoxProducers() {
-        return graphBoxProducers;
+    public Iterable<GraphBoxProducer<ShaderFieldType>> getGraphBoxProducers() {
+        return graphBoxProducers.values();
     }
 
     @Override

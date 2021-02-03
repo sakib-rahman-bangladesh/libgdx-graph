@@ -1,5 +1,0 @@
-package com.gempukku.libgdx.graph.shader.particles;
-
-public interface GraphParticleEffect {
-    String getTag();
-}
