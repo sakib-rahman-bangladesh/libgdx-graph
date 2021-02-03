@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.ui.shader.screen.producer;
+package com.gempukku.libgdx.graph.plugin.screen.design.producer;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
@@ -6,15 +6,15 @@ import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
+import com.gempukku.libgdx.graph.plugin.screen.config.EndScreenShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.plugin.screen.design.ScreenShaderPreviewBoxPart;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
-import com.gempukku.libgdx.graph.shader.config.screen.EndScreenShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
-import com.gempukku.libgdx.graph.ui.shader.screen.ScreenShaderPreviewBoxPart;
 
 public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
     public EndScreenShaderBoxProducer() {

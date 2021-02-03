@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.ui.pipeline.producer.shader;
+package com.gempukku.libgdx.graph.plugin.screen.design.producer;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
+import com.gempukku.libgdx.graph.plugin.screen.design.ScreenTemplateRegistry;
+import com.gempukku.libgdx.graph.plugin.screen.design.UIScreenShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
@@ -19,9 +21,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 import com.gempukku.libgdx.graph.ui.graph.GraphRemoved;
 import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.GraphShaderTemplate;
-import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.GraphShaderTemplateRegistry;
 import com.gempukku.libgdx.graph.ui.shader.common.UICommonShaderConfiguration;
-import com.gempukku.libgdx.graph.ui.shader.screen.UIScreenShaderConfiguration;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
 import com.kotcrab.vis.ui.widget.MenuItem;
@@ -67,7 +67,7 @@ public class ScreenShaderBoxPart extends Table implements GraphBoxPart<PipelineF
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         PopupMenu popupMenu = new PopupMenu();
-                        for (final GraphShaderTemplate graphShaderTemplate : GraphShaderTemplateRegistry.screenShaderTemplateList) {
+                        for (final GraphShaderTemplate graphShaderTemplate : ScreenTemplateRegistry.getTemplates()) {
                             if (graphShaderTemplate != null) {
                                 MenuItem menuItem = new MenuItem(graphShaderTemplate.getTitle());
                                 popupMenu.addItem(menuItem);

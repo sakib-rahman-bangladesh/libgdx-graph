@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.screen;
+package com.gempukku.libgdx.graph.plugin.screen;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;

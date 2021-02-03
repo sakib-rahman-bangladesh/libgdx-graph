@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.ui.shader.screen;
+package com.gempukku.libgdx.graph.plugin.screen.design;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -23,10 +23,10 @@ import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
+import com.gempukku.libgdx.graph.plugin.screen.ScreenGraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.FullScreenRenderImpl;

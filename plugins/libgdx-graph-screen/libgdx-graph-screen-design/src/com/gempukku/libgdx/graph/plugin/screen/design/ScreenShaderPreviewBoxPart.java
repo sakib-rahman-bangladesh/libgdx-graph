@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.ui.shader.screen;
+package com.gempukku.libgdx.graph.plugin.screen.design;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;

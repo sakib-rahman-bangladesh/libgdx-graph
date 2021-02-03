@@ -1,13 +1,13 @@
-package com.gempukku.libgdx.graph.shader.screen;
+package com.gempukku.libgdx.graph.plugin.screen;
 
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.gempukku.libgdx.graph.plugin.screen.config.EndScreenShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
-import com.gempukku.libgdx.graph.shader.config.screen.EndScreenShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationShaderNodeBuilder;
 
 public class EndScreenShaderNodeBuilder extends ConfigurationShaderNodeBuilder {

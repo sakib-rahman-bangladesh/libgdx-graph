@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.screen;
+package com.gempukku.libgdx.graph.plugin.screen;
 
 public interface GraphScreenShaders {
     /**

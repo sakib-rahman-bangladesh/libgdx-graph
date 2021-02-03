@@ -1,9 +1,11 @@
-package com.gempukku.libgdx.graph.shader.screen;
+package com.gempukku.libgdx.graph.plugin.screen;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.plugin.RuntimePipelinePlugin;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.time.TimeProvider;
 
-public class GraphScreenShadersImpl implements GraphScreenShaders {
+public class GraphScreenShadersImpl implements GraphScreenShaders, RuntimePipelinePlugin {
     private ObjectMap<String, PropertyContainerImpl> propertyContainers = new ObjectMap<>();
 
     public void registerTag(String tag, ScreenGraphShader shader) {
@@ -34,5 +36,10 @@ public class GraphScreenShadersImpl implements GraphScreenShaders {
         if (propertyContainer == null)
             throw new IllegalArgumentException("Screen shader tag not found - " + tag);
         return propertyContainer.getValue(name);
+    }
+
+    @Override
+    public void update(TimeProvider timeProvider) {
+
     }
 }

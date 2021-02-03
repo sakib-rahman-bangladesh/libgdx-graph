@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.pipeline.config.rendering;
+package com.gempukku.libgdx.graph.plugin.screen.config;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;

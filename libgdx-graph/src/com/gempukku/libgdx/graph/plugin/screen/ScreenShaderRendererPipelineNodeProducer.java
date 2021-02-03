@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
+package com.gempukku.libgdx.graph.plugin.screen;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.Array;
@@ -7,20 +7,18 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
-import com.gempukku.libgdx.graph.pipeline.config.rendering.ScreenShaderRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeedback;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
+import com.gempukku.libgdx.graph.plugin.screen.config.ScreenShaderRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyAsUniformShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
-import com.gempukku.libgdx.graph.shader.screen.ScreenShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.screen.ScreenShaderLoaderCallback;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
@@ -55,8 +53,9 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
             public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
+                GraphScreenShadersImpl graphScreenShaders = pipelineInitializationFeedback.getPrivatePluginData(GraphScreenShadersImpl.class);
                 for (ScreenGraphShader shader : shaderArray) {
-                    pipelineInitializationFeedback.registerScreenShader(shader.getTag(), shader);
+                    graphScreenShaders.registerTag(shader.getTag(), shader);
                 }
             }
 

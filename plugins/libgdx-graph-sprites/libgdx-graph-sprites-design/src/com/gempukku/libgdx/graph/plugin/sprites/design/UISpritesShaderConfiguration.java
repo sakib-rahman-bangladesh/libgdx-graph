@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class UISpriteShaderConfiguration implements UIGraphConfiguration<ShaderFieldType> {
+public class UISpritesShaderConfiguration implements UIGraphConfiguration<ShaderFieldType> {
     private static Map<String, GraphBoxProducer<ShaderFieldType>> graphBoxProducers = new TreeMap<>();
 
     public static void register(GraphBoxProducer<ShaderFieldType> producer) {

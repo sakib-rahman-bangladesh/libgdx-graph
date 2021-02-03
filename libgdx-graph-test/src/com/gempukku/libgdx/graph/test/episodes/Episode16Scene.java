@@ -23,6 +23,7 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.plugin.screen.GraphScreenShaders;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
 import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
@@ -122,7 +123,7 @@ public class Episode16Scene implements LibgdxGraphTestScene {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        pipelineRenderer.getGraphScreenShaders().setProperty("CRT Monitor", "Distortion", distortion.getValue());
+                        pipelineRenderer.getPluginData(GraphScreenShaders.class).setProperty("CRT Monitor", "Distortion", distortion.getValue());
                     }
                 });
 

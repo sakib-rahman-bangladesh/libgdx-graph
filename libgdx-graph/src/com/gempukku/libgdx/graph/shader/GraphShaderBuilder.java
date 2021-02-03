@@ -15,6 +15,8 @@ import com.gempukku.libgdx.graph.data.GraphNodeInput;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.plugin.particles.ParticlesGraphShader;
 import com.gempukku.libgdx.graph.plugin.particles.ParticlesShaderConfiguration;
+import com.gempukku.libgdx.graph.plugin.screen.ScreenGraphShader;
+import com.gempukku.libgdx.graph.plugin.screen.ScreenShaderConfiguration;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteGraphShader;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
@@ -30,8 +32,6 @@ import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
-import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
-import com.gempukku.libgdx.graph.shader.screen.ScreenShaderConfiguration;
 
 public class GraphShaderBuilder {
     private static GraphConfiguration[] modelConfigurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new ModelShaderConfiguration()};

@@ -197,11 +197,8 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     private PopupMenu createGraphPopupMenu(final float popupX, final float popupY) {
         PopupMenu popupMenu = new PopupMenu();
 
-        boolean first = true;
         for (UIGraphConfiguration<T> uiGraphConfiguration : uiGraphConfigurations) {
-            if (!first) {
-                popupMenu.addSeparator();
-            }
+            boolean hasChild = false;
             for (final GraphBoxProducer<T> producer : uiGraphConfiguration.getGraphBoxProducers()) {
                 String menuLocation = producer.getMenuLocation();
                 if (menuLocation != null) {
@@ -219,13 +216,17 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
                                 }
                             });
                     targetMenu.addItem(valueMenuItem);
+                    hasChild = true;
                 }
             }
-            first = false;
+            if (hasChild)
+                popupMenu.addSeparator();
         }
+        MenuItem propertyMenuItem = new MenuItem("Property");
+        propertyMenuItem.setDisabled(true);
+        popupMenu.addItem(propertyMenuItem);
 
         if (!propertyBoxes.isEmpty()) {
-            MenuItem propertyMenuItem = new MenuItem("Property");
             PopupMenu propertyMenu = new PopupMenu();
             for (final PropertyBox<T> propertyProducer : propertyBoxes) {
                 final String name = propertyProducer.getName();
@@ -242,7 +243,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
                 propertyMenu.addItem(valueMenuItem);
             }
             propertyMenuItem.setSubMenu(propertyMenu);
-            popupMenu.addItem(propertyMenuItem);
+            propertyMenuItem.setDisabled(false);
         }
 
         return popupMenu;

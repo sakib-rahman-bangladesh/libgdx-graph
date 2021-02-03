@@ -25,7 +25,6 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.PropertyPipelineGraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.postprocessor.DepthOfFieldBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.ModelShaderRendererBoxProducer;
-import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.ScreenShaderRendererBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyBooleanBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyCallbackBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyCameraBoxProducer;
@@ -84,7 +83,6 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
 
         register(new GraphBoxProducerImpl<PipelineFieldType>(new StartPipelineNodeConfiguration()));
         register(new ModelShaderRendererBoxProducer());
-        register(new ScreenShaderRendererBoxProducer());
         register(new GraphBoxProducerImpl<PipelineFieldType>(new PipelineRendererNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new CustomRendererPipelineNodeConfiguration()));
 

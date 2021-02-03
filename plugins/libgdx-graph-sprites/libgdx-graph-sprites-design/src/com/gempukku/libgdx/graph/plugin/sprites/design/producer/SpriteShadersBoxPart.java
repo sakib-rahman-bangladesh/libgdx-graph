@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.plugin.sprites.design.SpritesTemplateRegistry;
-import com.gempukku.libgdx.graph.plugin.sprites.design.UISpriteShaderConfiguration;
+import com.gempukku.libgdx.graph.plugin.sprites.design.UISpritesShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
@@ -34,7 +34,7 @@ import java.util.UUID;
 
 public class SpriteShadersBoxPart extends Table implements GraphBoxPart<PipelineFieldType> {
     private static UIGraphConfiguration<ShaderFieldType>[] graphConfigurations = new UIGraphConfiguration[]{
-            new UISpriteShaderConfiguration(),
+            new UISpritesShaderConfiguration(),
             new UICommonShaderConfiguration()
     };
 

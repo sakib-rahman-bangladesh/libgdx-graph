@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.config.screen;
+package com.gempukku.libgdx.graph.plugin.screen.config;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeInputImpl;

@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.gempukku.libgdx.graph.plugin.particles.ParticlesPluginRuntimeInitializer;
+import com.gempukku.libgdx.graph.plugin.screen.ScreenPluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.plugin.sprites.SpritesPluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.test.episodes.Episode11Scene;
@@ -57,7 +58,15 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
     private Stage profileStage;
     private Label profileLabel;
 
-    public ReloadableGraphTestApplication() {
+
+    @Override
+    public void create() {
+        //Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
+        UIPluginRuntimeInitializer.register();
+        ParticlesPluginRuntimeInitializer.register();
+        SpritesPluginRuntimeInitializer.register();
+        ScreenPluginRuntimeInitializer.register();
+
         scenes = new LibgdxGraphTestScene[]{
                 new Episode1Scene(),
                 new Episode2Scene(),
@@ -84,14 +93,6 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
                 new Episode24Scene()
         };
         loadedIndex = scenes.length - 1;
-    }
-
-    @Override
-    public void create() {
-        //Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
-        UIPluginRuntimeInitializer.register();
-        ParticlesPluginRuntimeInitializer.register();
-        SpritesPluginRuntimeInitializer.register();
 
         scenes[loadedIndex].initializeScene();
     }

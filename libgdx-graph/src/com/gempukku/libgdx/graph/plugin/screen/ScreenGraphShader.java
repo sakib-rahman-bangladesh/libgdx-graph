@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.shader.screen;
+package com.gempukku.libgdx.graph.plugin.screen;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.gempukku.libgdx.graph.pipeline.loader.FullScreenRender;

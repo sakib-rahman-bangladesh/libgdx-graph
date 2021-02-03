@@ -19,9 +19,6 @@ import com.gempukku.libgdx.graph.plugin.PluginRegistryImpl;
 import com.gempukku.libgdx.graph.shader.model.GraphModels;
 import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
 import com.gempukku.libgdx.graph.shader.model.impl.GraphModelsImpl;
-import com.gempukku.libgdx.graph.shader.screen.GraphScreenShaders;
-import com.gempukku.libgdx.graph.shader.screen.GraphScreenShadersImpl;
-import com.gempukku.libgdx.graph.shader.screen.ScreenGraphShader;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 import com.gempukku.libgdx.graph.util.FullScreenRenderImpl;
 
@@ -91,11 +88,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
     }
 
     @Override
-    public GraphScreenShaders getGraphScreenShaders() {
-        return pipelineRenderingContext.getScreenShaders();
-    }
-
-    @Override
     public void render(final RenderOutput renderOutput) {
         pipelineRenderingContext.setRenderOutput(renderOutput);
 
@@ -130,7 +122,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
         private FullScreenRenderImpl fullScreenRender = new FullScreenRenderImpl();
 
         private GraphModelsImpl graphShaderModels = new GraphModelsImpl();
-        private GraphScreenShadersImpl screenShaders = new GraphScreenShadersImpl();
 
         public void setRenderOutput(RenderOutput renderOutput) {
             this.renderOutput = renderOutput;
@@ -143,11 +134,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
         @Override
         public void registerModelShader(String tag, ModelGraphShader shader) {
             graphShaderModels.registerTag(tag, shader);
-        }
-
-        @Override
-        public void registerScreenShader(String tag, ScreenGraphShader shader) {
-            screenShaders.registerTag(tag, shader);
         }
 
         @Override
@@ -168,11 +154,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
         @Override
         public GraphModelsImpl getGraphShaderModels() {
             return graphShaderModels;
-        }
-
-        @Override
-        public GraphScreenShadersImpl getScreenShaders() {
-            return screenShaders;
         }
 
         @Override
