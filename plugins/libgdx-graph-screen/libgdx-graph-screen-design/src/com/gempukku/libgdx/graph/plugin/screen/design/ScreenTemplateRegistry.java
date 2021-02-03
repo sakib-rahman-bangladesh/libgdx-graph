@@ -2,7 +2,6 @@ package com.gempukku.libgdx.graph.plugin.screen.design;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.FileGraphShaderTemplate;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.GraphShaderTemplate;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.LoadFileGraphShaderTemplate;
@@ -22,7 +21,7 @@ public class ScreenTemplateRegistry {
         register(
                 new LoadFileGraphShaderTemplate("From file..."));
         register(
-                new PasteGraphShaderTemplate(GraphDesignTab.Type.Screen_Shader));
+                new PasteGraphShaderTemplate(ScreenShaderGraphType.instance));
     }
 
     public static Iterable<GraphShaderTemplate> getTemplates() {

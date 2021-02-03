@@ -5,12 +5,6 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.common.effect.FresnelEffectShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.effect.GradientShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.effect.IntensityShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.common.lighting.AmbientLightShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.common.lighting.ApplyNormalMapShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.common.lighting.CalculateLightingShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.common.lighting.DirectionalLightShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.common.lighting.PointLightShaderNodeBuilder;
-import com.gempukku.libgdx.graph.shader.common.lighting.SpotLightShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.arithmetic.AddShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.arithmetic.DivideShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.arithmetic.MultiplyShaderNodeBuilder;
@@ -98,134 +92,126 @@ import com.gempukku.libgdx.graph.shader.property.Vector2ShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.Vector3ShaderPropertyProducer;
 
 public class CommonShaderConfiguration implements GraphConfiguration {
-    public static ObjectMap<String, GraphShaderNodeBuilder> graphShaderNodeBuilders = new ObjectMap<>();
-    public static Array<GraphShaderPropertyProducer> graphShaderPropertyProducers = new Array<>();
+    private static ObjectMap<String, GraphShaderNodeBuilder> graphShaderNodeBuilders = new ObjectMap<>();
+    private static Array<GraphShaderPropertyProducer> graphShaderPropertyProducers = new Array<>();
+
+    public static void register(GraphShaderNodeBuilder graphShaderNodeBuilder) {
+        graphShaderNodeBuilders.put(graphShaderNodeBuilder.getType(), graphShaderNodeBuilder);
+    }
 
     static {
         // Math - Arithmetic
-        addGraphShaderNodeBuilder(new AddShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SubtractShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new OneMinusShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new MultiplyShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new DivideShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ReciprocalShaderNodeBuilder());
+        register(new AddShaderNodeBuilder());
+        register(new SubtractShaderNodeBuilder());
+        register(new OneMinusShaderNodeBuilder());
+        register(new MultiplyShaderNodeBuilder());
+        register(new DivideShaderNodeBuilder());
+        register(new ReciprocalShaderNodeBuilder());
 
         // Math - exponential
-        addGraphShaderNodeBuilder(new PowerShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ExponentialShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ExponentialBase2ShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new NaturalLogarithmShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new LogarithmBase2ShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SquareRootShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new InverseSquareRootShaderNodeBuilder());
+        register(new PowerShaderNodeBuilder());
+        register(new ExponentialShaderNodeBuilder());
+        register(new ExponentialBase2ShaderNodeBuilder());
+        register(new NaturalLogarithmShaderNodeBuilder());
+        register(new LogarithmBase2ShaderNodeBuilder());
+        register(new SquareRootShaderNodeBuilder());
+        register(new InverseSquareRootShaderNodeBuilder());
 
         // Math - Common
-        addGraphShaderNodeBuilder(new AbsShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SignShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new FloorShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new CeilingShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new FractionalPartShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ModuloShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new MinimumShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new MaximumShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new MaximumShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ClampShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SaturateShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new LerpShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ConditionalShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new StepShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SmoothstepShaderNodeBuilder());
+        register(new AbsShaderNodeBuilder());
+        register(new SignShaderNodeBuilder());
+        register(new FloorShaderNodeBuilder());
+        register(new CeilingShaderNodeBuilder());
+        register(new FractionalPartShaderNodeBuilder());
+        register(new ModuloShaderNodeBuilder());
+        register(new MinimumShaderNodeBuilder());
+        register(new MaximumShaderNodeBuilder());
+        register(new MaximumShaderNodeBuilder());
+        register(new ClampShaderNodeBuilder());
+        register(new SaturateShaderNodeBuilder());
+        register(new LerpShaderNodeBuilder());
+        register(new ConditionalShaderNodeBuilder());
+        register(new StepShaderNodeBuilder());
+        register(new SmoothstepShaderNodeBuilder());
 
         // Math - geometric
-        addGraphShaderNodeBuilder(new LengthShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new DistanceShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new DotProductShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new CrossProductShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new NormalizeShaderNodeBuilder());
+        register(new LengthShaderNodeBuilder());
+        register(new DistanceShaderNodeBuilder());
+        register(new DotProductShaderNodeBuilder());
+        register(new CrossProductShaderNodeBuilder());
+        register(new NormalizeShaderNodeBuilder());
 
         // Math - advanced
-        addGraphShaderNodeBuilder(new MergeShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SplitShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new RemapShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new RemapVectorShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new RemapValueShaderNodeBuilder());
+        register(new MergeShaderNodeBuilder());
+        register(new SplitShaderNodeBuilder());
+        register(new RemapShaderNodeBuilder());
+        register(new RemapVectorShaderNodeBuilder());
+        register(new RemapValueShaderNodeBuilder());
 
         // Math - trigonometry
-        addGraphShaderNodeBuilder(new SinShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new CosShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new TanShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ArcsinShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ArccosShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ArctanShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new RadiansShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new DegreesShaderNodeBuilder());
+        register(new SinShaderNodeBuilder());
+        register(new CosShaderNodeBuilder());
+        register(new TanShaderNodeBuilder());
+        register(new ArcsinShaderNodeBuilder());
+        register(new ArccosShaderNodeBuilder());
+        register(new ArctanShaderNodeBuilder());
+        register(new RadiansShaderNodeBuilder());
+        register(new DegreesShaderNodeBuilder());
 
         // Math - utilities
-        addGraphShaderNodeBuilder(new DistanceFromPlaneShaderNodeBuilder());
-
-        // Lighting
-        addGraphShaderNodeBuilder(new CalculateLightingShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ApplyNormalMapShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new AmbientLightShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new DirectionalLightShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new PointLightShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SpotLightShaderNodeBuilder());
+        register(new DistanceFromPlaneShaderNodeBuilder());
 
         // Effect
-        addGraphShaderNodeBuilder(new FresnelEffectShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new IntensityShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new GradientShaderNodeBuilder());
+        register(new FresnelEffectShaderNodeBuilder());
+        register(new IntensityShaderNodeBuilder());
+        register(new GradientShaderNodeBuilder());
 
         // Texture
-        addGraphShaderNodeBuilder(new Sampler2DShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new UVFlipbookShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new UVTilingAndOffsetShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new BorderDetectionShaderNodeBuilder());
+        register(new Sampler2DShaderNodeBuilder());
+        register(new UVFlipbookShaderNodeBuilder());
+        register(new UVTilingAndOffsetShaderNodeBuilder());
+        register(new BorderDetectionShaderNodeBuilder());
 
         // Noise
-        addGraphShaderNodeBuilder(new SimplexNoise2DShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SimplexNoise3DShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new PerlinNoise2DShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new PerlinNoise3DShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new VoronoiDistance2DShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new VoronoiDistance3DShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new VoronoiBorder2DShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new VoronoiBorder3DShaderNodeBuilder());
+        register(new SimplexNoise2DShaderNodeBuilder());
+        register(new SimplexNoise3DShaderNodeBuilder());
+        register(new PerlinNoise2DShaderNodeBuilder());
+        register(new PerlinNoise3DShaderNodeBuilder());
+        register(new VoronoiDistance2DShaderNodeBuilder());
+        register(new VoronoiDistance3DShaderNodeBuilder());
+        register(new VoronoiBorder2DShaderNodeBuilder());
+        register(new VoronoiBorder3DShaderNodeBuilder());
 
         // Shape
-        addGraphShaderNodeBuilder(new DotShapeShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new CheckerboardShapeShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new EllipseShapeShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new RectangleShapeShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new StarShapeShaderNodeBuilder());
+        register(new DotShapeShaderNodeBuilder());
+        register(new CheckerboardShapeShaderNodeBuilder());
+        register(new EllipseShapeShaderNodeBuilder());
+        register(new RectangleShapeShaderNodeBuilder());
+        register(new StarShapeShaderNodeBuilder());
 
         // Provided
-        addGraphShaderNodeBuilder(new TimeGraphShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new CameraPositionShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new CameraDirectionShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new FragmentCoordinateShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SceneDepthShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SceneColorShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ScreenPositionShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new PixelSizeShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ViewportSizeShaderNodeBuilder());
+        register(new TimeGraphShaderNodeBuilder());
+        register(new CameraPositionShaderNodeBuilder());
+        register(new CameraDirectionShaderNodeBuilder());
+        register(new FragmentCoordinateShaderNodeBuilder());
+        register(new SceneDepthShaderNodeBuilder());
+        register(new SceneColorShaderNodeBuilder());
+        register(new ScreenPositionShaderNodeBuilder());
+        register(new PixelSizeShaderNodeBuilder());
+        register(new ViewportSizeShaderNodeBuilder());
 
         // Values
-        addGraphShaderNodeBuilder(new ValueBooleanShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ValueColorShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ValueFloatShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ValueVector2ShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ValueVector3ShaderNodeBuilder());
+        register(new ValueBooleanShaderNodeBuilder());
+        register(new ValueColorShaderNodeBuilder());
+        register(new ValueFloatShaderNodeBuilder());
+        register(new ValueVector2ShaderNodeBuilder());
+        register(new ValueVector3ShaderNodeBuilder());
 
         graphShaderPropertyProducers.add(new ColorShaderPropertyProducer());
         graphShaderPropertyProducers.add(new FloatShaderPropertyProducer());
         graphShaderPropertyProducers.add(new Vector2ShaderPropertyProducer());
         graphShaderPropertyProducers.add(new Vector3ShaderPropertyProducer());
         graphShaderPropertyProducers.add(new TextureShaderPropertyProducer());
-    }
-
-    private static void addGraphShaderNodeBuilder(GraphShaderNodeBuilder builder) {
-        graphShaderNodeBuilders.put(builder.getType(), builder);
     }
 
     @Override

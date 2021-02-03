@@ -24,6 +24,9 @@ import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
+import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPrivateData;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffectImpl;
 import com.gempukku.libgdx.graph.plugin.particles.ParticleEffectConfiguration;
 import com.gempukku.libgdx.graph.plugin.particles.ParticlesGraphShader;
@@ -34,7 +37,6 @@ import com.gempukku.libgdx.graph.plugin.particles.generator.SphereParticleGenera
 import com.gempukku.libgdx.graph.plugin.particles.generator.SphereSurfaceParticleGenerator;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
-import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.WhitePixel;
@@ -55,7 +57,7 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
 
     private Camera camera;
     private DefaultTimeKeeper timeKeeper;
-    private GraphShaderEnvironment graphShaderEnvironment;
+    private Lighting3DEnvironment graphShaderEnvironment;
     private ShaderContextImpl shaderContext;
     private GraphParticleEffectImpl particleEffect;
     private ShaderPreviewModel model = ShaderPreviewModel.Point;
@@ -73,14 +75,25 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
         camera.lookAt(0, 1f, 0f);
         camera.update();
 
-        graphShaderEnvironment = new GraphShaderEnvironment();
+        graphShaderEnvironment = new Lighting3DEnvironment();
         graphShaderEnvironment.setAmbientColor(Color.DARK_GRAY);
         PointLight pointLight = new PointLight();
         pointLight.set(Color.WHITE, -2f, 1f, 1f, 2f);
         graphShaderEnvironment.addPointLight(pointLight);
 
-        shaderContext = new ShaderContextImpl();
-        shaderContext.setGraphShaderEnvironment(graphShaderEnvironment);
+        final Lighting3DPrivateData data = new Lighting3DPrivateData();
+        data.setEnvironment("", graphShaderEnvironment);
+
+        PluginPrivateDataSource dataSource = new PluginPrivateDataSource() {
+            @Override
+            public <T> T getPrivatePluginData(Class<T> clazz) {
+                if (clazz == Lighting3DPrivateData.class)
+                    return (T) data;
+                return null;
+            }
+        };
+
+        shaderContext = new ShaderContextImpl(dataSource);
         shaderContext.setCamera(camera);
         shaderContext.setRenderWidth(width);
         shaderContext.setRenderHeight(height);
@@ -143,7 +156,6 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
             createModel(graphShader.getVertexAttributes());
 
-            shaderContext.setGraphShaderEnvironment(graphShaderEnvironment);
             shaderContext.setTimeProvider(timeKeeper);
             shaderContext.setPropertyContainer(
                     new PropertyContainer() {

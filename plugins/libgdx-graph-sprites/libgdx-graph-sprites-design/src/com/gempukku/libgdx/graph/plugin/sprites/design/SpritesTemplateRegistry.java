@@ -2,7 +2,6 @@ package com.gempukku.libgdx.graph.plugin.sprites.design;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.FileGraphShaderTemplate;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.GraphShaderTemplate;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.LoadFileGraphShaderTemplate;
@@ -27,7 +26,7 @@ public class SpritesTemplateRegistry {
         register(
                 new LoadFileGraphShaderTemplate("From file..."));
         register(
-                new PasteGraphShaderTemplate(GraphDesignTab.Type.Sprite_Shader));
+                new PasteGraphShaderTemplate(SpriteShaderGraphType.instance));
     }
 
     public static Iterable<GraphShaderTemplate> getTemplates() {

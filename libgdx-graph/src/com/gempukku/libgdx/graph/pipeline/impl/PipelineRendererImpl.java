@@ -16,9 +16,6 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeed
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
 import com.gempukku.libgdx.graph.plugin.PluginRegistryImpl;
-import com.gempukku.libgdx.graph.shader.model.GraphModels;
-import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
-import com.gempukku.libgdx.graph.shader.model.impl.GraphModelsImpl;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 import com.gempukku.libgdx.graph.util.FullScreenRenderImpl;
 
@@ -83,11 +80,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
     }
 
     @Override
-    public GraphModels getGraphShaderModels() {
-        return pipelineRenderingContext.getGraphShaderModels();
-    }
-
-    @Override
     public void render(final RenderOutput renderOutput) {
         pipelineRenderingContext.setRenderOutput(renderOutput);
 
@@ -121,19 +113,12 @@ public class PipelineRendererImpl implements PipelineRenderer {
         private RenderOutput renderOutput;
         private FullScreenRenderImpl fullScreenRender = new FullScreenRenderImpl();
 
-        private GraphModelsImpl graphShaderModels = new GraphModelsImpl();
-
         public void setRenderOutput(RenderOutput renderOutput) {
             this.renderOutput = renderOutput;
         }
 
         public void update() {
             pluginRegistry.update(timeProvider);
-        }
-
-        @Override
-        public void registerModelShader(String tag, ModelGraphShader shader) {
-            graphShaderModels.registerTag(tag, shader);
         }
 
         @Override
@@ -149,11 +134,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
         @Override
         public <T> T getPrivatePluginData(Class<T> clazz) {
             return pluginRegistry.getPrivateData(clazz);
-        }
-
-        @Override
-        public GraphModelsImpl getGraphShaderModels() {
-            return graphShaderModels;
         }
 
         @Override
@@ -178,7 +158,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
 
         @Override
         public void dispose() {
-            graphShaderModels.dispose();
             fullScreenRender.dispose();
         }
     }

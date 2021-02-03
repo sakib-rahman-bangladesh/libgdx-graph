@@ -23,6 +23,7 @@ import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
+import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteGraphShader;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.GraphSpriteImpl;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.NonCachedTagSpriteData;
@@ -60,7 +61,14 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
         camera.lookAt(0, 0f, 1f);
         camera.update();
 
-        shaderContext = new ShaderContextImpl();
+        PluginPrivateDataSource dataSource = new PluginPrivateDataSource() {
+            @Override
+            public <T> T getPrivatePluginData(Class<T> clazz) {
+                return null;
+            }
+        };
+
+        shaderContext = new ShaderContextImpl(dataSource);
         shaderContext.setCamera(camera);
         shaderContext.setRenderWidth(width);
         shaderContext.setRenderHeight(height);

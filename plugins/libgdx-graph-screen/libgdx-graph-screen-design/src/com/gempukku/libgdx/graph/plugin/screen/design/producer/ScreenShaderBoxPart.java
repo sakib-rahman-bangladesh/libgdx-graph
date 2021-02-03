@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
+import com.gempukku.libgdx.graph.plugin.screen.design.ScreenShaderGraphType;
 import com.gempukku.libgdx.graph.plugin.screen.design.ScreenTemplateRegistry;
 import com.gempukku.libgdx.graph.plugin.screen.design.UIScreenShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -17,11 +18,10 @@ import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
-import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 import com.gempukku.libgdx.graph.ui.graph.GraphRemoved;
 import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.GraphShaderTemplate;
-import com.gempukku.libgdx.graph.ui.shader.common.UICommonShaderConfiguration;
+import com.gempukku.libgdx.graph.ui.shader.UICommonShaderConfiguration;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
 import com.kotcrab.vis.ui.widget.MenuItem;
@@ -191,7 +191,7 @@ public class ScreenShaderBoxPart extends Table implements GraphBoxPart<PipelineF
                         @Override
                         public void changed(ChangeEvent event, Actor actor) {
                             editButton.fire(new RequestGraphOpen(id, "Shader - " + textField.getText(), initialShaderJson,
-                                    GraphDesignTab.Type.Screen_Shader, graphConfigurations));
+                                    ScreenShaderGraphType.instance, graphConfigurations));
                         }
                     });
             table.add(editButton).width(EDIT_WIDTH);

@@ -1,9 +1,9 @@
 package com.gempukku.libgdx.graph.ui;
 
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
+import com.gempukku.libgdx.graph.ui.graph.GraphType;
 
 public class GraphInClipboard {
-    public GraphDesignTab.Type graphType;
+    public GraphType graphType;
     public JsonValue graph;
 }

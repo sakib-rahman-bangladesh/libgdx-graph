@@ -88,16 +88,6 @@
       }
     },
     {
-      "id": "50f414bd4ecb4a01a52ae1e8be315763",
-      "type": "Property",
-      "x": 51.0,
-      "y": 634.0,
-      "data": {
-        "name": "Lights",
-        "type": "GraphLights"
-      }
-    },
-    {
       "id": "6fc2003ff7514ec689c1f007eb36c3d0",
       "type": "ParticlesShaderRenderer",
       "x": 311.0,
@@ -489,12 +479,6 @@
       "toField": "camera"
     },
     {
-      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
-      "fromField": "value",
-      "toNode": "6fc2003ff7514ec689c1f007eb36c3d0",
-      "toField": "lights"
-    },
-    {
       "fromNode": "746da9b276d442f0bc74ed9847a26a4b",
       "fromField": "output",
       "toNode": "3e7ce090af2a4abbbc187472adc25bcd",
@@ -511,22 +495,12 @@
       "fromField": "value",
       "toNode": "3e7ce090af2a4abbbc187472adc25bcd",
       "toField": "camera"
-    },
-    {
-      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
-      "fromField": "value",
-      "toNode": "3e7ce090af2a4abbbc187472adc25bcd",
-      "toField": "lights"
     }
   ],
   "properties": [
     {
       "name": "Camera",
       "type": "Camera"
-    },
-    {
-      "name": "Lights",
-      "type": "GraphLights"
     }
   ],
   "groups": []

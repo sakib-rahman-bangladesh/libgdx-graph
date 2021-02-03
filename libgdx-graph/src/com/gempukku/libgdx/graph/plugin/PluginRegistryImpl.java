@@ -38,6 +38,11 @@ public class PluginRegistryImpl implements PluginRegistry, Disposable {
         privateData.put(clazz.getName(), value);
     }
 
+    @Override
+    public <T> T getPrivatePluginData(Class<T> clazz) {
+        return getPrivateData(clazz);
+    }
+
     public <T> T getPrivateData(Class<T> clazz) {
         return (T) privateData.get(clazz.getName());
     }

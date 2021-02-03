@@ -24,22 +24,20 @@ import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.PropertyPipelineGraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.postprocessor.DepthOfFieldBoxProducer;
-import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.ModelShaderRendererBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyBooleanBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyCallbackBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyCameraBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyFloatBoxProducer;
-import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyGraphLightsBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyVector2BoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.property.PropertyVector3BoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
-import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueBooleanBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueColorBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueFloatBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueVector2BoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.common.producer.value.ValueVector3BoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueBooleanBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueColorBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueFloatBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueVector2BoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueVector3BoxProducer;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -82,7 +80,6 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         register(new GraphBoxProducerImpl<PipelineFieldType>(new MergePipelineNodeConfiguration()));
 
         register(new GraphBoxProducerImpl<PipelineFieldType>(new StartPipelineNodeConfiguration()));
-        register(new ModelShaderRendererBoxProducer());
         register(new GraphBoxProducerImpl<PipelineFieldType>(new PipelineRendererNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new CustomRendererPipelineNodeConfiguration()));
 
@@ -96,7 +93,6 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         propertyProducers.put("Vector3", new PropertyVector3BoxProducer());
         propertyProducers.put("Color", new PropertyColorBoxProducer());
         propertyProducers.put("Boolean", new PropertyBooleanBoxProducer());
-        propertyProducers.put("GraphLights", new PropertyGraphLightsBoxProducer());
         propertyProducers.put("Camera", new PropertyCameraBoxProducer());
         propertyProducers.put("Callback", new PropertyCallbackBoxProducer());
     }

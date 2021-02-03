@@ -1100,16 +1100,6 @@
       }
     },
     {
-      "id": "50f414bd4ecb4a01a52ae1e8be315763",
-      "type": "Property",
-      "x": 51.0,
-      "y": 1122.0,
-      "data": {
-        "name": "Lights",
-        "type": "GraphLights"
-      }
-    },
-    {
       "id": "1f6f63af3181472da525343236652acd",
       "type": "GraphShaderRenderer",
       "x": 308.0,
@@ -1705,12 +1695,6 @@
       "toField": "input"
     },
     {
-      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
-      "fromField": "value",
-      "toNode": "ff6f63af3181472da525343236652acd",
-      "toField": "lights"
-    },
-    {
       "fromNode": "a2deec2f5b4448f2bc89fdba9045c0b4",
       "fromField": "output",
       "toNode": "dffb152d405a49d38792e850749129b2",
@@ -1747,22 +1731,10 @@
       "toField": "camera"
     },
     {
-      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
-      "fromField": "value",
-      "toNode": "0f6f63af3181472da525343236652acd",
-      "toField": "lights"
-    },
-    {
       "fromNode": "72be9695e45949ccb5f449dbacdfd619",
       "fromField": "value",
       "toNode": "1f6f63af3181472da525343236652acd",
       "toField": "camera"
-    },
-    {
-      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
-      "fromField": "value",
-      "toNode": "1f6f63af3181472da525343236652acd",
-      "toField": "lights"
     },
     {
       "fromNode": "ff6f63af3181472da525343236652acd",
@@ -1781,10 +1753,6 @@
     {
       "name": "Camera",
       "type": "Camera"
-    },
-    {
-      "name": "Lights",
-      "type": "GraphLights"
     }
   ],
   "groups": [

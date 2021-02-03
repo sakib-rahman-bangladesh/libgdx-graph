@@ -22,16 +22,6 @@
       }
     },
     {
-      "id": "50f414bd4ecb4a01a52ae1e8be315763",
-      "type": "Property",
-      "x": 52.0,
-      "y": 765.0,
-      "data": {
-        "name": "Lights",
-        "type": "GraphLights"
-      }
-    },
-    {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
       "x": 387.0,
@@ -1116,12 +1106,6 @@
       "toField": "input"
     },
     {
-      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
-      "fromField": "value",
-      "toNode": "ff6f63af3181472da525343236652acd",
-      "toField": "lights"
-    },
-    {
       "fromNode": "ff6f63af3181472da525343236652acd",
       "fromField": "output",
       "toNode": "bc585d5e3ef14ae5951652650062120f",
@@ -1144,10 +1128,6 @@
     {
       "name": "Camera",
       "type": "Camera"
-    },
-    {
-      "name": "Lights",
-      "type": "GraphLights"
     },
     {
       "name": "Distort",

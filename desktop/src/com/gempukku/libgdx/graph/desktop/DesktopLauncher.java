@@ -2,6 +2,8 @@ package com.gempukku.libgdx.graph.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.gempukku.libgdx.graph.plugin.lighting3d.design.Lighting3DPluginDesignInitializer;
+import com.gempukku.libgdx.graph.plugin.models.design.ModelsPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.particles.design.ParticlesPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.screen.design.ScreenPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.sprites.design.SpritesPluginDesignInitializer;
@@ -15,6 +17,8 @@ public class DesktopLauncher {
         PluginDesignRegistry.register(ParticlesPluginDesignInitializer.class);
         PluginDesignRegistry.register(SpritesPluginDesignInitializer.class);
         PluginDesignRegistry.register(ScreenPluginDesignInitializer.class);
+        PluginDesignRegistry.register(ModelsPluginDesignInitializer.class);
+        PluginDesignRegistry.register(Lighting3DPluginDesignInitializer.class);
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 1440;

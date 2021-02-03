@@ -14,27 +14,29 @@ import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineInitializationFeed
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
-import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderContextImpl;
+import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
+import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.GraphSpritesImpl;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyAsAttributeShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
-import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyAsAttributeShaderConfiguration(), new SpriteShaderConfiguration()};
+    private PluginPrivateDataSource pluginPrivateDataSource;
 
-    public SpriteShaderRendererPipelineNodeProducer() {
+    public SpriteShaderRendererPipelineNodeProducer(PluginPrivateDataSource pluginPrivateDataSource) {
         super(new SpriteShaderRendererPipelineNodeConfiguration());
+        this.pluginPrivateDataSource = pluginPrivateDataSource;
     }
 
     @Override
     public PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final WhitePixel whitePixel = new WhitePixel();
 
-        final ModelShaderContextImpl shaderContext = new ModelShaderContextImpl();
+        final ShaderContextImpl shaderContext = new ShaderContextImpl(pluginPrivateDataSource);
 
         final Array<SpriteGraphShader> opaqueShaders = new Array<>();
         final Array<SpriteGraphShader> translucentShaders = new Array<>();
@@ -49,7 +51,6 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
         }
 
         final PipelineNode.FieldOutput<Boolean> processorEnabled = (PipelineNode.FieldOutput<Boolean>) inputFields.get("enabled");
-        final PipelineNode.FieldOutput<GraphShaderEnvironment> lightsInput = (PipelineNode.FieldOutput<GraphShaderEnvironment>) inputFields.get("lights");
         final PipelineNode.FieldOutput<Camera> cameraInput = (PipelineNode.FieldOutput<Camera>) inputFields.get("camera");
         final PipelineNode.FieldOutput<RenderPipeline> renderPipelineInput = (PipelineNode.FieldOutput<RenderPipeline>) inputFields.get("input");
 
@@ -108,10 +109,8 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
 
                     RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
                     Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
-                    GraphShaderEnvironment environment = lightsInput != null ? lightsInput.getValue(pipelineRenderingContext, null) : null;
 
                     shaderContext.setCamera(camera);
-                    shaderContext.setGraphShaderEnvironment(environment);
                     shaderContext.setTimeProvider(pipelineRenderingContext.getTimeProvider());
                     shaderContext.setRenderWidth(currentBuffer.getWidth());
                     shaderContext.setRenderHeight(currentBuffer.getHeight());

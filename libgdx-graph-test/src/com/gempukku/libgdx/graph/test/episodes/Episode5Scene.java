@@ -23,11 +23,11 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.plugin.models.GraphModel;
+import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
+import com.gempukku.libgdx.graph.plugin.models.GraphModels;
+import com.gempukku.libgdx.graph.plugin.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
-import com.gempukku.libgdx.graph.shader.model.GraphModel;
-import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
-import com.gempukku.libgdx.graph.shader.model.GraphModels;
-import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -61,7 +61,7 @@ public class Episode5Scene implements LibgdxGraphTestScene {
 
         camera = createCamera();
         pipelineRenderer = loadPipelineRenderer();
-        createModels(pipelineRenderer.getGraphShaderModels());
+        createModels(pipelineRenderer.getPluginData(GraphModels.class));
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -92,7 +92,7 @@ public class Episode5Scene implements LibgdxGraphTestScene {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        pipelineRenderer.getGraphShaderModels().setProperty(sphereModelInstance, "Amount", amount.getValue());
+                        pipelineRenderer.getPluginData(GraphModels.class).setProperty(sphereModelInstance, "Amount", amount.getValue());
                     }
                 });
         final Slider scale = new Slider(1, 50, 1f, false, skin);
@@ -101,7 +101,7 @@ public class Episode5Scene implements LibgdxGraphTestScene {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        pipelineRenderer.getGraphShaderModels().setProperty(sphereModelInstance, "Scale", scale.getValue());
+                        pipelineRenderer.getPluginData(GraphModels.class).setProperty(sphereModelInstance, "Scale", scale.getValue());
                     }
                 });
         final Slider x = new Slider(-1, 1, 0.01f, false, skin);
@@ -113,7 +113,7 @@ public class Episode5Scene implements LibgdxGraphTestScene {
         ChangeListener directionListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                pipelineRenderer.getGraphShaderModels().setProperty(sphereModelInstance, "Direction", new Vector3(x.getValue(), y.getValue(), z.getValue()));
+                pipelineRenderer.getPluginData(GraphModels.class).setProperty(sphereModelInstance, "Direction", new Vector3(x.getValue(), y.getValue(), z.getValue()));
             }
         };
         x.addListener(directionListener);

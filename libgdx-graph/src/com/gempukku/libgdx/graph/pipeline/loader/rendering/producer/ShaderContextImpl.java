@@ -2,8 +2,8 @@ package com.gempukku.libgdx.graph.pipeline.loader.rendering.producer;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
+import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
-import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class ShaderContextImpl implements ShaderContext {
@@ -11,11 +11,16 @@ public class ShaderContextImpl implements ShaderContext {
     private int renderHeight;
 
     private Camera camera;
-    private GraphShaderEnvironment graphShaderEnvironment;
     private Texture depthTexture;
     private Texture colorTexture;
     private TimeProvider timeProvider;
     private PropertyContainer propertyContainer;
+
+    private PluginPrivateDataSource pluginPrivateDataSource;
+
+    public ShaderContextImpl(PluginPrivateDataSource pluginPrivateDataSource) {
+        this.pluginPrivateDataSource = pluginPrivateDataSource;
+    }
 
     @Override
     public int getRenderWidth() {
@@ -42,15 +47,6 @@ public class ShaderContextImpl implements ShaderContext {
 
     public void setCamera(Camera camera) {
         this.camera = camera;
-    }
-
-    @Override
-    public GraphShaderEnvironment getGraphShaderEnvironment() {
-        return graphShaderEnvironment;
-    }
-
-    public void setGraphShaderEnvironment(GraphShaderEnvironment graphShaderEnvironment) {
-        this.graphShaderEnvironment = graphShaderEnvironment;
     }
 
     @Override
@@ -87,5 +83,10 @@ public class ShaderContextImpl implements ShaderContext {
     @Override
     public Object getProperty(String name) {
         return propertyContainer.getValue(name);
+    }
+
+    @Override
+    public <T> T getPrivatePluginData(Class<T> clazz) {
+        return pluginPrivateDataSource.getPrivatePluginData(clazz);
     }
 }

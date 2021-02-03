@@ -26,7 +26,7 @@ public class SpritesPluginRuntimeInitializer implements PluginRuntimeInitializer
 
     @Override
     public void initialize(PluginRegistry pluginRegistry) {
-        RendererPipelineConfiguration.register(new SpriteShaderRendererPipelineNodeProducer());
+        RendererPipelineConfiguration.register(new SpriteShaderRendererPipelineNodeProducer(pluginRegistry));
 
         pluginRegistry.registerPrivateData(GraphSpritesImpl.class, sprites);
         pluginRegistry.registerPublicData(GraphSprites.class, sprites);

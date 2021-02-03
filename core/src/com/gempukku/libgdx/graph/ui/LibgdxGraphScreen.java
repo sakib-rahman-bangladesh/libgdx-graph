@@ -29,6 +29,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphContainer;
 import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 import com.gempukku.libgdx.graph.ui.graph.GraphRemoved;
+import com.gempukku.libgdx.graph.ui.graph.GraphType;
 import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
 import com.gempukku.libgdx.graph.ui.graph.SaveCallback;
 import com.gempukku.libgdx.graph.ui.pipeline.UIPipelineConfiguration;
@@ -143,7 +144,7 @@ public class LibgdxGraphScreen extends Table {
         });
     }
 
-    private void openGraphTab(String id, JsonValue graph, String title, GraphDesignTab.Type type, UIGraphConfiguration... configurations) {
+    private void openGraphTab(String id, JsonValue graph, String title, GraphType type, UIGraphConfiguration... configurations) {
         SaveCallback saveCallback = new SaveCallback() {
             @Override
             public void save(GraphDesignTab graphDesignTab) {
@@ -322,7 +323,7 @@ public class LibgdxGraphScreen extends Table {
     private void copy() {
         GraphDesignTab<?> activeTab = (GraphDesignTab<?>) tabbedPane.getActiveTab();
         if (activeTab != null) {
-            GraphDesignTab.Type type = activeTab.getType();
+            GraphType type = activeTab.getType();
             GraphContainer<?> graphContainer = activeTab.getGraphContainer();
             ObjectSet<String> selectedNodes = graphContainer.getSelectedNodes();
 
@@ -356,8 +357,8 @@ public class LibgdxGraphScreen extends Table {
     private void paste() {
         GraphDesignTab<?> activeTab = (GraphDesignTab<?>) tabbedPane.getActiveTab();
         if (activeTab != null) {
-            GraphDesignTab.Type type = activeTab.getType();
-            if (type == nodesInClipboard.graphType) {
+            GraphType type = activeTab.getType();
+            if (nodesInClipboard.graphType != null && type.getType().equals(nodesInClipboard.graphType.getType())) {
                 ObjectMap<String, String> oldToNewIdMapping = new ObjectMap<>();
                 UIGraphConfiguration<?>[] uiGraphConfigurations = activeTab.getUiGraphConfigurations();
 
@@ -589,7 +590,7 @@ public class LibgdxGraphScreen extends Table {
                 try {
                     UIPipelineConfiguration pipelineGraphConfiguration = new UIPipelineConfiguration();
                     graphDesignTab = GraphLoader.loadGraph(stream, new UIGraphLoaderCallback<PipelineFieldType>(
-                            skin, new GraphDesignTab<PipelineFieldType>(false, GraphDesignTab.Type.Render_Pipeline, "main", "Render pipeline", skin,
+                            skin, new GraphDesignTab<PipelineFieldType>(false, RenderPipelineGraphType.instance, "main", "Render pipeline", skin,
                             null, pipelineGraphConfiguration), pipelineGraphConfiguration));
 
                     graphDesignTab.getContentTable().addListener(

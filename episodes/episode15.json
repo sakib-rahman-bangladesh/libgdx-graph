@@ -184,16 +184,6 @@
       }
     },
     {
-      "id": "50f414bd4ecb4a01a52ae1e8be315763",
-      "type": "Property",
-      "x": 492.0,
-      "y": 582.0,
-      "data": {
-        "name": "Lights",
-        "type": "GraphLights"
-      }
-    },
-    {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
       "x": 826.0,
@@ -251,12 +241,6 @@
       "fromField": "output",
       "toNode": "end",
       "toField": "input"
-    },
-    {
-      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
-      "fromField": "value",
-      "toNode": "ff6f63af3181472da525343236652acd",
-      "toField": "lights"
     },
     {
       "fromNode": "72be9695e45949ccb5f449dbacdfd619",
@@ -335,10 +319,6 @@
     {
       "name": "Camera",
       "type": "Camera"
-    },
-    {
-      "name": "Lights",
-      "type": "GraphLights"
     },
     {
       "name": "Focus Distance",

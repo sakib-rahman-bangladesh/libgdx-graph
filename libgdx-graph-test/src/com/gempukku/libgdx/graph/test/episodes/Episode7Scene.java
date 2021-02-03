@@ -23,13 +23,14 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
+import com.gempukku.libgdx.graph.plugin.models.GraphModel;
+import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
+import com.gempukku.libgdx.graph.plugin.models.GraphModels;
+import com.gempukku.libgdx.graph.plugin.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
-import com.gempukku.libgdx.graph.shader.environment.GraphShaderEnvironment;
-import com.gempukku.libgdx.graph.shader.model.GraphModel;
-import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
-import com.gempukku.libgdx.graph.shader.model.GraphModels;
-import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -45,7 +46,7 @@ public class Episode7Scene implements LibgdxGraphTestScene {
     private Stage stage;
     private Skin skin;
     private GraphModelInstance modelInstance;
-    private GraphShaderEnvironment lights;
+    private Lighting3DEnvironment lights;
     private float cameraSpeed = -0.8f;
     private float cameraAngle = 0f;
     private float cameraDistance = 1.7f;
@@ -62,15 +63,15 @@ public class Episode7Scene implements LibgdxGraphTestScene {
         camera = createCamera();
 
         pipelineRenderer = loadPipelineRenderer();
-        createModels(pipelineRenderer.getGraphShaderModels());
+        createModels(pipelineRenderer.getPluginData(GraphModels.class));
 
         Gdx.input.setInputProcessor(stage);
     }
 
-    private GraphShaderEnvironment createLights() {
+    private Lighting3DEnvironment createLights() {
         float ambientBrightness = 0.3f;
         float directionalBrightness = 0.8f;
-        GraphShaderEnvironment lights = new GraphShaderEnvironment();
+        Lighting3DEnvironment lights = new Lighting3DEnvironment();
         lights.setAmbientColor(new Color(ambientBrightness, ambientBrightness, ambientBrightness, 1f));
         DirectionalLight directionalLight = new DirectionalLight();
         directionalLight.setColor(directionalBrightness, directionalBrightness, directionalBrightness, 1f);
@@ -117,8 +118,9 @@ public class Episode7Scene implements LibgdxGraphTestScene {
                         boolean checked = switchButton.isChecked();
                         String removeTag = checked ? "Default" : "Toon";
                         String tag = checked ? "Toon" : "Default";
-                        pipelineRenderer.getGraphShaderModels().removeTag(modelInstance, removeTag);
-                        pipelineRenderer.getGraphShaderModels().addTag(modelInstance, tag, TagOptimizationHint.Temporary);
+                        GraphModels graphModels = pipelineRenderer.getPluginData(GraphModels.class);
+                        graphModels.removeTag(modelInstance, removeTag);
+                        graphModels.addTag(modelInstance, tag, TagOptimizationHint.Temporary);
                     }
                 });
 
@@ -187,7 +189,7 @@ public class Episode7Scene implements LibgdxGraphTestScene {
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
         pipelineRenderer.setPipelineProperty("Camera", camera);
-        pipelineRenderer.setPipelineProperty("Lights", lights);
+        pipelineRenderer.getPluginData(Lighting3DPublicData.class).setEnvironment("", lights);
         pipelineRenderer.getPluginData(UIPluginPublicData.class).setStage("", stage);
     }
 }

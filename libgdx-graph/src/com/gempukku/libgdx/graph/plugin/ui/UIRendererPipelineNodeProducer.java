@@ -25,8 +25,7 @@ public class UIRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
                 RenderPipeline renderPipeline = renderPipelineInput.getValue(pipelineRenderingContext, pipelineRequirements);
                 boolean enabled = processorEnabled == null || processorEnabled.getValue(pipelineRenderingContext, null);
-                UIPluginPrivateData privatePluginData = pipelineRenderingContext.getPrivatePluginData(UIPluginPrivateData.class);
-                Stage stage = privatePluginData.getStage(data.getString("id", ""));
+                Stage stage = pipelineRenderingContext.getPrivatePluginData(UIPluginPrivateData.class).getStage(data.getString("id", ""));
                 if (enabled && stage != null) {
                     // Sadly need to switch off (and then on) the RenderContext
                     pipelineRenderingContext.getRenderContext().end();

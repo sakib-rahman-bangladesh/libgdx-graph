@@ -2,12 +2,12 @@ package com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.gempukku.libgdx.graph.ui.LibgdxGraphScreen;
-import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
+import com.gempukku.libgdx.graph.ui.graph.GraphType;
 
 public class PasteGraphShaderTemplate implements GraphShaderTemplate {
-    private GraphDesignTab.Type graphType;
+    private GraphType graphType;
 
-    public PasteGraphShaderTemplate(GraphDesignTab.Type graphType) {
+    public PasteGraphShaderTemplate(GraphType graphType) {
         this.graphType = graphType;
     }
 
@@ -18,7 +18,7 @@ public class PasteGraphShaderTemplate implements GraphShaderTemplate {
 
     @Override
     public void invokeTemplate(Stage stage, Callback callback) {
-        if (graphType == LibgdxGraphScreen.graphInClipboard.graphType) {
+        if (LibgdxGraphScreen.graphInClipboard.graphType != null && graphType.getType().equals(LibgdxGraphScreen.graphInClipboard.graphType.getType())) {
             callback.addShader("", LibgdxGraphScreen.graphInClipboard.graph);
         }
     }

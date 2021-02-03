@@ -3,10 +3,10 @@ package com.gempukku.libgdx.graph.ui;
 import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
-import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
+import com.gempukku.libgdx.graph.ui.graph.GraphType;
 
 public class NodesInClipboard {
-    public GraphDesignTab.Type graphType;
+    public GraphType graphType;
     public Array<NodesData> nodesData;
     public Array<GraphConnection> graphConnections;
 

@@ -17,7 +17,6 @@ import com.gempukku.libgdx.graph.pipeline.loader.provided.RenderSizePipelineNode
 import com.gempukku.libgdx.graph.pipeline.loader.provided.TimePipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.CustomRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.EndPipelineNodeProducer;
-import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ModelShaderRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.PipelineRendererNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.StartPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.value.producer.ValueBooleanPipelineNodeProducer;
@@ -30,7 +29,6 @@ import com.gempukku.libgdx.graph.pipeline.property.CallbackPipelinePropertyProdu
 import com.gempukku.libgdx.graph.pipeline.property.CameraPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.ColorPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.FloatPipelinePropertyProducer;
-import com.gempukku.libgdx.graph.pipeline.property.GraphLightsPipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.PipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.Vector2PipelinePropertyProducer;
 import com.gempukku.libgdx.graph.pipeline.property.Vector3PipelinePropertyProducer;
@@ -47,7 +45,6 @@ public class RendererPipelineConfiguration {
         register(new StartPipelineNodeProducer());
         register(new EndPipelineNodeProducer());
         register(new CustomRendererPipelineNodeProducer());
-        register(new ModelShaderRendererPipelineNodeProducer());
         register(new PipelineRendererNodeProducer());
 
         register(new ValueFloatPipelineNodeProducer());
@@ -77,7 +74,6 @@ public class RendererPipelineConfiguration {
         pipelinePropertyProducers.add(new Vector3PipelinePropertyProducer());
         pipelinePropertyProducers.add(new ColorPipelinePropertyProducer());
         pipelinePropertyProducers.add(new BooleanPipelinePropertyProducer());
-        pipelinePropertyProducers.add(new GraphLightsPipelinePropertyProducer());
         pipelinePropertyProducers.add(new CameraPipelinePropertyProducer());
         pipelinePropertyProducers.add(new CallbackPipelinePropertyProducer());
     }

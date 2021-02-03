@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPluginRuntimeInitializer;
+import com.gempukku.libgdx.graph.plugin.models.ModelsPluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.plugin.particles.ParticlesPluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.plugin.screen.ScreenPluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.plugin.sprites.SpritesPluginRuntimeInitializer;
@@ -66,6 +68,8 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
         ParticlesPluginRuntimeInitializer.register();
         SpritesPluginRuntimeInitializer.register();
         ScreenPluginRuntimeInitializer.register();
+        ModelsPluginRuntimeInitializer.register();
+        Lighting3DPluginRuntimeInitializer.register();
 
         scenes = new LibgdxGraphTestScene[]{
                 new Episode1Scene(),

@@ -242,16 +242,6 @@
       }
     },
     {
-      "id": "50f414bd4ecb4a01a52ae1e8be315763",
-      "type": "Property",
-      "x": 50.0,
-      "y": 604.0,
-      "data": {
-        "name": "Lights",
-        "type": "GraphLights"
-      }
-    },
-    {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
       "x": 386.0,
@@ -354,12 +344,6 @@
       "toField": "input"
     },
     {
-      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
-      "fromField": "value",
-      "toNode": "ff6f63af3181472da525343236652acd",
-      "toField": "lights"
-    },
-    {
       "fromNode": "ff6f63af3181472da525343236652acd",
       "fromField": "output",
       "toNode": "0f6f63af3181472da525343236652acd",
@@ -376,22 +360,12 @@
       "fromField": "value",
       "toNode": "0f6f63af3181472da525343236652acd",
       "toField": "camera"
-    },
-    {
-      "fromNode": "50f414bd4ecb4a01a52ae1e8be315763",
-      "fromField": "value",
-      "toNode": "0f6f63af3181472da525343236652acd",
-      "toField": "lights"
     }
   ],
   "properties": [
     {
       "name": "Camera",
       "type": "Camera"
-    },
-    {
-      "name": "Lights",
-      "type": "GraphLights"
     }
   ],
   "groups": []

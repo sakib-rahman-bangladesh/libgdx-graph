@@ -14,7 +14,7 @@ public class ParticlesPluginRuntimeInitializer implements PluginRuntimeInitializ
 
     @Override
     public void initialize(PluginRegistry pluginRegistry) {
-        RendererPipelineConfiguration.register(new ParticlesShaderRendererPipelineNodeProducer());
+        RendererPipelineConfiguration.register(new ParticlesShaderRendererPipelineNodeProducer(pluginRegistry));
 
         pluginRegistry.registerPrivateData(GraphParticleEffectsImpl.class, effects);
         pluginRegistry.registerPublicData(GraphParticleEffects.class, effects);

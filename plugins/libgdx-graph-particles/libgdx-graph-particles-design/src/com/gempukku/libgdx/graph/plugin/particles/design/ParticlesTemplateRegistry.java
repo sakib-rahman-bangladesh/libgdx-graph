@@ -2,7 +2,6 @@ package com.gempukku.libgdx.graph.plugin.particles.design;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.FileGraphShaderTemplate;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.GraphShaderTemplate;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.LoadFileGraphShaderTemplate;
@@ -22,7 +21,7 @@ public class ParticlesTemplateRegistry {
         register(
                 new LoadFileGraphShaderTemplate("From file..."));
         register(
-                new PasteGraphShaderTemplate(GraphDesignTab.Type.Particle_Effect));
+                new PasteGraphShaderTemplate(ParticleEffectGraphType.instance));
     }
 
     public static Iterable<GraphShaderTemplate> getTemplates() {

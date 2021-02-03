@@ -19,12 +19,12 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.plugin.models.GraphModel;
+import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
+import com.gempukku.libgdx.graph.plugin.models.GraphModels;
+import com.gempukku.libgdx.graph.plugin.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
-import com.gempukku.libgdx.graph.shader.model.GraphModel;
-import com.gempukku.libgdx.graph.shader.model.GraphModelInstance;
-import com.gempukku.libgdx.graph.shader.model.GraphModels;
-import com.gempukku.libgdx.graph.shader.model.TagOptimizationHint;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -51,7 +51,7 @@ public class Episode6Scene implements LibgdxGraphTestScene {
         camera = createCamera();
 
         pipelineRenderer = loadPipelineRenderer();
-        createModels(pipelineRenderer.getGraphShaderModels());
+        createModels(pipelineRenderer.getPluginData(GraphModels.class));
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -96,8 +96,9 @@ public class Episode6Scene implements LibgdxGraphTestScene {
                         boolean checked = switchButton.isChecked();
                         String removeTag = checked ? "Default" : "Hologram";
                         String tag = checked ? "Hologram" : "Default";
-                        pipelineRenderer.getGraphShaderModels().removeTag(shipInstance, removeTag);
-                        pipelineRenderer.getGraphShaderModels().addTag(shipInstance, tag, TagOptimizationHint.Temporary);
+                        GraphModels graphModels = pipelineRenderer.getPluginData(GraphModels.class);
+                        graphModels.removeTag(shipInstance, removeTag);
+                        graphModels.addTag(shipInstance, tag, TagOptimizationHint.Temporary);
                     }
                 });
 

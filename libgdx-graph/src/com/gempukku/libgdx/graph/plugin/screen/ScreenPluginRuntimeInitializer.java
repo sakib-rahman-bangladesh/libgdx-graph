@@ -14,7 +14,7 @@ public class ScreenPluginRuntimeInitializer implements PluginRuntimeInitializer 
 
     @Override
     public void initialize(PluginRegistry pluginRegistry) {
-        RendererPipelineConfiguration.register(new ScreenShaderRendererPipelineNodeProducer());
+        RendererPipelineConfiguration.register(new ScreenShaderRendererPipelineNodeProducer(pluginRegistry));
 
         pluginRegistry.registerPrivateData(GraphScreenShadersImpl.class, data);
         pluginRegistry.registerPublicData(GraphScreenShaders.class, data);

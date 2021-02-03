@@ -9,10 +9,10 @@ public class RequestGraphOpen extends Event {
     private String id;
     private String title;
     private JsonValue jsonObject;
-    private GraphDesignTab.Type type;
+    private GraphType type;
     private UIGraphConfiguration[] graphConfigurations;
 
-    public RequestGraphOpen(String id, String title, JsonValue jsonObject, GraphDesignTab.Type type,
+    public RequestGraphOpen(String id, String title, JsonValue jsonObject, GraphType type,
                             UIGraphConfiguration... graphConfiguration) {
         this.id = id;
         this.title = title;
@@ -33,7 +33,7 @@ public class RequestGraphOpen extends Event {
         return jsonObject;
     }
 
-    public GraphDesignTab.Type getType() {
+    public GraphType getType() {
         return type;
     }
 

@@ -13,6 +13,9 @@ import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphNodeInput;
 import com.gempukku.libgdx.graph.data.GraphProperty;
+import com.gempukku.libgdx.graph.plugin.models.ModelGraphShader;
+import com.gempukku.libgdx.graph.plugin.models.ModelShaderConfiguration;
+import com.gempukku.libgdx.graph.plugin.models.ModelsUniformSetters;
 import com.gempukku.libgdx.graph.plugin.particles.ParticlesGraphShader;
 import com.gempukku.libgdx.graph.plugin.particles.ParticlesShaderConfiguration;
 import com.gempukku.libgdx.graph.plugin.screen.ScreenGraphShader;
@@ -26,8 +29,6 @@ import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyAsAttributeShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyAsUniformShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
-import com.gempukku.libgdx.graph.shader.model.ModelGraphShader;
-import com.gempukku.libgdx.graph.shader.model.ModelShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
@@ -124,7 +125,7 @@ public class GraphShaderBuilder {
         return graphShader;
     }
 
-    public static ModelGraphShader buildModelShader(Texture defaultTexture,
+    public static ModelGraphShader buildModelShader(Texture defaultTexture, int maxBoneCount, int maxBoneWeightCount,
                                                     Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
                                                     boolean designTime) {
         ModelGraphShader graphShader = new ModelGraphShader(defaultTexture);
@@ -134,7 +135,7 @@ public class GraphShaderBuilder {
 
         initialize(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder, modelConfigurations);
 
-        buildModelVertexShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
+        buildModelVertexShader(maxBoneCount, maxBoneWeightCount, graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
         buildModelFragmentShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
 
         String vertexShader = vertexShaderBuilder.buildProgram();
@@ -149,7 +150,7 @@ public class GraphShaderBuilder {
         return graphShader;
     }
 
-    public static ModelGraphShader buildModelDepthShader(Texture defaultTexture,
+    public static ModelGraphShader buildModelDepthShader(Texture defaultTexture, int maxBoneCount, int maxBoneWeightCount,
                                                          Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
                                                          boolean designTime) {
         ModelGraphShader graphShader = new ModelGraphShader(defaultTexture);
@@ -159,7 +160,7 @@ public class GraphShaderBuilder {
 
         initialize(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder, modelConfigurations);
 
-        buildModelVertexShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
+        buildModelVertexShader(maxBoneCount, maxBoneWeightCount, graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
         buildDepthFragmentShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
 
         String vertexShader = vertexShaderBuilder.buildProgram();
@@ -235,7 +236,7 @@ public class GraphShaderBuilder {
         // Get position
         if (!vertexShaderBuilder.hasVaryingVariable("v_position_world")) {
             vertexShaderBuilder.addMainLine("// Attribute Position Node");
-            vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, UniformSetters.worldTrans);
+            vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, ModelsUniformSetters.worldTrans);
             vertexShaderBuilder.addVaryingVariable("v_position_world", "vec3");
             vertexShaderBuilder.addMainLine("v_position_world = (u_worldTrans * skinning * vec4(a_position, 1.0)).xyz;");
 
@@ -382,11 +383,14 @@ public class GraphShaderBuilder {
         fragmentShaderBuilder.addMainLine("gl_FragColor = " + color + ";");
     }
 
-    private static void buildModelVertexShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
+    private static void buildModelVertexShader(
+            int maxBoneCount, int maxBoneWeightCount,
+            Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph,
+            boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         // Vertex part
-        int boneCount = GraphShaderConfig.getMaxNumberOfBonesPerMesh();
-        int boneWeightCount = GraphShaderConfig.getMaxNumberOfBoneWeights();
-        vertexShaderBuilder.addArrayUniformVariable("u_bones", boneCount, "mat4", false, new UniformSetters.Bones(boneCount));
+        int boneCount = maxBoneCount;
+        int boneWeightCount = maxBoneWeightCount;
+        vertexShaderBuilder.addArrayUniformVariable("u_bones", boneCount, "mat4", false, new ModelsUniformSetters.Bones(boneCount));
         for (int i = 0; i < boneWeightCount; i++) {
             vertexShaderBuilder.addAttributeVariable(VertexAttribute.BoneWeight(i), "a_boneWeight" + i, "vec2");
         }
@@ -410,7 +414,7 @@ public class GraphShaderBuilder {
             vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), ShaderProgram.POSITION_ATTRIBUTE, "vec3");
 
             vertexShaderBuilder.addMainLine("// Attribute Position Node");
-            vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, UniformSetters.worldTrans);
+            vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, ModelsUniformSetters.worldTrans);
             String name = "result_defaultPositionAttribute";
             vertexShaderBuilder.addMainLine("vec3" + " " + name + " = (u_worldTrans * skinning * vec4(a_position, 1.0)).xyz;");
 

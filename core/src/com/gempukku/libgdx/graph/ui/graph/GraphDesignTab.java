@@ -44,21 +44,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<GraphBox<T>, GraphConnection, PropertyBox<T>, T> {
-    public enum Type {
-        Render_Pipeline(false), Model_Shader(true), Screen_Shader(true),
-        Particle_Effect(true), Sprite_Shader(true);
-
-        private boolean exportable;
-
-        Type(boolean exportable) {
-            this.exportable = exportable;
-        }
-
-        public boolean isExportable() {
-            return exportable;
-        }
-    }
-
     private List<PropertyBox<T>> propertyBoxes = new LinkedList<>();
     private final GraphContainer<T> graphContainer;
 
@@ -66,7 +51,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     private UIGraphConfiguration<T>[] uiGraphConfigurations;
     private SaveCallback<T> saveCallback;
 
-    private Type type;
+    private GraphType type;
     private String id;
     private String title;
 
@@ -78,7 +63,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
 
     private boolean finishedLoading = false;
 
-    public GraphDesignTab(boolean closeable, Type type, String id, String title, Skin skin,
+    public GraphDesignTab(boolean closeable, GraphType type, String id, String title, Skin skin,
                           SaveCallback<T> saveCallback, UIGraphConfiguration<T>... uiGraphConfiguration) {
         super(true, closeable);
         this.type = type;
@@ -154,7 +139,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         return uiGraphConfigurations;
     }
 
-    public Type getType() {
+    public GraphType getType() {
         return type;
     }
 
@@ -413,6 +398,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     public JsonValue serializeGraph() {
         JsonValue graph = new JsonValue(JsonValue.ValueType.object);
         graph.addChild("version", new JsonValue(GraphLoader.VERSION));
+        graph.addChild("type", new JsonValue(type.getType()));
 
         JsonValue objects = new JsonValue(JsonValue.ValueType.array);
         Vector2 tmp = new Vector2();
