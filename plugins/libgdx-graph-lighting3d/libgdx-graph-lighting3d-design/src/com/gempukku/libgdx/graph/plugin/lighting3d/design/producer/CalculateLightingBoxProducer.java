@@ -19,7 +19,7 @@ public class CalculateLightingBoxProducer extends GraphBoxProducerImpl<ShaderFie
         GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
 
         StringBoxPart<ShaderFieldType> envId = new StringBoxPart<>(skin, "Env id: ", "id");
-        envId.initialize(data);
+        envId.initialize(data, "");
         result.addGraphBoxPart(envId);
 
         addConfigurationInputsAndOutputs(skin, result);

@@ -20,7 +20,7 @@ public class SpotlightBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> 
         GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
 
         StringBoxPart<ShaderFieldType> envId = new StringBoxPart<>(skin, "Env id: ", "id");
-        envId.initialize(data);
+        envId.initialize(data, "");
         result.addGraphBoxPart(envId);
 
         addConfigurationInputsAndOutputs(skin, result);

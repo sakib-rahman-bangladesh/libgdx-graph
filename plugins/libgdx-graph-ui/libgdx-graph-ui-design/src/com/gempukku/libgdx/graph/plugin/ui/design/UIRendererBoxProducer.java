@@ -19,7 +19,7 @@ public class UIRendererBoxProducer extends GraphBoxProducerImpl<PipelineFieldTyp
         GraphBoxImpl<PipelineFieldType> result = createGraphBox(skin, id);
 
         StringBoxPart<PipelineFieldType> stageId = new StringBoxPart<>(skin, "Stage id: ", "id");
-        stageId.initialize(data);
+        stageId.initialize(data, "");
         result.addGraphBoxPart(stageId);
 
         addConfigurationInputsAndOutputs(skin, result);

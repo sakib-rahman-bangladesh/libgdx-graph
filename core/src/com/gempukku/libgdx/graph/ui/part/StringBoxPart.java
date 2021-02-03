@@ -57,6 +57,11 @@ public class StringBoxPart<T extends FieldType> extends Table implements GraphBo
         input.setText(value);
     }
 
+    public void initialize(JsonValue data, String defaultValue) {
+        String value = data.getString(property, defaultValue);
+        input.setText(value);
+    }
+
     public void setValue(String value) {
         input.setText(value);
     }

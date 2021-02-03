@@ -1,5 +1,6 @@
 {
   "version": "0.5.0",
+  "type": "Render_Pipeline",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -14,8 +15,11 @@
     {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
-      "x": 385.0,
-      "y": 126.0
+      "x": 366.0,
+      "y": 125.0,
+      "data": {
+        "id": ""
+      }
     },
     {
       "id": "end",
@@ -35,8 +39,8 @@
     {
       "id": "ff6f63af3181472da525343236652acd",
       "type": "GraphShaderRenderer",
-      "x": 306.0,
-      "y": 225.0,
+      "x": 323.0,
+      "y": 243.0,
       "data": {
         "shaders": [
           {
@@ -44,6 +48,7 @@
             "tag": "Default",
             "shader": {
               "version": "0.5.0",
+              "type": "Model_Shader",
               "nodes": [
                 {
                   "id": "7dd083b41fc045a692c535c8728abba2",
@@ -207,8 +212,11 @@
                 {
                   "id": "49ad39d6e184499ebec92228552e5873",
                   "type": "Lighting",
-                  "x": 1048.0,
-                  "y": 927.0
+                  "x": 985.0,
+                  "y": 1081.0,
+                  "data": {
+                    "id": ""
+                  }
                 },
                 {
                   "id": "04a099c60cc8431ead655c88a3744884",
@@ -413,24 +421,6 @@
               ],
               "groups": [
                 {
-                  "name": "Emissive",
-                  "nodes": [
-                    "456cdc704f4e49e8b7b6115b5804473d",
-                    "4e7271158c61419786d1884080ccba41",
-                    "04a099c60cc8431ead655c88a3744884",
-                    "2019351e62264cd6b45ad8c3781eb2d2"
-                  ]
-                },
-                {
-                  "name": "Diffuse",
-                  "nodes": [
-                    "ffd366ddd51246b29171086b39f91ace",
-                    "7dd083b41fc045a692c535c8728abba2",
-                    "ed1d588e101a40fb953a3f2efe70abca",
-                    "e12ee5febbba4d2fa88ea5fb7ac58e10"
-                  ]
-                },
-                {
                   "name": "Normal",
                   "nodes": [
                     "6e54b6963f8a432181881991f96deea0",
@@ -442,12 +432,30 @@
                   ]
                 },
                 {
+                  "name": "Emissive",
+                  "nodes": [
+                    "456cdc704f4e49e8b7b6115b5804473d",
+                    "4e7271158c61419786d1884080ccba41",
+                    "04a099c60cc8431ead655c88a3744884",
+                    "2019351e62264cd6b45ad8c3781eb2d2"
+                  ]
+                },
+                {
                   "name": "Specular",
                   "nodes": [
                     "a00c7ff2f6cc4168a14f53cb403d8d72",
                     "36e710d2263e4b998bf404930b8db882",
                     "af7e7313f5424b55954d6a16eafcb27f",
                     "8bffcef66bb5498ea570e3f43f7f34b7"
+                  ]
+                },
+                {
+                  "name": "Diffuse",
+                  "nodes": [
+                    "ffd366ddd51246b29171086b39f91ace",
+                    "7dd083b41fc045a692c535c8728abba2",
+                    "ed1d588e101a40fb953a3f2efe70abca",
+                    "e12ee5febbba4d2fa88ea5fb7ac58e10"
                   ]
                 }
               ]
