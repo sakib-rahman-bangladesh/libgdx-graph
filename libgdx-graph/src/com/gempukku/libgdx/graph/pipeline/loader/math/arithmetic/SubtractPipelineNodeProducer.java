@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.pipeline.loader.math;
+package com.gempukku.libgdx.graph.pipeline.loader.math.arithmetic;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector;
@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.pipeline.config.math.SubtractPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.SubtractPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;

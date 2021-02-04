@@ -1,9 +1,12 @@
 package com.gempukku.libgdx.graph.ui.pipeline;
 
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
-import com.gempukku.libgdx.graph.pipeline.config.math.AddPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.MultiplyPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.SubtractPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.AddPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.DividePipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.MultiplyPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.OneMinusPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.ReciprocalPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.SubtractPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.part.MergePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.part.SplitPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.BloomPipelineNodeConfiguration;
@@ -74,8 +77,12 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         register(new GraphBoxProducerImpl<PipelineFieldType>(new RenderSizePipelineNodeConfiguration()));
 
         register(new GraphBoxProducerImpl<PipelineFieldType>(new AddPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new SubtractPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new DividePipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new MultiplyPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new OneMinusPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new ReciprocalPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new SubtractPipelineNodeConfiguration()));
+
         register(new GraphBoxProducerImpl<PipelineFieldType>(new SplitPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new MergePipelineNodeConfiguration()));
 

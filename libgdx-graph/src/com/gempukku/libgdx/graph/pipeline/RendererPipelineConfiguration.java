@@ -2,9 +2,12 @@ package com.gempukku.libgdx.graph.pipeline;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.pipeline.loader.math.AddPipelineNodeProducer;
-import com.gempukku.libgdx.graph.pipeline.loader.math.MultiplyPipelineNodeProducer;
-import com.gempukku.libgdx.graph.pipeline.loader.math.SubtractPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.loader.math.arithmetic.AddPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.loader.math.arithmetic.DividePipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.loader.math.arithmetic.MultiplyPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.loader.math.arithmetic.OneMinusPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.loader.math.arithmetic.ReciprocalPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.loader.math.arithmetic.SubtractPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.part.MergePipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.loader.part.SplitPipelineNodeProducer;
@@ -57,8 +60,12 @@ public class RendererPipelineConfiguration {
         register(new TimePipelineNodeProducer());
 
         register(new AddPipelineNodeProducer());
-        register(new SubtractPipelineNodeProducer());
+        register(new DividePipelineNodeProducer());
         register(new MultiplyPipelineNodeProducer());
+        register(new OneMinusPipelineNodeProducer());
+        register(new ReciprocalPipelineNodeProducer());
+        register(new SubtractPipelineNodeProducer());
+
         register(new MergePipelineNodeProducer());
         register(new SplitPipelineNodeProducer());
 

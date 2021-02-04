@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.pipeline.loader.math;
+package com.gempukku.libgdx.graph.pipeline.loader.math.arithmetic;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -7,17 +7,16 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
-import com.gempukku.libgdx.graph.pipeline.config.math.MultiplyPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.AddPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameMultipleInputsJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
 
-public class MultiplyPipelineNodeProducer extends PipelineNodeProducerImpl {
-    public MultiplyPipelineNodeProducer() {
-        super(new MultiplyPipelineNodeConfiguration());
+public class AddPipelineNodeProducer extends PipelineNodeProducerImpl {
+    public AddPipelineNodeProducer() {
+        super(new AddPipelineNodeConfiguration());
     }
-
 
     @Override
     protected PipelineNode createNodeForSingleInputs(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
@@ -34,7 +33,7 @@ public class MultiplyPipelineNodeProducer extends PipelineNodeProducerImpl {
                 Object result = createDefaultValue(resultType);
                 for (FieldOutput<?> input : inputs) {
                     Object value = input.getValue(pipelineRenderingContext, null);
-                    result = multiply(result, value);
+                    result = add(result, value);
                 }
 
                 OutputValue output = outputValues.get("output");
@@ -44,40 +43,40 @@ public class MultiplyPipelineNodeProducer extends PipelineNodeProducerImpl {
         };
     }
 
-    private Object multiply(Object obj, Object value) {
+    private Object add(Object obj, Object value) {
         if (value instanceof Float) {
             float f = (float) value;
             if (obj instanceof Float)
-                return (float) obj * f;
+                return (float) obj + f;
             if (obj instanceof Color) {
-                return ((Color) obj).mul(f, f, f, f);
+                return ((Color) obj).add(f, f, f, f);
             }
             if (obj instanceof Vector2) {
-                return ((Vector2) obj).scl(f, f);
+                return ((Vector2) obj).add(f, f);
             }
             if (obj instanceof Vector3) {
-                return ((Vector3) obj).scl(f);
+                return ((Vector3) obj).add(f);
             }
         } else {
             if (obj instanceof Color)
-                return ((Color) obj).mul((Color) value);
+                return ((Color) obj).add((Color) value);
             if (obj instanceof Vector2)
-                return ((Vector2) obj).scl((Vector2) value);
+                return ((Vector2) obj).add((Vector2) value);
             if (obj instanceof Vector3)
-                return ((Vector3) obj).scl((Vector3) value);
+                return ((Vector3) obj).add((Vector3) value);
         }
         return null;
     }
 
     private Object createDefaultValue(PipelineFieldType type) {
         if (type == PipelineFieldType.Float)
-            return 1f;
+            return 0f;
         else if (type == PipelineFieldType.Vector2)
-            return new Vector2(1f, 1f);
+            return new Vector2();
         else if (type == PipelineFieldType.Vector3)
-            return new Vector3(1f, 1f, 1f);
+            return new Vector3();
         else
-            return new Color(1, 1, 1, 1);
+            return new Color(0, 0, 0, 0);
     }
 
     private PipelineFieldType determineOutputType(Array<PipelineNode.FieldOutput<?>> inputs) {

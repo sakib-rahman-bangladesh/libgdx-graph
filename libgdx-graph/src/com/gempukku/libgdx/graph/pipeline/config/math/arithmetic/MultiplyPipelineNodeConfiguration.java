@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.pipeline.config.math;
+package com.gempukku.libgdx.graph.pipeline.config.math.arithmetic;
 
 import com.gempukku.libgdx.graph.config.MultiParamVectorArithmeticOutputTypeFunction;
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
@@ -13,7 +13,7 @@ import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Vector3;
 
 public class MultiplyPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
     public MultiplyPipelineNodeConfiguration() {
-        super("Multiply", "Multiply", "Math");
+        super("Multiply", "Multiply", "Math/Arithmetic");
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("inputs", "Inputs", true, false, true,
                         Color, Vector3, Vector2, Float));

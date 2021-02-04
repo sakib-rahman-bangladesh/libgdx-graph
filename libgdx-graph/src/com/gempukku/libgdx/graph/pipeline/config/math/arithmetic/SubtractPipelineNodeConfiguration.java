@@ -1,6 +1,6 @@
-package com.gempukku.libgdx.graph.pipeline.config.math;
+package com.gempukku.libgdx.graph.pipeline.config.math.arithmetic;
 
-import com.gempukku.libgdx.graph.config.MultiParamVectorArithmeticOutputTypeFunction;
+import com.gempukku.libgdx.graph.config.VectorArithmeticOutputTypeFunction;
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeInputImpl;
@@ -11,15 +11,18 @@ import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Float;
 import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Vector2;
 import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Vector3;
 
-public class AddPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
-    public AddPipelineNodeConfiguration() {
-        super("Add", "Add", "Math");
+public class SubtractPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
+    public SubtractPipelineNodeConfiguration() {
+        super("Subtract", "Subtract", "Math/Arithmetic");
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("inputs", "Inputs", true, false, true,
+                new GraphNodeInputImpl<PipelineFieldType>("inputA", "A", true,
+                        Color, Vector3, Vector2, Float));
+        addNodeInput(
+                new GraphNodeInputImpl<PipelineFieldType>("inputB", "B", true,
                         Color, Vector3, Vector2, Float));
         addNodeOutput(
                 new GraphNodeOutputImpl<PipelineFieldType>("output", "Result",
-                        new MultiParamVectorArithmeticOutputTypeFunction<PipelineFieldType>(Float, "inputs"),
+                        new VectorArithmeticOutputTypeFunction<PipelineFieldType>(Float, "inputA", "inputB"),
                         Float, Vector2, Vector3, Color));
     }
 }
