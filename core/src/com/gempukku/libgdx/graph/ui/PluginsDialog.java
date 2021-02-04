@@ -95,7 +95,7 @@ public class PluginsDialog extends VisWindow {
 
         add(scrollPane).grow();
         row();
-        add(new Label("Any changes on this screen take effect after restarting the application", skin));
+        add(new Label("Any changes made on this screen take effect after restarting the application", skin));
         row();
         add(new Separator());
         row();
@@ -104,12 +104,14 @@ public class PluginsDialog extends VisWindow {
     }
 
     private void addPluginDefinition(Skin skin, final PluginDefinition pluginDefinition) {
+        final Separator separator = new Separator();
+        pluginList.addActor(separator);
         final Table pluginTable = new Table(skin);
         pluginTable.pad(2);
-        pluginTable.add(createLightGrayLabel(skin, pluginDefinition.jarPath)).growX().left();
-        pluginTable.add(createLightGrayLabel(skin, pluginDefinition.pluginName)).width(150).left();
-        pluginTable.add(createLightGrayLabel(skin, pluginDefinition.pluginVersion)).width(80).left();
-        pluginTable.add(createLightGrayLabel(skin, String.valueOf(pluginDefinition.loaded))).width(60);
+        pluginTable.add(createValueLabel(skin, pluginDefinition.jarPath)).growX().left();
+        pluginTable.add(createValueLabel(skin, pluginDefinition.pluginName)).width(150).left();
+        pluginTable.add(createValueLabel(skin, pluginDefinition.pluginVersion)).width(80).left();
+        pluginTable.add(createValueLabel(skin, String.valueOf(pluginDefinition.loaded))).width(60);
         if (pluginDefinition.canBeRemoved) {
             pluginJars.add(pluginDefinition.jarPath);
             TextButton textButton = new TextButton("Remove", skin);
@@ -119,6 +121,7 @@ public class PluginsDialog extends VisWindow {
                         public void changed(ChangeEvent event, Actor actor) {
                             pluginJars.removeValue(pluginDefinition.jarPath, false);
                             pluginList.removeActor(pluginTable);
+                            pluginList.removeActor(separator);
                         }
                     });
             pluginTable.add(textButton).width(60);
@@ -129,15 +132,16 @@ public class PluginsDialog extends VisWindow {
         pluginList.addActor(pluginTable);
     }
 
-    private Label createLightGrayLabel(Skin skin, String text) {
+    private Label createValueLabel(Skin skin, String text) {
         Label label = new Label(text, skin);
-        label.setColor(Color.LIGHT_GRAY);
+        label.setWrap(true);
+        label.setColor(Color.GRAY);
         return label;
     }
 
     private void addPlugin() {
         FileTypeFilter filter = new FileTypeFilter(true);
-        filter.addRule("Java Jar File", "jar");
+        filter.addRule("Java Jar File (*.jar)", "jar");
 
         FileChooser fileChooser = new FileChooser(FileChooser.Mode.OPEN);
         fileChooser.setModal(true);
@@ -158,7 +162,7 @@ public class PluginsDialog extends VisWindow {
             PluginDefinition pluginDefinition = PluginPreferences.getPluginDefinition(selectedFile);
             addPluginDefinition(getSkin(), pluginDefinition);
         } catch (Exception exp) {
-            Dialogs.showErrorDialog(getStage(), "Unable to process the file as plugin");
+            Dialogs.showErrorDialog(getStage(), "Unable to process the file as a plugin");
         }
     }
 }

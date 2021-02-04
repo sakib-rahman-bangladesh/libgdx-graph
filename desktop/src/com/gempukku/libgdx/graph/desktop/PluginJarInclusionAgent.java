@@ -14,7 +14,7 @@ public class PluginJarInclusionAgent {
 
     private static void appendJars(Instrumentation instrumentation) {
         System.out.println("Including Plugin JARs...");
-        File jarList = new File(".prefs/", "com.gempukku.libgdx.graph.plugins.jars");
+        File jarList = new File(new File(System.getProperty("user.home"), ".prefs"), "com.gempukku.libgdx.graph.plugins.jars");
         if (jarList.exists()) {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(jarList));

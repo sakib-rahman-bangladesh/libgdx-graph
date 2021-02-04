@@ -61,6 +61,7 @@ project(":desktop") {
         implementation project(":libgdx-graph-screen-design")
         implementation project(":libgdx-graph-models-design")
         implementation project(":libgdx-graph-lighting3d-design")
+        implementation project(":libgdx-graph-maps-design")
 
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
@@ -73,7 +74,8 @@ project(":core") {
     dependencies {
         implementation project(":libgdx-graph")
         // https://mvnrepository.com/artifact/com.kotcrab.vis/vis-ui
-        api "com.kotcrab.vis:vis-ui:$visUiVersion"
+        //api "com.kotcrab.vis:vis-ui:$visUiVersion"
+        api 'com.github.kotcrab:vis-ui:aa0184c'
     }
 }
 
@@ -144,6 +146,15 @@ project(":libgdx-graph-models-design") {
 }
 
 project(":libgdx-graph-lighting3d-design") {
+    apply plugin: "java-library"
+
+    dependencies {
+        implementation project(":core")
+        implementation project(":libgdx-graph")
+    }
+}
+
+project(":libgdx-graph-maps-design") {
     apply plugin: "java-library"
 
     dependencies {

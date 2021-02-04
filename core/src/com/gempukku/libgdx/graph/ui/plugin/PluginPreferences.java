@@ -62,8 +62,7 @@ public class PluginPreferences {
         Attributes attributes = manifest.getMainAttributes();
         if (!attributes.containsKey(PLUGIN_NAME) || !attributes.containsKey(PLUGIN_VERSION)
                 || !attributes.containsKey(PLUGIN_CLASS)) {
-            return new PluginDefinition(
-                    pluginFile.path(), null, "", "", false, true);
+            throw new GdxRuntimeException("Specified JAR does not contain plugin");
         }
         String pluginName = attributes.getValue(PLUGIN_NAME);
         String pluginVersion = attributes.getValue(PLUGIN_VERSION);

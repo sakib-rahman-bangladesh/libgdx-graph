@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.gempukku.libgdx.graph.plugin.lighting3d.design.Lighting3DPluginDesignInitializer;
+import com.gempukku.libgdx.graph.plugin.maps.design.MapsPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.models.design.ModelsPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.particles.design.ParticlesPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.screen.design.ScreenPluginDesignInitializer;
@@ -63,6 +64,9 @@ public class DesktopLauncher {
             PluginRegistry.addPluginDefinition(
                     new PluginDefinition("internal", Lighting3DPluginDesignInitializer.class,
                             "3D Lighting", "latest", false, false));
+            PluginRegistry.addPluginDefinition(
+                    new PluginDefinition("internal", MapsPluginDesignInitializer.class,
+                            "Maps renderer (Tiled, etc)", "latest", false, false));
 
             LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
             config.width = 1440;
