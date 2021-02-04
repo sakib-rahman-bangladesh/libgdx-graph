@@ -18,7 +18,7 @@ public class PluginPreferences {
     private static final String PLUGIN_CLASS = "libGDX-Graph-Plugin-Class";
 
     public static void savePlugins(Iterable<String> plugins) {
-        FileHandle jarFile = Gdx.files.external(".prefs/com.gempukku.libgdx.graph.plugins.jars");
+        FileHandle jarFile = Gdx.files.local(".prefs/com.gempukku.libgdx.graph.plugins.jars");
         try {
             Writer writer = jarFile.writer(false);
             try {
@@ -35,7 +35,7 @@ public class PluginPreferences {
     }
 
     public static Iterable<String> getPlugins() {
-        FileHandle jarFile = Gdx.files.external(".prefs/com.gempukku.libgdx.graph.plugins.jars");
+        FileHandle jarFile = Gdx.files.local(".prefs/com.gempukku.libgdx.graph.plugins.jars");
         if (!jarFile.exists())
             return new Array<>();
 

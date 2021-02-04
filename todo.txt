@@ -14,4 +14,3 @@ Possible future features:
 - Line particles
 - Non-billboard particles
 - Pipeline transitions (i.e. between scenes)
-- Support for plugins with data
