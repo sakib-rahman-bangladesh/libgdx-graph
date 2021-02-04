@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Cubemap;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
@@ -18,7 +19,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.gempukku.libgdx.graph.ui.plugin.PluginDesignRegistry;
+import com.gempukku.libgdx.graph.ui.plugin.PluginDefinition;
+import com.gempukku.libgdx.graph.ui.plugin.PluginPreferences;
+import com.gempukku.libgdx.graph.ui.plugin.PluginRegistry;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
@@ -35,8 +38,10 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
+        readPlugins();
+
         try {
-            PluginDesignRegistry.initializePlugins();
+            PluginRegistry.initializePlugins();
         } catch (ReflectionException exp) {
             throw new GdxRuntimeException(exp);
         }
@@ -70,6 +75,22 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
                 });
 
         Gdx.input.setInputProcessor(stage);
+    }
+
+    private void readPlugins() {
+        for (String plugin : PluginPreferences.getPlugins()) {
+            FileHandle pluginFile = Gdx.files.absolute(plugin);
+            PluginDefinition pluginDefinition = new PluginDefinition(
+                    plugin, null, "", "", false, true);
+            if (pluginFile.exists()) {
+                try {
+                    pluginDefinition = PluginPreferences.getPluginDefinition(pluginFile);
+                } catch (Exception exp) {
+                    Gdx.app.error("Plugins", "Unable to load plugin from file - " + plugin, exp);
+                }
+            }
+            PluginRegistry.addPluginDefinition(pluginDefinition);
+        }
     }
 
     @Override

@@ -307,6 +307,20 @@ public class LibgdxGraphScreen extends Table {
         fileMenu.addItem(close);
 
         fileMenu.addSeparator();
+
+        MenuItem plugins = new MenuItem("Plugins...");
+        plugins.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        PluginsDialog pluginsDialog = new PluginsDialog(skin);
+                        getStage().addActor(pluginsDialog);
+                        pluginsDialog.centerWindow();
+                    }
+                });
+        fileMenu.addItem(plugins);
+
+        fileMenu.addSeparator();
         MenuItem exit = new MenuItem("Exit");
         exit.addListener(
                 new ChangeListener() {
