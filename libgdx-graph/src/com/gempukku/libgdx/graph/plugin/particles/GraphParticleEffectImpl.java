@@ -3,7 +3,7 @@ package com.gempukku.libgdx.graph.plugin.particles;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.PropertyContainer;
+import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.plugin.particles.generator.ParticleGenerator;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;

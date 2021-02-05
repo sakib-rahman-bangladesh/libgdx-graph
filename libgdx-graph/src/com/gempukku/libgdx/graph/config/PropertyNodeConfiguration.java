@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
-import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeOutputImpl;
+import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
 public class PropertyNodeConfiguration<T extends FieldType> extends NodeConfigurationImpl<T> {
     private String name;

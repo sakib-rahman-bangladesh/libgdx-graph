@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.gempukku.libgdx.graph.pipeline.loader.FullScreenRender;
+import com.gempukku.libgdx.graph.pipeline.producer.FullScreenRender;
 
 public class BufferCopyHelper {
     private ShaderProgram shaderProgram;

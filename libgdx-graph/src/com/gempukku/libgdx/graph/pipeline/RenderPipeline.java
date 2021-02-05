@@ -1,7 +1,7 @@
 package com.gempukku.libgdx.graph.pipeline;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
+import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 
 public interface RenderPipeline {
     RenderPipelineBuffer initializeDefaultBuffer(int width, int height, Pixmap.Format format);

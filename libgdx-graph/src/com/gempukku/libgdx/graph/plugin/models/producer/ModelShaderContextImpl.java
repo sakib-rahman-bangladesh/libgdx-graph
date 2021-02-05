@@ -1,6 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.models.producer;
 
-import com.gempukku.libgdx.graph.pipeline.loader.rendering.producer.ShaderContextImpl;
+import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.plugin.models.ModelShaderContext;
 

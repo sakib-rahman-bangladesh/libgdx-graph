@@ -14,9 +14,9 @@ import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.loader.GraphDataLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.impl.PipelineRendererImpl;
 import com.gempukku.libgdx.graph.pipeline.impl.WritablePipelineProperty;
-import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
-import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducer;
-import com.gempukku.libgdx.graph.pipeline.loader.rendering.node.EndPipelineNode;
+import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNode;
+import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.rendering.node.EndPipelineNode;
 import com.gempukku.libgdx.graph.plugin.PluginRegistryImpl;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 

@@ -10,7 +10,7 @@ import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBufferImpl;
 import com.gempukku.libgdx.graph.pipeline.TextureFrameBuffer;
-import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
+import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 
 import java.util.Iterator;
 

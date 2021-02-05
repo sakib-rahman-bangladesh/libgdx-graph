@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
-import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
+import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 
 public class RenderOutputs {
     public static final RenderOutput drawToScreen = new DrawToScreenImpl();

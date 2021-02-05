@@ -3,8 +3,8 @@ package com.gempukku.libgdx.graph.pipeline.config.math.arithmetic;
 import com.gempukku.libgdx.graph.config.VectorArithmeticOutputTypeFunction;
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
-import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeInputImpl;
-import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeOutputImpl;
+import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
+import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
 import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Color;
 import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Float;

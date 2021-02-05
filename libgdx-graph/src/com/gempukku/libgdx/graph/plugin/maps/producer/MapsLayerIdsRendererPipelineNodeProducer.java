@@ -8,11 +8,11 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
-import com.gempukku.libgdx.graph.pipeline.loader.PipelineRenderingContext;
-import com.gempukku.libgdx.graph.pipeline.loader.node.OncePerFrameJobPipelineNode;
-import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNode;
-import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineNodeProducerImpl;
-import com.gempukku.libgdx.graph.pipeline.loader.node.PipelineRequirements;
+import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
+import com.gempukku.libgdx.graph.pipeline.producer.node.OncePerFrameJobPipelineNode;
+import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNode;
+import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNodeProducerImpl;
+import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineRequirements;
 import com.gempukku.libgdx.graph.plugin.maps.MapsPluginPrivateData;
 
 public class MapsLayerIdsRendererPipelineNodeProducer extends PipelineNodeProducerImpl {

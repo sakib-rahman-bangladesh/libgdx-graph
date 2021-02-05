@@ -1,7 +1,7 @@
 package com.gempukku.libgdx.graph.plugin.screen.config;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
-import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeInputImpl;
+import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 
 public class EndScreenShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {

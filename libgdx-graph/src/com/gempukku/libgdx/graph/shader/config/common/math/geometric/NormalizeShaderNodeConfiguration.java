@@ -2,8 +2,8 @@ package com.gempukku.libgdx.graph.shader.config.common.math.geometric;
 
 import com.gempukku.libgdx.graph.config.SameTypeOutputTypeFunction;
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
-import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeInputImpl;
-import com.gempukku.libgdx.graph.pipeline.loader.node.GraphNodeOutputImpl;
+import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
+import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 
 public class NormalizeShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {

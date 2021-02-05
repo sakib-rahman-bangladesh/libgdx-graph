@@ -7,6 +7,19 @@ import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.MultiplyPipelin
 import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.OneMinusPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.ReciprocalPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.SubtractPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.AbsPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.CeilingPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.ClampPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.FloorPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.FractionalPartPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.LerpPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.MaximumPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.MinimumPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.ModuloPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.SaturatePipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.SignPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.SmoothstepPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.StepPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.part.MergePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.part.SplitPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.BloomPipelineNodeConfiguration;
@@ -82,6 +95,20 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         register(new GraphBoxProducerImpl<PipelineFieldType>(new OneMinusPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new ReciprocalPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new SubtractPipelineNodeConfiguration()));
+
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new AbsPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new CeilingPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new ClampPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new FloorPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new FractionalPartPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new LerpPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new MaximumPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new MinimumPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new ModuloPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new SaturatePipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new SignPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new SmoothstepPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new StepPipelineNodeConfiguration()));
 
         register(new GraphBoxProducerImpl<PipelineFieldType>(new SplitPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new MergePipelineNodeConfiguration()));

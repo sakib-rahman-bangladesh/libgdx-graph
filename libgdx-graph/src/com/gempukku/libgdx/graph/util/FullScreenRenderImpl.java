@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.glutils.IndexData;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.VertexData;
 import com.badlogic.gdx.utils.Disposable;
-import com.gempukku.libgdx.graph.pipeline.loader.FullScreenRender;
+import com.gempukku.libgdx.graph.pipeline.producer.FullScreenRender;
 
 public class FullScreenRenderImpl implements FullScreenRender, Disposable {
     private VertexData vertexData;
