@@ -21,6 +21,13 @@ import com.gempukku.libgdx.graph.pipeline.producer.math.common.SaturatePipelineN
 import com.gempukku.libgdx.graph.pipeline.producer.math.common.SignPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.math.common.SmoothstepPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.math.common.StepPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.exponential.ExponentialBase2PipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.exponential.ExponentialPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.exponential.InverseSquareRootPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.exponential.LogarithmBase2PipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.exponential.NaturalLogarithmPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.exponential.PowerPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.exponential.SquareRootPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.part.MergePipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.part.SplitPipelineNodeProducer;
@@ -92,6 +99,14 @@ public class RendererPipelineConfiguration {
         register(new SignPipelineNodeProducer());
         register(new SmoothstepPipelineNodeProducer());
         register(new StepPipelineNodeProducer());
+
+        register(new ExponentialBase2PipelineNodeProducer());
+        register(new ExponentialPipelineNodeProducer());
+        register(new InverseSquareRootPipelineNodeProducer());
+        register(new LogarithmBase2PipelineNodeProducer());
+        register(new NaturalLogarithmPipelineNodeProducer());
+        register(new PowerPipelineNodeProducer());
+        register(new SquareRootPipelineNodeProducer());
 
         register(new MergePipelineNodeProducer());
         register(new SplitPipelineNodeProducer());

@@ -20,6 +20,13 @@ import com.gempukku.libgdx.graph.pipeline.config.math.common.SaturatePipelineNod
 import com.gempukku.libgdx.graph.pipeline.config.math.common.SignPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.common.SmoothstepPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.common.StepPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.exponential.ExponentialBase2PipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.exponential.ExponentialPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.exponential.InverseSquareRootPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.exponential.LogarithmBase2PipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.exponential.NaturalLogarithmPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.exponential.PowerPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.exponential.SquareRootPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.part.MergePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.part.SplitPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.BloomPipelineNodeConfiguration;
@@ -109,6 +116,14 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         register(new GraphBoxProducerImpl<PipelineFieldType>(new SignPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new SmoothstepPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new StepPipelineNodeConfiguration()));
+
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new ExponentialBase2PipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new ExponentialPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new InverseSquareRootPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new LogarithmBase2PipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new NaturalLogarithmPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new PowerPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new SquareRootPipelineNodeConfiguration()));
 
         register(new GraphBoxProducerImpl<PipelineFieldType>(new SplitPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new MergePipelineNodeConfiguration()));
