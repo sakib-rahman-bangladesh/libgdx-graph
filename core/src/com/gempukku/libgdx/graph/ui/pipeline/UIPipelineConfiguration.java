@@ -32,6 +32,14 @@ import com.gempukku.libgdx.graph.pipeline.config.math.geometric.DistancePipeline
 import com.gempukku.libgdx.graph.pipeline.config.math.geometric.DotProductPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.geometric.LengthPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.geometric.NormalizePipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.ArccosPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.ArcsinPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.ArctanPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.CosPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.DegreesPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.RadiansPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.SinPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.TanPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.part.MergePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.part.SplitPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.BloomPipelineNodeConfiguration;
@@ -135,6 +143,15 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         register(new GraphBoxProducerImpl<PipelineFieldType>(new DotProductPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new LengthPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new NormalizePipelineNodeConfiguration()));
+
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new ArccosPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new ArcsinPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new ArctanPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new CosPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new DegreesPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new RadiansPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new SinPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new TanPipelineNodeConfiguration()));
 
         register(new GraphBoxProducerImpl<PipelineFieldType>(new SplitPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new MergePipelineNodeConfiguration()));

@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.pipeline.config.math.geometric.LengthPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.geometric.NormalizePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.producer.node.OncePerFrameJobPipelineNode;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNode;
@@ -14,7 +14,7 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineRequirements;
 
 public class NormalizePipelineNodeProducer extends PipelineNodeProducerImpl {
     public NormalizePipelineNodeProducer() {
-        super(new LengthPipelineNodeConfiguration());
+        super(new NormalizePipelineNodeConfiguration());
     }
 
     @Override

@@ -33,6 +33,14 @@ import com.gempukku.libgdx.graph.pipeline.producer.math.geometric.DistancePipeli
 import com.gempukku.libgdx.graph.pipeline.producer.math.geometric.DotProductPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.math.geometric.LengthPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.math.geometric.NormalizePipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.trigonometry.ArccosPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.trigonometry.ArcsinPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.trigonometry.ArctanPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.trigonometry.CosPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.trigonometry.DegreesPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.trigonometry.RadiansPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.trigonometry.SinPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.trigonometry.TanPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.part.MergePipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.part.SplitPipelineNodeProducer;
@@ -118,6 +126,15 @@ public class RendererPipelineConfiguration {
         register(new DotProductPipelineNodeProducer());
         register(new LengthPipelineNodeProducer());
         register(new NormalizePipelineNodeProducer());
+
+        register(new ArccosPipelineNodeProducer());
+        register(new ArcsinPipelineNodeProducer());
+        register(new ArctanPipelineNodeProducer());
+        register(new CosPipelineNodeProducer());
+        register(new DegreesPipelineNodeProducer());
+        register(new RadiansPipelineNodeProducer());
+        register(new SinPipelineNodeProducer());
+        register(new TanPipelineNodeProducer());
 
         register(new MergePipelineNodeProducer());
         register(new SplitPipelineNodeProducer());
