@@ -48,7 +48,7 @@ public class CachedSpriteData implements SpriteData {
         vertexData = new float[4 * floatCountPerVertex * spriteCapacity];
 
         int numberOfIndices = 6 * spriteCapacity;
-        mesh = new Mesh(staticCache, 4 * spriteCapacity, numberOfIndices, vertexAttributes);
+        mesh = new Mesh(staticCache, true, 4 * spriteCapacity, numberOfIndices, vertexAttributes);
         mesh.setVertices(vertexData);
         short[] indices = new short[numberOfIndices];
         int vertexIndex = 0;
