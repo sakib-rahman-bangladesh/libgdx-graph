@@ -27,6 +27,11 @@ import com.gempukku.libgdx.graph.pipeline.config.math.exponential.LogarithmBase2
 import com.gempukku.libgdx.graph.pipeline.config.math.exponential.NaturalLogarithmPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.exponential.PowerPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.exponential.SquareRootPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.geometric.CrossProductPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.geometric.DistancePipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.geometric.DotProductPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.geometric.LengthPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.geometric.NormalizePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.part.MergePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.part.SplitPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.BloomPipelineNodeConfiguration;
@@ -124,6 +129,12 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
         register(new GraphBoxProducerImpl<PipelineFieldType>(new NaturalLogarithmPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new PowerPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new SquareRootPipelineNodeConfiguration()));
+
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new CrossProductPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new DistancePipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new DotProductPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new LengthPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl<PipelineFieldType>(new NormalizePipelineNodeConfiguration()));
 
         register(new GraphBoxProducerImpl<PipelineFieldType>(new SplitPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl<PipelineFieldType>(new MergePipelineNodeConfiguration()));

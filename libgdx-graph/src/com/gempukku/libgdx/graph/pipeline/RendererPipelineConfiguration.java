@@ -28,6 +28,11 @@ import com.gempukku.libgdx.graph.pipeline.producer.math.exponential.LogarithmBas
 import com.gempukku.libgdx.graph.pipeline.producer.math.exponential.NaturalLogarithmPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.math.exponential.PowerPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.math.exponential.SquareRootPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.geometric.CrossProductPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.geometric.DistancePipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.geometric.DotProductPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.geometric.LengthPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.geometric.NormalizePipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.part.MergePipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.part.SplitPipelineNodeProducer;
@@ -107,6 +112,12 @@ public class RendererPipelineConfiguration {
         register(new NaturalLogarithmPipelineNodeProducer());
         register(new PowerPipelineNodeProducer());
         register(new SquareRootPipelineNodeProducer());
+
+        register(new CrossProductPipelineNodeProducer());
+        register(new DistancePipelineNodeProducer());
+        register(new DotProductPipelineNodeProducer());
+        register(new LengthPipelineNodeProducer());
+        register(new NormalizePipelineNodeProducer());
 
         register(new MergePipelineNodeProducer());
         register(new SplitPipelineNodeProducer());
