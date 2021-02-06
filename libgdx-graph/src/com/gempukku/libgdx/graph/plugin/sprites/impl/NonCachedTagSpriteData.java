@@ -3,13 +3,11 @@ package com.gempukku.libgdx.graph.plugin.sprites.impl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
-import com.badlogic.gdx.graphics.glutils.IndexData;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.glutils.VertexData;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
@@ -19,14 +17,12 @@ import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderCont
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteData;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
-import com.gempukku.libgdx.graph.util.GdxCompatibilityUtils;
 
 public class NonCachedTagSpriteData implements SpriteData, Disposable {
     private VertexAttributes vertexAttributes;
     private ObjectMap<String, PropertySource> shaderProperties;
     private IntMap<String> propertyIndexNames = new IntMap<>();
-    private VertexData vbo;
-    private IndexData ibo;
+    private Mesh mesh;
 
     private float[] tempVertices;
     private final int floatCount;
@@ -46,13 +42,10 @@ public class NonCachedTagSpriteData implements SpriteData, Disposable {
         floatCount = fCount;
 
         tempVertices = new float[4 * floatCount];
-
-        vbo = GdxCompatibilityUtils.createVertexBuffer(false, 4, this.vertexAttributes);
-        float[] vertices = new float[4 * floatCount];
-        vbo.setVertices(vertices, 0, vertices.length);
-
         int numberOfIndices = 6;
-        ibo = new IndexBufferObject(false, numberOfIndices);
+        mesh = new Mesh(false, true, 4, numberOfIndices, this.vertexAttributes);
+        mesh.setVertices(tempVertices);
+
         short[] indices = new short[numberOfIndices];
         int vertexIndex = 0;
         for (int i = 0; i < numberOfIndices; i += 6) {
@@ -64,7 +57,7 @@ public class NonCachedTagSpriteData implements SpriteData, Disposable {
             indices[i + 5] = (short) (vertexIndex * 4 + 1);
             vertexIndex++;
         }
-        ibo.setIndices(indices, 0, indices.length);
+        mesh.setIndices(indices);
     }
 
     public void setSprite(GraphSpriteImpl sprite) {
@@ -143,21 +136,18 @@ public class NonCachedTagSpriteData implements SpriteData, Disposable {
                 }
             }
         }
-        vbo.updateVertices(0, tempVertices, 0, 4 * floatCount);
+        mesh.updateVertices(0, tempVertices, 0, 4 * floatCount);
     }
 
     @Override
     public void render(ShaderContextImpl shaderContext, ShaderProgram shaderProgram, int[] attributeLocations) {
-        vbo.bind(shaderProgram, attributeLocations);
-        ibo.bind();
+        mesh.bind(shaderProgram, attributeLocations);
         Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, 6, GL20.GL_UNSIGNED_SHORT, 0);
-        vbo.unbind(shaderProgram);
-        ibo.unbind();
+        mesh.unbind(shaderProgram, attributeLocations);
     }
 
     @Override
     public void dispose() {
-        vbo.dispose();
-        ibo.dispose();
+        mesh.dispose();
     }
 }

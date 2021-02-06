@@ -3,13 +3,11 @@ package com.gempukku.libgdx.graph.plugin.sprites.impl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
-import com.badlogic.gdx.graphics.glutils.IndexData;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.glutils.VertexData;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.IntMap;
@@ -19,7 +17,6 @@ import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderCont
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteData;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
-import com.gempukku.libgdx.graph.util.GdxCompatibilityUtils;
 
 public class CachedSpriteData implements SpriteData {
     private final int spriteCapacity;
@@ -29,8 +26,7 @@ public class CachedSpriteData implements SpriteData {
     private final IntMap<String> propertyIndexNames;
 
     private final GraphSpriteImpl[] graphSpritesPosition;
-    private VertexData vbo;
-    private IndexData ibo;
+    private Mesh mesh;
 
     private float[] vertexData;
     private int spriteCount = 0;
@@ -51,12 +47,9 @@ public class CachedSpriteData implements SpriteData {
         graphSpritesPosition = new GraphSpriteImpl[spriteCapacity];
         vertexData = new float[4 * floatCountPerVertex * spriteCapacity];
 
-        vbo = GdxCompatibilityUtils.createVertexBuffer(staticCache, 4 * spriteCapacity, this.vertexAttributes);
-        float[] vertices = new float[4 * spriteCapacity * floatCountPerVertex];
-        vbo.setVertices(vertices, 0, vertices.length);
-
         int numberOfIndices = 6 * spriteCapacity;
-        ibo = new IndexBufferObject(false, numberOfIndices);
+        mesh = new Mesh(staticCache, 4 * spriteCapacity, numberOfIndices, vertexAttributes);
+        mesh.setVertices(vertexData);
         short[] indices = new short[numberOfIndices];
         int vertexIndex = 0;
         for (int i = 0; i < numberOfIndices; i += 6) {
@@ -68,7 +61,7 @@ public class CachedSpriteData implements SpriteData {
             indices[i + 5] = (short) (vertexIndex * 4 + 1);
             vertexIndex++;
         }
-        ibo.setIndices(indices, 0, indices.length);
+        mesh.setIndices(indices, 0, indices.length);
     }
 
     public boolean addGraphSprite(GraphSpriteImpl sprite) {
@@ -208,7 +201,7 @@ public class CachedSpriteData implements SpriteData {
         if (minUpdatedIndex != Integer.MAX_VALUE) {
             if (debug)
                 Gdx.app.debug("Sprite", "Updating vertex array - float count: " + (maxUpdatedIndex - minUpdatedIndex));
-            vbo.updateVertices(minUpdatedIndex, vertexData, minUpdatedIndex, maxUpdatedIndex - minUpdatedIndex);
+            mesh.updateVertices(minUpdatedIndex, vertexData, minUpdatedIndex, maxUpdatedIndex - minUpdatedIndex);
             minUpdatedIndex = Integer.MAX_VALUE;
             maxUpdatedIndex = -1;
         }
@@ -218,11 +211,9 @@ public class CachedSpriteData implements SpriteData {
     public void render(ShaderContextImpl shaderContext, ShaderProgram shaderProgram, int[] attributeLocations) {
         if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
             Gdx.app.debug("Sprite", "Rendering " + spriteCount + " sprite(s)");
-        vbo.bind(shaderProgram, attributeLocations);
-        ibo.bind();
+        mesh.bind(shaderProgram, attributeLocations);
         Gdx.gl20.glDrawElements(Gdx.gl20.GL_TRIANGLES, 6 * spriteCount, GL20.GL_UNSIGNED_SHORT, 0);
-        vbo.unbind(shaderProgram);
-        ibo.unbind();
+        mesh.unbind(shaderProgram, attributeLocations);
     }
 
     public boolean hasSprites() {
@@ -230,8 +221,7 @@ public class CachedSpriteData implements SpriteData {
     }
 
     public void dispose() {
-        vbo.dispose();
-        ibo.dispose();
+        mesh.dispose();
     }
 
     private void markSpriteUpdated(int spriteIndex) {

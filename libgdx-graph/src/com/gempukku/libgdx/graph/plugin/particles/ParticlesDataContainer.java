@@ -1,15 +1,12 @@
 package com.gempukku.libgdx.graph.plugin.particles;
 
+import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.glutils.IndexBufferObject;
-import com.badlogic.gdx.graphics.glutils.IndexData;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.graphics.glutils.VertexData;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.plugin.particles.generator.ParticleGenerator;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
-import com.gempukku.libgdx.graph.util.GdxCompatibilityUtils;
 
 public class ParticlesDataContainer implements Disposable {
     private final static ParticleGenerator.ParticleGenerateInfo tempGenerateInfo = new ParticleGenerator.ParticleGenerateInfo();
@@ -17,8 +14,7 @@ public class ParticlesDataContainer implements Disposable {
 
     private Object[] particleDataStorage;
     private float[] particlesData;
-    private VertexData vbo;
-    private IndexData ibo;
+    private Mesh mesh;
 
     private final int numberOfParticles;
     private final int numberOfFloatsInVertex;
@@ -60,7 +56,8 @@ public class ParticlesDataContainer implements Disposable {
     }
 
     private void initBuffers(VertexAttributes vertexAttributes) {
-        vbo = GdxCompatibilityUtils.createVertexBuffer(false, numberOfParticles * 4, vertexAttributes);
+        int numberOfIndices = 6 * numberOfParticles;
+        mesh = new Mesh(false, true, numberOfParticles * 4, numberOfIndices, vertexAttributes);
 
         int dataLength = numberOfParticles * 4 * numberOfFloatsInVertex;
         particlesData = new float[dataLength];
@@ -74,10 +71,8 @@ public class ParticlesDataContainer implements Disposable {
                 }
             }
         }
-        vbo.setVertices(particlesData, 0, dataLength);
+        mesh.setVertices(particlesData);
 
-        int numberOfIndices = 6 * numberOfParticles;
-        ibo = new IndexBufferObject(true, numberOfIndices);
         short[] indices = new short[numberOfIndices];
         int vertexIndex = 0;
         for (int i = 0; i < numberOfIndices; i += 6) {
@@ -89,7 +84,7 @@ public class ParticlesDataContainer implements Disposable {
             indices[i + 5] = (short) (vertexIndex * 4 + 1);
             vertexIndex++;
         }
-        ibo.setIndices(indices, 0, indices.length);
+        mesh.setIndices(indices);
     }
 
     private int getVertexIndex(int particleIndex, int vertexInParticle) {
@@ -136,31 +131,30 @@ public class ParticlesDataContainer implements Disposable {
         if (lastDirtyParticle >= 0) {
             if (firstDirtyParticle == lastDirtyParticle) {
                 // Update all particles
-                vbo.updateVertices(0, particlesData, 0, particlesData.length);
+                mesh.updateVertices(0, particlesData, 0, particlesData.length);
             } else if (firstDirtyParticle > lastDirtyParticle) {
                 // Updates are wrapper around
                 int firstData = getVertexIndex(firstDirtyParticle, 0);
-                vbo.updateVertices(firstData, particlesData, firstData, particlesData.length - firstData);
+                mesh.updateVertices(firstData, particlesData, firstData, particlesData.length - firstData);
                 int lastData = getVertexIndex(lastDirtyParticle + 1, 0);
-                vbo.updateVertices(0, particlesData, 0, lastData);
+                mesh.updateVertices(0, particlesData, 0, lastData);
             } else {
                 int firstData = getVertexIndex(firstDirtyParticle, 0);
                 int lastData = getVertexIndex(lastDirtyParticle + 1, 0);
-                vbo.updateVertices(firstData, particlesData, firstData, lastData - firstData);
+                mesh.updateVertices(firstData, particlesData, firstData, lastData - firstData);
             }
         }
     }
 
     public void render(ParticlesGraphShader graphShader, ShaderContext shaderContext, float currentTime) {
         if (currentTime < maxParticleDeath) {
-            graphShader.renderParticles(shaderContext, vbo, ibo);
+            graphShader.renderParticles(shaderContext, mesh);
         }
     }
 
     @Override
     public void dispose() {
-        vbo.dispose();
-        ibo.dispose();
+        mesh.dispose();
     }
 
     public void update(ParticleUpdater particleUpdater, float currentTime, boolean accessToData) {
