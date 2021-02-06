@@ -41,9 +41,9 @@ import com.gempukku.libgdx.graph.pipeline.producer.math.trigonometry.DegreesPipe
 import com.gempukku.libgdx.graph.pipeline.producer.math.trigonometry.RadiansPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.math.trigonometry.SinPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.math.trigonometry.TanPipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.value.MergePipelineNodeProducer;
+import com.gempukku.libgdx.graph.pipeline.producer.math.value.SplitPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNodeProducer;
-import com.gempukku.libgdx.graph.pipeline.producer.part.MergePipelineNodeProducer;
-import com.gempukku.libgdx.graph.pipeline.producer.part.SplitPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.postprocessor.BloomPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.postprocessor.DepthOfFieldPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.postprocessor.GammaCorrectionPipelineNodeProducer;

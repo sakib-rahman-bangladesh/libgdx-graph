@@ -35,50 +35,61 @@ public abstract class TwoParamMathFunctionPipelineNodeProducer extends PipelineN
         final PipelineNode.FieldOutput<?> aFunction = inputFields.get(param1);
         final PipelineNode.FieldOutput<?> bFunction = inputFields.get(param2);
 
+        final PipelineFieldType returnType = aFunction.getPropertyType();
+
+        final Object result = createResult(returnType);
+
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
                 Object a = aFunction.getValue(pipelineRenderingContext, null);
                 Object b = bFunction.getValue(pipelineRenderingContext, null);
 
-                Object result;
-                if (aFunction.getPropertyType() == PipelineFieldType.Float) {
-                    result = executeFunction(a, b, 0);
-                } else if (aFunction.getPropertyType() == PipelineFieldType.Vector2) {
-                    Vector2 x = (Vector2) a;
-                    result = x.cpy().set(
+                Object returnValue;
+                if (returnType == PipelineFieldType.Float) {
+                    returnValue = executeFunction(a, b, 0);
+                } else if (returnType == PipelineFieldType.Vector2) {
+                    returnValue = ((Vector2) result).set(
                             executeFunction(a, b, 0),
                             executeFunction(a, b, 1));
-                } else if (aFunction.getPropertyType() == PipelineFieldType.Vector3) {
-                    Vector3 x = (Vector3) a;
-                    result = x.cpy().set(
+                } else if (returnType == PipelineFieldType.Vector3) {
+                    returnValue = ((Vector3) result).set(
                             executeFunction(a, b, 0),
                             executeFunction(a, b, 1),
                             executeFunction(a, b, 2)
                     );
-                } else if (aFunction.getPropertyType() == PipelineFieldType.Color) {
-                    Color x = (Color) a;
-                    result = x.cpy().set(
+                } else {
+                    returnValue = ((Color) result).set(
                             executeFunction(a, b, 0),
                             executeFunction(a, b, 1),
                             executeFunction(a, b, 2),
                             executeFunction(a, b, 3));
-                } else {
-                    throw new IllegalArgumentException("Not matching type for function");
                 }
 
                 OutputValue output = outputValues.get(outputName);
                 if (output != null)
-                    output.setValue(result);
+                    output.setValue(returnValue);
             }
         };
+    }
+
+    private Object createResult(PipelineFieldType returnType) {
+        if (returnType == PipelineFieldType.Float) {
+            return 0f;
+        } else if (returnType == PipelineFieldType.Vector2) {
+            return new Vector2();
+        } else if (returnType == PipelineFieldType.Vector3) {
+            return new Vector3();
+        } else if (returnType == PipelineFieldType.Color) {
+            return new Color();
+        } else {
+            throw new IllegalArgumentException("Not matching type for function");
+        }
     }
 
     private float executeFunction(Object a, Object b, int index) {
         return executeFunction(getParamValue(a, index), getParamValue(b, index));
     }
-
-    protected abstract float executeFunction(float a, float b);
 
     private float getParamValue(Object value, int index) {
         if (value instanceof Float) {
@@ -95,4 +106,6 @@ public abstract class TwoParamMathFunctionPipelineNodeProducer extends PipelineN
         }
         throw new IllegalArgumentException("Unknown type of value");
     }
+
+    protected abstract float executeFunction(float a, float b);
 }

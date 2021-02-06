@@ -27,18 +27,21 @@ public class AddPipelineNodeProducer extends PipelineNodeProducerImpl {
     public PipelineNode createNode(JsonValue data, ObjectMap<String, Array<PipelineNode.FieldOutput<?>>> inputFields) {
         final Array<PipelineNode.FieldOutput<?>> inputs = inputFields.get("inputs");
         final PipelineFieldType resultType = determineOutputType(inputs);
+
+        final Object result = createDefaultValue(resultType);
+
         return new OncePerFrameMultipleInputsJobPipelineNode(configuration, inputFields) {
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                Object result = createDefaultValue(resultType);
+                Object returnValue = resetDefaultValue(resultType, result);
                 for (FieldOutput<?> input : inputs) {
                     Object value = input.getValue(pipelineRenderingContext, null);
-                    result = add(result, value);
+                    returnValue = add(returnValue, value);
                 }
 
                 OutputValue output = outputValues.get("output");
                 if (output != null)
-                    output.setValue(result);
+                    output.setValue(returnValue);
             }
         };
     }
@@ -77,6 +80,17 @@ public class AddPipelineNodeProducer extends PipelineNodeProducerImpl {
             return new Vector3();
         else
             return new Color(0, 0, 0, 0);
+    }
+
+    private Object resetDefaultValue(PipelineFieldType type, Object value) {
+        if (type == PipelineFieldType.Float)
+            return 0f;
+        else if (type == PipelineFieldType.Vector2)
+            return ((Vector2) value).set(0f, 0f);
+        else if (type == PipelineFieldType.Vector3)
+            return ((Vector3) value).set(0f, 0f, 0f);
+        else
+            return ((Color) value).set(0f, 0f, 0f, 0f);
     }
 
     private PipelineFieldType determineOutputType(Array<PipelineNode.FieldOutput<?>> inputs) {

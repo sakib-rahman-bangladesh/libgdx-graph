@@ -28,18 +28,21 @@ public class MultiplyPipelineNodeProducer extends PipelineNodeProducerImpl {
     public PipelineNode createNode(JsonValue data, ObjectMap<String, Array<PipelineNode.FieldOutput<?>>> inputFields) {
         final Array<PipelineNode.FieldOutput<?>> inputs = inputFields.get("inputs");
         final PipelineFieldType resultType = determineOutputType(inputs);
+
+        final Object result = createDefaultValue(resultType);
+
         return new OncePerFrameMultipleInputsJobPipelineNode(configuration, inputFields) {
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, ObjectMap<String, ? extends OutputValue> outputValues) {
-                Object result = createDefaultValue(resultType);
+                Object returnValue = resetDefaultValue(resultType, result);
                 for (FieldOutput<?> input : inputs) {
                     Object value = input.getValue(pipelineRenderingContext, null);
-                    result = multiply(result, value);
+                    returnValue = multiply(returnValue, value);
                 }
 
                 OutputValue output = outputValues.get("output");
                 if (output != null)
-                    output.setValue(result);
+                    output.setValue(returnValue);
             }
         };
     }
@@ -78,6 +81,17 @@ public class MultiplyPipelineNodeProducer extends PipelineNodeProducerImpl {
             return new Vector3(1f, 1f, 1f);
         else
             return new Color(1, 1, 1, 1);
+    }
+
+    private Object resetDefaultValue(PipelineFieldType type, Object value) {
+        if (type == PipelineFieldType.Float)
+            return 1f;
+        else if (type == PipelineFieldType.Vector2)
+            return ((Vector2) value).set(1f, 1f);
+        else if (type == PipelineFieldType.Vector3)
+            return ((Vector3) value).set(1f, 1f, 1f);
+        else
+            return ((Color) value).set(1f, 1f, 1f, 1f);
     }
 
     private PipelineFieldType determineOutputType(Array<PipelineNode.FieldOutput<?>> inputs) {

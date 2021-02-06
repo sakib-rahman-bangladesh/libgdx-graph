@@ -30,33 +30,77 @@ public abstract class SingleParamMathFunctionPipelineNodeProducerImpl extends Pi
     @Override
     protected PipelineNode createNodeForSingleInputs(final JsonValue data, final ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final PipelineNode.FieldOutput<?> inputFunction = inputFields.get(inputName);
+        final PipelineFieldType returnType = inputFunction.getPropertyType();
+
+        final Object result = createResult(returnType);
+
         return new OncePerFrameJobPipelineNode(configuration, inputFields) {
             @Override
             protected void executeJob(PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements, ObjectMap<String, ? extends OutputValue> outputValues) {
                 Object value = inputFunction.getValue(pipelineRenderingContext, null);
 
-                Object result;
-                if (inputFunction.getPropertyType() == PipelineFieldType.Float) {
-                    result = executeFunction(data, inputFields, (float) value);
-                } else if (inputFunction.getPropertyType() == PipelineFieldType.Vector2) {
-                    Vector2 x = (Vector2) value;
-                    result = x.cpy().set(executeFunction(data, inputFields, x.x), executeFunction(data, inputFields, x.y));
-                } else if (inputFunction.getPropertyType() == PipelineFieldType.Vector3) {
-                    Vector3 x = (Vector3) value;
-                    result = x.cpy().set(executeFunction(data, inputFields, x.x), executeFunction(data, inputFields, x.y), executeFunction(data, inputFields, x.z));
-                } else if (inputFunction.getPropertyType() == PipelineFieldType.Color) {
-                    Color x = (Color) value;
-                    result = x.cpy().set(executeFunction(data, inputFields, x.r), executeFunction(data, inputFields, x.g), executeFunction(data, inputFields, x.b), executeFunction(data, inputFields, x.a));
+                Object returnValue;
+
+                if (returnType == PipelineFieldType.Float) {
+                    returnValue = executeFunction(value, 0);
+                } else if (returnType == PipelineFieldType.Vector2) {
+                    returnValue = ((Vector2) result).set(
+                            executeFunction(value, 0),
+                            executeFunction(value, 1));
+                } else if (returnType == PipelineFieldType.Vector3) {
+                    returnValue = ((Vector3) result).set(
+                            executeFunction(value, 0),
+                            executeFunction(value, 1),
+                            executeFunction(value, 2));
                 } else {
-                    throw new IllegalArgumentException("Not matching type for function");
+                    returnValue = ((Color) result).set(
+                            executeFunction(value, 0),
+                            executeFunction(value, 1),
+                            executeFunction(value, 2),
+                            executeFunction(value, 3));
                 }
 
                 OutputValue output = outputValues.get(outputName);
                 if (output != null)
-                    output.setValue(result);
+                    output.setValue(returnValue);
             }
         };
     }
 
-    protected abstract float executeFunction(JsonValue data, ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields, float value);
+    private Object createResult(PipelineFieldType returnType) {
+        if (returnType == PipelineFieldType.Float) {
+            return 0f;
+        } else if (returnType == PipelineFieldType.Vector2) {
+            return new Vector2();
+        } else if (returnType == PipelineFieldType.Vector3) {
+            return new Vector3();
+        } else if (returnType == PipelineFieldType.Color) {
+            return new Color();
+        } else {
+            throw new IllegalArgumentException("Not matching type for function");
+        }
+    }
+
+
+    private float executeFunction(Object a, int index) {
+        return executeFunction(getParamValue(a, index));
+    }
+
+    protected abstract float executeFunction(float a);
+
+    private float getParamValue(Object value, int index) {
+        if (value instanceof Float) {
+            return (float) value;
+        } else if (value instanceof Vector2) {
+            Vector2 v2 = (Vector2) value;
+            return index == 0 ? v2.x : v2.y;
+        } else if (value instanceof Vector3) {
+            Vector3 v3 = (Vector3) value;
+            return index == 0 ? v3.x : (index == 1 ? v3.y : v3.z);
+        } else if (value instanceof Color) {
+            Color c = (Color) value;
+            return index == 0 ? c.r : (index == 1 ? c.g : (index == 2 ? c.b : c.a));
+        }
+        throw new IllegalArgumentException("Unknown type of value");
+    }
 }

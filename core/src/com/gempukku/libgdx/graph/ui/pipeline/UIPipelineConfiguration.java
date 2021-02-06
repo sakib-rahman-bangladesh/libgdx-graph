@@ -40,8 +40,8 @@ import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.DegreesPipeli
 import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.RadiansPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.SinPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.TanPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.part.MergePipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.part.SplitPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.value.MergePipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.value.SplitPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.BloomPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.GammaCorrectionPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.GaussianBlurPipelineNodeConfiguration;

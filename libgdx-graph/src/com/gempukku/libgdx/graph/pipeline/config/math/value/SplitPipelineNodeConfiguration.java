@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.pipeline.config.part;
+package com.gempukku.libgdx.graph.pipeline.config.math.value;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
@@ -12,7 +12,7 @@ import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Vector3;
 
 public class SplitPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
     public SplitPipelineNodeConfiguration() {
-        super("Split", "Split", "Math");
+        super("Split", "Split", "Math/Value");
         addNodeInput(
                 new GraphNodeInputImpl<PipelineFieldType>("input", "Input", true, Color, Vector3, Vector2));
         addNodeOutput(
