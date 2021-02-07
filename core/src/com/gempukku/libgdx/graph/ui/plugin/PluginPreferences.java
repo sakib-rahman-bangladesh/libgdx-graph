@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,12 +14,14 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 public class PluginPreferences {
+    public static final String PLUGIN_LIST_FOLDER = ".prefs";
+    public static final String PLUGIN_LIST_FILE = "com.gempukku.libgdx.graph.plugins.jars";
     private static final String PLUGIN_NAME = "libGDX-Graph-Plugin-Name";
     private static final String PLUGIN_VERSION = "libGDX-Graph-Plugin-Version";
     private static final String PLUGIN_CLASS = "libGDX-Graph-Plugin-Class";
 
     public static void savePlugins(Iterable<String> plugins) {
-        FileHandle jarFile = Gdx.files.local(".prefs/com.gempukku.libgdx.graph.plugins.jars");
+        FileHandle jarFile = Gdx.files.local(PLUGIN_LIST_FOLDER + "/" + PLUGIN_LIST_FILE);
         try {
             Writer writer = jarFile.writer(false);
             try {
@@ -35,7 +38,7 @@ public class PluginPreferences {
     }
 
     public static Iterable<String> getPlugins() {
-        FileHandle jarFile = Gdx.files.local(".prefs/com.gempukku.libgdx.graph.plugins.jars");
+        FileHandle jarFile = Gdx.files.local(PLUGIN_LIST_FOLDER + "/" + PLUGIN_LIST_FILE);
         if (!jarFile.exists())
             return new Array<>();
 
@@ -67,6 +70,9 @@ public class PluginPreferences {
         String pluginName = attributes.getValue(PLUGIN_NAME);
         String pluginVersion = attributes.getValue(PLUGIN_VERSION);
         Class<? extends PluginDesignInitializer> pluginClass = (Class<? extends PluginDesignInitializer>) Class.forName(attributes.getValue(PLUGIN_CLASS));
+        if (!ClassReflection.isAssignableFrom(PluginDesignInitializer.class, pluginClass))
+            throw new GdxRuntimeException("Plugin class is not of required type");
+
         return new PluginDefinition(
                 pluginFile.path(), pluginClass, pluginName, pluginVersion, false, true);
     }

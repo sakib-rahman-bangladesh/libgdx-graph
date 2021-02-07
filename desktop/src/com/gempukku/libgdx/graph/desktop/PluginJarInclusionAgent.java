@@ -1,5 +1,7 @@
 package com.gempukku.libgdx.graph.desktop;
 
+import com.gempukku.libgdx.graph.ui.plugin.PluginPreferences;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,7 +15,7 @@ public class PluginJarInclusionAgent {
 
     private static void appendJars(Instrumentation instrumentation) {
         System.out.println("Including Plugin JARs...");
-        File jarList = new File(".prefs", "com.gempukku.libgdx.graph.plugins.jars");
+        File jarList = new File(PluginPreferences.PLUGIN_LIST_FOLDER, PluginPreferences.PLUGIN_LIST_FILE);
         System.out.println("Jar list file: " + jarList.getAbsolutePath());
         if (jarList.exists()) {
             try {
