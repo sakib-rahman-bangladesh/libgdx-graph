@@ -1,9 +1,7 @@
 package com.gempukku.libgdx.graph.pipeline;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
@@ -111,13 +109,19 @@ public class RenderOutputs {
         @Override
         public void output(RenderPipeline renderPipeline, PipelineRenderingContext pipelineRenderingContext) {
             RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
-            TextureData textureData = currentBuffer.getColorBufferTexture().getTextureData();
-            textureData.prepare();
-            Pixmap pixmap = textureData.consumePixmap();
-            texture.draw(pixmap, 0, 0);
-            if (textureData.disposePixmap())
-                pixmap.dispose();
 
+            // Setup a buffer to draw on, with replaced texture
+            RenderPipelineBufferImpl tmpBuffer = (RenderPipelineBufferImpl) renderPipeline.getNewFrameBuffer(currentBuffer);
+            Texture oldTexture = tmpBuffer.getColorBufferTexture();
+            tmpBuffer.getColorBuffer().setColorTexture(texture);
+
+            renderPipeline.drawTexture(currentBuffer, tmpBuffer, pipelineRenderingContext);
+
+            // Return buffer to previous state and give it back to pipeline
+            tmpBuffer.getColorBuffer().setColorTexture(oldTexture);
+            renderPipeline.returnFrameBuffer(tmpBuffer);
+
+            // Return the default buffer
             renderPipeline.returnFrameBuffer(currentBuffer);
         }
     }
