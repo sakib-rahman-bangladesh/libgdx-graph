@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.shader.common;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.common.effect.FresnelEffectShaderNodeBuilder;
@@ -94,9 +95,15 @@ import com.gempukku.libgdx.graph.shader.property.Vector3ShaderPropertyProducer;
 public class CommonShaderConfiguration implements GraphConfiguration {
     private static ObjectMap<String, GraphShaderNodeBuilder> graphShaderNodeBuilders = new ObjectMap<>();
     private static Array<GraphShaderPropertyProducer> graphShaderPropertyProducers = new Array<>();
+    private static TextureRegion defaultTextureRegion;
+
 
     public static void register(GraphShaderNodeBuilder graphShaderNodeBuilder) {
         graphShaderNodeBuilders.put(graphShaderNodeBuilder.getType(), graphShaderNodeBuilder);
+    }
+
+    public static void setDefaultTextureRegionProperty(TextureRegion textureRegion) {
+        defaultTextureRegion = textureRegion;
     }
 
     static {
@@ -211,7 +218,12 @@ public class CommonShaderConfiguration implements GraphConfiguration {
         graphShaderPropertyProducers.add(new FloatShaderPropertyProducer());
         graphShaderPropertyProducers.add(new Vector2ShaderPropertyProducer());
         graphShaderPropertyProducers.add(new Vector3ShaderPropertyProducer());
-        graphShaderPropertyProducers.add(new TextureShaderPropertyProducer());
+        graphShaderPropertyProducers.add(new TextureShaderPropertyProducer() {
+            @Override
+            protected TextureRegion getDefaultTextureRegion() {
+                return defaultTextureRegion;
+            }
+        });
     }
 
     @Override

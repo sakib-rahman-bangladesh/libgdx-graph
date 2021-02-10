@@ -1,10 +1,11 @@
 package com.gempukku.libgdx.graph.shader.property;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
-public class TextureShaderPropertyProducer implements GraphShaderPropertyProducer {
+public abstract class TextureShaderPropertyProducer implements GraphShaderPropertyProducer {
     @Override
     public ShaderFieldType getType() {
         return ShaderFieldType.TextureRegion;
@@ -15,6 +16,8 @@ public class TextureShaderPropertyProducer implements GraphShaderPropertyProduce
         if (designTime)
             return new PropertySource(index, name, ShaderFieldType.TextureRegion, WhitePixel.sharedInstance.textureRegion);
         else
-            return new PropertySource(index, name, ShaderFieldType.TextureRegion, null);
+            return new PropertySource(index, name, ShaderFieldType.TextureRegion, getDefaultTextureRegion());
     }
+
+    protected abstract TextureRegion getDefaultTextureRegion();
 }
