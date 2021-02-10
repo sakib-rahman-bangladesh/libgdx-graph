@@ -157,8 +157,10 @@ public class CachedTagSpriteData implements Disposable {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < textureUniformNames.size; i++) {
             String propertyName = textureUniformNames.get(i);
-            TextureRegion region = (TextureRegion) graphSprite.getPropertyContainer().getValue(propertyName);
-            sb.append(region.getTexture().getTextureObjectHandle()).append(",");
+            Object region = graphSprite.getPropertyContainer().getValue(propertyName);
+            if (!(region instanceof TextureRegion))
+                region = shaderProperties.get(propertyName).getDefaultValue();
+            sb.append(((TextureRegion) region).getTexture().getTextureObjectHandle()).append(",");
         }
 
         sb.setLength(sb.length() - 1);
