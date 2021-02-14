@@ -99,7 +99,9 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
             CachedTagSpriteData cachedTagSpriteData = dynamicCachedTagSpriteData.get(tag);
             if (cachedTagSpriteData != null)
                 cachedTagSpriteData.removeSprite(spriteImpl);
-            nonCachedSpritesByTag.get(tag).remove(spriteImpl);
+            ObjectSet<GraphSpriteImpl> nonCachedGraphSprites = nonCachedSpritesByTag.get(tag);
+            if (nonCachedGraphSprites != null)
+                nonCachedGraphSprites.remove(spriteImpl);
         }
     }
 
