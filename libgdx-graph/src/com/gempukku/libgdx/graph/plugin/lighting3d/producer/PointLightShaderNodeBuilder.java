@@ -1,12 +1,13 @@
 package com.gempukku.libgdx.graph.plugin.lighting3d.producer;
 
-import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.gempukku.libgdx.graph.plugin.lighting3d.LightColor;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPrivateData;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Point3DLight;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
@@ -35,9 +36,9 @@ public class PointLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
                         public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null && environment.getPointLights().size > index && environment.getPointLights().get(index) != null) {
-                                Array<PointLight> pointLights = environment.getPointLights();
-                                PointLight pointLight = pointLights.get(index);
-                                shader.setUniform(location, pointLight.position);
+                                Array<Point3DLight> pointLights = environment.getPointLights();
+                                Point3DLight pointLight = pointLights.get(index);
+                                shader.setUniform(location, pointLight.getPosition());
                             } else {
                                 shader.setUniform(location, 0f, 0f, 0f);
                             }
@@ -53,9 +54,10 @@ public class PointLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
                         public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null && environment.getPointLights().size > index && environment.getPointLights().get(index) != null) {
-                                Array<PointLight> pointLights = environment.getPointLights();
-                                PointLight pointLight = pointLights.get(index);
-                                shader.setUniform(location, pointLight.color);
+                                Array<Point3DLight> pointLights = environment.getPointLights();
+                                Point3DLight pointLight = pointLights.get(index);
+                                LightColor color = pointLight.getColor();
+                                shader.setUniform(location, color.getRed(), color.getGreen(), color.getBlue(), 1f);
                             } else {
                                 shader.setUniform(location, 0f, 0f, 0f, 1f);
                             }
@@ -71,9 +73,9 @@ public class PointLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
                         public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null && environment.getPointLights().size > index && environment.getPointLights().get(index) != null) {
-                                Array<PointLight> pointLights = environment.getPointLights();
-                                PointLight pointLight = pointLights.get(index);
-                                shader.setUniform(location, pointLight.intensity);
+                                Array<Point3DLight> pointLights = environment.getPointLights();
+                                Point3DLight pointLight = pointLights.get(index);
+                                shader.setUniform(location, pointLight.getIntensity());
                             } else {
                                 shader.setUniform(location, 0f);
                             }

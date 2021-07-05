@@ -8,6 +8,6 @@ public class AmbientLightShaderNodeConfiguration extends NodeConfigurationImpl<S
     public AmbientLightShaderNodeConfiguration() {
         super("AmbientLight", "Ambient light", "Lighting");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("ambient", "Color", ShaderFieldType.Vector3));
+                new GraphNodeOutputImpl<ShaderFieldType>("ambient", "Color", ShaderFieldType.Vector4));
     }
 }

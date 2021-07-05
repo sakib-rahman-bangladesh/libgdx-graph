@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.gempukku.libgdx.graph.plugin.PluginRegistryImpl;
 import com.gempukku.libgdx.graph.ui.plugin.PluginRegistry;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 import com.kotcrab.vis.ui.VisUI;
@@ -36,7 +37,10 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
         try {
+            // Initialize design plugins
             PluginRegistry.initializePlugins();
+            // Initialize runtime plugins
+            PluginRegistryImpl.initializePlugins();
         } catch (ReflectionException exp) {
             throw new GdxRuntimeException(exp);
         }

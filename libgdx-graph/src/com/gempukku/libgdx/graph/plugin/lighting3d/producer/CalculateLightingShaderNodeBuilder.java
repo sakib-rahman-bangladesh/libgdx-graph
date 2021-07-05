@@ -1,15 +1,16 @@
 package com.gempukku.libgdx.graph.plugin.lighting3d.producer;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.environment.PointLight;
-import com.badlogic.gdx.graphics.g3d.environment.SpotLight;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
+import com.gempukku.libgdx.graph.plugin.lighting3d.LightColor;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPrivateData;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Point3DLight;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Spot3DLight;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
@@ -53,8 +54,8 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                         Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                         if (environment != null && environment.getAmbientColor() != null) {
-                            Color ambientColor = environment.getAmbientColor();
-                            shader.setUniform(location, ambientColor.r, ambientColor.g, ambientColor.b);
+                            LightColor ambientColor = environment.getAmbientColor();
+                            shader.setUniform(location, ambientColor.getRed(), ambientColor.getGreen(), ambientColor.getBlue());
                         } else {
                             shader.setUniform(location, 0f, 0f, 0f);
                         }
@@ -123,7 +124,7 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
                     new UniformRegistry.StructArrayUniformSetter() {
                         @Override
                         public void set(BasicShader shader, int startingLocation, int[] fieldOffsets, int structSize, ShaderContext shaderContext) {
-                            Array<SpotLight> spots = null;
+                            Array<Spot3DLight> spots = null;
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null) {
                                 spots = environment.getSpotLights();
@@ -132,16 +133,18 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
                             for (int i = 0; i < numSpotLights; i++) {
                                 int location = startingLocation + i * structSize;
                                 if (spots != null && i < spots.size) {
-                                    SpotLight spotLight = spots.get(i);
+                                    Spot3DLight spotLight = spots.get(i);
+                                    LightColor color = spotLight.getColor();
+                                    float intensity = spotLight.getIntensity();
+                                    Vector3 position = spotLight.getPosition();
 
-                                    shader.setUniform(location, spotLight.color.r * spotLight.intensity,
-                                            spotLight.color.g * spotLight.intensity, spotLight.color.b * spotLight.intensity);
-                                    shader.setUniform(location + fieldOffsets[1], spotLight.position.x, spotLight.position.y,
-                                            spotLight.position.z);
-                                    shader.setUniform(location + fieldOffsets[2], spotLight.direction.x, spotLight.direction.y,
-                                            spotLight.direction.z);
-                                    shader.setUniform(location + fieldOffsets[3], spotLight.cutoffAngle);
-                                    shader.setUniform(location + fieldOffsets[4], spotLight.exponent);
+                                    shader.setUniform(location, color.getRed() * intensity,
+                                            color.getGreen() * intensity, color.getBlue() * intensity);
+                                    shader.setUniform(location + fieldOffsets[1], position.x, position.y, position.z);
+                                    shader.setUniform(location + fieldOffsets[2], spotLight.getDirectionX(), spotLight.getDirectionY(),
+                                            spotLight.getDirectionZ());
+                                    shader.setUniform(location + fieldOffsets[3], spotLight.getCutoffAngle());
+                                    shader.setUniform(location + fieldOffsets[4], spotLight.getExponent());
                                 } else {
                                     shader.setUniform(location, 0f, 0f, 0f);
                                     shader.setUniform(location + fieldOffsets[1], 0f, 0f, 0f);
@@ -177,7 +180,7 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
                     new UniformRegistry.StructArrayUniformSetter() {
                         @Override
                         public void set(BasicShader shader, int startingLocation, int[] fieldOffsets, int structSize, ShaderContext shaderContext) {
-                            Array<PointLight> points = null;
+                            Array<Point3DLight> points = null;
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null) {
                                 points = environment.getPointLights();
@@ -186,12 +189,14 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
                             for (int i = 0; i < numPointLights; i++) {
                                 int location = startingLocation + i * structSize;
                                 if (points != null && i < points.size) {
-                                    PointLight pointLight = points.get(i);
+                                    Point3DLight pointLight = points.get(i);
+                                    LightColor color = pointLight.getColor();
+                                    float intensity = pointLight.getIntensity();
+                                    Vector3 position = pointLight.getPosition();
 
-                                    shader.setUniform(location, pointLight.color.r * pointLight.intensity,
-                                            pointLight.color.g * pointLight.intensity, pointLight.color.b * pointLight.intensity);
-                                    shader.setUniform(location + fieldOffsets[1], pointLight.position.x, pointLight.position.y,
-                                            pointLight.position.z);
+                                    shader.setUniform(location, color.getRed() * intensity,
+                                            color.getGreen() * intensity, color.getBlue() * intensity);
+                                    shader.setUniform(location + fieldOffsets[1], position.x, position.y, position.z);
                                 } else {
                                     shader.setUniform(location, 0f, 0f, 0f);
                                     shader.setUniform(location + fieldOffsets[1], 0f, 0f, 0f);
@@ -224,7 +229,7 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
                     new UniformRegistry.StructArrayUniformSetter() {
                         @Override
                         public void set(BasicShader shader, int startingLocation, int[] fieldOffsets, int structSize, ShaderContext shaderContext) {
-                            Array<DirectionalLight> dirs = null;
+                            Array<Directional3DLight> dirs = null;
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null) {
                                 dirs = environment.getDirectionalLights();
@@ -233,12 +238,14 @@ public class CalculateLightingShaderNodeBuilder extends ConfigurationShaderNodeB
                             for (int i = 0; i < numDirectionalLights; i++) {
                                 int location = startingLocation + i * structSize;
                                 if (dirs != null && i < dirs.size) {
-                                    DirectionalLight directionalLight = dirs.get(i);
+                                    Directional3DLight directionalLight = dirs.get(i);
+                                    LightColor color = directionalLight.getColor();
+                                    float intensity = directionalLight.getIntensity();
 
-                                    shader.setUniform(location, directionalLight.color.r, directionalLight.color.g,
-                                            directionalLight.color.b);
-                                    shader.setUniform(location + fieldOffsets[1], directionalLight.direction.x,
-                                            directionalLight.direction.y, directionalLight.direction.z);
+                                    shader.setUniform(location, color.getRed() * intensity, color.getGreen() * intensity,
+                                            color.getBlue() * intensity);
+                                    shader.setUniform(location + fieldOffsets[1], directionalLight.getDirectionX(),
+                                            directionalLight.getDirectionY(), directionalLight.getDirectionZ());
                                 } else {
                                     shader.setUniform(location, 0f, 0f, 0f);
                                     shader.setUniform(location + fieldOffsets[1], 0f, 0f, 0f);

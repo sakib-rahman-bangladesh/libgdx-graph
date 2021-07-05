@@ -1,10 +1,11 @@
 package com.gempukku.libgdx.graph.plugin.lighting3d.producer;
 
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
+import com.gempukku.libgdx.graph.plugin.lighting3d.LightColor;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPrivateData;
 import com.gempukku.libgdx.graph.shader.BasicShader;
@@ -35,9 +36,9 @@ public class DirectionalLightShaderNodeBuilder extends ConfigurationCommonShader
                         public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null && environment.getDirectionalLights().size > index && environment.getDirectionalLights().get(index) != null) {
-                                Array<DirectionalLight> directionalLights = environment.getDirectionalLights();
-                                DirectionalLight directionalLight = directionalLights.get(index);
-                                shader.setUniform(location, directionalLight.direction);
+                                Array<Directional3DLight> directionalLights = environment.getDirectionalLights();
+                                Directional3DLight directionalLight = directionalLights.get(index);
+                                shader.setUniform(location, directionalLight.getDirectionX(), directionalLight.getDirectionY(), directionalLight.getDirectionZ());
                             } else {
                                 shader.setUniform(location, 0f, 0f, 0f);
                             }
@@ -53,9 +54,10 @@ public class DirectionalLightShaderNodeBuilder extends ConfigurationCommonShader
                         public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null && environment.getDirectionalLights().size > index && environment.getDirectionalLights().get(index) != null) {
-                                Array<DirectionalLight> directionalLights = environment.getDirectionalLights();
-                                DirectionalLight directionalLight = directionalLights.get(index);
-                                shader.setUniform(location, directionalLight.color);
+                                Array<Directional3DLight> directionalLights = environment.getDirectionalLights();
+                                Directional3DLight directionalLight = directionalLights.get(index);
+                                LightColor color = directionalLight.getColor();
+                                shader.setUniform(location, color.getRed(), color.getGreen(), color.getBlue(), 1f);
                             } else {
                                 shader.setUniform(location, 0f, 0f, 0f, 1f);
                             }

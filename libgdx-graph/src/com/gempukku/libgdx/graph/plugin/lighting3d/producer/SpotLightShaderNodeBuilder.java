@@ -1,12 +1,13 @@
 package com.gempukku.libgdx.graph.plugin.lighting3d.producer;
 
-import com.badlogic.gdx.graphics.g3d.environment.SpotLight;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.gempukku.libgdx.graph.plugin.lighting3d.LightColor;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPrivateData;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Spot3DLight;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
@@ -35,9 +36,9 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
                         public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
-                                Array<SpotLight> spotLights = environment.getSpotLights();
-                                SpotLight spotLight = spotLights.get(index);
-                                shader.setUniform(location, spotLight.position);
+                                Array<Spot3DLight> spotLights = environment.getSpotLights();
+                                Spot3DLight spotLight = spotLights.get(index);
+                                shader.setUniform(location, spotLight.getPosition());
                             } else {
                                 shader.setUniform(location, 0f, 0f, 0f);
                             }
@@ -53,9 +54,9 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
                         public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
-                                Array<SpotLight> spotLights = environment.getSpotLights();
-                                SpotLight spotLight = spotLights.get(index);
-                                shader.setUniform(location, spotLight.direction);
+                                Array<Spot3DLight> spotLights = environment.getSpotLights();
+                                Spot3DLight spotLight = spotLights.get(index);
+                                shader.setUniform(location, spotLight.getDirectionX(), spotLight.getDirectionY(), spotLight.getDirectionZ());
                             } else {
                                 shader.setUniform(location, 0f, 0f, 0f);
                             }
@@ -71,9 +72,10 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
                         public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
-                                Array<SpotLight> spotLights = environment.getSpotLights();
-                                SpotLight spotLight = spotLights.get(index);
-                                shader.setUniform(location, spotLight.color);
+                                Array<Spot3DLight> spotLights = environment.getSpotLights();
+                                Spot3DLight spotLight = spotLights.get(index);
+                                LightColor color = spotLight.getColor();
+                                shader.setUniform(location, color.getRed(), color.getGreen(), color.getBlue(), 1f);
                             } else {
                                 shader.setUniform(location, 0f, 0f, 0f, 1f);
                             }
@@ -89,9 +91,9 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
                         public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
-                                Array<SpotLight> spotLights = environment.getSpotLights();
-                                SpotLight spotLight = spotLights.get(index);
-                                shader.setUniform(location, spotLight.intensity);
+                                Array<Spot3DLight> spotLights = environment.getSpotLights();
+                                Spot3DLight spotLight = spotLights.get(index);
+                                shader.setUniform(location, spotLight.getIntensity());
                             } else {
                                 shader.setUniform(location, 0f);
                             }
@@ -107,9 +109,9 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
                         public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
-                                Array<SpotLight> spotLights = environment.getSpotLights();
-                                SpotLight spotLight = spotLights.get(index);
-                                shader.setUniform(location, spotLight.cutoffAngle);
+                                Array<Spot3DLight> spotLights = environment.getSpotLights();
+                                Spot3DLight spotLight = spotLights.get(index);
+                                shader.setUniform(location, spotLight.getCutoffAngle());
                             } else {
                                 shader.setUniform(location, 0f);
                             }
@@ -125,9 +127,9 @@ public class SpotLightShaderNodeBuilder extends ConfigurationCommonShaderNodeBui
                         public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                             Lighting3DEnvironment environment = shaderContext.getPrivatePluginData(Lighting3DPrivateData.class).getEnvironment(data.getString("id", ""));
                             if (environment != null && environment.getSpotLights().size > index && environment.getSpotLights().get(index) != null) {
-                                Array<SpotLight> spotLights = environment.getSpotLights();
-                                SpotLight spotLight = spotLights.get(index);
-                                shader.setUniform(location, spotLight.exponent);
+                                Array<Spot3DLight> spotLights = environment.getSpotLights();
+                                Spot3DLight spotLight = spotLights.get(index);
+                                shader.setUniform(location, spotLight.getExponent());
                             } else {
                                 shader.setUniform(location, 0f);
                             }

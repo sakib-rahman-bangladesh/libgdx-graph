@@ -1,58 +1,55 @@
 package com.gempukku.libgdx.graph.plugin.lighting3d;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.environment.PointLight;
-import com.badlogic.gdx.graphics.g3d.environment.SpotLight;
 import com.badlogic.gdx.utils.Array;
 
 public class Lighting3DEnvironment {
-    private Color ambientColor;
-    private Array<DirectionalLight> directionalLights = new Array<>();
-    private Array<PointLight> pointLights = new Array<>();
-    private Array<SpotLight> spotLights = new Array<>();
+    private LightColor ambientColor = new LightColor(Color.WHITE);
+    private Array<Directional3DLight> directionalLights = new Array<>();
+    private Array<Point3DLight> pointLights = new Array<>();
+    private Array<Spot3DLight> spotLights = new Array<>();
 
-    public Color getAmbientColor() {
+    public LightColor getAmbientColor() {
         return ambientColor;
     }
 
     public void setAmbientColor(Color ambientColor) {
-        this.ambientColor = ambientColor;
+        this.ambientColor.set(ambientColor);
     }
 
-    public void addDirectionalLight(DirectionalLight directionalLight) {
+    public void addDirectionalLight(Directional3DLight directionalLight) {
         directionalLights.add(directionalLight);
     }
 
-    public void removeDirectionalLight(DirectionalLight directionalLight) {
+    public void removeDirectionalLight(Directional3DLight directionalLight) {
         directionalLights.removeValue(directionalLight, true);
     }
 
-    public void addPointLight(PointLight pointLight) {
+    public void addPointLight(Point3DLight pointLight) {
         pointLights.add(pointLight);
     }
 
-    public void removePointLight(PointLight pointLight) {
+    public void removePointLight(Point3DLight pointLight) {
         pointLights.removeValue(pointLight, true);
     }
 
-    public void addSpotLight(SpotLight spotLight) {
+    public void addSpotLight(Spot3DLight spotLight) {
         spotLights.add(spotLight);
     }
 
-    public void removeSpotLight(SpotLight spotLight) {
+    public void removeSpotLight(Spot3DLight spotLight) {
         spotLights.removeValue(spotLight, true);
     }
 
-    public Array<DirectionalLight> getDirectionalLights() {
+    public Array<Directional3DLight> getDirectionalLights() {
         return directionalLights;
     }
 
-    public Array<PointLight> getPointLights() {
+    public Array<Point3DLight> getPointLights() {
         return pointLights;
     }
 
-    public Array<SpotLight> getSpotLights() {
+    public Array<Spot3DLight> getSpotLights() {
         return spotLights;
     }
 }

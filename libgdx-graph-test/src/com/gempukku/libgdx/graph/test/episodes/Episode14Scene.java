@@ -25,6 +25,7 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModel;
@@ -88,7 +89,7 @@ public class Episode14Scene implements LibgdxGraphTestScene {
         DirectionalLight directionalLight = new DirectionalLight();
         directionalLight.setColor(directionalBrightness, directionalBrightness, directionalBrightness, 1f);
         directionalLight.setDirection(-0.3f, -0.4f, -1);
-        lights.addDirectionalLight(directionalLight);
+        lights.addDirectionalLight(new Directional3DLight(directionalLight));
         return lights;
     }
 

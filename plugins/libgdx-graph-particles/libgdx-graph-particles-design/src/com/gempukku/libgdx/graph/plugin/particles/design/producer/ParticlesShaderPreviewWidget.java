@@ -27,6 +27,7 @@ import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderCont
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPrivateData;
+import com.gempukku.libgdx.graph.plugin.lighting3d.Point3DLight;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffectImpl;
 import com.gempukku.libgdx.graph.plugin.particles.ParticleEffectConfiguration;
 import com.gempukku.libgdx.graph.plugin.particles.ParticlesGraphShader;
@@ -79,7 +80,7 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
         graphShaderEnvironment.setAmbientColor(Color.DARK_GRAY);
         PointLight pointLight = new PointLight();
         pointLight.set(Color.WHITE, -2f, 1f, 1f, 2f);
-        graphShaderEnvironment.addPointLight(pointLight);
+        graphShaderEnvironment.addPointLight(new Point3DLight(pointLight));
 
         final Lighting3DPrivateData data = new Lighting3DPrivateData();
         data.setEnvironment("", graphShaderEnvironment);
