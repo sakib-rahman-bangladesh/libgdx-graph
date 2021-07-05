@@ -1,8 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.sprites.design.producer;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
@@ -13,12 +11,12 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.kotcrab.vis.ui.widget.Separator;
+import com.kotcrab.vis.ui.widget.VisTable;
 
-public class SpriteShaderPreviewBoxPart extends Table implements GraphBoxPart<ShaderFieldType> {
+public class SpriteShaderPreviewBoxPart extends VisTable implements GraphBoxPart<ShaderFieldType> {
     private final SpriteShaderPreviewWidget shaderPreviewWidget;
 
-    public SpriteShaderPreviewBoxPart(Skin skin) {
-        super(skin);
+    public SpriteShaderPreviewBoxPart() {
         shaderPreviewWidget = new SpriteShaderPreviewWidget(200, 200);
 
         add(new Separator()).colspan(2).pad(5).growX().row();

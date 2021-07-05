@@ -14,8 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
@@ -37,6 +35,7 @@ import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.InputDialogListener;
 import com.kotcrab.vis.ui.widget.MenuItem;
 import com.kotcrab.vis.ui.widget.PopupMenu;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
 import java.awt.BasicStroke;
@@ -50,7 +49,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class GraphContainer<T extends FieldType> extends Table implements NavigableCanvas {
+public class GraphContainer<T extends FieldType> extends VisTable implements NavigableCanvas {
     private static final float CANVAS_GAP = 50f;
     private static final float GROUP_GAP = 10f;
     private static final float GROUP_LABEL_HEIGHT = 20f;
@@ -357,7 +356,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
     }
 
     private boolean containedInWindow(float x, float y) {
-        for (Window window : boxWindows.values()) {
+        for (VisWindow window : boxWindows.values()) {
             float x1 = window.getX();
             float y1 = window.getY();
             float width = window.getWidth();
@@ -551,11 +550,11 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
     }
 
     private void updateSelectedVisuals() {
-        Window.WindowStyle notSelectedStyle = VisUI.getSkin().get("noborder", Window.WindowStyle.class);
-        Window.WindowStyle selectedStyle = VisUI.getSkin().get("default", Window.WindowStyle.class);
+        VisWindow.WindowStyle notSelectedStyle = VisUI.getSkin().get("noborder", VisWindow.WindowStyle.class);
+        VisWindow.WindowStyle selectedStyle = VisUI.getSkin().get("default", VisWindow.WindowStyle.class);
 
         for (Map.Entry<String, VisWindow> windowEntry : boxWindows.entrySet()) {
-            Window.WindowStyle newStyle = selectedNodes.contains(windowEntry.getKey()) ? selectedStyle : notSelectedStyle;
+            VisWindow.WindowStyle newStyle = selectedNodes.contains(windowEntry.getKey()) ? selectedStyle : notSelectedStyle;
             windowEntry.getValue().setStyle(newStyle);
         }
     }
@@ -645,7 +644,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         Vector2 from = new Vector2();
         for (Map.Entry<String, VisWindow> windowEntry : boxWindows.entrySet()) {
             String nodeId = windowEntry.getKey();
-            Window window = windowEntry.getValue();
+            VisWindow window = windowEntry.getValue();
             GraphBox<T> graphBox = graphBoxes.get(nodeId);
             float windowX = window.getX();
             float windowY = window.getY();
@@ -685,11 +684,11 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         Vector2 to = new Vector2();
         for (GraphConnection graphConnection : graphConnections) {
             NodeConnector fromNode = getNodeInfo(graphConnection.getNodeFrom(), graphConnection.getFieldFrom());
-            Window fromWindow = boxWindows.get(fromNode.getNodeId());
+            VisWindow fromWindow = boxWindows.get(fromNode.getNodeId());
             GraphBoxOutputConnector<T> output = getGraphBoxById(fromNode.getNodeId()).getOutputs().get(fromNode.getFieldId());
             calculateConnection(from, fromWindow, output);
             NodeConnector toNode = getNodeInfo(graphConnection.getNodeTo(), graphConnection.getFieldTo());
-            Window toWindow = boxWindows.get(toNode.getNodeId());
+            VisWindow toWindow = boxWindows.get(toNode.getNodeId());
             GraphBoxInputConnector<T> input = getGraphBoxById(toNode.getNodeId()).getInputs().get(toNode.getFieldId());
             calculateConnection(to, toWindow, input);
 
@@ -758,7 +757,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
         for (Map.Entry<String, VisWindow> windowEntry : boxWindows.entrySet()) {
             String nodeId = windowEntry.getKey();
-            Window window = windowEntry.getValue();
+            VisWindow window = windowEntry.getValue();
             GraphBox<T> graphBox = graphBoxes.get(nodeId);
             for (GraphNodeInput<T> connector : graphBox.getConfiguration().getNodeInputs().values()) {
                 if (!connector.isRequired()) {
@@ -784,11 +783,11 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
         for (GraphConnection graphConnection : graphConnections) {
             NodeConnector fromNode = getNodeInfo(graphConnection.getNodeFrom(), graphConnection.getFieldFrom());
-            Window fromWindow = boxWindows.get(fromNode.getNodeId());
+            VisWindow fromWindow = boxWindows.get(fromNode.getNodeId());
             GraphBoxOutputConnector<T> output = getGraphBoxById(fromNode.getNodeId()).getOutputs().get(fromNode.getFieldId());
             calculateConnection(from, fromWindow, output);
             NodeConnector toNode = getNodeInfo(graphConnection.getNodeTo(), graphConnection.getFieldTo());
-            Window toWindow = boxWindows.get(toNode.getNodeId());
+            VisWindow toWindow = boxWindows.get(toNode.getNodeId());
             GraphBoxInputConnector<T> input = getGraphBoxById(toNode.getNodeId()).getInputs().get(toNode.getFieldId());
             calculateConnection(to, toWindow, input);
 
@@ -804,7 +803,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         if (drawingFromConnector != null) {
             shapeRenderer.setColor(LINE_COLOR);
             GraphBox<T> drawingFromNode = getGraphBoxById(drawingFromConnector.getNodeId());
-            Window fromWindow = getBoxWindow(drawingFromConnector.getNodeId());
+            VisWindow fromWindow = getBoxWindow(drawingFromConnector.getNodeId());
             if (drawingFromNode.getConfiguration().getNodeInputs().containsKey(drawingFromConnector.getFieldId())) {
                 GraphBoxInputConnector<T> input = drawingFromNode.getInputs().get(drawingFromConnector.getFieldId());
                 calculateConnection(from, fromWindow, input);
@@ -822,7 +821,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
 
         for (Map.Entry<String, VisWindow> windowEntry : boxWindows.entrySet()) {
             String nodeId = windowEntry.getKey();
-            Window window = windowEntry.getValue();
+            VisWindow window = windowEntry.getValue();
             GraphBox<T> graphBox = graphBoxes.get(nodeId);
             for (GraphNodeInput<T> connector : graphBox.getConfiguration().getNodeInputs().values()) {
                 if (connector.isRequired()) {
@@ -848,7 +847,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         shapeRenderer.end();
     }
 
-    private void calculateConnector(Vector2 from, Vector2 to, Window window, GraphBoxOutputConnector<T> connector) {
+    private void calculateConnector(Vector2 from, Vector2 to, VisWindow window, GraphBoxOutputConnector<T> connector) {
         float windowX = window.getX();
         float windowY = window.getY();
         switch (connector.getSide()) {
@@ -863,7 +862,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         }
     }
 
-    private void calculateConnector(Vector2 from, Vector2 to, Window window, GraphBoxInputConnector<T> connector) {
+    private void calculateConnector(Vector2 from, Vector2 to, VisWindow window, GraphBoxInputConnector<T> connector) {
         float windowX = window.getX();
         float windowY = window.getY();
         switch (connector.getSide()) {
@@ -899,7 +898,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         shapeRenderer.updateMatrices();
     }
 
-    private void calculateConnection(Vector2 position, Window window, GraphBoxInputConnector<T> connector) {
+    private void calculateConnection(Vector2 position, VisWindow window, GraphBoxInputConnector<T> connector) {
         float windowX = window.getX();
         float windowY = window.getY();
         switch (connector.getSide()) {
@@ -912,7 +911,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         }
     }
 
-    private void calculateConnection(Vector2 position, Window window, GraphBoxOutputConnector<T> connector) {
+    private void calculateConnection(Vector2 position, VisWindow window, GraphBoxOutputConnector<T> connector) {
         float windowX = window.getX();
         float windowY = window.getY();
         switch (connector.getSide()) {
@@ -932,7 +931,7 @@ public class GraphContainer<T extends FieldType> extends Table implements Naviga
         }
     }
 
-    public Window getBoxWindow(String nodeId) {
+    public VisWindow getBoxWindow(String nodeId) {
         return boxWindows.get(nodeId);
     }
 

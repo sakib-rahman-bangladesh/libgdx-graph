@@ -3,11 +3,7 @@ package com.gempukku.libgdx.graph.ui.shader.producer.property;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
@@ -19,6 +15,10 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyDefaultBox;
 import com.gempukku.libgdx.graph.util.WhitePixel;
+import com.kotcrab.vis.ui.widget.VisImage;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
 import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
 
@@ -40,14 +40,14 @@ public class PropertyTextureBoxProducer implements PropertyBoxProducer<ShaderFie
     }
 
     private PropertyBox<ShaderFieldType> createPropertyBoxDefault(Skin skin, String name, String previewPath) {
-        final Table table = new Table();
-        table.add(new Label("Preview texture ", skin)).growX();
-        TextButton chooseFileButton = new TextButton("Choose", skin);
+        final VisTable table = new VisTable();
+        table.add(new VisLabel("Preview texture ")).growX();
+        VisTextButton chooseFileButton = new VisTextButton("Choose");
         table.add(chooseFileButton);
         table.row();
         final TextureRegionDrawable drawable = new TextureRegionDrawable(WhitePixel.sharedInstance.textureRegion);
         drawable.setMinSize(200, 200);
-        final Image image = new Image(drawable);
+        final VisImage image = new VisImage(drawable);
         table.add(image).colspan(2);
         table.row();
 
@@ -107,7 +107,7 @@ public class PropertyTextureBoxProducer implements PropertyBoxProducer<ShaderFie
                         table.fire(new GraphChangedEvent(false, true));
                     }
                 });
-        return new PropertyBoxImpl<ShaderFieldType>(skin,
+        return new PropertyBoxImpl<ShaderFieldType>(
                 name,
                 ShaderFieldType.TextureRegion,
                 new PropertyDefaultBox() {

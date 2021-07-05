@@ -1,10 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.screen.design.producer;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
@@ -27,12 +23,15 @@ import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
 import com.kotcrab.vis.ui.widget.MenuItem;
 import com.kotcrab.vis.ui.widget.PopupMenu;
 import com.kotcrab.vis.ui.widget.VisScrollPane;
+import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextButton;
+import com.kotcrab.vis.ui.widget.VisTextField;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-public class ScreenShaderBoxPart extends Table implements GraphBoxPart<PipelineFieldType> {
+public class ScreenShaderBoxPart extends VisTable implements GraphBoxPart<PipelineFieldType> {
     private static UIGraphConfiguration<ShaderFieldType>[] graphConfigurations = new UIGraphConfiguration[]{
             new UIScreenShaderConfiguration(),
             new UICommonShaderConfiguration()
@@ -41,17 +40,14 @@ public class ScreenShaderBoxPart extends Table implements GraphBoxPart<PipelineF
     private static final int EDIT_WIDTH = 50;
     private static final int REMOVE_WIDTH = 80;
     private final VerticalGroup shaderGroup;
-    private final Skin skin;
     private List<ShaderInfo> shaders = new LinkedList<>();
 
-    public ScreenShaderBoxPart(Skin skin) {
-        this.skin = skin;
-
+    public ScreenShaderBoxPart() {
         shaderGroup = new VerticalGroup();
         shaderGroup.top();
         shaderGroup.grow();
 
-        Table table = new Table(skin);
+        VisTable table = new VisTable();
         table.add("Tag").colspan(3).growX();
         table.row();
 
@@ -61,7 +57,7 @@ public class ScreenShaderBoxPart extends Table implements GraphBoxPart<PipelineF
 
         table.add(scrollPane).grow().row();
 
-        final TextButton newShader = new TextButton("New Shader", skin);
+        final VisTextButton newShader = new VisTextButton("New Shader");
         newShader.addListener(
                 new ChangeListener() {
                     @Override
@@ -93,7 +89,7 @@ public class ScreenShaderBoxPart extends Table implements GraphBoxPart<PipelineF
                     }
                 });
 
-        Table buttons = new Table(skin);
+        VisTable buttons = new VisTable();
         buttons.add(newShader);
         table.add(buttons).growX().row();
 
@@ -175,17 +171,17 @@ public class ScreenShaderBoxPart extends Table implements GraphBoxPart<PipelineF
     private class ShaderInfo {
         private String id;
         private JsonValue initialShaderJson;
-        private Table table;
-        private TextField textField;
+        private VisTable table;
+        private VisTextField textField;
 
         public ShaderInfo(final String id, String tag, final JsonValue initialShaderJson) {
             this.id = id;
             this.initialShaderJson = initialShaderJson;
-            table = new Table(skin);
-            textField = new TextField(tag, skin);
+            table = new VisTable();
+            textField = new VisTextField(tag);
             textField.setMessageText("Shader Tag");
             table.add(textField).growX();
-            final TextButton editButton = new TextButton("Edit", skin);
+            final VisTextButton editButton = new VisTextButton("Edit");
             editButton.addListener(
                     new ChangeListener() {
                         @Override
@@ -195,7 +191,7 @@ public class ScreenShaderBoxPart extends Table implements GraphBoxPart<PipelineF
                         }
                     });
             table.add(editButton).width(EDIT_WIDTH);
-            final TextButton deleteButton = new TextButton("Remove", skin);
+            final VisTextButton deleteButton = new VisTextButton("Remove");
             deleteButton.addListener(
                     new ChangeListener() {
                         @Override
@@ -228,7 +224,7 @@ public class ScreenShaderBoxPart extends Table implements GraphBoxPart<PipelineF
             return id;
         }
 
-        public Table getActor() {
+        public VisTable getActor() {
             return table;
         }
 

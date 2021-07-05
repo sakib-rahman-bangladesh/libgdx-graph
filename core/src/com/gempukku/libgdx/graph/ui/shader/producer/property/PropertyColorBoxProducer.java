@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -20,6 +17,9 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyDefaultBox;
 import com.gempukku.libgdx.graph.util.WhitePixel;
+import com.kotcrab.vis.ui.widget.VisImage;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.color.ColorPicker;
 import com.kotcrab.vis.ui.widget.color.ColorPickerAdapter;
 
@@ -58,7 +58,7 @@ public class PropertyColorBoxProducer implements PropertyBoxProducer<ShaderField
         baseDrawable.setPadding(1, 1, 1, 1);
         baseDrawable.setMinSize(20, 20);
 
-        final Image image = new Image(baseDrawable);
+        final VisImage image = new VisImage(baseDrawable);
         image.setColor(color);
 
         final ColorPicker picker = new ColorPicker(new ColorPickerAdapter() {
@@ -79,11 +79,11 @@ public class PropertyColorBoxProducer implements PropertyBoxProducer<ShaderField
                     }
                 });
 
-        final Table table = new Table();
-        table.add(new Label("Default color", skin)).growX();
+        final VisTable table = new VisTable();
+        table.add(new VisLabel("Default color")).growX();
         table.add(image);
 
-        return new PropertyBoxImpl<ShaderFieldType>(skin,
+        return new PropertyBoxImpl<ShaderFieldType>(
                 name,
                 ShaderFieldType.Vector4,
                 new PropertyDefaultBox() {

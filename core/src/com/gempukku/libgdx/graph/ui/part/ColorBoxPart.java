@@ -5,10 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -19,18 +15,19 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.util.WhitePixel;
+import com.kotcrab.vis.ui.widget.VisImage;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.color.ColorPicker;
 import com.kotcrab.vis.ui.widget.color.ColorPickerAdapter;
 
 
-public class ColorBoxPart<T extends FieldType> extends Table implements GraphBoxPart<T> {
+public class ColorBoxPart<T extends FieldType> extends VisTable implements GraphBoxPart<T> {
     private String property;
-    private final Image image;
+    private final VisImage image;
     private final ColorPicker picker;
 
-    public ColorBoxPart(Skin skin, String label, String property) {
-        super(skin);
-
+    public ColorBoxPart(String label, String property) {
         this.property = property;
         Color color = Color.WHITE;
 
@@ -43,7 +40,7 @@ public class ColorBoxPart<T extends FieldType> extends Table implements GraphBox
         };
         baseDrawable.setMinSize(20, 20);
 
-        image = new Image(baseDrawable);
+        image = new VisImage(baseDrawable);
         image.setColor(color);
 
         picker = new ColorPicker(new ColorPickerAdapter() {
@@ -64,7 +61,7 @@ public class ColorBoxPart<T extends FieldType> extends Table implements GraphBox
                     }
                 });
 
-        add(new Label(label, skin)).growX();
+        add(new VisLabel(label)).growX();
         add(image);
         row();
     }

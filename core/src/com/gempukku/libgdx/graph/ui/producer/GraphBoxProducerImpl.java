@@ -44,17 +44,17 @@ public class GraphBoxProducerImpl<T extends FieldType> implements GraphBoxProduc
 
     @Override
     public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<T> start = createGraphBox(skin, id);
-        addConfigurationInputsAndOutputs(skin, start);
+        GraphBoxImpl<T> start = createGraphBox(id);
+        addConfigurationInputsAndOutputs(start);
 
         return start;
     }
 
-    protected GraphBoxImpl<T> createGraphBox(Skin skin, String id) {
-        return new GraphBoxImpl<T>(id, configuration, skin);
+    protected GraphBoxImpl<T> createGraphBox(String id) {
+        return new GraphBoxImpl<T>(id, configuration);
     }
 
-    protected void addConfigurationInputsAndOutputs(Skin skin, GraphBoxImpl<T> graphBox) {
+    protected void addConfigurationInputsAndOutputs(GraphBoxImpl<T> graphBox) {
         Iterator<GraphNodeInput<T>> inputIterator = configuration.getNodeInputs().values().iterator();
         Iterator<GraphNodeOutput<T>> outputIterator = configuration.getNodeOutputs().values().iterator();
         while (inputIterator.hasNext() || outputIterator.hasNext()) {
@@ -80,11 +80,11 @@ public class GraphBoxProducerImpl<T extends FieldType> implements GraphBoxProduc
             }
 
             if (input != null && output != null) {
-                graphBox.addTwoSideGraphPart(skin, input, output);
+                graphBox.addTwoSideGraphPart(input, output);
             } else if (input != null) {
-                graphBox.addInputGraphPart(skin, input);
+                graphBox.addInputGraphPart(input);
             } else if (output != null) {
-                graphBox.addOutputGraphPart(skin, output);
+                graphBox.addOutputGraphPart(output);
             }
         }
     }

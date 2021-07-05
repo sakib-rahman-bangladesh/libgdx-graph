@@ -46,7 +46,7 @@ public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCa
         if (producer == null)
             throw new IllegalArgumentException("Unable to find property producer for type: " + type);
         PropertyBox<T> propertyBox = producer.createPropertyBox(skin, name, data);
-        graphDesignTab.addPropertyBox(skin, type, propertyBox);
+        graphDesignTab.addPropertyBox(type, propertyBox);
     }
 
     @Override

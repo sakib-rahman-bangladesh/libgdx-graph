@@ -1,9 +1,6 @@
 package com.gempukku.libgdx.graph.ui.graph;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
@@ -14,6 +11,8 @@ import com.gempukku.libgdx.graph.data.GraphNodeInput;
 import com.gempukku.libgdx.graph.data.GraphNodeOutput;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -24,15 +23,15 @@ import java.util.function.Supplier;
 public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
     private String id;
     private NodeConfiguration<T> configuration;
-    private Table table;
+    private VisTable table;
     private List<GraphBoxPart<T>> graphBoxParts = new LinkedList<>();
     private Map<String, GraphBoxInputConnector<T>> inputConnectors = new HashMap<>();
     private Map<String, GraphBoxOutputConnector<T>> outputConnectors = new HashMap<>();
 
-    public GraphBoxImpl(String id, NodeConfiguration<T> configuration, Skin skin) {
+    public GraphBoxImpl(String id, NodeConfiguration<T> configuration) {
         this.id = id;
         this.configuration = configuration;
-        table = new Table(skin);
+        table = new VisTable();
     }
 
     @Override
@@ -69,12 +68,11 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
                 }, graphNodeOutput.getFieldId()));
     }
 
-    public void addTwoSideGraphPart(Skin skin,
-                                    GraphNodeInput<T> graphNodeInput,
+    public void addTwoSideGraphPart(GraphNodeInput<T> graphNodeInput,
                                     GraphNodeOutput<T> graphNodeOutput) {
-        Table table = new Table();
-        table.add(new Label(graphNodeInput.getFieldName(), skin)).grow();
-        Label outputLabel = new Label(graphNodeOutput.getFieldName(), skin);
+        VisTable table = new VisTable();
+        table.add(new VisLabel(graphNodeInput.getFieldName())).grow();
+        VisLabel outputLabel = new VisLabel(graphNodeOutput.getFieldName());
         outputLabel.setAlignment(Align.right);
         table.add(outputLabel).grow();
         table.row();
@@ -85,10 +83,9 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
         addGraphBoxPart(graphBoxPart);
     }
 
-    public void addInputGraphPart(Skin skin,
-                                  GraphNodeInput<T> graphNodeInput) {
-        Table table = new Table();
-        table.add(new Label(graphNodeInput.getFieldName(), skin)).grow().row();
+    public void addInputGraphPart(GraphNodeInput<T> graphNodeInput) {
+        VisTable table = new VisTable();
+        table.add(new VisLabel(graphNodeInput.getFieldName())).grow().row();
 
         GraphBoxPartImpl<T> graphBoxPart = new GraphBoxPartImpl<T>(table, null);
         graphBoxPart.setInputConnector(GraphBoxInputConnector.Side.Left, graphNodeInput);
@@ -96,10 +93,9 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
     }
 
     public void addOutputGraphPart(
-            Skin skin,
             GraphNodeOutput<T> graphNodeOutput) {
-        Table table = new Table();
-        Label outputLabel = new Label(graphNodeOutput.getFieldName(), skin);
+        VisTable table = new VisTable();
+        VisLabel outputLabel = new VisLabel(graphNodeOutput.getFieldName());
         outputLabel.setAlignment(Align.right);
         table.add(outputLabel).grow().row();
 

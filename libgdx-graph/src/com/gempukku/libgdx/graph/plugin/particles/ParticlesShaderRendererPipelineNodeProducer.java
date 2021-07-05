@@ -89,8 +89,10 @@ public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodePro
                         renderPipeline.enrichWithDepthBuffer(currentBuffer);
                     }
 
-                    Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
-                    shaderContext.setCamera(camera);
+                    if (cameraInput != null) {
+                        Camera camera = cameraInput.getValue(pipelineRenderingContext, null);
+                        shaderContext.setCamera(camera);
+                    }
 
                     shaderContext.setTimeProvider(pipelineRenderingContext.getTimeProvider());
                     shaderContext.setRenderWidth(currentBuffer.getWidth());

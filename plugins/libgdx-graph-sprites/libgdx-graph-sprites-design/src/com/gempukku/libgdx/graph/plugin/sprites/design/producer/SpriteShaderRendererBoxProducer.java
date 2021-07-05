@@ -15,9 +15,9 @@ public class SpriteShaderRendererBoxProducer extends GraphBoxProducerImpl<Pipeli
 
     @Override
     public GraphBox<PipelineFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<PipelineFieldType> result = createGraphBox(skin, id);
-        addConfigurationInputsAndOutputs(skin, result);
-        SpriteShadersBoxPart graphBoxPart = new SpriteShadersBoxPart(skin);
+        GraphBoxImpl<PipelineFieldType> result = createGraphBox(id);
+        addConfigurationInputsAndOutputs(result);
+        SpriteShadersBoxPart graphBoxPart = new SpriteShadersBoxPart();
         graphBoxPart.initialize(data);
         result.addGraphBoxPart(graphBoxPart);
         return result;

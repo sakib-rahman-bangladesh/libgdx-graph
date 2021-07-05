@@ -15,10 +15,10 @@ public class ScreenShaderRendererBoxProducer extends GraphBoxProducerImpl<Pipeli
 
     @Override
     public GraphBox<PipelineFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<PipelineFieldType> result = createGraphBox(skin, id);
-        addConfigurationInputsAndOutputs(skin, result);
+        GraphBoxImpl<PipelineFieldType> result = createGraphBox(id);
+        addConfigurationInputsAndOutputs(result);
 
-        ScreenShaderBoxPart screenShaderBoxPart = new ScreenShaderBoxPart(skin);
+        ScreenShaderBoxPart screenShaderBoxPart = new ScreenShaderBoxPart();
         if (data != null)
             screenShaderBoxPart.initialize(data);
         result.addGraphBoxPart(screenShaderBoxPart);

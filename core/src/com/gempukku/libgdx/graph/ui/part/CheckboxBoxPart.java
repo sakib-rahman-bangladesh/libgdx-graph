@@ -1,26 +1,23 @@
 package com.gempukku.libgdx.graph.ui.part;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
+import com.kotcrab.vis.ui.widget.VisCheckBox;
+import com.kotcrab.vis.ui.widget.VisTable;
 
 
-public class CheckboxBoxPart<T extends FieldType> extends Table implements GraphBoxPart<T> {
+public class CheckboxBoxPart<T extends FieldType> extends VisTable implements GraphBoxPart<T> {
     private String property;
-    private final CheckBox input;
+    private final VisCheckBox input;
 
-    public CheckboxBoxPart(Skin skin, String label, String property) {
-        super(skin);
-
+    public CheckboxBoxPart(String label, String property) {
         this.property = property;
 
-        input = new CheckBox(label, skin);
+        input = new VisCheckBox(label);
 
         add(input).left().grow();
         row();

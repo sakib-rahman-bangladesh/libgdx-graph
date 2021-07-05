@@ -1,9 +1,6 @@
 package com.gempukku.libgdx.graph.ui.part;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
@@ -12,21 +9,22 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.kotcrab.vis.ui.util.Validators;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 
-
-public class IndexBoxPart<T extends FieldType> extends Table implements GraphBoxPart<T> {
+public class IndexBoxPart<T extends FieldType> extends VisTable implements GraphBoxPart<T> {
     private final VisValidatableTextField indexField;
 
     private String property;
 
-    public IndexBoxPart(Skin skin, String label, String property) {
-        super(skin);
+    public IndexBoxPart(String label, String property) {
+        super();
         this.property = property;
 
         indexField = new VisValidatableTextField(Validators.INTEGERS, new Validators.GreaterThanValidator(0, true));
         indexField.setText("0");
-        add(new Label(label + " ", skin));
+        add(new VisLabel(label + " "));
         add(indexField).growX();
         row();
 

@@ -16,14 +16,14 @@ public class MapsRendererBoxProducer extends GraphBoxProducerImpl<PipelineFieldT
 
     @Override
     public GraphBox<PipelineFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<PipelineFieldType> result = createGraphBox(skin, id);
+        GraphBoxImpl<PipelineFieldType> result = createGraphBox(id);
 
-        StringBoxPart<PipelineFieldType> mapId = new StringBoxPart<>(skin, "Map id: ", "id");
+        StringBoxPart<PipelineFieldType> mapId = new StringBoxPart<>("Map id: ", "id");
         if (data != null)
             mapId.initialize(data);
         result.addGraphBoxPart(mapId);
 
-        addConfigurationInputsAndOutputs(skin, result);
+        addConfigurationInputsAndOutputs(result);
         return result;
     }
 }

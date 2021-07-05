@@ -1,12 +1,12 @@
 package com.gempukku.libgdx.graph.ui.plugin;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.jar.Attributes;
@@ -21,16 +21,13 @@ public class PluginPreferences {
     private static final String PLUGIN_CLASS = "libGDX-Graph-Plugin-Class";
 
     public static void savePlugins(Iterable<String> plugins) {
-        FileHandle jarFile = Gdx.files.local(PLUGIN_LIST_FOLDER + "/" + PLUGIN_LIST_FILE);
+        FileHandle jarFile = new FileHandle(getPluginListFile());
         try {
-            Writer writer = jarFile.writer(false);
-            try {
+            try (Writer writer = jarFile.writer(false)) {
                 for (String plugin : plugins) {
                     writer.write(plugin);
                     writer.write('\n');
                 }
-            } finally {
-                writer.close();
             }
         } catch (IOException exp) {
             throw new GdxRuntimeException(exp);
@@ -38,29 +35,30 @@ public class PluginPreferences {
     }
 
     public static Iterable<String> getPlugins() {
-        FileHandle jarFile = Gdx.files.local(PLUGIN_LIST_FOLDER + "/" + PLUGIN_LIST_FILE);
+        FileHandle jarFile = new FileHandle(getPluginListFile());
         if (!jarFile.exists())
             return new Array<>();
 
         try {
             Array<String> result = new Array<>();
-            BufferedReader reader = new BufferedReader(jarFile.reader());
-            try {
+            try (BufferedReader reader = new BufferedReader(jarFile.reader())) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     result.add(line);
                 }
                 return result;
-            } finally {
-                reader.close();
             }
         } catch (IOException exp) {
             throw new GdxRuntimeException(exp);
         }
     }
 
-    public static PluginDefinition getPluginDefinition(FileHandle pluginFile) throws IOException, ClassNotFoundException {
-        JarFile jarFile = new JarFile(pluginFile.file());
+    private static File getPluginListFile() {
+        return new File(new File("").getAbsolutePath() + File.separator + PLUGIN_LIST_FOLDER + File.separator + PLUGIN_LIST_FILE);
+    }
+
+    public static PluginDefinition getPluginDefinition(File pluginFile) throws IOException, ClassNotFoundException {
+        JarFile jarFile = new JarFile(pluginFile);
         Manifest manifest = jarFile.getManifest();
         Attributes attributes = manifest.getMainAttributes();
         if (!attributes.containsKey(PLUGIN_NAME) || !attributes.containsKey(PLUGIN_VERSION)
@@ -74,6 +72,6 @@ public class PluginPreferences {
             throw new GdxRuntimeException("Plugin class is not of required type");
 
         return new PluginDefinition(
-                pluginFile.path(), pluginClass, pluginName, pluginVersion, false, true);
+                pluginFile.getAbsolutePath(), pluginClass, pluginName, pluginVersion, false, true);
     }
 }

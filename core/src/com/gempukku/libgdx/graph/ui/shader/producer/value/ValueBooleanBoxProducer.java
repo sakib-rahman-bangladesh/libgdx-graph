@@ -1,7 +1,6 @@
 package com.gempukku.libgdx.graph.ui.shader.producer.value;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -13,6 +12,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPartImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
+import com.kotcrab.vis.ui.widget.VisCheckBox;
 
 
 public class ValueBooleanBoxProducer<T extends FieldType> extends ValueGraphBoxProducer<T> {
@@ -33,7 +33,7 @@ public class ValueBooleanBoxProducer<T extends FieldType> extends ValueGraphBoxP
     }
 
     private GraphBox<T> createGraphBox(Skin skin, String id, boolean v) {
-        GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration, skin);
+        GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration);
         end.addGraphBoxPart(createValuePart(skin, v));
 
         return end;
@@ -41,7 +41,7 @@ public class ValueBooleanBoxProducer<T extends FieldType> extends ValueGraphBoxP
 
     private GraphBoxPartImpl<T> createValuePart(Skin skin, boolean v) {
         HorizontalGroup horizontalGroup = new HorizontalGroup();
-        final CheckBox checkBox = new CheckBox("Value", skin);
+        final VisCheckBox checkBox = new VisCheckBox("Value");
         checkBox.addListener(
                 new ChangeListener() {
                     @Override

@@ -1,9 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.models.design.producer;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.Graph;
@@ -15,15 +12,16 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.kotcrab.vis.ui.widget.Separator;
+import com.kotcrab.vis.ui.widget.VisSelectBox;
+import com.kotcrab.vis.ui.widget.VisTable;
 
-public class ModelShaderPreviewBoxPart extends Table implements GraphBoxPart<ShaderFieldType> {
+public class ModelShaderPreviewBoxPart extends VisTable implements GraphBoxPart<ShaderFieldType> {
     private final ModelShaderPreviewWidget shaderPreviewWidget;
-    private final SelectBox<ModelShaderPreviewWidget.ShaderPreviewModel> selectBox;
+    private final VisSelectBox<ModelShaderPreviewWidget.ShaderPreviewModel> selectBox;
 
-    public ModelShaderPreviewBoxPart(Skin skin) {
-        super(skin);
+    public ModelShaderPreviewBoxPart() {
         shaderPreviewWidget = new ModelShaderPreviewWidget(200, 200);
-        selectBox = new SelectBox<ModelShaderPreviewWidget.ShaderPreviewModel>(skin);
+        selectBox = new VisSelectBox<ModelShaderPreviewWidget.ShaderPreviewModel>();
         selectBox.setItems(ModelShaderPreviewWidget.ShaderPreviewModel.values());
 
         selectBox.addListener(

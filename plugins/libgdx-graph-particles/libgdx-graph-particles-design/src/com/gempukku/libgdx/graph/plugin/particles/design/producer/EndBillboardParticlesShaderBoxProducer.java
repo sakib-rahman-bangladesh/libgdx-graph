@@ -30,10 +30,10 @@ public class EndBillboardParticlesShaderBoxProducer extends GraphBoxProducerImpl
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        final ParticlesShaderPreviewBoxPart previewBoxPart = new ParticlesShaderPreviewBoxPart(skin);
+        final ParticlesShaderPreviewBoxPart previewBoxPart = new ParticlesShaderPreviewBoxPart();
         previewBoxPart.initialize(data);
 
-        GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, getConfiguration(), skin) {
+        GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, getConfiguration()) {
             @Override
             public void graphChanged(GraphChangedEvent event, boolean hasErrors, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
                 if (event.isData() || event.isStructure()) {
@@ -42,28 +42,28 @@ public class EndBillboardParticlesShaderBoxProducer extends GraphBoxProducerImpl
             }
         };
 
-        IntegerBoxPart<ShaderFieldType> particleCountBox = new IntegerBoxPart<>(skin, "Max particles ", "maxParticles", 100,
+        IntegerBoxPart<ShaderFieldType> particleCountBox = new IntegerBoxPart<>("Max particles ", "maxParticles", 100,
                 new Validators.GreaterThanValidator(0, false));
         particleCountBox.initialize(data);
         result.addGraphBoxPart(particleCountBox);
 
-        IntegerBoxPart<ShaderFieldType> initialCountBox = new IntegerBoxPart<>(skin, "Initial particles ", "initialParticles", 0,
+        IntegerBoxPart<ShaderFieldType> initialCountBox = new IntegerBoxPart<>("Initial particles ", "initialParticles", 0,
                 new Validators.GreaterThanValidator(0, true));
         initialCountBox.initialize(data);
         result.addGraphBoxPart(initialCountBox);
 
-        FloatBoxPart<ShaderFieldType> perSecondCountBox = new FloatBoxPart<>(skin, "Particles/second ", "perSecondParticles", 1f,
+        FloatBoxPart<ShaderFieldType> perSecondCountBox = new FloatBoxPart<>("Particles/second ", "perSecondParticles", 1f,
                 new Validators.GreaterThanValidator(0, false));
         perSecondCountBox.initialize(data);
         result.addGraphBoxPart(perSecondCountBox);
 
-        addConfigurationInputsAndOutputs(skin, result);
+        addConfigurationInputsAndOutputs(result);
 
-        SelectBoxPart<ShaderFieldType> blendingBox = new SelectBoxPart<>(skin, "Blending", "blending", BasicShader.Blending.values());
+        SelectBoxPart<ShaderFieldType> blendingBox = new SelectBoxPart<>("Blending", "blending", BasicShader.Blending.values());
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);
 
-        SelectBoxPart<ShaderFieldType> depthTestBox = new SelectBoxPart<>(skin, "DepthTest", "depthTest", BasicShader.DepthTesting.values());
+        SelectBoxPart<ShaderFieldType> depthTestBox = new SelectBoxPart<>("DepthTest", "depthTest", BasicShader.DepthTesting.values());
         depthTestBox.initialize(data);
         result.addGraphBoxPart(depthTestBox);
 

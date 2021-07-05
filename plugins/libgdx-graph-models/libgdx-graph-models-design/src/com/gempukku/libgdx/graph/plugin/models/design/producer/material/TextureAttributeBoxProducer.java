@@ -5,11 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
@@ -23,6 +19,10 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 import com.gempukku.libgdx.graph.util.WhitePixel;
+import com.kotcrab.vis.ui.widget.VisImage;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
 import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
 
@@ -33,29 +33,29 @@ public class TextureAttributeBoxProducer extends GraphBoxProducerImpl<ShaderFiel
 
     @Override
     public GraphBoxImpl<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
-        addConfigurationInputsAndOutputs(skin, result);
-        TextureBoxPart normalBoxPart = new TextureBoxPart(skin);
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+        addConfigurationInputsAndOutputs(result);
+        TextureBoxPart normalBoxPart = new TextureBoxPart();
         if (data != null)
             normalBoxPart.initialize(data);
         result.addGraphBoxPart(normalBoxPart);
         return result;
     }
 
-    private static class TextureBoxPart extends Table implements GraphBoxPart<ShaderFieldType> {
-        private Image image;
+    private static class TextureBoxPart extends VisTable implements GraphBoxPart<ShaderFieldType> {
+        private VisImage image;
         private Texture texture;
         private String path;
         private TextureRegionDrawable drawable;
 
-        public TextureBoxPart(Skin skin) {
-            add(new Label("Preview texture ", skin)).growX();
-            TextButton chooseFileButton = new TextButton("Choose", skin);
+        public TextureBoxPart() {
+            add(new VisLabel("Preview texture ")).growX();
+            VisTextButton chooseFileButton = new VisTextButton("Choose");
             add(chooseFileButton);
             row();
             drawable = new TextureRegionDrawable(WhitePixel.sharedInstance.textureRegion);
             drawable.setMinSize(200, 200);
-            image = new Image(drawable);
+            image = new VisImage(drawable);
             add(image).colspan(2);
             row();
 

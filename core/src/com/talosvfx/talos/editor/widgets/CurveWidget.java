@@ -227,12 +227,12 @@ public class CurveWidget extends Actor implements CurveDataProvider {
         width = getWidth() - 4f;
         height = getHeight() - 4f;
 
-        Drawable backgroundFrame = getSkin().getDrawable("white");
+        Drawable backgroundFrame = skin.getDrawable("white");
         batch.setColor(Color.BLACK);
         backgroundFrame.draw(batch, getX(), getY(), getWidth(), getHeight());
 
         batch.setColor(bgColor);
-        Drawable background = getSkin().getDrawable("white");
+        Drawable background = skin.getDrawable("white");
         background.draw(batch, getX() + 1, getY() + 1, getWidth() - 2, getHeight() - 2.5f);
 
         /// Shape renderer stuff
@@ -308,10 +308,6 @@ public class CurveWidget extends Actor implements CurveDataProvider {
 
     private void drawPoint(float x, float y) {
         shapeRenderer.circle(tmp.x + x * width, tmp.y + y * height, pointSize / 1.5f);
-    }
-
-    public Skin getSkin() {
-        return skin;
     }
 
     @Override

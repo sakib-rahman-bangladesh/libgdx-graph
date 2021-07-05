@@ -17,15 +17,16 @@ public class PointLightBoxProducer extends GraphBoxProducerImpl<ShaderFieldType>
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
 
-        StringBoxPart<ShaderFieldType> envId = new StringBoxPart<>(skin, "Env id: ", "id");
-        envId.initialize(data, "");
+        StringBoxPart<ShaderFieldType> envId = new StringBoxPart<>("Env id: ", "id");
+        if (data != null)
+            envId.initialize(data, "");
         result.addGraphBoxPart(envId);
 
-        addConfigurationInputsAndOutputs(skin, result);
+        addConfigurationInputsAndOutputs(result);
 
-        IndexBoxPart<ShaderFieldType> indexPart = new IndexBoxPart<>(skin, "Index", "index");
+        IndexBoxPart<ShaderFieldType> indexPart = new IndexBoxPart<>("Index", "index");
         indexPart.initialize(data);
         result.addGraphBoxPart(indexPart);
 

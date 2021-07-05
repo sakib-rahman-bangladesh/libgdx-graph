@@ -1,11 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.particles.design.producer;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonValue;
@@ -18,23 +13,26 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.kotcrab.vis.ui.widget.Separator;
+import com.kotcrab.vis.ui.widget.VisCheckBox;
+import com.kotcrab.vis.ui.widget.VisSelectBox;
+import com.kotcrab.vis.ui.widget.VisSlider;
+import com.kotcrab.vis.ui.widget.VisTable;
 
-public class ParticlesShaderPreviewBoxPart extends Table implements GraphBoxPart<ShaderFieldType> {
+public class ParticlesShaderPreviewBoxPart extends VisTable implements GraphBoxPart<ShaderFieldType> {
     private final ParticlesShaderPreviewWidget shaderPreviewWidget;
-    private final SelectBox<ParticlesShaderPreviewWidget.ShaderPreviewModel> selectBox;
+    private final VisSelectBox<ParticlesShaderPreviewWidget.ShaderPreviewModel> selectBox;
 
-    public ParticlesShaderPreviewBoxPart(Skin skin) {
-        super(skin);
-        final CheckBox running = new CheckBox("Running", skin);
+    public ParticlesShaderPreviewBoxPart() {
+        final VisCheckBox running = new VisCheckBox("Running");
         running.setChecked(true);
         running.align(Align.left);
-        selectBox = new SelectBox<ParticlesShaderPreviewWidget.ShaderPreviewModel>(skin);
+        selectBox = new VisSelectBox<ParticlesShaderPreviewWidget.ShaderPreviewModel>();
         selectBox.setItems(ParticlesShaderPreviewWidget.ShaderPreviewModel.values());
 
-        final Slider cameraDistance = new Slider(0.5f, 10f, 0.01f, false, skin);
+        final VisSlider cameraDistance = new VisSlider(0.5f, 10f, 0.01f, false);
         cameraDistance.setValue(1f);
 
-        final Slider lifetime = new Slider(0f, 10f, 0.01f, false, skin);
+        final VisSlider lifetime = new VisSlider(0f, 10f, 0.01f, false);
         lifetime.setValue(1f);
 
         shaderPreviewWidget = new ParticlesShaderPreviewWidget(200, 200);

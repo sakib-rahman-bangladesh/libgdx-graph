@@ -16,13 +16,13 @@ public class ConditionalShaderBoxProducer extends GraphBoxProducerImpl<ShaderFie
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
-        addConfigurationInputsAndOutputs(skin, result);
-        SelectBoxPart<ShaderFieldType> operationType = new SelectBoxPart<ShaderFieldType>(skin, "Operation", "operation",
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+        addConfigurationInputsAndOutputs(result);
+        SelectBoxPart<ShaderFieldType> operationType = new SelectBoxPart<ShaderFieldType>("Operation", "operation",
                 ">", ">=", "==", "<=", "<", "!=");
         operationType.initialize(data);
         result.addGraphBoxPart(operationType);
-        SelectBoxPart<ShaderFieldType> aggregationType = new SelectBoxPart<ShaderFieldType>(skin, "Aggregate", "aggregate",
+        SelectBoxPart<ShaderFieldType> aggregationType = new SelectBoxPart<ShaderFieldType>("Aggregate", "aggregate",
                 "any", "all");
         aggregationType.initialize(data);
         result.addGraphBoxPart(aggregationType);

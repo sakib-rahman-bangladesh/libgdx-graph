@@ -16,13 +16,14 @@ public class UIRendererBoxProducer extends GraphBoxProducerImpl<PipelineFieldTyp
 
     @Override
     public GraphBox<PipelineFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<PipelineFieldType> result = createGraphBox(skin, id);
+        GraphBoxImpl<PipelineFieldType> result = createGraphBox(id);
 
-        StringBoxPart<PipelineFieldType> stageId = new StringBoxPart<>(skin, "Stage id: ", "id");
-        stageId.initialize(data, "");
+        StringBoxPart<PipelineFieldType> stageId = new StringBoxPart<>("Stage id: ", "id");
+        if (data != null)
+            stageId.initialize(data, "");
         result.addGraphBoxPart(stageId);
 
-        addConfigurationInputsAndOutputs(skin, result);
+        addConfigurationInputsAndOutputs(result);
         return result;
     }
 }

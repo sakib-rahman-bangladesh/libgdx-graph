@@ -1,10 +1,6 @@
 package com.gempukku.libgdx.graph.ui.part;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
@@ -12,15 +8,18 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisSelectBox;
+import com.kotcrab.vis.ui.widget.VisTable;
 
 
-public class SelectBoxPart<T extends FieldType> extends Table implements GraphBoxPart<T> {
-    private final SelectBox<String> selectBox;
+public class SelectBoxPart<T extends FieldType> extends VisTable implements GraphBoxPart<T> {
+    private final VisSelectBox<String> selectBox;
 
     private String property;
 
-    public SelectBoxPart(Skin skin, String label, String property, Enum<?>... values) {
-        this(skin, label, property, convertToStrings(values));
+    public SelectBoxPart(String label, String property, Enum<?>... values) {
+        this(label, property, convertToStrings(values));
     }
 
     private static String[] convertToStrings(Enum<?>[] values) {
@@ -31,13 +30,12 @@ public class SelectBoxPart<T extends FieldType> extends Table implements GraphBo
         return result;
     }
 
-    public SelectBoxPart(Skin skin, String label, String property, String... values) {
-        super(skin);
+    public SelectBoxPart(String label, String property, String... values) {
         this.property = property;
 
-        selectBox = new SelectBox<String>(skin);
+        selectBox = new VisSelectBox<>();
         selectBox.setItems(values);
-        add(new Label(label + " ", skin));
+        add(new VisLabel(label + " "));
         add(selectBox).growX();
         row();
 

@@ -3,10 +3,6 @@ package com.gempukku.libgdx.graph.ui.graph.property;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.utils.TextureDescriptor;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.data.FieldType;
@@ -14,9 +10,12 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
+import com.kotcrab.vis.ui.widget.VisSelectBox;
+import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
-public class TextureSettingsGraphBoxPart<T extends FieldType> extends Table implements GraphBoxPart {
+public class TextureSettingsGraphBoxPart<T extends FieldType> extends VisTable implements GraphBoxPart {
     private static FilterValue[] filterValues = {
             new FilterValue("Default", null),
             new FilterValue("Linear", Texture.TextureFilter.Linear),
@@ -35,16 +34,16 @@ public class TextureSettingsGraphBoxPart<T extends FieldType> extends Table impl
 
     private TextureDescriptor<Texture> textureDescriptor = new TextureDescriptor<>();
 
-    public TextureSettingsGraphBoxPart(final Skin skin) {
-        super(skin);
+    public TextureSettingsGraphBoxPart() {
+        super();
 
-        final TextButton settingsButton = new TextButton("Texture settings", skin);
+        final VisTextButton settingsButton = new VisTextButton("Texture settings");
 
         settingsButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        SettingsWindow settingsWindow = new SettingsWindow(textureDescriptor, skin);
+                        SettingsWindow settingsWindow = new SettingsWindow(textureDescriptor);
                         settingsWindow.setSize(250, 260);
                         settingsButton.getStage().addActor(settingsWindow);
                     }
@@ -113,29 +112,29 @@ public class TextureSettingsGraphBoxPart<T extends FieldType> extends Table impl
     }
 
     private class SettingsWindow extends VisWindow {
-        public SettingsWindow(final TextureDescriptor<Texture> textureDescriptor, Skin skin) {
+        public SettingsWindow(final TextureDescriptor<Texture> textureDescriptor) {
             super("Texture settings");
             addCloseButton();
             setCenterOnAdd(true);
             setModal(true);
 
-            final SelectBox<FilterValue> minFilterBox = new SelectBox<>(skin);
+            final VisSelectBox<FilterValue> minFilterBox = new VisSelectBox<>();
             minFilterBox.setItems(filterValues);
             minFilterBox.setSelected(findFilter(textureDescriptor.minFilter));
 
-            final SelectBox<FilterValue> magFilterBox = new SelectBox<>(skin);
+            final VisSelectBox<FilterValue> magFilterBox = new VisSelectBox<>();
             magFilterBox.setItems(filterValues);
             magFilterBox.setSelected(findFilter(textureDescriptor.magFilter));
 
-            final SelectBox<WrapValue> uWrapBox = new SelectBox<WrapValue>(skin);
+            final VisSelectBox<WrapValue> uWrapBox = new VisSelectBox<WrapValue>();
             uWrapBox.setItems(wrapValues);
             uWrapBox.setSelected(findWrap(textureDescriptor.uWrap));
 
-            final SelectBox<WrapValue> vWrapBox = new SelectBox<WrapValue>(skin);
+            final VisSelectBox<WrapValue> vWrapBox = new VisSelectBox<WrapValue>();
             vWrapBox.setItems(wrapValues);
             vWrapBox.setSelected(findWrap(textureDescriptor.vWrap));
 
-            TextButton saveButton = new TextButton("Save", skin);
+            VisTextButton saveButton = new VisTextButton("Save");
 
             add("Minification filtering").left().grow().row();
             add(minFilterBox).left().grow().row();

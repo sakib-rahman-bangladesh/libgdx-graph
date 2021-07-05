@@ -18,20 +18,20 @@ public class DepthOfFieldBoxProducer extends GraphBoxProducerImpl<PipelineFieldT
 
     @Override
     public GraphBox<PipelineFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<PipelineFieldType> result = createGraphBox(skin, id);
+        GraphBoxImpl<PipelineFieldType> result = createGraphBox(id);
 
-        FloatBoxPart<PipelineFieldType> maxBlurPart = new FloatBoxPart<>(skin, "Max blur", "maxBlur", 10, new Validators.GreaterThanValidator(0, false));
+        FloatBoxPart<PipelineFieldType> maxBlurPart = new FloatBoxPart<>("Max blur", "maxBlur", 10, new Validators.GreaterThanValidator(0, false));
         maxBlurPart.setValue(10f);
         if (data != null)
             maxBlurPart.initialize(data);
         result.addGraphBoxPart(maxBlurPart);
 
-        CheckboxBoxPart<PipelineFieldType> blurBackground = new CheckboxBoxPart<>(skin, "Blur background", "blurBackground");
+        CheckboxBoxPart<PipelineFieldType> blurBackground = new CheckboxBoxPart<>("Blur background", "blurBackground");
         blurBackground.setValue(false);
         blurBackground.initialize(data);
         result.addGraphBoxPart(blurBackground);
 
-        addConfigurationInputsAndOutputs(skin, result);
+        addConfigurationInputsAndOutputs(result);
         return result;
     }
 }

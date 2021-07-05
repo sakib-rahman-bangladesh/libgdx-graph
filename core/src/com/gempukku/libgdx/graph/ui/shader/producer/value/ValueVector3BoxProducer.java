@@ -2,7 +2,6 @@ package com.gempukku.libgdx.graph.ui.shader.producer.value;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
@@ -14,6 +13,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPartImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.kotcrab.vis.ui.util.Validators;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 
 
@@ -37,7 +37,7 @@ public class ValueVector3BoxProducer<T extends FieldType> extends ValueGraphBoxP
     }
 
     private GraphBox<T> createGraphBox(Skin skin, String id, float v1, float v2, float v3) {
-        GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration, skin);
+        GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration);
         end.addGraphBoxPart(createValuePart(skin, v1, v2, v3));
 
         return end;
@@ -88,11 +88,11 @@ public class ValueVector3BoxProducer<T extends FieldType> extends ValueGraphBoxP
                 });
 
         HorizontalGroup horizontalGroup = new HorizontalGroup();
-        horizontalGroup.addActor(new Label("x", skin));
+        horizontalGroup.addActor(new VisLabel("x"));
         horizontalGroup.addActor(v1Input);
-        horizontalGroup.addActor(new Label("y", skin));
+        horizontalGroup.addActor(new VisLabel("y"));
         horizontalGroup.addActor(v2Input);
-        horizontalGroup.addActor(new Label("z", skin));
+        horizontalGroup.addActor(new VisLabel("z"));
         horizontalGroup.addActor(v3Input);
 
         GraphBoxPartImpl<T> colorPart = new GraphBoxPartImpl<T>(horizontalGroup,

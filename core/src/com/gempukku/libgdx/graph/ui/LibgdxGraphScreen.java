@@ -9,8 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
@@ -41,6 +39,8 @@ import com.kotcrab.vis.ui.widget.Menu;
 import com.kotcrab.vis.ui.widget.MenuBar;
 import com.kotcrab.vis.ui.widget.MenuItem;
 import com.kotcrab.vis.ui.widget.PopupMenu;
+import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisWindow;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
 import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
@@ -54,7 +54,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class LibgdxGraphScreen extends Table {
+public class LibgdxGraphScreen extends VisTable {
     public static GraphInClipboard graphInClipboard = new GraphInClipboard();
     public static NodesInClipboard nodesInClipboard = new NodesInClipboard();
 
@@ -63,7 +63,7 @@ public class LibgdxGraphScreen extends Table {
     private final TabbedPane tabbedPane;
     private GraphDesignTab<PipelineFieldType> graphDesignTab;
     private Skin skin;
-    private final Table insideTable;
+    private final VisTable insideTable;
 
     private MenuItem save;
     private MenuItem saveAs;
@@ -77,8 +77,8 @@ public class LibgdxGraphScreen extends Table {
     public LibgdxGraphScreen(Skin skin) {
         this.skin = skin;
         setFillParent(true);
-        insideTable = new Table(skin);
-        insideTable.add(new EmptyTabWidget(skin));
+        insideTable = new VisTable();
+        insideTable.add(new EmptyTabWidget());
 
         tabbedPane = new TabbedPane();
         tabbedPane.addListener(
@@ -313,7 +313,7 @@ public class LibgdxGraphScreen extends Table {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        PluginsDialog pluginsDialog = new PluginsDialog(skin);
+                        PluginsDialog pluginsDialog = new PluginsDialog();
                         getStage().addActor(pluginsDialog);
                         pluginsDialog.centerWindow();
                     }
@@ -348,7 +348,7 @@ public class LibgdxGraphScreen extends Table {
 
             for (GraphBox<?> graphBox : graphContainer.getGraphBoxes()) {
                 if (selectedNodes.contains(graphBox.getId()) && !graphBox.getId().equals("end")) {
-                    Window boxWindow = graphContainer.getBoxWindow(graphBox.getId());
+                    VisWindow boxWindow = graphContainer.getBoxWindow(graphBox.getId());
                     nodesData.add(
                             new NodesInClipboard.NodesData(
                                     new GraphNodeImpl(graphBox.getId(), graphBox.getData(), graphBox.getConfiguration()),
@@ -655,7 +655,7 @@ public class LibgdxGraphScreen extends Table {
     private void removeAllTabs() {
         tabbedPane.removeAll();
         insideTable.clearChildren();
-        insideTable.add(new EmptyTabWidget(skin));
+        insideTable.add(new EmptyTabWidget());
     }
 
     public void dispose() {

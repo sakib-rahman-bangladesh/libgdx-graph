@@ -4,10 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -20,6 +17,9 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPartImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.util.WhitePixel;
+import com.kotcrab.vis.ui.widget.VisImage;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.color.ColorPicker;
 import com.kotcrab.vis.ui.widget.color.ColorPickerAdapter;
 
@@ -42,7 +42,7 @@ public class ValueColorBoxProducer<T extends FieldType> extends ValueGraphBoxPro
     }
 
     private GraphBox<T> createGraphBox(Skin skin, String id, String value) {
-        GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration, skin);
+        GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration);
         end.addGraphBoxPart(createValuePart(skin, value));
 
         return end;
@@ -60,7 +60,7 @@ public class ValueColorBoxProducer<T extends FieldType> extends ValueGraphBoxPro
         };
         baseDrawable.setMinSize(20, 20);
 
-        final Image image = new Image(baseDrawable);
+        final VisImage image = new VisImage(baseDrawable);
         image.setColor(color);
 
         final ColorPicker picker = new ColorPicker(new ColorPickerAdapter() {
@@ -82,8 +82,8 @@ public class ValueColorBoxProducer<T extends FieldType> extends ValueGraphBoxPro
                 });
 
 
-        Table table = new Table();
-        table.add(new Label("Color", skin)).growX();
+        VisTable table = new VisTable();
+        table.add(new VisLabel("Color")).growX();
         table.add(image);
         table.row();
 

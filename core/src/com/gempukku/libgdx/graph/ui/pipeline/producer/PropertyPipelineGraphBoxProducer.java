@@ -37,7 +37,7 @@ public class PropertyPipelineGraphBoxProducer implements GraphBoxProducer<Pipeli
     public GraphBox<PipelineFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         final String name = data.getString("name");
         final PipelineFieldType propertyType = PipelineFieldType.valueOf(data.getString("type"));
-        GraphBoxImpl<PipelineFieldType> result = new GraphBoxImpl<PipelineFieldType>(id, new PropertyNodeConfiguration<>(name, propertyType), skin) {
+        GraphBoxImpl<PipelineFieldType> result = new GraphBoxImpl<PipelineFieldType>(id, new PropertyNodeConfiguration<>(name, propertyType)) {
             @Override
             public JsonValue getData() {
                 JsonValue result = super.getData();
@@ -48,9 +48,9 @@ public class PropertyPipelineGraphBoxProducer implements GraphBoxProducer<Pipeli
                 return result;
             }
         };
-        result.addOutputGraphPart(skin, new ValueGraphNodeOutput<>(name, propertyType));
+        result.addOutputGraphPart(new ValueGraphNodeOutput<>(name, propertyType));
         if (propertyType.isTexture()) {
-            TextureSettingsGraphBoxPart<ShaderFieldType> textureSettings = new TextureSettingsGraphBoxPart<>(skin);
+            TextureSettingsGraphBoxPart<ShaderFieldType> textureSettings = new TextureSettingsGraphBoxPart<>();
             textureSettings.initialize(data);
             result.addGraphBoxPart(textureSettings);
         }

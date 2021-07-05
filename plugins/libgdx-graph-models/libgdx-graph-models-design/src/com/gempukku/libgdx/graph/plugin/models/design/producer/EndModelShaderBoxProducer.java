@@ -27,10 +27,10 @@ public class EndModelShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        final ModelShaderPreviewBoxPart previewBoxPart = new ModelShaderPreviewBoxPart(skin);
+        final ModelShaderPreviewBoxPart previewBoxPart = new ModelShaderPreviewBoxPart();
         previewBoxPart.initialize(data);
 
-        GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, getConfiguration(), skin) {
+        GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, getConfiguration()) {
             @Override
             public void graphChanged(GraphChangedEvent event, boolean hasErrors, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
                 if (event.isData() || event.isStructure()) {
@@ -39,14 +39,14 @@ public class EndModelShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
             }
         };
 
-        addConfigurationInputsAndOutputs(skin, result);
-        SelectBoxPart<ShaderFieldType> cullingBox = new SelectBoxPart<>(skin, "Culling", "culling", BasicShader.Culling.values());
+        addConfigurationInputsAndOutputs(result);
+        SelectBoxPart<ShaderFieldType> cullingBox = new SelectBoxPart<>("Culling", "culling", BasicShader.Culling.values());
         cullingBox.initialize(data);
         result.addGraphBoxPart(cullingBox);
-        SelectBoxPart<ShaderFieldType> blendingBox = new SelectBoxPart<>(skin, "Blending", "blending", BasicShader.Blending.values());
+        SelectBoxPart<ShaderFieldType> blendingBox = new SelectBoxPart<>("Blending", "blending", BasicShader.Blending.values());
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);
-        SelectBoxPart<ShaderFieldType> depthTestBox = new SelectBoxPart<>(skin, "DepthTest", "depthTest", BasicShader.DepthTesting.values());
+        SelectBoxPart<ShaderFieldType> depthTestBox = new SelectBoxPart<>("DepthTest", "depthTest", BasicShader.DepthTesting.values());
         depthTestBox.initialize(data);
         result.addGraphBoxPart(depthTestBox);
 

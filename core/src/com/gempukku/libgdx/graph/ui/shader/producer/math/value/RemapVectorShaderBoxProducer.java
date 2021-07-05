@@ -1,9 +1,7 @@
 package com.gempukku.libgdx.graph.ui.shader.producer.math.value;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonValue;
@@ -14,6 +12,8 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPartImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
+import com.kotcrab.vis.ui.widget.VisSelectBox;
+import com.kotcrab.vis.ui.widget.VisTable;
 
 public class RemapVectorShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
     public RemapVectorShaderBoxProducer() {
@@ -33,15 +33,15 @@ public class RemapVectorShaderBoxProducer extends GraphBoxProducerImpl<ShaderFie
             w = data.getString("W", w);
         }
 
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
-        addConfigurationInputsAndOutputs(skin, result);
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+        addConfigurationInputsAndOutputs(result);
 
-        final SelectBox<String> xBox = createSelectBox(skin, x);
-        final SelectBox<String> yBox = createSelectBox(skin, y);
-        final SelectBox<String> zBox = createSelectBox(skin, z);
-        final SelectBox<String> wBox = createSelectBox(skin, w);
+        final VisSelectBox<String> xBox = createSelectBox(x);
+        final VisSelectBox<String> yBox = createSelectBox(y);
+        final VisSelectBox<String> zBox = createSelectBox(z);
+        final VisSelectBox<String> wBox = createSelectBox(w);
 
-        Table table = new Table(skin);
+        VisTable table = new VisTable();
         table.add("X: ");
         table.add(xBox);
         table.add("Y: ");
@@ -70,8 +70,8 @@ public class RemapVectorShaderBoxProducer extends GraphBoxProducerImpl<ShaderFie
         return result;
     }
 
-    private SelectBox<String> createSelectBox(Skin skin, String defaultValue) {
-        final SelectBox<String> result = new SelectBox<String>(skin);
+    private VisSelectBox<String> createSelectBox(String defaultValue) {
+        final VisSelectBox<String> result = new VisSelectBox<String>();
         result.setItems("0.0", "1.0", "X", "Y", "Z", "W");
         result.setSelected(defaultValue);
         result.setAlignment(Align.right);

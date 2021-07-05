@@ -16,9 +16,9 @@ public class AttributeUVBoxProducer extends GraphBoxProducerImpl<ShaderFieldType
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
-        addConfigurationInputsAndOutputs(skin, result);
-        SelectBoxPart<ShaderFieldType> attributeUV = new SelectBoxPart<>(skin, "Channel", "channel", "UV0", "UV1", "UV2", "UV3");
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+        addConfigurationInputsAndOutputs(result);
+        SelectBoxPart<ShaderFieldType> attributeUV = new SelectBoxPart<>("Channel", "channel", "UV0", "UV1", "UV2", "UV3");
         attributeUV.initialize(data);
         result.addGraphBoxPart(attributeUV);
         return result;

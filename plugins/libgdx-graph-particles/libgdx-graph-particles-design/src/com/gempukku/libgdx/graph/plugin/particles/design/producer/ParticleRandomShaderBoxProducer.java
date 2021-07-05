@@ -23,13 +23,13 @@ public class ParticleRandomShaderBoxProducer extends GraphBoxProducerImpl<Shader
             max = data.getFloat("max", max);
         }
 
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
-        FloatBoxPart<ShaderFieldType> minPart = new FloatBoxPart<ShaderFieldType>(skin, "Minimum", "min", min, null);
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+        FloatBoxPart<ShaderFieldType> minPart = new FloatBoxPart<ShaderFieldType>("Minimum", "min", min, null);
         result.addGraphBoxPart(minPart);
-        FloatBoxPart<ShaderFieldType> maxPart = new FloatBoxPart<ShaderFieldType>(skin, "Maximum", "max", max, null);
+        FloatBoxPart<ShaderFieldType> maxPart = new FloatBoxPart<ShaderFieldType>("Maximum", "max", max, null);
         result.addGraphBoxPart(maxPart);
 
-        addConfigurationInputsAndOutputs(skin, result);
+        addConfigurationInputsAndOutputs(result);
         return result;
     }
 }

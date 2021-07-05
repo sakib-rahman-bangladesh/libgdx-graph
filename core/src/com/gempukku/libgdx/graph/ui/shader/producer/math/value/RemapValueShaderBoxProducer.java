@@ -2,9 +2,7 @@ package com.gempukku.libgdx.graph.ui.shader.producer.math.value;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
@@ -17,6 +15,8 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxPartImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 import com.gempukku.libgdx.graph.util.SimpleNumberFormatter;
+import com.kotcrab.vis.ui.widget.VisSelectBox;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.talosvfx.talos.editor.widgets.CurveWidget;
 
 public class RemapValueShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
@@ -26,8 +26,8 @@ public class RemapValueShaderBoxProducer extends GraphBoxProducerImpl<ShaderFiel
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
-        addConfigurationInputsAndOutputs(skin, result);
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+        addConfigurationInputsAndOutputs(result);
 
         final CurveWidget curveWidget = new CurveWidget(skin);
 
@@ -65,7 +65,7 @@ public class RemapValueShaderBoxProducer extends GraphBoxProducerImpl<ShaderFiel
                         }
                 ));
 
-        final SelectBox<ClampMethod> clampMethodSelectBox = new SelectBox<ClampMethod>(skin);
+        final VisSelectBox<ClampMethod> clampMethodSelectBox = new VisSelectBox<ClampMethod>();
         clampMethodSelectBox.setItems(ClampMethod.values());
         if (data != null)
             clampMethodSelectBox.setSelected(ClampMethod.valueOf(data.getString("clamp", "Normal")));
@@ -77,7 +77,7 @@ public class RemapValueShaderBoxProducer extends GraphBoxProducerImpl<ShaderFiel
                     }
                 });
 
-        Table clampActor = new Table(skin);
+        VisTable clampActor = new VisTable();
         clampActor.add("Clamp method:").row();
         clampActor.add(clampMethodSelectBox).growX();
 

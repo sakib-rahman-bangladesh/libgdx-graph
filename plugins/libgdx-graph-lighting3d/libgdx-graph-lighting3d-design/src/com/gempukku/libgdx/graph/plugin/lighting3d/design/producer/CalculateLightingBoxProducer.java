@@ -16,13 +16,14 @@ public class CalculateLightingBoxProducer extends GraphBoxProducerImpl<ShaderFie
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
 
-        StringBoxPart<ShaderFieldType> envId = new StringBoxPart<>(skin, "Env id: ", "id");
-        envId.initialize(data, "");
+        StringBoxPart<ShaderFieldType> envId = new StringBoxPart<>("Env id: ", "id");
+        if (data != null)
+            envId.initialize(data, "");
         result.addGraphBoxPart(envId);
 
-        addConfigurationInputsAndOutputs(skin, result);
+        addConfigurationInputsAndOutputs(result);
         return result;
     }
 }

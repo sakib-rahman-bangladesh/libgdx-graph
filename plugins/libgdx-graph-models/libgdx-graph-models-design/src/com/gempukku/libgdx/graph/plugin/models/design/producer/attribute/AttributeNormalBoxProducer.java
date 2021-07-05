@@ -15,9 +15,9 @@ public class AttributeNormalBoxProducer extends GraphBoxProducerImpl<ShaderField
 
     @Override
     public GraphBoxImpl<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
-        addConfigurationInputsAndOutputs(skin, result);
-        SelectBoxPart<ShaderFieldType> coordinatesBox = new SelectBoxPart<>(skin, "Coordinates", "coordinates", "world", "object");
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+        addConfigurationInputsAndOutputs(result);
+        SelectBoxPart<ShaderFieldType> coordinatesBox = new SelectBoxPart<>("Coordinates", "coordinates", "world", "object");
         coordinatesBox.initialize(data);
         result.addGraphBoxPart(coordinatesBox);
         return result;

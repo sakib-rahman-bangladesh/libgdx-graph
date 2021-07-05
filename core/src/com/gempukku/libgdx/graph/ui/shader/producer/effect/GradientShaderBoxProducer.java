@@ -2,9 +2,7 @@ package com.gempukku.libgdx.graph.ui.shader.producer.effect;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
@@ -17,6 +15,8 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxPartImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 import com.gempukku.libgdx.graph.util.SimpleNumberFormatter;
+import com.kotcrab.vis.ui.widget.VisSelectBox;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.color.ColorPicker;
 import com.kotcrab.vis.ui.widget.color.ColorPickerAdapter;
 import com.talosvfx.talos.editor.widgets.GradientWidget;
@@ -29,8 +29,8 @@ public class GradientShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        final GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
-        addConfigurationInputsAndOutputs(skin, result);
+        final GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+        addConfigurationInputsAndOutputs(result);
 
         final GradientWidget gradientWidget = new GradientWidget();
         gradientWidget.setSize(300, 40);
@@ -94,7 +94,7 @@ public class GradientShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
                         }
                 ));
 
-        final SelectBox<ClampMethod> clampMethodSelectBox = new SelectBox<ClampMethod>(skin);
+        final VisSelectBox<ClampMethod> clampMethodSelectBox = new VisSelectBox<ClampMethod>();
         clampMethodSelectBox.setItems(ClampMethod.values());
         if (data != null)
             clampMethodSelectBox.setSelected(ClampMethod.valueOf(data.getString("clamp", "Normal")));
@@ -106,7 +106,7 @@ public class GradientShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
                     }
                 });
 
-        Table clampActor = new Table(skin);
+        VisTable clampActor = new VisTable();
         clampActor.add("Clamp method:").row();
         clampActor.add(clampMethodSelectBox).growX();
 

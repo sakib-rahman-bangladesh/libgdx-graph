@@ -1,10 +1,7 @@
 package com.gempukku.libgdx.graph.ui.graph.property;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.config.PropertyNodeConfiguration;
@@ -13,22 +10,25 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.producer.ValueGraphNodeOutput;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextField;
 
 
-public class PropertyBoxImpl<T extends FieldType> extends Table implements PropertyBox<T> {
+public class PropertyBoxImpl<T extends FieldType> extends VisTable implements PropertyBox<T> {
     private T propertyType;
     private PropertyDefaultBox propertyDefaultBox;
-    private TextField textField;
+    private VisTextField textField;
 
-    public PropertyBoxImpl(Skin skin, String name, T propertyType,
+    public PropertyBoxImpl(String name, T propertyType,
                            PropertyDefaultBox propertyDefaultBox) {
-        super(skin);
+        super();
         this.propertyType = propertyType;
         this.propertyDefaultBox = propertyDefaultBox;
 
-        textField = new TextField(name, skin);
-        Table headerTable = new Table(skin);
-        headerTable.add(new Label("Name: ", skin));
+        textField = new VisTextField(name);
+        VisTable headerTable = new VisTable();
+        headerTable.add(new VisLabel("Name: "));
         headerTable.add(textField).growX();
         textField.addListener(
                 new ChangeListener() {
@@ -73,7 +73,7 @@ public class PropertyBoxImpl<T extends FieldType> extends Table implements Prope
     @Override
     public GraphBox<T> createPropertyBox(Skin skin, String id, float x, float y) {
         final String name = getName();
-        GraphBoxImpl<T> result = new GraphBoxImpl<T>(id, new PropertyNodeConfiguration<T>(name, propertyType), skin) {
+        GraphBoxImpl<T> result = new GraphBoxImpl<T>(id, new PropertyNodeConfiguration<T>(name, propertyType)) {
             @Override
             public JsonValue getData() {
                 JsonValue result = new JsonValue(JsonValue.ValueType.object);
@@ -82,9 +82,9 @@ public class PropertyBoxImpl<T extends FieldType> extends Table implements Prope
                 return result;
             }
         };
-        result.addOutputGraphPart(skin, new ValueGraphNodeOutput<T>(name, propertyType));
+        result.addOutputGraphPart(new ValueGraphNodeOutput<T>(name, propertyType));
         if (propertyType.isTexture()) {
-            result.addGraphBoxPart(new TextureSettingsGraphBoxPart<T>(skin));
+            result.addGraphBoxPart(new TextureSettingsGraphBoxPart<T>());
         }
         return result;
     }

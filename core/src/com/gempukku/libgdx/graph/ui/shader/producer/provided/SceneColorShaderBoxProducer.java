@@ -16,9 +16,9 @@ public class SceneColorShaderBoxProducer extends GraphBoxProducerImpl<ShaderFiel
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
-        addConfigurationInputsAndOutputs(skin, result);
-        TextureSettingsGraphBoxPart<ShaderFieldType> textureSettingsPart = new TextureSettingsGraphBoxPart<>(skin);
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+        addConfigurationInputsAndOutputs(result);
+        TextureSettingsGraphBoxPart<ShaderFieldType> textureSettingsPart = new TextureSettingsGraphBoxPart<>();
         if (data != null)
             textureSettingsPart.initialize(data);
         result.addGraphBoxPart(textureSettingsPart);

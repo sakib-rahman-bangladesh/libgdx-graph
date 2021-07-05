@@ -7,14 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -35,7 +29,12 @@ import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.kotcrab.vis.ui.widget.MenuItem;
 import com.kotcrab.vis.ui.widget.PopupMenu;
 import com.kotcrab.vis.ui.widget.VisImageButton;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisScrollPane;
+import com.kotcrab.vis.ui.widget.VisSplitPane;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
+import com.kotcrab.vis.ui.widget.VisWindow;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 
 import java.util.LinkedList;
@@ -56,8 +55,8 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     private String title;
 
     private final VerticalGroup pipelineProperties;
-    private Table contentTable;
-    private Label validationLabel;
+    private VisTable contentTable;
+    private VisLabel validationLabel;
 
     private GraphValidator<GraphBox<T>, GraphConnection, PropertyBox<T>, T> graphValidator = new GraphValidator<>();
 
@@ -70,7 +69,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         this.id = id;
         this.title = title;
 
-        contentTable = new Table(skin);
+        contentTable = new VisTable();
         pipelineProperties = createPropertiesUI(skin);
         this.skin = skin;
         this.uiGraphConfigurations = uiGraphConfiguration;
@@ -103,16 +102,16 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
                 });
 
 
-        Table leftTable = new Table();
+        VisTable leftTable = new VisTable();
 
-        ScrollPane propertiesScroll = new ScrollPane(pipelineProperties, skin);
+        VisScrollPane propertiesScroll = new VisScrollPane(pipelineProperties);
         propertiesScroll.setFadeScrollBars(false);
 
         leftTable.add(propertiesScroll).grow().row();
         PreviewWidget previewWidget = new PreviewWidget(graphContainer);
         leftTable.add(previewWidget).growX().height(200).row();
         HorizontalGroup buttons = new HorizontalGroup();
-        TextButton center = new TextButton("Center", skin);
+        VisTextButton center = new VisTextButton("Center");
         center.addListener(
                 new ChangeListener() {
                     @Override
@@ -122,15 +121,16 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
                     }
                 });
         buttons.addActor(center);
-        validationLabel = new Label("Invalid", skin);
+        validationLabel = new VisLabel("Invalid");
         validationLabel.setColor(Color.RED);
         buttons.addActor(validationLabel);
         buttons.align(Align.left);
         leftTable.add(buttons).growX().row();
 
-        SplitPane splitPane = new SplitPane(leftTable, graphContainer, false, skin);
+        VisSplitPane splitPane = new VisSplitPane(leftTable, graphContainer, false);
 
         splitPane.setMaxSplitAmount(0.2f);
+        splitPane.setSplitAmount(0.2f);
 
         contentTable.add(splitPane).grow().row();
     }
@@ -271,7 +271,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
                             @Override
                             public void changed(ChangeEvent event, Actor actor) {
                                 PropertyBox<T> defaultPropertyBox = value.createDefaultPropertyBox(skin);
-                                addPropertyBox(skin, name, defaultPropertyBox);
+                                addPropertyBox(name, defaultPropertyBox);
                             }
                         });
                 menu.addItem(valueMenuItem);
@@ -317,9 +317,9 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     private VerticalGroup createPropertiesUI(final Skin skin) {
         final VerticalGroup pipelineProperties = new VerticalGroup();
         pipelineProperties.grow();
-        Table headerTable = new Table();
+        VisTable headerTable = new VisTable();
         headerTable.setBackground(skin.getDrawable("vis-blue"));
-        headerTable.add(new Label("Properties", skin)).growX();
+        headerTable.add(new VisLabel("Properties")).growX();
         final VisTextButton newPropertyButton = new VisTextButton("Add", "menu-bar");
         newPropertyButton.addListener(
                 new ClickListener(Input.Buttons.LEFT) {
@@ -335,22 +335,21 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         return pipelineProperties;
     }
 
-    public void addPropertyBox(Skin skin, String type, final PropertyBox<T> propertyBox) {
+    public void addPropertyBox(String type, final PropertyBox<T> propertyBox) {
         propertyBoxes.add(propertyBox);
         final Actor actor = propertyBox.getActor();
 
-        final Table table = new Table(skin);
+        final VisTable table = new VisTable();
         final Drawable window = skin.getDrawable("window");
         BaseDrawable wrapper = new BaseDrawable(window) {
             @Override
             public void draw(Batch batch, float x, float y, float width, float height) {
                 window.draw(batch, x, y, width, height);
-                ;
             }
         };
         wrapper.setTopHeight(3);
         table.setBackground(wrapper);
-        table.add(new Label(type, skin)).growX();
+        table.add(new VisLabel(type)).growX();
         VisImageButton removeButton = new VisImageButton("close-window");
         removeButton.addListener(
                 new ChangeListener() {
@@ -391,7 +390,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     }
 
     @Override
-    public Table getContentTable() {
+    public VisTable getContentTable() {
         return contentTable;
     }
 
@@ -404,7 +403,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         Vector2 tmp = new Vector2();
         graphContainer.getCanvasPosition(tmp);
         for (GraphBox<T> graphBox : graphContainer.getGraphBoxes()) {
-            Window window = graphContainer.getBoxWindow(graphBox.getId());
+            VisWindow window = graphContainer.getBoxWindow(graphBox.getId());
             JsonValue object = new JsonValue(JsonValue.ValueType.object);
             object.addChild("id", new JsonValue(graphBox.getId()));
             object.addChild("type", new JsonValue(graphBox.getConfiguration().getType()));

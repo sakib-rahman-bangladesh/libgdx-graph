@@ -16,12 +16,12 @@ public class UVFlipbookShaderBoxProducer extends GraphBoxProducerImpl<ShaderFiel
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(skin, id);
-        addConfigurationInputsAndOutputs(skin, result);
-        CheckboxBoxPart<ShaderFieldType> invertX = new CheckboxBoxPart<>(skin, "Invert X", "invertX");
+        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+        addConfigurationInputsAndOutputs(result);
+        CheckboxBoxPart<ShaderFieldType> invertX = new CheckboxBoxPart<>("Invert X", "invertX");
         invertX.initialize(data);
         result.addGraphBoxPart(invertX);
-        CheckboxBoxPart<ShaderFieldType> invertY = new CheckboxBoxPart<>(skin, "Invert Y", "invertY");
+        CheckboxBoxPart<ShaderFieldType> invertY = new CheckboxBoxPart<>("Invert Y", "invertY");
         invertY.initialize(data);
         result.addGraphBoxPart(invertY);
 

@@ -28,10 +28,10 @@ public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl<ShaderField
 
     @Override
     public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        final ScreenShaderPreviewBoxPart previewBoxPart = new ScreenShaderPreviewBoxPart(skin);
+        final ScreenShaderPreviewBoxPart previewBoxPart = new ScreenShaderPreviewBoxPart();
         previewBoxPart.initialize(data);
 
-        GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, getConfiguration(), skin) {
+        GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, getConfiguration()) {
             @Override
             public void graphChanged(GraphChangedEvent event, boolean hasErrors, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
                 if (event.isData() || event.isStructure()) {
@@ -40,8 +40,8 @@ public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl<ShaderField
             }
         };
 
-        addConfigurationInputsAndOutputs(skin, result);
-        SelectBoxPart<ShaderFieldType> blendingBox = new SelectBoxPart<>(skin, "Blending", "blending", BasicShader.Blending.values());
+        addConfigurationInputsAndOutputs(result);
+        SelectBoxPart<ShaderFieldType> blendingBox = new SelectBoxPart<>("Blending", "blending", BasicShader.Blending.values());
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);
 

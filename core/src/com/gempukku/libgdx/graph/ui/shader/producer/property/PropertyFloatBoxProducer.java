@@ -1,9 +1,7 @@
 package com.gempukku.libgdx.graph.ui.shader.producer.property;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
@@ -13,6 +11,8 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyDefaultBox;
 import com.kotcrab.vis.ui.util.Validators;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 
 
@@ -49,11 +49,11 @@ public class PropertyFloatBoxProducer implements PropertyBoxProducer<ShaderField
                     }
                 });
 
-        final Table table = new Table();
-        table.add(new Label("X ", skin));
+        final VisTable table = new VisTable();
+        table.add(new VisLabel("X "));
         table.add(v1Input).grow();
 
-        return new PropertyBoxImpl<ShaderFieldType>(skin,
+        return new PropertyBoxImpl<ShaderFieldType>(
                 name,
                 ShaderFieldType.Float,
                 new PropertyDefaultBox() {

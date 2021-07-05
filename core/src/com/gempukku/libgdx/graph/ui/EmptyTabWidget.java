@@ -1,13 +1,11 @@
 package com.gempukku.libgdx.graph.ui;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
 
-public class EmptyTabWidget extends Table {
-    public EmptyTabWidget(Skin skin) {
-        super(skin);
-        Label label = new Label("Credits:\nCurveWidget and GradientWidget credits go to authors of Talos project:\nhttps://github.com/rockbite/talos\nLicensed under: Apache License 2.0", skin);
+public class EmptyTabWidget extends VisTable {
+    public EmptyTabWidget() {
+        VisLabel label = new VisLabel("Credits:\nCurveWidget and GradientWidget credits go to authors of Talos project:\nhttps://github.com/rockbite/talos\nLicensed under: Apache License 2.0");
         add(label);
     }
 }
