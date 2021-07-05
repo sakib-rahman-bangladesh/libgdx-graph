@@ -26,22 +26,22 @@ public class ValueFloatBoxProducer<T extends FieldType> extends ValueGraphBoxPro
     public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         float v1 = data.getFloat("v1");
 
-        return createGraphBox(skin, id, v1);
+        return createGraphBox(id, v1);
     }
 
     @Override
     public GraphBox<T> createDefault(Skin skin, String id) {
-        return createGraphBox(skin, id, 0);
+        return createGraphBox(id, 0);
     }
 
-    private GraphBox<T> createGraphBox(Skin skin, String id, float v1) {
+    private GraphBox<T> createGraphBox(String id, float v1) {
         GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration);
-        end.addGraphBoxPart(createValuePart(skin, v1));
+        end.addGraphBoxPart(createValuePart(v1));
 
         return end;
     }
 
-    private GraphBoxPartImpl<T> createValuePart(Skin skin, float v1) {
+    private GraphBoxPartImpl<T> createValuePart(float v1) {
         final VisValidatableTextField v1Input = new VisValidatableTextField(Validators.FLOATS) {
             @Override
             public float getPrefWidth() {

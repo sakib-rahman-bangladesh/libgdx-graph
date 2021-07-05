@@ -24,22 +24,22 @@ public class ValueBooleanBoxProducer<T extends FieldType> extends ValueGraphBoxP
     public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         boolean v = data.getBoolean("v");
 
-        return createGraphBox(skin, id, v);
+        return createGraphBox(id, v);
     }
 
     @Override
     public GraphBox<T> createDefault(Skin skin, String id) {
-        return createGraphBox(skin, id, false);
+        return createGraphBox(id, false);
     }
 
-    private GraphBox<T> createGraphBox(Skin skin, String id, boolean v) {
+    private GraphBox<T> createGraphBox(String id, boolean v) {
         GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration);
-        end.addGraphBoxPart(createValuePart(skin, v));
+        end.addGraphBoxPart(createValuePart(v));
 
         return end;
     }
 
-    private GraphBoxPartImpl<T> createValuePart(Skin skin, boolean v) {
+    private GraphBoxPartImpl<T> createValuePart(boolean v) {
         HorizontalGroup horizontalGroup = new HorizontalGroup();
         final VisCheckBox checkBox = new VisCheckBox("Value");
         checkBox.addListener(

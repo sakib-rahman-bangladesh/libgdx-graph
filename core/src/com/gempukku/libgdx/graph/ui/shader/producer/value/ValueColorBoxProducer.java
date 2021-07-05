@@ -33,22 +33,22 @@ public class ValueColorBoxProducer<T extends FieldType> extends ValueGraphBoxPro
     public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         String value = data.getString("color");
 
-        return createGraphBox(skin, id, value);
+        return createGraphBox(id, value);
     }
 
     @Override
     public GraphBox<T> createDefault(Skin skin, String id) {
-        return createGraphBox(skin, id, "FFFFFFFF");
+        return createGraphBox(id, "FFFFFFFF");
     }
 
-    private GraphBox<T> createGraphBox(Skin skin, String id, String value) {
+    private GraphBox<T> createGraphBox(String id, String value) {
         GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration);
-        end.addGraphBoxPart(createValuePart(skin, value));
+        end.addGraphBoxPart(createValuePart(value));
 
         return end;
     }
 
-    private GraphBoxPartImpl<T> createValuePart(Skin skin, String value) {
+    private GraphBoxPartImpl<T> createValuePart(String value) {
         Color color = Color.valueOf(value);
 
         final TextureRegionDrawable drawable = new TextureRegionDrawable(WhitePixel.sharedInstance.texture);

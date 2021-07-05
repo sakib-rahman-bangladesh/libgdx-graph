@@ -28,22 +28,22 @@ public class ValueVector3BoxProducer<T extends FieldType> extends ValueGraphBoxP
         float v2 = data.getFloat("v2");
         float v3 = data.getFloat("v3");
 
-        return createGraphBox(skin, id, v1, v2, v3);
+        return createGraphBox(id, v1, v2, v3);
     }
 
     @Override
     public GraphBox<T> createDefault(Skin skin, String id) {
-        return createGraphBox(skin, id, 0, 0, 0);
+        return createGraphBox(id, 0, 0, 0);
     }
 
-    private GraphBox<T> createGraphBox(Skin skin, String id, float v1, float v2, float v3) {
+    private GraphBox<T> createGraphBox(String id, float v1, float v2, float v3) {
         GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration);
-        end.addGraphBoxPart(createValuePart(skin, v1, v2, v3));
+        end.addGraphBoxPart(createValuePart(v1, v2, v3));
 
         return end;
     }
 
-    private GraphBoxPartImpl<T> createValuePart(Skin skin, float v1, float v2, float v3) {
+    private GraphBoxPartImpl<T> createValuePart(float v1, float v2, float v3) {
         final VisValidatableTextField v1Input = new VisValidatableTextField(Validators.FLOATS) {
             @Override
             public float getPrefWidth() {

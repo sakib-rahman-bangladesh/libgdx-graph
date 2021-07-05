@@ -430,7 +430,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         graph.addChild("connections", connections);
 
         JsonValue properties = new JsonValue(JsonValue.ValueType.array);
-        for (PropertyBox propertyBox : propertyBoxes) {
+        for (PropertyBox<T> propertyBox : propertyBoxes) {
             JsonValue property = new JsonValue(JsonValue.ValueType.object);
             property.addChild("name", new JsonValue(propertyBox.getName()));
             property.addChild("type", new JsonValue(propertyBox.getType().getName()));
