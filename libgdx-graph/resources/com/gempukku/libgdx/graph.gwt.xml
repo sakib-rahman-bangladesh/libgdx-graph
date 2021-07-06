@@ -5,6 +5,12 @@
 	<source path="graph"/>
 
 	<!-- GLSL fragments -->
+	<extend-configuration-property name="gdx.files.classpath"
+								   value="glsl/fragment/blinn-phong/directionalLightContribution.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath"
+								   value="glsl/fragment/blinn-phong/pointLightContribution.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath"
+								   value="glsl/fragment/blinn-phong/spotLightContribution.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/common.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/perlinNoise2d.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/perlinNoise3d.glsl"/>

@@ -25,13 +25,13 @@ import com.gempukku.libgdx.graph.shader.node.ConfigurationShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.util.LibGDXCollections;
 
-public class PhongLightingShaderNodeBuilder extends ConfigurationShaderNodeBuilder {
+public class BlinnPhongLightingShaderNodeBuilder extends ConfigurationShaderNodeBuilder {
     private int maxNumberOfDirectionalLights;
     private int maxNumberOfPointLights;
     private int maxNumberOfSpotlights;
 
-    public PhongLightingShaderNodeBuilder(int maxNumberOfDirectionalLights, int maxNumberOfPointLights, int maxNumberOfSpotlights) {
-        super(new PhongLightingShaderNodeConfiguration());
+    public BlinnPhongLightingShaderNodeBuilder(int maxNumberOfDirectionalLights, int maxNumberOfPointLights, int maxNumberOfSpotlights) {
+        super(new BlinnPhongLightingShaderNodeConfiguration());
         this.maxNumberOfDirectionalLights = maxNumberOfDirectionalLights;
         this.maxNumberOfPointLights = maxNumberOfPointLights;
         this.maxNumberOfSpotlights = maxNumberOfSpotlights;
@@ -89,11 +89,11 @@ public class PhongLightingShaderNodeBuilder extends ConfigurationShaderNodeBuild
         String lightingVariable = "lighting_" + nodeId;
         fragmentShaderBuilder.addMainLine("Lighting " + lightingVariable + " = Lighting(vec3(0.0), vec3(0.0));");
         if (numDirectionalLights > 0)
-            fragmentShaderBuilder.addMainLine(lightingVariable + " = getDirectionalPhongLightContribution(" + position + ", " + normal + ", " + shininess + ", " + lightingVariable + ");");
+            fragmentShaderBuilder.addMainLine(lightingVariable + " = getDirectionalBlinnPhongLightContribution(" + position + ", " + normal + ", " + shininess + ", " + lightingVariable + ");");
         if (numPointLights > 0)
-            fragmentShaderBuilder.addMainLine(lightingVariable + " = getPointPhongLightContribution(" + position + ", " + normal + ", " + shininess + ", " + lightingVariable + ");");
+            fragmentShaderBuilder.addMainLine(lightingVariable + " = getPointBlinnPhongLightContribution(" + position + ", " + normal + ", " + shininess + ", " + lightingVariable + ");");
         if (numSpotLights > 0)
-            fragmentShaderBuilder.addMainLine(lightingVariable + " = getSpotPhongLightContribution(" + position + ", " + normal + ", " + shininess + ", " + lightingVariable + ");");
+            fragmentShaderBuilder.addMainLine(lightingVariable + " = getSpotBlinnPhongLightContribution(" + position + ", " + normal + ", " + shininess + ", " + lightingVariable + ");");
 
         ShaderFieldType resultType = ShaderFieldType.Vector3;
         ObjectMap<String, DefaultFieldOutput> result = new ObjectMap<>();
@@ -157,14 +157,14 @@ public class PhongLightingShaderNodeBuilder extends ConfigurationShaderNodeBuild
                             }
                         }
                     });
-            if (!fragmentShaderBuilder.containsFunction("getSpotPhongLightContribution")) {
-                fragmentShaderBuilder.addFunction("getSpotPhongLightContribution",
-                        GLSLFragmentReader.getFragment("phong/spotLightContribution",
+            if (!fragmentShaderBuilder.containsFunction("getSpotBlinnPhongLightContribution")) {
+                fragmentShaderBuilder.addFunction("getSpotBlinnPhongLightContribution",
+                        GLSLFragmentReader.getFragment("blinn-phong/spotLightContribution",
                                 LibGDXCollections.singletonMap("NUM_SPOT_LIGHTS", String.valueOf(numSpotLights))));
             }
         } else {
-            if (!fragmentShaderBuilder.containsFunction("getSpotPhongLightContribution")) {
-                fragmentShaderBuilder.addFunction("getSpotPhongLightContribution",
+            if (!fragmentShaderBuilder.containsFunction("getSpotBlinnPhongLightContribution")) {
+                fragmentShaderBuilder.addFunction("getSpotBlinnPhongLightContribution",
                         "Lighting getSpotLightContribution(vec4 pos, vec3 normal, float shininess, Lighting lighting) {\n" +
                                 "  return lighting;\n" +
                                 "}\n");
@@ -206,14 +206,14 @@ public class PhongLightingShaderNodeBuilder extends ConfigurationShaderNodeBuild
                             }
                         }
                     });
-            if (!fragmentShaderBuilder.containsFunction("getPointPhongLightContribution")) {
-                fragmentShaderBuilder.addFunction("getPointPhongLightContribution",
-                        GLSLFragmentReader.getFragment("phong/pointLightContribution",
+            if (!fragmentShaderBuilder.containsFunction("getPointBlinnPhongLightContribution")) {
+                fragmentShaderBuilder.addFunction("getPointBlinnPhongLightContribution",
+                        GLSLFragmentReader.getFragment("blinn-phong/pointLightContribution",
                                 LibGDXCollections.singletonMap("NUM_POINT_LIGHTS", String.valueOf(numPointLights))));
             }
         } else {
-            if (!fragmentShaderBuilder.containsFunction("getPointPhongLightContribution")) {
-                fragmentShaderBuilder.addFunction("getPointPhongLightContribution",
+            if (!fragmentShaderBuilder.containsFunction("getPointBlinnPhongLightContribution")) {
+                fragmentShaderBuilder.addFunction("getPointBlinnPhongLightContribution",
                         "Lighting getPointLightContribution(vec4 pos, vec3 normal, float shininess,  lighting) {\n" +
                                 "  return lighting;\n" +
                                 "}\n");
@@ -255,14 +255,14 @@ public class PhongLightingShaderNodeBuilder extends ConfigurationShaderNodeBuild
                             }
                         }
                     });
-            if (!fragmentShaderBuilder.containsFunction("getDirectionalPhongLightContribution")) {
-                fragmentShaderBuilder.addFunction("getDirectionalPhongLightContribution",
-                        GLSLFragmentReader.getFragment("phong/directionalLightContribution",
+            if (!fragmentShaderBuilder.containsFunction("getDirectionalBlinnPhongLightContribution")) {
+                fragmentShaderBuilder.addFunction("getDirectionalBlinnPhongLightContribution",
+                        GLSLFragmentReader.getFragment("blinn-phong/directionalLightContribution",
                                 LibGDXCollections.singletonMap("NUM_DIRECTIONAL_LIGHTS", String.valueOf(numDirectionalLights))));
             }
         } else {
-            if (!fragmentShaderBuilder.containsFunction("getDirectionalPhongLightContribution")) {
-                fragmentShaderBuilder.addFunction("getDirectionalPhongLightContribution",
+            if (!fragmentShaderBuilder.containsFunction("getDirectionalBlinnPhongLightContribution")) {
+                fragmentShaderBuilder.addFunction("getDirectionalBlinnPhongLightContribution",
                         "Lighting getDirectionalLightContribution(vec4 pos, vec3 normal, float shininess, Lighting lighting) {\n" +
                                 "  return lighting;\n" +
                                 "}\n");
