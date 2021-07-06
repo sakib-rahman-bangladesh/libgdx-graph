@@ -3,7 +3,7 @@ Lighting getPointBlinnPhongLightContribution(vec3 pos, vec3 N, float shininess, 
     for (int i = 0; i < NUM_POINT_LIGHTS; i++) {
         vec3 L = u_pointLights[i].position - pos.xyz;
         float distanceSquared = dot(L, L);
-        float attenuation = 1.0 / distanceSquared;
+        float attenuation = 1.0 / (1.0 + distanceSquared);
 
         L = normalize(L);
         vec3 H = normalize(L + V);

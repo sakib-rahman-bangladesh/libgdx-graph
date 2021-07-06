@@ -3,7 +3,7 @@ Lighting getSpotPhongLightContribution(vec3 pos, vec3 N, float shininess, Lighti
     for (int i = 0; i < NUM_SPOT_LIGHTS; i++) {
         vec3 L = u_spotLights[i].position - pos.xyz;
         float distanceSquared = dot(L, L);
-        float attenuation = 1.0 / distanceSquared;
+        float attenuation = 1.0 / (1.0 + distanceSquared);
 
         L = normalize(L);
 
