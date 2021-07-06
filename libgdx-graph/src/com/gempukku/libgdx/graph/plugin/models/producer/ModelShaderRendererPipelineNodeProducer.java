@@ -89,7 +89,6 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
             private void initializeDepthShaders() {
                 for (ShaderGroup shaderGroup : opaqueShaderGroups) {
-                    GraphShader colorShader = shaderGroup.getColorShader();
                     shaderGroup.initializeDepthShader();
                 }
             }

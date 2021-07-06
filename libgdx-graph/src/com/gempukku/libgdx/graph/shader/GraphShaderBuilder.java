@@ -230,7 +230,7 @@ public class GraphShaderBuilder {
     private static void buildDepthFragmentShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder,
                                                  GraphConfiguration... graphConfigurations) {
         fragmentShaderBuilder.addUniformVariable("u_cameraClipping", "vec2", true, UniformSetters.cameraClipping);
-        fragmentShaderBuilder.addUniformVariable("u_cameraPosition", "vec3", true, UniformSetters.cameraPosition);
+        vertexShaderBuilder.addUniformVariable("u_cameraPosition", "vec3", true, UniformSetters.cameraPosition);
         fragmentShaderBuilder.addFunction("packFloatToVec3", GLSLFragmentReader.getFragment("packFloatToVec3"));
 
         // Get position
@@ -242,6 +242,13 @@ public class GraphShaderBuilder {
 
             fragmentShaderBuilder.addVaryingVariable("v_position_world", "vec3");
         }
+        if (!vertexShaderBuilder.hasVaryingVariable("v_camera_distance")) {
+            vertexShaderBuilder.addMainLine("// Camera distance");
+            vertexShaderBuilder.addVaryingVariable("v_camera_distance", "float");
+            vertexShaderBuilder.addMainLine("v_camera_distance = distance(v_position_world, u_cameraPosition);");
+
+            fragmentShaderBuilder.addVaryingVariable("v_camera_distance", "float");
+        }
 
         ObjectMap<String, ObjectMap<String, GraphShaderNodeBuilder.FieldOutput>> fragmentNodeOutputs = new ObjectMap<>();
         GraphShaderNodeBuilder.FieldOutput alphaField = getOutput(findInputVertices(graph, "end", "alpha"),
@@ -251,7 +258,7 @@ public class GraphShaderBuilder {
                 designTime, true, graph, graphShader, graphShader, fragmentNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, graphConfigurations);
         String alphaClip = (alphaClipField != null) ? alphaClipField.getRepresentation() : "0.0";
         applyAlphaDiscard(fragmentShaderBuilder, alphaField, alpha, alphaClipField, alphaClip);
-        fragmentShaderBuilder.addMainLine("gl_FragColor = vec4(packFloatToVec3(distance(v_position_world, u_cameraPosition), u_cameraClipping.x, u_cameraClipping.y), 1.0);");
+        fragmentShaderBuilder.addMainLine("gl_FragColor = vec4(packFloatToVec3(v_camera_distance, u_cameraClipping.x, u_cameraClipping.y), 1.0);");
     }
 
     private static void buildSpriteFragmentShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
