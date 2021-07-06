@@ -4,50 +4,25 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBufferImpl;
 import com.gempukku.libgdx.graph.pipeline.TextureFrameBuffer;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 
-import java.util.Iterator;
-
 public class RenderPipelineImpl implements RenderPipeline {
-    private final BufferCopyHelper bufferCopyHelper = new BufferCopyHelper();
+    private final BufferCopyHelper bufferCopyHelper;
+    private final TextureFrameBufferCache textureFrameBufferCache;
     private final RenderPipelineBufferImpl defaultBuffer = new RenderPipelineBufferImpl();
 
-    private Array<TextureFrameBuffer> oldFrameBuffers = new Array<>();
-    private Array<TextureFrameBuffer> newFrameBuffers = new Array<>();
-
-    public void startFrame() {
-    }
-
-    public void endFrame() {
-        for (FrameBuffer freeFrameBuffer : oldFrameBuffers) {
-            freeFrameBuffer.dispose();
-        }
-        oldFrameBuffers.clear();
-        oldFrameBuffers.addAll(newFrameBuffers);
-        newFrameBuffers.clear();
-    }
-
-    public void cleanup() {
-        for (FrameBuffer freeFrameBuffer : oldFrameBuffers) {
-            freeFrameBuffer.dispose();
-        }
-        for (FrameBuffer freeFrameBuffer : newFrameBuffers) {
-            freeFrameBuffer.dispose();
-        }
-        oldFrameBuffers.clear();
-        newFrameBuffers.clear();
-        bufferCopyHelper.dispose();
+    public RenderPipelineImpl(BufferCopyHelper bufferCopyHelper, TextureFrameBufferCache textureFrameBufferCache) {
+        this.bufferCopyHelper = bufferCopyHelper;
+        this.textureFrameBufferCache = textureFrameBufferCache;
     }
 
     @Override
     public RenderPipelineBufferImpl initializeDefaultBuffer(int width, int height, Pixmap.Format format) {
-        defaultBuffer.setColorBuffer(getOrCreateFrameBuffer(width, height, format));
+        defaultBuffer.setColorBuffer(textureFrameBufferCache.getOrCreateFrameBuffer(width, height, format));
         return defaultBuffer;
     }
 
@@ -55,7 +30,7 @@ public class RenderPipelineImpl implements RenderPipeline {
     public void enrichWithDepthBuffer(RenderPipelineBuffer renderPipelineBuffer) {
         RenderPipelineBufferImpl buffer = (RenderPipelineBufferImpl) renderPipelineBuffer;
         if (buffer.getDepthBuffer() == null) {
-            TextureFrameBuffer depthBuffer = getOrCreateFrameBuffer(
+            TextureFrameBuffer depthBuffer = textureFrameBufferCache.getOrCreateFrameBuffer(
                     buffer.getWidth(), buffer.getHeight(),
                     renderPipelineBuffer.getColorBufferTexture().getTextureData().getFormat());
             depthBuffer.begin();
@@ -75,42 +50,19 @@ public class RenderPipelineImpl implements RenderPipeline {
 
     @Override
     public RenderPipelineBufferImpl getNewFrameBuffer(int width, int height, Pixmap.Format format) {
-        TextureFrameBuffer frameBuffer = getOrCreateFrameBuffer(width, height, format);
+        TextureFrameBuffer frameBuffer = textureFrameBufferCache.getOrCreateFrameBuffer(width, height, format);
         RenderPipelineBufferImpl renderPipelineBuffer = new RenderPipelineBufferImpl();
         renderPipelineBuffer.setColorBuffer(frameBuffer);
         return renderPipelineBuffer;
     }
 
-    private TextureFrameBuffer getOrCreateFrameBuffer(int width, int height, Pixmap.Format format) {
-        TextureFrameBuffer buffer = extractFrameBuffer(width, height, this.newFrameBuffers);
-        if (buffer != null)
-            return buffer;
-        buffer = extractFrameBuffer(width, height, this.oldFrameBuffers);
-        if (buffer != null)
-            return buffer;
-
-        return new TextureFrameBuffer(width, height, format);
-    }
-
-    private TextureFrameBuffer extractFrameBuffer(int width, int height, Array<TextureFrameBuffer> frameBuffers) {
-        Iterator<TextureFrameBuffer> iterator = frameBuffers.iterator();
-        while (iterator.hasNext()) {
-            TextureFrameBuffer buffer = iterator.next();
-            if (buffer.getWidth() == width && buffer.getHeight() == height) {
-                iterator.remove();
-                return buffer;
-            }
-        }
-        return null;
-    }
-
     @Override
     public void returnFrameBuffer(RenderPipelineBuffer frameBuffer) {
         RenderPipelineBufferImpl buffer = (RenderPipelineBufferImpl) frameBuffer;
-        newFrameBuffers.add(buffer.getColorBuffer());
+        textureFrameBufferCache.returnBuffer(buffer.getColorBuffer());
         TextureFrameBuffer depthBuffer = buffer.getDepthBuffer();
         if (depthBuffer != null) {
-            newFrameBuffers.add(depthBuffer);
+            textureFrameBufferCache.returnBuffer(depthBuffer);
             buffer.setDepthBuffer(null);
         }
     }
@@ -140,9 +92,5 @@ public class RenderPipelineImpl implements RenderPipeline {
 
     public RenderPipelineBuffer getDefaultBuffer() {
         return defaultBuffer;
-    }
-
-    public void dispose() {
-        cleanup();
     }
 }

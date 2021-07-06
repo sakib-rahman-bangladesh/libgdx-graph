@@ -8,6 +8,7 @@ import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.pipeline.PipelineProperty;
 import com.gempukku.libgdx.graph.pipeline.PipelinePropertySource;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
+import com.gempukku.libgdx.graph.pipeline.PipelineRendererResources;
 import com.gempukku.libgdx.graph.pipeline.RenderOutput;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.producer.FullScreenRender;
@@ -17,7 +18,6 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNode;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.node.EndPipelineNode;
 import com.gempukku.libgdx.graph.plugin.PluginRegistryImpl;
 import com.gempukku.libgdx.graph.time.TimeProvider;
-import com.gempukku.libgdx.graph.util.FullScreenRenderImpl;
 
 public class PipelineRendererImpl implements PipelineRenderer {
     private TimeProvider timeProvider;
@@ -26,18 +26,34 @@ public class PipelineRendererImpl implements PipelineRenderer {
     private EndPipelineNode endNode;
     private PipelineRenderingContextImpl pipelineRenderingContext;
     private PluginRegistryImpl pluginRegistry;
+    private boolean ownsResources;
+    private PipelineRendererResources resources;
 
-    public PipelineRendererImpl(PluginRegistryImpl pluginRegistry, TimeProvider timeProvider, Iterable<PipelineNode> nodes, ObjectMap<String, WritablePipelineProperty> pipelinePropertyMap, EndPipelineNode endNode) {
+    public PipelineRendererImpl(PluginRegistryImpl pluginRegistry, TimeProvider timeProvider,
+                                Iterable<PipelineNode> nodes, ObjectMap<String, WritablePipelineProperty> pipelinePropertyMap, EndPipelineNode endNode,
+                                PipelineRendererResources resources) {
         this.pluginRegistry = pluginRegistry;
         this.timeProvider = timeProvider;
         this.nodes = nodes;
         this.pipelinePropertyMap = pipelinePropertyMap;
         this.endNode = endNode;
+        if (resources != null) {
+            ownsResources = false;
+            this.resources = resources;
+        } else {
+            ownsResources = true;
+            this.resources = new PipelineRendererResources();
+        }
         pipelineRenderingContext = new PipelineRenderingContextImpl();
 
         for (PipelineNode node : nodes) {
             node.initializePipeline(pipelineRenderingContext);
         }
+    }
+
+    public PipelineRendererImpl(PluginRegistryImpl pluginRegistry, TimeProvider timeProvider,
+                                Iterable<PipelineNode> nodes, ObjectMap<String, WritablePipelineProperty> pipelinePropertyMap, EndPipelineNode endNode) {
+        this(pluginRegistry, timeProvider, nodes, pipelinePropertyMap, endNode, null);
     }
 
     @Override
@@ -82,6 +98,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
     @Override
     public void render(final RenderOutput renderOutput) {
         pipelineRenderingContext.setRenderOutput(renderOutput);
+        if (ownsResources)
+            resources.startFrame();
 
         for (PipelineNode node : nodes) {
             node.startFrame();
@@ -97,6 +115,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
         for (PipelineNode node : nodes) {
             node.endFrame();
         }
+        if (ownsResources)
+            resources.endFrame();
     }
 
     @Override
@@ -104,6 +124,8 @@ public class PipelineRendererImpl implements PipelineRenderer {
         for (PipelineNode node : nodes) {
             node.dispose();
         }
+        if (ownsResources)
+            resources.dispose();
         pipelineRenderingContext.dispose();
         pluginRegistry.dispose();
     }
@@ -111,7 +133,6 @@ public class PipelineRendererImpl implements PipelineRenderer {
     private class PipelineRenderingContextImpl implements PipelineRenderingContext, PipelineInitializationFeedback, Disposable {
         private RenderContext renderContext = new RenderContext(new DefaultTextureBinder(DefaultTextureBinder.LRU, 1));
         private RenderOutput renderOutput;
-        private FullScreenRenderImpl fullScreenRender = new FullScreenRenderImpl();
 
         public void setRenderOutput(RenderOutput renderOutput) {
             this.renderOutput = renderOutput;
@@ -137,6 +158,16 @@ public class PipelineRendererImpl implements PipelineRenderer {
         }
 
         @Override
+        public TextureFrameBufferCache getTextureBufferCache() {
+            return resources.getTextureFrameBufferCache();
+        }
+
+        @Override
+        public BufferCopyHelper getBufferCopyHelper() {
+            return resources.getBufferCopyHelper();
+        }
+
+        @Override
         public PipelinePropertySource getPipelinePropertySource() {
             return PipelineRendererImpl.this;
         }
@@ -153,12 +184,12 @@ public class PipelineRendererImpl implements PipelineRenderer {
 
         @Override
         public FullScreenRender getFullScreenRender() {
-            return fullScreenRender;
+            return resources.getFullScreenRender();
         }
 
         @Override
         public void dispose() {
-            fullScreenRender.dispose();
+
         }
     }
 }

@@ -13,6 +13,7 @@ import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.impl.RenderPipelineImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.producer.node.OncePerFrameJobPipelineNode;
+import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineInitializationFeedback;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineRequirements;
 
 public class StartPipelineNode extends OncePerFrameJobPipelineNode {
@@ -25,8 +26,12 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
         super(configuration, inputFields);
         color = (FieldOutput<Color>) inputFields.get("background");
         size = (FieldOutput<Vector2>) inputFields.get("size");
+    }
 
-        renderPipeline = new RenderPipelineImpl();
+    @Override
+    public void initializePipeline(PipelineInitializationFeedback pipelineInitializationFeedback) {
+        renderPipeline = new RenderPipelineImpl(pipelineInitializationFeedback.getBufferCopyHelper(),
+                pipelineInitializationFeedback.getTextureBufferCache());
     }
 
     @Override
@@ -38,7 +43,6 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
 
         int width = MathUtils.round(bufferX);
         int height = MathUtils.round(bufferY);
-        renderPipeline.startFrame();
 
         RenderPipelineBuffer frameBuffer = renderPipeline.initializeDefaultBuffer(width, height, Pixmap.Format.RGB888);
         frameBuffer.beginColor();
@@ -49,16 +53,5 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
         OutputValue<RenderPipeline> output = outputValues.get("output");
         if (output != null)
             output.setValue(renderPipeline);
-    }
-
-    @Override
-    public void endFrame() {
-        renderPipeline.endFrame();
-        super.endFrame();
-    }
-
-    @Override
-    public void dispose() {
-        renderPipeline.dispose();
     }
 }
