@@ -85,15 +85,17 @@ public class PhongLightingShaderNodeBuilder extends ConfigurationShaderNodeBuild
         String ambientOcclusion = ambientOcclusionValue != null ? ambientOcclusionValue.getRepresentation() : "1.0";
         String shininess = shininessValue != null ? shininessValue.getRepresentation() : "32.0";
 
-        fragmentShaderBuilder.addMainLine("// Calculate Lighting node");
+        fragmentShaderBuilder.addMainLine("// Phong Lighting node");
         String lightingVariable = "lighting_" + nodeId;
+        String normalVariable = "normal_" + nodeId;
         fragmentShaderBuilder.addMainLine("Lighting " + lightingVariable + " = Lighting(vec3(0.0), vec3(0.0));");
+        fragmentShaderBuilder.addMainLine("vec3 " + normalVariable + " = normalize(" + normal + ");");
         if (numDirectionalLights > 0)
-            fragmentShaderBuilder.addMainLine(lightingVariable + " = getDirectionalPhongLightContribution(" + position + ", " + normal + ", " + shininess + ", " + lightingVariable + ");");
+            fragmentShaderBuilder.addMainLine(lightingVariable + " = getDirectionalPhongLightContribution(" + position + ", " + normalVariable + ", " + shininess + ", " + lightingVariable + ");");
         if (numPointLights > 0)
-            fragmentShaderBuilder.addMainLine(lightingVariable + " = getPointPhongLightContribution(" + position + ", " + normal + ", " + shininess + ", " + lightingVariable + ");");
+            fragmentShaderBuilder.addMainLine(lightingVariable + " = getPointPhongLightContribution(" + position + ", " + normalVariable + ", " + shininess + ", " + lightingVariable + ");");
         if (numSpotLights > 0)
-            fragmentShaderBuilder.addMainLine(lightingVariable + " = getSpotPhongLightContribution(" + position + ", " + normal + ", " + shininess + ", " + lightingVariable + ");");
+            fragmentShaderBuilder.addMainLine(lightingVariable + " = getSpotPhongLightContribution(" + position + ", " + normalVariable + ", " + shininess + ", " + lightingVariable + ");");
 
         ShaderFieldType resultType = ShaderFieldType.Vector3;
         ObjectMap<String, DefaultFieldOutput> result = new ObjectMap<>();

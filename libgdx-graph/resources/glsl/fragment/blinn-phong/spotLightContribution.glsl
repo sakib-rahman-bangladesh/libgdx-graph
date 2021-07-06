@@ -1,6 +1,5 @@
 Lighting getSpotBlinnPhongLightContribution(vec3 pos, vec3 N, float shininess, Lighting lighting) {
     vec3 V = normalize(u_cameraPosition.xyz - pos.xyz);
-    N = normalize(N);
     for (int i = 0; i < NUM_SPOT_LIGHTS; i++) {
         vec3 L = u_spotLights[i].position - pos.xyz;
         float distanceSquared = dot(L, L);

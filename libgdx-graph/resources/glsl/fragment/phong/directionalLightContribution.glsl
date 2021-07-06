@@ -1,6 +1,5 @@
 Lighting getDirectionalPhongLightContribution(vec3 pos, vec3 N, float shininess, Lighting lighting) {
     vec3 V = normalize(u_cameraPosition.xyz - pos.xyz);
-    N = normalize(N);
     for (int i = 0; i < NUM_DIRECTIONAL_LIGHTS; i++) {
         vec3 L = -u_dirLights[i].direction;
         vec3 R = reflect(-L, N);
