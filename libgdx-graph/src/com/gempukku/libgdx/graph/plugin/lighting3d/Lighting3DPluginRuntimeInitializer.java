@@ -5,8 +5,8 @@ import com.gempukku.libgdx.graph.plugin.PluginRegistryImpl;
 import com.gempukku.libgdx.graph.plugin.PluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.plugin.lighting3d.producer.AmbientLightShaderNodeBuilder;
 import com.gempukku.libgdx.graph.plugin.lighting3d.producer.ApplyNormalMapShaderNodeBuilder;
-import com.gempukku.libgdx.graph.plugin.lighting3d.producer.CalculateLightingShaderNodeBuilder;
 import com.gempukku.libgdx.graph.plugin.lighting3d.producer.DirectionalLightShaderNodeBuilder;
+import com.gempukku.libgdx.graph.plugin.lighting3d.producer.PhongLightingShaderNodeBuilder;
 import com.gempukku.libgdx.graph.plugin.lighting3d.producer.PointLightShaderNodeBuilder;
 import com.gempukku.libgdx.graph.plugin.lighting3d.producer.SpotLightShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
@@ -31,7 +31,7 @@ public class Lighting3DPluginRuntimeInitializer implements PluginRuntimeInitiali
 
     @Override
     public void initialize(PluginRegistry pluginRegistry) {
-        CommonShaderConfiguration.register(new CalculateLightingShaderNodeBuilder(maxNumberOfDirectionalLights, maxNumberOfPointLights, maxNumberOfSpotlights));
+        CommonShaderConfiguration.register(new PhongLightingShaderNodeBuilder(maxNumberOfDirectionalLights, maxNumberOfPointLights, maxNumberOfSpotlights));
         CommonShaderConfiguration.register(new ApplyNormalMapShaderNodeBuilder());
         CommonShaderConfiguration.register(new AmbientLightShaderNodeBuilder());
         CommonShaderConfiguration.register(new DirectionalLightShaderNodeBuilder());

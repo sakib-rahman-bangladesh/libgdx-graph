@@ -5,9 +5,9 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 
-public class CalculateLightingShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
-    public CalculateLightingShaderNodeConfiguration() {
-        super("Lighting", "Calculate lighting", "Lighting");
+public class PhongLightingShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+    public PhongLightingShaderNodeConfiguration() {
+        super("PhongLighting", "Phong lighting", "Lighting");
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("position", "Position", true, ShaderFieldType.Vector3));
         addNodeInput(
@@ -18,6 +18,8 @@ public class CalculateLightingShaderNodeConfiguration extends NodeConfigurationI
                 new GraphNodeInputImpl<ShaderFieldType>("emission", "Emission", false, ShaderFieldType.Vector4, ShaderFieldType.Vector3));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("specular", "Specular", false, ShaderFieldType.Vector4, ShaderFieldType.Vector3));
+        addNodeInput(
+                new GraphNodeInputImpl<ShaderFieldType>("ambientOcclusion", "A.Occlusion", false, ShaderFieldType.Float));
         addNodeInput(
                 new GraphNodeInputImpl<ShaderFieldType>("shininess", "Shininess", false, ShaderFieldType.Float));
         addNodeOutput(

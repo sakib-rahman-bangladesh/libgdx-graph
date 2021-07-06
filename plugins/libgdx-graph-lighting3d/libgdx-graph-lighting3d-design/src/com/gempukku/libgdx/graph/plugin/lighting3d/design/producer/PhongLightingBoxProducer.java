@@ -2,16 +2,16 @@ package com.gempukku.libgdx.graph.plugin.lighting3d.design.producer;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.plugin.lighting3d.producer.CalculateLightingShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.plugin.lighting3d.producer.PhongLightingShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.part.StringBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 
-public class CalculateLightingBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
-    public CalculateLightingBoxProducer() {
-        super(new CalculateLightingShaderNodeConfiguration());
+public class PhongLightingBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
+    public PhongLightingBoxProducer() {
+        super(new PhongLightingShaderNodeConfiguration());
     }
 
     @Override

@@ -2,8 +2,8 @@ package com.gempukku.libgdx.graph.plugin.lighting3d.design;
 
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.plugin.lighting3d.design.producer.AmbientLightBoxProducer;
-import com.gempukku.libgdx.graph.plugin.lighting3d.design.producer.CalculateLightingBoxProducer;
 import com.gempukku.libgdx.graph.plugin.lighting3d.design.producer.DirectionalLightBoxProducer;
+import com.gempukku.libgdx.graph.plugin.lighting3d.design.producer.PhongLightingBoxProducer;
 import com.gempukku.libgdx.graph.plugin.lighting3d.design.producer.PointLightBoxProducer;
 import com.gempukku.libgdx.graph.plugin.lighting3d.design.producer.SpotlightBoxProducer;
 import com.gempukku.libgdx.graph.plugin.lighting3d.producer.ApplyNormalMapShaderNodeConfiguration;
@@ -16,7 +16,7 @@ public class Lighting3DPluginDesignInitializer implements PluginDesignInitialize
     public void initialize() {
         Lighting3DPluginRuntimeInitializer.register();
 
-        UICommonShaderConfiguration.register(new CalculateLightingBoxProducer());
+        UICommonShaderConfiguration.register(new PhongLightingBoxProducer());
         UICommonShaderConfiguration.register(new GraphBoxProducerImpl<>(new ApplyNormalMapShaderNodeConfiguration()));
         UICommonShaderConfiguration.register(new AmbientLightBoxProducer());
         UICommonShaderConfiguration.register(new DirectionalLightBoxProducer());

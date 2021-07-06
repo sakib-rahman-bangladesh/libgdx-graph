@@ -77,9 +77,9 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
         camera.update();
 
         graphShaderEnvironment = new Lighting3DEnvironment();
-        graphShaderEnvironment.setAmbientColor(Color.DARK_GRAY);
+        graphShaderEnvironment.setAmbientColor(new Color(0.1f, 0.1f, 0.1f, 1f));
         PointLight pointLight = new PointLight();
-        pointLight.set(Color.WHITE, -2f, 1f, 1f, 2f);
+        pointLight.set(Color.WHITE, -4f, 1.8f, 1.8f, 8f);
         graphShaderEnvironment.addPointLight(new Point3DLight(pointLight));
 
         final Lighting3DPrivateData data = new Lighting3DPrivateData();

@@ -211,7 +211,7 @@
                 },
                 {
                   "id": "49ad39d6e184499ebec92228552e5873",
-                  "type": "Lighting",
+                  "type": "PhongLighting",
                   "x": 985.0,
                   "y": 1081.0,
                   "data": {
@@ -233,7 +233,7 @@
                   "x": 690.0,
                   "y": 50.0,
                   "data": {
-                    "default": 32.0
+                    "default": 128.0
                   }
                 },
                 {
@@ -441,21 +441,21 @@
                   ]
                 },
                 {
-                  "name": "Specular",
-                  "nodes": [
-                    "a00c7ff2f6cc4168a14f53cb403d8d72",
-                    "36e710d2263e4b998bf404930b8db882",
-                    "af7e7313f5424b55954d6a16eafcb27f",
-                    "8bffcef66bb5498ea570e3f43f7f34b7"
-                  ]
-                },
-                {
                   "name": "Diffuse",
                   "nodes": [
                     "ffd366ddd51246b29171086b39f91ace",
                     "7dd083b41fc045a692c535c8728abba2",
                     "ed1d588e101a40fb953a3f2efe70abca",
                     "e12ee5febbba4d2fa88ea5fb7ac58e10"
+                  ]
+                },
+                {
+                  "name": "Specular",
+                  "nodes": [
+                    "a00c7ff2f6cc4168a14f53cb403d8d72",
+                    "36e710d2263e4b998bf404930b8db882",
+                    "af7e7313f5424b55954d6a16eafcb27f",
+                    "8bffcef66bb5498ea570e3f43f7f34b7"
                   ]
                 }
               ]
