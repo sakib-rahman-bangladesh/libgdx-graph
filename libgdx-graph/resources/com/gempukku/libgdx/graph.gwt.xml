@@ -12,13 +12,14 @@
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/simplexNoise2d.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/simplexNoise3d.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/noise/simplexNoise4d.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath"
+								   value="glsl/fragment/phong/directionalLightContribution.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/phong/pointLightContribution.glsl"/>
+	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/phong/spotLightContribution.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/shape/starShape.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/applyNormalMap.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/borderDetection.glsl"/>
-	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/directionalLightContribution.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/packFloatToVec3.glsl"/>
-	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/pointLightContribution.glsl"/>
-	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/spotLightContribution.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/unpackVec3ToFloat.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/uvFlipbook.glsl"/>
 	<extend-configuration-property name="gdx.files.classpath" value="glsl/fragment/voronoiBorder2d.glsl"/>
