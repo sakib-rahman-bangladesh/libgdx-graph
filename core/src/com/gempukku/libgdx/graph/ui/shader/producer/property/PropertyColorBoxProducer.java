@@ -12,8 +12,8 @@ import com.gempukku.libgdx.graph.ui.part.ColorBoxPart;
 
 public class PropertyColorBoxProducer implements PropertyBoxProducer<ShaderFieldType> {
     @Override
-    public ShaderFieldType getType() {
-        return ShaderFieldType.Vector4;
+    public String getType() {
+        return "Vector4";
     }
 
     @Override

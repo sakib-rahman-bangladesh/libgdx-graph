@@ -10,8 +10,8 @@ import com.gempukku.libgdx.graph.ui.part.FileSelectorBoxPart;
 
 public class PropertyTextureBoxProducer implements PropertyBoxProducer<ShaderFieldType> {
     @Override
-    public ShaderFieldType getType() {
-        return ShaderFieldType.TextureRegion;
+    public String getType() {
+        return "TextureRegion";
     }
 
     @Override

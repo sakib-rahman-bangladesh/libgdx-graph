@@ -42,6 +42,11 @@ public class GraphBoxPartImpl<T extends FieldType> implements GraphBoxPart<T> {
     }
 
     @Override
+    public void initialize(JsonValue object) {
+
+    }
+
+    @Override
     public void serializePart(JsonValue object) {
         if (callback != null)
             callback.serialize(object);

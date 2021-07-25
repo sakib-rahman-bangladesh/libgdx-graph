@@ -8,5 +8,7 @@ import com.gempukku.libgdx.graph.data.FieldType;
 public interface PropertyBoxPart<T extends FieldType> extends Disposable {
     Actor getActor();
 
+    void initialize(JsonValue object);
+
     void serializePart(JsonValue object);
 }

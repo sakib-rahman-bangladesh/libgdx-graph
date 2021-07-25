@@ -70,6 +70,14 @@ public class PropertyBoxImpl<T extends FieldType> extends VisTable implements Pr
         add(actor).growX().row();
     }
 
+    public void initialize(JsonValue value) {
+        if (value != null) {
+            for (PropertyBoxPart<T> propertyBoxPart : propertyBoxParts) {
+                propertyBoxPart.initialize(value);
+            }
+        }
+    }
+
     @Override
     public Actor getActor() {
         return this;

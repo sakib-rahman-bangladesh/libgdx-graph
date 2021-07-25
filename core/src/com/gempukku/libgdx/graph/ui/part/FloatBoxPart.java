@@ -15,7 +15,6 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 
-
 public class FloatBoxPart<T extends FieldType> extends VisTable implements GraphBoxPart<T> {
     private String property;
     private final VisValidatableTextField v1Input;
