@@ -40,6 +40,7 @@ import com.kotcrab.vis.ui.widget.VisWindow;
 
 import java.awt.BasicStroke;
 import java.awt.Shape;
+import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
@@ -691,9 +692,12 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
             VisWindow toWindow = boxWindows.get(toNode.getNodeId());
             GraphBoxInputConnector<T> input = getGraphBoxById(toNode.getNodeId()).getInputs().get(toNode.getFieldId());
             calculateConnection(to, toWindow, input);
-
-            Shape shape = basicStroke.createStrokedShape(new Line2D.Float(from.x, from.y, to.x, to.y));
-
+            Shape shape;
+            if(output.getSide()== GraphBoxOutputConnector.Side.Right){
+                shape = basicStroke.createStrokedShape(new CubicCurve2D.Float(from.x,from.y,((from.x+to.x)/2),from.y,((from.x+to.x)/2),to.y,to.x, to.y));
+            }else{
+                shape = basicStroke.createStrokedShape(new CubicCurve2D.Float(from.x,from.y,from.x,((from.y+to.y)/2),to.x,((from.y+to.y)/2),to.x, to.y));
+            }
             connections.put(graphConnection, shape);
         }
     }
