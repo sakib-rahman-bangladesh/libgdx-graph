@@ -1,8 +1,6 @@
 package com.gempukku.libgdx.graph.ui.pipeline;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
+import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.AddPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.DividePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.MultiplyPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.OneMinusPipelineNodeConfiguration;
@@ -47,6 +45,7 @@ import com.gempukku.libgdx.graph.pipeline.config.postprocessor.BloomPipelineNode
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.GammaCorrectionPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.GaussianBlurPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.provided.RenderSizePipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.provided.TimePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.CustomRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.EndPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.PipelineRendererNodeConfiguration;
@@ -57,11 +56,18 @@ import com.gempukku.libgdx.graph.pipeline.config.value.ValueFloatPipelineNodeCon
 import com.gempukku.libgdx.graph.pipeline.config.value.ValueVector2PipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.value.ValueVector3PipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
+import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
+import com.gempukku.libgdx.graph.ui.part.CheckboxBoxPart;
+import com.gempukku.libgdx.graph.ui.pipeline.producer.PipelinePropertyBoxProducerImpl;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.PropertyPipelineGraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.postprocessor.DepthOfFieldBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
+import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyColorBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyFloatBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyVector2BoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyVector3BoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueBooleanBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueFloatBoxProducer;
@@ -70,6 +76,7 @@ import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueVector3BoxProduce
 
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Supplier;
 
 public class UIPipelineConfiguration implements UIGraphConfiguration {
     private static Map<String, GraphBoxProducer> graphBoxProducers = new TreeMap<>();
@@ -103,14 +110,10 @@ public class UIPipelineConfiguration implements UIGraphConfiguration {
         register(new ValueVector3BoxProducer(new ValueVector3PipelineNodeConfiguration()));
         register(new ValueBooleanBoxProducer(new ValueBooleanPipelineNodeConfiguration()));
 
-        JsonReader reader = new JsonReader();
-        JsonValue config = reader.parse(Gdx.files.internal("config/pipeline-default-config.json"));
-        UIPipelineConfigurer.processPipelineConfig(config);
-
-//        register(new GraphBoxProducerImpl(new TimePipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new TimePipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl(new RenderSizePipelineNodeConfiguration()));
 
-//        register(new GraphBoxProducerImpl(new AddPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new AddPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl(new DividePipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl(new MultiplyPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl(new OneMinusPipelineNodeConfiguration()));
@@ -165,6 +168,22 @@ public class UIPipelineConfiguration implements UIGraphConfiguration {
         register(new GraphBoxProducerImpl(new GaussianBlurPipelineNodeConfiguration()));
         register(new DepthOfFieldBoxProducer());
         register(new GraphBoxProducerImpl(new GammaCorrectionPipelineNodeConfiguration()));
+
+        propertyProducers.put("Float", new PropertyFloatBoxProducer());
+        propertyProducers.put("Vector2", new PropertyVector2BoxProducer());
+        propertyProducers.put("Vector3", new PropertyVector3BoxProducer());
+        propertyProducers.put("Color", new PropertyColorBoxProducer());
+        PipelinePropertyBoxProducerImpl booleanProperty = new PipelinePropertyBoxProducerImpl("New Boolean", "Boolean");
+        booleanProperty.addPropertyBoxPart(
+                new Supplier<PropertyBoxPart>() {
+                    @Override
+                    public PropertyBoxPart get() {
+                        return new CheckboxBoxPart("Value", "value", false);
+                    }
+                });
+        propertyProducers.put("Boolean", booleanProperty);
+        propertyProducers.put("Camera", new PipelinePropertyBoxProducerImpl("New Camera", "Camera"));
+        propertyProducers.put("Callback", new PipelinePropertyBoxProducerImpl("New Callback", "Callback"));
     }
 
     @Override

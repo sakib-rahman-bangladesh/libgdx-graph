@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.config.MultiParamVectorArithmeticOutputTypeFunction;
+import com.gempukku.libgdx.graph.config.VectorArithmeticOutputTypeFunction;
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
@@ -80,8 +81,11 @@ public class UIPipelineConfigurer {
     private static Function<ObjectMap<String, Array<String>>, String> convertToValidationFunction(JsonValue validation) {
         if (validation != null) {
             String validationType = validation.getString("type");
-            if (validationType.equals("vectorArithmetic")) {
+            if (validationType.equals("multiParamVectorArithmetic")) {
                 return new MultiParamVectorArithmeticOutputTypeFunction(validation.getString("floatType"), validation.getString("inputId"));
+            } else if (validationType.equals("vectorArithmetic")) {
+                return new VectorArithmeticOutputTypeFunction(validation.getString("floatType"),
+                        validation.getString("input1"), validation.getString("input2"));
             }
             throw new IllegalArgumentException("Unable to resolve validation type: " + validationType);
         }
