@@ -796,8 +796,12 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
 
             from.add(x, y);
             to.add(x, y);
+            if(output.getSide()== GraphBoxOutputConnector.Side.Right){
+                shapeRenderer.curve(from.x,from.y,((from.x+to.x)/2),from.y,((from.x+to.x)/2),to.y,to.x, to.y,100);
+            }else{
+                shapeRenderer.curve(from.x,from.y,from.x,((from.y+to.y)/2),to.x,((from.y+to.y)/2),to.x, to.y,100);
+            }
 
-            shapeRenderer.line(from, to);
         }
 
         if (drawingFromConnector != null) {
@@ -808,12 +812,24 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
                 GraphBoxInputConnector<T> input = drawingFromNode.getInputs().get(drawingFromConnector.getFieldId());
                 calculateConnection(from, fromWindow, input);
                 Vector2 mouseLocation = getStage().getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-                shapeRenderer.line(x + from.x, y + from.y, mouseLocation.x, mouseLocation.y);
+                if(input.getSide()== GraphBoxInputConnector.Side.Left){
+                    shapeRenderer.curve(x+from.x,y+from.y,((x+from.x+mouseLocation.x)/2),y+from.y,
+                            ((x+from.x+mouseLocation.x)/2),mouseLocation.y,mouseLocation.x, mouseLocation.y,100);
+                }else{
+                    shapeRenderer.curve(x+from.x,y+from.y,x+from.x,((y+from.y+mouseLocation.y)/2),
+                            mouseLocation.x,((y+from.y+mouseLocation.y)/2),mouseLocation.x, mouseLocation.y,100);
+                }
             } else {
                 GraphBoxOutputConnector<T> output = drawingFromNode.getOutputs().get(drawingFromConnector.getFieldId());
                 calculateConnection(from, fromWindow, output);
                 Vector2 mouseLocation = getStage().getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-                shapeRenderer.line(x + from.x, y + from.y, mouseLocation.x, mouseLocation.y);
+                if(output.getSide()== GraphBoxOutputConnector.Side.Right){
+                    shapeRenderer.curve(x+from.x,y+from.y,((x+from.x+mouseLocation.x)/2),y+from.y,
+                            ((x+from.x+mouseLocation.x)/2),mouseLocation.y,mouseLocation.x, mouseLocation.y,100);
+                }else{
+                    shapeRenderer.curve(x+from.x,y+from.y,x+from.x,((y+from.y+mouseLocation.y)/2),
+                            mouseLocation.x,((y+from.y+mouseLocation.y)/2),mouseLocation.x, mouseLocation.y,100);
+                }
             }
         }
 
