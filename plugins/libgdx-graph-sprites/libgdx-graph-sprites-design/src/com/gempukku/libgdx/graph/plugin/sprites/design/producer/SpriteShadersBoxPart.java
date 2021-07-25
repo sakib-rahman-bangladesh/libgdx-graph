@@ -4,11 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.plugin.sprites.design.SpriteShaderGraphType;
 import com.gempukku.libgdx.graph.plugin.sprites.design.SpritesTemplateRegistry;
 import com.gempukku.libgdx.graph.plugin.sprites.design.UISpritesShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
@@ -31,8 +29,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-public class SpriteShadersBoxPart extends VisTable implements GraphBoxPart<PipelineFieldType> {
-    private static UIGraphConfiguration<ShaderFieldType>[] graphConfigurations = new UIGraphConfiguration[]{
+public class SpriteShadersBoxPart extends VisTable implements GraphBoxPart {
+    private static UIGraphConfiguration[] graphConfigurations = new UIGraphConfiguration[]{
             new UISpritesShaderConfiguration(),
             new UICommonShaderConfiguration()
     };
@@ -112,12 +110,12 @@ public class SpriteShadersBoxPart extends VisTable implements GraphBoxPart<Pipel
     }
 
     @Override
-    public GraphBoxOutputConnector<PipelineFieldType> getOutputConnector() {
+    public GraphBoxOutputConnector getOutputConnector() {
         return null;
     }
 
     @Override
-    public GraphBoxInputConnector<PipelineFieldType> getInputConnector() {
+    public GraphBoxInputConnector getInputConnector() {
         return null;
     }
 

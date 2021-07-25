@@ -4,9 +4,9 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 
-public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V extends GraphProperty<W>, W extends FieldType> {
-    public ValidationResult<T, U, V, W> validateGraph(Graph<T, U, V, W> graph, String nodeEnd) {
-        ValidationResult<T, U, V, W> result = new ValidationResult<>();
+public class GraphValidator<T extends GraphNode, U extends GraphConnection, V extends GraphProperty> {
+    public ValidationResult<T, U, V> validateGraph(Graph<T, U, V> graph, String nodeEnd) {
+        ValidationResult<T, U, V> result = new ValidationResult<>();
 
         T end = graph.getNodeById(nodeEnd);
         if (end == null)
@@ -26,37 +26,37 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
         boolean cyclic = isCyclic(result, graph, nodeEnd);
         if (!cyclic) {
             // Do other Validation
-            validateNode(result, graph, nodeEnd, new ObjectMap<String, NodeOutputs<W>>());
+            validateNode(result, graph, nodeEnd, new ObjectMap<String, NodeOutputs>());
         }
         return result;
     }
 
-    private NodeOutputs<W> validateNode(ValidationResult<T, U, V, W> result, Graph<T, U, V, W> graph, String nodeId,
-                                        ObjectMap<String, NodeOutputs<W>> nodeOutputs) {
+    private NodeOutputs validateNode(ValidationResult<T, U, V> result, Graph<T, U, V> graph, String nodeId,
+                                     ObjectMap<String, NodeOutputs> nodeOutputs) {
         // Check if already validated
-        NodeOutputs<W> outputs = nodeOutputs.get(nodeId);
+        NodeOutputs outputs = nodeOutputs.get(nodeId);
         if (outputs != null)
             return outputs;
 
         T thisNode = graph.getNodeById(nodeId);
         ObjectSet<String> validatedFields = new ObjectSet<>();
-        ObjectMap<String, Array<W>> inputsTypes = new ObjectMap<>();
+        ObjectMap<String, Array<String>> inputsTypes = new ObjectMap<>();
         for (String fieldTo : getInputFields(graph, nodeId)) {
-            Array<W> inputType = new Array<>();
+            Array<String> inputType = new Array<>();
             for (U incomingConnection : getIncomingConnections(graph, nodeId, fieldTo)) {
-                GraphNodeInput<W> input = thisNode.getConfiguration().getNodeInputs().get(fieldTo);
+                GraphNodeInput input = thisNode.getConfiguration().getNodeInputs().get(fieldTo);
                 validatedFields.add(fieldTo);
 
-                NodeOutputs<W> outputFromRemoteNode = validateNode(result, graph, incomingConnection.getNodeFrom(), nodeOutputs);
-                W outputType = outputFromRemoteNode.outputs.get(incomingConnection.getFieldFrom());
-                if (!input.getAcceptedPropertyTypes().contains(outputType, true))
+                NodeOutputs outputFromRemoteNode = validateNode(result, graph, incomingConnection.getNodeFrom(), nodeOutputs);
+                String outputType = outputFromRemoteNode.outputs.get(incomingConnection.getFieldFrom());
+                if (!input.getAcceptedPropertyTypes().contains(outputType, false))
                     result.addErrorConnection(incomingConnection);
                 inputType.add(outputType);
             }
             inputsTypes.put(fieldTo, inputType);
         }
 
-        for (GraphNodeInput<W> input : thisNode.getConfiguration().getNodeInputs().values()) {
+        for (GraphNodeInput input : thisNode.getConfiguration().getNodeInputs().values()) {
             if (input.isRequired() && !validatedFields.contains(input.getFieldId())) {
                 result.addErrorConnector(new NodeConnector(nodeId, input.getFieldId()));
             }
@@ -66,21 +66,21 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
         if (!valid)
             result.addErrorNode(thisNode);
 
-        ObjectMap<String, W> nodeOutputMap = new ObjectMap<>();
-        for (GraphNodeOutput<W> value : thisNode.getConfiguration().getNodeOutputs().values()) {
+        ObjectMap<String, String> nodeOutputMap = new ObjectMap<>();
+        for (GraphNodeOutput value : thisNode.getConfiguration().getNodeOutputs().values()) {
             nodeOutputMap.put(value.getFieldId(), value.determineFieldType(inputsTypes));
         }
 
-        NodeOutputs<W> nodeOutput = new NodeOutputs<>(nodeOutputMap);
+        NodeOutputs nodeOutput = new NodeOutputs(nodeOutputMap);
         nodeOutputs.put(nodeId, nodeOutput);
         return nodeOutput;
     }
 
-    private Iterable<String> getInputFields(Graph<T, U, V, W> graph, String nodeId) {
+    private Iterable<String> getInputFields(Graph<T, U, V> graph, String nodeId) {
         return new ObjectMap.Keys<>(graph.getNodeById(nodeId).getConfiguration().getNodeInputs());
     }
 
-    private Iterable<U> getIncomingConnections(Graph<T, U, V, W> graph, String nodeId) {
+    private Iterable<U> getIncomingConnections(Graph<T, U, V> graph, String nodeId) {
         Array<U> result = new Array<>();
         for (U connection : graph.getConnections()) {
             if (connection.getNodeTo().equals(nodeId))
@@ -89,7 +89,7 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
         return result;
     }
 
-    private Iterable<U> getIncomingConnections(Graph<T, U, V, W> graph, String nodeId, String fieldTo) {
+    private Iterable<U> getIncomingConnections(Graph<T, U, V> graph, String nodeId, String fieldTo) {
         Array<U> result = new Array<>();
         for (U connection : graph.getConnections()) {
             if (connection.getNodeTo().equals(nodeId) && connection.getFieldTo().equals(fieldTo))
@@ -98,10 +98,10 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
         return result;
     }
 
-    private <W extends FieldType> boolean outputAcceptsPropertyType(GraphNodeOutput<W> output, Array<W> acceptedPropertyTypes) {
-        Array<W> producablePropertyTypes = output.getProducableFieldTypes();
-        for (W acceptedFieldType : acceptedPropertyTypes) {
-            if (producablePropertyTypes.contains(acceptedFieldType, true))
+    private boolean outputAcceptsPropertyType(GraphNodeOutput output, Array<String> acceptedPropertyTypes) {
+        Array<String> producablePropertyTypes = output.getProducableFieldTypes();
+        for (String acceptedFieldType : acceptedPropertyTypes) {
+            if (producablePropertyTypes.contains(acceptedFieldType, false))
                 return true;
         }
         return false;
@@ -109,7 +109,7 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
 
     // This function is a variation of DFSUtil() in
     // https://www.geeksforgeeks.org/archives/18212
-    private boolean isCyclicUtil(ValidationResult<T, U, V, W> validationResult, Graph<T, U, V, W> graph, String nodeId, ObjectSet<String> visited,
+    private boolean isCyclicUtil(ValidationResult<T, U, V> validationResult, Graph<T, U, V> graph, String nodeId, ObjectSet<String> visited,
                                  ObjectSet<String> recStack) {
         // Mark the current node as visited and
         // part of recursion stack
@@ -139,7 +139,7 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
         return false;
     }
 
-    private boolean isCyclic(ValidationResult<T, U, V, W> validationResult, Graph<T, U, V, W> graph, String start) {
+    private boolean isCyclic(ValidationResult<T, U, V> validationResult, Graph<T, U, V> graph, String start) {
         ObjectSet<String> visited = new ObjectSet<>();
         ObjectSet<String> recStack = new ObjectSet<>();
 
@@ -158,15 +158,15 @@ public class GraphValidator<T extends GraphNode<W>, U extends GraphConnection, V
         return false;
     }
 
-    private static class NodeOutputs<W> {
-        private ObjectMap<String, W> outputs;
+    private static class NodeOutputs {
+        private ObjectMap<String, String> outputs;
 
-        public NodeOutputs(ObjectMap<String, W> outputs) {
+        public NodeOutputs(ObjectMap<String, String> outputs) {
             this.outputs = outputs;
         }
     }
 
-    public static class ValidationResult<T extends GraphNode<W>, U extends GraphConnection, V extends GraphProperty<W>, W extends FieldType> {
+    public static class ValidationResult<T extends GraphNode, U extends GraphConnection, V extends GraphProperty> {
         private final ObjectSet<T> errorNodes = new ObjectSet<>();
         private final ObjectSet<T> warningNodes = new ObjectSet<>();
         private final ObjectSet<U> errorConnections = new ObjectSet<>();

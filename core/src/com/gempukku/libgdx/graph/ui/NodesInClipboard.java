@@ -11,11 +11,11 @@ public class NodesInClipboard {
     public Array<GraphConnection> graphConnections;
 
     static class NodesData {
-        public GraphNode<?> graphNode;
+        public GraphNode graphNode;
         public float x;
         public float y;
 
-        public NodesData(GraphNode<?> graphNode, float x, float y) {
+        public NodesData(GraphNode graphNode, float x, float y) {
             this.graphNode = graphNode;
             this.x = x;
             this.y = y;

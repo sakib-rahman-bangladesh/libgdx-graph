@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.config.PropertyNodeConfiguration;
-import com.gempukku.libgdx.graph.data.FieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
@@ -18,13 +18,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class PropertyBoxImpl<T extends FieldType> extends VisTable implements PropertyBox<T> {
-    private T propertyType;
-    private List<PropertyBoxPart<T>> propertyBoxParts = new LinkedList<>();
+public class PropertyBoxImpl extends VisTable implements PropertyBox {
+    private String propertyType;
+    private List<PropertyBoxPart> propertyBoxParts = new LinkedList<>();
     private VisTextField nameField;
 
-    public PropertyBoxImpl(String name, T propertyType) {
-        super();
+    public PropertyBoxImpl(String name, String propertyType) {
         this.propertyType = propertyType;
 
         nameField = new VisTextField(name);
@@ -43,7 +42,7 @@ public class PropertyBoxImpl<T extends FieldType> extends VisTable implements Pr
     }
 
     @Override
-    public T getType() {
+    public String getType() {
         return propertyType;
     }
 
@@ -56,7 +55,7 @@ public class PropertyBoxImpl<T extends FieldType> extends VisTable implements Pr
     public JsonValue getData() {
         JsonValue result = new JsonValue(JsonValue.ValueType.object);
 
-        for (PropertyBoxPart<T> graphBoxPart : propertyBoxParts)
+        for (PropertyBoxPart graphBoxPart : propertyBoxParts)
             graphBoxPart.serializePart(result);
 
         if (result.isEmpty())
@@ -64,7 +63,7 @@ public class PropertyBoxImpl<T extends FieldType> extends VisTable implements Pr
         return result;
     }
 
-    public void addPropertyBoxPart(PropertyBoxPart<T> propertyBoxPart) {
+    public void addPropertyBoxPart(PropertyBoxPart propertyBoxPart) {
         propertyBoxParts.add(propertyBoxPart);
         final Actor actor = propertyBoxPart.getActor();
         add(actor).growX().row();
@@ -72,7 +71,7 @@ public class PropertyBoxImpl<T extends FieldType> extends VisTable implements Pr
 
     public void initialize(JsonValue value) {
         if (value != null) {
-            for (PropertyBoxPart<T> propertyBoxPart : propertyBoxParts) {
+            for (PropertyBoxPart propertyBoxPart : propertyBoxParts) {
                 propertyBoxPart.initialize(value);
             }
         }
@@ -84,27 +83,27 @@ public class PropertyBoxImpl<T extends FieldType> extends VisTable implements Pr
     }
 
     @Override
-    public GraphBox<T> createPropertyBox(Skin skin, String id, float x, float y) {
+    public GraphBox createPropertyBox(Skin skin, String id, float x, float y) {
         final String name = getName();
-        GraphBoxImpl<T> result = new GraphBoxImpl<T>(id, new PropertyNodeConfiguration<T>(name, propertyType)) {
+        GraphBoxImpl result = new GraphBoxImpl(id, new PropertyNodeConfiguration(name, propertyType)) {
             @Override
             public JsonValue getData() {
                 JsonValue result = new JsonValue(JsonValue.ValueType.object);
                 result.addChild("name", new JsonValue(name));
-                result.addChild("type", new JsonValue(propertyType.getName()));
+                result.addChild("type", new JsonValue(propertyType));
                 return result;
             }
         };
-        result.addOutputGraphPart(new ValueGraphNodeOutput<T>(name, propertyType));
-        if (propertyType.isTexture()) {
-            result.addGraphBoxPart(new TextureSettingsGraphBoxPart<T>());
+        result.addOutputGraphPart(new ValueGraphNodeOutput(name, propertyType));
+        if (ShaderFieldTypeRegistry.findShaderFieldType(propertyType).isTexture()) {
+            result.addGraphBoxPart(new TextureSettingsGraphBoxPart());
         }
         return result;
     }
 
     @Override
     public void dispose() {
-        for (PropertyBoxPart<T> propertyBoxPart : propertyBoxParts) {
+        for (PropertyBoxPart propertyBoxPart : propertyBoxParts) {
             propertyBoxPart.dispose();
         }
     }

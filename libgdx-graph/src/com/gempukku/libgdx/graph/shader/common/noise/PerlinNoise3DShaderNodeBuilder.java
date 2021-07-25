@@ -9,6 +9,7 @@ import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.common.math.value.RemapShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.config.common.noise.PerlinNoise3DNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.util.LibGDXCollections;
@@ -46,7 +47,7 @@ public class PerlinNoise3DShaderNodeBuilder extends ConfigurationCommonShaderNod
 
         String noiseRange = "vec2(-1.0, 1.0)";
         if (rangeValue != null) {
-            String functionName = RemapShaderNodeBuilder.appendRemapFunction(commonShaderBuilder, ShaderFieldType.Float);
+            String functionName = RemapShaderNodeBuilder.appendRemapFunction(commonShaderBuilder, ShaderFieldTypeRegistry.findShaderFieldType(ShaderFieldType.Float));
             commonShaderBuilder.addMainLine("float " + name + " = " + functionName + "(" + output + ", " + noiseRange + ", " + rangeValue.getRepresentation() + ");");
         } else {
             commonShaderBuilder.addMainLine("float " + name + " = " + output + ";");

@@ -1,7 +1,6 @@
 package com.gempukku.libgdx.graph.pipeline.config.postprocessor;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
@@ -10,22 +9,22 @@ import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.Float;
 import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.RenderPipeline;
 import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.Vector2;
 
-public class DepthOfFieldPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
+public class DepthOfFieldPipelineNodeConfiguration extends NodeConfigurationImpl {
     public DepthOfFieldPipelineNodeConfiguration() {
         super("DepthOfField", "Depth of Field", "Post-processing");
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
+                new GraphNodeInputImpl("enabled", "Enabled", false, "Boolean"));
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("camera", "Camera", true, Camera));
+                new GraphNodeInputImpl("camera", "Camera", true, Camera));
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("focusDistance", "Focus Distance Range", true, Vector2));
+                new GraphNodeInputImpl("focusDistance", "Focus Distance Range", true, Vector2));
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("nearDistanceBlur", "Near Distance Blur", Float));
+                new GraphNodeInputImpl("nearDistanceBlur", "Near Distance Blur", Float));
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("farDistanceBlur", "Far Distance Blur", Float));
+                new GraphNodeInputImpl("farDistanceBlur", "Far Distance Blur", Float));
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("input", "Input", true, true, RenderPipeline));
+                new GraphNodeInputImpl("input", "Input", true, true, RenderPipeline));
         addNodeOutput(
-                new GraphNodeOutputImpl<PipelineFieldType>("output", "Output", true, RenderPipeline));
+                new GraphNodeOutputImpl("output", "Output", true, RenderPipeline));
     }
 }

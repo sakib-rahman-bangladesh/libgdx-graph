@@ -21,7 +21,6 @@ import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.util.LibGDXCollections;
@@ -33,11 +32,11 @@ public class PropertyAsUniformShaderNodeBuilder implements GraphShaderNodeBuilde
     }
 
     @Override
-    public NodeConfiguration<ShaderFieldType> getConfiguration(JsonValue data) {
+    public NodeConfiguration getConfiguration(JsonValue data) {
         final String name = data.getString("name");
-        final ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(data.getString("type"));
+        final String propertyType = data.getString("type");
 
-        return new PropertyNodeConfiguration<ShaderFieldType>(name, propertyType);
+        return new PropertyNodeConfiguration(name, propertyType);
     }
 
     @Override
@@ -54,17 +53,17 @@ public class PropertyAsUniformShaderNodeBuilder implements GraphShaderNodeBuilde
     private ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, Array<FieldOutput>> inputs, ObjectSet<String> producedOutputs,
                                                                      CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         final String name = data.getString("name");
-        final ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(data.getString("type"));
+        final String propertyType = data.getString("type");
 
-        if (propertyType == ShaderFieldType.Vector4)
+        if (propertyType.equals(ShaderFieldType.Vector4))
             return buildColorPropertyNode(name, graphShaderContext, commonShaderBuilder);
-        if (propertyType == ShaderFieldType.Float)
+        if (propertyType.equals(ShaderFieldType.Float))
             return buildFloatPropertyNode(name, graphShaderContext, commonShaderBuilder);
-        if (propertyType == ShaderFieldType.Vector2)
+        if (propertyType.equals(ShaderFieldType.Vector2))
             return buildVector2PropertyNode(name, graphShaderContext, commonShaderBuilder);
-        if (propertyType == ShaderFieldType.Vector3)
+        if (propertyType.equals(ShaderFieldType.Vector3))
             return buildVector3PropertyNode(name, graphShaderContext, commonShaderBuilder);
-        if (propertyType == ShaderFieldType.TextureRegion)
+        if (propertyType.equals(ShaderFieldType.TextureRegion))
             return buildTexturePropertyNode(name, data, graphShaderContext, commonShaderBuilder);
 
         return null;

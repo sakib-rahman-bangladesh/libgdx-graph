@@ -1,6 +1,6 @@
 package com.gempukku.libgdx.graph.data;
 
-public interface Graph<T extends GraphNode<W>, U extends GraphConnection, V extends GraphProperty<W>, W extends FieldType> {
+public interface Graph<T extends GraphNode, U extends GraphConnection, V extends GraphProperty> {
     T getNodeById(String id);
 
     V getPropertyByName(String name);

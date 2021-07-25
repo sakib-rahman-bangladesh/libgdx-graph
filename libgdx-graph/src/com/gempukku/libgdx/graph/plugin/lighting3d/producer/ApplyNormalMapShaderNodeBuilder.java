@@ -32,7 +32,7 @@ public class ApplyNormalMapShaderNodeBuilder extends ConfigurationCommonShaderNo
 
         String name = "result_" + nodeId;
 
-        commonShaderBuilder.addMainLine(ShaderFieldType.Vector3.getShaderType() + " " + name + " = applyNormalMap(" + tangent.getRepresentation() + ", " + normal.getRepresentation() + ", " + normalMap.getRepresentation() + ".xyz, " + strengthValue + ");");
+        commonShaderBuilder.addMainLine("vec3 " + name + " = applyNormalMap(" + tangent.getRepresentation() + ", " + normal.getRepresentation() + ", " + normalMap.getRepresentation() + ".xyz, " + strengthValue + ");");
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(ShaderFieldType.Vector3, name));
     }
 }

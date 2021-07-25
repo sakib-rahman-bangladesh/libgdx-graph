@@ -8,7 +8,6 @@ import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
@@ -18,7 +17,7 @@ import com.kotcrab.vis.ui.widget.VisSelectBox;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTable;
 
-public class ParticlesShaderPreviewBoxPart extends VisTable implements GraphBoxPart<ShaderFieldType> {
+public class ParticlesShaderPreviewBoxPart extends VisTable implements GraphBoxPart {
     private final ParticlesShaderPreviewWidget shaderPreviewWidget;
     private final VisSelectBox<ParticlesShaderPreviewWidget.ShaderPreviewModel> selectBox;
 
@@ -89,12 +88,12 @@ public class ParticlesShaderPreviewBoxPart extends VisTable implements GraphBoxP
     }
 
     @Override
-    public GraphBoxOutputConnector<ShaderFieldType> getOutputConnector() {
+    public GraphBoxOutputConnector getOutputConnector() {
         return null;
     }
 
     @Override
-    public GraphBoxInputConnector<ShaderFieldType> getInputConnector() {
+    public GraphBoxInputConnector getInputConnector() {
         return null;
     }
 
@@ -102,7 +101,7 @@ public class ParticlesShaderPreviewBoxPart extends VisTable implements GraphBoxP
     public void serializePart(JsonValue object) {
     }
 
-    public void graphChanged(boolean hasErrors, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
+    public void graphChanged(boolean hasErrors, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph) {
         shaderPreviewWidget.graphChanged(hasErrors, graph);
     }
 

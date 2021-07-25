@@ -4,10 +4,10 @@ import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class SpriteAnchorShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class SpriteAnchorShaderNodeConfiguration extends NodeConfigurationImpl {
     public SpriteAnchorShaderNodeConfiguration() {
         super("SpriteAnchor", "Sprite Anchor", "Sprite");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("anchor", "Anchor", ShaderFieldType.Vector2));
+                new GraphNodeOutputImpl("anchor", "Anchor", ShaderFieldType.Vector2));
     }
 }

@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 
 public class FloatPipelinePropertyProducer implements PipelinePropertyProducer {
     @Override
-    public PipelineFieldType getType() {
+    public String getType() {
         return PipelineFieldType.Float;
     }
 

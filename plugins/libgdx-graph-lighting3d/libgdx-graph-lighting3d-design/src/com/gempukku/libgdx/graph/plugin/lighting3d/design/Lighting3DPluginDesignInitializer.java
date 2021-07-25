@@ -19,7 +19,7 @@ public class Lighting3DPluginDesignInitializer implements PluginDesignInitialize
 
         UICommonShaderConfiguration.register(new PhongLightingBoxProducer());
         UICommonShaderConfiguration.register(new BlinnPhongLightingBoxProducer());
-        UICommonShaderConfiguration.register(new GraphBoxProducerImpl<>(new ApplyNormalMapShaderNodeConfiguration()));
+        UICommonShaderConfiguration.register(new GraphBoxProducerImpl(new ApplyNormalMapShaderNodeConfiguration()));
         UICommonShaderConfiguration.register(new AmbientLightBoxProducer());
         UICommonShaderConfiguration.register(new DirectionalLightBoxProducer());
         UICommonShaderConfiguration.register(new PointLightBoxProducer());

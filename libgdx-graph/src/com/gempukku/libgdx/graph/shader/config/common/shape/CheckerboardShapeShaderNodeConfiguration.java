@@ -5,14 +5,14 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class CheckerboardShapeShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class CheckerboardShapeShaderNodeConfiguration extends NodeConfigurationImpl {
     public CheckerboardShapeShaderNodeConfiguration() {
         super("CheckerboardShape", "Checkerboard Shape", "Shape");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("uv", "UV", true, ShaderFieldType.Vector2));
+                new GraphNodeInputImpl("uv", "UV", true, ShaderFieldType.Vector2));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("repeat", "Repeat", false, ShaderFieldType.Vector2));
+                new GraphNodeInputImpl("repeat", "Repeat", false, ShaderFieldType.Vector2));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("output", "Output", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("output", "Output", ShaderFieldType.Float));
     }
 }

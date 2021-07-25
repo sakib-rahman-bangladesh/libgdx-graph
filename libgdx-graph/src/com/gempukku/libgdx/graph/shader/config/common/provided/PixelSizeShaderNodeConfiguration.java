@@ -4,14 +4,14 @@ import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class PixelSizeShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class PixelSizeShaderNodeConfiguration extends NodeConfigurationImpl {
     public PixelSizeShaderNodeConfiguration() {
         super("PixelSize", "Pixel size", "Provided");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("size", "Size", ShaderFieldType.Vector2));
+                new GraphNodeOutputImpl("size", "Size", ShaderFieldType.Vector2));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("x", "X", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("x", "X", ShaderFieldType.Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("y", "Y", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("y", "Y", ShaderFieldType.Float));
     }
 }

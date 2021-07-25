@@ -19,7 +19,7 @@ public abstract class ThreeParamMathFunctionPipelineNodeProducer extends Pipelin
     private String param3;
     private String outputName;
 
-    public ThreeParamMathFunctionPipelineNodeProducer(NodeConfiguration<PipelineFieldType> configuration,
+    public ThreeParamMathFunctionPipelineNodeProducer(NodeConfiguration configuration,
                                                       String param1, String param2, String param3, String outputName) {
         super(configuration);
         this.param1 = param1;
@@ -34,7 +34,7 @@ public abstract class ThreeParamMathFunctionPipelineNodeProducer extends Pipelin
         final PipelineNode.FieldOutput<?> bFunction = inputFields.get(param2);
         final PipelineNode.FieldOutput<?> cFunction = inputFields.get(param3);
 
-        final PipelineFieldType returnType = aFunction.getPropertyType();
+        final String returnType = aFunction.getPropertyType();
 
         final Object result = createResult(returnType);
 
@@ -46,13 +46,13 @@ public abstract class ThreeParamMathFunctionPipelineNodeProducer extends Pipelin
                 Object c = cFunction.getValue(pipelineRenderingContext, null);
 
                 Object resultValue;
-                if (returnType == PipelineFieldType.Float) {
+                if (returnType.equals(PipelineFieldType.Float)) {
                     resultValue = executeFunction(a, b, c, 0);
-                } else if (returnType == PipelineFieldType.Vector2) {
+                } else if (returnType.equals(PipelineFieldType.Vector2)) {
                     resultValue = ((Vector2) result).set(
                             executeFunction(a, b, c, 0),
                             executeFunction(a, b, c, 1));
-                } else if (returnType == PipelineFieldType.Vector3) {
+                } else if (returnType.equals(PipelineFieldType.Vector3)) {
                     resultValue = ((Vector3) result).set(
                             executeFunction(a, b, c, 0),
                             executeFunction(a, b, c, 1),
@@ -77,14 +77,14 @@ public abstract class ThreeParamMathFunctionPipelineNodeProducer extends Pipelin
         return executeFunction(getParamValue(a, index), getParamValue(b, index), getParamValue(c, index));
     }
 
-    private Object createResult(PipelineFieldType returnType) {
-        if (returnType == PipelineFieldType.Float) {
+    private Object createResult(String returnType) {
+        if (returnType.equals(PipelineFieldType.Float)) {
             return 0f;
-        } else if (returnType == PipelineFieldType.Vector2) {
+        } else if (returnType.equals(PipelineFieldType.Vector2)) {
             return new Vector2();
-        } else if (returnType == PipelineFieldType.Vector3) {
+        } else if (returnType.equals(PipelineFieldType.Vector3)) {
             return new Vector3();
-        } else if (returnType == PipelineFieldType.Color) {
+        } else if (returnType.equals(PipelineFieldType.Color)) {
             return new Color();
         } else {
             throw new IllegalArgumentException("Not matching type for function");

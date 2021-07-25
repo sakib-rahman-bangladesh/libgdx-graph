@@ -4,13 +4,14 @@ import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.pipeline.PipelineProperty;
 import com.gempukku.libgdx.graph.pipeline.PipelinePropertySource;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.PipelineRendererResources;
 import com.gempukku.libgdx.graph.pipeline.RenderOutput;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldTypeRegistry;
 import com.gempukku.libgdx.graph.pipeline.producer.FullScreenRender;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineInitializationFeedback;
@@ -61,7 +62,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
         WritablePipelineProperty propertyValue = pipelinePropertyMap.get(property);
         if (propertyValue == null)
             throw new IllegalArgumentException("Property with name not found: " + property);
-        FieldType fieldType = propertyValue.getType();
+        PipelineFieldType fieldType = PipelineFieldTypeRegistry.findPipelineFieldType(propertyValue.getType());
         if (!fieldType.accepts(value))
             throw new IllegalArgumentException("Property value not accepted, property: " + property);
         propertyValue.setValue(fieldType.convert(value));

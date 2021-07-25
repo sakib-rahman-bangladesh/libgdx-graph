@@ -26,6 +26,6 @@ public class SinShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
         String name = "result_" + nodeId;
         commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = sin(" + inputValue.getRepresentation() + ");");
 
-        return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(resultType, name));
+        return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(resultType.getName(), name));
     }
 }

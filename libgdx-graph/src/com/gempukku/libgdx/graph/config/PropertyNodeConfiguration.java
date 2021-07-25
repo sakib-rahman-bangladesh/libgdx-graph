@@ -2,26 +2,25 @@ package com.gempukku.libgdx.graph.config;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
-public class PropertyNodeConfiguration<T extends FieldType> extends NodeConfigurationImpl<T> {
+public class PropertyNodeConfiguration extends NodeConfigurationImpl {
     private String name;
-    private T fieldType;
+    private String fieldType;
 
-    public PropertyNodeConfiguration(String name, T fieldType) {
+    public PropertyNodeConfiguration(String name, String fieldType) {
         super("Property", name, null);
         this.name = name;
         this.fieldType = fieldType;
-        addNodeOutput(new GraphNodeOutputImpl<T>("value", name, fieldType));
+        addNodeOutput(new GraphNodeOutputImpl("value", name, fieldType));
     }
 
     @Override
-    public boolean isValid(ObjectMap<String, Array<T>> inputTypes, Iterable<? extends GraphProperty<T>> properties) {
-        for (GraphProperty<T> property : properties) {
-            if (property.getName().equals(name) && property.getType() == fieldType)
+    public boolean isValid(ObjectMap<String, Array<String>> inputTypes, Iterable<? extends GraphProperty> properties) {
+        for (GraphProperty property : properties) {
+            if (property.getName().equals(name) && property.getType().equals(fieldType))
                 return true;
         }
         return false;

@@ -12,7 +12,7 @@ public class BooleanFieldOutput implements PipelineNode.FieldOutput<Boolean> {
     }
 
     @Override
-    public PipelineFieldType getPropertyType() {
+    public String getPropertyType() {
         return PipelineFieldType.Boolean;
     }
 

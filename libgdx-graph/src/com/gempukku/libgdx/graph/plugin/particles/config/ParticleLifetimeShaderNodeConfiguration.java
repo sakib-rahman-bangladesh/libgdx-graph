@@ -4,10 +4,10 @@ import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class ParticleLifetimeShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class ParticleLifetimeShaderNodeConfiguration extends NodeConfigurationImpl {
     public ParticleLifetimeShaderNodeConfiguration() {
         super("ParticleLifetime", "Particle lifetime", "Particle");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("time", "Time", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("time", "Time", ShaderFieldType.Float));
     }
 }

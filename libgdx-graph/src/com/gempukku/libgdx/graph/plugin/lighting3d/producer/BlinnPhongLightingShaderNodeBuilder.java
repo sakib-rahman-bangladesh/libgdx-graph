@@ -21,6 +21,7 @@ import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.GLSLFragmentReader;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.util.LibGDXCollections;
@@ -97,19 +98,19 @@ public class BlinnPhongLightingShaderNodeBuilder extends ConfigurationShaderNode
         if (numSpotLights > 0)
             fragmentShaderBuilder.addMainLine(lightingVariable + " = getSpotBlinnPhongLightContribution(" + position + ", " + normalVariable + ", " + shininess + ", " + lightingVariable + ");");
 
-        ShaderFieldType resultType = ShaderFieldType.Vector3;
+        ShaderFieldType resultType = ShaderFieldTypeRegistry.findShaderFieldType(ShaderFieldType.Vector3);
         ObjectMap<String, DefaultFieldOutput> result = new ObjectMap<>();
         if (producedOutputs.contains("output")) {
             String name = "color_" + nodeId;
             fragmentShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = " + emission + ".rgb + " + ambientOcclusion + " * u_ambientLight * " + albedo + ".rgb;");
             fragmentShaderBuilder.addMainLine(name + " += " + lightingVariable + ".diffuse * " + albedo + ".rgb + " + lightingVariable + ".specular * " + specular + ".rgb;");
-            result.put("output", new DefaultFieldOutput(resultType, name));
+            result.put("output", new DefaultFieldOutput(resultType.getName(), name));
         }
         if (producedOutputs.contains("diffuse")) {
-            result.put("diffuse", new DefaultFieldOutput(resultType, lightingVariable + ".diffuse"));
+            result.put("diffuse", new DefaultFieldOutput(resultType.getName(), lightingVariable + ".diffuse"));
         }
         if (producedOutputs.contains("specularOut")) {
-            result.put("specularOut", new DefaultFieldOutput(resultType, lightingVariable + ".specular"));
+            result.put("specularOut", new DefaultFieldOutput(resultType.getName(), lightingVariable + ".specular"));
         }
 
         return result;

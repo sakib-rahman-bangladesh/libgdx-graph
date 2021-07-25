@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.config.common.math.value.RemapVectorShaderNodeConfiguration;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPartImpl;
@@ -15,13 +14,13 @@ import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 import com.kotcrab.vis.ui.widget.VisSelectBox;
 import com.kotcrab.vis.ui.widget.VisTable;
 
-public class RemapVectorShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
+public class RemapVectorShaderBoxProducer extends GraphBoxProducerImpl {
     public RemapVectorShaderBoxProducer() {
         super(new RemapVectorShaderNodeConfiguration());
     }
 
     @Override
-    public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+    public GraphBox createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         String x = "X";
         String y = "Y";
         String z = "Z";
@@ -33,7 +32,7 @@ public class RemapVectorShaderBoxProducer extends GraphBoxProducerImpl<ShaderFie
             w = data.getString("W", w);
         }
 
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+        GraphBoxImpl result = createGraphBox(id);
         addConfigurationInputsAndOutputs(result);
 
         final VisSelectBox<String> xBox = createSelectBox(x);
@@ -54,7 +53,7 @@ public class RemapVectorShaderBoxProducer extends GraphBoxProducerImpl<ShaderFie
         table.row();
 
         result.addGraphBoxPart(
-                new GraphBoxPartImpl<ShaderFieldType>(
+                new GraphBoxPartImpl(
                         table,
                         new GraphBoxPartImpl.Callback() {
                             @Override

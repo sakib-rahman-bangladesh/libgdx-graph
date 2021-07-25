@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.pipeline.producer.node;
 
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 
 public interface PipelineNode {
@@ -15,7 +14,7 @@ public interface PipelineNode {
     void dispose();
 
     interface FieldOutput<T> {
-        PipelineFieldType getPropertyType();
+        String getPropertyType();
 
         T getValue(PipelineRenderingContext context, PipelineRequirements pipelineRequirements);
     }

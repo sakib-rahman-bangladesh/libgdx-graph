@@ -5,8 +5,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.config.PropertyNodeConfiguration;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldTypeRegistry;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineInitializationFeedback;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNode;
@@ -20,16 +18,16 @@ public class PropertyPipelineNodeProducer implements PipelineNodeProducer {
     }
 
     @Override
-    public NodeConfiguration<PipelineFieldType> getConfiguration(JsonValue data) {
+    public NodeConfiguration getConfiguration(JsonValue data) {
         final String name = data.getString("name");
-        final PipelineFieldType fieldType = PipelineFieldTypeRegistry.findPipelineFieldType(data.getString("type"));
-        return new PropertyNodeConfiguration<PipelineFieldType>(name, fieldType);
+        final String fieldType = data.getString("type");
+        return new PropertyNodeConfiguration(name, fieldType);
     }
 
     @Override
     public PipelineNode createNode(JsonValue data, ObjectMap<String, Array<PipelineNode.FieldOutput<?>>> inputFields) {
         final String propertyName = data.getString("name");
-        final PipelineFieldType fieldType = PipelineFieldTypeRegistry.findPipelineFieldType(data.getString("type"));
+        final String fieldType = data.getString("type");
 
         final PropertyFieldOutput fieldOutput = new PropertyFieldOutput(fieldType, propertyName);
 
@@ -62,16 +60,16 @@ public class PropertyPipelineNodeProducer implements PipelineNodeProducer {
     }
 
     private static class PropertyFieldOutput implements PipelineNode.FieldOutput {
-        private PipelineFieldType fieldType;
+        private String fieldType;
         private String propertyName;
 
-        public PropertyFieldOutput(PipelineFieldType fieldType, String propertyName) {
+        public PropertyFieldOutput(String fieldType, String propertyName) {
             this.fieldType = fieldType;
             this.propertyName = propertyName;
         }
 
         @Override
-        public PipelineFieldType getPropertyType() {
+        public String getPropertyType() {
             return fieldType;
         }
 

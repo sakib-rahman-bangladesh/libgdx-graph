@@ -1,16 +1,19 @@
 package com.gempukku.libgdx.graph.shader.property;
 
 import com.badlogic.gdx.utils.JsonValue;
+import com.gempukku.libgdx.graph.field.Vector3FieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
 public class Vector3ShaderPropertyProducer implements GraphShaderPropertyProducer {
+    private ShaderFieldType type = new Vector3FieldType();
+
     @Override
     public ShaderFieldType getType() {
-        return ShaderFieldType.Vector3;
+        return type;
     }
 
     @Override
     public PropertySource createProperty(int index, String name, JsonValue data, boolean designTime) {
-        return new PropertySource(index, name, ShaderFieldType.Vector3, ShaderFieldType.Vector3.convertFromJson(data));
+        return new PropertySource(index, name, type, type.convertFromJson(data));
     }
 }

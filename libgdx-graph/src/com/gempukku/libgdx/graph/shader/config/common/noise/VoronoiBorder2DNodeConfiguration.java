@@ -5,16 +5,16 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class VoronoiBorder2DNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class VoronoiBorder2DNodeConfiguration extends NodeConfigurationImpl {
     public VoronoiBorder2DNodeConfiguration() {
         super("VoronoiBorder2D", "Voronoi Border 2D", "Noise");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("uv", "UV", true, ShaderFieldType.Vector2, ShaderFieldType.Float));
+                new GraphNodeInputImpl("uv", "UV", true, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("scale", "Scale", false, ShaderFieldType.Float));
+                new GraphNodeInputImpl("scale", "Scale", false, ShaderFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("progress", "Progress", false, ShaderFieldType.Float));
+                new GraphNodeInputImpl("progress", "Progress", false, ShaderFieldType.Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("output", "Result", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("output", "Result", ShaderFieldType.Float));
     }
 }

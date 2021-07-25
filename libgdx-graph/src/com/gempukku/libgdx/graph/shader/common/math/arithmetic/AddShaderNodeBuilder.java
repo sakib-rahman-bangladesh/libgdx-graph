@@ -11,6 +11,7 @@ import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
 import com.gempukku.libgdx.graph.shader.config.common.math.arithmetic.AddShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
 import com.gempukku.libgdx.graph.shader.node.ConfigurationShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.util.LibGDXCollections;
@@ -59,12 +60,12 @@ public class AddShaderNodeBuilder extends ConfigurationShaderNodeBuilder {
     }
 
     private ShaderFieldType determineOutputType(Array<FieldOutput> inputs) {
-        ShaderFieldType result = ShaderFieldType.Float;
+        ShaderFieldType result = ShaderFieldTypeRegistry.findShaderFieldType(ShaderFieldType.Float);
         for (FieldOutput input : inputs) {
             ShaderFieldType fieldType = input.getFieldType();
-            if (fieldType != result && (result != ShaderFieldType.Float && fieldType != ShaderFieldType.Float))
+            if (fieldType != result && (!result.getName().equals(ShaderFieldType.Float) && !fieldType.getName().equals(ShaderFieldType.Float)))
                 throw new IllegalStateException("Invalid mix of input field types");
-            if (fieldType != ShaderFieldType.Float)
+            if (!fieldType.getName().equals(ShaderFieldType.Float))
                 result = fieldType;
         }
         return result;

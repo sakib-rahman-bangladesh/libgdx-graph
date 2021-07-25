@@ -1,7 +1,6 @@
 package com.gempukku.libgdx.graph.pipeline.impl;
 
 import com.gempukku.libgdx.graph.pipeline.PipelineProperty;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 
 import java.util.function.Supplier;
 
@@ -10,16 +9,16 @@ public class WritablePipelineProperty implements PipelineProperty {
     private boolean initialized = false;
     private Object value;
 
-    private PipelineFieldType propertyType;
+    private String propertyType;
     private Supplier<?> defaultValueSupplier;
 
-    public WritablePipelineProperty(PipelineFieldType propertyType, Supplier<?> defaultValueSupplier) {
+    public WritablePipelineProperty(String propertyType, Supplier<?> defaultValueSupplier) {
         this.propertyType = propertyType;
         this.defaultValueSupplier = defaultValueSupplier;
     }
 
     @Override
-    public PipelineFieldType getType() {
+    public String getType() {
         return propertyType;
     }
 

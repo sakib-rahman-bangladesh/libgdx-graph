@@ -4,10 +4,10 @@ import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class SpriteLayerShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class SpriteLayerShaderNodeConfiguration extends NodeConfigurationImpl {
     public SpriteLayerShaderNodeConfiguration() {
         super("SpriteLayer", "Sprite Layer", "Sprite");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("layer", "Layer", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("layer", "Layer", ShaderFieldType.Float));
     }
 }

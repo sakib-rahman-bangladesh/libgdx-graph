@@ -6,16 +6,16 @@ import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
-public class PowerPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
+public class PowerPipelineNodeConfiguration extends NodeConfigurationImpl {
     public PowerPipelineNodeConfiguration() {
         super("Power", "Power", "Math/Exponential");
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("a", "A", true, PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
+                new GraphNodeInputImpl("a", "A", true, PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("b", "B", true, PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
+                new GraphNodeInputImpl("b", "B", true, PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<PipelineFieldType>("output", "Result",
-                        new SameTypeOutputTypeFunction<PipelineFieldType>("a", "b"),
+                new GraphNodeOutputImpl("output", "Result",
+                        new SameTypeOutputTypeFunction("a", "b"),
                         PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
     }
 }

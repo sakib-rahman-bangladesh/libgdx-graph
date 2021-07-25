@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g3d.utils.TextureDescriptor;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
@@ -15,7 +14,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
-public class TextureSettingsGraphBoxPart<T extends FieldType> extends VisTable implements GraphBoxPart {
+public class TextureSettingsGraphBoxPart extends VisTable implements GraphBoxPart {
     private static FilterValue[] filterValues = {
             new FilterValue("Default", null),
             new FilterValue("Linear", Texture.TextureFilter.Linear),

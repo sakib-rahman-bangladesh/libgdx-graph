@@ -33,9 +33,9 @@ public class SubtractShaderNodeBuilder extends ConfigurationCommonShaderNodeBuil
     private ShaderFieldType determineOutputType(FieldOutput a, FieldOutput b) {
         ShaderFieldType aType = a.getFieldType();
         ShaderFieldType bType = b.getFieldType();
-        if (aType == ShaderFieldType.Float)
+        if (aType.getName().equals(ShaderFieldType.Float))
             return bType;
-        if (bType == ShaderFieldType.Float)
+        if (bType.getName().equals(ShaderFieldType.Float))
             return aType;
         if (aType != bType)
             throw new IllegalStateException("Invalid mix of input field types");

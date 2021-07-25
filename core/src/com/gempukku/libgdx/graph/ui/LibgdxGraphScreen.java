@@ -16,12 +16,10 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphContainer;
@@ -61,7 +59,7 @@ public class LibgdxGraphScreen extends VisTable {
     private Map<String, JsonValue> savedGraphs = new HashMap<>();
     private FileHandle editedFile;
     private final TabbedPane tabbedPane;
-    private GraphDesignTab<PipelineFieldType> graphDesignTab;
+    private GraphDesignTab graphDesignTab;
     private Skin skin;
     private final VisTable insideTable;
 
@@ -93,7 +91,7 @@ public class LibgdxGraphScreen extends VisTable {
                         close.setDisabled(false);
                         createGroup.setDisabled(false);
 
-                        GraphDesignTab<?> designTab = (GraphDesignTab<?>) tab;
+                        GraphDesignTab designTab = (GraphDesignTab) tab;
                         exportShader.setDisabled(!designTab.getType().isExportable());
                         copyShader.setDisabled(!designTab.getType().isExportable());
                     }
@@ -335,10 +333,10 @@ public class LibgdxGraphScreen extends VisTable {
     }
 
     private void copy() {
-        GraphDesignTab<?> activeTab = (GraphDesignTab<?>) tabbedPane.getActiveTab();
+        GraphDesignTab activeTab = (GraphDesignTab) tabbedPane.getActiveTab();
         if (activeTab != null) {
             GraphType type = activeTab.getType();
-            GraphContainer<?> graphContainer = activeTab.getGraphContainer();
+            GraphContainer graphContainer = activeTab.getGraphContainer();
             ObjectSet<String> selectedNodes = graphContainer.getSelectedNodes();
 
             Array<NodesInClipboard.NodesData> nodesData = new Array<>();
@@ -346,7 +344,7 @@ public class LibgdxGraphScreen extends VisTable {
 
             ObjectSet<String> copiedNodes = new ObjectSet<>();
 
-            for (GraphBox<?> graphBox : graphContainer.getGraphBoxes()) {
+            for (GraphBox graphBox : graphContainer.getGraphBoxes()) {
                 if (selectedNodes.contains(graphBox.getId()) && !graphBox.getId().equals("end")) {
                     VisWindow boxWindow = graphContainer.getBoxWindow(graphBox.getId());
                     nodesData.add(
@@ -369,17 +367,17 @@ public class LibgdxGraphScreen extends VisTable {
     }
 
     private void paste() {
-        GraphDesignTab<?> activeTab = (GraphDesignTab<?>) tabbedPane.getActiveTab();
+        GraphDesignTab activeTab = (GraphDesignTab) tabbedPane.getActiveTab();
         if (activeTab != null) {
             GraphType type = activeTab.getType();
             if (nodesInClipboard.graphType != null && type.getType().equals(nodesInClipboard.graphType.getType())) {
                 ObjectMap<String, String> oldToNewIdMapping = new ObjectMap<>();
-                UIGraphConfiguration<?>[] uiGraphConfigurations = activeTab.getUiGraphConfigurations();
+                UIGraphConfiguration[] uiGraphConfigurations = activeTab.getUiGraphConfigurations();
 
                 // Do the actual paste
                 for (NodesInClipboard.NodesData nodesDatum : nodesInClipboard.nodesData) {
                     String id = UUID.randomUUID().toString().replace("-", "");
-                    GraphBoxProducer<?> graphBoxProducer = findGraphBoxProducer(uiGraphConfigurations, nodesDatum.graphNode.getConfiguration().getType());
+                    GraphBoxProducer graphBoxProducer = findGraphBoxProducer(uiGraphConfigurations, nodesDatum.graphNode.getConfiguration().getType());
                     GraphBox graphBox = graphBoxProducer.createPipelineGraphBox(skin, id, nodesDatum.graphNode.getData());
                     activeTab.getGraphContainer().addGraphBox(graphBox, nodesDatum.graphNode.getConfiguration().getName(),
                             true, nodesDatum.x, nodesDatum.y);
@@ -395,9 +393,9 @@ public class LibgdxGraphScreen extends VisTable {
         }
     }
 
-    private GraphBoxProducer<?> findGraphBoxProducer(UIGraphConfiguration<?>[] configurations, String type) {
-        for (UIGraphConfiguration<?> configuration : configurations) {
-            for (GraphBoxProducer<?> graphBoxProducer : configuration.getGraphBoxProducers()) {
+    private GraphBoxProducer findGraphBoxProducer(UIGraphConfiguration[] configurations, String type) {
+        for (UIGraphConfiguration configuration : configurations) {
+            for (GraphBoxProducer graphBoxProducer : configuration.getGraphBoxProducers()) {
                 if (graphBoxProducer.getType().equals(type))
                     return graphBoxProducer;
             }
@@ -487,7 +485,7 @@ public class LibgdxGraphScreen extends VisTable {
     }
 
     private void createGroup() {
-        ((GraphDesignTab<?>) tabbedPane.getActiveTab()).getGraphContainer().createNodeGroup();
+        ((GraphDesignTab) tabbedPane.getActiveTab()).getGraphContainer().createNodeGroup();
     }
 
     private void exportShader() {
@@ -501,14 +499,14 @@ public class LibgdxGraphScreen extends VisTable {
                 if (!selectedFile.name().toLowerCase().endsWith(".json")) {
                     selectedFile = selectedFile.parent().child(selectedFile.name() + ".json");
                 }
-                writeGraph(selectedFile, ((GraphDesignTab<?>) tabbedPane.getActiveTab()).serializeGraph());
+                writeGraph(selectedFile, ((GraphDesignTab) tabbedPane.getActiveTab()).serializeGraph());
             }
         });
         getStage().addActor(fileChooser.fadeIn());
     }
 
     private void copyShader() {
-        GraphDesignTab<?> activeTab = (GraphDesignTab<?>) tabbedPane.getActiveTab();
+        GraphDesignTab activeTab = (GraphDesignTab) tabbedPane.getActiveTab();
         graphInClipboard.graphType = activeTab.getType();
         graphInClipboard.graph = activeTab.serializeGraph();
     }
@@ -555,7 +553,7 @@ public class LibgdxGraphScreen extends VisTable {
         }
     }
 
-    private void saveToFile(GraphDesignTab<?> graphDesignTab, FileHandle editedFile) {
+    private void saveToFile(GraphDesignTab graphDesignTab, FileHandle editedFile) {
         for (Tab tab : tabbedPane.getTabs()) {
             tab.save();
         }
@@ -603,8 +601,8 @@ public class LibgdxGraphScreen extends VisTable {
                 InputStream stream = fileHandle.read();
                 try {
                     UIPipelineConfiguration pipelineGraphConfiguration = new UIPipelineConfiguration();
-                    graphDesignTab = GraphLoader.loadGraph(stream, new UIGraphLoaderCallback<PipelineFieldType>(
-                            skin, new GraphDesignTab<PipelineFieldType>(false, RenderPipelineGraphType.instance, "main", "Render pipeline", skin,
+                    graphDesignTab = GraphLoader.loadGraph(stream, new UIGraphLoaderCallback(
+                            skin, new GraphDesignTab(false, RenderPipelineGraphType.instance, "main", "Render pipeline", skin,
                             null, pipelineGraphConfiguration), pipelineGraphConfiguration));
 
                     graphDesignTab.getContentTable().addListener(
@@ -664,12 +662,12 @@ public class LibgdxGraphScreen extends VisTable {
         }
     }
 
-    private static class GraphNodeImpl<T extends FieldType> implements GraphNode<T> {
+    private static class GraphNodeImpl implements GraphNode {
         private String id;
         private JsonValue data;
-        private NodeConfiguration<T> configuration;
+        private NodeConfiguration configuration;
 
-        public GraphNodeImpl(String id, JsonValue data, NodeConfiguration<T> configuration) {
+        public GraphNodeImpl(String id, JsonValue data, NodeConfiguration configuration) {
             this.id = id;
             this.data = data;
             this.configuration = configuration;
@@ -686,7 +684,7 @@ public class LibgdxGraphScreen extends VisTable {
         }
 
         @Override
-        public NodeConfiguration<T> getConfiguration() {
+        public NodeConfiguration getConfiguration() {
             return configuration;
         }
     }

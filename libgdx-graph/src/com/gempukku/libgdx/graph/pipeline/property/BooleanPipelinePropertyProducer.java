@@ -8,14 +8,14 @@ import java.util.function.Supplier;
 
 public class BooleanPipelinePropertyProducer implements PipelinePropertyProducer {
     @Override
-    public PipelineFieldType getType() {
+    public String getType() {
         return PipelineFieldType.Boolean;
     }
 
     @Override
     public WritablePipelineProperty createProperty(JsonValue data) {
         final boolean x = data.getBoolean("value");
-        return new WritablePipelineProperty(PipelineFieldType.Boolean,
+        return new WritablePipelineProperty("Boolean",
                 new Supplier<Boolean>() {
                     @Override
                     public Boolean get() {

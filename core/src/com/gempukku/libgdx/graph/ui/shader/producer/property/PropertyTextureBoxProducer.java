@@ -8,25 +8,25 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.part.FileSelectorBoxPart;
 
-public class PropertyTextureBoxProducer implements PropertyBoxProducer<ShaderFieldType> {
+public class PropertyTextureBoxProducer implements PropertyBoxProducer {
     @Override
     public String getType() {
         return "TextureRegion";
     }
 
     @Override
-    public PropertyBox<ShaderFieldType> createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
+    public PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
         return createPropertyBoxDefault(skin, name, jsonObject.getString("previewPath", null));
     }
 
     @Override
-    public PropertyBox<ShaderFieldType> createDefaultPropertyBox(Skin skin) {
+    public PropertyBox createDefaultPropertyBox(Skin skin) {
         return createPropertyBoxDefault(skin, "New Texture", null);
     }
 
-    private PropertyBox<ShaderFieldType> createPropertyBoxDefault(Skin skin, String name, String previewPath) {
-        PropertyBoxImpl<ShaderFieldType> result = new PropertyBoxImpl<>(name, ShaderFieldType.TextureRegion);
-        result.addPropertyBoxPart(new FileSelectorBoxPart<ShaderFieldType>("Preview texture ", "previewPath", previewPath));
+    private PropertyBox createPropertyBoxDefault(Skin skin, String name, String previewPath) {
+        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.TextureRegion);
+        result.addPropertyBoxPart(new FileSelectorBoxPart("Preview texture ", "previewPath", previewPath));
 
         return result;
     }

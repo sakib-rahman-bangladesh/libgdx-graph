@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public class Vector2PipelinePropertyProducer implements PipelinePropertyProducer {
     @Override
-    public PipelineFieldType getType() {
+    public String getType() {
         return PipelineFieldType.Vector2;
     }
 

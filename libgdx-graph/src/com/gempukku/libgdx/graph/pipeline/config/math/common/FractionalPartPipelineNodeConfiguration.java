@@ -6,14 +6,14 @@ import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
-public class FractionalPartPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
+public class FractionalPartPipelineNodeConfiguration extends NodeConfigurationImpl {
     public FractionalPartPipelineNodeConfiguration() {
         super("Fract", "Fractional part", "Math/Common");
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("input", "Input", true, PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
+                new GraphNodeInputImpl("input", "Input", true, PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<PipelineFieldType>("output", "Result",
-                        new SameTypeOutputTypeFunction<PipelineFieldType>("input"),
+                new GraphNodeOutputImpl("output", "Result",
+                        new SameTypeOutputTypeFunction("input"),
                         PipelineFieldType.Float, PipelineFieldType.Vector2, PipelineFieldType.Vector3, PipelineFieldType.Color));
     }
 }

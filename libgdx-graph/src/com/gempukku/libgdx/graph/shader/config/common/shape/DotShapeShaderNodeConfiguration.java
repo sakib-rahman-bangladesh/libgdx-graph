@@ -5,12 +5,12 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class DotShapeShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class DotShapeShaderNodeConfiguration extends NodeConfigurationImpl {
     public DotShapeShaderNodeConfiguration() {
         super("DotShape", "Dot Shape", "Shape");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("uv", "UV", true, ShaderFieldType.Vector2));
+                new GraphNodeInputImpl("uv", "UV", true, ShaderFieldType.Vector2));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("output", "Output", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("output", "Output", ShaderFieldType.Float));
     }
 }

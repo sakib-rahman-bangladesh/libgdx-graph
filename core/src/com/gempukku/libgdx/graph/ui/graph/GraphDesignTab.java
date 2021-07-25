@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphValidator;
@@ -42,13 +41,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<GraphBox<T>, GraphConnection, PropertyBox<T>, T> {
-    private List<PropertyBox<T>> propertyBoxes = new LinkedList<>();
-    private final GraphContainer<T> graphContainer;
+public class GraphDesignTab extends Tab implements Graph<GraphBox, GraphConnection, PropertyBox> {
+    private List<PropertyBox> propertyBoxes = new LinkedList<>();
+    private final GraphContainer graphContainer;
 
     private Skin skin;
-    private UIGraphConfiguration<T>[] uiGraphConfigurations;
-    private SaveCallback<T> saveCallback;
+    private UIGraphConfiguration[] uiGraphConfigurations;
+    private SaveCallback saveCallback;
 
     private GraphType type;
     private String id;
@@ -58,12 +57,12 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     private VisTable contentTable;
     private VisLabel validationLabel;
 
-    private GraphValidator<GraphBox<T>, GraphConnection, PropertyBox<T>, T> graphValidator = new GraphValidator<>();
+    private GraphValidator<GraphBox, GraphConnection, PropertyBox> graphValidator = new GraphValidator<>();
 
     private boolean finishedLoading = false;
 
     public GraphDesignTab(boolean closeable, GraphType type, String id, String title, Skin skin,
-                          SaveCallback<T> saveCallback, UIGraphConfiguration<T>... uiGraphConfiguration) {
+                          SaveCallback saveCallback, UIGraphConfiguration... uiGraphConfiguration) {
         super(true, closeable);
         this.type = type;
         this.id = id;
@@ -75,7 +74,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         this.uiGraphConfigurations = uiGraphConfiguration;
         this.saveCallback = saveCallback;
 
-        graphContainer = new GraphContainer<T>(skin,
+        graphContainer = new GraphContainer(skin,
                 new PopupMenuProducer() {
                     @Override
                     public PopupMenu createPopupMenu(float x, float y) {
@@ -90,7 +89,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
                             setDirty(true);
                             if (event.isStructure())
                                 updatePipelineValidation();
-                            for (GraphBox<T> graphBox : graphContainer.getGraphBoxes()) {
+                            for (GraphBox graphBox : graphContainer.getGraphBoxes()) {
                                 graphBox.graphChanged(event, graphContainer.getValidationResult().hasErrors(),
                                         GraphDesignTab.this);
                             }
@@ -135,7 +134,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         contentTable.add(splitPane).grow().row();
     }
 
-    public UIGraphConfiguration<T>[] getUiGraphConfigurations() {
+    public UIGraphConfiguration[] getUiGraphConfigurations() {
         return uiGraphConfigurations;
     }
 
@@ -144,8 +143,8 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     }
 
     @Override
-    public PropertyBox<T> getPropertyByName(String name) {
-        for (PropertyBox<T> propertyBox : propertyBoxes) {
+    public PropertyBox getPropertyByName(String name) {
+        for (PropertyBox propertyBox : propertyBoxes) {
             if (propertyBox.getName().equals(name))
                 return propertyBox;
         }
@@ -158,7 +157,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     }
 
     @Override
-    public Iterable<? extends PropertyBox<T>> getProperties() {
+    public Iterable<? extends PropertyBox> getProperties() {
         return propertyBoxes;
     }
 
@@ -182,9 +181,9 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     private PopupMenu createGraphPopupMenu(final float popupX, final float popupY) {
         PopupMenu popupMenu = new PopupMenu();
 
-        for (UIGraphConfiguration<T> uiGraphConfiguration : uiGraphConfigurations) {
+        for (UIGraphConfiguration uiGraphConfiguration : uiGraphConfigurations) {
             boolean hasChild = false;
-            for (final GraphBoxProducer<T> producer : uiGraphConfiguration.getGraphBoxProducers()) {
+            for (final GraphBoxProducer producer : uiGraphConfiguration.getGraphBoxProducers()) {
                 String menuLocation = producer.getMenuLocation();
                 if (menuLocation != null) {
                     String[] menuSplit = menuLocation.split("/");
@@ -196,7 +195,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
                                 @Override
                                 public void changed(ChangeEvent event, Actor actor) {
                                     String id = UUID.randomUUID().toString().replace("-", "");
-                                    GraphBox<T> graphBox = producer.createDefault(skin, id);
+                                    GraphBox graphBox = producer.createDefault(skin, id);
                                     graphContainer.addGraphBox(graphBox, title, true, popupX, popupY);
                                 }
                             });
@@ -213,7 +212,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
 
         if (!propertyBoxes.isEmpty()) {
             PopupMenu propertyMenu = new PopupMenu();
-            for (final PropertyBox<T> propertyProducer : propertyBoxes) {
+            for (final PropertyBox propertyProducer : propertyBoxes) {
                 final String name = propertyProducer.getName();
                 MenuItem valueMenuItem = new MenuItem(name);
                 valueMenuItem.addListener(
@@ -221,7 +220,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
                             @Override
                             public void changed(ChangeEvent event, Actor actor) {
                                 String id = UUID.randomUUID().toString().replace("-", "");
-                                GraphBox<T> graphBox = propertyProducer.createPropertyBox(skin, id, popupX, popupY);
+                                GraphBox graphBox = propertyProducer.createPropertyBox(skin, id, popupX, popupY);
                                 graphContainer.addGraphBox(graphBox, "Property", true, popupX, popupY);
                             }
                         });
@@ -261,16 +260,16 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
 
     private PopupMenu createPropertyPopupMenu(float x, float y) {
         PopupMenu menu = new PopupMenu();
-        for (UIGraphConfiguration<T> uiGraphConfiguration : uiGraphConfigurations) {
-            for (Map.Entry<String, PropertyBoxProducer<T>> propertyEntry : uiGraphConfiguration.getPropertyBoxProducers().entrySet()) {
+        for (UIGraphConfiguration uiGraphConfiguration : uiGraphConfigurations) {
+            for (Map.Entry<String, PropertyBoxProducer> propertyEntry : uiGraphConfiguration.getPropertyBoxProducers().entrySet()) {
                 final String name = propertyEntry.getKey();
-                final PropertyBoxProducer<T> value = propertyEntry.getValue();
+                final PropertyBoxProducer value = propertyEntry.getValue();
                 MenuItem valueMenuItem = new MenuItem(name);
                 valueMenuItem.addListener(
                         new ChangeListener() {
                             @Override
                             public void changed(ChangeEvent event, Actor actor) {
-                                PropertyBox<T> defaultPropertyBox = value.createDefaultPropertyBox(skin);
+                                PropertyBox defaultPropertyBox = value.createDefaultPropertyBox(skin);
                                 addPropertyBox(name, defaultPropertyBox);
                             }
                         });
@@ -286,21 +285,21 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     }
 
     @Override
-    public GraphBox<T> getNodeById(String id) {
+    public GraphBox getNodeById(String id) {
         return graphContainer.getGraphBoxById(id);
     }
 
     @Override
-    public Iterable<? extends GraphBox<T>> getNodes() {
+    public Iterable<? extends GraphBox> getNodes() {
         return graphContainer.getGraphBoxes();
     }
 
-    public GraphContainer<T> getGraphContainer() {
+    public GraphContainer getGraphContainer() {
         return graphContainer;
     }
 
     private void updatePipelineValidation() {
-        GraphValidator.ValidationResult<GraphBox<T>, GraphConnection, PropertyBox<T>, T> validationResult = graphValidator.validateGraph(this, "end");
+        GraphValidator.ValidationResult<GraphBox, GraphConnection, PropertyBox> validationResult = graphValidator.validateGraph(this, "end");
         graphContainer.setValidationResult(validationResult);
         if (validationResult.hasErrors()) {
             validationLabel.setColor(Color.RED);
@@ -335,7 +334,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         return pipelineProperties;
     }
 
-    public void addPropertyBox(String type, final PropertyBox<T> propertyBox) {
+    public void addPropertyBox(String type, final PropertyBox propertyBox) {
         propertyBoxes.add(propertyBox);
         final Actor actor = propertyBox.getActor();
 
@@ -367,7 +366,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         contentTable.fire(new GraphChangedEvent(true, false));
     }
 
-    private void removePropertyBox(PropertyBox<T> propertyBox) {
+    private void removePropertyBox(PropertyBox propertyBox) {
         Actor actor = propertyBox.getActor();
         propertyBoxes.remove(propertyBox);
         pipelineProperties.removeActor(actor.getParent());
@@ -379,7 +378,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
     @Override
     public void dispose() {
         graphContainer.dispose();
-        for (PropertyBox<T> propertyBox : propertyBoxes) {
+        for (PropertyBox propertyBox : propertyBoxes) {
             propertyBox.dispose();
         }
     }
@@ -402,7 +401,7 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         JsonValue objects = new JsonValue(JsonValue.ValueType.array);
         Vector2 tmp = new Vector2();
         graphContainer.getCanvasPosition(tmp);
-        for (GraphBox<T> graphBox : graphContainer.getGraphBoxes()) {
+        for (GraphBox graphBox : graphContainer.getGraphBoxes()) {
             VisWindow window = graphContainer.getBoxWindow(graphBox.getId());
             JsonValue object = new JsonValue(JsonValue.ValueType.object);
             object.addChild("id", new JsonValue(graphBox.getId()));
@@ -430,10 +429,10 @@ public class GraphDesignTab<T extends FieldType> extends Tab implements Graph<Gr
         graph.addChild("connections", connections);
 
         JsonValue properties = new JsonValue(JsonValue.ValueType.array);
-        for (PropertyBox<T> propertyBox : propertyBoxes) {
+        for (PropertyBox propertyBox : propertyBoxes) {
             JsonValue property = new JsonValue(JsonValue.ValueType.object);
             property.addChild("name", new JsonValue(propertyBox.getName()));
-            property.addChild("type", new JsonValue(propertyBox.getType().getName()));
+            property.addChild("type", new JsonValue(propertyBox.getType()));
 
             JsonValue data = propertyBox.getData();
             if (data != null)

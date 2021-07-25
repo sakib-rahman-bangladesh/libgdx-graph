@@ -2,10 +2,10 @@ package com.gempukku.libgdx.graph.data;
 
 import com.badlogic.gdx.utils.JsonValue;
 
-public interface GraphProperty<T extends FieldType> {
+public interface GraphProperty {
     String getName();
 
-    T getType();
+    String getType();
 
     JsonValue getData();
 }

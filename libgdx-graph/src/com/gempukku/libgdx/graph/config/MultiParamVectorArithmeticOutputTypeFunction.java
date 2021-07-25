@@ -2,30 +2,29 @@ package com.gempukku.libgdx.graph.config;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.data.FieldType;
 
 import java.util.function.Function;
 
-public class MultiParamVectorArithmeticOutputTypeFunction<T extends FieldType> implements Function<ObjectMap<String, Array<T>>, T> {
-    private T floatType;
+public class MultiParamVectorArithmeticOutputTypeFunction implements Function<ObjectMap<String, Array<String>>, String> {
+    private String floatType;
     private String input;
 
-    public MultiParamVectorArithmeticOutputTypeFunction(T floatType, String input) {
+    public MultiParamVectorArithmeticOutputTypeFunction(String floatType, String input) {
         this.floatType = floatType;
         this.input = input;
     }
 
     @Override
-    public T apply(ObjectMap<String, Array<T>> inputs) {
-        Array<T> types = inputs.get(input);
+    public String apply(ObjectMap<String, Array<String>> inputs) {
+        Array<String> types = inputs.get(input);
         if (types.size == 0)
             return null;
 
-        T resultType = floatType;
-        for (T type : types) {
-            if (type != resultType && (resultType != floatType && type != floatType))
+        String resultType = floatType;
+        for (String type : types) {
+            if (!type.equals(resultType) && (!resultType.equals(floatType) && !type.equals(floatType)))
                 return null;
-            if (type != floatType)
+            if (!type.equals(floatType))
                 resultType = type;
         }
 

@@ -4,12 +4,12 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
 
-public class NodeConfigurationImpl<T extends FieldType> implements NodeConfiguration<T> {
+public class NodeConfigurationImpl implements NodeConfiguration {
     private String type;
     private String name;
     private String menuLocation;
-    private ObjectMap<String, GraphNodeInput<T>> nodeInputs = new OrderedMap<>();
-    private ObjectMap<String, GraphNodeOutput<T>> nodeOutputs = new OrderedMap<>();
+    private ObjectMap<String, GraphNodeInput> nodeInputs = new OrderedMap<>();
+    private ObjectMap<String, GraphNodeOutput> nodeOutputs = new OrderedMap<>();
 
     public NodeConfigurationImpl(String type, String name, String menuLocation) {
         this.type = type;
@@ -17,11 +17,11 @@ public class NodeConfigurationImpl<T extends FieldType> implements NodeConfigura
         this.menuLocation = menuLocation;
     }
 
-    public void addNodeInput(GraphNodeInput<T> input) {
+    public void addNodeInput(GraphNodeInput input) {
         nodeInputs.put(input.getFieldId(), input);
     }
 
-    public void addNodeOutput(GraphNodeOutput<T> output) {
+    public void addNodeOutput(GraphNodeOutput output) {
         nodeOutputs.put(output.getFieldId(), output);
     }
 
@@ -41,19 +41,19 @@ public class NodeConfigurationImpl<T extends FieldType> implements NodeConfigura
     }
 
     @Override
-    public ObjectMap<String, GraphNodeInput<T>> getNodeInputs() {
+    public ObjectMap<String, GraphNodeInput> getNodeInputs() {
         return nodeInputs;
     }
 
     @Override
-    public ObjectMap<String, GraphNodeOutput<T>> getNodeOutputs() {
+    public ObjectMap<String, GraphNodeOutput> getNodeOutputs() {
         return nodeOutputs;
     }
 
     @Override
-    public boolean isValid(ObjectMap<String, Array<T>> inputTypes, Iterable<? extends GraphProperty<T>> properties) {
-        for (GraphNodeOutput<T> nodeOutput : nodeOutputs.values()) {
-            T output = nodeOutput.determineFieldType(inputTypes);
+    public boolean isValid(ObjectMap<String, Array<String>> inputTypes, Iterable<? extends GraphProperty> properties) {
+        for (GraphNodeOutput nodeOutput : nodeOutputs.values()) {
+            String output = nodeOutput.determineFieldType(inputTypes);
             if (output == null)
                 return false;
         }

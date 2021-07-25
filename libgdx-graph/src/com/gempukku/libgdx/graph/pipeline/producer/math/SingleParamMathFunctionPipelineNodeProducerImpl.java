@@ -17,11 +17,11 @@ public abstract class SingleParamMathFunctionPipelineNodeProducerImpl extends Pi
     private String inputName;
     private String outputName;
 
-    public SingleParamMathFunctionPipelineNodeProducerImpl(NodeConfiguration<PipelineFieldType> configuration) {
+    public SingleParamMathFunctionPipelineNodeProducerImpl(NodeConfiguration configuration) {
         this(configuration, "input", "output");
     }
 
-    public SingleParamMathFunctionPipelineNodeProducerImpl(NodeConfiguration<PipelineFieldType> configuration, String inputName, String outputName) {
+    public SingleParamMathFunctionPipelineNodeProducerImpl(NodeConfiguration configuration, String inputName, String outputName) {
         super(configuration);
         this.inputName = inputName;
         this.outputName = outputName;
@@ -30,7 +30,7 @@ public abstract class SingleParamMathFunctionPipelineNodeProducerImpl extends Pi
     @Override
     protected PipelineNode createNodeForSingleInputs(final JsonValue data, final ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final PipelineNode.FieldOutput<?> inputFunction = inputFields.get(inputName);
-        final PipelineFieldType returnType = inputFunction.getPropertyType();
+        final String returnType = inputFunction.getPropertyType();
 
         final Object result = createResult(returnType);
 
@@ -41,13 +41,13 @@ public abstract class SingleParamMathFunctionPipelineNodeProducerImpl extends Pi
 
                 Object returnValue;
 
-                if (returnType == PipelineFieldType.Float) {
+                if (returnType.equals(PipelineFieldType.Float)) {
                     returnValue = executeFunction(value, 0);
-                } else if (returnType == PipelineFieldType.Vector2) {
+                } else if (returnType.equals(PipelineFieldType.Vector2)) {
                     returnValue = ((Vector2) result).set(
                             executeFunction(value, 0),
                             executeFunction(value, 1));
-                } else if (returnType == PipelineFieldType.Vector3) {
+                } else if (returnType.equals(PipelineFieldType.Vector3)) {
                     returnValue = ((Vector3) result).set(
                             executeFunction(value, 0),
                             executeFunction(value, 1),
@@ -67,20 +67,19 @@ public abstract class SingleParamMathFunctionPipelineNodeProducerImpl extends Pi
         };
     }
 
-    private Object createResult(PipelineFieldType returnType) {
-        if (returnType == PipelineFieldType.Float) {
+    private Object createResult(String returnType) {
+        if (returnType.equals(PipelineFieldType.Float)) {
             return 0f;
-        } else if (returnType == PipelineFieldType.Vector2) {
+        } else if (returnType.equals(PipelineFieldType.Vector2)) {
             return new Vector2();
-        } else if (returnType == PipelineFieldType.Vector3) {
+        } else if (returnType.equals(PipelineFieldType.Vector3)) {
             return new Vector3();
-        } else if (returnType == PipelineFieldType.Color) {
+        } else if (returnType.equals(PipelineFieldType.Color)) {
             return new Color();
         } else {
             throw new IllegalArgumentException("Not matching type for function");
         }
     }
-
 
     private float executeFunction(Object a, int index) {
         return executeFunction(getParamValue(a, index));

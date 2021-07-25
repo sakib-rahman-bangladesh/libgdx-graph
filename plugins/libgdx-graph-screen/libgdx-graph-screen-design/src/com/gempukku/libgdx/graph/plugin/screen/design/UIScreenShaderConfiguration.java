@@ -1,7 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.screen.design;
 
 import com.gempukku.libgdx.graph.plugin.screen.design.producer.EndScreenShaderBoxProducer;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
@@ -10,10 +9,10 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class UIScreenShaderConfiguration implements UIGraphConfiguration<ShaderFieldType> {
-    private static Map<String, GraphBoxProducer<ShaderFieldType>> graphBoxProducers = new TreeMap<>();
+public class UIScreenShaderConfiguration implements UIGraphConfiguration {
+    private static Map<String, GraphBoxProducer> graphBoxProducers = new TreeMap<>();
 
-    public static void register(GraphBoxProducer<ShaderFieldType> producer) {
+    public static void register(GraphBoxProducer producer) {
         String menuLocation = producer.getMenuLocation();
         if (menuLocation == null)
             menuLocation = "Dummy";
@@ -25,12 +24,12 @@ public class UIScreenShaderConfiguration implements UIGraphConfiguration<ShaderF
     }
 
     @Override
-    public Iterable<GraphBoxProducer<ShaderFieldType>> getGraphBoxProducers() {
+    public Iterable<GraphBoxProducer> getGraphBoxProducers() {
         return graphBoxProducers.values();
     }
 
     @Override
-    public Map<String, PropertyBoxProducer<ShaderFieldType>> getPropertyBoxProducers() {
+    public Map<String, PropertyBoxProducer> getPropertyBoxProducers() {
         return Collections.emptyMap();
     }
 }

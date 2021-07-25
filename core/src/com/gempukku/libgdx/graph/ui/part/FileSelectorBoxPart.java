@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
@@ -16,7 +15,7 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
 import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
 
-public class FileSelectorBoxPart<T extends FieldType> extends VisTable implements GraphBoxPart<T> {
+public class FileSelectorBoxPart extends VisTable implements GraphBoxPart {
     private String property;
     private String selectedPath;
 
@@ -58,12 +57,12 @@ public class FileSelectorBoxPart<T extends FieldType> extends VisTable implement
     }
 
     @Override
-    public GraphBoxOutputConnector<T> getOutputConnector() {
+    public GraphBoxOutputConnector getOutputConnector() {
         return null;
     }
 
     @Override
-    public GraphBoxInputConnector<T> getInputConnector() {
+    public GraphBoxInputConnector getInputConnector() {
         return null;
     }
 

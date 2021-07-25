@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
@@ -22,7 +21,7 @@ import com.kotcrab.vis.ui.widget.color.ColorPicker;
 import com.kotcrab.vis.ui.widget.color.ColorPickerAdapter;
 
 
-public class ColorBoxPart<T extends FieldType> extends VisTable implements GraphBoxPart<T> {
+public class ColorBoxPart extends VisTable implements GraphBoxPart {
     private String property;
     private final VisImage image;
     private final ColorPicker picker;
@@ -77,12 +76,12 @@ public class ColorBoxPart<T extends FieldType> extends VisTable implements Graph
     }
 
     @Override
-    public GraphBoxOutputConnector<T> getOutputConnector() {
+    public GraphBoxOutputConnector getOutputConnector() {
         return null;
     }
 
     @Override
-    public GraphBoxInputConnector<T> getInputConnector() {
+    public GraphBoxInputConnector getInputConnector() {
         return null;
     }
 

@@ -4,10 +4,10 @@ import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class ParticleLifePercentageShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class ParticleLifePercentageShaderNodeConfiguration extends NodeConfigurationImpl {
     public ParticleLifePercentageShaderNodeConfiguration() {
         super("ParticleLifePercentage", "Particle life %", "Particle");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("percentage", "Percentage", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("percentage", "Percentage", ShaderFieldType.Float));
     }
 }

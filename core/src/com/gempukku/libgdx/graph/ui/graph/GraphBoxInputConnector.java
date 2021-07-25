@@ -1,8 +1,6 @@
 package com.gempukku.libgdx.graph.ui.graph;
 
-import com.gempukku.libgdx.graph.data.FieldType;
-
-public interface GraphBoxInputConnector<T extends FieldType> {
+public interface GraphBoxInputConnector {
     enum Side {
         Left, Top;
     }

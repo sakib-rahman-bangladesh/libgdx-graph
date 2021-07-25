@@ -30,6 +30,7 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Point3DLight;
 import com.gempukku.libgdx.graph.plugin.screen.ScreenGraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.FullScreenRenderImpl;
@@ -107,7 +108,7 @@ public class ScreenShaderPreviewWidget extends Widget implements Disposable {
         return height;
     }
 
-    private void createShader(final Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
+    private void createShader(final Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph) {
         try {
             timeKeeper = new DefaultTimeKeeper();
             graphShader = GraphShaderBuilder.buildScreenShader(WhitePixel.sharedInstance.texture, graph, true);
@@ -118,11 +119,11 @@ public class ScreenShaderPreviewWidget extends Widget implements Disposable {
                     new PropertyContainer() {
                         @Override
                         public Object getValue(String name) {
-                            for (GraphProperty<ShaderFieldType> property : graph.getProperties()) {
+                            for (GraphProperty property : graph.getProperties()) {
                                 if (property.getName().equals(name)) {
-                                    ShaderFieldType propertyType = property.getType();
+                                    ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(property.getType());
                                     Object value = propertyType.convertFromJson(property.getData());
-                                    if (propertyType == ShaderFieldType.TextureRegion) {
+                                    if (propertyType.isTexture()) {
                                         if (value != null) {
                                             try {
                                                 Texture texture = new Texture(Gdx.files.absolute((String) value));
@@ -202,7 +203,7 @@ public class ScreenShaderPreviewWidget extends Widget implements Disposable {
         }
     }
 
-    public void graphChanged(boolean hasErrors, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
+    public void graphChanged(boolean hasErrors, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph) {
         if (hasErrors && shaderInitialized) {
             destroyShader();
         } else if (!hasErrors && !shaderInitialized) {

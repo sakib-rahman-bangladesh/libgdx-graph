@@ -33,7 +33,6 @@ import com.gempukku.libgdx.graph.plugin.models.impl.IGraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.impl.ModelBasedGraphModel;
 import com.gempukku.libgdx.graph.plugin.models.producer.ModelShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.WhitePixel;
@@ -123,7 +122,7 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
         return height;
     }
 
-    private void createShader(Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
+    private void createShader(Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph) {
         try {
             timeKeeper = new DefaultTimeKeeper();
             graphShader = GraphShaderBuilder.buildModelShader(WhitePixel.sharedInstance.texture, 12, 5, graph, true);
@@ -219,7 +218,7 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
         }
     }
 
-    public void graphChanged(boolean hasErrors, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
+    public void graphChanged(boolean hasErrors, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph) {
         if (hasErrors && shaderInitialized) {
             destroyShader();
         } else if (!hasErrors && !shaderInitialized) {

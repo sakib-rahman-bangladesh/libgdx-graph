@@ -25,9 +25,8 @@ public class DotShapeShaderNodeBuilder extends ConfigurationCommonShaderNodeBuil
 
         commonShaderBuilder.addMainLine("// Dot shape node");
         String name = "result_" + nodeId;
-        ShaderFieldType resultType = ShaderFieldType.Float;
 
-        commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = 2.0 * clamp(0.5 - distance(" + uv + ", vec2(0.5)), 0.0, 0.5);");
+        commonShaderBuilder.addMainLine("float " + name + " = 2.0 * clamp(0.5 - distance(" + uv + ", vec2(0.5)), 0.0, 0.5);");
 
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(ShaderFieldType.Float, name));
     }

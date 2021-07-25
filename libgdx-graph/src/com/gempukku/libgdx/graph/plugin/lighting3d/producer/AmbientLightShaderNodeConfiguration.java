@@ -4,10 +4,10 @@ import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class AmbientLightShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class AmbientLightShaderNodeConfiguration extends NodeConfigurationImpl {
     public AmbientLightShaderNodeConfiguration() {
         super("AmbientLight", "Ambient light", "Lighting");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("ambient", "Color", ShaderFieldType.Vector4));
+                new GraphNodeOutputImpl("ambient", "Color", ShaderFieldType.Vector4));
     }
 }

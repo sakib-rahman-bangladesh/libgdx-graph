@@ -1,30 +1,29 @@
 package com.gempukku.libgdx.graph.pipeline.producer.node;
 
 import com.badlogic.gdx.utils.Array;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphNodeInput;
 
-public class GraphNodeInputImpl<T extends FieldType> implements GraphNodeInput<T> {
+public class GraphNodeInputImpl implements GraphNodeInput {
     private String id;
     private String name;
     private boolean acceptingMultiple;
-    private Array<T> acceptedTypes;
+    private Array<String> acceptedTypes;
     private boolean required;
     private boolean mainConnection;
 
-    public GraphNodeInputImpl(String id, String name, T... acceptedType) {
+    public GraphNodeInputImpl(String id, String name, String... acceptedType) {
         this(id, name, false, acceptedType);
     }
 
-    public GraphNodeInputImpl(String id, String name, boolean required, T... acceptedType) {
+    public GraphNodeInputImpl(String id, String name, boolean required, String... acceptedType) {
         this(id, name, required, false, acceptedType);
     }
 
-    public GraphNodeInputImpl(String id, String name, boolean required, boolean mainConnection, T... acceptedType) {
+    public GraphNodeInputImpl(String id, String name, boolean required, boolean mainConnection, String... acceptedType) {
         this(id, name, required, mainConnection, false, acceptedType);
     }
 
-    public GraphNodeInputImpl(String id, String name, boolean required, boolean mainConnection, boolean acceptingMultiple, T... acceptedType) {
+    public GraphNodeInputImpl(String id, String name, boolean required, boolean mainConnection, boolean acceptingMultiple, String... acceptedType) {
         this.id = id;
         this.name = name;
         this.required = required;
@@ -59,14 +58,14 @@ public class GraphNodeInputImpl<T extends FieldType> implements GraphNodeInput<T
     }
 
     @Override
-    public Array<T> getAcceptedPropertyTypes() {
+    public Array<String> getAcceptedPropertyTypes() {
         return acceptedTypes;
     }
 
     @Override
-    public boolean acceptsInputTypes(Array<T> inputTypes) {
-        for (T inputType : inputTypes) {
-            if (!acceptedTypes.contains(inputType, true))
+    public boolean acceptsInputTypes(Array<String> inputTypes) {
+        for (String inputType : inputTypes) {
+            if (!acceptedTypes.contains(inputType, false))
                 return false;
         }
 

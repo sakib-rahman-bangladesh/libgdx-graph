@@ -1,10 +1,8 @@
 package com.gempukku.libgdx.graph.ui.graph;
 
-import com.gempukku.libgdx.graph.data.FieldType;
-
 import java.util.function.Supplier;
 
-public class GraphBoxInputConnectorImpl<T extends FieldType> implements GraphBoxInputConnector<T> {
+public class GraphBoxInputConnectorImpl implements GraphBoxInputConnector {
     private Side side;
     private Supplier<Float> offsetSupplier;
     private String fieldId;

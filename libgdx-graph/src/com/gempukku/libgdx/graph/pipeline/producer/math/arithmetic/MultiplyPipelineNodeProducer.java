@@ -27,7 +27,7 @@ public class MultiplyPipelineNodeProducer extends PipelineNodeProducerImpl {
     @Override
     public PipelineNode createNode(JsonValue data, ObjectMap<String, Array<PipelineNode.FieldOutput<?>>> inputFields) {
         final Array<PipelineNode.FieldOutput<?>> inputs = inputFields.get("inputs");
-        final PipelineFieldType resultType = determineOutputType(inputs);
+        final String resultType = determineOutputType(inputs);
 
         final Object result = createDefaultValue(resultType);
 
@@ -72,35 +72,35 @@ public class MultiplyPipelineNodeProducer extends PipelineNodeProducerImpl {
         return null;
     }
 
-    private Object createDefaultValue(PipelineFieldType type) {
-        if (type == PipelineFieldType.Float)
+    private Object createDefaultValue(String type) {
+        if (type.equals(PipelineFieldType.Float))
             return 1f;
-        else if (type == PipelineFieldType.Vector2)
+        else if (type.equals(PipelineFieldType.Vector2))
             return new Vector2(1f, 1f);
-        else if (type == PipelineFieldType.Vector3)
+        else if (type.equals(PipelineFieldType.Vector3))
             return new Vector3(1f, 1f, 1f);
         else
             return new Color(1, 1, 1, 1);
     }
 
-    private Object resetDefaultValue(PipelineFieldType type, Object value) {
-        if (type == PipelineFieldType.Float)
+    private Object resetDefaultValue(String type, Object value) {
+        if (type.equals(PipelineFieldType.Float))
             return 1f;
-        else if (type == PipelineFieldType.Vector2)
+        else if (type.equals(PipelineFieldType.Vector2))
             return ((Vector2) value).set(1f, 1f);
-        else if (type == PipelineFieldType.Vector3)
+        else if (type.equals(PipelineFieldType.Vector3))
             return ((Vector3) value).set(1f, 1f, 1f);
         else
             return ((Color) value).set(1f, 1f, 1f, 1f);
     }
 
-    private PipelineFieldType determineOutputType(Array<PipelineNode.FieldOutput<?>> inputs) {
-        PipelineFieldType result = PipelineFieldType.Float;
+    private String determineOutputType(Array<PipelineNode.FieldOutput<?>> inputs) {
+        String result = PipelineFieldType.Float;
         for (PipelineNode.FieldOutput<?> input : inputs) {
-            PipelineFieldType fieldType = input.getPropertyType();
-            if (fieldType != result && (result != PipelineFieldType.Float && fieldType != PipelineFieldType.Float))
+            String fieldType = input.getPropertyType();
+            if (!fieldType.equals(result) && (!result.equals(PipelineFieldType.Float) && !fieldType.equals(PipelineFieldType.Float)))
                 throw new IllegalStateException("Invalid mix of input field types");
-            if (fieldType != PipelineFieldType.Float)
+            if (!fieldType.equals(PipelineFieldType.Float))
                 result = fieldType;
         }
         return result;

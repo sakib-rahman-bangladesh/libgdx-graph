@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.plugin.models.config.material.TextureAttributeShaderNodeConfiguration;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
+import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
@@ -26,14 +26,14 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
 import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
 
-public class TextureAttributeBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
+public class TextureAttributeBoxProducer extends GraphBoxProducerImpl {
     public TextureAttributeBoxProducer(String type, String name) {
         super(new TextureAttributeShaderNodeConfiguration(type, name));
     }
 
     @Override
-    public GraphBoxImpl<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+    public GraphBox createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+        GraphBoxImpl result = createGraphBox(id);
         addConfigurationInputsAndOutputs(result);
         TextureBoxPart normalBoxPart = new TextureBoxPart();
         if (data != null)
@@ -42,7 +42,7 @@ public class TextureAttributeBoxProducer extends GraphBoxProducerImpl<ShaderFiel
         return result;
     }
 
-    private static class TextureBoxPart extends VisTable implements GraphBoxPart<ShaderFieldType> {
+    private static class TextureBoxPart extends VisTable implements GraphBoxPart {
         private VisImage image;
         private Texture texture;
         private String path;
@@ -111,12 +111,12 @@ public class TextureAttributeBoxProducer extends GraphBoxProducerImpl<ShaderFiel
         }
 
         @Override
-        public GraphBoxOutputConnector<ShaderFieldType> getOutputConnector() {
+        public GraphBoxOutputConnector getOutputConnector() {
             return null;
         }
 
         @Override
-        public GraphBoxInputConnector<ShaderFieldType> getInputConnector() {
+        public GraphBoxInputConnector getInputConnector() {
             return null;
         }
 

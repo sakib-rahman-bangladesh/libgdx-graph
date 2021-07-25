@@ -2,36 +2,35 @@ package com.gempukku.libgdx.graph.pipeline.producer.node;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphNodeOutput;
 
 import java.util.function.Function;
 
-public class GraphNodeOutputImpl<T extends FieldType> implements GraphNodeOutput<T> {
+public class GraphNodeOutputImpl implements GraphNodeOutput {
     private String id;
     private String name;
     private boolean mainConnection;
-    private Function<ObjectMap<String, Array<T>>, T> outputTypeFunction;
-    private Array<T> propertyTypes;
+    private Function<ObjectMap<String, Array<String>>, String> outputTypeFunction;
+    private Array<String> propertyTypes;
 
-    public GraphNodeOutputImpl(String id, String name, final T producedType) {
+    public GraphNodeOutputImpl(String id, String name, final String producedType) {
         this(id, name, false, producedType);
     }
 
-    public GraphNodeOutputImpl(String id, String name, boolean mainConnection, final T producedType) {
-        this(id, name, mainConnection, new Function<ObjectMap<String, Array<T>>, T>() {
+    public GraphNodeOutputImpl(String id, String name, boolean mainConnection, final String producedType) {
+        this(id, name, mainConnection, new Function<ObjectMap<String, Array<String>>, String>() {
             @Override
-            public T apply(ObjectMap<String, Array<T>> stringTMap) {
+            public String apply(ObjectMap<String, Array<String>> stringTMap) {
                 return producedType;
             }
         }, producedType);
     }
 
-    public GraphNodeOutputImpl(String id, String name, Function<ObjectMap<String, Array<T>>, T> outputTypeFunction, T... producedType) {
+    public GraphNodeOutputImpl(String id, String name, Function<ObjectMap<String, Array<String>>, String> outputTypeFunction, String... producedType) {
         this(id, name, false, outputTypeFunction, producedType);
     }
 
-    public GraphNodeOutputImpl(String id, String name, boolean mainConnection, Function<ObjectMap<String, Array<T>>, T> outputTypeFunction, T... producedType) {
+    public GraphNodeOutputImpl(String id, String name, boolean mainConnection, Function<ObjectMap<String, Array<String>>, String> outputTypeFunction, String... producedType) {
         this.id = id;
         this.name = name;
         this.mainConnection = mainConnection;
@@ -55,7 +54,7 @@ public class GraphNodeOutputImpl<T extends FieldType> implements GraphNodeOutput
     }
 
     @Override
-    public Array<T> getProducableFieldTypes() {
+    public Array<String> getProducableFieldTypes() {
         return propertyTypes;
     }
 
@@ -65,7 +64,7 @@ public class GraphNodeOutputImpl<T extends FieldType> implements GraphNodeOutput
     }
 
     @Override
-    public T determineFieldType(ObjectMap<String, Array<T>> inputs) {
+    public String determineFieldType(ObjectMap<String, Array<String>> inputs) {
         return outputTypeFunction.apply(inputs);
     }
 }

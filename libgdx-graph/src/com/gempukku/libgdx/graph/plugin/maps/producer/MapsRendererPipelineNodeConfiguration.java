@@ -1,23 +1,22 @@
 package com.gempukku.libgdx.graph.plugin.maps.producer;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
 import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.Camera;
 import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.RenderPipeline;
 
-public class MapsRendererPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
+public class MapsRendererPipelineNodeConfiguration extends NodeConfigurationImpl {
     public MapsRendererPipelineNodeConfiguration() {
         super("MapRendererAll", "Map renderer", "Maps");
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("enabled", "Enabled", false, PipelineFieldType.Boolean));
+                new GraphNodeInputImpl("enabled", "Enabled", false, "Boolean"));
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("camera", "Camera", true, Camera));
+                new GraphNodeInputImpl("camera", "Camera", true, Camera));
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("input", "Input", true, true, RenderPipeline));
+                new GraphNodeInputImpl("input", "Input", true, true, RenderPipeline));
         addNodeOutput(
-                new GraphNodeOutputImpl<PipelineFieldType>("output", "Output", true, RenderPipeline));
+                new GraphNodeOutputImpl("output", "Output", true, RenderPipeline));
     }
 }

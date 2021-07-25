@@ -48,25 +48,25 @@ public class RemapVectorShaderNodeBuilder extends ConfigurationCommonShaderNodeB
 
     private String processValue(String field, FieldOutput input) {
         if (field.equals("X")) {
-            if (input.getFieldType() == ShaderFieldType.Float)
+            if (input.getFieldType().getName().equals(ShaderFieldType.Float))
                 return input.getRepresentation();
             else
                 return input.getRepresentation() + ".x";
         }
         if (field.equals("Y")) {
-            if (input.getFieldType() == ShaderFieldType.Float)
+            if (input.getFieldType().getName().equals(ShaderFieldType.Float))
                 return "0.0";
             else
                 return input.getRepresentation() + ".y";
         }
         if (field.equals("Z")) {
-            if (input.getFieldType() == ShaderFieldType.Float || input.getFieldType() == ShaderFieldType.Vector2)
+            if (input.getFieldType().getName().equals(ShaderFieldType.Float) || input.getFieldType().getName().equals(ShaderFieldType.Vector2))
                 return "0.0";
             else
                 return input.getRepresentation() + ".z";
         }
         if (field.equals("W")) {
-            if (input.getFieldType() == ShaderFieldType.Vector4)
+            if (input.getFieldType().getName().equals(ShaderFieldType.Vector4))
                 return input.getRepresentation() + ".w";
             else
                 return "0.0";

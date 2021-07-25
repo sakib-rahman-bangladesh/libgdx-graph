@@ -4,10 +4,10 @@ import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class CameraDirectionShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class CameraDirectionShaderNodeConfiguration extends NodeConfigurationImpl {
     public CameraDirectionShaderNodeConfiguration() {
         super("CameraDirection", "Camera direction", "Provided");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("direction", "Direction", ShaderFieldType.Vector3));
+                new GraphNodeOutputImpl("direction", "Direction", ShaderFieldType.Vector3));
     }
 }

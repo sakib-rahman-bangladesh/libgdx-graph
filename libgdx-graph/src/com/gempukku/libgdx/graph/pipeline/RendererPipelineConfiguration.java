@@ -2,6 +2,13 @@ package com.gempukku.libgdx.graph.pipeline;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.field.BooleanFieldType;
+import com.gempukku.libgdx.graph.field.FloatFieldType;
+import com.gempukku.libgdx.graph.field.Vector2FieldType;
+import com.gempukku.libgdx.graph.field.Vector3FieldType;
+import com.gempukku.libgdx.graph.pipeline.field.CallbackPipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.CameraPipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.ColorPipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldTypeRegistry;
 import com.gempukku.libgdx.graph.pipeline.producer.math.arithmetic.AddPipelineNodeProducer;
@@ -148,27 +155,31 @@ public class RendererPipelineConfiguration {
         register(new DepthOfFieldPipelineNodeProducer());
         register(new GammaCorrectionPipelineNodeProducer());
 
-        registerPropertyProducer(new FloatPipelinePropertyProducer());
-        registerPropertyProducer(new Vector2PipelinePropertyProducer());
-        registerPropertyProducer(new Vector3PipelinePropertyProducer());
-        registerPropertyProducer(new ColorPipelinePropertyProducer());
-        registerPropertyProducer(new BooleanPipelinePropertyProducer());
-        registerPropertyProducer(new CameraPipelinePropertyProducer());
-        registerPropertyProducer(new CallbackPipelinePropertyProducer());
+        registerPropertyProducer(new FloatPipelinePropertyProducer(), new FloatFieldType());
+        registerPropertyProducer(new Vector2PipelinePropertyProducer(), new Vector2FieldType());
+        registerPropertyProducer(new Vector3PipelinePropertyProducer(), new Vector3FieldType());
+        registerPropertyProducer(new ColorPipelinePropertyProducer(), new ColorPipelineFieldType());
+        registerPropertyProducer(new BooleanPipelinePropertyProducer(), new BooleanFieldType());
+        registerPropertyProducer(new CameraPipelinePropertyProducer(), new CameraPipelineFieldType());
+        registerPropertyProducer(new CallbackPipelinePropertyProducer(), new CallbackPipelineFieldType());
     }
 
-    public static void registerPropertyProducer(PipelinePropertyProducer pipelinePropertyProducer) {
+    public static void registerPropertyProducer(PipelinePropertyProducer pipelinePropertyProducer, PipelineFieldType pipelineFieldType) {
         pipelinePropertyProducers.add(pipelinePropertyProducer);
-        PipelineFieldTypeRegistry.registerPipelineFieldType(pipelinePropertyProducer.getType());
+        PipelineFieldTypeRegistry.registerPipelineFieldType(pipelineFieldType);
     }
 
     public static PipelineNodeProducer findProducer(String type) {
         return pipelineNodeProducers.get(type);
     }
 
-    public static PipelinePropertyProducer findProperty(PipelineFieldType type) {
+    public static PipelineFieldType findFieldType(String type) {
+        return PipelineFieldTypeRegistry.findPipelineFieldType(type);
+    }
+
+    public static PipelinePropertyProducer findPropertyProducer(String type) {
         for (PipelinePropertyProducer pipelinePropertyProducer : pipelinePropertyProducers) {
-            if (pipelinePropertyProducer.getType() == type)
+            if (pipelinePropertyProducer.getType().equals(type))
                 return pipelinePropertyProducer;
         }
         return null;

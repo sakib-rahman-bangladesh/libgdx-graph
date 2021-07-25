@@ -139,20 +139,20 @@ public class CachedSpriteData implements SpriteData {
                     int propertyIndex = Integer.parseInt(alias.substring(11));
                     String propertyName = propertyIndexNames.get(propertyIndex);
                     PropertySource propertySource = shaderProperties.get(propertyName);
-                    if (propertySource.getShaderFieldType() == ShaderFieldType.Float) {
+                    if (propertySource.getShaderFieldType().getName().equals(ShaderFieldType.Float)) {
                         Object value = sprite.getPropertyContainer().getValue(propertyName);
                         if (!(value instanceof Number))
                             value = propertySource.getDefaultValue();
                         vertexData[vertexOffset + floatIndex + 0] = ((Number) value).floatValue();
                         floatIndex += 1;
-                    } else if (propertySource.getShaderFieldType() == ShaderFieldType.Vector2) {
+                    } else if (propertySource.getShaderFieldType().getName().equals(ShaderFieldType.Vector2)) {
                         Object value = sprite.getPropertyContainer().getValue(propertyName);
                         if (!(value instanceof Vector2))
                             value = propertySource.getDefaultValue();
                         vertexData[vertexOffset + floatIndex + 0] = ((Vector2) value).x;
                         vertexData[vertexOffset + floatIndex + 1] = ((Vector2) value).y;
                         floatIndex += 2;
-                    } else if (propertySource.getShaderFieldType() == ShaderFieldType.Vector3) {
+                    } else if (propertySource.getShaderFieldType().getName().equals(ShaderFieldType.Vector3)) {
                         Object value = sprite.getPropertyContainer().getValue(propertyName);
                         if (!(value instanceof Vector3))
                             value = propertySource.getDefaultValue();
@@ -160,7 +160,7 @@ public class CachedSpriteData implements SpriteData {
                         vertexData[vertexOffset + floatIndex + 1] = ((Vector3) value).y;
                         vertexData[vertexOffset + floatIndex + 2] = ((Vector3) value).z;
                         floatIndex += 3;
-                    } else if (propertySource.getShaderFieldType() == ShaderFieldType.Vector4) {
+                    } else if (propertySource.getShaderFieldType().getName().equals(ShaderFieldType.Vector4)) {
                         Object value = sprite.getPropertyContainer().getValue(propertyName);
                         if (!(value instanceof Color))
                             value = propertySource.getDefaultValue();
@@ -169,7 +169,7 @@ public class CachedSpriteData implements SpriteData {
                         vertexData[vertexOffset + floatIndex + 2] = ((Color) value).b;
                         vertexData[vertexOffset + floatIndex + 3] = ((Color) value).a;
                         floatIndex += 4;
-                    } else if (propertySource.getShaderFieldType() == ShaderFieldType.TextureRegion) {
+                    } else if (propertySource.getShaderFieldType().getName().equals(ShaderFieldType.TextureRegion)) {
                         Object value = sprite.getPropertyContainer().getValue(propertyName);
                         if (!(value instanceof TextureRegion))
                             value = propertySource.getDefaultValue();

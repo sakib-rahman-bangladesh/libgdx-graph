@@ -4,15 +4,15 @@ import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class EndScreenShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class EndScreenShaderNodeConfiguration extends NodeConfigurationImpl {
     public EndScreenShaderNodeConfiguration() {
         super("FullScreenShaderEnd", "Shader output", null);
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("color", "Color", false, false,
+                new GraphNodeInputImpl("color", "Color", false, false,
                         ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("alpha", "Alpha", false, false, ShaderFieldType.Float));
+                new GraphNodeInputImpl("alpha", "Alpha", false, false, ShaderFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("alphaClip", "Alpha clip", false, false, ShaderFieldType.Float));
+                new GraphNodeInputImpl("alphaClip", "Alpha clip", false, false, ShaderFieldType.Float));
     }
 }

@@ -22,7 +22,7 @@ public class RectangleShapeShaderNodeBuilder extends ConfigurationCommonShaderNo
         FieldOutput uvValue = inputs.get("uv");
         FieldOutput sizeValue = inputs.get("size");
         FieldOutput borderValue = inputs.get("border");
-        if (sizeValue != null && sizeValue.getFieldType() == ShaderFieldType.Float)
+        if (sizeValue != null && sizeValue.getFieldType().getName().equals(ShaderFieldType.Float))
             sizeValue = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(" + sizeValue.getRepresentation() + ")");
 
         String uv = uvValue.getRepresentation();
@@ -32,10 +32,10 @@ public class RectangleShapeShaderNodeBuilder extends ConfigurationCommonShaderNo
         commonShaderBuilder.addMainLine("// Rectangle shape node");
         String temp1 = "temp_" + nodeId;
         String name = "result_" + nodeId;
-        ShaderFieldType resultType = ShaderFieldType.Float;
+        String resultType = ShaderFieldType.Float;
 
         commonShaderBuilder.addMainLine("vec2 " + temp1 + " = abs(" + uv + " * 2.0 - 1.0);");
-        commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = smoothstep(0.0, " + border + ", min(" + size + ".x - " + temp1 + ".x, " + size + ".y - " + temp1 + ".y));");
+        commonShaderBuilder.addMainLine("float " + name + " = smoothstep(0.0, " + border + ", min(" + size + ".x - " + temp1 + ".x, " + size + ".y - " + temp1 + ".y));");
 
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(ShaderFieldType.Float, name));
     }

@@ -5,12 +5,12 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class GradientShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class GradientShaderNodeConfiguration extends NodeConfigurationImpl {
     public GradientShaderNodeConfiguration() {
         super("Gradient", "Gradient", "Effect");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("input", "Input", true, ShaderFieldType.Float));
+                new GraphNodeInputImpl("input", "Input", true, ShaderFieldType.Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("output", "Color", ShaderFieldType.Vector4));
+                new GraphNodeOutputImpl("output", "Color", ShaderFieldType.Vector4));
     }
 }

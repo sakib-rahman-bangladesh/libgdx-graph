@@ -5,16 +5,16 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class UVTilingAndOffsetShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class UVTilingAndOffsetShaderNodeConfiguration extends NodeConfigurationImpl {
     public UVTilingAndOffsetShaderNodeConfiguration() {
         super("UVTilingOffset", "UV Tiling & Offset", "Texture");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("uv", "UV", true, ShaderFieldType.Vector2));
+                new GraphNodeInputImpl("uv", "UV", true, ShaderFieldType.Vector2));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("tiling", "Tiling", false, ShaderFieldType.Vector2));
+                new GraphNodeInputImpl("tiling", "Tiling", false, ShaderFieldType.Vector2));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("offset", "Offset", false, ShaderFieldType.Vector2));
+                new GraphNodeInputImpl("offset", "Offset", false, ShaderFieldType.Vector2));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("output", "UV", ShaderFieldType.Vector2));
+                new GraphNodeOutputImpl("output", "UV", ShaderFieldType.Vector2));
     }
 }

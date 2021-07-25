@@ -6,18 +6,18 @@ import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
-public class LerpPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
+public class LerpPipelineNodeConfiguration extends NodeConfigurationImpl {
     public LerpPipelineNodeConfiguration() {
         super("Mix", "Mix (lerp)", "Math/Common");
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("a", "A", true, PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
+                new GraphNodeInputImpl("a", "A", true, PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("b", "B", true, PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
+                new GraphNodeInputImpl("b", "B", true, PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("t", "T", true, PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
+                new GraphNodeInputImpl("t", "T", true, PipelineFieldType.Color, PipelineFieldType.Vector3, PipelineFieldType.Vector2, PipelineFieldType.Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<PipelineFieldType>("output", "Result",
-                        new MathCommonOutputTypeFunction<PipelineFieldType>(PipelineFieldType.Float, new String[]{"a", "b"}, new String[]{"t"}),
+                new GraphNodeOutputImpl("output", "Result",
+                        new MathCommonOutputTypeFunction(PipelineFieldType.Float, new String[]{"a", "b"}, new String[]{"t"}),
                         PipelineFieldType.Float, PipelineFieldType.Vector2, PipelineFieldType.Vector3, PipelineFieldType.Color));
     }
 }

@@ -13,7 +13,6 @@ import com.gempukku.libgdx.graph.data.GraphValidator;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.loader.GraphDataLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldTypeRegistry;
 import com.gempukku.libgdx.graph.pipeline.impl.PipelineRendererImpl;
 import com.gempukku.libgdx.graph.pipeline.impl.WritablePipelineProperty;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNode;
@@ -47,8 +46,8 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
 
     @Override
     public PipelineRenderer end() {
-        GraphValidator<GraphNode<PipelineFieldType>, GraphConnection, GraphProperty<PipelineFieldType>, PipelineFieldType> graphValidator = new GraphValidator<>();
-        GraphValidator.ValidationResult<GraphNode<PipelineFieldType>, GraphConnection, GraphProperty<PipelineFieldType>, PipelineFieldType> result = graphValidator.validateGraph(this, "end");
+        GraphValidator<GraphNode, GraphConnection, GraphProperty> graphValidator = new GraphValidator<>();
+        GraphValidator.ValidationResult<GraphNode, GraphConnection, GraphProperty> result = graphValidator.validateGraph(this, "end");
         if (result.hasErrors())
             throw new IllegalStateException("The graph contains errors, open it in the graph designer and correct them");
 
@@ -56,8 +55,8 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
         PipelineNode pipelineNode = populatePipelineNodes("end", pipelineNodeMap);
 
         ObjectMap<String, WritablePipelineProperty> propertyMap = new ObjectMap<>();
-        for (GraphProperty<PipelineFieldType> property : getProperties()) {
-            propertyMap.put(property.getName(), RendererPipelineConfiguration.findProperty(property.getType()).createProperty(property.getData()));
+        for (GraphProperty property : getProperties()) {
+            propertyMap.put(property.getName(), RendererPipelineConfiguration.findPropertyProducer(property.getType()).createProperty(property.getData()));
         }
 
         return new PipelineRendererImpl(pluginRegistry, timeProvider,
@@ -65,12 +64,7 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
     }
 
     @Override
-    protected PipelineFieldType getFieldType(String type) {
-        return PipelineFieldTypeRegistry.findPipelineFieldType(type);
-    }
-
-    @Override
-    protected NodeConfiguration<PipelineFieldType> getNodeConfiguration(String type, JsonValue data) {
+    protected NodeConfiguration getNodeConfiguration(String type, JsonValue data) {
         return RendererPipelineConfiguration.findProducer(type).getConfiguration(data);
     }
 
@@ -79,24 +73,24 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
         if (pipelineNode != null)
             return pipelineNode;
 
-        GraphNode<PipelineFieldType> nodeInfo = getNodeById(nodeId);
+        GraphNode nodeInfo = getNodeById(nodeId);
         String nodeInfoType = nodeInfo.getConfiguration().getType();
         PipelineNodeProducer nodeProducer = RendererPipelineConfiguration.findProducer(nodeInfoType);
         if (nodeProducer == null)
             throw new IllegalStateException("Unable to find node producer for type: " + nodeInfoType);
         ObjectMap<String, Array<PipelineNode.FieldOutput<?>>> inputFields = new ObjectMap<>();
-        for (GraphNodeInput<PipelineFieldType> nodeInput : new ObjectMap.Values<>(nodeProducer.getConfiguration(nodeInfo.getData()).getNodeInputs())) {
+        for (GraphNodeInput nodeInput : new ObjectMap.Values<>(nodeProducer.getConfiguration(nodeInfo.getData()).getNodeInputs())) {
             String inputName = nodeInput.getFieldId();
             Array<GraphConnection> vertexInfos = findInputProducers(nodeId, inputName);
             if (vertexInfos.size == 0 && nodeInput.isRequired())
                 throw new IllegalStateException("Required input not provided");
 
-            Array<PipelineFieldType> fieldTypes = new Array<>();
+            Array<String> fieldTypes = new Array<>();
             Array<PipelineNode.FieldOutput<?>> fieldOutputs = new Array<>();
             for (GraphConnection vertexInfo : vertexInfos) {
                 PipelineNode vertexNode = populatePipelineNodes(vertexInfo.getNodeFrom(), pipelineNodeMap);
                 PipelineNode.FieldOutput<?> fieldOutput = vertexNode.getFieldOutput(vertexInfo.getFieldFrom());
-                PipelineFieldType fieldType = fieldOutput.getPropertyType();
+                String fieldType = fieldOutput.getPropertyType();
                 fieldTypes.add(fieldType);
                 fieldOutputs.add(fieldOutput);
             }

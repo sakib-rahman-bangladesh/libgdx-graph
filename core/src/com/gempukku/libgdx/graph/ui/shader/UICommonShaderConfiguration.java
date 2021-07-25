@@ -73,7 +73,6 @@ import com.gempukku.libgdx.graph.shader.config.common.value.ValueColorShaderNode
 import com.gempukku.libgdx.graph.shader.config.common.value.ValueFloatShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.value.ValueVector2ShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.value.ValueVector3ShaderNodeConfiguration;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
@@ -101,11 +100,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class UICommonShaderConfiguration implements UIGraphConfiguration<ShaderFieldType> {
-    private static Map<String, GraphBoxProducer<ShaderFieldType>> graphBoxProducers = new TreeMap<>();
-    private static Map<String, PropertyBoxProducer<ShaderFieldType>> propertyProducers = new LinkedHashMap<>();
+public class UICommonShaderConfiguration implements UIGraphConfiguration {
+    private static Map<String, GraphBoxProducer> graphBoxProducers = new TreeMap<>();
+    private static Map<String, PropertyBoxProducer> propertyProducers = new LinkedHashMap<>();
 
-    public static void register(GraphBoxProducer<ShaderFieldType> producer) {
+    public static void register(GraphBoxProducer producer) {
         String menuLocation = producer.getMenuLocation();
         if (menuLocation == null)
             menuLocation = "Dummy";
@@ -115,98 +114,98 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration<ShaderF
     static {
         register(new PropertyShaderGraphBoxProducer());
 
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new Sampler2DShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new Sampler2DShaderNodeConfiguration()));
         register(new UVFlipbookShaderBoxProducer());
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new UVTilingAndOffsetShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new BorderDetectionShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new UVTilingAndOffsetShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new BorderDetectionShaderNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new AddShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new SubtractShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new OneMinusShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new MultiplyShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new DivideShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new ReciprocalShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new AddShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SubtractShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new OneMinusShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new MultiplyShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new DivideShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ReciprocalShaderNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new PowerShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new ExponentialShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new ExponentialBase2ShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new NaturalLogarithmShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new LogarithmBase2ShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new SquareRootShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new InverseSquareRootShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new PowerShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ExponentialShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ExponentialBase2ShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new NaturalLogarithmShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new LogarithmBase2ShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SquareRootShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new InverseSquareRootShaderNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new SinShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new CosShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new TanShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new ArcsinShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new ArccosShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new ArctanShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new RadiansShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new DegreesShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SinShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new CosShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new TanShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ArcsinShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ArccosShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ArctanShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new RadiansShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new DegreesShaderNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new AbsShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new SignShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new FloorShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new CeilingShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new FractionalPartShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new ModuloShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new MinimumShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new MaximumShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new ClampShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new SaturateShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new LerpShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new AbsShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SignShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new FloorShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new CeilingShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new FractionalPartShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ModuloShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new MinimumShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new MaximumShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ClampShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SaturateShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new LerpShaderNodeConfiguration()));
         register(new ConditionalShaderBoxProducer());
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new StepShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new SmoothstepShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new StepShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SmoothstepShaderNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new LengthShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new DistanceShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new DotProductShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new CrossProductShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new NormalizeShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new LengthShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new DistanceShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new DotProductShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new CrossProductShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new NormalizeShaderNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new DistanceFromPlaneShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new DistanceFromPlaneShaderNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new SplitShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new MergeShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new RemapShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SplitShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new MergeShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new RemapShaderNodeConfiguration()));
         register(new RemapVectorShaderBoxProducer());
         register(new RemapValueShaderBoxProducer());
 
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new IntensityShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new FresnelEffectShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new IntensityShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new FresnelEffectShaderNodeConfiguration()));
         register(new GradientShaderBoxProducer());
 
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new SimplexNoise2DNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new SimplexNoise3DNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new PerlinNoise2DNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new PerlinNoise3DNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new VoronoiDistance2DNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new VoronoiDistance3DNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new VoronoiBorder2DNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new VoronoiBorder3DNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SimplexNoise2DNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SimplexNoise3DNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new PerlinNoise2DNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new PerlinNoise3DNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new VoronoiDistance2DNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new VoronoiDistance3DNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new VoronoiBorder2DNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new VoronoiBorder3DNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new DotShapeShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new CheckerboardShapeShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new EllipseShapeShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new RectangleShapeShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new StarShapeShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new DotShapeShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new CheckerboardShapeShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new EllipseShapeShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new RectangleShapeShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new StarShapeShaderNodeConfiguration()));
 
         register(new TimeShaderBoxProducer());
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new CameraPositionShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new CameraDirectionShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new FragmentCoordinateShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new SceneDepthShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new CameraPositionShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new CameraDirectionShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new FragmentCoordinateShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SceneDepthShaderNodeConfiguration()));
         register(new SceneColorShaderBoxProducer());
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new ScreenPositionShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new PixelSizeShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl<ShaderFieldType>(new ViewportSizeShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ScreenPositionShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new PixelSizeShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ViewportSizeShaderNodeConfiguration()));
 
-        register(new ValueColorBoxProducer<ShaderFieldType>(new ValueColorShaderNodeConfiguration()));
-        register(new ValueFloatBoxProducer<ShaderFieldType>(new ValueFloatShaderNodeConfiguration()));
-        register(new ValueVector2BoxProducer<ShaderFieldType>(new ValueVector2ShaderNodeConfiguration()));
-        register(new ValueVector3BoxProducer<ShaderFieldType>(new ValueVector3ShaderNodeConfiguration()));
-        register(new ValueBooleanBoxProducer<ShaderFieldType>(new ValueBooleanShaderNodeConfiguration()));
+        register(new ValueColorBoxProducer(new ValueColorShaderNodeConfiguration()));
+        register(new ValueFloatBoxProducer(new ValueFloatShaderNodeConfiguration()));
+        register(new ValueVector2BoxProducer(new ValueVector2ShaderNodeConfiguration()));
+        register(new ValueVector3BoxProducer(new ValueVector3ShaderNodeConfiguration()));
+        register(new ValueBooleanBoxProducer(new ValueBooleanShaderNodeConfiguration()));
 
         propertyProducers.put("Float", new PropertyFloatBoxProducer());
         propertyProducers.put("Vector2", new PropertyVector2BoxProducer());
@@ -216,12 +215,12 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration<ShaderF
     }
 
     @Override
-    public Iterable<GraphBoxProducer<ShaderFieldType>> getGraphBoxProducers() {
+    public Iterable<GraphBoxProducer> getGraphBoxProducers() {
         return graphBoxProducers.values();
     }
 
     @Override
-    public Map<String, PropertyBoxProducer<ShaderFieldType>> getPropertyBoxProducers() {
+    public Map<String, PropertyBoxProducer> getPropertyBoxProducers() {
         return propertyProducers;
     }
 }

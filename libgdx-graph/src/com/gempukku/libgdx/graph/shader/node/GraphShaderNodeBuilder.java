@@ -14,7 +14,7 @@ import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 public interface GraphShaderNodeBuilder {
     String getType();
 
-    NodeConfiguration<ShaderFieldType> getConfiguration(JsonValue data);
+    NodeConfiguration getConfiguration(JsonValue data);
 
     ObjectMap<String, ? extends FieldOutput> buildVertexNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, Array<FieldOutput>> inputs, ObjectSet<String> producedOutputs,
                                                              VertexShaderBuilder vertexShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader);

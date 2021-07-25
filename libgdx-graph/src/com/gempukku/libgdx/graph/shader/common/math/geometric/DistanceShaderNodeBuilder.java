@@ -21,11 +21,11 @@ public class DistanceShaderNodeBuilder extends ConfigurationCommonShaderNodeBuil
     protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         FieldOutput p0Value = inputs.get("p0");
         FieldOutput p1Value = inputs.get("p1");
-        ShaderFieldType resultType = ShaderFieldType.Float;
+        String resultType = ShaderFieldType.Float;
 
         commonShaderBuilder.addMainLine("// Distance node");
         String name = "result_" + nodeId;
-        commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = distance(" + p0Value.getRepresentation() + ", " + p1Value.getRepresentation() + ");");
+        commonShaderBuilder.addMainLine("float " + name + " = distance(" + p0Value.getRepresentation() + ", " + p1Value.getRepresentation() + ");");
 
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(resultType, name));
     }

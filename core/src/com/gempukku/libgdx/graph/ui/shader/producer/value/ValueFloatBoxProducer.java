@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
@@ -17,31 +16,31 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 
 
-public class ValueFloatBoxProducer<T extends FieldType> extends ValueGraphBoxProducer<T> {
-    public ValueFloatBoxProducer(NodeConfiguration<T> configuration) {
+public class ValueFloatBoxProducer extends ValueGraphBoxProducer {
+    public ValueFloatBoxProducer(NodeConfiguration configuration) {
         super(configuration);
     }
 
     @Override
-    public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+    public GraphBox createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         float v1 = data.getFloat("v1");
 
         return createGraphBox(id, v1);
     }
 
     @Override
-    public GraphBox<T> createDefault(Skin skin, String id) {
+    public GraphBox createDefault(Skin skin, String id) {
         return createGraphBox(id, 0);
     }
 
-    private GraphBox<T> createGraphBox(String id, float v1) {
-        GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration);
+    private GraphBox createGraphBox(String id, float v1) {
+        GraphBoxImpl end = new GraphBoxImpl(id, configuration);
         end.addGraphBoxPart(createValuePart(v1));
 
         return end;
     }
 
-    private GraphBoxPartImpl<T> createValuePart(float v1) {
+    private GraphBoxPartImpl createValuePart(float v1) {
         final VisValidatableTextField v1Input = new VisValidatableTextField(Validators.FLOATS) {
             @Override
             public float getPrefWidth() {
@@ -61,7 +60,7 @@ public class ValueFloatBoxProducer<T extends FieldType> extends ValueGraphBoxPro
         horizontalGroup.addActor(new VisLabel("x"));
         horizontalGroup.addActor(v1Input);
 
-        GraphBoxPartImpl<T> colorPart = new GraphBoxPartImpl<T>(horizontalGroup,
+        GraphBoxPartImpl colorPart = new GraphBoxPartImpl(horizontalGroup,
                 new GraphBoxPartImpl.Callback() {
                     @Override
                     public void serialize(JsonValue object) {

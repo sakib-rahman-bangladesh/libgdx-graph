@@ -1,7 +1,6 @@
 package com.gempukku.libgdx.graph.pipeline.config.math.value;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
@@ -10,18 +9,18 @@ import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.Float;
 import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.Vector2;
 import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.Vector3;
 
-public class SplitPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
+public class SplitPipelineNodeConfiguration extends NodeConfigurationImpl {
     public SplitPipelineNodeConfiguration() {
         super("Split", "Split", "Math/Value");
         addNodeInput(
-                new GraphNodeInputImpl<PipelineFieldType>("input", "Input", true, Color, Vector3, Vector2));
+                new GraphNodeInputImpl("input", "Input", true, Color, Vector3, Vector2));
         addNodeOutput(
-                new GraphNodeOutputImpl<PipelineFieldType>("x", "X", Float));
+                new GraphNodeOutputImpl("x", "X", Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<PipelineFieldType>("y", "Y", Float));
+                new GraphNodeOutputImpl("y", "Y", Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<PipelineFieldType>("z", "Z", Float));
+                new GraphNodeOutputImpl("z", "Z", Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<PipelineFieldType>("w", "W", Float));
+                new GraphNodeOutputImpl("w", "W", Float));
     }
 }

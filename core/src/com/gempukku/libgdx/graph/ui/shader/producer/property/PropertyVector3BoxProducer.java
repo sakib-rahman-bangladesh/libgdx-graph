@@ -8,16 +8,16 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.part.Vector3BoxPart;
 
-public class PropertyVector3BoxProducer implements PropertyBoxProducer<ShaderFieldType> {
+public class PropertyVector3BoxProducer implements PropertyBoxProducer {
     @Override
     public String getType() {
         return "Vector3";
     }
 
     @Override
-    public PropertyBox<ShaderFieldType> createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
-        PropertyBoxImpl<ShaderFieldType> result = new PropertyBoxImpl<>(name, ShaderFieldType.Vector3);
-        result.addPropertyBoxPart(new Vector3BoxPart<ShaderFieldType>("Vector3",
+    public PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
+        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.Vector3);
+        result.addPropertyBoxPart(new Vector3BoxPart("Vector3",
                 "x", "y", "z",
                 0, 0, 0,
                 null, null, null));
@@ -26,7 +26,7 @@ public class PropertyVector3BoxProducer implements PropertyBoxProducer<ShaderFie
     }
 
     @Override
-    public PropertyBox<ShaderFieldType> createDefaultPropertyBox(Skin skin) {
+    public PropertyBox createDefaultPropertyBox(Skin skin) {
         return createPropertyBox(skin, "New Vector3", null);
     }
 }

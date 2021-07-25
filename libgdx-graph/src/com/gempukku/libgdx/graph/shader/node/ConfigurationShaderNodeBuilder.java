@@ -11,12 +11,11 @@ import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.GLSLFragmentReader;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
 public abstract class ConfigurationShaderNodeBuilder implements GraphShaderNodeBuilder {
-    private NodeConfiguration<ShaderFieldType> configuration;
+    private NodeConfiguration configuration;
 
-    public ConfigurationShaderNodeBuilder(NodeConfiguration<ShaderFieldType> configuration) {
+    public ConfigurationShaderNodeBuilder(NodeConfiguration configuration) {
         this.configuration = configuration;
     }
 
@@ -26,7 +25,7 @@ public abstract class ConfigurationShaderNodeBuilder implements GraphShaderNodeB
     }
 
     @Override
-    public NodeConfiguration<ShaderFieldType> getConfiguration(JsonValue data) {
+    public NodeConfiguration getConfiguration(JsonValue data) {
         return configuration;
     }
 

@@ -2,11 +2,10 @@ package com.gempukku.libgdx.graph.config;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.data.FieldType;
 
 import java.util.function.Function;
 
-public class SameTypeOutputTypeFunction<T extends FieldType> implements Function<ObjectMap<String, Array<T>>, T> {
+public class SameTypeOutputTypeFunction implements Function<ObjectMap<String, Array<String>>, String> {
     private String[] inputs;
 
     public SameTypeOutputTypeFunction(String... input) {
@@ -14,13 +13,13 @@ public class SameTypeOutputTypeFunction<T extends FieldType> implements Function
     }
 
     @Override
-    public T apply(ObjectMap<String, Array<T>> map) {
-        T resolvedType = null;
+    public String apply(ObjectMap<String, Array<String>> map) {
+        String resolvedType = null;
         for (String input : inputs) {
-            Array<T> type = map.get(input);
+            Array<String> type = map.get(input);
             if (type == null || type.size == 0)
                 return null;
-            if (resolvedType != null && resolvedType != type.get(0))
+            if (resolvedType != null && !resolvedType.equals(type.get(0)))
                 return null;
             resolvedType = type.get(0);
         }

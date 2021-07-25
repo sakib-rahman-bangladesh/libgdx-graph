@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.field;
 
 import com.badlogic.gdx.utils.JsonValue;
+import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
@@ -35,5 +36,10 @@ public class Vector2FieldType implements ShaderFieldType, PipelineFieldType {
         final float x = data.getFloat("x");
         final float y = data.getFloat("y");
         return new com.badlogic.gdx.math.Vector2(x, y);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return getName().equals(((FieldType) obj).getName());
     }
 }

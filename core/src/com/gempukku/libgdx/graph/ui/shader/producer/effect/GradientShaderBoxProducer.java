@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.ClampMethod;
 import com.gempukku.libgdx.graph.shader.config.common.effect.GradientShaderNodeConfiguration;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPartImpl;
@@ -22,14 +21,14 @@ import com.kotcrab.vis.ui.widget.color.ColorPickerAdapter;
 import com.talosvfx.talos.editor.widgets.GradientWidget;
 import com.talosvfx.talos.runtime.values.ColorPoint;
 
-public class GradientShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
+public class GradientShaderBoxProducer extends GraphBoxProducerImpl {
     public GradientShaderBoxProducer() {
         super(new GradientShaderNodeConfiguration());
     }
 
     @Override
-    public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        final GraphBoxImpl<ShaderFieldType> result = createGraphBox(id);
+    public GraphBox createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+        final GraphBoxImpl result = createGraphBox(id);
         addConfigurationInputsAndOutputs(result);
 
         final GradientWidget gradientWidget = new GradientWidget();
@@ -79,7 +78,7 @@ public class GradientShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
                 });
 
         result.addGraphBoxPart(
-                new GraphBoxPartImpl<ShaderFieldType>(
+                new GraphBoxPartImpl(
                         gradientWidget,
                         new GraphBoxPartImpl.Callback() {
                             @Override
@@ -111,7 +110,7 @@ public class GradientShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldT
         clampActor.add(clampMethodSelectBox).growX();
 
         result.addGraphBoxPart(
-                new GraphBoxPartImpl<ShaderFieldType>(
+                new GraphBoxPartImpl(
                         clampActor,
                         new GraphBoxPartImpl.Callback() {
                             @Override

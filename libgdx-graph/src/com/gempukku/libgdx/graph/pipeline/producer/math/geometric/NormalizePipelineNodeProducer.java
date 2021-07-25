@@ -21,7 +21,7 @@ public class NormalizePipelineNodeProducer extends PipelineNodeProducerImpl {
     @Override
     protected PipelineNode createNodeForSingleInputs(final JsonValue data, final ObjectMap<String, PipelineNode.FieldOutput<?>> inputFields) {
         final PipelineNode.FieldOutput<?> aFunction = inputFields.get("input");
-        final PipelineFieldType returnType = aFunction.getPropertyType();
+        final String returnType = aFunction.getPropertyType();
 
         final Object result = createResult(returnType);
 
@@ -59,14 +59,14 @@ public class NormalizePipelineNodeProducer extends PipelineNodeProducerImpl {
         };
     }
 
-    private Object createResult(PipelineFieldType returnType) {
-        if (returnType == PipelineFieldType.Float) {
+    private Object createResult(String returnType) {
+        if (returnType.equals(PipelineFieldType.Float)) {
             return 0f;
-        } else if (returnType == PipelineFieldType.Vector2) {
+        } else if (returnType.equals(PipelineFieldType.Vector2)) {
             return new Vector2();
-        } else if (returnType == PipelineFieldType.Vector3) {
+        } else if (returnType.equals(PipelineFieldType.Vector3)) {
             return new Vector3();
-        } else if (returnType == PipelineFieldType.Color) {
+        } else if (returnType.equals(PipelineFieldType.Color)) {
             return new Color();
         } else {
             throw new IllegalArgumentException("Not matching type for function");

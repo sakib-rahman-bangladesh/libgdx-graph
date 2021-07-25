@@ -22,7 +22,7 @@ public class EllipseShapeShaderNodeBuilder extends ConfigurationCommonShaderNode
         FieldOutput uvValue = inputs.get("uv");
         FieldOutput sizeValue = inputs.get("size");
         FieldOutput borderValue = inputs.get("border");
-        if (sizeValue != null && sizeValue.getFieldType() == ShaderFieldType.Float)
+        if (sizeValue != null && sizeValue.getFieldType().getName().equals(ShaderFieldType.Float))
             sizeValue = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(" + sizeValue.getRepresentation() + ")");
 
         String uv = uvValue.getRepresentation();
@@ -32,10 +32,9 @@ public class EllipseShapeShaderNodeBuilder extends ConfigurationCommonShaderNode
         commonShaderBuilder.addMainLine("// Ellipse shape node");
         String temp1 = "temp_" + nodeId;
         String name = "result_" + nodeId;
-        ShaderFieldType resultType = ShaderFieldType.Float;
 
         commonShaderBuilder.addMainLine("vec2 " + temp1 + " = " + uv + " * 2.0 - 1.0;");
-        commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = 1.0 - smoothstep(0.0 - " + border + ", 0.0,  length(" + temp1 + " / " + size + ") - 1.0);");
+        commonShaderBuilder.addMainLine("float " + name + " = 1.0 - smoothstep(0.0 - " + border + ", 0.0,  length(" + temp1 + " / " + size + ") - 1.0);");
 
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(ShaderFieldType.Float, name));
     }

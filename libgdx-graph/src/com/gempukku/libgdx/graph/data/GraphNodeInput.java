@@ -2,7 +2,7 @@ package com.gempukku.libgdx.graph.data;
 
 import com.badlogic.gdx.utils.Array;
 
-public interface GraphNodeInput<T extends FieldType> {
+public interface GraphNodeInput {
     boolean isRequired();
 
     boolean isAcceptingMultiple();
@@ -13,7 +13,7 @@ public interface GraphNodeInput<T extends FieldType> {
 
     String getFieldId();
 
-    boolean acceptsInputTypes(Array<T> inputTypes);
+    boolean acceptsInputTypes(Array<String> inputTypes);
 
-    Array<T> getAcceptedPropertyTypes();
+    Array<String> getAcceptedPropertyTypes();
 }

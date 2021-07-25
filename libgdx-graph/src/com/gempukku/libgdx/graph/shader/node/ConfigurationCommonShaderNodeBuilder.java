@@ -9,10 +9,9 @@ import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
 public abstract class ConfigurationCommonShaderNodeBuilder extends ConfigurationShaderNodeBuilder {
-    public ConfigurationCommonShaderNodeBuilder(NodeConfiguration<ShaderFieldType> configuration) {
+    public ConfigurationCommonShaderNodeBuilder(NodeConfiguration configuration) {
         super(configuration);
     }
 

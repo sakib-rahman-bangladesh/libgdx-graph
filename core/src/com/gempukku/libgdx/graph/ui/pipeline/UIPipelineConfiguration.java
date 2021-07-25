@@ -58,7 +58,6 @@ import com.gempukku.libgdx.graph.pipeline.config.value.ValueColorPipelineNodeCon
 import com.gempukku.libgdx.graph.pipeline.config.value.ValueFloatPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.value.ValueVector2PipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.value.ValueVector3PipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.PropertyPipelineGraphBoxProducer;
@@ -74,23 +73,23 @@ import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueVector3BoxProduce
 import java.util.Map;
 import java.util.TreeMap;
 
-public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFieldType> {
-    private static Map<String, GraphBoxProducer<PipelineFieldType>> graphBoxProducers = new TreeMap<>();
-    private static Map<String, PropertyBoxProducer<PipelineFieldType>> propertyProducers = new TreeMap<>();
+public class UIPipelineConfiguration implements UIGraphConfiguration {
+    private static Map<String, GraphBoxProducer> graphBoxProducers = new TreeMap<>();
+    private static Map<String, PropertyBoxProducer> propertyProducers = new TreeMap<>();
 
-    public static void register(GraphBoxProducer<PipelineFieldType> producer) {
+    public static void register(GraphBoxProducer producer) {
         String menuLocation = producer.getMenuLocation();
         if (menuLocation == null)
             menuLocation = "Dummy";
         graphBoxProducers.put(menuLocation + "/" + producer.getName(), producer);
     }
 
-    public static void registerPropertyType(PropertyBoxProducer<PipelineFieldType> propertyBoxProducer) {
+    public static void registerPropertyType(PropertyBoxProducer propertyBoxProducer) {
         propertyProducers.put(propertyBoxProducer.getType(), propertyBoxProducer);
     }
 
     static {
-        GraphBoxProducer<PipelineFieldType> endProducer = new GraphBoxProducerImpl<PipelineFieldType>(new EndPipelineNodeConfiguration()) {
+        GraphBoxProducer endProducer = new GraphBoxProducerImpl(new EndPipelineNodeConfiguration()) {
             @Override
             public boolean isCloseable() {
                 return false;
@@ -100,84 +99,83 @@ public class UIPipelineConfiguration implements UIGraphConfiguration<PipelineFie
 
         register(new PropertyPipelineGraphBoxProducer());
 
-        register(new ValueColorBoxProducer<PipelineFieldType>(new ValueColorPipelineNodeConfiguration()));
-        register(new ValueFloatBoxProducer<PipelineFieldType>(new ValueFloatPipelineNodeConfiguration()));
-        register(new ValueVector2BoxProducer<PipelineFieldType>(new ValueVector2PipelineNodeConfiguration()));
-        register(new ValueVector3BoxProducer<PipelineFieldType>(new ValueVector3PipelineNodeConfiguration()));
-        register(new ValueBooleanBoxProducer<PipelineFieldType>(new ValueBooleanPipelineNodeConfiguration()));
+        register(new ValueColorBoxProducer(new ValueColorPipelineNodeConfiguration()));
+        register(new ValueFloatBoxProducer(new ValueFloatPipelineNodeConfiguration()));
+        register(new ValueVector2BoxProducer(new ValueVector2PipelineNodeConfiguration()));
+        register(new ValueVector3BoxProducer(new ValueVector3PipelineNodeConfiguration()));
+        register(new ValueBooleanBoxProducer(new ValueBooleanPipelineNodeConfiguration()));
 
         JsonReader reader = new JsonReader();
         JsonValue config = reader.parse(Gdx.files.internal("config/pipeline-default-config.json"));
         UIPipelineConfigurer.processPipelineConfig(config);
 
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new TimePipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new RenderSizePipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new TimePipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new RenderSizePipelineNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new AddPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new DividePipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new MultiplyPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new OneMinusPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new ReciprocalPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new SubtractPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new AddPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new DividePipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new MultiplyPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new OneMinusPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ReciprocalPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SubtractPipelineNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new AbsPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new CeilingPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new ClampPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new FloorPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new FractionalPartPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new LerpPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new MaximumPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new MinimumPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new ModuloPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new SaturatePipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new SignPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new SmoothstepPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new StepPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new AbsPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new CeilingPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ClampPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new FloorPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new FractionalPartPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new LerpPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new MaximumPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new MinimumPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ModuloPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SaturatePipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SignPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SmoothstepPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new StepPipelineNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new ExponentialBase2PipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new ExponentialPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new InverseSquareRootPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new LogarithmBase2PipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new NaturalLogarithmPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new PowerPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new SquareRootPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ExponentialBase2PipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ExponentialPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new InverseSquareRootPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new LogarithmBase2PipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new NaturalLogarithmPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new PowerPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SquareRootPipelineNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new CrossProductPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new DistancePipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new DotProductPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new LengthPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new NormalizePipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new CrossProductPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new DistancePipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new DotProductPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new LengthPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new NormalizePipelineNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new ArccosPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new ArcsinPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new ArctanPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new CosPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new DegreesPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new RadiansPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new SinPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new TanPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ArccosPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ArcsinPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ArctanPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new CosPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new DegreesPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new RadiansPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SinPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new TanPipelineNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new SplitPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new MergePipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new SplitPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new MergePipelineNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new StartPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new PipelineRendererNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new CustomRendererPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new StartPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new PipelineRendererNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new CustomRendererPipelineNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new BloomPipelineNodeConfiguration()));
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new GaussianBlurPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new BloomPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new GaussianBlurPipelineNodeConfiguration()));
         register(new DepthOfFieldBoxProducer());
-        register(new GraphBoxProducerImpl<PipelineFieldType>(new GammaCorrectionPipelineNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new GammaCorrectionPipelineNodeConfiguration()));
     }
 
-
     @Override
-    public Iterable<GraphBoxProducer<PipelineFieldType>> getGraphBoxProducers() {
+    public Iterable<GraphBoxProducer> getGraphBoxProducers() {
         return graphBoxProducers.values();
     }
 
     @Override
-    public Map<String, PropertyBoxProducer<PipelineFieldType>> getPropertyBoxProducers() {
+    public Map<String, PropertyBoxProducer> getPropertyBoxProducers() {
         return propertyProducers;
     }
 }

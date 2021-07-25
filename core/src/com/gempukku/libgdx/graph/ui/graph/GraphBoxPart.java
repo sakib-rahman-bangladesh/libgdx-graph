@@ -1,12 +1,11 @@
 package com.gempukku.libgdx.graph.ui.graph;
 
 import com.badlogic.gdx.utils.Disposable;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxPart;
 
 
-public interface GraphBoxPart<T extends FieldType> extends PropertyBoxPart<T>, Disposable {
-    GraphBoxOutputConnector<T> getOutputConnector();
+public interface GraphBoxPart extends PropertyBoxPart, Disposable {
+    GraphBoxOutputConnector getOutputConnector();
 
-    GraphBoxInputConnector<T> getInputConnector();
+    GraphBoxInputConnector getInputConnector();
 }

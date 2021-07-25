@@ -6,16 +6,16 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class PowerShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class PowerShaderNodeConfiguration extends NodeConfigurationImpl {
     public PowerShaderNodeConfiguration() {
         super("Power", "Power", "Math/Exponential");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("a", "A", true, ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
+                new GraphNodeInputImpl("a", "A", true, ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("b", "B", true, ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
+                new GraphNodeInputImpl("b", "B", true, ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("output", "Result",
-                        new SameTypeOutputTypeFunction<ShaderFieldType>("a", "b"),
+                new GraphNodeOutputImpl("output", "Result",
+                        new SameTypeOutputTypeFunction("a", "b"),
                         ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
     }
 }

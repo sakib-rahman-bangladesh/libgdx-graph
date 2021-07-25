@@ -35,7 +35,7 @@ public class VoronoiBorder2DShaderNodeBuilder extends ConfigurationCommonShaderN
         commonShaderBuilder.addMainLine("// Voronoi border 2D node");
         String name = "result_" + nodeId;
         String output;
-        if (uvValue.getFieldType() == ShaderFieldType.Vector2) {
+        if (uvValue.getFieldType().getName().equals(ShaderFieldType.Vector2)) {
             output = "voronoiBorder2d(" + uvValue.getRepresentation() + " * " + scale + ", " + progress + ")";
         } else {
             output = "voronoiBorder2d(vec2(" + uvValue.getRepresentation() + ", 0.0) * " + scale + ", " + progress + ")";

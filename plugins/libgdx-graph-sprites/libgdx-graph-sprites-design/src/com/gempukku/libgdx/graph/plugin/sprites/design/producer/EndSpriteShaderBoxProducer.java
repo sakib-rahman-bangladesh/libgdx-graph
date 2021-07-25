@@ -8,14 +8,13 @@ import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.plugin.sprites.config.EndSpriteShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.BasicShader;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 
-public class EndSpriteShaderBoxProducer extends GraphBoxProducerImpl<ShaderFieldType> {
+public class EndSpriteShaderBoxProducer extends GraphBoxProducerImpl {
     public EndSpriteShaderBoxProducer() {
         super(new EndSpriteShaderNodeConfiguration());
     }
@@ -26,13 +25,13 @@ public class EndSpriteShaderBoxProducer extends GraphBoxProducerImpl<ShaderField
     }
 
     @Override
-    public GraphBox<ShaderFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+    public GraphBox createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         final SpriteShaderPreviewBoxPart previewBoxPart = new SpriteShaderPreviewBoxPart();
         previewBoxPart.initialize(data);
 
-        GraphBoxImpl<ShaderFieldType> result = new GraphBoxImpl<ShaderFieldType>(id, getConfiguration()) {
+        GraphBoxImpl result = new GraphBoxImpl(id, getConfiguration()) {
             @Override
-            public void graphChanged(GraphChangedEvent event, boolean hasErrors, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
+            public void graphChanged(GraphChangedEvent event, boolean hasErrors, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph) {
                 if (event.isData() || event.isStructure()) {
                     previewBoxPart.graphChanged(hasErrors, graph);
                 }
@@ -40,10 +39,10 @@ public class EndSpriteShaderBoxProducer extends GraphBoxProducerImpl<ShaderField
         };
 
         addConfigurationInputsAndOutputs(result);
-        SelectBoxPart<ShaderFieldType> blendingBox = new SelectBoxPart<>("Blending", "blending", BasicShader.Blending.values());
+        SelectBoxPart blendingBox = new SelectBoxPart("Blending", "blending", BasicShader.Blending.values());
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);
-        SelectBoxPart<ShaderFieldType> depthTestBox = new SelectBoxPart<>("DepthTest", "depthTest", BasicShader.DepthTesting.values());
+        SelectBoxPart depthTestBox = new SelectBoxPart("DepthTest", "depthTest", BasicShader.DepthTesting.values());
         depthTestBox.initialize(data);
         result.addGraphBoxPart(depthTestBox);
 

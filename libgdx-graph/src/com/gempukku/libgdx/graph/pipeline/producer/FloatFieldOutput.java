@@ -12,7 +12,7 @@ public class FloatFieldOutput implements PipelineNode.FieldOutput<Float> {
     }
 
     @Override
-    public PipelineFieldType getPropertyType() {
+    public String getPropertyType() {
         return PipelineFieldType.Float;
     }
 

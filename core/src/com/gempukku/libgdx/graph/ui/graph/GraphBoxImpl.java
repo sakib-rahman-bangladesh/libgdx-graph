@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.ui.graph;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
@@ -20,15 +19,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
+public class GraphBoxImpl implements GraphBox {
     private String id;
-    private NodeConfiguration<T> configuration;
+    private NodeConfiguration configuration;
     private VisTable table;
-    private List<GraphBoxPart<T>> graphBoxParts = new LinkedList<>();
-    private Map<String, GraphBoxInputConnector<T>> inputConnectors = new HashMap<>();
-    private Map<String, GraphBoxOutputConnector<T>> outputConnectors = new HashMap<>();
+    private List<GraphBoxPart> graphBoxParts = new LinkedList<>();
+    private Map<String, GraphBoxInputConnector> inputConnectors = new HashMap<>();
+    private Map<String, GraphBoxOutputConnector> outputConnectors = new HashMap<>();
 
-    public GraphBoxImpl(String id, NodeConfiguration<T> configuration) {
+    public GraphBoxImpl(String id, NodeConfiguration configuration) {
         this.id = id;
         this.configuration = configuration;
         table = new VisTable();
@@ -40,17 +39,17 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
     }
 
     @Override
-    public void graphChanged(GraphChangedEvent event, boolean hasErrors, Graph<? extends GraphNode<T>, ? extends GraphConnection, ? extends GraphProperty<T>, T> graph) {
+    public void graphChanged(GraphChangedEvent event, boolean hasErrors, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph) {
 
     }
 
     @Override
-    public NodeConfiguration<T> getConfiguration() {
+    public NodeConfiguration getConfiguration() {
         return configuration;
     }
 
-    public void addTopConnector(GraphNodeInput<T> graphNodeInput) {
-        inputConnectors.put(graphNodeInput.getFieldId(), new GraphBoxInputConnectorImpl<T>(GraphBoxInputConnector.Side.Top, new Supplier<Float>() {
+    public void addTopConnector(GraphNodeInput graphNodeInput) {
+        inputConnectors.put(graphNodeInput.getFieldId(), new GraphBoxInputConnectorImpl(GraphBoxInputConnector.Side.Top, new Supplier<Float>() {
             @Override
             public Float get() {
                 return table.getWidth() / 2f;
@@ -58,8 +57,8 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
         }, graphNodeInput.getFieldId()));
     }
 
-    public void addBottomConnector(GraphNodeOutput<T> graphNodeOutput) {
-        outputConnectors.put(graphNodeOutput.getFieldId(), new GraphBoxOutputConnectorImpl<T>(GraphBoxOutputConnector.Side.Bottom,
+    public void addBottomConnector(GraphNodeOutput graphNodeOutput) {
+        outputConnectors.put(graphNodeOutput.getFieldId(), new GraphBoxOutputConnectorImpl(GraphBoxOutputConnector.Side.Bottom,
                 new Supplier<Float>() {
                     @Override
                     public Float get() {
@@ -68,8 +67,8 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
                 }, graphNodeOutput.getFieldId()));
     }
 
-    public void addTwoSideGraphPart(GraphNodeInput<T> graphNodeInput,
-                                    GraphNodeOutput<T> graphNodeOutput) {
+    public void addTwoSideGraphPart(GraphNodeInput graphNodeInput,
+                                    GraphNodeOutput graphNodeOutput) {
         VisTable table = new VisTable();
         table.add(new VisLabel(graphNodeInput.getFieldName())).grow();
         VisLabel outputLabel = new VisLabel(graphNodeOutput.getFieldName());
@@ -77,41 +76,41 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
         table.add(outputLabel).grow();
         table.row();
 
-        GraphBoxPartImpl<T> graphBoxPart = new GraphBoxPartImpl<T>(table, null);
+        GraphBoxPartImpl graphBoxPart = new GraphBoxPartImpl(table, null);
         graphBoxPart.setInputConnector(GraphBoxInputConnector.Side.Left, graphNodeInput);
         graphBoxPart.setOutputConnector(GraphBoxOutputConnector.Side.Right, graphNodeOutput);
         addGraphBoxPart(graphBoxPart);
     }
 
-    public void addInputGraphPart(GraphNodeInput<T> graphNodeInput) {
+    public void addInputGraphPart(GraphNodeInput graphNodeInput) {
         VisTable table = new VisTable();
         table.add(new VisLabel(graphNodeInput.getFieldName())).grow().row();
 
-        GraphBoxPartImpl<T> graphBoxPart = new GraphBoxPartImpl<T>(table, null);
+        GraphBoxPartImpl graphBoxPart = new GraphBoxPartImpl(table, null);
         graphBoxPart.setInputConnector(GraphBoxInputConnector.Side.Left, graphNodeInput);
         addGraphBoxPart(graphBoxPart);
     }
 
     public void addOutputGraphPart(
-            GraphNodeOutput<T> graphNodeOutput) {
+            GraphNodeOutput graphNodeOutput) {
         VisTable table = new VisTable();
         VisLabel outputLabel = new VisLabel(graphNodeOutput.getFieldName());
         outputLabel.setAlignment(Align.right);
         table.add(outputLabel).grow().row();
 
-        GraphBoxPartImpl<T> graphBoxPart = new GraphBoxPartImpl<T>(table, null);
+        GraphBoxPartImpl graphBoxPart = new GraphBoxPartImpl(table, null);
         graphBoxPart.setOutputConnector(GraphBoxOutputConnector.Side.Right, graphNodeOutput);
         addGraphBoxPart(graphBoxPart);
     }
 
-    public void addGraphBoxPart(GraphBoxPart<T> graphBoxPart) {
+    public void addGraphBoxPart(GraphBoxPart graphBoxPart) {
         graphBoxParts.add(graphBoxPart);
         final Actor actor = graphBoxPart.getActor();
         table.add(actor).growX().row();
-        final GraphBoxInputConnector<T> inputConnector = graphBoxPart.getInputConnector();
+        final GraphBoxInputConnector inputConnector = graphBoxPart.getInputConnector();
         if (inputConnector != null) {
             inputConnectors.put(inputConnector.getFieldId(),
-                    new GraphBoxInputConnectorImpl<T>(inputConnector.getSide(),
+                    new GraphBoxInputConnectorImpl(inputConnector.getSide(),
                             new Supplier<Float>() {
                                 @Override
                                 public Float get() {
@@ -120,10 +119,10 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
                             },
                             inputConnector.getFieldId()));
         }
-        final GraphBoxOutputConnector<T> outputConnector = graphBoxPart.getOutputConnector();
+        final GraphBoxOutputConnector outputConnector = graphBoxPart.getOutputConnector();
         if (outputConnector != null) {
             outputConnectors.put(outputConnector.getFieldId(),
-                    new GraphBoxOutputConnectorImpl<T>(outputConnector.getSide(),
+                    new GraphBoxOutputConnectorImpl(outputConnector.getSide(),
                             new Supplier<Float>() {
                                 @Override
                                 public Float get() {
@@ -135,12 +134,12 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
     }
 
     @Override
-    public Map<String, GraphBoxInputConnector<T>> getInputs() {
+    public Map<String, GraphBoxInputConnector> getInputs() {
         return inputConnectors;
     }
 
     @Override
-    public Map<String, GraphBoxOutputConnector<T>> getOutputs() {
+    public Map<String, GraphBoxOutputConnector> getOutputs() {
         return outputConnectors;
     }
 
@@ -153,7 +152,7 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
     public JsonValue getData() {
         JsonValue result = new JsonValue(JsonValue.ValueType.object);
 
-        for (GraphBoxPart<T> graphBoxPart : graphBoxParts)
+        for (GraphBoxPart graphBoxPart : graphBoxParts)
             graphBoxPart.serializePart(result);
 
         if (result.isEmpty())
@@ -163,7 +162,7 @@ public class GraphBoxImpl<T extends FieldType> implements GraphBox<T> {
 
     @Override
     public void dispose() {
-        for (GraphBoxPart<T> part : graphBoxParts) {
+        for (GraphBoxPart part : graphBoxParts) {
             part.dispose();
         }
     }

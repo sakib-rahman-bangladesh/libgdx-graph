@@ -21,11 +21,11 @@ public class DotProductShaderNodeBuilder extends ConfigurationCommonShaderNodeBu
     protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         FieldOutput aValue = inputs.get("a");
         FieldOutput bValue = inputs.get("b");
-        ShaderFieldType resultType = ShaderFieldType.Float;
+        String resultType = ShaderFieldType.Float;
 
         commonShaderBuilder.addMainLine("// Dot product node");
         String name = "result_" + nodeId;
-        commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = dot(" + aValue.getRepresentation() + ", " + bValue.getRepresentation() + ");");
+        commonShaderBuilder.addMainLine("float " + name + " = dot(" + aValue.getRepresentation() + ", " + bValue.getRepresentation() + ");");
 
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(resultType, name));
     }

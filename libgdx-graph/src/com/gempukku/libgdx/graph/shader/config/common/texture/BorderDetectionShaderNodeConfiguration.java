@@ -5,26 +5,26 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class BorderDetectionShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class BorderDetectionShaderNodeConfiguration extends NodeConfigurationImpl {
     public BorderDetectionShaderNodeConfiguration() {
         super("BorderDetection", "Border detection", "Texture");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("texture", "Texture", true, ShaderFieldType.TextureRegion));
+                new GraphNodeInputImpl("texture", "Texture", true, ShaderFieldType.TextureRegion));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("uv", "UV", true, ShaderFieldType.Vector2));
+                new GraphNodeInputImpl("uv", "UV", true, ShaderFieldType.Vector2));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("pixelSize", "Pixel size", true, ShaderFieldType.Vector2));
+                new GraphNodeInputImpl("pixelSize", "Pixel size", true, ShaderFieldType.Vector2));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("outlineWidth", "Outline width", false, ShaderFieldType.Float));
+                new GraphNodeInputImpl("outlineWidth", "Outline width", false, ShaderFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("alphaEdge", "Alpha edge", false, ShaderFieldType.Float));
+                new GraphNodeInputImpl("alphaEdge", "Alpha edge", false, ShaderFieldType.Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("left", "Left", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("left", "Left", ShaderFieldType.Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("right", "Right", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("right", "Right", ShaderFieldType.Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("up", "Up", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("up", "Up", ShaderFieldType.Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("down", "Down", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("down", "Down", ShaderFieldType.Float));
     }
 }

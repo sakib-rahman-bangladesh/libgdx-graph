@@ -20,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNodeInput;
 import com.gempukku.libgdx.graph.data.GraphNodeOutput;
@@ -41,7 +40,6 @@ import com.kotcrab.vis.ui.widget.VisWindow;
 import java.awt.BasicStroke;
 import java.awt.Shape;
 import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.HashMap;
@@ -50,7 +48,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class GraphContainer<T extends FieldType> extends VisTable implements NavigableCanvas {
+public class GraphContainer extends VisTable implements NavigableCanvas {
     private static final float CANVAS_GAP = 50f;
     private static final float GROUP_GAP = 10f;
     private static final float GROUP_LABEL_HEIGHT = 20f;
@@ -73,7 +71,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
     private float canvasHeight;
     private boolean navigating;
 
-    private Map<String, GraphBox<T>> graphBoxes = new HashMap<>();
+    private Map<String, GraphBox> graphBoxes = new HashMap<>();
     private Map<String, VisWindow> boxWindows = new HashMap<>();
     private Map<VisWindow, Vector2> windowPositions = new HashMap<>();
     private List<GraphConnection> graphConnections = new LinkedList<>();
@@ -85,7 +83,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
     private ShapeRenderer shapeRenderer;
 
     private NodeConnector drawingFromConnector;
-    private GraphValidator.ValidationResult<GraphBox<T>, GraphConnection, PropertyBox<T>, T> validationResult = new GraphValidator.ValidationResult<>();
+    private GraphValidator.ValidationResult<GraphBox, GraphConnection, PropertyBox> validationResult = new GraphValidator.ValidationResult<>();
 
     private ObjectSet<String> selectedNodes = new ObjectSet<>();
     private boolean movingSelected = false;
@@ -253,9 +251,9 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         updateCanvas(true);
     }
 
-    public void setValidationResult(GraphValidator.ValidationResult<GraphBox<T>, GraphConnection, PropertyBox<T>, T> validationResult) {
+    public void setValidationResult(GraphValidator.ValidationResult<GraphBox, GraphConnection, PropertyBox> validationResult) {
         this.validationResult = validationResult;
-        for (GraphBox<T> value : graphBoxes.values()) {
+        for (GraphBox value : graphBoxes.values()) {
             VisWindow window = boxWindows.get(value.getId());
             if (validationResult.getErrorNodes().contains(value)) {
                 window.getTitleLabel().setColor(INVALID_LABEL_COLOR);
@@ -267,7 +265,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         }
     }
 
-    public GraphValidator.ValidationResult<GraphBox<T>, GraphConnection, PropertyBox<T>, T> getValidationResult() {
+    public GraphValidator.ValidationResult<GraphBox, GraphConnection, PropertyBox> getValidationResult() {
         return validationResult;
     }
 
@@ -377,10 +375,10 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
     }
 
     private void processNodeClick(NodeConnector clickedNodeConnector) {
-        GraphBox<T> clickedNode = getGraphBoxById(clickedNodeConnector.getNodeId());
+        GraphBox clickedNode = getGraphBoxById(clickedNodeConnector.getNodeId());
         if (drawingFromConnector != null) {
             if (!drawingFromConnector.equals(clickedNodeConnector)) {
-                GraphBox<T> drawingFromNode = getGraphBoxById(drawingFromConnector.getNodeId());
+                GraphBox drawingFromNode = getGraphBoxById(drawingFromConnector.getNodeId());
 
                 boolean drawingFromIsInput = drawingFromNode.getConfiguration().getNodeInputs().containsKey(drawingFromConnector.getFieldId());
                 if (drawingFromIsInput == clickedNode.getConfiguration().getNodeInputs().containsKey(clickedNodeConnector.getFieldId())) {
@@ -389,8 +387,8 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
                     NodeConnector connectorFrom = drawingFromIsInput ? clickedNodeConnector : drawingFromConnector;
                     NodeConnector connectorTo = drawingFromIsInput ? drawingFromConnector : clickedNodeConnector;
 
-                    GraphNodeOutput<T> output = getGraphBoxById(connectorFrom.getNodeId()).getConfiguration().getNodeOutputs().get(connectorFrom.getFieldId());
-                    GraphNodeInput<T> input = getGraphBoxById(connectorTo.getNodeId()).getConfiguration().getNodeInputs().get(connectorTo.getFieldId());
+                    GraphNodeOutput output = getGraphBoxById(connectorFrom.getNodeId()).getConfiguration().getNodeOutputs().get(connectorFrom.getFieldId());
+                    GraphNodeInput input = getGraphBoxById(connectorTo.getNodeId()).getConfiguration().getNodeInputs().get(connectorTo.getFieldId());
 
                     if (!connectorsMatch(input, output)) {
                         // Either input-input, output-output, or different property type
@@ -438,10 +436,10 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         }
     }
 
-    private boolean connectorsMatch(GraphNodeInput<T> input, GraphNodeOutput<T> output) {
-        Array<T> producablePropertyTypes = output.getProducableFieldTypes();
-        for (T acceptedPropertyType : input.getAcceptedPropertyTypes()) {
-            if (producablePropertyTypes.contains(acceptedPropertyType, true))
+    private boolean connectorsMatch(GraphNodeInput input, GraphNodeOutput output) {
+        Array<String> producablePropertyTypes = output.getProducableFieldTypes();
+        for (String acceptedPropertyType : input.getAcceptedPropertyTypes()) {
+            if (producablePropertyTypes.contains(acceptedPropertyType, false))
                 return true;
         }
 
@@ -461,7 +459,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         return result;
     }
 
-    public void addGraphBox(final GraphBox<T> graphBox, String windowTitle, boolean closeable, float x, float y) {
+    public void addGraphBox(final GraphBox graphBox, String windowTitle, boolean closeable, float x, float y) {
         graphBoxes.put(graphBox.getId(), graphBox);
         VisWindow window = new VisWindow(windowTitle, false) {
             @Override
@@ -564,7 +562,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         return selectedNodes;
     }
 
-    private void removeGraphBox(GraphBox<T> graphBox) {
+    private void removeGraphBox(GraphBox graphBox) {
         Iterator<GraphConnection> graphConnectionIterator = graphConnections.iterator();
         String nodeId = graphBox.getId();
         while (graphConnectionIterator.hasNext()) {
@@ -646,10 +644,10 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         for (Map.Entry<String, VisWindow> windowEntry : boxWindows.entrySet()) {
             String nodeId = windowEntry.getKey();
             VisWindow window = windowEntry.getValue();
-            GraphBox<T> graphBox = graphBoxes.get(nodeId);
+            GraphBox graphBox = graphBoxes.get(nodeId);
             float windowX = window.getX();
             float windowY = window.getY();
-            for (GraphBoxInputConnector<T> connector : graphBox.getInputs().values()) {
+            for (GraphBoxInputConnector connector : graphBox.getInputs().values()) {
                 switch (connector.getSide()) {
                     case Left:
                         from.set(windowX - CONNECTOR_LENGTH, windowY + connector.getOffset());
@@ -664,7 +662,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
 
                 connectionNodeMap.put(new NodeConnector(nodeId, connector.getFieldId()), rectangle);
             }
-            for (GraphBoxOutputConnector<T> connector : graphBox.getOutputs().values()) {
+            for (GraphBoxOutputConnector connector : graphBox.getOutputs().values()) {
                 switch (connector.getSide()) {
                     case Right:
                         from.set(windowX + window.getWidth() + CONNECTOR_LENGTH, windowY + connector.getOffset());
@@ -686,11 +684,11 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         for (GraphConnection graphConnection : graphConnections) {
             NodeConnector fromNode = getNodeInfo(graphConnection.getNodeFrom(), graphConnection.getFieldFrom());
             VisWindow fromWindow = boxWindows.get(fromNode.getNodeId());
-            GraphBoxOutputConnector<T> output = getGraphBoxById(fromNode.getNodeId()).getOutputs().get(fromNode.getFieldId());
+            GraphBoxOutputConnector output = getGraphBoxById(fromNode.getNodeId()).getOutputs().get(fromNode.getFieldId());
             calculateConnection(from, fromWindow, output);
             NodeConnector toNode = getNodeInfo(graphConnection.getNodeTo(), graphConnection.getFieldTo());
             VisWindow toWindow = boxWindows.get(toNode.getNodeId());
-            GraphBoxInputConnector<T> input = getGraphBoxById(toNode.getNodeId()).getInputs().get(toNode.getFieldId());
+            GraphBoxInputConnector input = getGraphBoxById(toNode.getNodeId()).getInputs().get(toNode.getFieldId());
             calculateConnection(to, toWindow, input);
             Shape shape;
             if(output.getSide()== GraphBoxOutputConnector.Side.Right){
@@ -703,7 +701,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
     }
 
     private NodeConnector getNodeInfo(String nodeId, String fieldId) {
-        GraphBox<T> graphBox = graphBoxes.get(nodeId);
+        GraphBox graphBox = graphBoxes.get(nodeId);
         if (graphBox.getInputs().get(fieldId) != null || graphBox.getOutputs().get(fieldId) != null)
             return new NodeConnector(nodeId, fieldId);
         return null;
@@ -762,8 +760,8 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         for (Map.Entry<String, VisWindow> windowEntry : boxWindows.entrySet()) {
             String nodeId = windowEntry.getKey();
             VisWindow window = windowEntry.getValue();
-            GraphBox<T> graphBox = graphBoxes.get(nodeId);
-            for (GraphNodeInput<T> connector : graphBox.getConfiguration().getNodeInputs().values()) {
+            GraphBox graphBox = graphBoxes.get(nodeId);
+            for (GraphNodeInput connector : graphBox.getConfiguration().getNodeInputs().values()) {
                 if (!connector.isRequired()) {
                     String fieldId = connector.getFieldId();
                     calculateConnector(from, to, window, graphBox.getInputs().get(fieldId));
@@ -775,7 +773,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
                 }
             }
 
-            for (GraphBoxOutputConnector<T> connector : graphBox.getOutputs().values()) {
+            for (GraphBoxOutputConnector connector : graphBox.getOutputs().values()) {
                 calculateConnector(from, to, window, connector);
                 from.add(x, y);
                 to.add(x, y);
@@ -788,11 +786,11 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         for (GraphConnection graphConnection : graphConnections) {
             NodeConnector fromNode = getNodeInfo(graphConnection.getNodeFrom(), graphConnection.getFieldFrom());
             VisWindow fromWindow = boxWindows.get(fromNode.getNodeId());
-            GraphBoxOutputConnector<T> output = getGraphBoxById(fromNode.getNodeId()).getOutputs().get(fromNode.getFieldId());
+            GraphBoxOutputConnector output = getGraphBoxById(fromNode.getNodeId()).getOutputs().get(fromNode.getFieldId());
             calculateConnection(from, fromWindow, output);
             NodeConnector toNode = getNodeInfo(graphConnection.getNodeTo(), graphConnection.getFieldTo());
             VisWindow toWindow = boxWindows.get(toNode.getNodeId());
-            GraphBoxInputConnector<T> input = getGraphBoxById(toNode.getNodeId()).getInputs().get(toNode.getFieldId());
+            GraphBoxInputConnector input = getGraphBoxById(toNode.getNodeId()).getInputs().get(toNode.getFieldId());
             calculateConnection(to, toWindow, input);
 
             boolean error = validationResult.getErrorConnections().contains(graphConnection);
@@ -810,10 +808,10 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
 
         if (drawingFromConnector != null) {
             shapeRenderer.setColor(LINE_COLOR);
-            GraphBox<T> drawingFromNode = getGraphBoxById(drawingFromConnector.getNodeId());
+            GraphBox drawingFromNode = getGraphBoxById(drawingFromConnector.getNodeId());
             VisWindow fromWindow = getBoxWindow(drawingFromConnector.getNodeId());
             if (drawingFromNode.getConfiguration().getNodeInputs().containsKey(drawingFromConnector.getFieldId())) {
-                GraphBoxInputConnector<T> input = drawingFromNode.getInputs().get(drawingFromConnector.getFieldId());
+                GraphBoxInputConnector input = drawingFromNode.getInputs().get(drawingFromConnector.getFieldId());
                 calculateConnection(from, fromWindow, input);
                 Vector2 mouseLocation = getStage().getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
                 if(input.getSide()== GraphBoxInputConnector.Side.Left){
@@ -824,7 +822,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
                             mouseLocation.x,((y+from.y+mouseLocation.y)/2),mouseLocation.x, mouseLocation.y,100);
                 }
             } else {
-                GraphBoxOutputConnector<T> output = drawingFromNode.getOutputs().get(drawingFromConnector.getFieldId());
+                GraphBoxOutputConnector output = drawingFromNode.getOutputs().get(drawingFromConnector.getFieldId());
                 calculateConnection(from, fromWindow, output);
                 Vector2 mouseLocation = getStage().getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
                 if(output.getSide()== GraphBoxOutputConnector.Side.Right){
@@ -842,8 +840,8 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         for (Map.Entry<String, VisWindow> windowEntry : boxWindows.entrySet()) {
             String nodeId = windowEntry.getKey();
             VisWindow window = windowEntry.getValue();
-            GraphBox<T> graphBox = graphBoxes.get(nodeId);
-            for (GraphNodeInput<T> connector : graphBox.getConfiguration().getNodeInputs().values()) {
+            GraphBox graphBox = graphBoxes.get(nodeId);
+            for (GraphNodeInput connector : graphBox.getConfiguration().getNodeInputs().values()) {
                 if (connector.isRequired()) {
                     String fieldId = connector.getFieldId();
                     calculateConnector(from, to, window, graphBox.getInputs().get(fieldId));
@@ -867,7 +865,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         shapeRenderer.end();
     }
 
-    private void calculateConnector(Vector2 from, Vector2 to, VisWindow window, GraphBoxOutputConnector<T> connector) {
+    private void calculateConnector(Vector2 from, Vector2 to, VisWindow window, GraphBoxOutputConnector connector) {
         float windowX = window.getX();
         float windowY = window.getY();
         switch (connector.getSide()) {
@@ -882,7 +880,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         }
     }
 
-    private void calculateConnector(Vector2 from, Vector2 to, VisWindow window, GraphBoxInputConnector<T> connector) {
+    private void calculateConnector(Vector2 from, Vector2 to, VisWindow window, GraphBoxInputConnector connector) {
         float windowX = window.getX();
         float windowY = window.getY();
         switch (connector.getSide()) {
@@ -897,11 +895,11 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         }
     }
 
-    public GraphBox<T> getGraphBoxById(String id) {
+    public GraphBox getGraphBoxById(String id) {
         return graphBoxes.get(id);
     }
 
-    public Iterable<GraphBox<T>> getGraphBoxes() {
+    public Iterable<GraphBox> getGraphBoxes() {
         return graphBoxes.values();
     }
 
@@ -918,7 +916,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         shapeRenderer.updateMatrices();
     }
 
-    private void calculateConnection(Vector2 position, VisWindow window, GraphBoxInputConnector<T> connector) {
+    private void calculateConnection(Vector2 position, VisWindow window, GraphBoxInputConnector connector) {
         float windowX = window.getX();
         float windowY = window.getY();
         switch (connector.getSide()) {
@@ -931,7 +929,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
         }
     }
 
-    private void calculateConnection(Vector2 position, VisWindow window, GraphBoxOutputConnector<T> connector) {
+    private void calculateConnection(Vector2 position, VisWindow window, GraphBoxOutputConnector connector) {
         float windowX = window.getX();
         float windowY = window.getY();
         switch (connector.getSide()) {
@@ -946,7 +944,7 @@ public class GraphContainer<T extends FieldType> extends VisTable implements Nav
 
     public void dispose() {
         shapeRenderer.dispose();
-        for (GraphBox<T> graphBox : graphBoxes.values()) {
+        for (GraphBox graphBox : graphBoxes.values()) {
             graphBox.dispose();
         }
     }

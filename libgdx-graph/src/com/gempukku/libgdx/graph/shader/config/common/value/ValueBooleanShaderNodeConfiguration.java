@@ -4,10 +4,10 @@ import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class ValueBooleanShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class ValueBooleanShaderNodeConfiguration extends NodeConfigurationImpl {
     public ValueBooleanShaderNodeConfiguration() {
         super("ValueBoolean", "Boolean", "Constant");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("value", "Value", ShaderFieldType.Boolean));
+                new GraphNodeOutputImpl("value", "Value", ShaderFieldType.Boolean));
     }
 }

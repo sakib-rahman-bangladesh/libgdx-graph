@@ -1,13 +1,12 @@
 package com.gempukku.libgdx.graph.ui.shader.producer.value;
 
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 
-public abstract class ValueGraphBoxProducer<T extends FieldType> implements GraphBoxProducer<T> {
-    protected NodeConfiguration<T> configuration;
+public abstract class ValueGraphBoxProducer implements GraphBoxProducer {
+    protected NodeConfiguration configuration;
 
-    public ValueGraphBoxProducer(NodeConfiguration<T> configuration) {
+    public ValueGraphBoxProducer(NodeConfiguration configuration) {
         this.configuration = configuration;
     }
 

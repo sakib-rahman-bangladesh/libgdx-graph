@@ -5,28 +5,28 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class PhongLightingShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class PhongLightingShaderNodeConfiguration extends NodeConfigurationImpl {
     public PhongLightingShaderNodeConfiguration() {
         super("PhongLighting", "Phong lighting", "Lighting");
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("position", "Position", true, ShaderFieldType.Vector3));
+                new GraphNodeInputImpl("position", "Position", true, ShaderFieldType.Vector3));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("normal", "Normal", true, ShaderFieldType.Vector3));
+                new GraphNodeInputImpl("normal", "Normal", true, ShaderFieldType.Vector3));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("albedo", "Albedo", false, ShaderFieldType.Vector4, ShaderFieldType.Vector3));
+                new GraphNodeInputImpl("albedo", "Albedo", false, ShaderFieldType.Vector4, ShaderFieldType.Vector3));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("emission", "Emission", false, ShaderFieldType.Vector4, ShaderFieldType.Vector3));
+                new GraphNodeInputImpl("emission", "Emission", false, ShaderFieldType.Vector4, ShaderFieldType.Vector3));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("specular", "Specular", false, ShaderFieldType.Vector4, ShaderFieldType.Vector3));
+                new GraphNodeInputImpl("specular", "Specular", false, ShaderFieldType.Vector4, ShaderFieldType.Vector3));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("ambientOcclusion", "A.Occlusion", false, ShaderFieldType.Float));
+                new GraphNodeInputImpl("ambientOcclusion", "A.Occlusion", false, ShaderFieldType.Float));
         addNodeInput(
-                new GraphNodeInputImpl<ShaderFieldType>("shininess", "Shininess", false, ShaderFieldType.Float));
+                new GraphNodeInputImpl("shininess", "Shininess", false, ShaderFieldType.Float));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("output", "Color", ShaderFieldType.Vector3));
+                new GraphNodeOutputImpl("output", "Color", ShaderFieldType.Vector3));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("diffuse", "Diffuse", ShaderFieldType.Vector3));
+                new GraphNodeOutputImpl("diffuse", "Diffuse", ShaderFieldType.Vector3));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("specularOut", "Specular", ShaderFieldType.Vector3));
+                new GraphNodeOutputImpl("specularOut", "Specular", ShaderFieldType.Vector3));
     }
 }

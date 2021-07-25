@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
@@ -17,13 +16,13 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 
 
-public class ValueVector3BoxProducer<T extends FieldType> extends ValueGraphBoxProducer<T> {
-    public ValueVector3BoxProducer(NodeConfiguration<T> configuration) {
+public class ValueVector3BoxProducer extends ValueGraphBoxProducer {
+    public ValueVector3BoxProducer(NodeConfiguration configuration) {
         super(configuration);
     }
 
     @Override
-    public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+    public GraphBox createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         float v1 = data.getFloat("v1");
         float v2 = data.getFloat("v2");
         float v3 = data.getFloat("v3");
@@ -32,18 +31,18 @@ public class ValueVector3BoxProducer<T extends FieldType> extends ValueGraphBoxP
     }
 
     @Override
-    public GraphBox<T> createDefault(Skin skin, String id) {
+    public GraphBox createDefault(Skin skin, String id) {
         return createGraphBox(id, 0, 0, 0);
     }
 
-    private GraphBox<T> createGraphBox(String id, float v1, float v2, float v3) {
-        GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration);
+    private GraphBox createGraphBox(String id, float v1, float v2, float v3) {
+        GraphBoxImpl end = new GraphBoxImpl(id, configuration);
         end.addGraphBoxPart(createValuePart(v1, v2, v3));
 
         return end;
     }
 
-    private GraphBoxPartImpl<T> createValuePart(float v1, float v2, float v3) {
+    private GraphBoxPartImpl createValuePart(float v1, float v2, float v3) {
         final VisValidatableTextField v1Input = new VisValidatableTextField(Validators.FLOATS) {
             @Override
             public float getPrefWidth() {
@@ -95,7 +94,7 @@ public class ValueVector3BoxProducer<T extends FieldType> extends ValueGraphBoxP
         horizontalGroup.addActor(new VisLabel("z"));
         horizontalGroup.addActor(v3Input);
 
-        GraphBoxPartImpl<T> colorPart = new GraphBoxPartImpl<T>(horizontalGroup,
+        GraphBoxPartImpl colorPart = new GraphBoxPartImpl(horizontalGroup,
                 new GraphBoxPartImpl.Callback() {
                     @Override
                     public void serialize(JsonValue object) {

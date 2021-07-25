@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.ui;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.loader.GraphLoaderCallback;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
@@ -11,12 +10,12 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 
-public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCallback<GraphDesignTab<T>> {
+public class UIGraphLoaderCallback implements GraphLoaderCallback<GraphDesignTab> {
     private Skin skin;
-    private GraphDesignTab<T> graphDesignTab;
-    private UIGraphConfiguration<T>[] uiGraphConfigurations;
+    private GraphDesignTab graphDesignTab;
+    private UIGraphConfiguration[] uiGraphConfigurations;
 
-    public UIGraphLoaderCallback(Skin skin, GraphDesignTab<T> graphDesignTab, UIGraphConfiguration<T>... uiGraphConfiguration) {
+    public UIGraphLoaderCallback(Skin skin, GraphDesignTab graphDesignTab, UIGraphConfiguration... uiGraphConfiguration) {
         this.skin = skin;
         this.graphDesignTab = graphDesignTab;
         this.uiGraphConfigurations = uiGraphConfiguration;
@@ -28,10 +27,10 @@ public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCa
 
     @Override
     public void addPipelineNode(String id, String type, float x, float y, JsonValue data) {
-        GraphBoxProducer<T> producer = findProducerByType(type);
+        GraphBoxProducer producer = findProducerByType(type);
         if (producer == null)
             throw new IllegalArgumentException("Unable to find pipeline producer for type: " + type);
-        GraphBox<T> graphBox = producer.createPipelineGraphBox(skin, id, data);
+        GraphBox graphBox = producer.createPipelineGraphBox(skin, id, data);
         graphDesignTab.getGraphContainer().addGraphBox(graphBox, producer.getName(), producer.isCloseable(), x, y);
     }
 
@@ -42,10 +41,10 @@ public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCa
 
     @Override
     public void addPipelineProperty(String type, String name, JsonValue data) {
-        PropertyBoxProducer<T> producer = findPropertyProducerByType(type);
+        PropertyBoxProducer producer = findPropertyProducerByType(type);
         if (producer == null)
             throw new IllegalArgumentException("Unable to find property producer for type: " + type);
-        PropertyBox<T> propertyBox = producer.createPropertyBox(skin, name, data);
+        PropertyBox propertyBox = producer.createPropertyBox(skin, name, data);
         graphDesignTab.addPropertyBox(type, propertyBox);
     }
 
@@ -55,14 +54,14 @@ public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCa
     }
 
     @Override
-    public GraphDesignTab<T> end() {
+    public GraphDesignTab end() {
         graphDesignTab.finishedLoading();
         return graphDesignTab;
     }
 
-    private PropertyBoxProducer<T> findPropertyProducerByType(String type) {
-        for (UIGraphConfiguration<T> uiGraphConfiguration : uiGraphConfigurations) {
-            for (PropertyBoxProducer<T> producer : uiGraphConfiguration.getPropertyBoxProducers().values()) {
+    private PropertyBoxProducer findPropertyProducerByType(String type) {
+        for (UIGraphConfiguration uiGraphConfiguration : uiGraphConfigurations) {
+            for (PropertyBoxProducer producer : uiGraphConfiguration.getPropertyBoxProducers().values()) {
                 if (producer.getType().equals(type))
                     return producer;
             }
@@ -71,9 +70,9 @@ public class UIGraphLoaderCallback<T extends FieldType> implements GraphLoaderCa
         return null;
     }
 
-    private GraphBoxProducer<T> findProducerByType(String type) {
-        for (UIGraphConfiguration<T> uiGraphConfiguration : uiGraphConfigurations) {
-            for (GraphBoxProducer<T> graphBoxProducer : uiGraphConfiguration.getGraphBoxProducers()) {
+    private GraphBoxProducer findProducerByType(String type) {
+        for (UIGraphConfiguration uiGraphConfiguration : uiGraphConfigurations) {
+            for (GraphBoxProducer graphBoxProducer : uiGraphConfiguration.getGraphBoxProducers()) {
                 if (graphBoxProducer.getType().equals(type))
                     return graphBoxProducer;
             }

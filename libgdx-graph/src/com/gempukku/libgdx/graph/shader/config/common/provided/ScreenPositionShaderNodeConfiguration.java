@@ -4,10 +4,10 @@ import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class ScreenPositionShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class ScreenPositionShaderNodeConfiguration extends NodeConfigurationImpl {
     public ScreenPositionShaderNodeConfiguration() {
         super("ScreenPosition", "Screen position", "Provided");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("output", "Output", ShaderFieldType.Vector2));
+                new GraphNodeOutputImpl("output", "Output", ShaderFieldType.Vector2));
     }
 }

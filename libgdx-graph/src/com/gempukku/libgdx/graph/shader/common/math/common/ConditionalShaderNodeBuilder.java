@@ -30,7 +30,7 @@ public class ConditionalShaderNodeBuilder extends ConfigurationCommonShaderNodeB
 
         commonShaderBuilder.addMainLine("// Conditional node");
         String name = "result_" + nodeId;
-        if (a.getFieldType() == ShaderFieldType.Float) {
+        if (a.getFieldType().getName().equals(ShaderFieldType.Float)) {
             commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = (" + a.getRepresentation() + " " + operation + " " + b.getRepresentation() + ") ? " + aTrue.getRepresentation() + " : " + aFalse.getRepresentation() + ";");
         } else {
             String function = getFunction(operation);

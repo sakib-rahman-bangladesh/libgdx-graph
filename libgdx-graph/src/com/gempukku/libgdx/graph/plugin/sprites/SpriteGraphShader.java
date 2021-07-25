@@ -25,7 +25,7 @@ public class SpriteGraphShader extends GraphShader {
         if (textureUniformNames == null) {
             textureUniformNames = new Array<>();
             for (PropertySource value : propertySourceMap.values()) {
-                if (value.getShaderFieldType() == ShaderFieldType.TextureRegion)
+                if (value.getShaderFieldType().getName().equals(ShaderFieldType.TextureRegion))
                     textureUniformNames.add(value.getPropertyName());
             }
         }

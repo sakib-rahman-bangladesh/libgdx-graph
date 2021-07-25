@@ -4,12 +4,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 
 public abstract class PipelineNodeProducerImpl implements PipelineNodeProducer {
-    protected NodeConfiguration<PipelineFieldType> configuration;
+    protected NodeConfiguration configuration;
 
-    public PipelineNodeProducerImpl(NodeConfiguration<PipelineFieldType> configuration) {
+    public PipelineNodeProducerImpl(NodeConfiguration configuration) {
         this.configuration = configuration;
     }
 
@@ -19,7 +18,7 @@ public abstract class PipelineNodeProducerImpl implements PipelineNodeProducer {
     }
 
     @Override
-    public final NodeConfiguration<PipelineFieldType> getConfiguration(JsonValue data) {
+    public final NodeConfiguration getConfiguration(JsonValue data) {
         return configuration;
     }
 

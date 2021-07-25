@@ -2,7 +2,6 @@ package com.gempukku.libgdx.graph.ui.part;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
@@ -10,7 +9,7 @@ import com.kotcrab.vis.ui.widget.VisCheckBox;
 import com.kotcrab.vis.ui.widget.VisTable;
 
 
-public class CheckboxBoxPart<T extends FieldType> extends VisTable implements GraphBoxPart<T> {
+public class CheckboxBoxPart extends VisTable implements GraphBoxPart {
     private String property;
     private final VisCheckBox input;
 
@@ -34,12 +33,12 @@ public class CheckboxBoxPart<T extends FieldType> extends VisTable implements Gr
     }
 
     @Override
-    public GraphBoxOutputConnector<T> getOutputConnector() {
+    public GraphBoxOutputConnector getOutputConnector() {
         return null;
     }
 
     @Override
-    public GraphBoxInputConnector<T> getInputConnector() {
+    public GraphBoxInputConnector getInputConnector() {
         return null;
     }
 

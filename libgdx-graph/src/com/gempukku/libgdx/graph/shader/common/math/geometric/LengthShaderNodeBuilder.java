@@ -20,11 +20,11 @@ public class LengthShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilde
     @Override
     protected ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         FieldOutput inputValue = inputs.get("input");
-        ShaderFieldType resultType = ShaderFieldType.Float;
+        String resultType = ShaderFieldType.Float;
 
         commonShaderBuilder.addMainLine("// Length node");
         String name = "result_" + nodeId;
-        commonShaderBuilder.addMainLine(resultType.getShaderType() + " " + name + " = length(" + inputValue.getRepresentation() + ");");
+        commonShaderBuilder.addMainLine("float " + name + " = length(" + inputValue.getRepresentation() + ");");
 
         return LibGDXCollections.singletonMap("output", new DefaultFieldOutput(resultType, name));
     }

@@ -4,14 +4,14 @@ import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class PointLightShaderNodeConfiguration extends NodeConfigurationImpl<ShaderFieldType> {
+public class PointLightShaderNodeConfiguration extends NodeConfigurationImpl {
     public PointLightShaderNodeConfiguration() {
         super("PointLight", "Point light", "Lighting");
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("position", "Position", ShaderFieldType.Vector3));
+                new GraphNodeOutputImpl("position", "Position", ShaderFieldType.Vector3));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("color", "Color", ShaderFieldType.Vector4));
+                new GraphNodeOutputImpl("color", "Color", ShaderFieldType.Vector4));
         addNodeOutput(
-                new GraphNodeOutputImpl<ShaderFieldType>("intensity", "Intensity", ShaderFieldType.Float));
+                new GraphNodeOutputImpl("intensity", "Intensity", ShaderFieldType.Float));
     }
 }

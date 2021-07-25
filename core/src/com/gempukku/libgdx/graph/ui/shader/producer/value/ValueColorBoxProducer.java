@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
@@ -24,31 +23,31 @@ import com.kotcrab.vis.ui.widget.color.ColorPicker;
 import com.kotcrab.vis.ui.widget.color.ColorPickerAdapter;
 
 
-public class ValueColorBoxProducer<T extends FieldType> extends ValueGraphBoxProducer<T> {
-    public ValueColorBoxProducer(NodeConfiguration<T> configuration) {
+public class ValueColorBoxProducer extends ValueGraphBoxProducer {
+    public ValueColorBoxProducer(NodeConfiguration configuration) {
         super(configuration);
     }
 
     @Override
-    public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+    public GraphBox createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         String value = data.getString("color");
 
         return createGraphBox(id, value);
     }
 
     @Override
-    public GraphBox<T> createDefault(Skin skin, String id) {
+    public GraphBox createDefault(Skin skin, String id) {
         return createGraphBox(id, "FFFFFFFF");
     }
 
-    private GraphBox<T> createGraphBox(String id, String value) {
-        GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration);
+    private GraphBox createGraphBox(String id, String value) {
+        GraphBoxImpl end = new GraphBoxImpl(id, configuration);
         end.addGraphBoxPart(createValuePart(value));
 
         return end;
     }
 
-    private GraphBoxPartImpl<T> createValuePart(String value) {
+    private GraphBoxPartImpl createValuePart(String value) {
         Color color = Color.valueOf(value);
 
         final TextureRegionDrawable drawable = new TextureRegionDrawable(WhitePixel.sharedInstance.texture);
@@ -87,7 +86,7 @@ public class ValueColorBoxProducer<T extends FieldType> extends ValueGraphBoxPro
         table.add(image);
         table.row();
 
-        GraphBoxPartImpl<T> colorPart = new GraphBoxPartImpl<T>(table,
+        GraphBoxPartImpl colorPart = new GraphBoxPartImpl(table,
                 new GraphBoxPartImpl.Callback() {
                     @Override
                     public void serialize(JsonValue object) {

@@ -4,12 +4,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 
 public interface PipelineNodeProducer {
     String getType();
 
-    NodeConfiguration<PipelineFieldType> getConfiguration(JsonValue data);
+    NodeConfiguration getConfiguration(JsonValue data);
 
     PipelineNode createNode(JsonValue data, ObjectMap<String, Array<PipelineNode.FieldOutput<?>>> inputFields);
 }

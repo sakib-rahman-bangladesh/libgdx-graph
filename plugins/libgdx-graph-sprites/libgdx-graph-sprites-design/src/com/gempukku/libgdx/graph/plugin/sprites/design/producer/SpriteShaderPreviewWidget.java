@@ -29,6 +29,7 @@ import com.gempukku.libgdx.graph.plugin.sprites.impl.GraphSpriteImpl;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.NonCachedTagSpriteData;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
@@ -95,13 +96,13 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
         return height;
     }
 
-    private void createShader(final Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
+    private void createShader(final Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph) {
         try {
             timeKeeper = new DefaultTimeKeeper();
             graphShader = GraphShaderBuilder.buildSpriteShader(WhitePixel.sharedInstance.texture, graph, true);
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
 
-            for (GraphProperty<ShaderFieldType> property : graph.getProperties()) {
+            for (GraphProperty property : graph.getProperties()) {
                 graphSprite.getPropertyContainer().setValue(property.getName(), getPropertyValue(property));
             }
 
@@ -118,10 +119,10 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
         }
     }
 
-    private Object getPropertyValue(final GraphProperty<ShaderFieldType> property) {
-        ShaderFieldType propertyType = property.getType();
+    private Object getPropertyValue(final GraphProperty property) {
+        ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(property.getType());
         Object value = propertyType.convertFromJson(property.getData());
-        if (propertyType == ShaderFieldType.TextureRegion) {
+        if (propertyType.isTexture()) {
             if (value != null) {
                 try {
                     Texture texture = new Texture(Gdx.files.absolute((String) value));
@@ -191,7 +192,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
         }
     }
 
-    public void graphChanged(boolean hasErrors, Graph<? extends GraphNode<ShaderFieldType>, ? extends GraphConnection, ? extends GraphProperty<ShaderFieldType>, ShaderFieldType> graph) {
+    public void graphChanged(boolean hasErrors, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph) {
         if (hasErrors && shaderInitialized) {
             destroyShader();
         } else if (!hasErrors && !shaderInitialized) {

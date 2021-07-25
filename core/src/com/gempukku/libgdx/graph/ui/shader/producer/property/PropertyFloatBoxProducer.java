@@ -9,23 +9,23 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.part.FloatBoxPart;
 
 
-public class PropertyFloatBoxProducer implements PropertyBoxProducer<ShaderFieldType> {
+public class PropertyFloatBoxProducer implements PropertyBoxProducer {
     @Override
     public String getType() {
         return "Float";
     }
 
     @Override
-    public PropertyBox<ShaderFieldType> createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
-        PropertyBoxImpl<ShaderFieldType> result = new PropertyBoxImpl<>(name, ShaderFieldType.Float);
-        result.addPropertyBoxPart(new FloatBoxPart<ShaderFieldType>("Value", "x", 0, null));
+    public PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
+        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.Float);
+        result.addPropertyBoxPart(new FloatBoxPart("Value", "x", 0, null));
         result.initialize(jsonObject);
 
         return result;
     }
 
     @Override
-    public PropertyBox<ShaderFieldType> createDefaultPropertyBox(Skin skin) {
+    public PropertyBox createDefaultPropertyBox(Skin skin) {
         return createPropertyBox(skin, "New Float", null);
     }
 }

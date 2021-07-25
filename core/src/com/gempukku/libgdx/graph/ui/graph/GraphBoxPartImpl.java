@@ -2,15 +2,14 @@ package com.gempukku.libgdx.graph.ui.graph;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.GraphNodeInput;
 import com.gempukku.libgdx.graph.data.GraphNodeOutput;
 
 
-public class GraphBoxPartImpl<T extends FieldType> implements GraphBoxPart<T> {
+public class GraphBoxPartImpl implements GraphBoxPart {
     private Actor actor;
-    private GraphBoxInputConnector<T> inputConnector;
-    private GraphBoxOutputConnector<T> outputConnector;
+    private GraphBoxInputConnector inputConnector;
+    private GraphBoxOutputConnector outputConnector;
     private Callback callback;
 
     public GraphBoxPartImpl(Actor actor, Callback callback) {
@@ -18,12 +17,12 @@ public class GraphBoxPartImpl<T extends FieldType> implements GraphBoxPart<T> {
         this.callback = callback;
     }
 
-    public void setInputConnector(GraphBoxInputConnector.Side side, GraphNodeInput<T> graphNodeInput) {
-        inputConnector = new GraphBoxInputConnectorImpl<T>(side, null, graphNodeInput.getFieldId());
+    public void setInputConnector(GraphBoxInputConnector.Side side, GraphNodeInput graphNodeInput) {
+        inputConnector = new GraphBoxInputConnectorImpl(side, null, graphNodeInput.getFieldId());
     }
 
-    public void setOutputConnector(GraphBoxOutputConnector.Side side, GraphNodeOutput<T> graphNodeOutput) {
-        outputConnector = new GraphBoxOutputConnectorImpl<T>(side, null, graphNodeOutput.getFieldId());
+    public void setOutputConnector(GraphBoxOutputConnector.Side side, GraphNodeOutput graphNodeOutput) {
+        outputConnector = new GraphBoxOutputConnectorImpl(side, null, graphNodeOutput.getFieldId());
     }
 
     @Override
@@ -32,12 +31,12 @@ public class GraphBoxPartImpl<T extends FieldType> implements GraphBoxPart<T> {
     }
 
     @Override
-    public GraphBoxInputConnector<T> getInputConnector() {
+    public GraphBoxInputConnector getInputConnector() {
         return inputConnector;
     }
 
     @Override
-    public GraphBoxOutputConnector<T> getOutputConnector() {
+    public GraphBoxOutputConnector getOutputConnector() {
         return outputConnector;
     }
 

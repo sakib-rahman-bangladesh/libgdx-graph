@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.data.FieldType;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
@@ -15,31 +14,31 @@ import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.kotcrab.vis.ui.widget.VisCheckBox;
 
 
-public class ValueBooleanBoxProducer<T extends FieldType> extends ValueGraphBoxProducer<T> {
-    public ValueBooleanBoxProducer(NodeConfiguration<T> configuration) {
+public class ValueBooleanBoxProducer extends ValueGraphBoxProducer {
+    public ValueBooleanBoxProducer(NodeConfiguration configuration) {
         super(configuration);
     }
 
     @Override
-    public GraphBox<T> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+    public GraphBox createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         boolean v = data.getBoolean("v");
 
         return createGraphBox(id, v);
     }
 
     @Override
-    public GraphBox<T> createDefault(Skin skin, String id) {
+    public GraphBox createDefault(Skin skin, String id) {
         return createGraphBox(id, false);
     }
 
-    private GraphBox<T> createGraphBox(String id, boolean v) {
-        GraphBoxImpl<T> end = new GraphBoxImpl<T>(id, configuration);
+    private GraphBox createGraphBox(String id, boolean v) {
+        GraphBoxImpl end = new GraphBoxImpl(id, configuration);
         end.addGraphBoxPart(createValuePart(v));
 
         return end;
     }
 
-    private GraphBoxPartImpl<T> createValuePart(boolean v) {
+    private GraphBoxPartImpl createValuePart(boolean v) {
         HorizontalGroup horizontalGroup = new HorizontalGroup();
         final VisCheckBox checkBox = new VisCheckBox("Value");
         checkBox.addListener(
@@ -52,7 +51,7 @@ public class ValueBooleanBoxProducer<T extends FieldType> extends ValueGraphBoxP
         checkBox.setChecked(v);
         horizontalGroup.addActor(checkBox);
 
-        GraphBoxPartImpl<T> colorPart = new GraphBoxPartImpl<T>(horizontalGroup,
+        GraphBoxPartImpl colorPart = new GraphBoxPartImpl(horizontalGroup,
                 new GraphBoxPartImpl.Callback() {
                     @Override
                     public void serialize(JsonValue object) {
