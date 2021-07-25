@@ -1,13 +1,34 @@
 package com.gempukku.libgdx.graph.plugin.lighting3d;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 public class Lighting3DEnvironment {
+    private Vector3 sceneCenter = new Vector3();
+    private float sceneDiameter;
+
     private LightColor ambientColor = new LightColor(Color.WHITE);
     private Array<Directional3DLight> directionalLights = new Array<>();
     private Array<Point3DLight> pointLights = new Array<>();
     private Array<Spot3DLight> spotLights = new Array<>();
+
+    public Lighting3DEnvironment() {
+        updateScene(new Vector3(0, 0, 0), 1f);
+    }
+
+    public void updateScene(Vector3 sceneCenter, float sceneDiameter) {
+        this.sceneCenter.set(sceneCenter);
+        this.sceneDiameter = sceneDiameter;
+    }
+
+    public Vector3 getSceneCenter() {
+        return sceneCenter;
+    }
+
+    public float getSceneDiameter() {
+        return sceneDiameter;
+    }
 
     public LightColor getAmbientColor() {
         return ambientColor;

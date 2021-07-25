@@ -8,7 +8,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.plugin.models.design.ModelShaderGraphType;
 import com.gempukku.libgdx.graph.plugin.models.design.ModelsTemplateRegistry;
 import com.gempukku.libgdx.graph.plugin.models.design.UIModelShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;

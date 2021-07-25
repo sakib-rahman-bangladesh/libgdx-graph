@@ -8,7 +8,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.plugin.sprites.design.SpriteShaderGraphType;
 import com.gempukku.libgdx.graph.plugin.sprites.design.SpritesTemplateRegistry;
 import com.gempukku.libgdx.graph.plugin.sprites.design.UISpritesShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;

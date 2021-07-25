@@ -28,7 +28,7 @@ import com.gempukku.libgdx.graph.plugin.sprites.SpriteGraphShader;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.GraphSpriteImpl;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.NonCachedTagSpriteData;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;

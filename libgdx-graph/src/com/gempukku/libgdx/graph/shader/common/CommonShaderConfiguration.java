@@ -84,6 +84,7 @@ import com.gempukku.libgdx.graph.shader.common.value.ValueFloatShaderNodeBuilder
 import com.gempukku.libgdx.graph.shader.common.value.ValueVector2ShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.value.ValueVector3ShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.ColorShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.FloatShaderPropertyProducer;
@@ -96,7 +97,6 @@ public class CommonShaderConfiguration implements GraphConfiguration {
     private static ObjectMap<String, GraphShaderNodeBuilder> graphShaderNodeBuilders = new ObjectMap<>();
     private static Array<GraphShaderPropertyProducer> graphShaderPropertyProducers = new Array<>();
     private static TextureRegion defaultTextureRegion;
-
 
     public static void register(GraphShaderNodeBuilder graphShaderNodeBuilder) {
         graphShaderNodeBuilders.put(graphShaderNodeBuilder.getType(), graphShaderNodeBuilder);
@@ -214,16 +214,21 @@ public class CommonShaderConfiguration implements GraphConfiguration {
         register(new ValueVector2ShaderNodeBuilder());
         register(new ValueVector3ShaderNodeBuilder());
 
-        graphShaderPropertyProducers.add(new ColorShaderPropertyProducer());
-        graphShaderPropertyProducers.add(new FloatShaderPropertyProducer());
-        graphShaderPropertyProducers.add(new Vector2ShaderPropertyProducer());
-        graphShaderPropertyProducers.add(new Vector3ShaderPropertyProducer());
-        graphShaderPropertyProducers.add(new TextureShaderPropertyProducer() {
+        registerPropertyProducer(new FloatShaderPropertyProducer());
+        registerPropertyProducer(new ColorShaderPropertyProducer());
+        registerPropertyProducer(new Vector2ShaderPropertyProducer());
+        registerPropertyProducer(new Vector3ShaderPropertyProducer());
+        registerPropertyProducer(new TextureShaderPropertyProducer() {
             @Override
             protected TextureRegion getDefaultTextureRegion() {
                 return defaultTextureRegion;
             }
         });
+    }
+
+    public static void registerPropertyProducer(GraphShaderPropertyProducer graphShaderPropertyProducer) {
+        graphShaderPropertyProducers.add(graphShaderPropertyProducer);
+        ShaderFieldTypeRegistry.registerShaderFieldType(graphShaderPropertyProducer.getType());
     }
 
     @Override

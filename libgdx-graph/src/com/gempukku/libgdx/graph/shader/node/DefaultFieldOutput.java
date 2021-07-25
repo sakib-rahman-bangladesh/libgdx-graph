@@ -1,6 +1,6 @@
 package com.gempukku.libgdx.graph.shader.node;
 
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
 public class DefaultFieldOutput implements GraphShaderNodeBuilder.FieldOutput {
     private ShaderFieldType fieldType;

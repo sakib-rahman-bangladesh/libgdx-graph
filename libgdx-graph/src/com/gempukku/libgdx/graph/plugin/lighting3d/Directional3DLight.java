@@ -1,13 +1,19 @@
 package com.gempukku.libgdx.graph.plugin.lighting3d;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.math.Vector3;
+import com.gempukku.libgdx.graph.pipeline.TextureFrameBuffer;
 
 public class Directional3DLight {
     private Vector3 direction = new Vector3(0, 0, 0);
     private LightColor color = new LightColor(1, 1, 1);
     private float intensity = 1f;
+    private boolean shadowsEnabled = false;
+
+    private OrthographicCamera shadowCamera = new OrthographicCamera();
+    private TextureFrameBuffer shadowTextureFrameBuffer;
 
     public Directional3DLight() {
 
@@ -17,6 +23,34 @@ public class Directional3DLight {
         setDirection(directionalLight.direction);
         setColor(directionalLight.color);
         setIntensity(1f);
+    }
+
+    public boolean isShadowsEnabled() {
+        return shadowsEnabled;
+    }
+
+    public void setShadowsEnabled(boolean shadowsEnabled) {
+        this.shadowsEnabled = shadowsEnabled;
+    }
+
+    public void updateCamera(Vector3 sceneCenter, float sceneDiameter) {
+        shadowCamera.viewportWidth = sceneDiameter;
+        shadowCamera.viewportHeight = sceneDiameter;
+        shadowCamera.far = sceneDiameter;
+        shadowCamera.position.set(sceneCenter.x - sceneDiameter / 2f, sceneCenter.y, sceneCenter.z);
+        shadowCamera.update();
+    }
+
+    public OrthographicCamera getShadowCamera() {
+        return shadowCamera;
+    }
+
+    public TextureFrameBuffer getShadowTextureFrameBuffer() {
+        return shadowTextureFrameBuffer;
+    }
+
+    public void setShadowTextureFrameBuffer(TextureFrameBuffer shadowTextureFrameBuffer) {
+        this.shadowTextureFrameBuffer = shadowTextureFrameBuffer;
     }
 
     public Directional3DLight setDirection(Vector3 direction) {

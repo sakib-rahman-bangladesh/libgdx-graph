@@ -3,7 +3,7 @@ package com.gempukku.libgdx.graph.plugin.models.design.producer.material;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.plugin.models.config.material.FloatAttributeShaderNodeConfiguration;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.part.FloatBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;

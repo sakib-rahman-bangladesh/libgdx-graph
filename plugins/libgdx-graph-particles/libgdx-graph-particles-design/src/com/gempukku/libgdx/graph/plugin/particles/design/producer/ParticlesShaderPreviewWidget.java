@@ -37,7 +37,7 @@ import com.gempukku.libgdx.graph.plugin.particles.generator.PointParticleGenerat
 import com.gempukku.libgdx.graph.plugin.particles.generator.SphereParticleGenerator;
 import com.gempukku.libgdx.graph.plugin.particles.generator.SphereSurfaceParticleGenerator;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.WhitePixel;

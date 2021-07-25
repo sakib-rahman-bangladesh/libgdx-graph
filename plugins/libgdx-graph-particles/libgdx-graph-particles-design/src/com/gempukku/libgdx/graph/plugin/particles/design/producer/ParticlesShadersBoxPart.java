@@ -8,7 +8,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.plugin.particles.design.ParticleEffectGraphType;
 import com.gempukku.libgdx.graph.plugin.particles.design.ParticlesTemplateRegistry;
 import com.gempukku.libgdx.graph.plugin.particles.design.UIParticlesShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GetSerializedGraph;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;

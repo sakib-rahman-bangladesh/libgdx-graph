@@ -6,7 +6,7 @@ import com.gempukku.libgdx.graph.plugin.sprites.config.SpritePositionShaderNodeC
 import com.gempukku.libgdx.graph.plugin.sprites.config.SpriteSizeShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.plugin.sprites.config.SpriteUVShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.plugin.sprites.design.producer.EndSpriteShaderBoxProducer;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;

@@ -16,11 +16,12 @@ import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.UniformRegistry;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.util.LibGDXCollections;
@@ -34,7 +35,7 @@ public class PropertyAsUniformShaderNodeBuilder implements GraphShaderNodeBuilde
     @Override
     public NodeConfiguration<ShaderFieldType> getConfiguration(JsonValue data) {
         final String name = data.getString("name");
-        final ShaderFieldType propertyType = ShaderFieldType.valueOf(data.getString("type"));
+        final ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(data.getString("type"));
 
         return new PropertyNodeConfiguration<ShaderFieldType>(name, propertyType);
     }
@@ -53,24 +54,21 @@ public class PropertyAsUniformShaderNodeBuilder implements GraphShaderNodeBuilde
     private ObjectMap<String, ? extends FieldOutput> buildCommonNode(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, Array<FieldOutput>> inputs, ObjectSet<String> producedOutputs,
                                                                      CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         final String name = data.getString("name");
-        final ShaderFieldType propertyType = ShaderFieldType.valueOf(data.getString("type"));
+        final ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(data.getString("type"));
 
-        switch (propertyType) {
-            case Vector4:
-                return buildColorPropertyNode(name, graphShaderContext, commonShaderBuilder);
-            case Float:
-                return buildFloatPropertyNode(name, graphShaderContext, commonShaderBuilder);
-            case Vector2:
-                return buildVector2PropertyNode(name, graphShaderContext, commonShaderBuilder);
-            case Vector3:
-                return buildVector3PropertyNode(name, graphShaderContext, commonShaderBuilder);
-            case TextureRegion:
-                return buildTexturePropertyNode(name, data, graphShaderContext, commonShaderBuilder);
-        }
+        if (propertyType == ShaderFieldType.Vector4)
+            return buildColorPropertyNode(name, graphShaderContext, commonShaderBuilder);
+        if (propertyType == ShaderFieldType.Float)
+            return buildFloatPropertyNode(name, graphShaderContext, commonShaderBuilder);
+        if (propertyType == ShaderFieldType.Vector2)
+            return buildVector2PropertyNode(name, graphShaderContext, commonShaderBuilder);
+        if (propertyType == ShaderFieldType.Vector3)
+            return buildVector3PropertyNode(name, graphShaderContext, commonShaderBuilder);
+        if (propertyType == ShaderFieldType.TextureRegion)
+            return buildTexturePropertyNode(name, data, graphShaderContext, commonShaderBuilder);
 
         return null;
     }
-
 
     private ObjectMap<String, DefaultFieldOutput> buildColorPropertyNode(final String name, final GraphShaderContext graphShaderContext,
                                                                          CommonShaderBuilder commonShaderBuilder) {

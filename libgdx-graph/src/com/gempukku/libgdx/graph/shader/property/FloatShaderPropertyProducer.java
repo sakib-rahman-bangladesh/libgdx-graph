@@ -1,7 +1,7 @@
 package com.gempukku.libgdx.graph.shader.property;
 
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
 public class FloatShaderPropertyProducer implements GraphShaderPropertyProducer {
     @Override

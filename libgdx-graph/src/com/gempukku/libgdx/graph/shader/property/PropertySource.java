@@ -1,6 +1,6 @@
 package com.gempukku.libgdx.graph.shader.property;
 
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
 public class PropertySource {
     private int propertyIndex;

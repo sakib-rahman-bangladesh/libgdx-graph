@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.ui.shader;
 
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.config.common.effect.FresnelEffectShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.effect.IntensityShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.math.arithmetic.AddShaderNodeConfiguration;
@@ -74,6 +73,7 @@ import com.gempukku.libgdx.graph.shader.config.common.value.ValueColorShaderNode
 import com.gempukku.libgdx.graph.shader.config.common.value.ValueFloatShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.value.ValueVector2ShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.value.ValueVector3ShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;

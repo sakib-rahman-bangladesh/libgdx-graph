@@ -11,7 +11,7 @@ import com.gempukku.libgdx.graph.plugin.models.design.producer.attribute.Attribu
 import com.gempukku.libgdx.graph.plugin.models.design.producer.material.ColorAttributeBoxProducer;
 import com.gempukku.libgdx.graph.plugin.models.design.producer.material.FloatAttributeBoxProducer;
 import com.gempukku.libgdx.graph.plugin.models.design.producer.material.TextureAttributeBoxProducer;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;

@@ -2,7 +2,7 @@ package com.gempukku.libgdx.graph.shader.property;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public abstract class TextureShaderPropertyProducer implements GraphShaderPropertyProducer {

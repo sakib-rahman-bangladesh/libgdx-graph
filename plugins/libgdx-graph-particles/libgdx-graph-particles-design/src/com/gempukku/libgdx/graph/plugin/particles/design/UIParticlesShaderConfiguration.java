@@ -6,7 +6,7 @@ import com.gempukku.libgdx.graph.plugin.particles.config.ParticleLocationShaderN
 import com.gempukku.libgdx.graph.plugin.particles.config.ParticleUVShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.plugin.particles.design.producer.EndBillboardParticlesShaderBoxProducer;
 import com.gempukku.libgdx.graph.plugin.particles.design.producer.ParticleRandomShaderBoxProducer;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;

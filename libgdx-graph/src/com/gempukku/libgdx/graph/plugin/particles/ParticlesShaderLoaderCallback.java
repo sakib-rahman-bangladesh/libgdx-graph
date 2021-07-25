@@ -9,8 +9,9 @@ import com.gempukku.libgdx.graph.data.GraphValidator;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.loader.GraphDataLoaderCallback;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
-import com.gempukku.libgdx.graph.shader.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 
 public class ParticlesShaderLoaderCallback extends GraphDataLoaderCallback<ParticlesGraphShader, ShaderFieldType> {
@@ -39,7 +40,7 @@ public class ParticlesShaderLoaderCallback extends GraphDataLoaderCallback<Parti
 
     @Override
     protected ShaderFieldType getFieldType(String type) {
-        return ShaderFieldType.valueOf(type);
+        return ShaderFieldTypeRegistry.findShaderFieldType(type);
     }
 
     @Override
