@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 
 public abstract class PipelineNodeProducerImpl implements PipelineNodeProducer {
     protected NodeConfiguration<PipelineFieldType> configuration;

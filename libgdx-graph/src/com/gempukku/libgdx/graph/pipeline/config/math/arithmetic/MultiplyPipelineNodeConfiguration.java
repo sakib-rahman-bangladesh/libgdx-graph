@@ -2,14 +2,14 @@ package com.gempukku.libgdx.graph.pipeline.config.math.arithmetic;
 
 import com.gempukku.libgdx.graph.config.MultiParamVectorArithmeticOutputTypeFunction;
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
-import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
-import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Color;
-import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Float;
-import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Vector2;
-import static com.gempukku.libgdx.graph.pipeline.PipelineFieldType.Vector3;
+import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.Color;
+import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.Float;
+import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.Vector2;
+import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.Vector3;
 
 public class MultiplyPipelineNodeConfiguration extends NodeConfigurationImpl<PipelineFieldType> {
     public MultiplyPipelineNodeConfiguration() {

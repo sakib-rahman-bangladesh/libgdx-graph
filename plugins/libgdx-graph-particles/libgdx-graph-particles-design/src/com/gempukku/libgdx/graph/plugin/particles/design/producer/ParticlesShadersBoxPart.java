@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.plugin.particles.design.ParticleEffectGraphType;
 import com.gempukku.libgdx.graph.plugin.particles.design.ParticlesTemplateRegistry;
 import com.gempukku.libgdx.graph.plugin.particles.design.UIParticlesShaderConfiguration;

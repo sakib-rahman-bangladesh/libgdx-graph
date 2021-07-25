@@ -12,6 +12,8 @@ import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.data.GraphValidator;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.loader.GraphDataLoaderCallback;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldTypeRegistry;
 import com.gempukku.libgdx.graph.pipeline.impl.PipelineRendererImpl;
 import com.gempukku.libgdx.graph.pipeline.impl.WritablePipelineProperty;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNode;
@@ -64,7 +66,7 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
 
     @Override
     protected PipelineFieldType getFieldType(String type) {
-        return PipelineFieldType.valueOf(type);
+        return PipelineFieldTypeRegistry.findPipelineFieldType(type);
     }
 
     @Override

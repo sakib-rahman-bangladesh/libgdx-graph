@@ -3,7 +3,8 @@ package com.gempukku.libgdx.graph.ui.pipeline.producer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.config.PropertyNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldTypeRegistry;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
@@ -36,7 +37,7 @@ public class PropertyPipelineGraphBoxProducer implements GraphBoxProducer<Pipeli
     @Override
     public GraphBox<PipelineFieldType> createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         final String name = data.getString("name");
-        final PipelineFieldType propertyType = PipelineFieldType.valueOf(data.getString("type"));
+        final PipelineFieldType propertyType = PipelineFieldTypeRegistry.findPipelineFieldType(data.getString("type"));
         GraphBoxImpl<PipelineFieldType> result = new GraphBoxImpl<PipelineFieldType>(id, new PropertyNodeConfiguration<>(name, propertyType)) {
             @Override
             public JsonValue getData() {
@@ -44,7 +45,7 @@ public class PropertyPipelineGraphBoxProducer implements GraphBoxProducer<Pipeli
                 if (result == null)
                     result = new JsonValue(JsonValue.ValueType.object);
                 result.addChild("name", new JsonValue(name));
-                result.addChild("type", new JsonValue(propertyType.name()));
+                result.addChild("type", new JsonValue(propertyType.getName()));
                 return result;
             }
         };

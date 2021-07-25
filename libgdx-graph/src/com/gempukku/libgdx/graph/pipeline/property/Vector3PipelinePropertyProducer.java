@@ -2,7 +2,7 @@ package com.gempukku.libgdx.graph.pipeline.property;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.impl.WritablePipelineProperty;
 
 import java.util.function.Supplier;

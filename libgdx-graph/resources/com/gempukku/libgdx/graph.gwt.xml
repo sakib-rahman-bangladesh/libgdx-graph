@@ -46,7 +46,7 @@
     <!-- Enums for reflections -->
     <extend-configuration-property name="gdx.reflect.include" value="com.gempukku.libgdx.graph.data.FieldType"/>
     <extend-configuration-property name="gdx.reflect.include"
-                                   value="com.gempukku.libgdx.graph.pipeline.PipelineFieldType"/>
+                                   value="com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType"/>
     <extend-configuration-property name="gdx.reflect.include"
                                    value="com.gempukku.libgdx.graph.shader.field.ShaderFieldType"/>
     <extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.Texture.TextureFilter"/>

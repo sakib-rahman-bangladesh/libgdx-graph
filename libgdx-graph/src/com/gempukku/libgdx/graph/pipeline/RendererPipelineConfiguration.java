@@ -2,6 +2,8 @@ package com.gempukku.libgdx.graph.pipeline;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldTypeRegistry;
 import com.gempukku.libgdx.graph.pipeline.producer.math.arithmetic.AddPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.math.arithmetic.DividePipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.math.arithmetic.MultiplyPipelineNodeProducer;
@@ -146,13 +148,18 @@ public class RendererPipelineConfiguration {
         register(new DepthOfFieldPipelineNodeProducer());
         register(new GammaCorrectionPipelineNodeProducer());
 
-        pipelinePropertyProducers.add(new FloatPipelinePropertyProducer());
-        pipelinePropertyProducers.add(new Vector2PipelinePropertyProducer());
-        pipelinePropertyProducers.add(new Vector3PipelinePropertyProducer());
-        pipelinePropertyProducers.add(new ColorPipelinePropertyProducer());
-        pipelinePropertyProducers.add(new BooleanPipelinePropertyProducer());
-        pipelinePropertyProducers.add(new CameraPipelinePropertyProducer());
-        pipelinePropertyProducers.add(new CallbackPipelinePropertyProducer());
+        registerPropertyProducer(new FloatPipelinePropertyProducer());
+        registerPropertyProducer(new Vector2PipelinePropertyProducer());
+        registerPropertyProducer(new Vector3PipelinePropertyProducer());
+        registerPropertyProducer(new ColorPipelinePropertyProducer());
+        registerPropertyProducer(new BooleanPipelinePropertyProducer());
+        registerPropertyProducer(new CameraPipelinePropertyProducer());
+        registerPropertyProducer(new CallbackPipelinePropertyProducer());
+    }
+
+    public static void registerPropertyProducer(PipelinePropertyProducer pipelinePropertyProducer) {
+        pipelinePropertyProducers.add(pipelinePropertyProducer);
+        PipelineFieldTypeRegistry.registerPipelineFieldType(pipelinePropertyProducer.getType());
     }
 
     public static PipelineNodeProducer findProducer(String type) {

@@ -1,7 +1,7 @@
 package com.gempukku.libgdx.graph.pipeline.impl;
 
-import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.PipelineProperty;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 
 import java.util.function.Supplier;
 

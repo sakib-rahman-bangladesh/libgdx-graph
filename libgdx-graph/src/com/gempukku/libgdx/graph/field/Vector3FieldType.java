@@ -1,16 +1,18 @@
-package com.gempukku.libgdx.graph.shader.field;
+package com.gempukku.libgdx.graph.field;
 
 import com.badlogic.gdx.utils.JsonValue;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class Vector2ShaderFieldType implements ShaderFieldType {
+public class Vector3FieldType implements ShaderFieldType, PipelineFieldType {
     @Override
     public boolean accepts(Object value) {
-        return value instanceof com.badlogic.gdx.math.Vector2;
+        return value instanceof com.badlogic.gdx.math.Vector3;
     }
 
     @Override
     public String getShaderType() {
-        return "vec2";
+        return "vec3";
     }
 
     @Override
@@ -20,7 +22,7 @@ public class Vector2ShaderFieldType implements ShaderFieldType {
 
     @Override
     public String getName() {
-        return "Vector2";
+        return "Vector3";
     }
 
     @Override
@@ -32,6 +34,7 @@ public class Vector2ShaderFieldType implements ShaderFieldType {
     public Object convertFromJson(JsonValue data) {
         final float x = data.getFloat("x");
         final float y = data.getFloat("y");
-        return new com.badlogic.gdx.math.Vector2(x, y);
+        final float z = data.getFloat("z");
+        return new com.badlogic.gdx.math.Vector3(x, y, z);
     }
 }

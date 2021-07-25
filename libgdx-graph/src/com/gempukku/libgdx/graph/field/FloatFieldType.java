@@ -1,16 +1,18 @@
-package com.gempukku.libgdx.graph.shader.field;
+package com.gempukku.libgdx.graph.field;
 
 import com.badlogic.gdx.utils.JsonValue;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
+import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class BooleanShaderFieldType implements ShaderFieldType {
+public class FloatFieldType implements ShaderFieldType, PipelineFieldType {
     @Override
     public boolean accepts(Object value) {
-        return value instanceof Boolean;
+        return value instanceof Float;
     }
 
     @Override
     public String getShaderType() {
-        return "bool";
+        return "float";
     }
 
     @Override
@@ -20,7 +22,7 @@ public class BooleanShaderFieldType implements ShaderFieldType {
 
     @Override
     public String getName() {
-        return "Boolean";
+        return "Float";
     }
 
     @Override
@@ -30,6 +32,6 @@ public class BooleanShaderFieldType implements ShaderFieldType {
 
     @Override
     public Object convertFromJson(JsonValue data) {
-        return null;
+        return data.getFloat("x");
     }
 }

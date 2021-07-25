@@ -1,7 +1,7 @@
 package com.gempukku.libgdx.graph.pipeline.producer.value.node;
 
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineInitializationFeedback;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNode;
