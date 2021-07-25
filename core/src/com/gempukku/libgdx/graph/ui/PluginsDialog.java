@@ -140,7 +140,7 @@ public class PluginsDialog extends VisWindow {
 
     private void addPlugin() {
         FileTypeFilter filter = new FileTypeFilter(true);
-        filter.addRule("Java Jar File (*.jar)", "jar");
+        filter.addRule("Plugin File (*.jar, *.json)", "jar", "json");
 
         FileChooser fileChooser = new FileChooser(FileChooser.Mode.OPEN);
         fileChooser.setModal(true);
