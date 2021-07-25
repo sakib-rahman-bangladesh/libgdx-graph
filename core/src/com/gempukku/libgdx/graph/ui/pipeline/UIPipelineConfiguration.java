@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.ui.pipeline;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.AddPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.DividePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.MultiplyPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.OneMinusPipelineNodeConfiguration;
@@ -48,7 +47,6 @@ import com.gempukku.libgdx.graph.pipeline.config.postprocessor.BloomPipelineNode
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.GammaCorrectionPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.GaussianBlurPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.provided.RenderSizePipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.provided.TimePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.CustomRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.EndPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.PipelineRendererNodeConfiguration;
@@ -109,10 +107,10 @@ public class UIPipelineConfiguration implements UIGraphConfiguration {
         JsonValue config = reader.parse(Gdx.files.internal("config/pipeline-default-config.json"));
         UIPipelineConfigurer.processPipelineConfig(config);
 
-        register(new GraphBoxProducerImpl(new TimePipelineNodeConfiguration()));
+//        register(new GraphBoxProducerImpl(new TimePipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl(new RenderSizePipelineNodeConfiguration()));
 
-        register(new GraphBoxProducerImpl(new AddPipelineNodeConfiguration()));
+//        register(new GraphBoxProducerImpl(new AddPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl(new DividePipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl(new MultiplyPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl(new OneMinusPipelineNodeConfiguration()));

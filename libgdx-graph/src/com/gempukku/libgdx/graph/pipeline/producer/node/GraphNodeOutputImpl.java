@@ -18,22 +18,25 @@ public class GraphNodeOutputImpl implements GraphNodeOutput {
     }
 
     public GraphNodeOutputImpl(String id, String name, boolean mainConnection, final String producedType) {
-        this(id, name, mainConnection, new Function<ObjectMap<String, Array<String>>, String>() {
-            @Override
-            public String apply(ObjectMap<String, Array<String>> stringTMap) {
-                return producedType;
-            }
-        }, producedType);
+        this(id, name, mainConnection, null, producedType);
     }
 
     public GraphNodeOutputImpl(String id, String name, Function<ObjectMap<String, Array<String>>, String> outputTypeFunction, String... producedType) {
         this(id, name, false, outputTypeFunction, producedType);
     }
 
-    public GraphNodeOutputImpl(String id, String name, boolean mainConnection, Function<ObjectMap<String, Array<String>>, String> outputTypeFunction, String... producedType) {
+    public GraphNodeOutputImpl(String id, String name, boolean mainConnection, Function<ObjectMap<String, Array<String>>, String> outputTypeFunction, final String... producedType) {
         this.id = id;
         this.name = name;
         this.mainConnection = mainConnection;
+        if (outputTypeFunction == null) {
+            outputTypeFunction = new Function<ObjectMap<String, Array<String>>, String>() {
+                @Override
+                public String apply(ObjectMap<String, Array<String>> stringTMap) {
+                    return producedType[0];
+                }
+            };
+        }
         this.outputTypeFunction = outputTypeFunction;
         this.propertyTypes = new Array<>(producedType);
     }

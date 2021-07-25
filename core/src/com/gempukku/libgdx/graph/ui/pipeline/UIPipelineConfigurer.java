@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.config.MultiParamVectorArithmeticOutputTypeFunction;
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
+import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxPart;
 import com.gempukku.libgdx.graph.ui.part.CheckboxBoxPart;
@@ -28,12 +30,12 @@ public class UIPipelineConfigurer {
                 processPropertyType(propertyType);
             }
         }
-//        JsonValue boxProducers = value.get("boxProducers");
-//        if (boxProducers != null) {
-//            for (JsonValue boxProducer : boxProducers) {
-//                processBoxProducer(boxProducer);
-//            }
-//        }
+        JsonValue boxProducers = value.get("boxProducers");
+        if (boxProducers != null) {
+            for (JsonValue boxProducer : boxProducers) {
+                processBoxProducer(boxProducer);
+            }
+        }
     }
 
     private static void processBoxProducer(JsonValue boxProducer) {
@@ -45,7 +47,15 @@ public class UIPipelineConfigurer {
         JsonValue inputs = boxProducer.get("inputs");
         if (inputs != null) {
             for (JsonValue input : inputs) {
-
+                String id = input.getString("id");
+                String name = input.getString("name");
+                boolean required = input.getBoolean("required", false);
+                boolean mainConnection = input.getBoolean("mainConnection", false);
+                boolean acceptMultiple = input.getBoolean("acceptMultiple", false);
+                JsonValue type = input.get("type");
+                String[] types = convertToArrayOfStrings(type);
+                GraphNodeInputImpl nodeInput = new GraphNodeInputImpl(id, name, required, mainConnection, acceptMultiple, types);
+                nodeConfiguration.addNodeInput(nodeInput);
             }
         }
         JsonValue outputs = boxProducer.get("outputs");
@@ -54,9 +64,9 @@ public class UIPipelineConfigurer {
                 String id = output.getString("id");
                 String name = output.getString("name");
                 boolean mainConnection = output.getBoolean("mainConnection", false);
-                JsonValue type = output.get("type");
                 JsonValue validation = output.get("validation");
                 Function<ObjectMap<String, Array<String>>, String> validationFunction = convertToValidationFunction(validation);
+                JsonValue type = output.get("type");
                 String[] types = convertToArrayOfStrings(type);
                 GraphNodeOutputImpl nodeOutput = new GraphNodeOutputImpl(id, name, mainConnection,
                         validationFunction, types);
@@ -68,6 +78,13 @@ public class UIPipelineConfigurer {
     }
 
     private static Function<ObjectMap<String, Array<String>>, String> convertToValidationFunction(JsonValue validation) {
+        if (validation != null) {
+            String validationType = validation.getString("type");
+            if (validationType.equals("vectorArithmetic")) {
+                return new MultiParamVectorArithmeticOutputTypeFunction(validation.getString("floatType"), validation.getString("inputId"));
+            }
+            throw new IllegalArgumentException("Unable to resolve validation type: " + validationType);
+        }
         return null;
     }
 
@@ -126,7 +143,7 @@ public class UIPipelineConfigurer {
                                                 field.getBoolean("defaultValue"));
                                     }
                                 }
-                                return null;
+                                throw new IllegalArgumentException("Unable to resolve field type: " + fieldType);
                             }
                         }
                 );
