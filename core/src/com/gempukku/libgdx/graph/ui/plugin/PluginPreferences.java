@@ -1,12 +1,16 @@
 package com.gempukku.libgdx.graph.ui.plugin;
 
+import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.jar.Attributes;
@@ -58,20 +62,35 @@ public class PluginPreferences {
     }
 
     public static PluginDefinition getPluginDefinition(File pluginFile) throws IOException, ClassNotFoundException {
-        JarFile jarFile = new JarFile(pluginFile);
-        Manifest manifest = jarFile.getManifest();
-        Attributes attributes = manifest.getMainAttributes();
-        if (!attributes.containsKey(PLUGIN_NAME) || !attributes.containsKey(PLUGIN_VERSION)
-                || !attributes.containsKey(PLUGIN_CLASS)) {
-            throw new GdxRuntimeException("Specified JAR does not contain plugin");
-        }
-        String pluginName = attributes.getValue(PLUGIN_NAME);
-        String pluginVersion = attributes.getValue(PLUGIN_VERSION);
-        Class<? extends PluginDesignInitializer> pluginClass = (Class<? extends PluginDesignInitializer>) Class.forName(attributes.getValue(PLUGIN_CLASS));
-        if (!ClassReflection.isAssignableFrom(PluginDesignInitializer.class, pluginClass))
-            throw new GdxRuntimeException("Plugin class is not of required type");
+        if (pluginFile.getName().toLowerCase().endsWith(".json")) {
+            JsonReader reader = new JsonReader();
+            FileReader fileReader = new FileReader(pluginFile);
+            try {
+                JsonValue pluginJson = reader.parse(fileReader);
+                String pluginName = pluginJson.getString("pluginName", "undefined");
+                String pluginVersion = pluginJson.getString("pluginVersion", "undefined");
 
-        return new PluginDefinition(
-                pluginFile.getAbsolutePath(), pluginClass, pluginName, pluginVersion, false, true);
+                return new PluginDefinition(pluginFile.getAbsolutePath(),
+                        new ExternalFileHandleResolver(), pluginFile.getAbsolutePath(), pluginName, pluginVersion, false, true);
+            } finally {
+                fileReader.close();
+            }
+        } else {
+            JarFile jarFile = new JarFile(pluginFile);
+            Manifest manifest = jarFile.getManifest();
+            Attributes attributes = manifest.getMainAttributes();
+            if (!attributes.containsKey(PLUGIN_NAME) || !attributes.containsKey(PLUGIN_VERSION)
+                    || !attributes.containsKey(PLUGIN_CLASS)) {
+                throw new GdxRuntimeException("Specified JAR does not contain plugin");
+            }
+            String pluginName = attributes.getValue(PLUGIN_NAME);
+            String pluginVersion = attributes.getValue(PLUGIN_VERSION);
+            Class<? extends PluginDesignInitializer> pluginClass = (Class<? extends PluginDesignInitializer>) Class.forName(attributes.getValue(PLUGIN_CLASS));
+            if (!ClassReflection.isAssignableFrom(PluginDesignInitializer.class, pluginClass))
+                throw new GdxRuntimeException("Plugin class is not of required type");
+
+            return new PluginDefinition(
+                    pluginFile.getAbsolutePath(), pluginClass, pluginName, pluginVersion, false, true);
+        }
     }
 }

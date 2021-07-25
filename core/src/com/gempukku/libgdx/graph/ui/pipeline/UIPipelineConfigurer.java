@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.ui.pipeline;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -9,14 +10,20 @@ import com.gempukku.libgdx.graph.config.VectorArithmeticOutputTypeFunction;
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
+import com.gempukku.libgdx.graph.ui.graph.GraphBox;
+import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
+import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
+import com.gempukku.libgdx.graph.ui.graph.GraphBoxPartImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxPart;
 import com.gempukku.libgdx.graph.ui.part.CheckboxBoxPart;
 import com.gempukku.libgdx.graph.ui.part.ColorBoxPart;
 import com.gempukku.libgdx.graph.ui.part.FloatBoxPart;
+import com.gempukku.libgdx.graph.ui.part.StringBoxPart;
 import com.gempukku.libgdx.graph.ui.part.Vector2BoxPart;
 import com.gempukku.libgdx.graph.ui.part.Vector3BoxPart;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.PipelinePropertyBoxProducerImpl;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
+import com.kotcrab.vis.ui.widget.VisLabel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +81,23 @@ public class UIPipelineConfigurer {
                 nodeConfiguration.addNodeOutput(nodeOutput);
             }
         }
-        GraphBoxProducerImpl producer = new GraphBoxProducerImpl(nodeConfiguration);
+        final JsonValue fields = boxProducer.get("fields");
+        GraphBoxProducerImpl producer = new GraphBoxProducerImpl(nodeConfiguration) {
+            @Override
+            public GraphBox createPipelineGraphBox(Skin skin, String id, JsonValue data) {
+                GraphBoxImpl result = createGraphBox(id);
+
+                if (fields != null) {
+                    for (JsonValue field : fields) {
+                        String fieldType = field.getString("type");
+                        result.addGraphBoxPart(createFieldGraphBoxPart(fieldType, field));
+                    }
+                }
+
+                addConfigurationInputsAndOutputs(result);
+                return result;
+            }
+        };
         UIPipelineConfiguration.register(producer);
     }
 
@@ -117,36 +140,9 @@ public class UIPipelineConfigurer {
                         new Supplier<PropertyBoxPart>() {
                             @Override
                             public PropertyBoxPart get() {
-                                switch (fieldType) {
-                                    case "Float": {
-                                        return new FloatBoxPart(field.getString("label") + " ", field.getString("property"),
-                                                field.getFloat("defaultValue", 0), null);
-                                    }
-                                    case "Vector2": {
-                                        JsonValue properties = field.get("properties");
-                                        JsonValue defaultValues = field.get("defaultValues");
-                                        return new Vector2BoxPart(field.getString("label") + " ",
-                                                properties.getString(0), properties.getString(1),
-                                                defaultValues.getFloat(0), defaultValues.getFloat(1),
-                                                null, null);
-                                    }
-                                    case "Vector3": {
-                                        JsonValue properties = field.get("properties");
-                                        JsonValue defaultValues = field.get("defaultValues");
-                                        return new Vector3BoxPart(field.getString("label") + " ",
-                                                properties.getString(0), properties.getString(1), properties.getString(2),
-                                                defaultValues.getFloat(0), defaultValues.getFloat(1), defaultValues.getFloat(2),
-                                                null, null, null);
-                                    }
-                                    case "Color": {
-                                        return new ColorBoxPart(field.getString("label") + " ", field.getString("property"),
-                                                Color.valueOf(field.getString("defaultValue")));
-                                    }
-                                    case "Boolean": {
-                                        return new CheckboxBoxPart(field.getString("label") + " ", field.getString("property"),
-                                                field.getBoolean("defaultValue"));
-                                    }
-                                }
+                                GraphBoxPart propertyBoxPart = createFieldGraphBoxPart(fieldType, field);
+                                if (propertyBoxPart != null)
+                                    return propertyBoxPart;
                                 throw new IllegalArgumentException("Unable to resolve field type: " + fieldType);
                             }
                         }
@@ -155,5 +151,47 @@ public class UIPipelineConfigurer {
         }
 
         UIPipelineConfiguration.registerPropertyType(producer);
+    }
+
+    private static GraphBoxPart createFieldGraphBoxPart(String fieldType, JsonValue field) {
+        switch (fieldType) {
+            case "Float": {
+                return new FloatBoxPart(field.getString("label") + " ", field.getString("property"),
+                        field.getFloat("defaultValue", 0), null);
+            }
+            case "Vector2": {
+                JsonValue properties = field.get("properties");
+                JsonValue defaultValues = field.get("defaultValues");
+                return new Vector2BoxPart(field.getString("label") + " ",
+                        properties.getString(0), properties.getString(1),
+                        defaultValues.getFloat(0), defaultValues.getFloat(1),
+                        null, null);
+            }
+            case "Vector3": {
+                JsonValue properties = field.get("properties");
+                JsonValue defaultValues = field.get("defaultValues");
+                return new Vector3BoxPart(field.getString("label") + " ",
+                        properties.getString(0), properties.getString(1), properties.getString(2),
+                        defaultValues.getFloat(0), defaultValues.getFloat(1), defaultValues.getFloat(2),
+                        null, null, null);
+            }
+            case "Color": {
+                return new ColorBoxPart(field.getString("label") + " ", field.getString("property"),
+                        Color.valueOf(field.getString("defaultValue")));
+            }
+            case "Boolean": {
+                return new CheckboxBoxPart(field.getString("label") + " ", field.getString("property"),
+                        field.getBoolean("defaultValue"));
+            }
+            case "String": {
+                return new StringBoxPart(field.getString("label") + " ", field.getString("property"));
+            }
+            case "Comment": {
+                VisLabel description = new VisLabel(field.getString("text"));
+                description.setColor(Color.valueOf(field.getString("color", "FFFFFFFF")));
+                return new GraphBoxPartImpl(description, null);
+            }
+        }
+        return null;
     }
 }

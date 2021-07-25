@@ -41,7 +41,7 @@ public class PluginsDialog extends VisWindow {
         VisTable listHeader = new VisTable();
         listHeader.pad(2);
         listHeader.add("JAR path").growX().left();
-        listHeader.add("Plugin name").width(150).left();
+        listHeader.add("Plugin name").width(180).left();
         listHeader.add("Version").width(80).left();
         listHeader.add("Loaded").width(60);
         listHeader.add("Remove").width(60);
@@ -108,7 +108,7 @@ public class PluginsDialog extends VisWindow {
         final VisTable pluginTable = new VisTable();
         pluginTable.pad(2);
         pluginTable.add(createValueLabel(pluginDefinition.jarPath)).growX().left();
-        pluginTable.add(createValueLabel(pluginDefinition.pluginName)).width(150).left();
+        pluginTable.add(createValueLabel(pluginDefinition.pluginName)).width(180).left();
         pluginTable.add(createValueLabel(pluginDefinition.pluginVersion)).width(80).left();
         pluginTable.add(createValueLabel(String.valueOf(pluginDefinition.loaded))).width(60);
         if (pluginDefinition.canBeRemoved) {

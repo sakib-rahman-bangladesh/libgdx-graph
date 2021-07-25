@@ -1,16 +1,15 @@
 package com.gempukku.libgdx.graph.desktop;
 
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.graph.plugin.lighting3d.design.Lighting3DPluginDesignInitializer;
-import com.gempukku.libgdx.graph.plugin.maps.design.MapsPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.models.design.ModelsPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.particles.design.ParticlesPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.screen.design.ScreenPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.sprites.design.SpritesPluginDesignInitializer;
-import com.gempukku.libgdx.graph.plugin.ui.design.UIPluginDesignInitializer;
 import com.gempukku.libgdx.graph.ui.LibgdxGraphApplication;
 import com.gempukku.libgdx.graph.ui.plugin.PluginDefinition;
 import com.gempukku.libgdx.graph.ui.plugin.PluginPreferences;
@@ -37,7 +36,7 @@ public class DesktopLauncher {
 
         // Built-in plugins
         PluginRegistry.addPluginDefinition(
-                new PluginDefinition("internal", UIPluginDesignInitializer.class,
+                new PluginDefinition("internal", new InternalFileHandleResolver(), "config/plugin-ui-config.json",
                         "UI rendering", "latest", false, false));
         PluginRegistry.addPluginDefinition(
                 new PluginDefinition("internal", ScreenPluginDesignInitializer.class,
@@ -55,7 +54,7 @@ public class DesktopLauncher {
                 new PluginDefinition("internal", Lighting3DPluginDesignInitializer.class,
                         "3D Lighting", "latest", false, false));
         PluginRegistry.addPluginDefinition(
-                new PluginDefinition("internal", MapsPluginDesignInitializer.class,
+                new PluginDefinition("internal", new InternalFileHandleResolver(), "config/plugin-maps-config.json",
                         "Maps renderer (Tiled, etc)", "latest", false, false));
 
         readExtraPlugins();
@@ -65,7 +64,7 @@ public class DesktopLauncher {
         for (String plugin : PluginPreferences.getPlugins()) {
             File pluginFile = new File(plugin);
             PluginDefinition pluginDefinition = new PluginDefinition(
-                    plugin, null, "", "", false, true);
+                    plugin, null, null, "", "", false, true);
             if (pluginFile.exists()) {
                 try {
                     pluginDefinition = PluginPreferences.getPluginDefinition(pluginFile);
