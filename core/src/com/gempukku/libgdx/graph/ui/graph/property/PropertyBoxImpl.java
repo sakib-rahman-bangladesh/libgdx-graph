@@ -14,23 +14,24 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextField;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class PropertyBoxImpl<T extends FieldType> extends VisTable implements PropertyBox<T> {
     private T propertyType;
-    private PropertyDefaultBox propertyDefaultBox;
-    private VisTextField textField;
+    private List<PropertyBoxPart<T>> propertyBoxParts = new LinkedList<>();
+    private VisTextField nameField;
 
-    public PropertyBoxImpl(String name, T propertyType,
-                           PropertyDefaultBox propertyDefaultBox) {
+    public PropertyBoxImpl(String name, T propertyType) {
         super();
         this.propertyType = propertyType;
-        this.propertyDefaultBox = propertyDefaultBox;
 
-        textField = new VisTextField(name);
+        nameField = new VisTextField(name);
         VisTable headerTable = new VisTable();
         headerTable.add(new VisLabel("Name: "));
-        headerTable.add(textField).growX();
-        textField.addListener(
+        headerTable.add(nameField).growX();
+        nameField.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
@@ -39,8 +40,6 @@ public class PropertyBoxImpl<T extends FieldType> extends VisTable implements Pr
                 });
         headerTable.row();
         add(headerTable).growX().row();
-        if (propertyDefaultBox != null)
-            add(propertyDefaultBox.getActor()).growX().row();
     }
 
     @Override
@@ -50,19 +49,25 @@ public class PropertyBoxImpl<T extends FieldType> extends VisTable implements Pr
 
     @Override
     public String getName() {
-        return textField.getText();
+        return nameField.getText();
     }
 
     @Override
     public JsonValue getData() {
-        if (propertyDefaultBox != null) {
-            JsonValue data = propertyDefaultBox.serializeData();
-            if (data == null)
-                return null;
-            return data;
-        } else {
+        JsonValue result = new JsonValue(JsonValue.ValueType.object);
+
+        for (PropertyBoxPart<T> graphBoxPart : propertyBoxParts)
+            graphBoxPart.serializePart(result);
+
+        if (result.isEmpty())
             return null;
-        }
+        return result;
+    }
+
+    public void addPropertyBoxPart(PropertyBoxPart<T> propertyBoxPart) {
+        propertyBoxParts.add(propertyBoxPart);
+        final Actor actor = propertyBoxPart.getActor();
+        add(actor).growX().row();
     }
 
     @Override
@@ -91,6 +96,8 @@ public class PropertyBoxImpl<T extends FieldType> extends VisTable implements Pr
 
     @Override
     public void dispose() {
-
+        for (PropertyBoxPart<T> propertyBoxPart : propertyBoxParts) {
+            propertyBoxPart.dispose();
+        }
     }
 }

@@ -1,19 +1,12 @@
 package com.gempukku.libgdx.graph.ui.shader.producer.property;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
-import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
-import com.gempukku.libgdx.graph.ui.graph.property.PropertyDefaultBox;
-import com.kotcrab.vis.ui.util.Validators;
-import com.kotcrab.vis.ui.widget.VisLabel;
-import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisValidatableTextField;
+import com.gempukku.libgdx.graph.ui.part.FloatBoxPart;
 
 
 public class PropertyFloatBoxProducer implements PropertyBoxProducer<ShaderFieldType> {
@@ -34,40 +27,9 @@ public class PropertyFloatBoxProducer implements PropertyBoxProducer<ShaderField
     }
 
     private PropertyBox<ShaderFieldType> createPropertyBoxDefault(Skin skin, String name, float v1) {
-        final VisValidatableTextField v1Input = new VisValidatableTextField(Validators.FLOATS) {
-            @Override
-            public float getPrefWidth() {
-                return 50;
-            }
-        };
-        v1Input.setText(String.valueOf(v1));
-        v1Input.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        v1Input.fire(new GraphChangedEvent(false, true));
-                    }
-                });
+        PropertyBoxImpl<ShaderFieldType> result = new PropertyBoxImpl<>(name, ShaderFieldType.Float);
+        result.addPropertyBoxPart(new FloatBoxPart<ShaderFieldType>("X", "x", v1, null));
 
-        final VisTable table = new VisTable();
-        table.add(new VisLabel("X "));
-        table.add(v1Input).grow();
-
-        return new PropertyBoxImpl<ShaderFieldType>(
-                name,
-                ShaderFieldType.Float,
-                new PropertyDefaultBox() {
-                    @Override
-                    public Actor getActor() {
-                        return table;
-                    }
-
-                    @Override
-                    public JsonValue serializeData() {
-                        JsonValue result = new JsonValue(JsonValue.ValueType.object);
-                        result.addChild("x", new JsonValue(Float.parseFloat(v1Input.getText())));
-                        return result;
-                    }
-                });
+        return result;
     }
 }

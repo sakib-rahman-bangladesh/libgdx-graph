@@ -15,14 +15,18 @@ public class CheckboxBoxPart<T extends FieldType> extends VisTable implements Gr
     private final VisCheckBox input;
 
     public CheckboxBoxPart(String label, String property) {
+        this(label, property, false);
+    }
+
+    public CheckboxBoxPart(String label, String property, boolean selected) {
         this.property = property;
 
         input = new VisCheckBox(label);
+        input.setChecked(selected);
 
         add(input).left().grow();
         row();
     }
-
 
     @Override
     public Actor getActor() {

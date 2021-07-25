@@ -28,8 +28,12 @@ public class ColorBoxPart<T extends FieldType> extends VisTable implements Graph
     private final ColorPicker picker;
 
     public ColorBoxPart(String label, String property) {
+        this(label, property, Color.WHITE);
+    }
+
+    public ColorBoxPart(String label, String property, Color defaultColor) {
         this.property = property;
-        Color color = Color.WHITE;
+        Color color = defaultColor;
 
         final TextureRegionDrawable drawable = new TextureRegionDrawable(WhitePixel.sharedInstance.texture);
         BaseDrawable baseDrawable = new BaseDrawable(drawable) {

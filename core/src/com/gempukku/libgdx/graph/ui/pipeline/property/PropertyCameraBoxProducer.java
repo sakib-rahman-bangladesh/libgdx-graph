@@ -25,7 +25,6 @@ public class PropertyCameraBoxProducer implements PropertyBoxProducer<PipelineFi
     }
 
     private PropertyBox<PipelineFieldType> createPropertyBoxDefault(Skin skin, String name) {
-        return new PropertyBoxImpl<PipelineFieldType>(
-                name, PipelineFieldType.Camera, null);
+        return new PropertyBoxImpl<>(name, PipelineFieldType.Camera);
     }
 }
