@@ -8,6 +8,6 @@ public class SpritePositionShaderNodeConfiguration extends NodeConfigurationImpl
     public SpritePositionShaderNodeConfiguration() {
         super("SpritePosition", "Sprite Position", "Sprite");
         addNodeOutput(
-                new GraphNodeOutputImpl("position", "Position", ShaderFieldType.Vector2));
+                new GraphNodeOutputImpl("position", "Position", ShaderFieldType.Vector3));
     }
 }

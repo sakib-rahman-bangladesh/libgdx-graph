@@ -3,7 +3,8 @@
     {
       "class": "com.gempukku.libgdx.graph.component.PositionComponent",
       "x": 96,
-      "y": -20
+      "y": -20,
+      "z": -1
     },
     {
       "class": "com.gempukku.libgdx.graph.component.SizeComponent",
@@ -21,7 +22,6 @@
     },
     {
       "class": "com.gempukku.libgdx.graph.component.SpriteComponent",
-      "layer": 1,
       "tags": [
         "Screen Masked"
       ],

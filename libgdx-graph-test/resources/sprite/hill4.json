@@ -3,7 +3,8 @@
     {
       "class": "com.gempukku.libgdx.graph.component.PositionComponent",
       "x": 200,
-      "y": -550
+      "y": -550,
+      "z": -40
     },
     {
       "class": "com.gempukku.libgdx.graph.component.SizeComponent",
@@ -17,7 +18,6 @@
     },
     {
       "class": "com.gempukku.libgdx.graph.component.SpriteComponent",
-      "layer": 40,
       "tags": [
         "Background"
       ],

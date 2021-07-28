@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.plugin.sprites.impl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -47,39 +46,22 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
     private ObjectMap<String, ObjectSet<GraphSpriteImpl>> nonCachedSpritesByTag = new ObjectMap<>();
 
     private Vector3 tempPosition = new Vector3();
-    private Vector2 tempSize = new Vector2();
-    private Vector2 tempAnchor = new Vector2();
 
     public GraphSpritesImpl(int spriteBatchSize) {
         this.spriteBatchSize = spriteBatchSize;
     }
 
     @Override
-    public GraphSprite createSprite(float layer) {
-        return createSprite(layer, new Vector2(0, 0), new Vector2(32, 32));
-    }
-
-    @Override
-    public GraphSprite createSprite(float layer, Vector2 position, Vector2 size) {
-        return createSprite(layer, position, size, new Vector2(0.5f, 0.5f));
-    }
-
-    @Override
-    public GraphSprite createSprite(float layer, Vector2 position, Vector2 size, Vector2 anchor) {
-        return new GraphSpriteImpl(layer, position, size, anchor);
+    public GraphSprite createSprite(Vector3 position) {
+        return new GraphSpriteImpl(position);
     }
 
     @Override
     public void updateSprite(GraphSprite sprite, SpriteUpdater spriteUpdater) {
         GraphSpriteImpl graphSprite = getSprite(sprite);
-        tempPosition.set(graphSprite.getPosition(), graphSprite.getLayer());
-        tempSize.set(graphSprite.getSize());
-        tempAnchor.set(graphSprite.getAnchor());
-        spriteUpdater.processUpdate(tempPosition, tempSize, tempAnchor);
-        graphSprite.setLayer(tempPosition.z);
-        graphSprite.getPosition().set(tempPosition.x, tempPosition.y);
-        graphSprite.getSize().set(tempSize);
-        graphSprite.getAnchor().set(tempAnchor);
+        tempPosition.set(graphSprite.getPosition());
+        spriteUpdater.processUpdate(tempPosition);
+        graphSprite.getPosition().set(tempPosition);
 
         spriteUpdated(graphSprite);
     }
@@ -200,7 +182,7 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
 
     private void drawTranslucentSprites(ShaderContextImpl shaderContext, RenderContext renderContext, Array<SpriteGraphShader> translucentShaders) {
         selectApplicableSpritesForSorting(translucentShaders);
-        distanceSpriteSorter.sort(tempSorting, Order.Back_To_Front);
+        distanceSpriteSorter.sort(tempSorting, shaderContext.getCamera().position, Order.Back_To_Front);
 
         GraphShader lastShader = null;
         for (GraphSpriteImpl sprite : tempSorting) {
@@ -280,16 +262,18 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
     }
 
     private static class DistanceSpriteSorter implements Comparator<GraphSpriteImpl> {
+        private Vector3 cameraPosition;
         private Order order;
 
-        public void sort(Array<GraphSpriteImpl> sprites, Order order) {
+        public void sort(Array<GraphSpriteImpl> sprites, Vector3 cameraPosition, Order order) {
+            this.cameraPosition = cameraPosition;
             this.order = order;
             sprites.sort(this);
         }
 
         @Override
         public int compare(GraphSpriteImpl o1, GraphSpriteImpl o2) {
-            final float dst = (int) (1000f * o1.getLayer()) - (int) (1000f * o2.getLayer());
+            final float dst = (int) (1000f * (cameraPosition.dst2(o1.getPosition()) - cameraPosition.dst2(o2.getPosition())));
             return order.result(dst);
         }
     }

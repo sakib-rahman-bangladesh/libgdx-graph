@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
@@ -75,7 +75,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
         shaderContext.setRenderHeight(height);
         shaderContext.setColorTexture(PatternTextures.sharedInstance.texture);
 
-        graphSprite = new GraphSpriteImpl(2f, new Vector2(0, 0), new Vector2(150, 150), new Vector2(0.5f, 0.5f));
+        graphSprite = new GraphSpriteImpl(new Vector3(0, 0, 2f));
     }
 
     @Override

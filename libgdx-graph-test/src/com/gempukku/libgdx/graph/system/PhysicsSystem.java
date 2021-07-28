@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -125,7 +126,7 @@ public class PhysicsSystem extends EntitySystem implements Disposable, EntityLis
         PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
         SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);
         AnchorComponent anchorComponent = entity.getComponent(AnchorComponent.class);
-        Vector2 position = positionComponent.getPosition(new Vector2());
+        Vector3 position = positionComponent.getPosition(new Vector3());
         Vector2 size = sizeComponent.getSize(new Vector2());
         Vector2 anchor = anchorComponent.getAnchor(new Vector2());
 
@@ -133,7 +134,7 @@ public class PhysicsSystem extends EntitySystem implements Disposable, EntityLis
         bodyDef.fixedRotation = true;
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.bullet = true;
-        bodyDef.position.set(position).scl(1 / PIXELS_TO_METERS, 1 / PIXELS_TO_METERS);
+        bodyDef.position.set(position.x, position.y).scl(1 / PIXELS_TO_METERS, 1 / PIXELS_TO_METERS);
 
         Body body = world.createBody(bodyDef);
 
@@ -159,14 +160,14 @@ public class PhysicsSystem extends EntitySystem implements Disposable, EntityLis
         PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
         SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);
         AnchorComponent anchorComponent = entity.getComponent(AnchorComponent.class);
-        Vector2 position = positionComponent.getPosition(new Vector2());
+        Vector3 position = positionComponent.getPosition(new Vector3());
         Vector2 size = sizeComponent.getSize(new Vector2());
         Vector2 anchor = anchorComponent.getAnchor(new Vector2());
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = true;
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(position).scl(1 / PIXELS_TO_METERS, 1 / PIXELS_TO_METERS);
+        bodyDef.position.set(position.x, position.y).scl(1 / PIXELS_TO_METERS, 1 / PIXELS_TO_METERS);
 
         Body body = world.createBody(bodyDef);
 
@@ -206,7 +207,7 @@ public class PhysicsSystem extends EntitySystem implements Disposable, EntityLis
             Body body = physicsComponent.getBody();
             if (body.getType() == BodyDef.BodyType.DynamicBody) {
                 PositionComponent position = physicsEntity.getComponent(PositionComponent.class);
-                position.setPosition(body.getPosition().x * PhysicsSystem.PIXELS_TO_METERS, body.getPosition().y * PhysicsSystem.PIXELS_TO_METERS);
+                position.setPosition(body.getPosition().x * PhysicsSystem.PIXELS_TO_METERS, body.getPosition().y * PhysicsSystem.PIXELS_TO_METERS, position.getZ());
             }
         }
     }

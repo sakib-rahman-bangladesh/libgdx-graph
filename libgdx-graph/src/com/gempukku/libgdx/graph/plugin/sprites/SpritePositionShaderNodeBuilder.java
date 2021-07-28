@@ -21,21 +21,21 @@ public class SpritePositionShaderNodeBuilder extends ConfigurationShaderNodeBuil
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildVertexNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 2, "a_position"), "a_position", "vec2");
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 3, "a_position"), "a_position", "vec3");
 
-        return LibGDXCollections.singletonMap("position", new DefaultFieldOutput(ShaderFieldType.Vector2, "a_position"));
+        return LibGDXCollections.singletonMap("position", new DefaultFieldOutput(ShaderFieldType.Vector3, "a_position"));
     }
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildFragmentNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 2, "a_position"), "a_position", "vec2");
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 3, "a_position"), "a_position", "vec3");
         if (!vertexShaderBuilder.hasVaryingVariable("v_position")) {
             vertexShaderBuilder.addMainLine("// Sprite Position Node");
-            vertexShaderBuilder.addVaryingVariable("v_position", "vec2");
+            vertexShaderBuilder.addVaryingVariable("v_position", "vec3");
             vertexShaderBuilder.addMainLine("v_position = a_position;");
 
-            fragmentShaderBuilder.addVaryingVariable("v_position", "vec2");
+            fragmentShaderBuilder.addVaryingVariable("v_position", "vec3");
         }
-        return LibGDXCollections.singletonMap("position", new DefaultFieldOutput(ShaderFieldType.Float, "v_position"));
+        return LibGDXCollections.singletonMap("position", new DefaultFieldOutput(ShaderFieldType.Vector3, "v_position"));
     }
 }

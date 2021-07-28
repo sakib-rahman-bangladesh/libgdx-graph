@@ -2,9 +2,11 @@ package com.gempukku.libgdx.graph.system.camera.focus;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.gempukku.libgdx.graph.component.PositionComponent;
 
 public class SpriteFocus implements WeightedCameraFocus {
+    private static Vector3 tmpVector3 = new Vector3();
     public Entity entity;
     private float weight;
     private float x;
@@ -28,7 +30,8 @@ public class SpriteFocus implements WeightedCameraFocus {
     @Override
     public Vector2 getFocus(Vector2 focus) {
         PositionComponent position = entity.getComponent(PositionComponent.class);
-        return position.getPosition(focus).add(x, y);
+        Vector3 spritePosition = position.getPosition(tmpVector3);
+        return focus.set(spritePosition.x + x, spritePosition.y + y);
     }
 
     @Override

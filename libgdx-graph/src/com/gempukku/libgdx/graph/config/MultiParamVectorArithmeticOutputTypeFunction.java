@@ -17,7 +17,7 @@ public class MultiParamVectorArithmeticOutputTypeFunction implements Function<Ob
     @Override
     public String apply(ObjectMap<String, Array<String>> inputs) {
         Array<String> types = inputs.get(input);
-        if (types.size == 0)
+        if (types.size == 0 || types.get(0) == null)
             return null;
 
         String resultType = floatType;

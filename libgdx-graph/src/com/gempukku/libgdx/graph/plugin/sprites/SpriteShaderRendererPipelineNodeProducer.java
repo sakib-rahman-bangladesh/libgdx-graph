@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
@@ -164,6 +165,7 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
     private static SpriteGraphShader createColorShader(JsonValue shaderDefinition, Texture defaultTexture) {
         JsonValue shaderGraph = shaderDefinition.get("shader");
         String tag = shaderDefinition.getString("tag");
+        Gdx.app.debug("Shader", "Building shader with tag: " + tag);
         SpriteGraphShader spriteGraphShader = GraphLoader.loadGraph(shaderGraph, new SpriteShaderLoaderCallback(defaultTexture, configurations));
         spriteGraphShader.setTag(tag);
         return spriteGraphShader;

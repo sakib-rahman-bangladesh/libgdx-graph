@@ -3,7 +3,8 @@
     {
       "class": "com.gempukku.libgdx.graph.component.PositionComponent",
       "x": 200,
-      "y": -330
+      "y": -330,
+      "z": -11
     },
     {
       "class": "com.gempukku.libgdx.graph.component.SizeComponent",
@@ -21,7 +22,6 @@
     },
     {
       "class": "com.gempukku.libgdx.graph.component.SpriteComponent",
-      "layer": 11,
       "tags": [
         "Animated"
       ],

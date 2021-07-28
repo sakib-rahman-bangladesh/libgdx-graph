@@ -8,7 +8,6 @@ import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
 import com.gempukku.libgdx.graph.sprite.Sprite;
 
 public class SpriteComponent implements Component {
-    private float layer;
     private String[] tags;
     private String spriteType;
 
@@ -33,10 +32,6 @@ public class SpriteComponent implements Component {
 
     public void setGraphSprite(GraphSprite graphSprite) {
         this.graphSprite = graphSprite;
-    }
-
-    public float getLayer() {
-        return layer;
     }
 
     public String[] getTags() {

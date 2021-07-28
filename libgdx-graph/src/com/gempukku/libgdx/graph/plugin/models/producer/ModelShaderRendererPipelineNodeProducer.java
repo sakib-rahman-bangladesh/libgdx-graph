@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.models.producer;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
@@ -262,6 +263,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
     private static ModelGraphShader createColorShader(JsonValue shaderDefinition, Texture defaultTexture, int maxBoneCount, int maxBoneWeightCount) {
         JsonValue shaderGraph = shaderDefinition.get("shader");
         String tag = shaderDefinition.getString("tag");
+        Gdx.app.debug("Shader", "Building shader with tag: " + tag);
         ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, maxBoneCount, maxBoneWeightCount, false, configurations));
         modelGraphShader.setTag(tag);
         return modelGraphShader;
@@ -270,6 +272,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
     private static ModelGraphShader createDepthShader(JsonValue shaderDefinition, Texture defaultTexture, int maxBoneCount, int maxBoneWeightCount) {
         JsonValue shaderGraph = shaderDefinition.get("shader");
         String tag = shaderDefinition.getString("tag");
+        Gdx.app.debug("Shader", "Building shader with tag: " + tag);
         ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, maxBoneCount, maxBoneWeightCount, true, configurations));
         modelGraphShader.setTag(tag);
         return modelGraphShader;

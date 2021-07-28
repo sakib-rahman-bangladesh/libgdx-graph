@@ -1,9 +1,9 @@
 package com.gempukku.libgdx.graph.plugin.sprites;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public interface GraphSprite {
-    Vector2 getPosition(Vector2 position);
+    Vector3 getPosition(Vector3 position);
 
     boolean hasTag(String tag);
 

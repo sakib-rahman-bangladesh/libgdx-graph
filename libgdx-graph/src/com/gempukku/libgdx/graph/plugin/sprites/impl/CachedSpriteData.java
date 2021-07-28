@@ -113,24 +113,11 @@ public class CachedSpriteData implements SpriteData {
             for (VertexAttribute vertexAttribute : vertexAttributes) {
                 String alias = vertexAttribute.alias;
                 if (alias.equals("a_position")) {
-                    Vector2 position = sprite.getPosition();
+                    Vector3 position = sprite.getPosition();
                     vertexData[vertexOffset + floatIndex + 0] = position.x;
                     vertexData[vertexOffset + floatIndex + 1] = position.y;
-                    floatIndex += 2;
-                } else if (alias.equals("a_layer")) {
-                    float layer = sprite.getLayer();
-                    vertexData[vertexOffset + floatIndex] = layer;
-                    floatIndex += 1;
-                } else if (alias.equals("a_size")) {
-                    Vector2 size = sprite.getSize();
-                    vertexData[vertexOffset + floatIndex + 0] = size.x;
-                    vertexData[vertexOffset + floatIndex + 1] = size.y;
-                    floatIndex += 2;
-                } else if (alias.equals("a_anchor")) {
-                    Vector2 anchor = sprite.getAnchor();
-                    vertexData[vertexOffset + floatIndex + 0] = anchor.x;
-                    vertexData[vertexOffset + floatIndex + 1] = anchor.y;
-                    floatIndex += 2;
+                    vertexData[vertexOffset + floatIndex + 2] = position.z;
+                    floatIndex += 3;
                 } else if (alias.equals(ShaderProgram.TEXCOORD_ATTRIBUTE + 0)) {
                     vertexData[vertexOffset + floatIndex + 0] = vertexIndex % 2;
                     vertexData[vertexOffset + floatIndex + 1] = (float) (vertexIndex / 2);

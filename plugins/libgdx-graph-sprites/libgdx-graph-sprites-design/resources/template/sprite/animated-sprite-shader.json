@@ -1,5 +1,6 @@
 {
   "version": "0.5.0",
+  "type": "Sprite_Shader",
   "nodes": [
     {
       "id": "cb06a9014aa14f6cbc8aba7c79ba4978",
@@ -33,30 +34,14 @@
       }
     },
     {
-      "id": "f3c5520f52974179af5ceb000f35f890",
+      "id": "b739eb56eec644699263df9f35b7e5a5",
       "type": "Property",
-      "x": 618.0,
-      "y": 350.0,
+      "x": 789.0,
+      "y": 538.0,
       "data": {
-        "name": "Sprite Count",
-        "type": "Vector2"
+        "name": "Rotation",
+        "type": "Float"
       }
-    },
-    {
-      "id": "17061776ddbe4018b09cfe3a3574b454",
-      "type": "Property",
-      "x": 819.0,
-      "y": 432.0,
-      "data": {
-        "name": "Texture",
-        "type": "TextureRegion"
-      }
-    },
-    {
-      "id": "180a7715db0d494784b6629bfb054c9b",
-      "type": "Multiply",
-      "x": 451.0,
-      "y": 216.0
     },
     {
       "id": "3a83146b38634b1e812b8396fd2dfcc4",
@@ -85,6 +70,32 @@
       }
     },
     {
+      "id": "f3c5520f52974179af5ceb000f35f890",
+      "type": "Property",
+      "x": 618.0,
+      "y": 350.0,
+      "data": {
+        "name": "Sprite Count",
+        "type": "Vector2"
+      }
+    },
+    {
+      "id": "17061776ddbe4018b09cfe3a3574b454",
+      "type": "Property",
+      "x": 819.0,
+      "y": 432.0,
+      "data": {
+        "name": "Texture",
+        "type": "TextureRegion"
+      }
+    },
+    {
+      "id": "180a7715db0d494784b6629bfb054c9b",
+      "type": "Multiply",
+      "x": 451.0,
+      "y": 216.0
+    },
+    {
       "id": "end",
       "type": "SpriteShaderEnd",
       "x": 1248.0,
@@ -95,6 +106,12 @@
       }
     },
     {
+      "id": "d33c48c073744c18aaa13ed501be73d4",
+      "type": "BillboardSprite",
+      "x": 1014.0,
+      "y": 535.0
+    },
+    {
       "id": "656d45cb9eed4e4ebf7d010f93f67fb7",
       "type": "UVFlipbook",
       "x": 821.0,
@@ -102,6 +119,26 @@
       "data": {
         "invertX": false,
         "invertY": false
+      }
+    },
+    {
+      "id": "1d7e2599df084a968e7c9b923787a7f6",
+      "type": "Property",
+      "x": 786.0,
+      "y": 663.0,
+      "data": {
+        "name": "Anchor",
+        "type": "Vector2"
+      }
+    },
+    {
+      "id": "0eb9d880b9c44cf2a5a573bf4c910957",
+      "type": "Property",
+      "x": 786.0,
+      "y": 600.0,
+      "data": {
+        "name": "Size",
+        "type": "Vector2"
       }
     }
   ],
@@ -177,12 +214,39 @@
       "fromField": "value",
       "toNode": "656d45cb9eed4e4ebf7d010f93f67fb7",
       "toField": "tileCount"
+    },
+    {
+      "fromNode": "d33c48c073744c18aaa13ed501be73d4",
+      "fromField": "output",
+      "toNode": "end",
+      "toField": "position"
+    },
+    {
+      "fromNode": "1d7e2599df084a968e7c9b923787a7f6",
+      "fromField": "value",
+      "toNode": "d33c48c073744c18aaa13ed501be73d4",
+      "toField": "anchor"
+    },
+    {
+      "fromNode": "0eb9d880b9c44cf2a5a573bf4c910957",
+      "fromField": "value",
+      "toNode": "d33c48c073744c18aaa13ed501be73d4",
+      "toField": "size"
+    },
+    {
+      "fromNode": "b739eb56eec644699263df9f35b7e5a5",
+      "fromField": "value",
+      "toNode": "d33c48c073744c18aaa13ed501be73d4",
+      "toField": "rotation"
     }
   ],
   "properties": [
     {
       "name": "Texture",
-      "type": "TextureRegion"
+      "type": "TextureRegion",
+      "data": {
+        "previewPath": null
+      }
     },
     {
       "name": "Animation Start",
@@ -211,6 +275,29 @@
       "data": {
         "x": 1.0,
         "y": 1.0
+      }
+    },
+    {
+      "name": "Anchor",
+      "type": "Vector2",
+      "data": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "name": "Size",
+      "type": "Vector2",
+      "data": {
+        "x": 100.0,
+        "y": 100.0
+      }
+    },
+    {
+      "name": "Rotation",
+      "type": "Float",
+      "data": {
+        "x": 0.0
       }
     }
   ],

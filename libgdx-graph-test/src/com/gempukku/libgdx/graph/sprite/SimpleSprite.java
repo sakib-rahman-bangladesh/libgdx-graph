@@ -9,12 +9,13 @@ import com.gempukku.libgdx.graph.component.PositionComponent;
 import com.gempukku.libgdx.graph.component.SizeComponent;
 import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
+import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
 import com.gempukku.libgdx.graph.plugin.sprites.GraphSprites;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteUpdater;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class SimpleSprite implements Sprite {
-    private static Vector2 tmpPosition = new Vector2();
+    private static Vector3 tmpPosition = new Vector3();
     private Entity entity;
     private TextureRegion textureRegion;
     private boolean textureDirty = true;
@@ -32,25 +33,26 @@ public class SimpleSprite implements Sprite {
 
         GraphSprites graphSprites = pipelineRenderer.getPluginData(GraphSprites.class);
 
+        GraphSprite sprite = spriteComponent.getGraphSprite();
         if (positionDirty) {
             final SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);
             final AnchorComponent anchorComponent = entity.getComponent(AnchorComponent.class);
 
-            graphSprites.updateSprite(spriteComponent.getGraphSprite(),
+            graphSprites.updateSprite(sprite,
                     new SpriteUpdater() {
                         @Override
-                        public void processUpdate(Vector3 position, Vector2 size, Vector2 anchor) {
-                            Vector2 tmpPosition = positionComponent.getPosition(SimpleSprite.tmpPosition);
-                            position.set(tmpPosition.x, tmpPosition.y, position.z);
-                            sizeComponent.getSize(size);
-                            anchorComponent.getAnchor(anchor);
+                        public void processUpdate(Vector3 position) {
+                            Vector3 tmpPosition = positionComponent.getPosition(SimpleSprite.tmpPosition);
+                            position.set(tmpPosition.x, tmpPosition.y, tmpPosition.z);
                         }
                     });
+            graphSprites.setProperty(sprite, "Size", sizeComponent.getSize(new Vector2()));
+            graphSprites.setProperty(sprite, "Anchor", anchorComponent.getAnchor(new Vector2()));
 
             positionComponent.clean();
         }
         if (textureDirty) {
-            graphSprites.setProperty(spriteComponent.getGraphSprite(), "Texture", textureRegion);
+            graphSprites.setProperty(sprite, "Texture", textureRegion);
         }
 
         textureDirty = false;

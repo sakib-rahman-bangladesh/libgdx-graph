@@ -16,7 +16,7 @@ import com.gempukku.libgdx.graph.plugin.sprites.SpriteUpdater;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class StateBasedSprite implements Sprite {
-    private static Vector2 tmpPosition = new Vector2();
+    private static Vector3 tmpPosition = new Vector3();
     private String state;
     private ObjectMap<String, SpriteStateData> statesData;
     private boolean animationDirty = true;
@@ -48,28 +48,29 @@ public class StateBasedSprite implements Sprite {
 
         SpriteStateData spriteStateData = statesData.get(state);
 
+        GraphSprite sprite = spriteComponent.getGraphSprite();
         if (attributeDirty) {
             final SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);
             final AnchorComponent anchorComponent = entity.getComponent(AnchorComponent.class);
 
-            graphSprites.updateSprite(spriteComponent.getGraphSprite(),
+            graphSprites.updateSprite(sprite,
                     new SpriteUpdater() {
                         @Override
-                        public void processUpdate(Vector3 position, Vector2 size, Vector2 anchor) {
-                            Vector2 tmpPosition = positionComponent.getPosition(StateBasedSprite.tmpPosition);
-                            position.set(tmpPosition.x, tmpPosition.y, position.z);
-                            SpriteFaceDirection faceDirection = facingComponent.getFaceDirection();
-                            sizeComponent.getSize(size).scl(faceDirection.getX(), 1);
-                            anchorComponent.getAnchor(anchor);
+                        public void processUpdate(Vector3 position) {
+                            Vector3 tmpPosition = positionComponent.getPosition(StateBasedSprite.tmpPosition);
+                            position.set(tmpPosition.x, tmpPosition.y, tmpPosition.z);
                         }
                     });
+            SpriteFaceDirection faceDirection = facingComponent.getFaceDirection();
+            graphSprites.setProperty(sprite, "Size", sizeComponent.getSize(new Vector2()).scl(faceDirection.getX(), 1));
+            graphSprites.setProperty(sprite, "Anchor", anchorComponent.getAnchor(new Vector2()));
 
             positionComponent.clean();
             facingComponent.clean();
         }
 
         if (animationDirty) {
-            GraphSprite graphSprite = spriteComponent.getGraphSprite();
+            GraphSprite graphSprite = sprite;
             graphSprites.setProperty(graphSprite, "Texture", spriteStateData.sprites);
             graphSprites.setProperty(graphSprite, "Animation Start", timeProvider.getTime());
             graphSprites.setProperty(graphSprite, "Animation Speed", spriteStateData.speed);

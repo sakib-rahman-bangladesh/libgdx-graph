@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
@@ -21,6 +22,7 @@ public class RenderingSystem extends EntitySystem implements SpriteProducer.Text
     private PipelineRenderer pipelineRenderer;
     private SpriteProducer.TextureLoader textureLoader;
     private ImmutableArray<Entity> spriteEntities;
+    private Vector3 tmpPosition = new Vector3();
 
     public RenderingSystem(int priority, TimeProvider timeProvider, PipelineRenderer pipelineRenderer,
                            SpriteProducer.TextureLoader textureLoader) {
@@ -42,7 +44,7 @@ public class RenderingSystem extends EntitySystem implements SpriteProducer.Text
         SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
 
         GraphSprites graphSprites = pipelineRenderer.getPluginData(GraphSprites.class);
-        GraphSprite graphSprite = graphSprites.createSprite(spriteComponent.getLayer());
+        GraphSprite graphSprite = graphSprites.createSprite(tmpPosition);
         spriteComponent.setGraphSprite(graphSprite);
 
         Sprite sprite = SpriteProducer.createSprite(entity, this, graphSprite, spriteComponent);

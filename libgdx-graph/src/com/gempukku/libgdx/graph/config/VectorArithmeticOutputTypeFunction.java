@@ -25,6 +25,8 @@ public class VectorArithmeticOutputTypeFunction implements Function<ObjectMap<St
 
         String a = inputA.get(0);
         String b = inputB.get(0);
+        if (a == null || b == null)
+            return null;
 
         if (a.equals(floatType))
             return b;

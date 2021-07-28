@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.particles;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
@@ -40,6 +41,7 @@ public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodePro
         for (JsonValue shaderDefinition : shaderDefinitions) {
             String tag = shaderDefinition.getString("tag");
             JsonValue shaderGraph = shaderDefinition.get("shader");
+            Gdx.app.debug("Shader", "Building shader with tag: " + tag);
             final ParticlesGraphShader graphShader = GraphLoader.loadGraph(shaderGraph, new ParticlesShaderLoaderCallback(whitePixel.texture, configurations));
             graphShader.setTag(tag);
             particleShaders.add(graphShader);

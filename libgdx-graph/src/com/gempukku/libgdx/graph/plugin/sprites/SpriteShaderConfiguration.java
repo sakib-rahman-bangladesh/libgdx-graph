@@ -16,10 +16,8 @@ public class SpriteShaderConfiguration implements GraphConfiguration {
 
         // Sprite
         addGraphShaderNodeBuilder(new SpritePositionShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SpriteLayerShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SpriteSizeShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new SpriteAnchorShaderNodeBuilder());
         addGraphShaderNodeBuilder(new SpriteUVShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new BillboardSpriteShaderNodeBuilder());
     }
 
     private static void addGraphShaderNodeBuilder(GraphShaderNodeBuilder builder) {
