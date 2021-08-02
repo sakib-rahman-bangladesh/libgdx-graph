@@ -83,6 +83,7 @@ import com.gempukku.libgdx.graph.ui.shader.producer.math.value.RemapValueShaderB
 import com.gempukku.libgdx.graph.ui.shader.producer.math.value.RemapVectorShaderBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyColorBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyFloatBoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyMatrix4BoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyShaderGraphBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyTextureBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyVector2BoxProducer;
@@ -211,6 +212,7 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration {
         propertyProducers.put("Vector2", new PropertyVector2BoxProducer());
         propertyProducers.put("Vector3", new PropertyVector3BoxProducer());
         propertyProducers.put("Color", new PropertyColorBoxProducer());
+        propertyProducers.put("Matrix4", new PropertyMatrix4BoxProducer());
         propertyProducers.put("Texture", new PropertyTextureBoxProducer());
     }
 

@@ -89,6 +89,7 @@ import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.ColorShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.FloatShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
+import com.gempukku.libgdx.graph.shader.property.Matrix4ShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.TextureShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.Vector2ShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.Vector3ShaderPropertyProducer;
@@ -218,6 +219,7 @@ public class CommonShaderConfiguration implements GraphConfiguration {
         registerPropertyProducer(new ColorShaderPropertyProducer());
         registerPropertyProducer(new Vector2ShaderPropertyProducer());
         registerPropertyProducer(new Vector3ShaderPropertyProducer());
+        registerPropertyProducer(new Matrix4ShaderPropertyProducer());
         registerPropertyProducer(new TextureShaderPropertyProducer() {
             @Override
             protected TextureRegion getDefaultTextureRegion() {
