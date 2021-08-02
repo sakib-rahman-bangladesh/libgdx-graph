@@ -1,14 +1,11 @@
 package com.gempukku.libgdx.graph.plugin.sprites.impl;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
@@ -79,47 +76,13 @@ public class NonCachedTagSpriteData implements SpriteData, Disposable {
                     int propertyIndex = Integer.parseInt(alias.substring(11));
                     String propertyName = propertyIndexNames.get(propertyIndex);
                     PropertySource propertySource = shaderProperties.get(propertyName);
-                    if (propertySource.getShaderFieldType().getName().equals(ShaderFieldType.Float)) {
-                        Object value = sprite.getPropertyContainer().getValue(propertyName);
-                        if (!(value instanceof Number))
-                            value = propertySource.getDefaultValue();
-                        tempVertices[vertexIndex * floatCount + floatIndex + 0] = ((Number) value).floatValue();
-                        floatIndex += 1;
-                    } else if (propertySource.getShaderFieldType().getName().equals(ShaderFieldType.Vector2)) {
-                        Object value = sprite.getPropertyContainer().getValue(propertyName);
-                        if (!(value instanceof Vector2))
-                            value = propertySource.getDefaultValue();
-                        tempVertices[vertexIndex * floatCount + floatIndex + 0] = ((Vector2) value).x;
-                        tempVertices[vertexIndex * floatCount + floatIndex + 1] = ((Vector2) value).y;
-                        floatIndex += 2;
-                    } else if (propertySource.getShaderFieldType().getName().equals(ShaderFieldType.Vector3)) {
-                        Object value = sprite.getPropertyContainer().getValue(propertyName);
-                        if (!(value instanceof Vector3))
-                            value = propertySource.getDefaultValue();
-                        tempVertices[vertexIndex * floatCount + floatIndex + 0] = ((Vector3) value).x;
-                        tempVertices[vertexIndex * floatCount + floatIndex + 1] = ((Vector3) value).y;
-                        tempVertices[vertexIndex * floatCount + floatIndex + 2] = ((Vector3) value).z;
-                        floatIndex += 3;
-                    } else if (propertySource.getShaderFieldType().getName().equals(ShaderFieldType.Vector4)) {
-                        Object value = sprite.getPropertyContainer().getValue(propertyName);
-                        if (!(value instanceof Color))
-                            value = propertySource.getDefaultValue();
-                        tempVertices[vertexIndex * floatCount + floatIndex + 0] = ((Color) value).r;
-                        tempVertices[vertexIndex * floatCount + floatIndex + 1] = ((Color) value).g;
-                        tempVertices[vertexIndex * floatCount + floatIndex + 2] = ((Color) value).b;
-                        tempVertices[vertexIndex * floatCount + floatIndex + 3] = ((Color) value).a;
-                        floatIndex += 4;
-                    } else if (propertySource.getShaderFieldType().getName().equals(ShaderFieldType.TextureRegion)) {
-                        Object value = sprite.getPropertyContainer().getValue(propertyName);
-                        if (!(value instanceof TextureRegion))
-                            value = propertySource.getDefaultValue();
-                        TextureRegion region = (TextureRegion) value;
-                        tempVertices[vertexIndex * floatCount + floatIndex + 0] = region.getU();
-                        tempVertices[vertexIndex * floatCount + floatIndex + 1] = region.getV();
-                        tempVertices[vertexIndex * floatCount + floatIndex + 2] = region.getU2() - region.getU();
-                        tempVertices[vertexIndex * floatCount + floatIndex + 3] = region.getV2() - region.getV();
-                        floatIndex += 4;
-                    }
+
+                    ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
+                    Object value = sprite.getPropertyContainer().getValue(propertyName);
+                    if (!shaderFieldType.accepts(value))
+                        value = propertySource.getDefaultValue();
+
+                    floatIndex += shaderFieldType.setValueInAttributesArray(tempVertices, vertexIndex * floatCount + floatIndex, value);
                 }
             }
         }
