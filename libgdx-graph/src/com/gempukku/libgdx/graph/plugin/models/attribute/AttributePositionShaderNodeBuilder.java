@@ -25,9 +25,9 @@ public class AttributePositionShaderNodeBuilder extends ConfigurationShaderNodeB
     public ObjectMap<String, ? extends FieldOutput> buildVertexNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), ShaderProgram.POSITION_ATTRIBUTE, "vec3");
 
+        vertexShaderBuilder.addMainLine("// Attribute Position Node");
         String coordinates = data.getString("coordinates");
         if (coordinates.equals("world")) {
-            vertexShaderBuilder.addMainLine("// Attribute Position Node");
             vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, ModelsUniformSetters.worldTrans);
             String name = "result_" + nodeId;
             vertexShaderBuilder.addMainLine("vec3" + " " + name + " = (u_worldTrans * skinning * vec4(a_position, 1.0)).xyz;");
@@ -47,14 +47,7 @@ public class AttributePositionShaderNodeBuilder extends ConfigurationShaderNodeB
 
         String coordinates = data.getString("coordinates");
         if (coordinates.equals("world")) {
-            if (!vertexShaderBuilder.hasVaryingVariable("v_position_world")) {
-                vertexShaderBuilder.addMainLine("// Attribute Position Node");
-                vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, ModelsUniformSetters.worldTrans);
-                vertexShaderBuilder.addVaryingVariable("v_position_world", "vec3");
-                vertexShaderBuilder.addMainLine("v_position_world = (u_worldTrans * skinning * vec4(a_position, 1.0)).xyz;");
-
-                fragmentShaderBuilder.addVaryingVariable("v_position_world", "vec3");
-            }
+            fragmentShaderBuilder.addVaryingVariable("v_position_world", "vec3");
 
             return LibGDXCollections.singletonMap("position", new DefaultFieldOutput(ShaderFieldType.Vector3, "v_position_world"));
         } else if (coordinates.equals("object")) {

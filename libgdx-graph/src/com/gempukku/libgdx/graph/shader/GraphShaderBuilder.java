@@ -416,9 +416,9 @@ public class GraphShaderBuilder {
         vertexShaderBuilder.addMainLine("mat4 skinning = getSkinning();");
 
         ObjectMap<String, ObjectMap<String, GraphShaderNodeBuilder.FieldOutput>> vertexNodeOutputs = new ObjectMap<>();
-        GraphShaderNodeBuilder.FieldOutput positionField = getOutput(findInputVertices(graph, "end", "position"),
+        GraphShaderNodeBuilder.FieldOutput worldPositionField = getOutput(findInputVertices(graph, "end", "position"),
                 designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, modelConfigurations);
-        if (positionField == null) {
+        if (worldPositionField == null) {
             vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), ShaderProgram.POSITION_ATTRIBUTE, "vec3");
 
             vertexShaderBuilder.addMainLine("// Attribute Position Node");
@@ -426,10 +426,13 @@ public class GraphShaderBuilder {
             String name = "result_defaultPositionAttribute";
             vertexShaderBuilder.addMainLine("vec3" + " " + name + " = (u_worldTrans * skinning * vec4(a_position, 1.0)).xyz;");
 
-            positionField = new DefaultFieldOutput(ShaderFieldType.Vector3, name);
+            worldPositionField = new DefaultFieldOutput(ShaderFieldType.Vector3, name);
         }
+        vertexShaderBuilder.addVaryingVariable("v_position_world", "vec3");
+        vertexShaderBuilder.addMainLine("v_position_world = " + worldPositionField.getRepresentation() + ";");
+
         vertexShaderBuilder.addUniformVariable("u_projViewTrans", "mat4", true, UniformSetters.projViewTrans);
-        String worldPosition = "vec4(" + positionField.getRepresentation() + ", 1.0)";
+        String worldPosition = "vec4(" + worldPositionField.getRepresentation() + ", 1.0)";
         vertexShaderBuilder.addMainLine("// End Graph Node");
         vertexShaderBuilder.addMainLine("gl_Position = u_projViewTrans * " + worldPosition + ";");
     }
