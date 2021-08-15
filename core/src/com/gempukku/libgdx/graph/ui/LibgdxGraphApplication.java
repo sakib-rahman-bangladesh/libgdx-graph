@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.ui;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -34,7 +33,7 @@ public class LibgdxGraphApplication extends ApplicationAdapter {
 
     @Override
     public void create() {
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        //Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
         try {
             // Initialize design plugins

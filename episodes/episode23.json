@@ -16,7 +16,7 @@
       "id": "a532a85f62bc46feb646e5480885ec8a",
       "type": "SpriteShaderRenderer",
       "x": 397.0,
-      "y": 732.0,
+      "y": 767.0,
       "data": {
         "shaders": [
           {
@@ -95,6 +95,12 @@
                   "type": "Add",
                   "x": 1434.0,
                   "y": 645.0
+                },
+                {
+                  "id": "79afbb273b6147d9bcb94546aefc6487",
+                  "type": "SpriteUV",
+                  "x": 1848.0,
+                  "y": 512.0
                 },
                 {
                   "id": "b806b7fcee214b368fc9b00e4a1e5318",
@@ -183,8 +189,8 @@
                 {
                   "id": "992c89cbafa54bb7a404ae515b910c48",
                   "type": "Merge",
-                  "x": 1885.0,
-                  "y": 523.0
+                  "x": 1873.0,
+                  "y": 600.0
                 },
                 {
                   "id": "4c4333c44a444f29a437bf2244120001",
@@ -373,6 +379,12 @@
                   "fromField": "output",
                   "toNode": "end",
                   "toField": "position"
+                },
+                {
+                  "fromNode": "79afbb273b6147d9bcb94546aefc6487",
+                  "fromField": "uv",
+                  "toNode": "a2e2981f562f483c9fb6fb7a861eb7d9",
+                  "toField": "uv"
                 }
               ],
               "properties": [
@@ -402,18 +414,18 @@
               ],
               "groups": [
                 {
-                  "name": "Parallax factor",
-                  "nodes": [
-                    "29b664b17e3747e4a3fb05f02f3a812f",
-                    "cb9c0c5cb1784d1daf91e97f5973e68b"
-                  ]
-                },
-                {
                   "name": "Camera XY",
                   "nodes": [
                     "1474f3282cf54105ac5ae44a1c6b7079",
                     "46f737d07f7c4778931657561edadc26",
                     "7475fa5707d3431699bcb86dfa9744b3"
+                  ]
+                },
+                {
+                  "name": "Parallax factor",
+                  "nodes": [
+                    "29b664b17e3747e4a3fb05f02f3a812f",
+                    "cb9c0c5cb1784d1daf91e97f5973e68b"
                   ]
                 }
               ]
@@ -455,8 +467,8 @@
     {
       "id": "d54b356d4a1242cab5e6cb3f836b1930",
       "type": "ValueColor",
-      "x": 262.0,
-      "y": 1098.0,
+      "x": 261.0,
+      "y": 1134.0,
       "data": {
         "color": "638c99ff"
       }
@@ -539,6 +551,12 @@
                   }
                 },
                 {
+                  "id": "a8912ea0d5ca437d91f2a4e5956abc81",
+                  "type": "SpriteUV",
+                  "x": 1020.0,
+                  "y": 643.0
+                },
+                {
                   "id": "9285c5404dfa43878781f87d81052ac2",
                   "type": "Property",
                   "x": 1024.0,
@@ -583,6 +601,12 @@
                     "blending": "opaque",
                     "depthTest": "less"
                   }
+                },
+                {
+                  "id": "17bd3d3ae9b341ee8a1ae5724f2bed40",
+                  "type": "SpritePosition",
+                  "x": 1021.0,
+                  "y": 700.0
                 },
                 {
                   "id": "656d45cb9eed4e4ebf7d010f93f67fb7",
@@ -695,6 +719,18 @@
                   "fromField": "value",
                   "toNode": "ea05983941c244be9197c6b8ca8b4474",
                   "toField": "size"
+                },
+                {
+                  "fromNode": "17bd3d3ae9b341ee8a1ae5724f2bed40",
+                  "fromField": "position",
+                  "toNode": "ea05983941c244be9197c6b8ca8b4474",
+                  "toField": "position"
+                },
+                {
+                  "fromNode": "a8912ea0d5ca437d91f2a4e5956abc81",
+                  "fromField": "uv",
+                  "toNode": "ea05983941c244be9197c6b8ca8b4474",
+                  "toField": "uv"
                 }
               ],
               "properties": [
@@ -773,6 +809,12 @@
               "type": "Sprite_Shader",
               "nodes": [
                 {
+                  "id": "df913436472340f89889d9f94aca5df1",
+                  "type": "SpritePosition",
+                  "x": 452.0,
+                  "y": 725.0
+                },
+                {
                   "id": "21043207e4574bff90022c779cd38aef",
                   "type": "Property",
                   "x": 457.0,
@@ -831,6 +873,12 @@
                   "type": "Sampler2D",
                   "x": 460.0,
                   "y": 383.0
+                },
+                {
+                  "id": "b6253e2d47fe4c768d558a3c69178e61",
+                  "type": "SpriteUV",
+                  "x": 458.0,
+                  "y": 667.0
                 },
                 {
                   "id": "end",
@@ -919,6 +967,18 @@
                   "fromField": "output",
                   "toNode": "end",
                   "toField": "position"
+                },
+                {
+                  "fromNode": "b6253e2d47fe4c768d558a3c69178e61",
+                  "fromField": "uv",
+                  "toNode": "b5842f551746485e844500a3628edd8f",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "df913436472340f89889d9f94aca5df1",
+                  "fromField": "position",
+                  "toNode": "b5842f551746485e844500a3628edd8f",
+                  "toField": "position"
                 }
               ],
               "properties": [
@@ -995,47 +1055,10 @@
                   "y": 791.0
                 },
                 {
-                  "id": "e99c9493abfa4c85b6b8d38e3e69dc4d",
-                  "type": "Time",
-                  "x": 52.0,
-                  "y": 513.0,
-                  "data": {
-                    "multiplier": 1.0
-                  }
-                },
-                {
                   "id": "88a5769e21de41f9bf992fc5ead3a920",
                   "type": "Divide",
                   "x": 475.0,
                   "y": 251.0
-                },
-                {
-                  "id": "eaae0813ca3241b1b4381f0a632d4e22",
-                  "type": "BillboardSprite",
-                  "x": 1383.0,
-                  "y": 735.0
-                },
-                {
-                  "id": "4c7215c09dab4294ab66879cdde5b06a",
-                  "type": "Divide",
-                  "x": 681.0,
-                  "y": 252.0
-                },
-                {
-                  "id": "5a20b40603fb4cdbbbaa2a6bebd9d50c",
-                  "type": "BorderDetection",
-                  "x": 999.0,
-                  "y": 549.0
-                },
-                {
-                  "id": "3a83146b38634b1e812b8396fd2dfcc4",
-                  "type": "Property",
-                  "x": 50.0,
-                  "y": 448.0,
-                  "data": {
-                    "name": "Animation Start",
-                    "type": "Float"
-                  }
                 },
                 {
                   "id": "a085b0923c604a9bb35c80b8cd602b0a",
@@ -1048,12 +1071,6 @@
                   }
                 },
                 {
-                  "id": "e4b5faaee35a46c49159111ff6186f4d",
-                  "type": "Add",
-                  "x": 1211.0,
-                  "y": 641.0
-                },
-                {
                   "id": "d522e249790c4c668e2293bb2d6468d2",
                   "type": "Property",
                   "x": 1152.0,
@@ -1062,6 +1079,12 @@
                     "name": "Size",
                     "type": "Vector2"
                   }
+                },
+                {
+                  "id": "133c530e362a4009ae8de3e5ddb253ed",
+                  "type": "SpriteUV",
+                  "x": 1156.0,
+                  "y": 879.0
                 },
                 {
                   "id": "52dc4be460694f928c3dd5e20b124b89",
@@ -1094,12 +1117,6 @@
                   }
                 },
                 {
-                  "id": "180a7715db0d494784b6629bfb054c9b",
-                  "type": "Multiply",
-                  "x": 451.0,
-                  "y": 614.0
-                },
-                {
                   "id": "b6949cd1fd214d3397d10924e859f831",
                   "type": "Property",
                   "x": 692.0,
@@ -1107,16 +1124,6 @@
                   "data": {
                     "name": "Outline Width",
                     "type": "Float"
-                  }
-                },
-                {
-                  "id": "1fb0335fabf648b384c70863ca30e0a7",
-                  "type": "Property",
-                  "x": 1156.0,
-                  "y": 809.0,
-                  "data": {
-                    "name": "Anchor",
-                    "type": "Vector2"
                   }
                 },
                 {
@@ -1130,16 +1137,6 @@
                   }
                 },
                 {
-                  "id": "954978a18bb84bcc9927d0dde89e030f",
-                  "type": "Property",
-                  "x": 274.0,
-                  "y": 196.0,
-                  "data": {
-                    "name": "Size",
-                    "type": "Vector2"
-                  }
-                },
-                {
                   "id": "d8738e81a0dc4a4f939ddc3a6c5b6459",
                   "type": "ValueVector2",
                   "x": 268.0,
@@ -1150,6 +1147,90 @@
                   }
                 },
                 {
+                  "id": "c8cc47746d8a4bcb9d8807a219539170",
+                  "type": "ValueFloat",
+                  "x": 698.0,
+                  "y": 50.0,
+                  "data": {
+                    "v1": 0.009999999776482582
+                  }
+                },
+                {
+                  "id": "42d0f962f4b949cdb87a24f290e743bb",
+                  "type": "SpritePosition",
+                  "x": 1158.0,
+                  "y": 941.0
+                },
+                {
+                  "id": "e99c9493abfa4c85b6b8d38e3e69dc4d",
+                  "type": "Time",
+                  "x": 52.0,
+                  "y": 513.0,
+                  "data": {
+                    "multiplier": 1.0
+                  }
+                },
+                {
+                  "id": "eaae0813ca3241b1b4381f0a632d4e22",
+                  "type": "BillboardSprite",
+                  "x": 1383.0,
+                  "y": 735.0
+                },
+                {
+                  "id": "4c7215c09dab4294ab66879cdde5b06a",
+                  "type": "Divide",
+                  "x": 681.0,
+                  "y": 252.0
+                },
+                {
+                  "id": "5a20b40603fb4cdbbbaa2a6bebd9d50c",
+                  "type": "BorderDetection",
+                  "x": 999.0,
+                  "y": 549.0
+                },
+                {
+                  "id": "3a83146b38634b1e812b8396fd2dfcc4",
+                  "type": "Property",
+                  "x": 50.0,
+                  "y": 448.0,
+                  "data": {
+                    "name": "Animation Start",
+                    "type": "Float"
+                  }
+                },
+                {
+                  "id": "e4b5faaee35a46c49159111ff6186f4d",
+                  "type": "Add",
+                  "x": 1211.0,
+                  "y": 641.0
+                },
+                {
+                  "id": "180a7715db0d494784b6629bfb054c9b",
+                  "type": "Multiply",
+                  "x": 451.0,
+                  "y": 614.0
+                },
+                {
+                  "id": "1fb0335fabf648b384c70863ca30e0a7",
+                  "type": "Property",
+                  "x": 1156.0,
+                  "y": 809.0,
+                  "data": {
+                    "name": "Anchor",
+                    "type": "Vector2"
+                  }
+                },
+                {
+                  "id": "954978a18bb84bcc9927d0dde89e030f",
+                  "type": "Property",
+                  "x": 274.0,
+                  "y": 196.0,
+                  "data": {
+                    "name": "Size",
+                    "type": "Vector2"
+                  }
+                },
+                {
                   "id": "656d45cb9eed4e4ebf7d010f93f67fb7",
                   "type": "UVFlipbook",
                   "x": 689.0,
@@ -1157,15 +1238,6 @@
                   "data": {
                     "invertX": false,
                     "invertY": false
-                  }
-                },
-                {
-                  "id": "c8cc47746d8a4bcb9d8807a219539170",
-                  "type": "ValueFloat",
-                  "x": 698.0,
-                  "y": 50.0,
-                  "data": {
-                    "v1": 0.009999999776482582
                   }
                 }
               ],
@@ -1319,6 +1391,18 @@
                   "fromField": "output",
                   "toNode": "end",
                   "toField": "position"
+                },
+                {
+                  "fromNode": "133c530e362a4009ae8de3e5ddb253ed",
+                  "fromField": "uv",
+                  "toNode": "eaae0813ca3241b1b4381f0a632d4e22",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "42d0f962f4b949cdb87a24f290e743bb",
+                  "fromField": "position",
+                  "toNode": "eaae0813ca3241b1b4381f0a632d4e22",
+                  "toField": "position"
                 }
               ],
               "properties": [
@@ -1384,6 +1468,15 @@
               ],
               "groups": [
                 {
+                  "name": "Pixel size in UV",
+                  "nodes": [
+                    "52dc4be460694f928c3dd5e20b124b89",
+                    "88a5769e21de41f9bf992fc5ead3a920",
+                    "4c7215c09dab4294ab66879cdde5b06a",
+                    "d8738e81a0dc4a4f939ddc3a6c5b6459"
+                  ]
+                },
+                {
                   "name": "Animation Frame",
                   "nodes": [
                     "180a7715db0d494784b6629bfb054c9b",
@@ -1391,15 +1484,6 @@
                     "d9e1a2bf9834405aa5260163d8818f82",
                     "3a83146b38634b1e812b8396fd2dfcc4",
                     "cb06a9014aa14f6cbc8aba7c79ba4978"
-                  ]
-                },
-                {
-                  "name": "Pixel size in UV",
-                  "nodes": [
-                    "52dc4be460694f928c3dd5e20b124b89",
-                    "88a5769e21de41f9bf992fc5ead3a920",
-                    "4c7215c09dab4294ab66879cdde5b06a",
-                    "d8738e81a0dc4a4f939ddc3a6c5b6459"
                   ]
                 }
               ]
@@ -1475,6 +1559,12 @@
                   }
                 },
                 {
+                  "id": "8c94f41853eb4588b931cca2d1a98147",
+                  "type": "SpritePosition",
+                  "x": 1149.0,
+                  "y": 779.0
+                },
+                {
                   "id": "3a83146b38634b1e812b8396fd2dfcc4",
                   "type": "Property",
                   "x": 50.0,
@@ -1519,6 +1609,12 @@
                     "name": "Anchor",
                     "type": "Vector2"
                   }
+                },
+                {
+                  "id": "cfea3e261ae643279667b6130fe1f702",
+                  "type": "SpriteUV",
+                  "x": 1149.0,
+                  "y": 722.0
                 },
                 {
                   "id": "a7264f89acce407c8b08c59b42bf6d62",
@@ -1712,6 +1808,18 @@
                   "fromField": "output",
                   "toNode": "end",
                   "toField": "position"
+                },
+                {
+                  "fromNode": "cfea3e261ae643279667b6130fe1f702",
+                  "fromField": "uv",
+                  "toNode": "d4e972a38a9242e28774cd6a25a8778c",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "8c94f41853eb4588b931cca2d1a98147",
+                  "fromField": "position",
+                  "toNode": "d4e972a38a9242e28774cd6a25a8778c",
+                  "toField": "position"
                 }
               ],
               "properties": [
@@ -1803,12 +1911,6 @@
                   "y": 224.0
                 },
                 {
-                  "id": "f720776bac2e4210a546193030b9427b",
-                  "type": "ViewportSize",
-                  "x": 1010.0,
-                  "y": 916.0
-                },
-                {
                   "id": "d9e1a2bf9834405aa5260163d8818f82",
                   "type": "Property",
                   "x": 262.0,
@@ -1850,22 +1952,10 @@
                   }
                 },
                 {
-                  "id": "47a8750455a442deaa1b64bf3b07e964",
-                  "type": "Subtract",
-                  "x": 1415.0,
-                  "y": 929.0
-                },
-                {
-                  "id": "880bba04624f47649c98a1a7e8647b2e",
-                  "type": "Merge",
-                  "x": 1413.0,
-                  "y": 676.0
-                },
-                {
                   "id": "d65bb8019c1f48ba8666dfba8bc92d62",
                   "type": "Property",
-                  "x": 2037.0,
-                  "y": 771.0,
+                  "x": 1030.0,
+                  "y": 604.0,
                   "data": {
                     "name": "Size",
                     "type": "Vector2"
@@ -1878,22 +1968,10 @@
                   "y": 254.0
                 },
                 {
-                  "id": "bacbef24737a497380e4d10f2b87a936",
-                  "type": "BillboardSprite",
-                  "x": 2265.0,
-                  "y": 675.0
-                },
-                {
-                  "id": "9a3fecfb80c5484e9288c09903e3adee",
+                  "id": "32cad1d89e0042cbb73a847a399298f2",
                   "type": "SpritePosition",
-                  "x": 807.0,
-                  "y": 1219.0
-                },
-                {
-                  "id": "bfb1215ff9a84c58a4ff1fc16af9e98a",
-                  "type": "Split",
-                  "x": 1222.0,
-                  "y": 677.0
+                  "x": 1026.0,
+                  "y": 789.0
                 },
                 {
                   "id": "f3c5520f52974179af5ceb000f35f890",
@@ -1916,38 +1994,21 @@
                   }
                 },
                 {
-                  "id": "c157edd906104abbb2d90fd3604fa527",
-                  "type": "Add",
-                  "x": 1629.0,
-                  "y": 856.0
-                },
-                {
                   "id": "295a98f1550943549f9cc2939b904793",
                   "type": "Multiply",
-                  "x": 1375.0,
-                  "y": 385.0
+                  "x": 1403.0,
+                  "y": 389.0
                 },
                 {
                   "id": "end",
                   "type": "SpriteShaderEnd",
-                  "x": 2488.0,
-                  "y": 272.0,
+                  "x": 1673.0,
+                  "y": 169.0,
                   "data": {
+                    "positionType": "Screen space",
                     "blending": "alpha",
-                    "depthTest": "less"
+                    "depthTest": "always"
                   }
-                },
-                {
-                  "id": "888564d342b749b19520513973c3ec4a",
-                  "type": "Merge",
-                  "x": 1214.0,
-                  "y": 1057.0
-                },
-                {
-                  "id": "f7848c140cd04e1d986d27abc393e672",
-                  "type": "Multiply",
-                  "x": 1213.0,
-                  "y": 903.0
                 },
                 {
                   "id": "c50658be14024a679dade0b5ce9fb486",
@@ -1960,12 +2021,6 @@
                   }
                 },
                 {
-                  "id": "fe91e2ddce9c4a489cdeca07ec0ec386",
-                  "type": "CameraPosition",
-                  "x": 1030.0,
-                  "y": 747.0
-                },
-                {
                   "id": "e99c9493abfa4c85b6b8d38e3e69dc4d",
                   "type": "Time",
                   "x": 52.0,
@@ -1973,12 +2028,6 @@
                   "data": {
                     "multiplier": 1.0
                   }
-                },
-                {
-                  "id": "acd8cc4434704f469cc32dcf2cc20bf4",
-                  "type": "Split",
-                  "x": 1840.0,
-                  "y": 804.0
                 },
                 {
                   "id": "3a83146b38634b1e812b8396fd2dfcc4",
@@ -1989,21 +2038,6 @@
                     "name": "Animation Start",
                     "type": "Float"
                   }
-                },
-                {
-                  "id": "e104172f5a2a42f197ea1fc9c1122ae9",
-                  "type": "ValueFloat",
-                  "x": 1010.0,
-                  "y": 854.0,
-                  "data": {
-                    "v1": 0.5
-                  }
-                },
-                {
-                  "id": "c0467e43664347fca2eee0d076ede431",
-                  "type": "Merge",
-                  "x": 2047.0,
-                  "y": 911.0
                 },
                 {
                   "id": "02ae5542b6464cab8fc8a613f6c4d2d5",
@@ -2035,18 +2069,12 @@
                 {
                   "id": "b811ff420b484ca88703f0d4c41f6a23",
                   "type": "Property",
-                  "x": 2034.0,
-                  "y": 837.0,
+                  "x": 1027.0,
+                  "y": 670.0,
                   "data": {
                     "name": "Anchor",
                     "type": "Vector2"
                   }
-                },
-                {
-                  "id": "f28e9c8b7ab24506af94d4a92c98bc03",
-                  "type": "Split",
-                  "x": 1008.0,
-                  "y": 1158.0
                 },
                 {
                   "id": "656d45cb9eed4e4ebf7d010f93f67fb7",
@@ -2057,6 +2085,18 @@
                     "invertX": false,
                     "invertY": false
                   }
+                },
+                {
+                  "id": "6df1718c4ac84e43985cd4ee5fbc5b63",
+                  "type": "SpriteUV",
+                  "x": 1028.0,
+                  "y": 726.0
+                },
+                {
+                  "id": "4175138ef6804c8ca3c114559f4bd67b",
+                  "type": "ScreenSprite",
+                  "x": 1329.0,
+                  "y": 558.0
                 }
               ],
               "connections": [
@@ -2157,64 +2197,34 @@
                   "toField": "inputs"
                 },
                 {
-                  "fromNode": "295a98f1550943549f9cc2939b904793",
-                  "fromField": "output",
-                  "toNode": "end",
-                  "toField": "alpha"
-                },
-                {
                   "fromNode": "d9601ff0c9cb4c24bf99cddafa9b7e3b",
                   "fromField": "value",
                   "toNode": "02ae5542b6464cab8fc8a613f6c4d2d5",
                   "toField": "border"
                 },
                 {
-                  "fromNode": "f720776bac2e4210a546193030b9427b",
-                  "fromField": "size",
-                  "toNode": "f7848c140cd04e1d986d27abc393e672",
-                  "toField": "inputs"
+                  "fromNode": "6df1718c4ac84e43985cd4ee5fbc5b63",
+                  "fromField": "uv",
+                  "toNode": "4175138ef6804c8ca3c114559f4bd67b",
+                  "toField": "uv"
                 },
                 {
-                  "fromNode": "e104172f5a2a42f197ea1fc9c1122ae9",
+                  "fromNode": "b811ff420b484ca88703f0d4c41f6a23",
                   "fromField": "value",
-                  "toNode": "f7848c140cd04e1d986d27abc393e672",
-                  "toField": "inputs"
+                  "toNode": "4175138ef6804c8ca3c114559f4bd67b",
+                  "toField": "anchor"
                 },
                 {
-                  "fromNode": "f7848c140cd04e1d986d27abc393e672",
+                  "fromNode": "d65bb8019c1f48ba8666dfba8bc92d62",
+                  "fromField": "value",
+                  "toNode": "4175138ef6804c8ca3c114559f4bd67b",
+                  "toField": "size"
+                },
+                {
+                  "fromNode": "4175138ef6804c8ca3c114559f4bd67b",
                   "fromField": "output",
-                  "toNode": "47a8750455a442deaa1b64bf3b07e964",
-                  "toField": "b"
-                },
-                {
-                  "fromNode": "fe91e2ddce9c4a489cdeca07ec0ec386",
-                  "fromField": "position",
-                  "toNode": "bfb1215ff9a84c58a4ff1fc16af9e98a",
-                  "toField": "input"
-                },
-                {
-                  "fromNode": "bfb1215ff9a84c58a4ff1fc16af9e98a",
-                  "fromField": "x",
-                  "toNode": "880bba04624f47649c98a1a7e8647b2e",
-                  "toField": "x"
-                },
-                {
-                  "fromNode": "bfb1215ff9a84c58a4ff1fc16af9e98a",
-                  "fromField": "y",
-                  "toNode": "880bba04624f47649c98a1a7e8647b2e",
-                  "toField": "y"
-                },
-                {
-                  "fromNode": "47a8750455a442deaa1b64bf3b07e964",
-                  "fromField": "output",
-                  "toNode": "c157edd906104abbb2d90fd3604fa527",
-                  "toField": "inputs"
-                },
-                {
-                  "fromNode": "880bba04624f47649c98a1a7e8647b2e",
-                  "fromField": "v2",
-                  "toNode": "c157edd906104abbb2d90fd3604fa527",
-                  "toField": "inputs"
+                  "toNode": "end",
+                  "toField": "position"
                 },
                 {
                   "fromNode": "2affc280f9074df4bcd62e7fcd2513c9",
@@ -2223,75 +2233,15 @@
                   "toField": "color"
                 },
                 {
-                  "fromNode": "9a3fecfb80c5484e9288c09903e3adee",
-                  "fromField": "position",
-                  "toNode": "f28e9c8b7ab24506af94d4a92c98bc03",
-                  "toField": "input"
-                },
-                {
-                  "fromNode": "f28e9c8b7ab24506af94d4a92c98bc03",
-                  "fromField": "x",
-                  "toNode": "888564d342b749b19520513973c3ec4a",
-                  "toField": "x"
-                },
-                {
-                  "fromNode": "f28e9c8b7ab24506af94d4a92c98bc03",
-                  "fromField": "y",
-                  "toNode": "888564d342b749b19520513973c3ec4a",
-                  "toField": "y"
-                },
-                {
-                  "fromNode": "888564d342b749b19520513973c3ec4a",
-                  "fromField": "v2",
-                  "toNode": "47a8750455a442deaa1b64bf3b07e964",
-                  "toField": "a"
-                },
-                {
-                  "fromNode": "c157edd906104abbb2d90fd3604fa527",
-                  "fromField": "output",
-                  "toNode": "acd8cc4434704f469cc32dcf2cc20bf4",
-                  "toField": "input"
-                },
-                {
-                  "fromNode": "acd8cc4434704f469cc32dcf2cc20bf4",
-                  "fromField": "x",
-                  "toNode": "c0467e43664347fca2eee0d076ede431",
-                  "toField": "x"
-                },
-                {
-                  "fromNode": "acd8cc4434704f469cc32dcf2cc20bf4",
-                  "fromField": "y",
-                  "toNode": "c0467e43664347fca2eee0d076ede431",
-                  "toField": "y"
-                },
-                {
-                  "fromNode": "f28e9c8b7ab24506af94d4a92c98bc03",
-                  "fromField": "z",
-                  "toNode": "c0467e43664347fca2eee0d076ede431",
-                  "toField": "z"
-                },
-                {
-                  "fromNode": "c0467e43664347fca2eee0d076ede431",
-                  "fromField": "v3",
-                  "toNode": "bacbef24737a497380e4d10f2b87a936",
-                  "toField": "position"
-                },
-                {
-                  "fromNode": "b811ff420b484ca88703f0d4c41f6a23",
-                  "fromField": "value",
-                  "toNode": "bacbef24737a497380e4d10f2b87a936",
-                  "toField": "anchor"
-                },
-                {
-                  "fromNode": "d65bb8019c1f48ba8666dfba8bc92d62",
-                  "fromField": "value",
-                  "toNode": "bacbef24737a497380e4d10f2b87a936",
-                  "toField": "size"
-                },
-                {
-                  "fromNode": "bacbef24737a497380e4d10f2b87a936",
+                  "fromNode": "295a98f1550943549f9cc2939b904793",
                   "fromField": "output",
                   "toNode": "end",
+                  "toField": "alpha"
+                },
+                {
+                  "fromNode": "32cad1d89e0042cbb73a847a399298f2",
+                  "fromField": "position",
+                  "toNode": "4175138ef6804c8ca3c114559f4bd67b",
                   "toField": "position"
                 }
               ],
@@ -2359,23 +2309,6 @@
                     "3a83146b38634b1e812b8396fd2dfcc4",
                     "cb06a9014aa14f6cbc8aba7c79ba4978"
                   ]
-                },
-                {
-                  "name": "Sprite Position on Screen",
-                  "nodes": [
-                    "f7848c140cd04e1d986d27abc393e672",
-                    "47a8750455a442deaa1b64bf3b07e964",
-                    "f720776bac2e4210a546193030b9427b",
-                    "e104172f5a2a42f197ea1fc9c1122ae9"
-                  ]
-                },
-                {
-                  "name": "Camera XY",
-                  "nodes": [
-                    "bfb1215ff9a84c58a4ff1fc16af9e98a",
-                    "fe91e2ddce9c4a489cdeca07ec0ec386",
-                    "880bba04624f47649c98a1a7e8647b2e"
-                  ]
                 }
               ]
             }
@@ -2386,8 +2319,8 @@
     {
       "id": "746da9b276d442f0bc74ed9847a26a4b",
       "type": "PipelineStart",
-      "x": 473.0,
-      "y": 1075.0
+      "x": 477.0,
+      "y": 1111.0
     }
   ],
   "connections": [

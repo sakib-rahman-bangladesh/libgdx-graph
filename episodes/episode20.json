@@ -16,7 +16,7 @@
       "id": "a532a85f62bc46feb646e5480885ec8a",
       "type": "SpriteShaderRenderer",
       "x": 397.0,
-      "y": 732.0,
+      "y": 767.0,
       "data": {
         "shaders": [
           {
@@ -95,6 +95,12 @@
                   "type": "Add",
                   "x": 1434.0,
                   "y": 645.0
+                },
+                {
+                  "id": "79afbb273b6147d9bcb94546aefc6487",
+                  "type": "SpriteUV",
+                  "x": 1848.0,
+                  "y": 512.0
                 },
                 {
                   "id": "b806b7fcee214b368fc9b00e4a1e5318",
@@ -183,8 +189,8 @@
                 {
                   "id": "992c89cbafa54bb7a404ae515b910c48",
                   "type": "Merge",
-                  "x": 1885.0,
-                  "y": 523.0
+                  "x": 1873.0,
+                  "y": 600.0
                 },
                 {
                   "id": "4c4333c44a444f29a437bf2244120001",
@@ -373,6 +379,12 @@
                   "fromField": "output",
                   "toNode": "end",
                   "toField": "position"
+                },
+                {
+                  "fromNode": "79afbb273b6147d9bcb94546aefc6487",
+                  "fromField": "uv",
+                  "toNode": "a2e2981f562f483c9fb6fb7a861eb7d9",
+                  "toField": "uv"
                 }
               ],
               "properties": [
@@ -402,18 +414,18 @@
               ],
               "groups": [
                 {
-                  "name": "Parallax factor",
-                  "nodes": [
-                    "29b664b17e3747e4a3fb05f02f3a812f",
-                    "cb9c0c5cb1784d1daf91e97f5973e68b"
-                  ]
-                },
-                {
                   "name": "Camera XY",
                   "nodes": [
                     "1474f3282cf54105ac5ae44a1c6b7079",
                     "46f737d07f7c4778931657561edadc26",
                     "7475fa5707d3431699bcb86dfa9744b3"
+                  ]
+                },
+                {
+                  "name": "Parallax factor",
+                  "nodes": [
+                    "29b664b17e3747e4a3fb05f02f3a812f",
+                    "cb9c0c5cb1784d1daf91e97f5973e68b"
                   ]
                 }
               ]
@@ -425,8 +437,8 @@
     {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
-      "x": 479.0,
-      "y": 136.0,
+      "x": 444.0,
+      "y": 132.0,
       "data": {
         "id": ""
       }
@@ -455,8 +467,8 @@
     {
       "id": "d54b356d4a1242cab5e6cb3f836b1930",
       "type": "ValueColor",
-      "x": 262.0,
-      "y": 1098.0,
+      "x": 261.0,
+      "y": 1134.0,
       "data": {
         "color": "638c99ff"
       }
@@ -539,6 +551,12 @@
                   }
                 },
                 {
+                  "id": "a8912ea0d5ca437d91f2a4e5956abc81",
+                  "type": "SpriteUV",
+                  "x": 1020.0,
+                  "y": 643.0
+                },
+                {
                   "id": "9285c5404dfa43878781f87d81052ac2",
                   "type": "Property",
                   "x": 1024.0,
@@ -583,6 +601,12 @@
                     "blending": "opaque",
                     "depthTest": "less"
                   }
+                },
+                {
+                  "id": "17bd3d3ae9b341ee8a1ae5724f2bed40",
+                  "type": "SpritePosition",
+                  "x": 1021.0,
+                  "y": 700.0
                 },
                 {
                   "id": "656d45cb9eed4e4ebf7d010f93f67fb7",
@@ -695,6 +719,18 @@
                   "fromField": "value",
                   "toNode": "ea05983941c244be9197c6b8ca8b4474",
                   "toField": "size"
+                },
+                {
+                  "fromNode": "17bd3d3ae9b341ee8a1ae5724f2bed40",
+                  "fromField": "position",
+                  "toNode": "ea05983941c244be9197c6b8ca8b4474",
+                  "toField": "position"
+                },
+                {
+                  "fromNode": "a8912ea0d5ca437d91f2a4e5956abc81",
+                  "fromField": "uv",
+                  "toNode": "ea05983941c244be9197c6b8ca8b4474",
+                  "toField": "uv"
                 }
               ],
               "properties": [
@@ -773,6 +809,12 @@
               "type": "Sprite_Shader",
               "nodes": [
                 {
+                  "id": "df913436472340f89889d9f94aca5df1",
+                  "type": "SpritePosition",
+                  "x": 452.0,
+                  "y": 725.0
+                },
+                {
                   "id": "21043207e4574bff90022c779cd38aef",
                   "type": "Property",
                   "x": 457.0,
@@ -831,6 +873,12 @@
                   "type": "Sampler2D",
                   "x": 460.0,
                   "y": 383.0
+                },
+                {
+                  "id": "b6253e2d47fe4c768d558a3c69178e61",
+                  "type": "SpriteUV",
+                  "x": 458.0,
+                  "y": 667.0
                 },
                 {
                   "id": "end",
@@ -919,6 +967,18 @@
                   "fromField": "output",
                   "toNode": "end",
                   "toField": "position"
+                },
+                {
+                  "fromNode": "b6253e2d47fe4c768d558a3c69178e61",
+                  "fromField": "uv",
+                  "toNode": "b5842f551746485e844500a3628edd8f",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "df913436472340f89889d9f94aca5df1",
+                  "fromField": "position",
+                  "toNode": "b5842f551746485e844500a3628edd8f",
+                  "toField": "position"
                 }
               ],
               "properties": [
@@ -971,8 +1031,8 @@
     {
       "id": "746da9b276d442f0bc74ed9847a26a4b",
       "type": "PipelineStart",
-      "x": 473.0,
-      "y": 1075.0
+      "x": 477.0,
+      "y": 1111.0
     }
   ],
   "connections": [

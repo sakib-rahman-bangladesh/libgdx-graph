@@ -6,7 +6,7 @@
       "id": "72be9695e45949ccb5f449dbacdfd619",
       "type": "Property",
       "x": 50.0,
-      "y": 613.0,
+      "y": 478.0,
       "data": {
         "name": "Camera",
         "type": "Camera"
@@ -15,8 +15,8 @@
     {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
-      "x": 479.0,
-      "y": 136.0,
+      "x": 383.0,
+      "y": 132.0,
       "data": {
         "id": ""
       }
@@ -24,14 +24,14 @@
     {
       "id": "end",
       "type": "PipelineEnd",
-      "x": 479.0,
+      "x": 418.0,
       "y": 50.0
     },
     {
       "id": "d54b356d4a1242cab5e6cb3f836b1930",
       "type": "ValueColor",
-      "x": 270.0,
-      "y": 625.0,
+      "x": 218.0,
+      "y": 636.0,
       "data": {
         "color": "638c99ff"
       }
@@ -39,7 +39,7 @@
     {
       "id": "ce7263bb711843b590f125cc3f49f1e9",
       "type": "SpriteShaderRenderer",
-      "x": 399.0,
+      "x": 338.0,
       "y": 252.0,
       "data": {
         "shaders": [
@@ -114,6 +114,12 @@
                   }
                 },
                 {
+                  "id": "a8912ea0d5ca437d91f2a4e5956abc81",
+                  "type": "SpriteUV",
+                  "x": 1020.0,
+                  "y": 643.0
+                },
+                {
                   "id": "9285c5404dfa43878781f87d81052ac2",
                   "type": "Property",
                   "x": 1024.0,
@@ -158,6 +164,12 @@
                     "blending": "opaque",
                     "depthTest": "less"
                   }
+                },
+                {
+                  "id": "17bd3d3ae9b341ee8a1ae5724f2bed40",
+                  "type": "SpritePosition",
+                  "x": 1021.0,
+                  "y": 700.0
                 },
                 {
                   "id": "656d45cb9eed4e4ebf7d010f93f67fb7",
@@ -270,6 +282,18 @@
                   "fromField": "value",
                   "toNode": "ea05983941c244be9197c6b8ca8b4474",
                   "toField": "size"
+                },
+                {
+                  "fromNode": "17bd3d3ae9b341ee8a1ae5724f2bed40",
+                  "fromField": "position",
+                  "toNode": "ea05983941c244be9197c6b8ca8b4474",
+                  "toField": "position"
+                },
+                {
+                  "fromNode": "a8912ea0d5ca437d91f2a4e5956abc81",
+                  "fromField": "uv",
+                  "toNode": "ea05983941c244be9197c6b8ca8b4474",
+                  "toField": "uv"
                 }
               ],
               "properties": [
@@ -348,6 +372,12 @@
               "type": "Sprite_Shader",
               "nodes": [
                 {
+                  "id": "df913436472340f89889d9f94aca5df1",
+                  "type": "SpritePosition",
+                  "x": 452.0,
+                  "y": 725.0
+                },
+                {
                   "id": "21043207e4574bff90022c779cd38aef",
                   "type": "Property",
                   "x": 457.0,
@@ -406,6 +436,12 @@
                   "type": "Sampler2D",
                   "x": 460.0,
                   "y": 383.0
+                },
+                {
+                  "id": "b6253e2d47fe4c768d558a3c69178e61",
+                  "type": "SpriteUV",
+                  "x": 458.0,
+                  "y": 667.0
                 },
                 {
                   "id": "end",
@@ -494,6 +530,18 @@
                   "fromField": "output",
                   "toNode": "end",
                   "toField": "position"
+                },
+                {
+                  "fromNode": "b6253e2d47fe4c768d558a3c69178e61",
+                  "fromField": "uv",
+                  "toNode": "b5842f551746485e844500a3628edd8f",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "df913436472340f89889d9f94aca5df1",
+                  "fromField": "position",
+                  "toNode": "b5842f551746485e844500a3628edd8f",
+                  "toField": "position"
                 }
               ],
               "properties": [
@@ -546,8 +594,8 @@
     {
       "id": "746da9b276d442f0bc74ed9847a26a4b",
       "type": "PipelineStart",
-      "x": 481.0,
-      "y": 602.0
+      "x": 417.0,
+      "y": 610.0
     }
   ],
   "connections": [
