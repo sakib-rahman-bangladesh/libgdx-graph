@@ -1,12 +1,19 @@
 package com.gempukku.libgdx.graph.plugin.particles;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.IntMap;
 import com.gempukku.libgdx.graph.plugin.particles.generator.ParticleGenerator;
+import com.gempukku.libgdx.graph.shader.AttributeDefinition;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
+
+import java.util.Map;
 
 public class ParticlesDataContainer implements Disposable {
     private final static ParticleGenerator.ParticleGenerateInfo tempGenerateInfo = new ParticleGenerator.ParticleGenerateInfo();
@@ -16,6 +23,7 @@ public class ParticlesDataContainer implements Disposable {
     private float[] particlesData;
     private Mesh mesh;
 
+    private Map<String, AttributeDefinition> additionalAttributes;
     private final int numberOfParticles;
     private final int numberOfFloatsInVertex;
     private int nextParticleIndex = 0;
@@ -24,13 +32,16 @@ public class ParticlesDataContainer implements Disposable {
     private int firstDirtyParticle = Integer.MAX_VALUE;
     private int lastDirtyParticle = -1;
 
-    private int positionOffset = -1;
     private int uvOffset = -1;
-    private int seedOffset = -1;
     private int birthTimeOffset = -1;
     private int deathTimeOffset = -1;
 
-    public ParticlesDataContainer(VertexAttributes vertexAttributes, int numberOfParticles, boolean storeParticleData) {
+    private IntMap<String> customAttributeOffsets = new IntMap<>();
+
+    public ParticlesDataContainer(VertexAttributes vertexAttributes,
+                                  Map<String, AttributeDefinition> additionalAttributes,
+                                  int numberOfParticles, boolean storeParticleData) {
+        this.additionalAttributes = additionalAttributes;
         this.numberOfParticles = numberOfParticles;
         this.numberOfFloatsInVertex = vertexAttributes.vertexSize / 4;
         initOffsets(vertexAttributes);
@@ -40,11 +51,15 @@ public class ParticlesDataContainer implements Disposable {
     }
 
     private void initOffsets(VertexAttributes vertexAttributes) {
-        positionOffset = getAliasOffset(vertexAttributes, ShaderProgram.POSITION_ATTRIBUTE);
         uvOffset = getAliasOffset(vertexAttributes, ShaderProgram.TEXCOORD_ATTRIBUTE + 0);
-        seedOffset = getAliasOffset(vertexAttributes, "a_seed");
         birthTimeOffset = getAliasOffset(vertexAttributes, "a_birthTime");
         deathTimeOffset = getAliasOffset(vertexAttributes, "a_deathTime");
+
+        for (Map.Entry<String, AttributeDefinition> nameToAttribute : additionalAttributes.entrySet()) {
+            String attributeName = nameToAttribute.getKey();
+            String attributeAlias = nameToAttribute.getValue().getAlias();
+            customAttributeOffsets.put(getAliasOffset(vertexAttributes, attributeAlias), attributeName);
+        }
     }
 
     private int getAliasOffset(VertexAttributes vertexAttributes, String alias) {
@@ -100,6 +115,7 @@ public class ParticlesDataContainer implements Disposable {
     }
 
     public void generateParticle(float particleTime, ParticleGenerator particleGenerator) {
+        tempGenerateInfo.particleAttributes.clear();
         particleGenerator.generateParticle(tempGenerateInfo);
         if (particleDataStorage != null)
             particleDataStorage[nextParticleIndex] = tempGenerateInfo.particleData;
@@ -107,24 +123,47 @@ public class ParticlesDataContainer implements Disposable {
         float particleDeath = particleTime + tempGenerateInfo.lifeLength;
         for (int i = 0; i < 4; i++) {
             int vertexIndex = getVertexIndex(nextParticleIndex, i);
-            if (positionOffset != -1) {
-                particlesData[vertexIndex + positionOffset + 0] = tempGenerateInfo.location.x;
-                particlesData[vertexIndex + positionOffset + 1] = tempGenerateInfo.location.y;
-                particlesData[vertexIndex + positionOffset + 2] = tempGenerateInfo.location.z;
-            }
-            if (seedOffset != -1)
-                particlesData[vertexIndex + seedOffset] = tempGenerateInfo.seed;
             if (birthTimeOffset != -1)
                 particlesData[vertexIndex + birthTimeOffset] = particleTime;
             if (deathTimeOffset != -1)
                 particlesData[vertexIndex + deathTimeOffset] = particleDeath;
         }
+
+        for (IntMap.Entry<String> customAttributeEntry : customAttributeOffsets.entries()) {
+            String attributeName = customAttributeEntry.value;
+            Object attributeValue = tempGenerateInfo.particleAttributes.get(attributeName);
+            AttributeDefinition attributeDefinition = additionalAttributes.get(attributeName);
+            Object value = attributeDefinition.getFieldType().convert((attributeValue != null) ? attributeValue : attributeDefinition.getDefaultValue());
+            for (int i = 0; i < 4; i++) {
+                int vertexIndex = getVertexIndex(nextParticleIndex, i);
+                setParticleValue(vertexIndex + customAttributeEntry.key, value);
+            }
+        }
+
         maxParticleDeath = Math.max(maxParticleDeath, particleDeath);
 
         firstDirtyParticle = Math.min(firstDirtyParticle, nextParticleIndex);
         lastDirtyParticle = Math.max(lastDirtyParticle, nextParticleIndex);
 
         nextParticleIndex = (nextParticleIndex + 1) % numberOfParticles;
+    }
+
+    private void setParticleValue(int offset, Object value) {
+        if (value instanceof Number) {
+            particlesData[offset + 0] = ((Number) value).floatValue();
+        } else if (value instanceof Vector2) {
+            particlesData[offset + 0] = ((Vector2) value).x;
+            particlesData[offset + 1] = ((Vector2) value).y;
+        } else if (value instanceof Vector3) {
+            particlesData[offset + 0] = ((Vector3) value).x;
+            particlesData[offset + 1] = ((Vector3) value).y;
+            particlesData[offset + 2] = ((Vector3) value).z;
+        } else if (value instanceof Color) {
+            particlesData[offset + 0] = ((Color) value).r;
+            particlesData[offset + 1] = ((Color) value).g;
+            particlesData[offset + 2] = ((Color) value).b;
+            particlesData[offset + 3] = ((Color) value).a;
+        }
     }
 
     public void applyPendingChanges() {
@@ -161,25 +200,12 @@ public class ParticlesDataContainer implements Disposable {
         for (int i = 0; i < numberOfParticles; i++) {
             int particleDataIndex = getVertexIndex(i, 0);
             if (currentTime < particlesData[particleDataIndex + 5]) {
-                tempUpdateInfo.location.set(particlesData[particleDataIndex + 0], particlesData[particleDataIndex + 1], particlesData[particleDataIndex + 2]);
-                tempUpdateInfo.seed = particlesData[particleDataIndex + 3];
                 if (accessToData && particleDataStorage != null)
                     tempUpdateInfo.particleData = particleDataStorage[i];
                 particleUpdater.updateParticle(tempUpdateInfo);
 
                 if (accessToData && particleDataStorage != null)
                     particleDataStorage[i] = tempGenerateInfo.particleData;
-
-                for (int vertex = 0; vertex < 4; vertex++) {
-                    int vertexIndex = getVertexIndex(i, vertex);
-                    if (positionOffset > -1) {
-                        particlesData[vertexIndex + positionOffset + 0] = tempUpdateInfo.location.x;
-                        particlesData[vertexIndex + positionOffset + 1] = tempUpdateInfo.location.x;
-                        particlesData[vertexIndex + positionOffset + 2] = tempUpdateInfo.location.x;
-                    }
-                    if (seedOffset > -1)
-                        particlesData[vertexIndex + seedOffset] = tempUpdateInfo.seed;
-                }
 
                 firstDirtyParticle = Math.min(firstDirtyParticle, i);
                 lastDirtyParticle = Math.max(lastDirtyParticle, i);

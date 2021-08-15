@@ -12,6 +12,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
+import com.gempukku.libgdx.graph.ui.part.SeparatorBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 
 public class EndSpriteShaderBoxProducer extends GraphBoxProducerImpl {
@@ -38,13 +39,23 @@ public class EndSpriteShaderBoxProducer extends GraphBoxProducerImpl {
             }
         };
 
+        SelectBoxPart positionType = new SelectBoxPart("Position", "positionType",
+                "World space", "Screen space");
+        positionType.initialize(data);
+        result.addGraphBoxPart(positionType);
+
         addConfigurationInputsAndOutputs(result);
+
+        result.addGraphBoxPart(new SeparatorBoxPart());
+
         SelectBoxPart blendingBox = new SelectBoxPart("Blending", "blending", BasicShader.Blending.values());
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);
         SelectBoxPart depthTestBox = new SelectBoxPart("DepthTest", "depthTest", BasicShader.DepthTesting.values());
         depthTestBox.initialize(data);
         result.addGraphBoxPart(depthTestBox);
+
+        result.addGraphBoxPart(new SeparatorBoxPart());
 
         result.addGraphBoxPart(previewBoxPart);
         return result;

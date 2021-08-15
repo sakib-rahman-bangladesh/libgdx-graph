@@ -5,8 +5,6 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.plugin.particles.particle.EndBillboardParticlesShaderNodeBuilder;
 import com.gempukku.libgdx.graph.plugin.particles.particle.ParticleLifePercentageShaderNodeBuilder;
 import com.gempukku.libgdx.graph.plugin.particles.particle.ParticleLifetimeShaderNodeBuilder;
-import com.gempukku.libgdx.graph.plugin.particles.particle.ParticleLocationShaderNodeBuilder;
-import com.gempukku.libgdx.graph.plugin.particles.particle.ParticleRandomShaderNodeBuilder;
 import com.gempukku.libgdx.graph.plugin.particles.particle.ParticleUVShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
@@ -21,9 +19,7 @@ public class ParticlesShaderConfiguration implements GraphConfiguration {
         addGraphShaderNodeBuilder(new EndBillboardParticlesShaderNodeBuilder());
 
         // Particle
-        addGraphShaderNodeBuilder(new ParticleLocationShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ParticleUVShaderNodeBuilder());
-        addGraphShaderNodeBuilder(new ParticleRandomShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ParticleLifetimeShaderNodeBuilder());
         addGraphShaderNodeBuilder(new ParticleLifePercentageShaderNodeBuilder());
     }

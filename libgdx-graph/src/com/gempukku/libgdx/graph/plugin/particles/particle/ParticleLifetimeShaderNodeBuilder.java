@@ -22,7 +22,7 @@ public class ParticleLifetimeShaderNodeBuilder extends ConfigurationShaderNodeBu
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildVertexNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, "a_birthTime"), "a_birthTime", "float");
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, "a_birthTime"), "float");
         vertexShaderBuilder.addUniformVariable("u_time", "float", true, UniformSetters.time);
 
         String name = "result_" + nodeId;
@@ -34,16 +34,11 @@ public class ParticleLifetimeShaderNodeBuilder extends ConfigurationShaderNodeBu
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildFragmentNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, "a_birthTime"), "a_birthTime", "float");
+        VertexAttribute attribute = new VertexAttribute(1024, 1, "a_birthTime");
         vertexShaderBuilder.addUniformVariable("u_time", "float", true, UniformSetters.time);
+        copyAttributeToFragmentShader(attribute, "v_lifetime", "u_time - a_birthTime",
+                vertexShaderBuilder, fragmentShaderBuilder);
 
-        if (!vertexShaderBuilder.hasVaryingVariable("v_lifetime")) {
-            vertexShaderBuilder.addMainLine("// Particle Lifetime Node");
-            vertexShaderBuilder.addVaryingVariable("v_lifetime", "float");
-            vertexShaderBuilder.addMainLine("v_lifetime = u_time - a_birthTime;");
-
-            fragmentShaderBuilder.addVaryingVariable("v_lifetime", "float");
-        }
         return LibGDXCollections.singletonMap("time", new DefaultFieldOutput(ShaderFieldType.Float, "v_lifetime"));
     }
 }

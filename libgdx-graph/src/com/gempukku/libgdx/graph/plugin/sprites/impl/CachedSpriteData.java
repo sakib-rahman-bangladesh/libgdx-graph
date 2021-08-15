@@ -126,8 +126,7 @@ public class CachedSpriteData implements SpriteData {
 
                     ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
                     Object value = sprite.getPropertyContainer().getValue(propertyName);
-                    if (!shaderFieldType.accepts(value))
-                        value = propertySource.getDefaultValue();
+                    value = propertySource.getValueToUse(value);
 
                     floatIndex += shaderFieldType.setValueInAttributesArray(vertexData, vertexOffset + floatIndex, value);
                 }

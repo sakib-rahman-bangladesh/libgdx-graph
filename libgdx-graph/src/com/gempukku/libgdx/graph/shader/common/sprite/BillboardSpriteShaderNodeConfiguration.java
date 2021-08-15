@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.plugin.sprites.config;
+package com.gempukku.libgdx.graph.shader.common.sprite;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
@@ -9,7 +9,9 @@ public class BillboardSpriteShaderNodeConfiguration extends NodeConfigurationImp
     public BillboardSpriteShaderNodeConfiguration() {
         super("BillboardSprite", "Billboard Sprite", "Sprite");
         addNodeInput(
-                new GraphNodeInputImpl("position", "Position", false, false, ShaderFieldType.Vector3));
+                new GraphNodeInputImpl("position", "Position", true, false, ShaderFieldType.Vector3));
+        addNodeInput(
+                new GraphNodeInputImpl("uv", "UV", true, false, ShaderFieldType.Vector2));
         addNodeInput(
                 new GraphNodeInputImpl("anchor", "Anchor", false, false, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(

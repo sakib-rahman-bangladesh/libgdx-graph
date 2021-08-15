@@ -1,5 +1,7 @@
 package com.gempukku.libgdx.graph.ui.shader;
 
+import com.gempukku.libgdx.graph.shader.common.sprite.BillboardSpriteShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.shader.common.sprite.ScreenSpriteShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.effect.FresnelEffectShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.effect.IntensityShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.config.common.math.arithmetic.AddShaderNodeConfiguration;
@@ -112,6 +114,10 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration {
         graphBoxProducers.put(menuLocation + "/" + producer.getName(), producer);
     }
 
+    public static void registerPropertyType(PropertyBoxProducer propertyBoxProducer) {
+        propertyProducers.put(propertyBoxProducer.getType(), propertyBoxProducer);
+    }
+
     static {
         register(new PropertyShaderGraphBoxProducer());
 
@@ -202,18 +208,21 @@ public class UICommonShaderConfiguration implements UIGraphConfiguration {
         register(new GraphBoxProducerImpl(new PixelSizeShaderNodeConfiguration()));
         register(new GraphBoxProducerImpl(new ViewportSizeShaderNodeConfiguration()));
 
+        register(new GraphBoxProducerImpl(new BillboardSpriteShaderNodeConfiguration()));
+        register(new GraphBoxProducerImpl(new ScreenSpriteShaderNodeConfiguration()));
+
         register(new ValueColorBoxProducer(new ValueColorShaderNodeConfiguration()));
         register(new ValueFloatBoxProducer(new ValueFloatShaderNodeConfiguration()));
         register(new ValueVector2BoxProducer(new ValueVector2ShaderNodeConfiguration()));
         register(new ValueVector3BoxProducer(new ValueVector3ShaderNodeConfiguration()));
         register(new ValueBooleanBoxProducer(new ValueBooleanShaderNodeConfiguration()));
 
-        propertyProducers.put("Float", new PropertyFloatBoxProducer());
-        propertyProducers.put("Vector2", new PropertyVector2BoxProducer());
-        propertyProducers.put("Vector3", new PropertyVector3BoxProducer());
-        propertyProducers.put("Color", new PropertyColorBoxProducer());
-        propertyProducers.put("Matrix4", new PropertyMatrix4BoxProducer());
-        propertyProducers.put("Texture", new PropertyTextureBoxProducer());
+        registerPropertyType(new PropertyFloatBoxProducer());
+        registerPropertyType(new PropertyVector2BoxProducer());
+        registerPropertyType(new PropertyVector3BoxProducer());
+        registerPropertyType(new PropertyColorBoxProducer());
+        registerPropertyType(new PropertyMatrix4BoxProducer());
+        registerPropertyType(new PropertyTextureBoxProducer());
     }
 
     @Override

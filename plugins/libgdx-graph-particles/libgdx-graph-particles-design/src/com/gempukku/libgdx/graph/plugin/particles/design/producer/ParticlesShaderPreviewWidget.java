@@ -31,11 +31,8 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Point3DLight;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffectImpl;
 import com.gempukku.libgdx.graph.plugin.particles.ParticleEffectConfiguration;
 import com.gempukku.libgdx.graph.plugin.particles.ParticlesGraphShader;
-import com.gempukku.libgdx.graph.plugin.particles.generator.LineParticleGenerator;
+import com.gempukku.libgdx.graph.plugin.particles.generator.AbstractParticleGenerator;
 import com.gempukku.libgdx.graph.plugin.particles.generator.ParticleGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.generator.PointParticleGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.generator.SphereParticleGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.generator.SphereSurfaceParticleGenerator;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
@@ -198,30 +195,36 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     }
 
     private void createModel(VertexAttributes vertexAttributes) {
-        particleEffect = new GraphParticleEffectImpl("tag", new ParticleEffectConfiguration(
-                vertexAttributes, graphShader.getMaxNumberOfParticles(), graphShader.getInitialParticles(), 1f / graphShader.getPerSecondParticles()),
+        particleEffect = new GraphParticleEffectImpl("tag", new ParticleEffectConfiguration(vertexAttributes, graphShader.getAdditionalAttributes(),
+                graphShader.getMaxNumberOfParticles(), graphShader.getInitialParticles(), 1f / graphShader.getPerSecondParticles()),
                 createGenerator(), false);
         if (running)
             particleEffect.start();
     }
 
     private ParticleGenerator createGenerator() {
-        switch (model) {
-            case Point:
-                return new PointParticleGenerator(lifetime);
-            case Sphere:
-                return new SphereParticleGenerator(lifetime);
-            case SphereSurface:
-                return new SphereSurfaceParticleGenerator(lifetime);
-            case Line: {
-                LineParticleGenerator particleGenerator = new LineParticleGenerator(lifetime);
-                particleGenerator.getPoint1().set(0, 0, -1f);
-                particleGenerator.getPoint2().set(0, 0, 1f);
-                return particleGenerator;
-            }
+        return new AbstractParticleGenerator(lifetime) {
+            @Override
+            protected void generateAttributes(ParticleGenerateInfo particle) {
 
-        }
-        return null;
+            }
+        };
+//        switch (model) {
+//            case Point:
+//                return new PointParticleGenerator(lifetime);
+//            case Sphere:
+//                return new SpherePositionGenerator(lifetime);
+//            case SphereSurface:
+//                return new SphereSurfacePositionGenerator(lifetime);
+//            case Line: {
+//                LinePositionGenerator particleGenerator = new LinePositionGenerator(lifetime);
+//                particleGenerator.getPoint1().set(0, 0, -1f);
+//                particleGenerator.getPoint2().set(0, 0, 1f);
+//                return particleGenerator;
+//            }
+//
+//        }
+//        return null;
     }
 
     private void destroyShader() {

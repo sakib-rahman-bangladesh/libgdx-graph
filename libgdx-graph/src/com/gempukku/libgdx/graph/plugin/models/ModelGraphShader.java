@@ -22,15 +22,17 @@ public class ModelGraphShader extends GraphShader {
     public void render(ModelShaderContextImpl shaderContext, IGraphModelInstance graphModelInstance) {
         shaderContext.setPropertyContainer(graphModelInstance.getPropertyContainer());
         for (ModelDataProducer modelDataProducer : graphModelInstance.getModelInstanceData()) {
-            modelDataProducer.fillData(modelInstanceData);
-            shaderContext.setModelInstanceData(modelInstanceData);
-            for (Uniform uniform : localUniforms.values()) {
-                uniform.getSetter().set(this, uniform.getLocation(), shaderContext);
+            if (modelDataProducer.isEnabled()) {
+                modelDataProducer.fillData(modelInstanceData);
+                shaderContext.setModelInstanceData(modelInstanceData);
+                for (Uniform uniform : localUniforms.values()) {
+                    uniform.getSetter().set(this, uniform.getLocation(), shaderContext);
+                }
+                for (StructArrayUniform uniform : localStructArrayUniforms.values()) {
+                    uniform.getSetter().set(this, uniform.getStartIndex(), uniform.getFieldOffsets(), uniform.getSize(), shaderContext);
+                }
+                modelInstanceData.render(program, getAttributeLocations(modelInstanceData.getVertexAttributes()));
             }
-            for (StructArrayUniform uniform : localStructArrayUniforms.values()) {
-                uniform.getSetter().set(this, uniform.getStartIndex(), uniform.getFieldOffsets(), uniform.getSize(), shaderContext);
-            }
-            modelInstanceData.render(program, getAttributeLocations(modelInstanceData.getVertexAttributes()));
         }
     }
 

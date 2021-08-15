@@ -1,12 +1,11 @@
 package com.gempukku.libgdx.graph.plugin.models.material;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.plugin.models.ModelsUniformSetters;
-import com.gempukku.libgdx.graph.plugin.models.config.material.ColorAttributeShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.plugin.models.config.material.FloatMaterialShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
 import com.gempukku.libgdx.graph.shader.builder.CommonShaderBuilder;
@@ -15,11 +14,11 @@ import com.gempukku.libgdx.graph.shader.node.ConfigurationCommonShaderNodeBuilde
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.util.LibGDXCollections;
 
-public class ColorAttributeShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
+public class FloatMaterialShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
     private String alias;
 
-    public ColorAttributeShaderNodeBuilder(String type, String name, String alias) {
-        super(new ColorAttributeShaderNodeConfiguration(type, name));
+    public FloatMaterialShaderNodeBuilder(String type, String name, String alias) {
+        super(new FloatMaterialShaderNodeConfiguration(type, name));
         this.alias = alias;
     }
 
@@ -28,14 +27,14 @@ public class ColorAttributeShaderNodeBuilder extends ConfigurationCommonShaderNo
                                                                        CommonShaderBuilder commonShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
         String name = "u_" + alias;
 
-        Color defaultColor = Color.valueOf(data.getString("default"));
+        float defaultValue = data.getFloat("default");
 
-        // Need to make sure ColorAttribute class is loaded
-        ColorAttribute dummy = ColorAttribute.createAmbient(0, 0, 0, 0);
+        // Need to make sure FloatAttribute class is loaded
+        FloatAttribute dummy = FloatAttribute.createAlphaTest(0f);
 
-        long attributeType = ColorAttribute.getAttributeType(alias);
-        commonShaderBuilder.addUniformVariable(name, "vec4", false, new ModelsUniformSetters.MaterialColor(attributeType, defaultColor));
+        long attributeType = FloatAttribute.getAttributeType(alias);
+        commonShaderBuilder.addUniformVariable(name, "float", false, new ModelsUniformSetters.MaterialFloat(attributeType, defaultValue));
 
-        return LibGDXCollections.singletonMap("color", new DefaultFieldOutput(ShaderFieldType.Vector4, name));
+        return LibGDXCollections.singletonMap("value", new DefaultFieldOutput(ShaderFieldType.Float, name));
     }
 }

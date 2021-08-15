@@ -4,10 +4,10 @@ import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class ColorAttributeShaderNodeConfiguration extends NodeConfigurationImpl {
-    public ColorAttributeShaderNodeConfiguration(String type, String name) {
+public class TextureMaterialShaderNodeConfiguration extends NodeConfigurationImpl {
+    public TextureMaterialShaderNodeConfiguration(String type, String name) {
         super(type, name, "Material");
         addNodeOutput(
-                new GraphNodeOutputImpl("color", "Color", ShaderFieldType.Vector4));
+                new GraphNodeOutputImpl("texture", "Texture", ShaderFieldType.TextureRegion));
     }
 }

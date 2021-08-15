@@ -27,7 +27,10 @@ public class PropertySource {
         return shaderFieldType;
     }
 
-    public Object getDefaultValue() {
-        return defaultValue;
+    public Object getValueToUse(Object givenValue) {
+        if (!shaderFieldType.accepts(givenValue))
+            return defaultValue;
+        else
+            return shaderFieldType.convert(givenValue);
     }
 }

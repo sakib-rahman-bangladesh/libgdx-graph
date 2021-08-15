@@ -1,12 +1,12 @@
-package com.gempukku.libgdx.graph.plugin.particles.config;
+package com.gempukku.libgdx.graph.plugin.models.config.material;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
-public class ParticleRandomShaderNodeConfiguration extends NodeConfigurationImpl {
-    public ParticleRandomShaderNodeConfiguration() {
-        super("ParticleRandom", "Particle random", "Particle");
+public class FloatMaterialShaderNodeConfiguration extends NodeConfigurationImpl {
+    public FloatMaterialShaderNodeConfiguration(String type, String name) {
+        super(type, name, "Material");
         addNodeOutput(
                 new GraphNodeOutputImpl("value", "Value", ShaderFieldType.Float));
     }

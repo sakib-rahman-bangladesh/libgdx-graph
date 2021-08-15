@@ -57,8 +57,7 @@ public class Vector2FieldType implements ShaderFieldType, PipelineFieldType {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                         Object value = shaderContext.getProperty(propertySource.getPropertyName());
-                        if (!accepts(value))
-                            value = propertySource.getDefaultValue();
+                        value = propertySource.getValueToUse(value);
                         shader.setUniform(location, (Vector2) value);
                     }
                 });
@@ -69,7 +68,7 @@ public class Vector2FieldType implements ShaderFieldType, PipelineFieldType {
     public GraphShaderNodeBuilder.FieldOutput addAsVertexAttribute(VertexShaderBuilder vertexShaderBuilder, JsonValue data, PropertySource propertySource) {
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
 
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 2, attributeName), attributeName, getShaderType());
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 2, attributeName), getShaderType());
 
         return new DefaultFieldOutput(getName(), attributeName);
     }
@@ -79,7 +78,7 @@ public class Vector2FieldType implements ShaderFieldType, PipelineFieldType {
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
         String variableName = "v_property_" + propertySource.getPropertyIndex();
 
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 2, attributeName), attributeName, getShaderType());
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 2, attributeName), getShaderType());
         if (!vertexShaderBuilder.hasVaryingVariable(variableName)) {
             vertexShaderBuilder.addVaryingVariable(variableName, getShaderType());
             vertexShaderBuilder.addMainLine(variableName + " = " + attributeName + ";");

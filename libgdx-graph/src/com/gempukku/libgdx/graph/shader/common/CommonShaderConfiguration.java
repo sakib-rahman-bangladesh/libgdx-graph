@@ -74,6 +74,8 @@ import com.gempukku.libgdx.graph.shader.common.shape.DotShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.shape.EllipseShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.shape.RectangleShapeShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.shape.StarShapeShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.common.sprite.BillboardSpriteShaderNodeBuilder;
+import com.gempukku.libgdx.graph.shader.common.sprite.ScreenSpriteShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.texture.BorderDetectionShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.texture.Sampler2DShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.common.texture.UVFlipbookShaderNodeBuilder;
@@ -207,6 +209,10 @@ public class CommonShaderConfiguration implements GraphConfiguration {
         register(new ScreenPositionShaderNodeBuilder());
         register(new PixelSizeShaderNodeBuilder());
         register(new ViewportSizeShaderNodeBuilder());
+
+        // Sprite
+        register(new BillboardSpriteShaderNodeBuilder());
+        register(new ScreenSpriteShaderNodeBuilder());
 
         // Values
         register(new ValueBooleanShaderNodeBuilder());

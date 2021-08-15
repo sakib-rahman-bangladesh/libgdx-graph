@@ -61,8 +61,7 @@ public class Matrix4FieldType implements ShaderFieldType, PipelineFieldType {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                         Object value = shaderContext.getProperty(propertySource.getPropertyName());
-                        if (!accepts(value))
-                            value = propertySource.getDefaultValue();
+                        value = propertySource.getValueToUse(value);
                         shader.setUniform(location, (Matrix4) value);
                     }
                 });
@@ -73,7 +72,7 @@ public class Matrix4FieldType implements ShaderFieldType, PipelineFieldType {
     public GraphShaderNodeBuilder.FieldOutput addAsVertexAttribute(VertexShaderBuilder vertexShaderBuilder, JsonValue data, final PropertySource propertySource) {
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
 
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 16, attributeName), attributeName, getShaderType());
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 16, attributeName), getShaderType());
 
         return new DefaultFieldOutput(getName(), attributeName);
     }
@@ -83,7 +82,7 @@ public class Matrix4FieldType implements ShaderFieldType, PipelineFieldType {
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
         String variableName = "v_property_" + propertySource.getPropertyIndex();
 
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 16, attributeName), attributeName, getShaderType());
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 16, attributeName), getShaderType());
         if (!vertexShaderBuilder.hasVaryingVariable(variableName)) {
             vertexShaderBuilder.addVaryingVariable(variableName, getShaderType());
             vertexShaderBuilder.addMainLine(variableName + " = " + attributeName + ";");

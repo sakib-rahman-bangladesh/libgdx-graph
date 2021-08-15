@@ -19,7 +19,7 @@ public class GraphLoader {
     public static <T> T loadGraph(InputStream inputStream, GraphLoaderCallback<T> graphLoaderCallback) throws IOException {
         try {
             JsonReader parser = new JsonReader();
-            JsonValue graph = (JsonValue) parser.parse(new InputStreamReader(inputStream));
+            JsonValue graph = parser.parse(new InputStreamReader(inputStream));
             return loadGraph(graph, graphLoaderCallback);
         } catch (Exception exp) {
             throw new IOException("Unable to parse graph", exp);

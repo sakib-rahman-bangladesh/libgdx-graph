@@ -15,7 +15,8 @@ public class VertexShaderBuilder extends CommonShaderBuilder {
         super(uniformRegistry);
     }
 
-    public void addAttributeVariable(VertexAttribute vertexAttribute, String name, String type) {
+    public void addAttributeVariable(VertexAttribute vertexAttribute, String type) {
+        String name = vertexAttribute.alias;
         String existingType = attributeVariables.get(name);
         if (existingType != null && !existingType.equals(type))
             throw new IllegalStateException("Already contains vertex attribute of that name with different type");

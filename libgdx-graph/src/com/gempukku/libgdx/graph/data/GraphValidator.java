@@ -77,7 +77,13 @@ public class GraphValidator<T extends GraphNode, U extends GraphConnection, V ex
     }
 
     private Iterable<String> getInputFields(Graph<T, U, V> graph, String nodeId) {
-        return new ObjectMap.Keys<>(graph.getNodeById(nodeId).getConfiguration().getNodeInputs());
+        T nodeById = graph.getNodeById(nodeId);
+        if (nodeById == null)
+            throw new IllegalArgumentException("Node not found");
+        NodeConfiguration configuration = nodeById.getConfiguration();
+        if (configuration == null)
+            System.out.println("??");
+        return new ObjectMap.Keys<>(configuration.getNodeInputs());
     }
 
     private Iterable<U> getIncomingConnections(Graph<T, U, V> graph, String nodeId) {

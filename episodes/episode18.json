@@ -111,16 +111,6 @@
                   }
                 },
                 {
-                  "id": "315fad323fff4ff0a9c30a6fc2d75c1c",
-                  "type": "ParticleRandom",
-                  "x": 51.0,
-                  "y": 700.0,
-                  "data": {
-                    "min": -0.05000000074505806,
-                    "max": 0.05000000074505806
-                  }
-                },
-                {
                   "id": "65506f6339e4492fa87ca46b5610ffe6",
                   "type": "ParticleUV",
                   "x": 257.0,
@@ -142,16 +132,6 @@
                   }
                 },
                 {
-                  "id": "d41b58d10b6d4196b0908d674edb6f55",
-                  "type": "ParticleRandom",
-                  "x": 51.0,
-                  "y": 809.0,
-                  "data": {
-                    "min": -0.10000000149011612,
-                    "max": 0.10000000149011612
-                  }
-                },
-                {
                   "id": "7d3e4b0612ae448a848551e1a02d6481",
                   "type": "Multiply",
                   "x": 454.0,
@@ -162,12 +142,6 @@
                   "type": "Merge",
                   "x": 249.0,
                   "y": 641.0
-                },
-                {
-                  "id": "85f7cc5bd4ab4cb9be65db801d053153",
-                  "type": "ParticleLocation",
-                  "x": 455.0,
-                  "y": 687.0
                 },
                 {
                   "id": "16d36a7bdf51433ba26679639a2c77ef",
@@ -282,12 +256,6 @@
                   "toField": "inputs"
                 },
                 {
-                  "fromNode": "85f7cc5bd4ab4cb9be65db801d053153",
-                  "fromField": "position",
-                  "toNode": "2d6592b5b56e40bdbec1154449f8d11f",
-                  "toField": "inputs"
-                },
-                {
                   "fromNode": "7d3e4b0612ae448a848551e1a02d6481",
                   "fromField": "output",
                   "toNode": "2d6592b5b56e40bdbec1154449f8d11f",
@@ -372,18 +340,6 @@
                   "toField": "inputs"
                 },
                 {
-                  "fromNode": "d41b58d10b6d4196b0908d674edb6f55",
-                  "fromField": "value",
-                  "toNode": "952708382d0c4193ab2d06b70c422daf",
-                  "toField": "x"
-                },
-                {
-                  "fromNode": "315fad323fff4ff0a9c30a6fc2d75c1c",
-                  "fromField": "value",
-                  "toNode": "952708382d0c4193ab2d06b70c422daf",
-                  "toField": "y"
-                },
-                {
                   "fromNode": "95c089c69bd540da894838ac08ae1603",
                   "fromField": "value",
                   "toNode": "952708382d0c4193ab2d06b70c422daf",
@@ -414,9 +370,7 @@
                   "name": "Movement over time",
                   "nodes": [
                     "95c089c69bd540da894838ac08ae1603",
-                    "952708382d0c4193ab2d06b70c422daf",
-                    "315fad323fff4ff0a9c30a6fc2d75c1c",
-                    "d41b58d10b6d4196b0908d674edb6f55"
+                    "952708382d0c4193ab2d06b70c422daf"
                   ]
                 }
               ]

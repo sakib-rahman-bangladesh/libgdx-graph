@@ -28,6 +28,7 @@ import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyAsAttributeShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyAsUniformShaderConfiguration;
+import com.gempukku.libgdx.graph.shader.common.attribute.AttributeShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
@@ -36,10 +37,14 @@ import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
 public class GraphShaderBuilder {
-    private static GraphConfiguration[] modelConfigurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new ModelShaderConfiguration()};
-    private static GraphConfiguration[] screenConfigurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new ScreenShaderConfiguration()};
-    private static GraphConfiguration[] particleConfigurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new ParticlesShaderConfiguration()};
-    private static GraphConfiguration[] spriteConfigurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyAsAttributeShaderConfiguration(), new SpriteShaderConfiguration()};
+    private static GraphConfiguration[] modelConfigurations = new GraphConfiguration[]{
+            new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new ModelShaderConfiguration()};
+    private static GraphConfiguration[] screenConfigurations = new GraphConfiguration[]{
+            new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new ScreenShaderConfiguration()};
+    private static GraphConfiguration[] particleConfigurations = new GraphConfiguration[]{
+            new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new AttributeShaderConfiguration(), new ParticlesShaderConfiguration()};
+    private static GraphConfiguration[] spriteConfigurations = new GraphConfiguration[]{
+            new CommonShaderConfiguration(), new PropertyAsAttributeShaderConfiguration(), new SpriteShaderConfiguration()};
 
     public static SpriteGraphShader buildSpriteShader(Texture defaultTexture, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph,
                                                       boolean designTime) {
@@ -68,7 +73,6 @@ public class GraphShaderBuilder {
 
     public static ParticlesGraphShader buildParticlesShader(Texture defaultTexture, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph,
                                                             boolean designTime) {
-
         ParticlesGraphShader graphShader = new ParticlesGraphShader(defaultTexture);
 
         GraphNode endNode = graph.getNodeById("end");
@@ -294,6 +298,7 @@ public class GraphShaderBuilder {
     private static void buildParticlesFragmentShader(Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         // Fragment part
         if (!vertexShaderBuilder.hasVaryingVariable("v_deathTime")) {
+            vertexShaderBuilder.addAttributeVariable(new VertexAttribute(2048, 1, "a_deathTime"), "float");
             vertexShaderBuilder.addVaryingVariable("v_deathTime", "float");
             vertexShaderBuilder.addMainLine("v_deathTime = a_deathTime;");
 
@@ -400,7 +405,7 @@ public class GraphShaderBuilder {
         int boneWeightCount = maxBoneWeightCount;
         vertexShaderBuilder.addArrayUniformVariable("u_bones", boneCount, "mat4", false, new ModelsUniformSetters.Bones(boneCount));
         for (int i = 0; i < boneWeightCount; i++) {
-            vertexShaderBuilder.addAttributeVariable(VertexAttribute.BoneWeight(i), "a_boneWeight" + i, "vec2");
+            vertexShaderBuilder.addAttributeVariable(VertexAttribute.BoneWeight(i), "vec2");
         }
         StringBuilder getSkinning = new StringBuilder();
         getSkinning.append("mat4 getSkinning() {\n");
@@ -419,7 +424,7 @@ public class GraphShaderBuilder {
         GraphShaderNodeBuilder.FieldOutput worldPositionField = getOutput(findInputVertices(graph, "end", "position"),
                 designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, modelConfigurations);
         if (worldPositionField == null) {
-            vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), ShaderProgram.POSITION_ATTRIBUTE, "vec3");
+            vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), "vec3");
 
             vertexShaderBuilder.addMainLine("// Attribute Position Node");
             vertexShaderBuilder.addUniformVariable("u_worldTrans", "mat4", false, ModelsUniformSetters.worldTrans);
@@ -450,64 +455,31 @@ public class GraphShaderBuilder {
         GraphShaderNodeBuilder.FieldOutput positionField = getOutput(findInputVertices(graph, "end", "position"),
                 designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, spriteConfigurations);
         vertexShaderBuilder.addMainLine("// End Graph Node");
-        vertexShaderBuilder.addMainLine("gl_Position = u_projViewTrans * vec4(" + positionField.getRepresentation() + ", 1.0);");
+
+        String positionType = graph.getNodeById("end").getData().getString("positionType", "World space");
+        if (positionType.equals("World space")) {
+            vertexShaderBuilder.addUniformVariable("u_projViewTrans", "mat4", true, UniformSetters.projViewTrans);
+            vertexShaderBuilder.addMainLine("gl_Position = u_projViewTrans * vec4(" + positionField.getRepresentation() + ", 1.0);");
+        } else if (positionType.equals("Screen space")) {
+            vertexShaderBuilder.addUniformVariable("u_viewportSize", "vec2", true, UniformSetters.viewportSize);
+            vertexShaderBuilder.addMainLine("gl_Position = vec4((2.0 * " + positionField.getRepresentation() + " / vec3(u_viewportSize, 1.0)) - vec3(1.0, 1.0, 0.0), 1.0);");
+        }
     }
 
     private static void buildParticlesVertexShader(Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
-        // Vertex part
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 1, "a_seed"), "a_seed", "float");
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, "a_birthTime"), "a_birthTime", "float");
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(2048, 1, "a_deathTime"), "a_deathTime", "float");
-        vertexShaderBuilder.addAttributeVariable(VertexAttribute.TexCoords(0), ShaderProgram.TEXCOORD_ATTRIBUTE + 0, "vec2");
+        vertexShaderBuilder.addUniformVariable("u_projViewTrans", "mat4", true, UniformSetters.projViewTrans);
 
+        // Vertex part
         ObjectMap<String, ObjectMap<String, GraphShaderNodeBuilder.FieldOutput>> vertexNodeOutputs = new ObjectMap<>();
         GraphShaderNodeBuilder.FieldOutput positionField = getOutput(findInputVertices(graph, "end", "position"),
                 designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, particleConfigurations);
-        GraphShaderNodeBuilder.FieldOutput sizeField = getOutput(findInputVertices(graph, "end", "size"),
-                designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, particleConfigurations);
-        GraphShaderNodeBuilder.FieldOutput rotationField = getOutput(findInputVertices(graph, "end", "rotation"),
-                designTime, false, graph, graphShader, graphShader, vertexNodeOutputs, vertexShaderBuilder, fragmentShaderBuilder, particleConfigurations);
-        if (positionField == null) {
-            vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), ShaderProgram.POSITION_ATTRIBUTE, "vec3");
-
-            vertexShaderBuilder.addMainLine("// Attribute Position Node");
-            String name = "result_defaultPositionAttribute";
-            vertexShaderBuilder.addMainLine("vec3 " + name + " = a_position;");
-
-            positionField = new DefaultFieldOutput(ShaderFieldType.Vector3, name);
-        }
-        if (sizeField == null) {
-            sizeField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(0.1)");
-        } else if (sizeField.getFieldType().getName().equals(ShaderFieldType.Float)) {
-            sizeField = new DefaultFieldOutput(ShaderFieldType.Vector2, "vec2(" + sizeField.getRepresentation() + ")");
-        }
-        vertexShaderBuilder.addUniformVariable("u_cameraUp", "vec3", true, UniformSetters.cameraUp);
-        vertexShaderBuilder.addUniformVariable("u_cameraDirection", "vec3", true, UniformSetters.cameraDirection);
-        String billboardPosition = "result_billboardPositionAttribute";
-        vertexShaderBuilder.addMainLine("vec3 result_cameraRight = cross(u_cameraDirection, u_cameraUp);");
-        String size = sizeField.getRepresentation();
-        vertexShaderBuilder.addMainLine("float result_xAdjust = " + size + ".x * (a_texCoord0.x - 0.5);");
-        vertexShaderBuilder.addMainLine("float result_yAdjust = " + size + ".y * (a_texCoord0.y - 0.5);");
-        if (rotationField != null) {
-            String rotation = rotationField.getRepresentation();
-            vertexShaderBuilder.addMainLine("float result_rotatedX = result_xAdjust * cos(" + rotation + ") - result_yAdjust * sin(" + rotation + ");");
-            vertexShaderBuilder.addMainLine("float result_rotatedY = result_xAdjust * sin(" + rotation + ") + result_yAdjust * cos(" + rotation + ");");
-        } else {
-            vertexShaderBuilder.addMainLine("float result_rotatedX = result_xAdjust;");
-            vertexShaderBuilder.addMainLine("float result_rotatedY = result_yAdjust;");
-        }
-        vertexShaderBuilder.addMainLine("vec3 result_rightAdjust = result_rotatedX * normalize(result_cameraRight);");
-        vertexShaderBuilder.addMainLine("vec3 result_downAdjust = result_rotatedY * normalize(-u_cameraUp);");
-        vertexShaderBuilder.addMainLine("vec3 " + billboardPosition + " = " + positionField.getRepresentation() + " + (result_rightAdjust + result_downAdjust);");
-        vertexShaderBuilder.addUniformVariable("u_projViewTrans", "mat4", true, UniformSetters.projViewTrans);
-        String worldPosition = "vec4(" + billboardPosition + ", 1.0)";
         vertexShaderBuilder.addMainLine("// End Graph Node");
-        vertexShaderBuilder.addMainLine("gl_Position = u_projViewTrans * " + worldPosition + ";");
+        vertexShaderBuilder.addMainLine("gl_Position = u_projViewTrans * vec4(" + positionField.getRepresentation() + ", 1.0);");
     }
 
     private static void buildScreenVertexShader(Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph, boolean designTime, GraphShader graphShader, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder) {
         // Vertex part
-        vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), ShaderProgram.POSITION_ATTRIBUTE, "vec3");
+        vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), "vec3");
         vertexShaderBuilder.addMainLine("// End Graph Node");
         vertexShaderBuilder.addMainLine("gl_Position = vec4((a_position.xy * 2.0 - 1.0), 1.0, 1.0);");
     }

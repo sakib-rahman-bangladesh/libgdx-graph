@@ -2,32 +2,10 @@ package com.gempukku.libgdx.graph.plugin.particles.generator;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Predicate;
-import com.gempukku.libgdx.graph.plugin.particles.generator.value.FloatValue;
 
-public class SphereParticleGenerator<T> extends AbstractParticleGenerator<T> {
+public class SpherePositionGenerator {
     private Vector3 center = new Vector3();
     private float radius = 1f;
-
-    public SphereParticleGenerator(float lifeLength) {
-        super(lifeLength);
-    }
-
-    public SphereParticleGenerator(float minLifeLength, float maxLifeLength) {
-        super(minLifeLength, maxLifeLength);
-    }
-
-    public SphereParticleGenerator(FloatValue lifeLength) {
-        super(lifeLength);
-    }
-
-    public SphereParticleGenerator(FloatValue lifeLength, Predicate<Vector3> locationPredicate) {
-        super(lifeLength, locationPredicate);
-    }
-
-    public SphereParticleGenerator(FloatValue lifeLength, Predicate<Vector3> locationPredicate, ParticleDataGenerator<T> particleDataGenerator) {
-        super(lifeLength, locationPredicate, particleDataGenerator);
-    }
 
     public Vector3 getCenter() {
         return center;
@@ -37,8 +15,7 @@ public class SphereParticleGenerator<T> extends AbstractParticleGenerator<T> {
         this.radius = radius;
     }
 
-    @Override
-    protected void generateLocation(Vector3 location) {
+    public Vector3 generateLocation(Vector3 location) {
         // Uniformly distribute the points on sphere using Marsaglia (1972) method from
         // https://mathworld.wolfram.com/SpherePointPicking.html
 
@@ -58,5 +35,6 @@ public class SphereParticleGenerator<T> extends AbstractParticleGenerator<T> {
                 break;
             }
         }
+        return location;
     }
 }

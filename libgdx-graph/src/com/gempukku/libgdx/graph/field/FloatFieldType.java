@@ -18,7 +18,7 @@ import com.gempukku.libgdx.graph.shader.property.PropertySource;
 public class FloatFieldType implements ShaderFieldType, PipelineFieldType {
     @Override
     public boolean accepts(Object value) {
-        return value instanceof Number;
+        return value instanceof Number || value instanceof FloatProvider;
     }
 
     @Override
@@ -28,7 +28,9 @@ public class FloatFieldType implements ShaderFieldType, PipelineFieldType {
 
     @Override
     public Object convert(Object value) {
-        return value;
+        if (value instanceof Number)
+            return ((Number) value).floatValue();
+        return ((FloatProvider) value).get();
     }
 
     @Override
@@ -54,8 +56,7 @@ public class FloatFieldType implements ShaderFieldType, PipelineFieldType {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                         Object value = shaderContext.getProperty(propertySource.getPropertyName());
-                        if (!accepts(value))
-                            value = propertySource.getDefaultValue();
+                        value = propertySource.getValueToUse(value);
                         shader.setUniform(location, ((Number) value).floatValue());
                     }
                 });
@@ -65,8 +66,7 @@ public class FloatFieldType implements ShaderFieldType, PipelineFieldType {
     @Override
     public GraphShaderNodeBuilder.FieldOutput addAsVertexAttribute(VertexShaderBuilder vertexShaderBuilder, JsonValue data, PropertySource propertySource) {
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
-
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, attributeName), attributeName, getShaderType());
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, attributeName), getShaderType());
 
         return new DefaultFieldOutput(getName(), attributeName);
     }
@@ -76,7 +76,7 @@ public class FloatFieldType implements ShaderFieldType, PipelineFieldType {
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
         String variableName = "v_property_" + propertySource.getPropertyIndex();
 
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, attributeName), attributeName, getShaderType());
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, attributeName), getShaderType());
         if (!vertexShaderBuilder.hasVaryingVariable(variableName)) {
             vertexShaderBuilder.addVaryingVariable(variableName, getShaderType());
             vertexShaderBuilder.addMainLine(variableName + " = " + attributeName + ";");

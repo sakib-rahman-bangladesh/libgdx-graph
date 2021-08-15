@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
-import com.gempukku.libgdx.graph.plugin.models.config.material.TextureAttributeShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.plugin.models.config.material.TextureMaterialShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
@@ -26,9 +26,9 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
 import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
 
-public class TextureAttributeBoxProducer extends GraphBoxProducerImpl {
-    public TextureAttributeBoxProducer(String type, String name) {
-        super(new TextureAttributeShaderNodeConfiguration(type, name));
+public class TextureMaterialBoxProducer extends GraphBoxProducerImpl {
+    public TextureMaterialBoxProducer(String type, String name) {
+        super(new TextureMaterialShaderNodeConfiguration(type, name));
     }
 
     @Override

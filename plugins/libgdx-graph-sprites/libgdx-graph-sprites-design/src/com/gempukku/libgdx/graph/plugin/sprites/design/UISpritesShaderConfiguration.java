@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.plugin.sprites.design;
 
-import com.gempukku.libgdx.graph.plugin.sprites.config.BillboardSpriteShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.plugin.sprites.config.SpritePositionShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.plugin.sprites.config.SpriteUVShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.plugin.sprites.design.producer.EndSpriteShaderBoxProducer;
@@ -28,7 +27,6 @@ public class UISpritesShaderConfiguration implements UIGraphConfiguration {
 
         register(new GraphBoxProducerImpl(new SpritePositionShaderNodeConfiguration()));
         register(new GraphBoxProducerImpl(new SpriteUVShaderNodeConfiguration()));
-        register(new GraphBoxProducerImpl(new BillboardSpriteShaderNodeConfiguration()));
     }
 
     @Override

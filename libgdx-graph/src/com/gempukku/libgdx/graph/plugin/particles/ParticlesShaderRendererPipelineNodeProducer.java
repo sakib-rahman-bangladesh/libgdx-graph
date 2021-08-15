@@ -18,11 +18,14 @@ import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderCont
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyAsUniformShaderConfiguration;
+import com.gempukku.libgdx.graph.shader.common.attribute.AttributeShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
-    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new ParticlesShaderConfiguration()};
+    private static GraphConfiguration[] configurations = new GraphConfiguration[]{
+            new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(),
+            new AttributeShaderConfiguration(), new ParticlesShaderConfiguration()};
     private PluginPrivateDataSource pluginPrivateDataSource;
 
     public ParticlesShaderRendererPipelineNodeProducer(PluginPrivateDataSource pluginPrivateDataSource) {

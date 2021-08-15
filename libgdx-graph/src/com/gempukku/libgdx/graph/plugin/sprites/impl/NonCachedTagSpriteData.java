@@ -79,8 +79,7 @@ public class NonCachedTagSpriteData implements SpriteData, Disposable {
 
                     ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
                     Object value = sprite.getPropertyContainer().getValue(propertyName);
-                    if (!shaderFieldType.accepts(value))
-                        value = propertySource.getDefaultValue();
+                    value = propertySource.getValueToUse(value);
 
                     floatIndex += shaderFieldType.setValueInAttributesArray(tempVertices, vertexIndex * floatCount + floatIndex, value);
                 }

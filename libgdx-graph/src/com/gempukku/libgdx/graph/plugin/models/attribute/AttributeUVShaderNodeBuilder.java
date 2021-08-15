@@ -29,7 +29,7 @@ public class AttributeUVShaderNodeBuilder extends ConfigurationShaderNodeBuilder
         int unit = channels.indexOf(channel, false);
 
         String attributeName = ShaderProgram.TEXCOORD_ATTRIBUTE + unit;
-        vertexShaderBuilder.addAttributeVariable(VertexAttribute.TexCoords(unit), attributeName, "vec2");
+        vertexShaderBuilder.addAttributeVariable(VertexAttribute.TexCoords(unit), "vec2");
 
         return LibGDXCollections.singletonMap("uv", new DefaultFieldOutput(ShaderFieldType.Vector2, attributeName));
     }
@@ -39,17 +39,9 @@ public class AttributeUVShaderNodeBuilder extends ConfigurationShaderNodeBuilder
         String channel = data.getString("channel");
         int unit = channels.indexOf(channel, false);
 
-        String attributeName = ShaderProgram.TEXCOORD_ATTRIBUTE + unit;
-        vertexShaderBuilder.addAttributeVariable(VertexAttribute.TexCoords(unit), attributeName, "vec2");
-
+        VertexAttribute attribute = VertexAttribute.TexCoords(unit);
         String name = "v_uv_" + unit;
-        if (!vertexShaderBuilder.hasVaryingVariable(name)) {
-            vertexShaderBuilder.addMainLine("// Attribute UV Node");
-            vertexShaderBuilder.addVaryingVariable(name, "vec2");
-            vertexShaderBuilder.addMainLine(name + " = " + attributeName + ";");
-
-            fragmentShaderBuilder.addVaryingVariable(name, "vec2");
-        }
+        copyAttributeToFragmentShader(attribute, name, vertexShaderBuilder, fragmentShaderBuilder);
 
         return LibGDXCollections.singletonMap("uv", new DefaultFieldOutput(ShaderFieldType.Vector2, name));
     }

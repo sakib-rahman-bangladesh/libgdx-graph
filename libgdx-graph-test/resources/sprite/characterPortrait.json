@@ -3,8 +3,8 @@
     {
       "class": "com.gempukku.libgdx.graph.component.PositionComponent",
       "x": 96,
-      "y": -20,
-      "z": -1
+      "y": 120,
+      "z": 0
     },
     {
       "class": "com.gempukku.libgdx.graph.component.SizeComponent",
@@ -14,7 +14,7 @@
     {
       "class": "com.gempukku.libgdx.graph.component.AnchorComponent",
       "x": 0.5,
-      "y": 0.8
+      "y": 0.5
     },
     {
       "class": "com.gempukku.libgdx.graph.component.FacingComponent",

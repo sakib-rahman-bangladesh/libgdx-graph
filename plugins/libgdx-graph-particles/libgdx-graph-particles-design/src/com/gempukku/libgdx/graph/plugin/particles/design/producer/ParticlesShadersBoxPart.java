@@ -16,6 +16,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphRemoved;
 import com.gempukku.libgdx.graph.ui.graph.RequestGraphOpen;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.GraphShaderTemplate;
 import com.gempukku.libgdx.graph.ui.shader.UICommonShaderConfiguration;
+import com.gempukku.libgdx.graph.ui.shader.producer.attribute.UIAttributeShaderConfiguration;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
 import com.kotcrab.vis.ui.widget.MenuItem;
@@ -32,6 +33,7 @@ import java.util.UUID;
 public class ParticlesShadersBoxPart extends VisTable implements GraphBoxPart {
     private static UIGraphConfiguration[] graphConfigurations = new UIGraphConfiguration[]{
             new UIParticlesShaderConfiguration(),
+            new UIAttributeShaderConfiguration(),
             new UICommonShaderConfiguration()
     };
 

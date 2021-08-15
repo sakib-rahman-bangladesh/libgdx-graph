@@ -1,17 +1,12 @@
 package com.gempukku.libgdx.graph.plugin.particles.generator;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Predicate;
 import com.gempukku.libgdx.graph.plugin.particles.generator.value.FloatValue;
 import com.gempukku.libgdx.graph.plugin.particles.generator.value.RangeFloatValue;
 import com.gempukku.libgdx.graph.plugin.particles.generator.value.StaticFloatValue;
 
 public abstract class AbstractParticleGenerator<T> implements ParticleGenerator<T> {
-    private Vector3 temp = new Vector3();
-
     private FloatValue lifeLength;
-    private Predicate<Vector3> locationPredicate;
     private ParticleDataGenerator<T> particleDataGenerator;
 
     public AbstractParticleGenerator(float lifeLength) {
@@ -26,33 +21,19 @@ public abstract class AbstractParticleGenerator<T> implements ParticleGenerator<
         this(lifeLength, null);
     }
 
-    public AbstractParticleGenerator(FloatValue lifeLength, Predicate<Vector3> locationPredicate) {
-        this(lifeLength, locationPredicate, null);
-    }
-
     public AbstractParticleGenerator(FloatValue lifeLength,
-                                     Predicate<Vector3> locationPredicate,
                                      ParticleDataGenerator<T> particleDataGenerator) {
         this.lifeLength = lifeLength;
-        this.locationPredicate = locationPredicate;
         this.particleDataGenerator = particleDataGenerator;
     }
 
     @Override
     public void generateParticle(ParticleGenerateInfo<T> particle) {
-        if (locationPredicate != null) {
-            do {
-                generateLocation(temp);
-            } while (!locationPredicate.evaluate(temp));
-            particle.location.set(temp);
-        } else {
-            generateLocation(particle.location);
-        }
-        particle.seed = MathUtils.random();
         particle.lifeLength = lifeLength.getValue(MathUtils.random());
         if (particleDataGenerator != null)
             particle.particleData = particleDataGenerator.generateData();
+        generateAttributes(particle);
     }
 
-    protected abstract void generateLocation(Vector3 location);
+    protected abstract void generateAttributes(ParticleGenerateInfo<T> particle);
 }

@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.plugin.models.ModelsUniformSetters;
-import com.gempukku.libgdx.graph.plugin.models.config.material.TextureAttributeShaderNodeConfiguration;
+import com.gempukku.libgdx.graph.plugin.models.config.material.TextureMaterialShaderNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderContext;
@@ -21,11 +21,11 @@ import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.util.LibGDXCollections;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
-public class TextureAttributeShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
+public class TextureMaterialShaderNodeBuilder extends ConfigurationCommonShaderNodeBuilder {
     private String alias;
 
-    public TextureAttributeShaderNodeBuilder(String type, String name, String alias) {
-        super(new TextureAttributeShaderNodeConfiguration(type, name));
+    public TextureMaterialShaderNodeBuilder(String type, String name, String alias) {
+        super(new TextureMaterialShaderNodeConfiguration(type, name));
         this.alias = alias;
     }
 

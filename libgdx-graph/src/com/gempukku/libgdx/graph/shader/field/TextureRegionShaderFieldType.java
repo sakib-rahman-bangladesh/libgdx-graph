@@ -62,8 +62,7 @@ public class TextureRegionShaderFieldType implements ShaderFieldType {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                         Object value = shaderContext.getProperty(name);
-                        if (!(value instanceof com.badlogic.gdx.graphics.g2d.TextureRegion))
-                            value = propertySource.getDefaultValue();
+                        value = propertySource.getValueToUse(value);
                         textureDescriptor.texture = ((TextureRegion) value).getTexture();
                         shader.setUniform(location, textureDescriptor);
                     }
@@ -73,8 +72,7 @@ public class TextureRegionShaderFieldType implements ShaderFieldType {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                         Object value = shaderContext.getProperty(name);
-                        if (!(value instanceof TextureRegion))
-                            value = propertySource.getDefaultValue();
+                        value = propertySource.getValueToUse(value);
                         TextureRegion region = (TextureRegion) value;
                         shader.setUniform(location,
                                 region.getU(), region.getV(),
@@ -104,13 +102,12 @@ public class TextureRegionShaderFieldType implements ShaderFieldType {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                         Object value = propertySource.getPropertyName();
-                        if (!accepts(value))
-                            value = propertySource.getDefaultValue();
+                        value = propertySource.getValueToUse(value);
                         textureDescriptor.texture = ((TextureRegion) value).getTexture();
                         shader.setUniform(location, textureDescriptor);
                     }
                 }, "Texture property - " + propertySource.getPropertyName());
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 4, uvTransformAttributeName), uvTransformAttributeName, "vec4");
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 4, uvTransformAttributeName), "vec4");
 
         return new DefaultFieldOutput(ShaderFieldType.TextureRegion, uvTransformAttributeName, textureVariableName);
     }
@@ -135,13 +132,12 @@ public class TextureRegionShaderFieldType implements ShaderFieldType {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
                         Object value = shaderContext.getProperty(propertySource.getPropertyName());
-                        if (!(value instanceof TextureRegion))
-                            value = propertySource.getDefaultValue();
+                        value = propertySource.getValueToUse(value);
                         textureDescriptor.texture = ((TextureRegion) value).getTexture();
                         shader.setUniform(location, textureDescriptor);
                     }
                 }, "Texture property - " + propertySource.getPropertyName());
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 4, uvTransformAttributeName), uvTransformAttributeName, "vec4");
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 4, uvTransformAttributeName), "vec4");
         if (!vertexShaderBuilder.hasVaryingVariable(uvTransformVariableName)) {
             vertexShaderBuilder.addVaryingVariable(uvTransformVariableName, "vec4");
             vertexShaderBuilder.addMainLine(uvTransformVariableName + " = " + uvTransformAttributeName + ";");

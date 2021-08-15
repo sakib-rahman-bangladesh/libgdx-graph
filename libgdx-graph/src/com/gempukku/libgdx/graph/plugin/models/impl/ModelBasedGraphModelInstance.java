@@ -113,6 +113,11 @@ public class ModelBasedGraphModelInstance implements IGraphModelInstance {
         }
 
         @Override
+        public boolean isEnabled() {
+            return nodePart.enabled;
+        }
+
+        @Override
         public void fillData(ModelInstanceDataImpl data) {
             data.setMaterial(nodePart.material);
             data.setBones(nodePart.bones);

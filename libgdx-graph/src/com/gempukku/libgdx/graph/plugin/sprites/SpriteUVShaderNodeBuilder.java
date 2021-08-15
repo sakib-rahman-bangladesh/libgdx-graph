@@ -1,7 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.sprites;
 
 import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -22,21 +21,15 @@ public class SpriteUVShaderNodeBuilder extends ConfigurationShaderNodeBuilder {
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildVertexNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        vertexShaderBuilder.addAttributeVariable(VertexAttribute.TexCoords(0), ShaderProgram.TEXCOORD_ATTRIBUTE + 0, "vec3");
+        vertexShaderBuilder.addAttributeVariable(VertexAttribute.TexCoords(0), "vec2");
 
         return LibGDXCollections.singletonMap("uv", new DefaultFieldOutput(ShaderFieldType.Vector2, "a_texCoord0"));
     }
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildFragmentNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        vertexShaderBuilder.addAttributeVariable(VertexAttribute.TexCoords(0), ShaderProgram.TEXCOORD_ATTRIBUTE + 0, "vec2");
-        if (!vertexShaderBuilder.hasVaryingVariable("v_uv")) {
-            vertexShaderBuilder.addMainLine("// Sprite UV Node");
-            vertexShaderBuilder.addVaryingVariable("v_uv", "vec2");
-            vertexShaderBuilder.addMainLine("v_uv = a_texCoord0;");
-
-            fragmentShaderBuilder.addVaryingVariable("v_uv", "vec2");
-        }
+        VertexAttribute attribute = VertexAttribute.TexCoords(0);
+        copyAttributeToFragmentShader(attribute, "v_uv", vertexShaderBuilder, fragmentShaderBuilder);
         return LibGDXCollections.singletonMap("uv", new DefaultFieldOutput(ShaderFieldType.Vector2, "v_uv"));
     }
 }

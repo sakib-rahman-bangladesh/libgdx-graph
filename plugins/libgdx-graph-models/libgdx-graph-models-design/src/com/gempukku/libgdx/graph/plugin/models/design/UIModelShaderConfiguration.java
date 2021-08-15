@@ -8,9 +8,9 @@ import com.gempukku.libgdx.graph.plugin.models.design.producer.attribute.Attribu
 import com.gempukku.libgdx.graph.plugin.models.design.producer.attribute.AttributePositionBoxProducer;
 import com.gempukku.libgdx.graph.plugin.models.design.producer.attribute.AttributeTangentBoxProducer;
 import com.gempukku.libgdx.graph.plugin.models.design.producer.attribute.AttributeUVBoxProducer;
-import com.gempukku.libgdx.graph.plugin.models.design.producer.material.ColorAttributeBoxProducer;
-import com.gempukku.libgdx.graph.plugin.models.design.producer.material.FloatAttributeBoxProducer;
-import com.gempukku.libgdx.graph.plugin.models.design.producer.material.TextureAttributeBoxProducer;
+import com.gempukku.libgdx.graph.plugin.models.design.producer.material.ColorMaterialBoxProducer;
+import com.gempukku.libgdx.graph.plugin.models.design.producer.material.FloatMaterialBoxProducer;
+import com.gempukku.libgdx.graph.plugin.models.design.producer.material.TextureMaterialBoxProducer;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
@@ -39,20 +39,20 @@ public class UIModelShaderConfiguration implements UIGraphConfiguration {
         register(new AttributeUVBoxProducer());
         register(new GraphBoxProducerImpl(new AttributeColorShaderNodeConfiguration()));
 
-        register(new FloatAttributeBoxProducer("Shininess", "Shininess"));
-        register(new FloatAttributeBoxProducer("AlphaTest", "Alpha test"));
-        register(new TextureAttributeBoxProducer("AmbientTexture", "Ambient texture"));
-        register(new ColorAttributeBoxProducer("AmbientColor", "Ambient color"));
-        register(new TextureAttributeBoxProducer("BumpTexture", "Bump texture"));
-        register(new TextureAttributeBoxProducer("DiffuseTexture", "Diffuse texture"));
-        register(new ColorAttributeBoxProducer("DiffuseColor", "Diffuse color"));
-        register(new TextureAttributeBoxProducer("EmissiveTexture", "Emissive texture"));
-        register(new ColorAttributeBoxProducer("EmissiveColor", "Emissive color"));
-        register(new TextureAttributeBoxProducer("NormalTexture", "Normal texture"));
-        register(new TextureAttributeBoxProducer("ReflectionTexture", "Reflection texture"));
-        register(new ColorAttributeBoxProducer("ReflectionColor", "Reflection color"));
-        register(new TextureAttributeBoxProducer("SpecularTexture", "Specular texture"));
-        register(new ColorAttributeBoxProducer("SpecularColor", "Specular color"));
+        register(new FloatMaterialBoxProducer("Shininess", "Shininess"));
+        register(new FloatMaterialBoxProducer("AlphaTest", "Alpha test"));
+        register(new TextureMaterialBoxProducer("AmbientTexture", "Ambient texture"));
+        register(new ColorMaterialBoxProducer("AmbientColor", "Ambient color"));
+        register(new TextureMaterialBoxProducer("BumpTexture", "Bump texture"));
+        register(new TextureMaterialBoxProducer("DiffuseTexture", "Diffuse texture"));
+        register(new ColorMaterialBoxProducer("DiffuseColor", "Diffuse color"));
+        register(new TextureMaterialBoxProducer("EmissiveTexture", "Emissive texture"));
+        register(new ColorMaterialBoxProducer("EmissiveColor", "Emissive color"));
+        register(new TextureMaterialBoxProducer("NormalTexture", "Normal texture"));
+        register(new TextureMaterialBoxProducer("ReflectionTexture", "Reflection texture"));
+        register(new ColorMaterialBoxProducer("ReflectionColor", "Reflection color"));
+        register(new TextureMaterialBoxProducer("SpecularTexture", "Specular texture"));
+        register(new ColorMaterialBoxProducer("SpecularColor", "Specular color"));
 
         register(new GraphBoxProducerImpl(new ModelFragmentCoordinateShaderNodeConfiguration()));
         register(new GraphBoxProducerImpl(new InstanceIdShaderNodeConfiguration()));

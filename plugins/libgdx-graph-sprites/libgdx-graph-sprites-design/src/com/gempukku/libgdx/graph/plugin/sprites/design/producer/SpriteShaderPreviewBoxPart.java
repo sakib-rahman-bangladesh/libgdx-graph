@@ -9,7 +9,6 @@ import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxInputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxOutputConnector;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxPart;
-import com.kotcrab.vis.ui.widget.Separator;
 import com.kotcrab.vis.ui.widget.VisTable;
 
 public class SpriteShaderPreviewBoxPart extends VisTable implements GraphBoxPart {
@@ -18,7 +17,6 @@ public class SpriteShaderPreviewBoxPart extends VisTable implements GraphBoxPart
     public SpriteShaderPreviewBoxPart() {
         shaderPreviewWidget = new SpriteShaderPreviewWidget(200, 200);
 
-        add(new Separator()).colspan(2).pad(5).growX().row();
         add(shaderPreviewWidget).colspan(2).grow().row();
     }
 

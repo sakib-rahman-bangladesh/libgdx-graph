@@ -1,7 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.models.attribute;
 
 import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -23,7 +22,7 @@ public class AttributePositionShaderNodeBuilder extends ConfigurationShaderNodeB
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildVertexNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), ShaderProgram.POSITION_ATTRIBUTE, "vec3");
+        vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), "vec3");
 
         vertexShaderBuilder.addMainLine("// Attribute Position Node");
         String coordinates = data.getString("coordinates");
@@ -43,21 +42,15 @@ public class AttributePositionShaderNodeBuilder extends ConfigurationShaderNodeB
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildFragmentNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        vertexShaderBuilder.addAttributeVariable(VertexAttribute.Position(), ShaderProgram.POSITION_ATTRIBUTE, "vec3");
-
         String coordinates = data.getString("coordinates");
         if (coordinates.equals("world")) {
             fragmentShaderBuilder.addVaryingVariable("v_position_world", "vec3");
 
             return LibGDXCollections.singletonMap("position", new DefaultFieldOutput(ShaderFieldType.Vector3, "v_position_world"));
         } else if (coordinates.equals("object")) {
-            if (!vertexShaderBuilder.hasVaryingVariable("v_position_object")) {
-                vertexShaderBuilder.addMainLine("// Attribute Position Node");
-                vertexShaderBuilder.addVaryingVariable("v_position_object", "vec3");
-                vertexShaderBuilder.addMainLine("v_position_object = (skinning * vec4(a_position, 1.0)).xyz;");
-
-                fragmentShaderBuilder.addVaryingVariable("v_position_object", "vec3");
-            }
+            VertexAttribute attribute = VertexAttribute.Position();
+            copyAttributeToFragmentShader(attribute, "v_position_object", "(skinning * vec4(a_position, 1.0)).xyz",
+                    vertexShaderBuilder, fragmentShaderBuilder);
 
             return LibGDXCollections.singletonMap("position", new DefaultFieldOutput(ShaderFieldType.Vector3, "v_position_object"));
         }
