@@ -1,5 +1,6 @@
 {
   "version": "0.5.0",
+  "type": "Render_Pipeline",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -99,11 +100,12 @@
             "tag": "exhaust",
             "shader": {
               "version": "0.5.0",
+              "type": "Particle_Effect",
               "nodes": [
                 {
                   "id": "9b2635990a634b048d3e3f7f0382eb0a",
                   "type": "ValueVector2",
-                  "x": 452.0,
+                  "x": 714.0,
                   "y": 483.0,
                   "data": {
                     "v1": 0.0,
@@ -111,104 +113,60 @@
                   }
                 },
                 {
-                  "id": "65506f6339e4492fa87ca46b5610ffe6",
-                  "type": "ParticleUV",
-                  "x": 257.0,
-                  "y": 178.0
-                },
-                {
-                  "id": "2f3646a2246340a8aa44aff0deaefb4f",
-                  "type": "DotShape",
-                  "x": 457.0,
-                  "y": 178.0
-                },
-                {
                   "id": "be1fb036ff4d4530a4f5a482f5e999ca",
                   "type": "ValueColor",
-                  "x": 456.0,
+                  "x": 718.0,
                   "y": 298.0,
                   "data": {
                     "color": "1a1818ff"
                   }
                 },
                 {
+                  "id": "f159b03bbea04e06b1b238fe9f21bf8f",
+                  "type": "RandomFloatAttribute",
+                  "x": 50.0,
+                  "y": 602.0,
+                  "data": {
+                    "name": "Move Y",
+                    "min": -0.05000000074505806,
+                    "max": 0.05000000074505806
+                  }
+                },
+                {
                   "id": "7d3e4b0612ae448a848551e1a02d6481",
                   "type": "Multiply",
-                  "x": 454.0,
+                  "x": 716.0,
                   "y": 629.0
                 },
                 {
                   "id": "952708382d0c4193ab2d06b70c422daf",
                   "type": "Merge",
-                  "x": 249.0,
-                  "y": 641.0
+                  "x": 324.0,
+                  "y": 593.0
                 },
                 {
                   "id": "16d36a7bdf51433ba26679639a2c77ef",
                   "type": "OneMinus",
-                  "x": 458.0,
+                  "x": 720.0,
                   "y": 116.0
-                },
-                {
-                  "id": "42520e86140942578052edb5a60d3f92",
-                  "type": "ValueVector2",
-                  "x": 453.0,
-                  "y": 420.0,
-                  "data": {
-                    "v1": 0.05000000074505806,
-                    "v2": 0.30000001192092896
-                  }
-                },
-                {
-                  "id": "376305f96994464db552fcc2a869e0fb",
-                  "type": "Mix",
-                  "x": 657.0,
-                  "y": 311.0
                 },
                 {
                   "id": "a974867b59ab463bb942146e1330ea79",
                   "type": "ParticleLifePercentage",
-                  "x": 257.0,
+                  "x": 519.0,
                   "y": 116.0
-                },
-                {
-                  "id": "1c3ef81bb27b41e2b65464b6e06763d3",
-                  "type": "ParticleLifePercentage",
-                  "x": 454.0,
-                  "y": 545.0
-                },
-                {
-                  "id": "1c11c7feaad743c0849bfdd6877abfe8",
-                  "type": "Remap",
-                  "x": 654.0,
-                  "y": 500.0
                 },
                 {
                   "id": "b37637924b3546b19177103e785f60b2",
                   "type": "Multiply",
-                  "x": 660.0,
+                  "x": 922.0,
                   "y": 178.0
-                },
-                {
-                  "id": "dce5ee07f18f4dd9a68af5b7ec3439aa",
-                  "type": "ParticleLifePercentage",
-                  "x": 457.0,
-                  "y": 237.0
-                },
-                {
-                  "id": "c2596fc6d8894c7a83257d1716e79135",
-                  "type": "ValueColor",
-                  "x": 455.0,
-                  "y": 357.0,
-                  "data": {
-                    "color": "5659a3ff"
-                  }
                 },
                 {
                   "id": "end",
                   "type": "BillboardParticlesShaderEnd",
-                  "x": 889.0,
-                  "y": 99.0,
+                  "x": 1367.0,
+                  "y": 137.0,
                   "data": {
                     "maxParticles": 500,
                     "initialParticles": 0,
@@ -220,19 +178,109 @@
                 {
                   "id": "59fe9aedee3b4ae4a8421e8c558762c8",
                   "type": "ParticleLifePercentage",
-                  "x": 259.0,
+                  "x": 521.0,
                   "y": 573.0
+                },
+                {
+                  "id": "254eeeb93cee4df9a6392aac513bee99",
+                  "type": "RandomFloatAttribute",
+                  "x": 51.0,
+                  "y": 708.0,
+                  "data": {
+                    "name": "Move X",
+                    "min": -0.05000000074505806,
+                    "max": 0.05000000074505806
+                  }
+                },
+                {
+                  "id": "65506f6339e4492fa87ca46b5610ffe6",
+                  "type": "ParticleUV",
+                  "x": 519.0,
+                  "y": 178.0
+                },
+                {
+                  "id": "2f3646a2246340a8aa44aff0deaefb4f",
+                  "type": "DotShape",
+                  "x": 719.0,
+                  "y": 178.0
+                },
+                {
+                  "id": "2af16f382636411abf77131006ecd60f",
+                  "type": "Vector3Attribute",
+                  "x": 642.0,
+                  "y": 783.0,
+                  "data": {
+                    "name": "Position",
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                },
+                {
+                  "id": "3732456629454c9abd5eade259372b50",
+                  "type": "BillboardSprite",
+                  "x": 1125.0,
+                  "y": 630.0
+                },
+                {
+                  "id": "42520e86140942578052edb5a60d3f92",
+                  "type": "ValueVector2",
+                  "x": 715.0,
+                  "y": 420.0,
+                  "data": {
+                    "v1": 0.05000000074505806,
+                    "v2": 0.30000001192092896
+                  }
+                },
+                {
+                  "id": "376305f96994464db552fcc2a869e0fb",
+                  "type": "Mix",
+                  "x": 919.0,
+                  "y": 311.0
+                },
+                {
+                  "id": "1c3ef81bb27b41e2b65464b6e06763d3",
+                  "type": "ParticleLifePercentage",
+                  "x": 716.0,
+                  "y": 545.0
+                },
+                {
+                  "id": "1c11c7feaad743c0849bfdd6877abfe8",
+                  "type": "Remap",
+                  "x": 916.0,
+                  "y": 500.0
+                },
+                {
+                  "id": "c035884977594e68b5e543651344a0ac",
+                  "type": "ParticleUV",
+                  "x": 907.0,
+                  "y": 624.0
+                },
+                {
+                  "id": "dce5ee07f18f4dd9a68af5b7ec3439aa",
+                  "type": "ParticleLifePercentage",
+                  "x": 719.0,
+                  "y": 237.0
+                },
+                {
+                  "id": "c2596fc6d8894c7a83257d1716e79135",
+                  "type": "ValueColor",
+                  "x": 717.0,
+                  "y": 357.0,
+                  "data": {
+                    "color": "5659a3ff"
+                  }
                 },
                 {
                   "id": "2d6592b5b56e40bdbec1154449f8d11f",
                   "type": "Add",
-                  "x": 648.0,
-                  "y": 687.0
+                  "x": 908.0,
+                  "y": 733.0
                 },
                 {
                   "id": "975bd5fefcc24fe2a5166140143a2c96",
                   "type": "ValueFloat",
-                  "x": 456.0,
+                  "x": 718.0,
                   "y": 50.0,
                   "data": {
                     "v1": 0.30000001192092896
@@ -241,8 +289,8 @@
                 {
                   "id": "95c089c69bd540da894838ac08ae1603",
                   "type": "ValueFloat",
-                  "x": 50.0,
-                  "y": 640.0,
+                  "x": 122.0,
+                  "y": 544.0,
                   "data": {
                     "v1": -0.5
                   }
@@ -262,22 +310,10 @@
                   "toField": "inputs"
                 },
                 {
-                  "fromNode": "2d6592b5b56e40bdbec1154449f8d11f",
-                  "fromField": "output",
-                  "toNode": "end",
-                  "toField": "position"
-                },
-                {
                   "fromNode": "1c3ef81bb27b41e2b65464b6e06763d3",
                   "fromField": "percentage",
                   "toNode": "1c11c7feaad743c0849bfdd6877abfe8",
                   "toField": "input"
-                },
-                {
-                  "fromNode": "1c11c7feaad743c0849bfdd6877abfe8",
-                  "fromField": "output",
-                  "toNode": "end",
-                  "toField": "size"
                 },
                 {
                   "fromNode": "9b2635990a634b048d3e3f7f0382eb0a",
@@ -362,6 +398,48 @@
                   "fromField": "output",
                   "toNode": "b37637924b3546b19177103e785f60b2",
                   "toField": "inputs"
+                },
+                {
+                  "fromNode": "2af16f382636411abf77131006ecd60f",
+                  "fromField": "output",
+                  "toNode": "2d6592b5b56e40bdbec1154449f8d11f",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "2d6592b5b56e40bdbec1154449f8d11f",
+                  "fromField": "output",
+                  "toNode": "3732456629454c9abd5eade259372b50",
+                  "toField": "position"
+                },
+                {
+                  "fromNode": "1c11c7feaad743c0849bfdd6877abfe8",
+                  "fromField": "output",
+                  "toNode": "3732456629454c9abd5eade259372b50",
+                  "toField": "size"
+                },
+                {
+                  "fromNode": "3732456629454c9abd5eade259372b50",
+                  "fromField": "output",
+                  "toNode": "end",
+                  "toField": "position"
+                },
+                {
+                  "fromNode": "c035884977594e68b5e543651344a0ac",
+                  "fromField": "uv",
+                  "toNode": "3732456629454c9abd5eade259372b50",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "254eeeb93cee4df9a6392aac513bee99",
+                  "fromField": "output",
+                  "toNode": "952708382d0c4193ab2d06b70c422daf",
+                  "toField": "x"
+                },
+                {
+                  "fromNode": "f159b03bbea04e06b1b238fe9f21bf8f",
+                  "fromField": "output",
+                  "toNode": "952708382d0c4193ab2d06b70c422daf",
+                  "toField": "y"
                 }
               ],
               "properties": [],
@@ -370,7 +448,9 @@
                   "name": "Movement over time",
                   "nodes": [
                     "95c089c69bd540da894838ac08ae1603",
-                    "952708382d0c4193ab2d06b70c422daf"
+                    "952708382d0c4193ab2d06b70c422daf",
+                    "f159b03bbea04e06b1b238fe9f21bf8f",
+                    "254eeeb93cee4df9a6392aac513bee99"
                   ]
                 }
               ]
@@ -383,7 +463,10 @@
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
       "x": 391.0,
-      "y": 136.0
+      "y": 136.0,
+      "data": {
+        "id": ""
+      }
     },
     {
       "id": "end",
