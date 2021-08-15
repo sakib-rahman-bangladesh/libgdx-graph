@@ -118,7 +118,7 @@ public class PhongLightingShaderNodeBuilder extends ConfigurationShaderNodeBuild
 
     private void passSpotLights(final JsonValue data, FragmentShaderBuilder fragmentShaderBuilder, final int numSpotLights) {
         if (numSpotLights > 0) {
-            fragmentShaderBuilder.addUniformVariable("u_cameraPosition", "vec4", true, UniformSetters.cameraPosition);
+            fragmentShaderBuilder.addUniformVariable("u_cameraPosition", "vec3", true, UniformSetters.cameraPosition);
             fragmentShaderBuilder.addStructure("SpotLight",
                     "  vec3 color;\n" +
                             "  vec3 position;\n" +
@@ -177,7 +177,7 @@ public class PhongLightingShaderNodeBuilder extends ConfigurationShaderNodeBuild
 
     private void passPointLights(final JsonValue data, FragmentShaderBuilder fragmentShaderBuilder, final int numPointLights) {
         if (numPointLights > 0) {
-            fragmentShaderBuilder.addUniformVariable("u_cameraPosition", "vec4", true, UniformSetters.cameraPosition);
+            fragmentShaderBuilder.addUniformVariable("u_cameraPosition", "vec3", true, UniformSetters.cameraPosition);
             fragmentShaderBuilder.addStructure("PointLight",
                     "  vec3 color;\n" +
                             "  vec3 position;\n");
@@ -226,7 +226,7 @@ public class PhongLightingShaderNodeBuilder extends ConfigurationShaderNodeBuild
 
     private void passDirectionalLights(final JsonValue data, FragmentShaderBuilder fragmentShaderBuilder, final int numDirectionalLights) {
         if (numDirectionalLights > 0) {
-            fragmentShaderBuilder.addUniformVariable("u_cameraPosition", "vec4", true, UniformSetters.cameraPosition);
+            fragmentShaderBuilder.addUniformVariable("u_cameraPosition", "vec3", true, UniformSetters.cameraPosition);
             fragmentShaderBuilder.addStructure("DirectionalLight",
                     "  vec3 color;\n" +
                             "  vec3 direction;\n");
