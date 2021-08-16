@@ -3,7 +3,7 @@ package com.gempukku.libgdx.graph.plugin.particles.generator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 
-public class SpherePositionGenerator {
+public class SpherePositionGenerator implements PositionGenerator {
     private Vector3 center = new Vector3();
     private float radius = 1f;
 
@@ -15,6 +15,7 @@ public class SpherePositionGenerator {
         this.radius = radius;
     }
 
+    @Override
     public Vector3 generateLocation(Vector3 location) {
         // Uniformly distribute the points on sphere using Marsaglia (1972) method from
         // https://mathworld.wolfram.com/SpherePointPicking.html

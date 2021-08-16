@@ -3,7 +3,7 @@ package com.gempukku.libgdx.graph.plugin.particles.generator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 
-public class LinePositionGenerator {
+public class LinePositionGenerator implements PositionGenerator {
     private Vector3 point1 = new Vector3();
     private Vector3 point2 = new Vector3();
 
@@ -15,6 +15,7 @@ public class LinePositionGenerator {
         return point2;
     }
 
+    @Override
     public Vector3 generateLocation(Vector3 location) {
         float value = MathUtils.random();
         location.set(

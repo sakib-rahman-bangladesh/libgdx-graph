@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -26,7 +25,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
-import com.gempukku.libgdx.graph.plugin.particles.generator.AbstractParticleGenerator;
+import com.gempukku.libgdx.graph.plugin.particles.generator.DefaultParticleGenerator;
 import com.gempukku.libgdx.graph.plugin.particles.generator.ParallelogramPositionGenerator;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.system.CameraSystem;
@@ -131,13 +130,8 @@ public class Episode24Scene implements LibgdxGraphTestScene {
         positionGenerator.getOrigin().set(0, 0, -10);
         positionGenerator.getDirection1().set(1, 0, 0);
         positionGenerator.getDirection2().set(0, 1, 0);
-        final Vector3 tmpVector = new Vector3();
-        AbstractParticleGenerator particleGenerator = new AbstractParticleGenerator(5) {
-            @Override
-            protected void generateAttributes(ParticleGenerateInfo particle) {
-                particle.particleAttributes.put("Position", positionGenerator.generateLocation(tmpVector));
-            }
-        };
+        DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(5);
+        particleGenerator.setPositionGenerator(positionGenerator);
         GraphParticleEffect dustEffect = particleEffects.createEffect("Dust", particleGenerator);
         particleEffects.startEffect(dustEffect);
     }

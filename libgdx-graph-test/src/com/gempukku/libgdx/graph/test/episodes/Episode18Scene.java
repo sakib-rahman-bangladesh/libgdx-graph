@@ -32,7 +32,7 @@ import com.gempukku.libgdx.graph.plugin.models.GraphModels;
 import com.gempukku.libgdx.graph.plugin.models.TagOptimizationHint;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
-import com.gempukku.libgdx.graph.plugin.particles.generator.AbstractParticleGenerator;
+import com.gempukku.libgdx.graph.plugin.particles.generator.DefaultParticleGenerator;
 import com.gempukku.libgdx.graph.plugin.particles.generator.LinePositionGenerator;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.shader.TransformUpdate;
@@ -128,13 +128,8 @@ public class Episode18Scene implements LibgdxGraphTestScene {
         final LinePositionGenerator positionGenerator = new LinePositionGenerator();
         positionGenerator.getPoint1().set(point1);
         positionGenerator.getPoint2().set(point2);
-        final Vector3 tmpVector = new Vector3();
-        AbstractParticleGenerator particleGenerator = new AbstractParticleGenerator(0.5f) {
-            @Override
-            protected void generateAttributes(ParticleGenerateInfo particle) {
-                particle.particleAttributes.put("Position", positionGenerator.generateLocation(tmpVector));
-            }
-        };
+        DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(0.5f);
+        particleGenerator.setPositionGenerator(positionGenerator);
         GraphParticleEffect effect = effects.createEffect("exhaust", particleGenerator);
         effects.setProperty(effect, "Move Distance", new Vector3(0, 0, -0.5f));
         effects.startEffect(effect);
