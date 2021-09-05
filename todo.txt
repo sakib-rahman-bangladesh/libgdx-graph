@@ -1,16 +1,21 @@
-Essential before beta:
-
-Improvements:
-- Model caching for Model graph shaders
-- Advanced control of OpenGL settings in shaders
-- Larger shader preview popup
-- Previews for some shader nodes
-- Shortcut to create and connect a property, when clicking on node circle in graph.
-- Figure out why Gradient node is difficult to close (click on button)
-
-Possible future features:
-- Support for named buffers
-- Stencil support
-- Line particles
-- Non-billboard particles
-- Pipeline transitions (i.e. between scenes)
+General:
+1. Add support for reordering shaders in shaders nodes.
+2. Allow rendering to named frame buffers.
+3. Advanced control of OpenGL settings in shaders.
+4. Larger shader preview popup.
+5. Previews for some shader nodes.
+6. Shortcut to create and connect a property, when clicking on node circle in graph.
+7. Figure out why Gradient node is difficult to close (click on button).\
+8. Stencil support.
+9. Pipeline transitions (i.e. between scenes).
+Sprite shader:
+1. Split support for uniforms per shader and per sprite.
+Model shader:
+1. Redesign how models are added, they should be added with a tag and an interface that returns all the info required to render.
+2. Rewrite how default models can be added using an adapter, that registers all the models into the pipeline with the tag(s).
+3. Add support for custom attributes being specified explicitly.
+4. The shaders node should allow to define the order of rendering - shader by shader, models front-to-back, models back-to-front.
+Particle shader:
+1. Split support for uniforms per shader, per effect, and per particle.
+2. Add support for defining geometry of the particles.
+3. Add support for line particles.
