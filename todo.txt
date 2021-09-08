@@ -1,13 +1,15 @@
 General:
+0. Refactor shaders node to use the same code for all shader types.
 1. Add support for reordering shaders in shaders nodes.
-2. Allow rendering to named frame buffers.
+2. (low) Allow rendering to named frame buffers.
 3. Advanced control of OpenGL settings in shaders.
 4. Larger shader preview popup.
-5. Previews for some shader nodes.
-6. Shortcut to create and connect a property, when clicking on node circle in graph.
-7. Figure out why Gradient node is difficult to close (click on button).\
-8. Stencil support.
-9. Pipeline transitions (i.e. between scenes).
+5. (low) Previews for some shader nodes.
+6. (low) Shortcut to create and connect a property, when clicking on node circle in graph.
+7. (low) Figure out why Gradient node is difficult to close (click on button).
+8. (low) Stencil support.
+9. (low) Pipeline transitions (i.e. between scenes).
+10. Add different types of rending output from pipeline - fit, fill, etc.
 Sprite shader:
 1. Split support for uniforms per shader and per sprite.
 Model shader:
@@ -15,7 +17,10 @@ Model shader:
 2. Rewrite how default models can be added using an adapter, that registers all the models into the pipeline with the tag(s).
 3. Add support for custom attributes being specified explicitly.
 4. The shaders node should allow to define the order of rendering - shader by shader, models front-to-back, models back-to-front.
+5. Shadows support.
 Particle shader:
 1. Split support for uniforms per shader, per effect, and per particle.
-2. Add support for defining geometry of the particles.
-3. Add support for line particles.
+2. (low) Add support for defining geometry of the particles.
+3. (low) Add support for line particles.
+4. Remove the particle generation from the libgdx-graph itself, this should be a job for the library user. Instead provide
+default implementation for a generic particle generator.
