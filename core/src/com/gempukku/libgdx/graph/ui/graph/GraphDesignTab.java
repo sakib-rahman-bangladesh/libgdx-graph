@@ -25,15 +25,7 @@ import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.preview.PreviewWidget;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
-import com.kotcrab.vis.ui.widget.MenuItem;
-import com.kotcrab.vis.ui.widget.PopupMenu;
-import com.kotcrab.vis.ui.widget.VisImageButton;
-import com.kotcrab.vis.ui.widget.VisLabel;
-import com.kotcrab.vis.ui.widget.VisScrollPane;
-import com.kotcrab.vis.ui.widget.VisSplitPane;
-import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisTextButton;
-import com.kotcrab.vis.ui.widget.VisWindow;
+import com.kotcrab.vis.ui.widget.*;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 
 import java.util.LinkedList;
@@ -269,7 +261,7 @@ public class GraphDesignTab extends Tab implements Graph<GraphBox, GraphConnecti
                         new ChangeListener() {
                             @Override
                             public void changed(ChangeEvent event, Actor actor) {
-                                PropertyBox defaultPropertyBox = value.createDefaultPropertyBox(skin);
+                                PropertyBox defaultPropertyBox = value.createDefaultPropertyBox(skin, type.getPropertyLocations());
                                 addPropertyBox(name, defaultPropertyBox);
                             }
                         });

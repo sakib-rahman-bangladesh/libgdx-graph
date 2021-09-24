@@ -59,14 +59,14 @@ public class FloatFieldType implements ShaderFieldType, PipelineFieldType {
                         value = propertySource.getValueToUse(value);
                         shader.setUniform(location, ((Number) value).floatValue());
                     }
-                });
+                }, "Float property - " + propertySource.getPropertyName());
         return new DefaultFieldOutput(getName(), variableName);
     }
 
     @Override
     public GraphShaderNodeBuilder.FieldOutput addAsVertexAttribute(VertexShaderBuilder vertexShaderBuilder, JsonValue data, PropertySource propertySource) {
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, attributeName), getShaderType());
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, attributeName), getShaderType(), "Float property - " + propertySource.getPropertyName());
 
         return new DefaultFieldOutput(getName(), attributeName);
     }
@@ -76,7 +76,7 @@ public class FloatFieldType implements ShaderFieldType, PipelineFieldType {
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
         String variableName = "v_property_" + propertySource.getPropertyIndex();
 
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, attributeName), getShaderType());
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 1, attributeName), getShaderType(), "Float property - " + propertySource.getPropertyName());
         if (!vertexShaderBuilder.hasVaryingVariable(variableName)) {
             vertexShaderBuilder.addVaryingVariable(variableName, getShaderType());
             vertexShaderBuilder.addMainLine(variableName + " = " + attributeName + ";");

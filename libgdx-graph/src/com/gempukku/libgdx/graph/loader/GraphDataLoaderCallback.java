@@ -4,12 +4,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.gempukku.libgdx.graph.data.FieldType;
-import com.gempukku.libgdx.graph.data.Graph;
-import com.gempukku.libgdx.graph.data.GraphConnection;
-import com.gempukku.libgdx.graph.data.GraphNode;
-import com.gempukku.libgdx.graph.data.GraphProperty;
-import com.gempukku.libgdx.graph.data.NodeConfiguration;
+import com.gempukku.libgdx.graph.data.*;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 
 public abstract class GraphDataLoaderCallback<T, U extends FieldType> implements GraphLoaderCallback<T>, Graph<GraphNode, GraphConnection, GraphProperty> {
     private ObjectMap<String, GraphNodeData> graphNodes = new ObjectMap<>();
@@ -27,8 +23,8 @@ public abstract class GraphDataLoaderCallback<T, U extends FieldType> implements
     }
 
     @Override
-    public void addPipelineProperty(String type, String name, JsonValue data) {
-        graphProperties.put(name, new GraphPropertyData(name, type, data));
+    public void addPipelineProperty(String type, String name, PropertyLocation location, JsonValue data) {
+        graphProperties.put(name, new GraphPropertyData(name, type, data, location));
     }
 
     @Override
@@ -94,11 +90,13 @@ public abstract class GraphDataLoaderCallback<T, U extends FieldType> implements
         private String name;
         private String type;
         private JsonValue data;
+        private PropertyLocation location;
 
-        public GraphPropertyData(String name, String type, JsonValue data) {
+        public GraphPropertyData(String name, String type, JsonValue data, PropertyLocation location) {
             this.name = name;
             this.type = type;
             this.data = data;
+            this.location = location;
         }
 
         @Override
@@ -114,6 +112,11 @@ public abstract class GraphDataLoaderCallback<T, U extends FieldType> implements
         @Override
         public JsonValue getData() {
             return data;
+        }
+
+        @Override
+        public PropertyLocation getLocation() {
+            return location;
         }
     }
 

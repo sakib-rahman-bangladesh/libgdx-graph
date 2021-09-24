@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,16 +18,20 @@ public class GraphLoader {
     private static JsonValue emptyData = new JsonValue(JsonValue.ValueType.object);
 
     public static <T> T loadGraph(InputStream inputStream, GraphLoaderCallback<T> graphLoaderCallback) throws IOException {
+        return loadGraph(inputStream, graphLoaderCallback, null);
+    }
+
+    public static <T> T loadGraph(InputStream inputStream, GraphLoaderCallback<T> graphLoaderCallback, PropertyLocation defaultPropertyLocation) throws IOException {
         try {
             JsonReader parser = new JsonReader();
             JsonValue graph = parser.parse(new InputStreamReader(inputStream));
-            return loadGraph(graph, graphLoaderCallback);
+            return loadGraph(graph, graphLoaderCallback, defaultPropertyLocation);
         } catch (Exception exp) {
             throw new IOException("Unable to parse graph", exp);
         }
     }
 
-    public static <T> T loadGraph(JsonValue graph, GraphLoaderCallback<T> graphLoaderCallback) {
+    public static <T> T loadGraph(JsonValue graph, GraphLoaderCallback<T> graphLoaderCallback, PropertyLocation defaultPropertyLocation) {
         // Assuming default
         String version = graph.has("version") ? graph.getString("version") : "0.1.0";
         if (!canReadVersion(version)) {
@@ -59,7 +64,10 @@ public class GraphLoader {
             JsonValue data = property.get("data");
             if (data == null)
                 data = emptyData;
-            graphLoaderCallback.addPipelineProperty(type, name, data);
+            String location = property.getString("location", null);
+            PropertyLocation propertyLocation = (location != null) ? PropertyLocation.valueOf(location) : defaultPropertyLocation;
+
+            graphLoaderCallback.addPipelineProperty(type, name, propertyLocation, data);
         }
         JsonValue groups = graph.get("groups");
         if (groups != null) {

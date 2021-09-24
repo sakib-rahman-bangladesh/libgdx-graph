@@ -107,7 +107,7 @@ public class TextureRegionShaderFieldType implements ShaderFieldType {
                         shader.setUniform(location, textureDescriptor);
                     }
                 }, "Texture property - " + propertySource.getPropertyName());
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 4, uvTransformAttributeName), "vec4");
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 4, uvTransformAttributeName), "vec4", "TextureUV property - " + propertySource.getPropertyName());
 
         return new DefaultFieldOutput(ShaderFieldType.TextureRegion, uvTransformAttributeName, textureVariableName);
     }
@@ -137,7 +137,7 @@ public class TextureRegionShaderFieldType implements ShaderFieldType {
                         shader.setUniform(location, textureDescriptor);
                     }
                 }, "Texture property - " + propertySource.getPropertyName());
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 4, uvTransformAttributeName), "vec4");
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 4, uvTransformAttributeName), "vec4", "TextureUV property - " + propertySource.getPropertyName());
         if (!vertexShaderBuilder.hasVaryingVariable(uvTransformVariableName)) {
             vertexShaderBuilder.addVaryingVariable(uvTransformVariableName, "vec4");
             vertexShaderBuilder.addMainLine(uvTransformVariableName + " = " + uvTransformAttributeName + ";");

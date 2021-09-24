@@ -13,7 +13,7 @@ public class ColorShaderPropertyProducer implements GraphShaderPropertyProducer 
     }
 
     @Override
-    public PropertySource createProperty(int index, String name, JsonValue data, boolean designTime) {
-        return new PropertySource(index, name, type, type.convertFromJson(data));
+    public PropertySource createProperty(int index, String name, JsonValue data, PropertyLocation location, boolean designTime) {
+        return new PropertySource(index, name, type, location, type.convertFromJson(data));
     }
 }

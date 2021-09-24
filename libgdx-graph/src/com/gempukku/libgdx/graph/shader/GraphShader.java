@@ -15,7 +15,7 @@ import java.util.Map;
 
 public abstract class GraphShader extends UniformCachingShader implements GraphShaderContext {
     private Array<Disposable> disposableList = new Array<>();
-    protected ObjectMap<String, PropertySource> propertySourceMap;
+    protected ObjectMap<String, PropertySource> propertySourceMap = new ObjectMap<>();
     private Map<String, AttributeDefinition> additionalAttributes = new HashMap<>();
     private ShaderProgram shaderProgram;
     private VertexAttributes vertexAttributes;
@@ -82,8 +82,8 @@ public abstract class GraphShader extends UniformCachingShader implements GraphS
         init(shaderProgram);
     }
 
-    public void setPropertySourceMap(ObjectMap<String, PropertySource> propertySourceMap) {
-        this.propertySourceMap = propertySourceMap;
+    public void addPropertySource(String name, PropertySource propertySource) {
+        propertySourceMap.put(name, propertySource);
     }
 
     @Override

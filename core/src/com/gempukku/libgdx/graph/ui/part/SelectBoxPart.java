@@ -73,6 +73,10 @@ public class SelectBoxPart extends VisTable implements GraphBoxPart {
         selectBox.setSelected(value.name().replace('_', ' '));
     }
 
+    public String getSelected() {
+        return selectBox.getSelected();
+    }
+
     @Override
     public void serializePart(JsonValue object) {
         object.addChild(property, new JsonValue(selectBox.getSelected()));

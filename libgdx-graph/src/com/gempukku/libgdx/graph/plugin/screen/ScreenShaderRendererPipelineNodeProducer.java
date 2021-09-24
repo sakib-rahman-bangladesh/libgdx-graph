@@ -9,21 +9,18 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
-import com.gempukku.libgdx.graph.pipeline.producer.node.OncePerFrameJobPipelineNode;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineInitializationFeedback;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNode;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNodeProducerImpl;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineRequirements;
+import com.gempukku.libgdx.graph.pipeline.producer.node.*;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.plugin.screen.config.ScreenShaderRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.common.PropertyAsUniformShaderConfiguration;
+import com.gempukku.libgdx.graph.shader.common.PropertyShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
-    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new ScreenShaderConfiguration()};
+    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new ScreenShaderConfiguration()};
     private PluginPrivateDataSource pluginPrivateDataSource;
 
     public ScreenShaderRendererPipelineNodeProducer(PluginPrivateDataSource pluginPrivateDataSource) {
@@ -44,7 +41,7 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
             JsonValue shaderGraph = shaderDefinition.get("shader");
             String tag = shaderDefinition.getString("tag");
             Gdx.app.debug("Shader", "Building shader with tag: " + tag);
-            final ScreenGraphShader shader = GraphLoader.loadGraph(shaderGraph, new ScreenShaderLoaderCallback(whitePixel.texture, configurations));
+            final ScreenGraphShader shader = GraphLoader.loadGraph(shaderGraph, new ScreenShaderLoaderCallback(whitePixel.texture, configurations), PropertyLocation.Global_Uniform);
             shader.setTag(tag);
             shaderArray.add(shader);
         }

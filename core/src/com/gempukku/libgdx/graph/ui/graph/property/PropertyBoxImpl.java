@@ -6,9 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.config.PropertyNodeConfiguration;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
+import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.ValueGraphNodeOutput;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
@@ -22,11 +24,16 @@ public class PropertyBoxImpl extends VisTable implements PropertyBox {
     private String propertyType;
     private List<PropertyBoxPart> propertyBoxParts = new LinkedList<>();
     private VisTextField nameField;
+    private PropertyLocation[] propertyLocations;
+    private SelectBoxPart locationPart;
 
-    public PropertyBoxImpl(String name, String propertyType) {
+    public PropertyBoxImpl(String name, String propertyType, PropertyLocation... propertyLocations) {
         this.propertyType = propertyType;
 
+        locationPart = new SelectBoxPart("Location", "location", propertyLocations);
+
         nameField = new VisTextField(name);
+        this.propertyLocations = propertyLocations;
         VisTable headerTable = new VisTable();
         headerTable.add(new VisLabel("Name: "));
         headerTable.add(nameField).growX();
@@ -74,7 +81,17 @@ public class PropertyBoxImpl extends VisTable implements PropertyBox {
             for (PropertyBoxPart propertyBoxPart : propertyBoxParts) {
                 propertyBoxPart.initialize(value);
             }
+            locationPart.initialize(value);
         }
+        if (propertyLocations.length > 1)
+            add(locationPart).growX().row();
+    }
+
+    @Override
+    public PropertyLocation getLocation() {
+        if (propertyLocations.length > 0)
+            return PropertyLocation.valueOf(locationPart.getSelected());
+        return null;
     }
 
     @Override
@@ -98,6 +115,7 @@ public class PropertyBoxImpl extends VisTable implements PropertyBox {
         if (ShaderFieldTypeRegistry.findShaderFieldType(propertyType).isTexture()) {
             result.addGraphBoxPart(new TextureSettingsGraphBoxPart());
         }
+
         return result;
     }
 

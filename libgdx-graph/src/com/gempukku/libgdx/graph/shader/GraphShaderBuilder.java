@@ -8,11 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.gempukku.libgdx.graph.data.Graph;
-import com.gempukku.libgdx.graph.data.GraphConnection;
-import com.gempukku.libgdx.graph.data.GraphNode;
-import com.gempukku.libgdx.graph.data.GraphNodeInput;
-import com.gempukku.libgdx.graph.data.GraphProperty;
+import com.gempukku.libgdx.graph.data.*;
 import com.gempukku.libgdx.graph.plugin.models.ModelGraphShader;
 import com.gempukku.libgdx.graph.plugin.models.ModelShaderConfiguration;
 import com.gempukku.libgdx.graph.plugin.models.ModelsUniformSetters;
@@ -26,25 +22,23 @@ import com.gempukku.libgdx.graph.shader.builder.FragmentShaderBuilder;
 import com.gempukku.libgdx.graph.shader.builder.GLSLFragmentReader;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.common.PropertyAsAttributeShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.common.PropertyAsUniformShaderConfiguration;
+import com.gempukku.libgdx.graph.shader.common.PropertyShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.attribute.AttributeShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.shader.property.GraphShaderPropertyProducer;
-import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
 public class GraphShaderBuilder {
     private static GraphConfiguration[] modelConfigurations = new GraphConfiguration[]{
-            new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new ModelShaderConfiguration()};
+            new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new ModelShaderConfiguration()};
     private static GraphConfiguration[] screenConfigurations = new GraphConfiguration[]{
-            new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new ScreenShaderConfiguration()};
+            new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new ScreenShaderConfiguration()};
     private static GraphConfiguration[] particleConfigurations = new GraphConfiguration[]{
-            new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new AttributeShaderConfiguration(), new ParticlesShaderConfiguration()};
+            new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new AttributeShaderConfiguration(), new ParticlesShaderConfiguration()};
     private static GraphConfiguration[] spriteConfigurations = new GraphConfiguration[]{
-            new CommonShaderConfiguration(), new PropertyAsAttributeShaderConfiguration(), new SpriteShaderConfiguration()};
+            new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new SpriteShaderConfiguration()};
 
     public static SpriteGraphShader buildSpriteShader(Texture defaultTexture, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph,
                                                       boolean designTime) {
@@ -54,7 +48,7 @@ public class GraphShaderBuilder {
         VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
         FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);
 
-        initialize(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder, particleConfigurations);
+        initialize(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder, spriteConfigurations);
 
         buildSpriteVertexShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
         buildSpriteFragmentShader(graph, designTime, graphShader, vertexShaderBuilder, fragmentShaderBuilder);
@@ -195,13 +189,11 @@ public class GraphShaderBuilder {
 
     private static void initializePropertyMap(GraphShader graphShader, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph, boolean designTime,
                                               GraphConfiguration... graphConfigurations) {
-        ObjectMap<String, PropertySource> propertyMap = new ObjectMap<>();
         int index = 0;
         for (GraphProperty property : graph.getProperties()) {
             String name = property.getName();
-            propertyMap.put(name, findPropertyProducerByType(property.getType(), graphConfigurations).createProperty(index++, name, property.getData(), designTime));
+            graphShader.addPropertySource(name, findPropertyProducerByType(property.getType(), graphConfigurations).createProperty(index++, name, property.getData(), property.getLocation(), designTime));
         }
-        graphShader.setPropertySourceMap(propertyMap);
     }
 
     private static void setupOpenGLSettings(GraphShader graphShader, Graph graph) {

@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.ui.pipeline.producer;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxPart;
@@ -31,8 +32,8 @@ public class PipelinePropertyBoxProducerImpl implements PropertyBoxProducer {
     }
 
     @Override
-    public PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
-        PropertyBoxImpl result = new PropertyBoxImpl(name, type);
+    public PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
+        PropertyBoxImpl result = new PropertyBoxImpl(name, type, propertyLocations);
         for (Supplier<PropertyBoxPart> propertyBoxPart : propertyBoxParts) {
             result.addPropertyBoxPart(propertyBoxPart.get());
         }
@@ -42,7 +43,7 @@ public class PipelinePropertyBoxProducerImpl implements PropertyBoxProducer {
     }
 
     @Override
-    public PropertyBox createDefaultPropertyBox(Skin skin) {
-        return createPropertyBox(skin, defaultName, null);
+    public PropertyBox createDefaultPropertyBox(Skin skin, PropertyLocation[] propertyLocations) {
+        return createPropertyBox(skin, defaultName, null, propertyLocations);
     }
 }

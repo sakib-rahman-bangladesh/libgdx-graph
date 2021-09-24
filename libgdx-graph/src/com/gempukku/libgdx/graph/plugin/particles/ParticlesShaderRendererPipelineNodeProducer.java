@@ -9,22 +9,19 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
-import com.gempukku.libgdx.graph.pipeline.producer.node.OncePerFrameJobPipelineNode;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineInitializationFeedback;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNode;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNodeProducerImpl;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineRequirements;
+import com.gempukku.libgdx.graph.pipeline.producer.node.*;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.common.PropertyAsUniformShaderConfiguration;
+import com.gempukku.libgdx.graph.shader.common.PropertyShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.attribute.AttributeShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     private static GraphConfiguration[] configurations = new GraphConfiguration[]{
-            new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(),
+            new CommonShaderConfiguration(), new PropertyShaderConfiguration(),
             new AttributeShaderConfiguration(), new ParticlesShaderConfiguration()};
     private PluginPrivateDataSource pluginPrivateDataSource;
 
@@ -45,7 +42,7 @@ public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodePro
             String tag = shaderDefinition.getString("tag");
             JsonValue shaderGraph = shaderDefinition.get("shader");
             Gdx.app.debug("Shader", "Building shader with tag: " + tag);
-            final ParticlesGraphShader graphShader = GraphLoader.loadGraph(shaderGraph, new ParticlesShaderLoaderCallback(whitePixel.texture, configurations));
+            final ParticlesGraphShader graphShader = GraphLoader.loadGraph(shaderGraph, new ParticlesShaderLoaderCallback(whitePixel.texture, configurations), PropertyLocation.Uniform);
             graphShader.setTag(tag);
             particleShaders.add(graphShader);
         }

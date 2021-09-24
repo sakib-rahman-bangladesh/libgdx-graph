@@ -14,11 +14,11 @@ public abstract class TextureShaderPropertyProducer implements GraphShaderProper
         return type;
     }
 
-    public PropertySource createProperty(int index, String name, JsonValue data, boolean designTime) {
+    public PropertySource createProperty(int index, String name, JsonValue data, PropertyLocation location, boolean designTime) {
         if (designTime)
-            return new PropertySource(index, name, type, WhitePixel.sharedInstance.textureRegion);
+            return new PropertySource(index, name, type, location, WhitePixel.sharedInstance.textureRegion);
         else
-            return new PropertySource(index, name, type, getDefaultTextureRegion());
+            return new PropertySource(index, name, type, location, getDefaultTextureRegion());
     }
 
     protected abstract TextureRegion getDefaultTextureRegion();

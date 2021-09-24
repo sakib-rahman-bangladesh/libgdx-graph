@@ -6,12 +6,14 @@ public class PropertySource {
     private int propertyIndex;
     private String propertyName;
     private ShaderFieldType shaderFieldType;
+    private PropertyLocation location;
     private Object defaultValue;
 
-    public PropertySource(int propertyIndex, String propertyName, ShaderFieldType shaderFieldType, Object defaultValue) {
+    public PropertySource(int propertyIndex, String propertyName, ShaderFieldType shaderFieldType, PropertyLocation location, Object defaultValue) {
         this.propertyIndex = propertyIndex;
         this.propertyName = propertyName;
         this.shaderFieldType = shaderFieldType;
+        this.location = location;
         this.defaultValue = defaultValue;
     }
 
@@ -25,6 +27,10 @@ public class PropertySource {
 
     public ShaderFieldType getShaderFieldType() {
         return shaderFieldType;
+    }
+
+    public PropertyLocation getPropertyLocation() {
+        return location;
     }
 
     public Object getValueToUse(Object givenValue) {
