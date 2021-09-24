@@ -10,15 +10,14 @@ import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogListener;
 import com.kotcrab.vis.ui.widget.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public abstract class ShaderGraphBoxPart extends VisTable implements GraphBoxPart {
-    private static final int EDIT_WIDTH = 50;
-    private static final int REMOVE_WIDTH = 80;
+    private static final int EDIT_WIDTH = 40;
+    private static final int REMOVE_WIDTH = 60;
     private final VerticalGroup shaderGroup;
-    private List<ShaderInfo> shaders = new LinkedList<>();
+    private ArrayList<ShaderInfo> shaders = new ArrayList<>();
 
     public ShaderGraphBoxPart() {
         shaderGroup = new VerticalGroup();
@@ -26,7 +25,7 @@ public abstract class ShaderGraphBoxPart extends VisTable implements GraphBoxPar
         shaderGroup.grow();
 
         VisTable table = new VisTable();
-        table.add("Tag").colspan(3).growX();
+        table.add("Tag").colspan(5).growX();
         table.row();
 
         VisScrollPane scrollPane = new VisScrollPane(shaderGroup);
@@ -82,7 +81,7 @@ public abstract class ShaderGraphBoxPart extends VisTable implements GraphBoxPar
 
     @Override
     public float getPrefWidth() {
-        return 300;
+        return 350;
     }
 
     @Override
@@ -114,6 +113,34 @@ public abstract class ShaderGraphBoxPart extends VisTable implements GraphBoxPar
         ShaderInfo shaderInfo = new ShaderInfo(id, tag, shader);
         shaders.add(shaderInfo);
         shaderGroup.addActor(shaderInfo.getActor());
+    }
+
+    private void moveShaderUp(ShaderInfo shaderInfo) {
+        int shaderIndex = shaders.indexOf(shaderInfo);
+        if (shaderIndex > 0) {
+            ShaderInfo otherShader = shaders.get(shaderIndex - 1);
+            Actor nodeActor = shaderGroup.getChild(shaderIndex);
+            Actor otherActor = shaderGroup.getChild(shaderIndex - 1);
+
+            shaders.remove(shaderInfo);
+            shaders.remove(otherShader);
+
+            shaderGroup.removeActor(nodeActor);
+            shaderGroup.removeActor(otherActor);
+
+            shaders.add(shaderIndex - 1, shaderInfo);
+            shaders.add(shaderIndex, otherShader);
+
+            shaderGroup.addActorAt(shaderIndex - 1, nodeActor);
+            shaderGroup.addActorAt(shaderIndex, otherActor);
+        }
+    }
+
+    private void moveShaderDown(ShaderInfo shaderInfo) {
+        int shaderIndex = shaders.indexOf(shaderInfo);
+        if (shaderIndex < shaders.size() - 1) {
+            moveShaderUp(shaders.get(shaderIndex + 1));
+        }
     }
 
     private void removeShaderGraph(ShaderInfo shaderInfo) {
@@ -165,6 +192,26 @@ public abstract class ShaderGraphBoxPart extends VisTable implements GraphBoxPar
             textField = new VisTextField(tag);
             textField.setMessageText("Shader Tag");
             table.add(textField).growX();
+
+            VisTextButton upButton = new VisTextButton("Up");
+            upButton.addListener(
+                    new ChangeListener() {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor) {
+                            moveShaderUp(ShaderInfo.this);
+                        }
+                    });
+            table.add(upButton).width(30);
+            VisTextButton downButton = new VisTextButton("Dn");
+            downButton.addListener(
+                    new ChangeListener() {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor) {
+                            moveShaderDown(ShaderInfo.this);
+                        }
+                    });
+            table.add(downButton).width(30);
+
             final VisTextButton editButton = new VisTextButton("Edit");
             editButton.addListener(
                     new ChangeListener() {
