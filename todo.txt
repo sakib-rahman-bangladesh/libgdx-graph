@@ -1,6 +1,4 @@
 General:
-0. Refactor shaders node to use the same code for all shader types.
-Priority: 3, Difficulty: 2
 1. Add support for reordering shaders in shaders nodes.
 Priority: 5, Difficulty: 2
 2. (low) Allow rendering to named frame buffers.
