@@ -17,8 +17,6 @@ Priority: 2, Difficulty: 6
 Priority: 1, Difficulty: 7
 - Pipeline transitions (i.e. between scenes).
 Priority: 2, Difficulty: 8
-- Add different types of rending output from pipeline - fit, fill, etc.
-Priority: 6, Difficulty: 3
 
 Sprite shader:
 - Split support for uniforms per shader and per sprite.
