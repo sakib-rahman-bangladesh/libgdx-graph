@@ -115,7 +115,7 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
                     currentBuffer.beginColor();
 
                     for (ScreenGraphShader shader : shaderArray) {
-                        shaderContext.setPropertyContainer(shader.getPropertyContainer());
+                        shaderContext.setGlobalPropertyContainer(shader.getPropertyContainer());
                         shader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
                         shader.render(shaderContext, pipelineRenderingContext.getFullScreenRender());
                         shader.end();

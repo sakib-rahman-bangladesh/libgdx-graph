@@ -49,13 +49,28 @@ public class FloatFieldType implements ShaderFieldType, PipelineFieldType {
     }
 
     @Override
-    public GraphShaderNodeBuilder.FieldOutput addAsUniform(CommonShaderBuilder commonShaderBuilder, JsonValue data, final PropertySource propertySource) {
+    public GraphShaderNodeBuilder.FieldOutput addAsGlobalUniform(CommonShaderBuilder commonShaderBuilder, JsonValue data, final PropertySource propertySource) {
+        String variableName = "u_property_" + propertySource.getPropertyIndex();
+        commonShaderBuilder.addUniformVariable(variableName, getShaderType(), true,
+                new UniformRegistry.UniformSetter() {
+                    @Override
+                    public void set(BasicShader shader, int location, ShaderContext shaderContext) {
+                        Object value = shaderContext.getGlobalProperty(propertySource.getPropertyName());
+                        value = propertySource.getValueToUse(value);
+                        shader.setUniform(location, ((Number) value).floatValue());
+                    }
+                }, "Float property - " + propertySource.getPropertyName());
+        return new DefaultFieldOutput(getName(), variableName);
+    }
+
+    @Override
+    public GraphShaderNodeBuilder.FieldOutput addAsLocalUniform(CommonShaderBuilder commonShaderBuilder, JsonValue data, final PropertySource propertySource) {
         String variableName = "u_property_" + propertySource.getPropertyIndex();
         commonShaderBuilder.addUniformVariable(variableName, getShaderType(), false,
                 new UniformRegistry.UniformSetter() {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
-                        Object value = shaderContext.getProperty(propertySource.getPropertyName());
+                        Object value = shaderContext.getLocalProperty(propertySource.getPropertyName());
                         value = propertySource.getValueToUse(value);
                         shader.setUniform(location, ((Number) value).floatValue());
                     }

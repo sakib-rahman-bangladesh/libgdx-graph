@@ -42,7 +42,49 @@ public class TextureRegionShaderFieldType implements ShaderFieldType {
     }
 
     @Override
-    public GraphShaderNodeBuilder.FieldOutput addAsUniform(CommonShaderBuilder commonShaderBuilder, JsonValue data, final PropertySource propertySource) {
+    public GraphShaderNodeBuilder.FieldOutput addAsGlobalUniform(CommonShaderBuilder commonShaderBuilder, JsonValue data, final PropertySource propertySource) {
+        final String name = propertySource.getPropertyName();
+
+        final TextureDescriptor<Texture> textureDescriptor = new TextureDescriptor<>();
+        if (data.has("minFilter"))
+            textureDescriptor.minFilter = Texture.TextureFilter.valueOf(data.getString("minFilter"));
+        if (data.has("magFilter"))
+            textureDescriptor.magFilter = Texture.TextureFilter.valueOf(data.getString("magFilter"));
+        if (data.has("uWrap"))
+            textureDescriptor.uWrap = Texture.TextureWrap.valueOf(data.getString("uWrap"));
+        if (data.has("vWrap"))
+            textureDescriptor.vWrap = Texture.TextureWrap.valueOf(data.getString("vWrap"));
+
+        String textureVariableName = "u_property_" + propertySource.getPropertyIndex();
+        String uvTransformVariableName = "u_uvTransform_" + propertySource.getPropertyIndex();
+        commonShaderBuilder.addUniformVariable(textureVariableName, "sampler2D", true,
+                new UniformRegistry.UniformSetter() {
+                    @Override
+                    public void set(BasicShader shader, int location, ShaderContext shaderContext) {
+                        Object value = shaderContext.getGlobalProperty(name);
+                        value = propertySource.getValueToUse(value);
+                        textureDescriptor.texture = ((TextureRegion) value).getTexture();
+                        shader.setUniform(location, textureDescriptor);
+                    }
+                }, "Texture property - " + name);
+        commonShaderBuilder.addUniformVariable(uvTransformVariableName, "vec4", true,
+                new UniformRegistry.UniformSetter() {
+                    @Override
+                    public void set(BasicShader shader, int location, ShaderContext shaderContext) {
+                        Object value = shaderContext.getGlobalProperty(name);
+                        value = propertySource.getValueToUse(value);
+                        TextureRegion region = (TextureRegion) value;
+                        shader.setUniform(location,
+                                region.getU(), region.getV(),
+                                region.getU2() - region.getU(),
+                                region.getV2() - region.getV());
+                    }
+                }, "Texture UV property - " + name);
+        return new DefaultFieldOutput(getName(), uvTransformVariableName, textureVariableName);
+    }
+
+    @Override
+    public GraphShaderNodeBuilder.FieldOutput addAsLocalUniform(CommonShaderBuilder commonShaderBuilder, JsonValue data, final PropertySource propertySource) {
         final String name = propertySource.getPropertyName();
 
         final TextureDescriptor<Texture> textureDescriptor = new TextureDescriptor<>();
@@ -61,7 +103,7 @@ public class TextureRegionShaderFieldType implements ShaderFieldType {
                 new UniformRegistry.UniformSetter() {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
-                        Object value = shaderContext.getProperty(name);
+                        Object value = shaderContext.getLocalProperty(name);
                         value = propertySource.getValueToUse(value);
                         textureDescriptor.texture = ((TextureRegion) value).getTexture();
                         shader.setUniform(location, textureDescriptor);
@@ -71,7 +113,7 @@ public class TextureRegionShaderFieldType implements ShaderFieldType {
                 new UniformRegistry.UniformSetter() {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
-                        Object value = shaderContext.getProperty(name);
+                        Object value = shaderContext.getLocalProperty(name);
                         value = propertySource.getValueToUse(value);
                         TextureRegion region = (TextureRegion) value;
                         shader.setUniform(location,
@@ -131,7 +173,7 @@ public class TextureRegionShaderFieldType implements ShaderFieldType {
                 new UniformRegistry.UniformSetter() {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
-                        Object value = shaderContext.getProperty(propertySource.getPropertyName());
+                        Object value = shaderContext.getLocalProperty(propertySource.getPropertyName());
                         value = propertySource.getValueToUse(value);
                         textureDescriptor.texture = ((TextureRegion) value).getTexture();
                         shader.setUniform(location, textureDescriptor);

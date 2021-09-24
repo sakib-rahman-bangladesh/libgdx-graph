@@ -146,7 +146,7 @@ public class CachedSpriteData implements SpriteData {
         }
         updatedSprites.clear();
 
-        shaderContext.setPropertyContainer(graphSpritesPosition[0].getPropertyContainer());
+        shaderContext.setLocalPropertyContainer(graphSpritesPosition[0].getPropertyContainer());
         if (minUpdatedIndex != Integer.MAX_VALUE) {
             if (debug)
                 Gdx.app.debug("Sprite", "Updating vertex array - float count: " + (maxUpdatedIndex - minUpdatedIndex));

@@ -189,7 +189,7 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
             for (SpriteGraphShader shader : translucentShaders) {
                 String tag = shader.getTag();
                 if (sprite.hasTag(tag)) {
-                    shaderContext.setPropertyContainer(sprite.getPropertyContainer());
+                    shaderContext.setLocalPropertyContainer(sprite.getPropertyContainer());
 
                     NonCachedTagSpriteData nonCachedTagSpriteData = nonCachedTagSpriteDataObjectMap.get(tag);
                     nonCachedTagSpriteData.setSprite(sprite);

@@ -40,8 +40,10 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
         PropertyLocation propertyLocation = propertySource.getPropertyLocation();
         if (propertyLocation == PropertyLocation.Attribute) {
             return LibGDXCollections.singletonMap("value", fieldType.addAsVertexAttribute(vertexShaderBuilder, data, propertySource));
+        } else if (propertyLocation == PropertyLocation.Uniform) {
+            return LibGDXCollections.singletonMap("value", fieldType.addAsLocalUniform(vertexShaderBuilder, data, propertySource));
         } else {
-            return LibGDXCollections.singletonMap("value", fieldType.addAsUniform(vertexShaderBuilder, data, propertySource));
+            return LibGDXCollections.singletonMap("value", fieldType.addAsGlobalUniform(vertexShaderBuilder, data, propertySource));
         }
     }
 
@@ -57,8 +59,10 @@ public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
         PropertyLocation propertyLocation = propertySource.getPropertyLocation();
         if (propertyLocation == PropertyLocation.Attribute) {
             return LibGDXCollections.singletonMap("value", fieldType.addAsFragmentAttribute(vertexShaderBuilder, fragmentShaderBuilder, data, propertySource));
+        } else if (propertyLocation == PropertyLocation.Uniform) {
+            return LibGDXCollections.singletonMap("value", fieldType.addAsLocalUniform(fragmentShaderBuilder, data, propertySource));
         } else {
-            return LibGDXCollections.singletonMap("value", fieldType.addAsUniform(fragmentShaderBuilder, data, propertySource));
+            return LibGDXCollections.singletonMap("value", fieldType.addAsGlobalUniform(fragmentShaderBuilder, data, propertySource));
         }
     }
 }

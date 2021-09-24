@@ -113,7 +113,7 @@ public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodePro
                         String tag = particleShader.getTag();
                         for (GraphParticleEffectImpl particleEffect : particleEffects.getParticleEffects()) {
                             if (particleEffect.getTag().equals(tag)) {
-                                shaderContext.setPropertyContainer(particleEffect.getPropertyContainer());
+                                shaderContext.setLocalPropertyContainer(particleEffect.getPropertyContainer());
                                 particleEffect.render(particleShader, shaderContext);
                             }
                         }
