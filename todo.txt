@@ -1,26 +1,50 @@
 General:
 0. Refactor shaders node to use the same code for all shader types.
+Priority: 3, Difficulty: 2
 1. Add support for reordering shaders in shaders nodes.
+Priority: 5, Difficulty: 2
 2. (low) Allow rendering to named frame buffers.
+Priority: 2, Difficulty: 7
 3. Advanced control of OpenGL settings in shaders.
+Priority: 2, Difficulty: 5
 4. Larger shader preview popup.
-5. (low) Previews for some shader nodes.
-6. (low) Shortcut to create and connect a property, when clicking on node circle in graph.
-7. (low) Figure out why Gradient node is difficult to close (click on button).
-8. (low) Stencil support.
-9. (low) Pipeline transitions (i.e. between scenes).
+Priority: 2, Difficulty :2
+5. Previews for some shader nodes.
+Priority: 3, Difficulty: 8
+6. Shortcut to create and connect a property, when clicking on node circle in graph.
+Priority: 1, Difficulty: 4
+7. Figure out why Gradient node is difficult to close (click on button).
+Priority: 2, Difficulty: 6
+8. Stencil support.
+Priority: 1, Difficulty: 7
+9. Pipeline transitions (i.e. between scenes).
+Priority: 2, Difficulty: 8
 10. Add different types of rending output from pipeline - fit, fill, etc.
+Priority: 6, Difficulty: 3
+
 Sprite shader:
 1. Split support for uniforms per shader and per sprite.
+Priority: 6, Difficulty: 3
+
 Model shader:
 1. Redesign how models are added, they should be added with a tag and an interface that returns all the info required to render.
+Priority: 7, Difficulty: 5
 2. Rewrite how default models can be added using an adapter, that registers all the models into the pipeline with the tag(s).
+Priority: 7, Difficulty: 3
 3. Add support for custom attributes being specified explicitly.
+Priority: 7, Difficulty: 4
 4. The shaders node should allow to define the order of rendering - shader by shader, models front-to-back, models back-to-front.
+Priority: 8, Difficulty: 5
 5. Shadows support.
+Priority: 8, Difficulty: 10
+
 Particle shader:
 1. Split support for uniforms per shader, per effect, and per particle.
-2. (low) Add support for defining geometry of the particles.
-3. (low) Add support for line particles.
+Priority: 6, Difficulty: 4
+2. Add support for defining geometry of the particles.
+Priority: 2, Difficulty: 6
+3. Add support for line particles.
+Priority: 2, Difficulty: 5
 4. Remove the particle generation from the libgdx-graph itself, this should be a job for the library user. Instead provide
 default implementation for a generic particle generator.
+Priority: 5, Difficulty: 5
