@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.ui.shader.producer.property;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
@@ -16,8 +17,8 @@ public class PropertyFloatBoxProducer implements PropertyBoxProducer {
     }
 
     @Override
-    public PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject) {
-        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.Float);
+    public PropertyBox createPropertyBox(Skin skin, String name, PropertyLocation location, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
+        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.Float, location, propertyLocations);
         result.addPropertyBoxPart(new FloatBoxPart("Value", "x", 0, null));
         result.initialize(jsonObject);
 
@@ -25,7 +26,7 @@ public class PropertyFloatBoxProducer implements PropertyBoxProducer {
     }
 
     @Override
-    public PropertyBox createDefaultPropertyBox(Skin skin) {
-        return createPropertyBox(skin, "New Float", null);
+    public PropertyBox createDefaultPropertyBox(Skin skin, PropertyLocation[] propertyLocations) {
+        return createPropertyBox(skin, "New Float", null, null, propertyLocations);
     }
 }

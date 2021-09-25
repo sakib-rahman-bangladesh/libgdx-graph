@@ -20,20 +20,13 @@ import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphValidator;
 import com.gempukku.libgdx.graph.data.NodeGroup;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
 import com.gempukku.libgdx.graph.ui.preview.PreviewWidget;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
-import com.kotcrab.vis.ui.widget.MenuItem;
-import com.kotcrab.vis.ui.widget.PopupMenu;
-import com.kotcrab.vis.ui.widget.VisImageButton;
-import com.kotcrab.vis.ui.widget.VisLabel;
-import com.kotcrab.vis.ui.widget.VisScrollPane;
-import com.kotcrab.vis.ui.widget.VisSplitPane;
-import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisTextButton;
-import com.kotcrab.vis.ui.widget.VisWindow;
+import com.kotcrab.vis.ui.widget.*;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 
 import java.util.LinkedList;
@@ -269,7 +262,7 @@ public class GraphDesignTab extends Tab implements Graph<GraphBox, GraphConnecti
                         new ChangeListener() {
                             @Override
                             public void changed(ChangeEvent event, Actor actor) {
-                                PropertyBox defaultPropertyBox = value.createDefaultPropertyBox(skin);
+                                PropertyBox defaultPropertyBox = value.createDefaultPropertyBox(skin, type.getPropertyLocations());
                                 addPropertyBox(name, defaultPropertyBox);
                             }
                         });
@@ -433,6 +426,9 @@ public class GraphDesignTab extends Tab implements Graph<GraphBox, GraphConnecti
             JsonValue property = new JsonValue(JsonValue.ValueType.object);
             property.addChild("name", new JsonValue(propertyBox.getName()));
             property.addChild("type", new JsonValue(propertyBox.getType()));
+            PropertyLocation location = propertyBox.getLocation();
+            if (location != null)
+                property.addChild("location", new JsonValue(location.name()));
 
             JsonValue data = propertyBox.getData();
             if (data != null)

@@ -20,7 +20,7 @@ public class ModelGraphShader extends GraphShader {
     }
 
     public void render(ModelShaderContextImpl shaderContext, IGraphModelInstance graphModelInstance) {
-        shaderContext.setPropertyContainer(graphModelInstance.getPropertyContainer());
+        shaderContext.setLocalPropertyContainer(graphModelInstance.getPropertyContainer());
         for (ModelDataProducer modelDataProducer : graphModelInstance.getModelInstanceData()) {
             if (modelDataProducer.isEnabled()) {
                 modelDataProducer.fillData(modelInstanceData);

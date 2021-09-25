@@ -15,7 +15,7 @@ import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 import com.gempukku.libgdx.graph.util.LibGDXCollections;
 
-public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuilder {
+public class PropertyShaderNodeBuilder implements GraphShaderNodeBuilder {
     @Override
     public String getType() {
         return "Property";
@@ -36,7 +36,15 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
 
         ShaderFieldType fieldType = ShaderFieldTypeRegistry.findShaderFieldType(propertyType);
         PropertySource propertySource = graphShaderContext.getPropertySource(name);
-        return LibGDXCollections.singletonMap("value", fieldType.addAsVertexAttribute(vertexShaderBuilder, data, propertySource));
+
+        PropertyLocation propertyLocation = propertySource.getPropertyLocation();
+        if (propertyLocation == PropertyLocation.Attribute) {
+            return LibGDXCollections.singletonMap("value", fieldType.addAsVertexAttribute(vertexShaderBuilder, data, propertySource));
+        } else if (propertyLocation == PropertyLocation.Uniform) {
+            return LibGDXCollections.singletonMap("value", fieldType.addAsLocalUniform(vertexShaderBuilder, data, propertySource));
+        } else {
+            return LibGDXCollections.singletonMap("value", fieldType.addAsGlobalUniform(vertexShaderBuilder, data, propertySource));
+        }
     }
 
     @Override
@@ -47,6 +55,14 @@ public class PropertyAsAttributeShaderNodeBuilder implements GraphShaderNodeBuil
 
         ShaderFieldType fieldType = ShaderFieldTypeRegistry.findShaderFieldType(propertyType);
         PropertySource propertySource = graphShaderContext.getPropertySource(name);
-        return LibGDXCollections.singletonMap("value", fieldType.addAsFragmentAttribute(vertexShaderBuilder, fragmentShaderBuilder, data, propertySource));
+
+        PropertyLocation propertyLocation = propertySource.getPropertyLocation();
+        if (propertyLocation == PropertyLocation.Attribute) {
+            return LibGDXCollections.singletonMap("value", fieldType.addAsFragmentAttribute(vertexShaderBuilder, fragmentShaderBuilder, data, propertySource));
+        } else if (propertyLocation == PropertyLocation.Uniform) {
+            return LibGDXCollections.singletonMap("value", fieldType.addAsLocalUniform(fragmentShaderBuilder, data, propertySource));
+        } else {
+            return LibGDXCollections.singletonMap("value", fieldType.addAsGlobalUniform(fragmentShaderBuilder, data, propertySource));
+        }
     }
 }

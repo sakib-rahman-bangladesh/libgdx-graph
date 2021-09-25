@@ -14,7 +14,8 @@ public class ShaderContextImpl implements ShaderContext {
     private Texture depthTexture;
     private Texture colorTexture;
     private TimeProvider timeProvider;
-    private PropertyContainer propertyContainer;
+    private PropertyContainer globalPropertyContainer;
+    private PropertyContainer localPropertyContainer;
 
     private PluginPrivateDataSource pluginPrivateDataSource;
 
@@ -76,13 +77,22 @@ public class ShaderContextImpl implements ShaderContext {
         this.timeProvider = timeProvider;
     }
 
-    public void setPropertyContainer(PropertyContainer propertyContainer) {
-        this.propertyContainer = propertyContainer;
+    public void setGlobalPropertyContainer(PropertyContainer globalPropertyContainer) {
+        this.globalPropertyContainer = globalPropertyContainer;
+    }
+
+    public void setLocalPropertyContainer(PropertyContainer localPropertyContainer) {
+        this.localPropertyContainer = localPropertyContainer;
     }
 
     @Override
-    public Object getProperty(String name) {
-        return propertyContainer.getValue(name);
+    public Object getGlobalProperty(String name) {
+        return globalPropertyContainer.getValue(name);
+    }
+
+    @Override
+    public Object getLocalProperty(String name) {
+        return localPropertyContainer.getValue(name);
     }
 
     @Override

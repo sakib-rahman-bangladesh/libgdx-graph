@@ -1,5 +1,7 @@
 package com.gempukku.libgdx.graph.ui.graph;
 
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
+
 public abstract class GraphType {
     private String type;
     private boolean exportable;
@@ -16,4 +18,6 @@ public abstract class GraphType {
     public boolean isExportable() {
         return exportable;
     }
+
+    public abstract PropertyLocation[] getPropertyLocations();
 }

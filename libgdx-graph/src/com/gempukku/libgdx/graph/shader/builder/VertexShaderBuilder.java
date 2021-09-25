@@ -8,6 +8,7 @@ import com.gempukku.libgdx.graph.shader.UniformRegistry;
 import com.gempukku.libgdx.graph.util.GdxCompatibilityUtils;
 
 public class VertexShaderBuilder extends CommonShaderBuilder {
+    private ObjectMap<String, String> attributeComments = new OrderedMap<>();
     private ObjectMap<String, String> attributeVariables = new OrderedMap<>();
     private ObjectMap<String, VertexAttribute> attributeVertexVariables = new OrderedMap<>();
 
@@ -16,6 +17,10 @@ public class VertexShaderBuilder extends CommonShaderBuilder {
     }
 
     public void addAttributeVariable(VertexAttribute vertexAttribute, String type) {
+        addAttributeVariable(vertexAttribute, type, null);
+    }
+
+    public void addAttributeVariable(VertexAttribute vertexAttribute, String type, String comment) {
         String name = vertexAttribute.alias;
         String existingType = attributeVariables.get(name);
         if (existingType != null && !existingType.equals(type))
@@ -23,12 +28,16 @@ public class VertexShaderBuilder extends CommonShaderBuilder {
         if (existingType == null) {
             uniformRegistry.registerAttribute(name);
             attributeVariables.put(name, type);
+            attributeComments.put(name, comment);
             attributeVertexVariables.put(name, vertexAttribute);
         }
     }
 
     private void appendAttributeVariables(StringBuilder stringBuilder) {
         for (ObjectMap.Entry<String, String> uniformDefinition : attributeVariables.entries()) {
+            String comment = attributeComments.get(uniformDefinition.key);
+            if (comment != null)
+                stringBuilder.append("// " + comment + "\n");
             stringBuilder.append("attribute " + uniformDefinition.value + " " + uniformDefinition.key + ";\n");
         }
         if (!attributeVariables.isEmpty())

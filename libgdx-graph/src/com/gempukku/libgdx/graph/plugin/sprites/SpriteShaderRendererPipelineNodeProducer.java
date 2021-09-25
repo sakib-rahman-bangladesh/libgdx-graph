@@ -10,22 +10,19 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
-import com.gempukku.libgdx.graph.pipeline.producer.node.OncePerFrameJobPipelineNode;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineInitializationFeedback;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNode;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNodeProducerImpl;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineRequirements;
+import com.gempukku.libgdx.graph.pipeline.producer.node.*;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.GraphSpritesImpl;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.common.PropertyAsAttributeShaderConfiguration;
+import com.gempukku.libgdx.graph.shader.common.PropertyShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
-    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyAsAttributeShaderConfiguration(), new SpriteShaderConfiguration()};
+    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new SpriteShaderConfiguration()};
     private PluginPrivateDataSource pluginPrivateDataSource;
 
     public SpriteShaderRendererPipelineNodeProducer(PluginPrivateDataSource pluginPrivateDataSource) {
@@ -166,7 +163,7 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
         JsonValue shaderGraph = shaderDefinition.get("shader");
         String tag = shaderDefinition.getString("tag");
         Gdx.app.debug("Shader", "Building shader with tag: " + tag);
-        SpriteGraphShader spriteGraphShader = GraphLoader.loadGraph(shaderGraph, new SpriteShaderLoaderCallback(defaultTexture, configurations));
+        SpriteGraphShader spriteGraphShader = GraphLoader.loadGraph(shaderGraph, new SpriteShaderLoaderCallback(defaultTexture, configurations), PropertyLocation.Attribute);
         spriteGraphShader.setTag(tag);
         return spriteGraphShader;
     }

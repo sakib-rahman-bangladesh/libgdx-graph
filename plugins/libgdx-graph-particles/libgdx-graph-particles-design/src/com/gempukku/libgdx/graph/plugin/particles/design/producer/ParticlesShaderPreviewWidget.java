@@ -1,13 +1,7 @@
 package com.gempukku.libgdx.graph.plugin.particles.design.producer;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttributes;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
@@ -31,12 +25,7 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Point3DLight;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffectImpl;
 import com.gempukku.libgdx.graph.plugin.particles.ParticleEffectConfiguration;
 import com.gempukku.libgdx.graph.plugin.particles.ParticlesGraphShader;
-import com.gempukku.libgdx.graph.plugin.particles.generator.DefaultParticleGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.generator.LinePositionGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.generator.ParticleGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.generator.PointPositionGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.generator.SpherePositionGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.generator.SphereSurfacePositionGenerator;
+import com.gempukku.libgdx.graph.plugin.particles.generator.*;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
@@ -160,7 +149,7 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
             createModel(graphShader.getVertexAttributes());
 
             shaderContext.setTimeProvider(timeKeeper);
-            shaderContext.setPropertyContainer(
+            shaderContext.setLocalPropertyContainer(
                     new PropertyContainer() {
                         @Override
                         public Object getValue(String name) {

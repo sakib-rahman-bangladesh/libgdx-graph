@@ -14,19 +14,25 @@ import com.kotcrab.vis.ui.widget.VisTable;
 
 public class SelectBoxPart extends VisTable implements GraphBoxPart {
     private final VisSelectBox<String> selectBox;
+    private String[] resultValues;
 
     private String property;
 
-    public SelectBoxPart(String label, String property, Enum<?>... values) {
-        this(label, property, convertToStrings(values));
-    }
-
-    private static String[] convertToStrings(Enum<?>[] values) {
+    private static String[] convertToStrings(Enum<?>[] values, boolean normalize) {
         String[] result = new String[values.length];
         for (int i = 0; i < values.length; i++) {
-            result[i] = values[i].name().replace('_', ' ');
+            String value = values[i].name();
+            if (normalize)
+                result[i] = value.replace('_', ' ');
+            else
+                result[i] = value;
         }
         return result;
+    }
+
+    public SelectBoxPart(String label, String property, Enum<?>... values) {
+        this(label, property, convertToStrings(values, true));
+        resultValues = convertToStrings(values, false);
     }
 
     public SelectBoxPart(String label, String property, String... values) {
@@ -45,6 +51,7 @@ public class SelectBoxPart extends VisTable implements GraphBoxPart {
                         fire(new GraphChangedEvent(false, true));
                     }
                 });
+        resultValues = values;
     }
 
     @Override
@@ -64,8 +71,9 @@ public class SelectBoxPart extends VisTable implements GraphBoxPart {
 
     public void initialize(JsonValue data) {
         if (data != null) {
-            String value = data.getString(property);
-            selectBox.setSelected(value);
+            String value = data.getString(property, null);
+            if (value != null)
+                selectBox.setSelected(value);
         }
     }
 
@@ -73,9 +81,13 @@ public class SelectBoxPart extends VisTable implements GraphBoxPart {
         selectBox.setSelected(value.name().replace('_', ' '));
     }
 
+    public String getSelected() {
+        return resultValues[selectBox.getSelectedIndex()];
+    }
+
     @Override
     public void serializePart(JsonValue object) {
-        object.addChild(property, new JsonValue(selectBox.getSelected()));
+        object.addChild(property, new JsonValue(getSelected()));
     }
 
     @Override

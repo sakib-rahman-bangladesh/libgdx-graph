@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.loader.GraphLoaderCallback;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphDesignTab;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
@@ -13,11 +14,14 @@ import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
 public class UIGraphLoaderCallback implements GraphLoaderCallback<GraphDesignTab> {
     private Skin skin;
     private GraphDesignTab graphDesignTab;
+    private PropertyLocation[] propertyLocations;
     private UIGraphConfiguration[] uiGraphConfigurations;
 
-    public UIGraphLoaderCallback(Skin skin, GraphDesignTab graphDesignTab, UIGraphConfiguration... uiGraphConfiguration) {
+    public UIGraphLoaderCallback(Skin skin, GraphDesignTab graphDesignTab,
+                                 PropertyLocation[] propertyLocations, UIGraphConfiguration... uiGraphConfiguration) {
         this.skin = skin;
         this.graphDesignTab = graphDesignTab;
+        this.propertyLocations = propertyLocations;
         this.uiGraphConfigurations = uiGraphConfiguration;
     }
 
@@ -40,11 +44,11 @@ public class UIGraphLoaderCallback implements GraphLoaderCallback<GraphDesignTab
     }
 
     @Override
-    public void addPipelineProperty(String type, String name, JsonValue data) {
+    public void addPipelineProperty(String type, String name, PropertyLocation location, JsonValue data) {
         PropertyBoxProducer producer = findPropertyProducerByType(type);
         if (producer == null)
             throw new IllegalArgumentException("Unable to find property producer for type: " + type);
-        PropertyBox propertyBox = producer.createPropertyBox(skin, name, data);
+        PropertyBox propertyBox = producer.createPropertyBox(skin, name, location, data, propertyLocations);
         graphDesignTab.addPropertyBox(type, propertyBox);
     }
 

@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteData;
+import com.gempukku.libgdx.graph.plugin.sprites.ValuePerVertex;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
@@ -126,7 +127,12 @@ public class CachedSpriteData implements SpriteData {
 
                     ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
                     Object value = sprite.getPropertyContainer().getValue(propertyName);
-                    value = propertySource.getValueToUse(value);
+                    if (value instanceof ValuePerVertex) {
+                        value = ((ValuePerVertex) value).getValue(vertexIndex);
+                        value = propertySource.getValueToUse(value);
+                    } else {
+                        value = propertySource.getValueToUse(value);
+                    }
 
                     floatIndex += shaderFieldType.setValueInAttributesArray(vertexData, vertexOffset + floatIndex, value);
                 }
@@ -146,7 +152,7 @@ public class CachedSpriteData implements SpriteData {
         }
         updatedSprites.clear();
 
-        shaderContext.setPropertyContainer(graphSpritesPosition[0].getPropertyContainer());
+        shaderContext.setLocalPropertyContainer(graphSpritesPosition[0].getPropertyContainer());
         if (minUpdatedIndex != Integer.MAX_VALUE) {
             if (debug)
                 Gdx.app.debug("Sprite", "Updating vertex array - float count: " + (maxUpdatedIndex - minUpdatedIndex));

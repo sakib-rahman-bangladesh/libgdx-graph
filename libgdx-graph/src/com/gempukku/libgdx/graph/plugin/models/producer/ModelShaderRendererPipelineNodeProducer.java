@@ -4,20 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.*;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
 import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
-import com.gempukku.libgdx.graph.pipeline.producer.node.OncePerFrameJobPipelineNode;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineInitializationFeedback;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNode;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineNodeProducerImpl;
-import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineRequirements;
+import com.gempukku.libgdx.graph.pipeline.producer.node.*;
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.plugin.models.ModelGraphShader;
 import com.gempukku.libgdx.graph.plugin.models.ModelShaderConfiguration;
@@ -28,12 +20,13 @@ import com.gempukku.libgdx.graph.plugin.models.impl.IGraphModelInstance;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.common.PropertyAsUniformShaderConfiguration;
+import com.gempukku.libgdx.graph.shader.common.PropertyShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
-    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyAsUniformShaderConfiguration(), new ModelShaderConfiguration()};
+    private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new ModelShaderConfiguration()};
     private PluginPrivateDataSource pluginPrivateDataSource;
     private int maxBoneCount;
     private int maxBoneWeightCount;
@@ -264,7 +257,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         JsonValue shaderGraph = shaderDefinition.get("shader");
         String tag = shaderDefinition.getString("tag");
         Gdx.app.debug("Shader", "Building shader with tag: " + tag);
-        ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, maxBoneCount, maxBoneWeightCount, false, configurations));
+        ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, maxBoneCount, maxBoneWeightCount, false, configurations), PropertyLocation.Uniform);
         modelGraphShader.setTag(tag);
         return modelGraphShader;
     }
@@ -273,7 +266,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         JsonValue shaderGraph = shaderDefinition.get("shader");
         String tag = shaderDefinition.getString("tag");
         Gdx.app.debug("Shader", "Building shader with tag: " + tag);
-        ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, maxBoneCount, maxBoneWeightCount, true, configurations));
+        ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, maxBoneCount, maxBoneWeightCount, true, configurations), PropertyLocation.Uniform);
         modelGraphShader.setTag(tag);
         return modelGraphShader;
     }

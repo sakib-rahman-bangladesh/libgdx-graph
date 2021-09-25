@@ -21,7 +21,9 @@ public interface ShaderFieldType extends FieldType {
 
     Object convertFromJson(JsonValue data);
 
-    GraphShaderNodeBuilder.FieldOutput addAsUniform(CommonShaderBuilder commonShaderBuilder, JsonValue data, PropertySource propertySource);
+    GraphShaderNodeBuilder.FieldOutput addAsGlobalUniform(CommonShaderBuilder commonShaderBuilder, JsonValue data, PropertySource propertySource);
+
+    GraphShaderNodeBuilder.FieldOutput addAsLocalUniform(CommonShaderBuilder commonShaderBuilder, JsonValue data, PropertySource propertySource);
 
     GraphShaderNodeBuilder.FieldOutput addAsVertexAttribute(VertexShaderBuilder vertexShaderBuilder, JsonValue data, PropertySource propertySource);
 

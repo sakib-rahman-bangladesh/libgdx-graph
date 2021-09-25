@@ -18,5 +18,7 @@ public interface ShaderContext extends PluginPrivateDataSource {
 
     TimeProvider getTimeProvider();
 
-    Object getProperty(String name);
+    Object getGlobalProperty(String name);
+
+    Object getLocalProperty(String name);
 }

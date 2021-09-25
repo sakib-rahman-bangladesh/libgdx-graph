@@ -54,17 +54,32 @@ public class Matrix4FieldType implements ShaderFieldType, PipelineFieldType {
     }
 
     @Override
-    public GraphShaderNodeBuilder.FieldOutput addAsUniform(CommonShaderBuilder commonShaderBuilder, JsonValue data, final PropertySource propertySource) {
+    public GraphShaderNodeBuilder.FieldOutput addAsGlobalUniform(CommonShaderBuilder commonShaderBuilder, JsonValue data, final PropertySource propertySource) {
+        String variableName = "u_property_" + propertySource.getPropertyIndex();
+        commonShaderBuilder.addUniformVariable(variableName, getShaderType(), true,
+                new UniformRegistry.UniformSetter() {
+                    @Override
+                    public void set(BasicShader shader, int location, ShaderContext shaderContext) {
+                        Object value = shaderContext.getGlobalProperty(propertySource.getPropertyName());
+                        value = propertySource.getValueToUse(value);
+                        shader.setUniform(location, (Matrix4) value);
+                    }
+                }, "Matrix4 property - " + propertySource.getPropertyName());
+        return new DefaultFieldOutput(getName(), variableName);
+    }
+
+    @Override
+    public GraphShaderNodeBuilder.FieldOutput addAsLocalUniform(CommonShaderBuilder commonShaderBuilder, JsonValue data, final PropertySource propertySource) {
         String variableName = "u_property_" + propertySource.getPropertyIndex();
         commonShaderBuilder.addUniformVariable(variableName, getShaderType(), false,
                 new UniformRegistry.UniformSetter() {
                     @Override
                     public void set(BasicShader shader, int location, ShaderContext shaderContext) {
-                        Object value = shaderContext.getProperty(propertySource.getPropertyName());
+                        Object value = shaderContext.getLocalProperty(propertySource.getPropertyName());
                         value = propertySource.getValueToUse(value);
                         shader.setUniform(location, (Matrix4) value);
                     }
-                });
+                }, "Matrix4 property - " + propertySource.getPropertyName());
         return new DefaultFieldOutput(getName(), variableName);
     }
 
@@ -72,7 +87,7 @@ public class Matrix4FieldType implements ShaderFieldType, PipelineFieldType {
     public GraphShaderNodeBuilder.FieldOutput addAsVertexAttribute(VertexShaderBuilder vertexShaderBuilder, JsonValue data, final PropertySource propertySource) {
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
 
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 16, attributeName), getShaderType());
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 16, attributeName), getShaderType(), "Matrix4 property - " + propertySource.getPropertyName());
 
         return new DefaultFieldOutput(getName(), attributeName);
     }
@@ -82,7 +97,7 @@ public class Matrix4FieldType implements ShaderFieldType, PipelineFieldType {
         String attributeName = "a_property_" + propertySource.getPropertyIndex();
         String variableName = "v_property_" + propertySource.getPropertyIndex();
 
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 16, attributeName), getShaderType());
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(1024, 16, attributeName), getShaderType(), "Matrix4 property - " + propertySource.getPropertyName());
         if (!vertexShaderBuilder.hasVaryingVariable(variableName)) {
             vertexShaderBuilder.addVaryingVariable(variableName, getShaderType());
             vertexShaderBuilder.addMainLine(variableName + " = " + attributeName + ";");
