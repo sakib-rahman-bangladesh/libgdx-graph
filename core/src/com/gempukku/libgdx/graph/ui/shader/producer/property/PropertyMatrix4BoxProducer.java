@@ -16,8 +16,8 @@ public class PropertyMatrix4BoxProducer implements PropertyBoxProducer {
     }
 
     @Override
-    public PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
-        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.Matrix4, propertyLocations);
+    public PropertyBox createPropertyBox(Skin skin, String name, PropertyLocation location, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
+        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.Matrix4, location, propertyLocations);
         result.addPropertyBoxPart(new Vector4BoxPart("",
                 "x1", "y1", "z1", "w1",
                 1, 0, 0, 0,
@@ -40,6 +40,6 @@ public class PropertyMatrix4BoxProducer implements PropertyBoxProducer {
 
     @Override
     public PropertyBox createDefaultPropertyBox(Skin skin, PropertyLocation[] propertyLocations) {
-        return createPropertyBox(skin, "New Matrix4", null, propertyLocations);
+        return createPropertyBox(skin, "New Matrix4", null, null, propertyLocations);
     }
 }

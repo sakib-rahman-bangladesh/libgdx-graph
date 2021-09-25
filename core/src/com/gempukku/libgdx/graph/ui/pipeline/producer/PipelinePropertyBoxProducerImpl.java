@@ -32,8 +32,8 @@ public class PipelinePropertyBoxProducerImpl implements PropertyBoxProducer {
     }
 
     @Override
-    public PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
-        PropertyBoxImpl result = new PropertyBoxImpl(name, type, propertyLocations);
+    public PropertyBox createPropertyBox(Skin skin, String name, PropertyLocation location, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
+        PropertyBoxImpl result = new PropertyBoxImpl(name, type, null, propertyLocations);
         for (Supplier<PropertyBoxPart> propertyBoxPart : propertyBoxParts) {
             result.addPropertyBoxPart(propertyBoxPart.get());
         }
@@ -44,6 +44,6 @@ public class PipelinePropertyBoxProducerImpl implements PropertyBoxProducer {
 
     @Override
     public PropertyBox createDefaultPropertyBox(Skin skin, PropertyLocation[] propertyLocations) {
-        return createPropertyBox(skin, defaultName, null, propertyLocations);
+        return createPropertyBox(skin, defaultName, null, null, propertyLocations);
     }
 }

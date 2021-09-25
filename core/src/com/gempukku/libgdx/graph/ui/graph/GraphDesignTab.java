@@ -20,6 +20,7 @@ import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphValidator;
 import com.gempukku.libgdx.graph.data.NodeGroup;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
@@ -425,6 +426,9 @@ public class GraphDesignTab extends Tab implements Graph<GraphBox, GraphConnecti
             JsonValue property = new JsonValue(JsonValue.ValueType.object);
             property.addChild("name", new JsonValue(propertyBox.getName()));
             property.addChild("type", new JsonValue(propertyBox.getType()));
+            PropertyLocation location = propertyBox.getLocation();
+            if (location != null)
+                property.addChild("location", new JsonValue(location.name()));
 
             JsonValue data = propertyBox.getData();
             if (data != null)

@@ -18,4 +18,10 @@ public interface GraphSprites {
     void unsetProperty(GraphSprite sprite, String name);
 
     Object getProperty(GraphSprite sprite, String name);
+
+    void setGlobalProperty(String tag, String name, Object value);
+
+    void unsetGlobalProperty(String tag, String name);
+
+    Object getGlobalProperty(String tag, String name);
 }

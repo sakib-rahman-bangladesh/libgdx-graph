@@ -7,7 +7,7 @@ import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 public interface PropertyBoxProducer {
     String getType();
 
-    PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject, PropertyLocation[] propertyLocations);
+    PropertyBox createPropertyBox(Skin skin, String name, PropertyLocation location, JsonValue jsonObject, PropertyLocation[] propertyLocations);
 
     PropertyBox createDefaultPropertyBox(Skin skin, PropertyLocation[] propertyLocations);
 }

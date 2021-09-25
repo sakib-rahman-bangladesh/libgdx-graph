@@ -3,11 +3,7 @@ package com.gempukku.libgdx.graph.test;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Cubemap;
-import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureArray;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.GLFrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
@@ -22,29 +18,8 @@ import com.gempukku.libgdx.graph.plugin.particles.ParticlesPluginRuntimeInitiali
 import com.gempukku.libgdx.graph.plugin.screen.ScreenPluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.plugin.sprites.SpritesPluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginRuntimeInitializer;
-import com.gempukku.libgdx.graph.test.episodes.Episode11Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode12Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode13Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode14Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode15Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode16Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode17Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode18Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode19Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode1Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode20Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode21Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode22Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode23Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode24Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode2Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode3Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode4Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode5Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode6Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode7Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode8Scene;
-import com.gempukku.libgdx.graph.test.episodes.Episode9Scene;
+import com.gempukku.libgdx.graph.test.episodes.*;
+import com.gempukku.libgdx.graph.test.scenes.SpriteShaderTestScene;
 import com.gempukku.libgdx.graph.util.SimpleNumberFormatter;
 
 public class ReloadableGraphTestApplication extends ApplicationAdapter {
@@ -94,7 +69,8 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
                 new Episode21Scene(),
                 new Episode22Scene(),
                 new Episode23Scene(),
-                new Episode24Scene()
+                new Episode24Scene(),
+                new SpriteShaderTestScene()
         };
         loadedIndex = scenes.length - 1;
 

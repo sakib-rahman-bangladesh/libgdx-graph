@@ -16,8 +16,8 @@ public class PropertyTextureBoxProducer implements PropertyBoxProducer {
     }
 
     @Override
-    public PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
-        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.TextureRegion, propertyLocations);
+    public PropertyBox createPropertyBox(Skin skin, String name, PropertyLocation location, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
+        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.TextureRegion, location, propertyLocations);
         result.addPropertyBoxPart(new FileSelectorBoxPart("Preview texture ", "previewPath"));
         result.initialize(jsonObject);
 
@@ -26,6 +26,6 @@ public class PropertyTextureBoxProducer implements PropertyBoxProducer {
 
     @Override
     public PropertyBox createDefaultPropertyBox(Skin skin, PropertyLocation[] propertyLocations) {
-        return createPropertyBox(skin, "New Texture", null, propertyLocations);
+        return createPropertyBox(skin, "New Texture", null, null, propertyLocations);
     }
 }

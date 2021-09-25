@@ -16,8 +16,8 @@ public class PropertyVector3BoxProducer implements PropertyBoxProducer {
     }
 
     @Override
-    public PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
-        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.Vector3, propertyLocations);
+    public PropertyBox createPropertyBox(Skin skin, String name, PropertyLocation location, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
+        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.Vector3, location, propertyLocations);
         result.addPropertyBoxPart(new Vector3BoxPart("Vector3",
                 "x", "y", "z",
                 0, 0, 0,
@@ -28,6 +28,6 @@ public class PropertyVector3BoxProducer implements PropertyBoxProducer {
 
     @Override
     public PropertyBox createDefaultPropertyBox(Skin skin, PropertyLocation[] propertyLocations) {
-        return createPropertyBox(skin, "New Vector3", null, propertyLocations);
+        return createPropertyBox(skin, "New Vector3", null, null, propertyLocations);
     }
 }

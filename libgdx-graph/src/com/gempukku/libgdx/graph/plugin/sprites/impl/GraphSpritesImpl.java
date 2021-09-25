@@ -16,6 +16,7 @@ import com.gempukku.libgdx.graph.plugin.sprites.SpriteGraphShader;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteUpdater;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
+import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
@@ -44,6 +45,8 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
     private ObjectMap<String, NonCachedTagSpriteData> nonCachedTagSpriteDataObjectMap = new ObjectMap<>();
 
     private ObjectMap<String, ObjectSet<GraphSpriteImpl>> nonCachedSpritesByTag = new ObjectMap<>();
+
+    private ObjectMap<String, PropertyContainerImpl> tagPropertyContainers = new ObjectMap<>();
 
     private Vector3 tempPosition = new Vector3();
 
@@ -139,6 +142,24 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
         return getSprite(sprite).getPropertyContainer().getValue(name);
     }
 
+    @Override
+    public void setGlobalProperty(String tag, String name, Object value) {
+        PropertyContainerImpl propertyContainer = tagPropertyContainers.get(tag);
+        propertyContainer.setValue(name, value);
+    }
+
+    @Override
+    public void unsetGlobalProperty(String tag, String name) {
+        PropertyContainerImpl propertyContainer = tagPropertyContainers.get(tag);
+        propertyContainer.remove(name);
+    }
+
+    @Override
+    public Object getGlobalProperty(String tag, String name) {
+        PropertyContainerImpl propertyContainer = tagPropertyContainers.get(tag);
+        return propertyContainer.getValue(name);
+    }
+
     private GraphSpriteImpl getSprite(GraphSprite graphSprite) {
         return (GraphSpriteImpl) graphSprite;
     }
@@ -171,6 +192,7 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
             if (dynamicSprites.hasSprites()) {
                 if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
                     Gdx.app.debug("Sprite", "Starting drawing opaque with tag - " + tag);
+                shaderContext.setGlobalPropertyContainer(tagPropertyContainers.get(tag));
                 shader.begin(shaderContext, renderContext);
                 dynamicSprites.render(shader, shaderContext);
                 shader.end();
@@ -200,6 +222,7 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
                                 Gdx.app.debug("Sprite", "Finished drawing translucent");
                             lastShader.end();
                         }
+                        shaderContext.setGlobalPropertyContainer(tagPropertyContainers.get(tag));
                         shader.begin(shaderContext, renderContext);
                         if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
                             Gdx.app.debug("Sprite", "Starting drawing translucent with tag - " + tag);
@@ -208,7 +231,6 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
                     if (Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG)
                         Gdx.app.debug("Sprite", "Rendering 1 sprite(s)");
                     shader.renderSprites(shaderContext, nonCachedTagSpriteData);
-
                 }
             }
         }
@@ -244,6 +266,8 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
             dynamicCachedTagSpriteData.put(tag, new CachedTagSpriteData(vertexAttributes, spriteBatchSize, shaderProperties, textureUniformNames));
         else
             nonCachedTagSpriteDataObjectMap.put(tag, new NonCachedTagSpriteData(vertexAttributes, shaderProperties));
+
+        tagPropertyContainers.put(tag, new PropertyContainerImpl());
     }
 
     @Override

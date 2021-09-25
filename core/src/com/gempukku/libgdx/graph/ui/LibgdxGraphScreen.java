@@ -11,6 +11,7 @@ import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.NodeConfiguration;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.ui.graph.*;
 import com.gempukku.libgdx.graph.ui.pipeline.UIPipelineConfiguration;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducer;
@@ -133,7 +134,7 @@ public class LibgdxGraphScreen extends VisTable {
         GraphDesignTab graphDesignTab = new GraphDesignTab(true, type, id, title, skin,
                 saveCallback, configurations);
         GraphLoader.loadGraph(graph,
-                new UIGraphLoaderCallback(skin, graphDesignTab, configurations), null);
+                new UIGraphLoaderCallback(skin, graphDesignTab, type.getPropertyLocations(), configurations), null);
         tabbedPane.add(graphDesignTab);
         tabbedPane.switchTab(graphDesignTab);
         graphDesignTab.setDirty(false);
@@ -582,7 +583,7 @@ public class LibgdxGraphScreen extends VisTable {
                     UIPipelineConfiguration pipelineGraphConfiguration = new UIPipelineConfiguration();
                     graphDesignTab = GraphLoader.loadGraph(stream, new UIGraphLoaderCallback(
                             skin, new GraphDesignTab(false, RenderPipelineGraphType.instance, "main", "Render pipeline", skin,
-                            null, pipelineGraphConfiguration), pipelineGraphConfiguration));
+                            null, pipelineGraphConfiguration), new PropertyLocation[0], pipelineGraphConfiguration));
 
                     graphDesignTab.getContentTable().addListener(
                             new EventListener() {

@@ -17,8 +17,8 @@ public class PropertyColorBoxProducer implements PropertyBoxProducer {
     }
 
     @Override
-    public PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
-        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.Vector4, propertyLocations);
+    public PropertyBox createPropertyBox(Skin skin, String name, PropertyLocation location, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
+        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.Vector4, location, propertyLocations);
         result.addPropertyBoxPart(new ColorBoxPart("Color", "color"));
         result.initialize(jsonObject);
 
@@ -27,6 +27,6 @@ public class PropertyColorBoxProducer implements PropertyBoxProducer {
 
     @Override
     public PropertyBox createDefaultPropertyBox(Skin skin, PropertyLocation[] propertyLocations) {
-        return createPropertyBox(skin, "New Color", null, propertyLocations);
+        return createPropertyBox(skin, "New Color", null, null, propertyLocations);
     }
 }

@@ -17,8 +17,8 @@ public class PropertyFloatBoxProducer implements PropertyBoxProducer {
     }
 
     @Override
-    public PropertyBox createPropertyBox(Skin skin, String name, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
-        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.Float, propertyLocations);
+    public PropertyBox createPropertyBox(Skin skin, String name, PropertyLocation location, JsonValue jsonObject, PropertyLocation[] propertyLocations) {
+        PropertyBoxImpl result = new PropertyBoxImpl(name, ShaderFieldType.Float, location, propertyLocations);
         result.addPropertyBoxPart(new FloatBoxPart("Value", "x", 0, null));
         result.initialize(jsonObject);
 
@@ -27,6 +27,6 @@ public class PropertyFloatBoxProducer implements PropertyBoxProducer {
 
     @Override
     public PropertyBox createDefaultPropertyBox(Skin skin, PropertyLocation[] propertyLocations) {
-        return createPropertyBox(skin, "New Float", null, propertyLocations);
+        return createPropertyBox(skin, "New Float", null, null, propertyLocations);
     }
 }

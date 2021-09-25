@@ -25,6 +25,8 @@ import com.gempukku.libgdx.graph.plugin.sprites.impl.NonCachedTagSpriteData;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
+import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
@@ -44,6 +46,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
     private ShaderContextImpl shaderContext;
     private GraphSpriteImpl graphSprite;
     private NonCachedTagSpriteData spriteData;
+    private PropertyContainerImpl globalUniforms;
 
     public SpriteShaderPreviewWidget(int width, int height) {
         this.width = width;
@@ -96,9 +99,13 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
             timeKeeper = new DefaultTimeKeeper();
             graphShader = GraphShaderBuilder.buildSpriteShader(WhitePixel.sharedInstance.texture, graph, true);
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
+            globalUniforms = new PropertyContainerImpl();
 
             for (GraphProperty property : graph.getProperties()) {
-                graphSprite.getPropertyContainer().setValue(property.getName(), getPropertyValue(property));
+                if (property.getLocation() == PropertyLocation.Attribute)
+                    graphSprite.getPropertyContainer().setValue(property.getName(), getPropertyValue(property));
+                else if (property.getLocation() == PropertyLocation.Global_Uniform)
+                    globalUniforms.setValue(property.getName(), getPropertyValue(property));
             }
 
             createModel(graphShader.getVertexAttributes(), graphShader.getProperties());
@@ -169,6 +176,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
                 renderContext.begin();
                 Gdx.gl.glClearColor(0, 0, 0, 1);
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+                shaderContext.setGlobalPropertyContainer(globalUniforms);
                 graphShader.begin(shaderContext, renderContext);
                 graphShader.renderSprites(shaderContext, spriteData);
                 graphShader.end();
