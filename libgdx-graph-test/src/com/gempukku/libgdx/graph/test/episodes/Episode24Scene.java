@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -28,12 +29,7 @@ import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.plugin.particles.generator.DefaultParticleGenerator;
 import com.gempukku.libgdx.graph.plugin.particles.generator.ParallelogramPositionGenerator;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
-import com.gempukku.libgdx.graph.system.CameraSystem;
-import com.gempukku.libgdx.graph.system.OutlineSystem;
-import com.gempukku.libgdx.graph.system.PhysicsSystem;
-import com.gempukku.libgdx.graph.system.PlayerControlSystem;
-import com.gempukku.libgdx.graph.system.RenderingSystem;
-import com.gempukku.libgdx.graph.system.TextureHolder;
+import com.gempukku.libgdx.graph.system.*;
 import com.gempukku.libgdx.graph.system.camera.FocusCameraController;
 import com.gempukku.libgdx.graph.system.camera.constraint.SceneCameraConstraint;
 import com.gempukku.libgdx.graph.system.camera.constraint.focus.CameraFocusConstraint;
@@ -130,7 +126,17 @@ public class Episode24Scene implements LibgdxGraphTestScene {
         positionGenerator.getOrigin().set(0, 0, -10);
         positionGenerator.getDirection1().set(1, 0, 0);
         positionGenerator.getDirection2().set(0, 1, 0);
-        DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(5);
+        DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(5) {
+            @Override
+            protected void generateAttributes(ParticleGenerateInfo particle) {
+                particle.particleAttributes.put("X movement", MathUtils.random(-50f, 50f));
+                particle.particleAttributes.put("Y movement", MathUtils.random(-50f, 50f));
+                particle.particleAttributes.put("Parallax layer", MathUtils.random(0.8f, 0.99f));
+                particle.particleAttributes.put("Size", MathUtils.random(5f, 15f));
+                particle.particleAttributes.put("Color", MathUtils.random(0f, 1f));
+
+            }
+        };
         particleGenerator.setPositionGenerator(positionGenerator);
         GraphParticleEffect dustEffect = particleEffects.createEffect("Dust", particleGenerator);
         particleEffects.startEffect(dustEffect);

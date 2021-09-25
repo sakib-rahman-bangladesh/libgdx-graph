@@ -29,6 +29,7 @@ import com.gempukku.libgdx.graph.plugin.particles.generator.*;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.WhitePixel;
@@ -149,12 +150,26 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
             createModel(graphShader.getVertexAttributes());
 
             shaderContext.setTimeProvider(timeKeeper);
+            shaderContext.setGlobalPropertyContainer(
+                    new PropertyContainer() {
+                        @Override
+                        public Object getValue(String name) {
+                            for (GraphProperty property : graph.getProperties()) {
+                                if (property.getName().equals(name) && property.getLocation() == PropertyLocation.Global_Uniform) {
+                                    ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(property.getType());
+                                    return propertyType.convertFromJson(property.getData());
+                                }
+                            }
+
+                            return null;
+                        }
+                    });
             shaderContext.setLocalPropertyContainer(
                     new PropertyContainer() {
                         @Override
                         public Object getValue(String name) {
                             for (GraphProperty property : graph.getProperties()) {
-                                if (property.getName().equals(name)) {
+                                if (property.getName().equals(name) && property.getLocation() != PropertyLocation.Global_Uniform) {
                                     ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(property.getType());
                                     Object value = propertyType.convertFromJson(property.getData());
                                     if (propertyType.isTexture()) {
@@ -188,7 +203,7 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     }
 
     private void createModel(VertexAttributes vertexAttributes) {
-        particleEffect = new GraphParticleEffectImpl("tag", new ParticleEffectConfiguration(vertexAttributes, graphShader.getAdditionalAttributes(),
+        particleEffect = new GraphParticleEffectImpl("tag", new ParticleEffectConfiguration(vertexAttributes, graphShader.getProperties(),
                 graphShader.getMaxNumberOfParticles(), graphShader.getInitialParticles(), 1f / graphShader.getPerSecondParticles()),
                 createGenerator(), false);
         if (running)

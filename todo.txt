@@ -21,8 +21,6 @@ Priority: 2, Difficulty: 8
 Sprite shader:
 
 Particle shader:
-- Split support for uniforms per shader, per effect, and per particle.
-Priority: 6, Difficulty: 4
 - Add support for defining geometry of the particles.
 Priority: 2, Difficulty: 6
 - Add support for line particles.

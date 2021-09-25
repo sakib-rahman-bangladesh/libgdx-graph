@@ -2339,19 +2339,19 @@
                 {
                   "id": "bce32ff70d84405781424db55cacc2f8",
                   "type": "Split",
-                  "x": 1455.0,
+                  "x": 1378.0,
                   "y": 1224.0
                 },
                 {
                   "id": "8b66865209c84c528e97677c0ba340a3",
                   "type": "Multiply",
-                  "x": 1803.0,
+                  "x": 1726.0,
                   "y": 412.0
                 },
                 {
                   "id": "c357f71623374f88919b39fbd99e5666",
                   "type": "RemapVector",
-                  "x": 317.0,
+                  "x": 240.0,
                   "y": 1022.0,
                   "data": {
                     "x": "X",
@@ -2363,7 +2363,7 @@
                 {
                   "id": "550eec4894e740488eb0035ff249cc7a",
                   "type": "ValueFloat",
-                  "x": 713.0,
+                  "x": 636.0,
                   "y": 1474.0,
                   "data": {
                     "v1": -0.5
@@ -2372,25 +2372,25 @@
                 {
                   "id": "a346e832170f40a08a7552eab63477e7",
                   "type": "Merge",
-                  "x": 1653.0,
+                  "x": 1576.0,
                   "y": 1159.0
                 },
                 {
                   "id": "caf10b613d194aca9e2f7f20185c668b",
                   "type": "Multiply",
-                  "x": 740.0,
-                  "y": 1769.0
+                  "x": 664.0,
+                  "y": 1768.0
                 },
                 {
                   "id": "6ad9e1d1fcc242919cadca29e8759778",
                   "type": "RemapValue",
-                  "x": 1440.0,
+                  "x": 1363.0,
                   "y": 217.0,
                   "data": {
                     "points": [
                       "0.0,0.0",
-                      "0.1013513,0.4030612",
-                      "0.7533783,0.1836733",
+                      "0.1013512,0.4030611",
+                      "0.7533782,0.1836733",
                       "1.0,0.0"
                     ],
                     "clamp": "Normal"
@@ -2399,7 +2399,7 @@
                 {
                   "id": "7a80393b84b14e3f99735e52da72d19e",
                   "type": "ValueFloat",
-                  "x": 1380.0,
+                  "x": 1303.0,
                   "y": 50.0,
                   "data": {
                     "v1": 0.800000011920929
@@ -2408,61 +2408,79 @@
                 {
                   "id": "74d71664204d4863b3983dce82749ed6",
                   "type": "Merge",
-                  "x": 944.0,
-                  "y": 1657.0
+                  "x": 868.0,
+                  "y": 1656.0
                 },
                 {
                   "id": "a21e99ffc20c4d7b9bce82076b85a246",
                   "type": "ParticleLifePercentage",
-                  "x": 1231.0,
+                  "x": 1154.0,
                   "y": 464.0
+                },
+                {
+                  "id": "c3b160781647456a8673d7146aaa7224",
+                  "type": "Property",
+                  "x": 228.0,
+                  "y": 1296.0,
+                  "data": {
+                    "name": "Parallax layer",
+                    "type": "Float"
+                  }
                 },
                 {
                   "id": "91fd81198bdd4bf89d9eff83e74ff94e",
                   "type": "EllipseShape",
-                  "x": 1593.0,
+                  "x": 1516.0,
                   "y": 67.0
                 },
                 {
                   "id": "8f6a7d624c6343e381759cdca0aa406d",
                   "type": "BillboardSprite",
-                  "x": 1922.0,
+                  "x": 1845.0,
                   "y": 916.0
                 },
                 {
                   "id": "66c034c8c33e42fc894a1f48fa2310ce",
                   "type": "Multiply",
-                  "x": 504.0,
+                  "x": 427.0,
                   "y": 1237.0
                 },
                 {
                   "id": "490ae985928548e0a07c86db0afb9391",
                   "type": "Multiply",
-                  "x": 924.0,
+                  "x": 847.0,
                   "y": 1407.0
                 },
                 {
                   "id": "4c9e066461ee42f392724cca2032ca38",
                   "type": "Subtract",
-                  "x": 714.0,
+                  "x": 637.0,
                   "y": 1316.0
                 },
                 {
-                  "id": "9f08bfbfab0545d7b46d4dda102f52ef",
-                  "type": "Vector3Attribute",
-                  "x": 1145.0,
-                  "y": 1104.0,
+                  "id": "9db2e998d37d444184abf375f8cc4afe",
+                  "type": "Property",
+                  "x": 1170.0,
+                  "y": 691.0,
+                  "data": {
+                    "name": "Color",
+                    "type": "Float"
+                  }
+                },
+                {
+                  "id": "6eada0b3ef2f4b9c86579ff5f6379b96",
+                  "type": "Property",
+                  "x": 1165.0,
+                  "y": 1110.0,
                   "data": {
                     "name": "Position",
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "type": "Vector3"
                   }
                 },
                 {
                   "id": "bbe3428c24c24898bdb582251a72c079",
                   "type": "Property",
-                  "x": 137.0,
+                  "x": 60.0,
                   "y": 1506.0,
                   "data": {
                     "name": "Wrap size",
@@ -2470,21 +2488,9 @@
                   }
                 },
                 {
-                  "id": "c33e2dcf5f2a4d81b2fafe3d1d5dc90b",
-                  "type": "Vector3Attribute",
-                  "x": 50.0,
-                  "y": 1382.0,
-                  "data": {
-                    "name": "Position",
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                  }
-                },
-                {
                   "id": "end",
                   "type": "BillboardParticlesShaderEnd",
-                  "x": 2160.0,
+                  "x": 2083.0,
                   "y": 207.0,
                   "data": {
                     "maxParticles": 100,
@@ -2495,48 +2501,25 @@
                   }
                 },
                 {
+                  "id": "fbfb059e430948e4affb45311ce7ae2f",
+                  "type": "Property",
+                  "x": 59.0,
+                  "y": 1420.0,
+                  "data": {
+                    "name": "Position",
+                    "type": "Vector3"
+                  }
+                },
+                {
                   "id": "e3193f103d424573a737dee2ad3ba409",
                   "type": "CameraPosition",
-                  "x": 127.0,
+                  "x": 50.0,
                   "y": 1116.0
-                },
-                {
-                  "id": "a6acac0d4c824a8e85761b05a47aaee3",
-                  "type": "RandomFloatAttribute",
-                  "x": 1610.0,
-                  "y": 845.0,
-                  "data": {
-                    "name": "Size",
-                    "min": 5.0,
-                    "max": 15.0
-                  }
-                },
-                {
-                  "id": "61b5381f9e134be1811dc066a19336bd",
-                  "type": "RandomFloatAttribute",
-                  "x": 456.0,
-                  "y": 1664.0,
-                  "data": {
-                    "name": "Y movement",
-                    "min": -50.0,
-                    "max": 50.0
-                  }
-                },
-                {
-                  "id": "fcfa51ac3ba4492a88bfb7e974da7a4e",
-                  "type": "RandomFloatAttribute",
-                  "x": 243.0,
-                  "y": 1255.0,
-                  "data": {
-                    "name": "Parallax Layer",
-                    "min": 0.800000011920929,
-                    "max": 0.9900000095367432
-                  }
                 },
                 {
                   "id": "45c28c565eb04e9390eb06df8b03b038",
                   "type": "RemapVector",
-                  "x": 513.0,
+                  "x": 436.0,
                   "y": 1343.0,
                   "data": {
                     "x": "X",
@@ -2548,37 +2531,67 @@
                 {
                   "id": "361c96f90e7b4622b52c980280072426",
                   "type": "Split",
-                  "x": 1448.0,
+                  "x": 1371.0,
                   "y": 1046.0
                 },
                 {
                   "id": "3f0400a36ef74747a19de157cba0e30a",
                   "type": "ParticleLifePercentage",
-                  "x": 523.0,
-                  "y": 1603.0
+                  "x": 462.0,
+                  "y": 1608.0
                 },
                 {
                   "id": "7f1c4ac4bdb4441ba49eef46082bd226",
                   "type": "Multiply",
-                  "x": 325.0,
+                  "x": 248.0,
                   "y": 1436.0
+                },
+                {
+                  "id": "b1e589c34a344a938089cb87c8090bee",
+                  "type": "Property",
+                  "x": 463.0,
+                  "y": 1773.0,
+                  "data": {
+                    "name": "X movement",
+                    "type": "Float"
+                  }
+                },
+                {
+                  "id": "75ff92d5b345419caaab08ab22e8b9df",
+                  "type": "Property",
+                  "x": 461.0,
+                  "y": 1691.0,
+                  "data": {
+                    "name": "Y movement",
+                    "type": "Float"
+                  }
                 },
                 {
                   "id": "3f703727d33148d7b4a88642cbbeaefb",
                   "type": "ParticleUV",
-                  "x": 1380.0,
+                  "x": 1303.0,
                   "y": 113.0
+                },
+                {
+                  "id": "d3f6eeecb87d4efea11e5d500ff7972f",
+                  "type": "Property",
+                  "x": 1600.0,
+                  "y": 884.0,
+                  "data": {
+                    "name": "Size",
+                    "type": "Float"
+                  }
                 },
                 {
                   "id": "a033bb8641394eb299849f15900d1c57",
                   "type": "Multiply",
-                  "x": 748.0,
-                  "y": 1675.0
+                  "x": 672.0,
+                  "y": 1674.0
                 },
                 {
                   "id": "6851053948414a60bfc160ec4fba4287",
                   "type": "Property",
-                  "x": 714.0,
+                  "x": 637.0,
                   "y": 1408.0,
                   "data": {
                     "name": "Wrap size",
@@ -2588,19 +2601,19 @@
                 {
                   "id": "62e9a6f276064fd0a01187e4b75e75c7",
                   "type": "Modulo",
-                  "x": 924.0,
+                  "x": 847.0,
                   "y": 1318.0
                 },
                 {
                   "id": "341dc9532fb54c938ec504189755deed",
                   "type": "Add",
-                  "x": 1264.0,
+                  "x": 1187.0,
                   "y": 1295.0
                 },
                 {
                   "id": "20db49c958d54fcc98a630872eebd42d",
                   "type": "Gradient",
-                  "x": 1446.0,
+                  "x": 1369.0,
                   "y": 585.0,
                   "data": {
                     "points": [
@@ -2612,31 +2625,9 @@
                   }
                 },
                 {
-                  "id": "63d522823056430c940922db0d8b812f",
-                  "type": "RandomFloatAttribute",
-                  "x": 1187.0,
-                  "y": 622.0,
-                  "data": {
-                    "name": "Color",
-                    "min": 0.0,
-                    "max": 1.0
-                  }
-                },
-                {
-                  "id": "607d00f3110945ddb079b692a5ec58ac",
-                  "type": "RandomFloatAttribute",
-                  "x": 457.0,
-                  "y": 1780.0,
-                  "data": {
-                    "name": "X movement",
-                    "min": -50.0,
-                    "max": 50.0
-                  }
-                },
-                {
                   "id": "ec7f1384b9bf453fbbec088716bb2a74",
                   "type": "ParticleUV",
-                  "x": 1681.0,
+                  "x": 1604.0,
                   "y": 956.0
                 }
               ],
@@ -2804,52 +2795,10 @@
                   "toField": "border"
                 },
                 {
-                  "fromNode": "63d522823056430c940922db0d8b812f",
-                  "fromField": "output",
-                  "toNode": "20db49c958d54fcc98a630872eebd42d",
-                  "toField": "input"
-                },
-                {
-                  "fromNode": "9f08bfbfab0545d7b46d4dda102f52ef",
-                  "fromField": "output",
-                  "toNode": "361c96f90e7b4622b52c980280072426",
-                  "toField": "input"
-                },
-                {
-                  "fromNode": "607d00f3110945ddb079b692a5ec58ac",
-                  "fromField": "output",
-                  "toNode": "caf10b613d194aca9e2f7f20185c668b",
-                  "toField": "inputs"
-                },
-                {
-                  "fromNode": "61b5381f9e134be1811dc066a19336bd",
-                  "fromField": "output",
-                  "toNode": "a033bb8641394eb299849f15900d1c57",
-                  "toField": "inputs"
-                },
-                {
-                  "fromNode": "fcfa51ac3ba4492a88bfb7e974da7a4e",
-                  "fromField": "output",
-                  "toNode": "66c034c8c33e42fc894a1f48fa2310ce",
-                  "toField": "inputs"
-                },
-                {
-                  "fromNode": "c33e2dcf5f2a4d81b2fafe3d1d5dc90b",
-                  "fromField": "output",
-                  "toNode": "7f1c4ac4bdb4441ba49eef46082bd226",
-                  "toField": "inputs"
-                },
-                {
                   "fromNode": "ec7f1384b9bf453fbbec088716bb2a74",
                   "fromField": "uv",
                   "toNode": "8f6a7d624c6343e381759cdca0aa406d",
                   "toField": "uv"
-                },
-                {
-                  "fromNode": "a6acac0d4c824a8e85761b05a47aaee3",
-                  "fromField": "output",
-                  "toNode": "8f6a7d624c6343e381759cdca0aa406d",
-                  "toField": "size"
                 },
                 {
                   "fromNode": "8f6a7d624c6343e381759cdca0aa406d",
@@ -2874,34 +2823,134 @@
                   "fromField": "output",
                   "toNode": "end",
                   "toField": "alpha"
+                },
+                {
+                  "fromNode": "b1e589c34a344a938089cb87c8090bee",
+                  "fromField": "value",
+                  "toNode": "caf10b613d194aca9e2f7f20185c668b",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "75ff92d5b345419caaab08ab22e8b9df",
+                  "fromField": "value",
+                  "toNode": "a033bb8641394eb299849f15900d1c57",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "fbfb059e430948e4affb45311ce7ae2f",
+                  "fromField": "value",
+                  "toNode": "7f1c4ac4bdb4441ba49eef46082bd226",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "c3b160781647456a8673d7146aaa7224",
+                  "fromField": "value",
+                  "toNode": "66c034c8c33e42fc894a1f48fa2310ce",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "6eada0b3ef2f4b9c86579ff5f6379b96",
+                  "fromField": "value",
+                  "toNode": "361c96f90e7b4622b52c980280072426",
+                  "toField": "input"
+                },
+                {
+                  "fromNode": "d3f6eeecb87d4efea11e5d500ff7972f",
+                  "fromField": "value",
+                  "toNode": "8f6a7d624c6343e381759cdca0aa406d",
+                  "toField": "size"
+                },
+                {
+                  "fromNode": "9db2e998d37d444184abf375f8cc4afe",
+                  "fromField": "value",
+                  "toNode": "20db49c958d54fcc98a630872eebd42d",
+                  "toField": "input"
                 }
               ],
               "properties": [
                 {
                   "name": "Wrap size",
                   "type": "Float",
+                  "location": "Uniform",
                   "data": {
                     "x": 2000.0
+                  }
+                },
+                {
+                  "name": "X movement",
+                  "type": "Float",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0
+                  }
+                },
+                {
+                  "name": "Y movement",
+                  "type": "Float",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0
+                  }
+                },
+                {
+                  "name": "Position",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                },
+                {
+                  "name": "Parallax layer",
+                  "type": "Float",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0
+                  }
+                },
+                {
+                  "name": "Size",
+                  "type": "Float",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 5.0
+                  }
+                },
+                {
+                  "name": "Color",
+                  "type": "Float",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0
                   }
                 }
               ],
               "groups": [
                 {
-                  "name": "Particle Movement",
+                  "name": "Alpha based on shape",
+                  "nodes": [
+                    "91fd81198bdd4bf89d9eff83e74ff94e",
+                    "3f703727d33148d7b4a88642cbbeaefb",
+                    "7a80393b84b14e3f99735e52da72d19e"
+                  ]
+                },
+                {
+                  "name": "Particle movement",
                   "nodes": [
                     "caf10b613d194aca9e2f7f20185c668b",
                     "74d71664204d4863b3983dce82749ed6",
                     "3f0400a36ef74747a19de157cba0e30a",
-                    "607d00f3110945ddb079b692a5ec58ac",
-                    "61b5381f9e134be1811dc066a19336bd",
+                    "75ff92d5b345419caaab08ab22e8b9df",
+                    "b1e589c34a344a938089cb87c8090bee",
                     "a033bb8641394eb299849f15900d1c57"
                   ]
                 },
                 {
                   "name": "Particle color",
                   "nodes": [
-                    "20db49c958d54fcc98a630872eebd42d",
-                    "63d522823056430c940922db0d8b812f"
+                    "20db49c958d54fcc98a630872eebd42d"
                   ]
                 },
                 {
@@ -2915,14 +2964,6 @@
                   "name": "Particle parallax",
                   "nodes": [
                     "66c034c8c33e42fc894a1f48fa2310ce"
-                  ]
-                },
-                {
-                  "name": "Alpha based on shape",
-                  "nodes": [
-                    "91fd81198bdd4bf89d9eff83e74ff94e",
-                    "3f703727d33148d7b4a88642cbbeaefb",
-                    "7a80393b84b14e3f99735e52da72d19e"
                   ]
                 }
               ]

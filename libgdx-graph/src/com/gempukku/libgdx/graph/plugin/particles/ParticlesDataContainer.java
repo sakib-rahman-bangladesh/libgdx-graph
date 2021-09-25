@@ -9,11 +9,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.plugin.particles.generator.ParticleGenerator;
-import com.gempukku.libgdx.graph.shader.AttributeDefinition;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
-
-import java.util.Map;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
+import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
 public class ParticlesDataContainer implements Disposable {
     private final static ParticleGenerator.ParticleGenerateInfo tempGenerateInfo = new ParticleGenerator.ParticleGenerateInfo();
@@ -23,7 +23,8 @@ public class ParticlesDataContainer implements Disposable {
     private float[] particlesData;
     private Mesh mesh;
 
-    private Map<String, AttributeDefinition> additionalAttributes;
+    private ObjectMap<String, PropertySource> properties;
+    private IntMap<String> attributeIndexNames = new IntMap<>();
     private final int numberOfParticles;
     private final int numberOfFloatsInVertex;
     private int nextParticleIndex = 0;
@@ -38,10 +39,13 @@ public class ParticlesDataContainer implements Disposable {
 
     private IntMap<String> customAttributeOffsets = new IntMap<>();
 
-    public ParticlesDataContainer(VertexAttributes vertexAttributes,
-                                  Map<String, AttributeDefinition> additionalAttributes,
+    public ParticlesDataContainer(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> properties,
                                   int numberOfParticles, boolean storeParticleData) {
-        this.additionalAttributes = additionalAttributes;
+        this.properties = properties;
+        for (ObjectMap.Entry<String, PropertySource> shaderProperty : properties) {
+            if (shaderProperty.value.getPropertyLocation() == PropertyLocation.Attribute)
+                attributeIndexNames.put(shaderProperty.value.getPropertyIndex(), shaderProperty.key);
+        }
         this.numberOfParticles = numberOfParticles;
         this.numberOfFloatsInVertex = vertexAttributes.vertexSize / 4;
         initOffsets(vertexAttributes);
@@ -51,23 +55,20 @@ public class ParticlesDataContainer implements Disposable {
     }
 
     private void initOffsets(VertexAttributes vertexAttributes) {
-        uvOffset = getAliasOffset(vertexAttributes, ShaderProgram.TEXCOORD_ATTRIBUTE + 0);
-        birthTimeOffset = getAliasOffset(vertexAttributes, "a_birthTime");
-        deathTimeOffset = getAliasOffset(vertexAttributes, "a_deathTime");
-
-        for (Map.Entry<String, AttributeDefinition> nameToAttribute : additionalAttributes.entrySet()) {
-            String attributeName = nameToAttribute.getKey();
-            String attributeAlias = nameToAttribute.getValue().getAlias();
-            customAttributeOffsets.put(getAliasOffset(vertexAttributes, attributeAlias), attributeName);
-        }
-    }
-
-    private int getAliasOffset(VertexAttributes vertexAttributes, String alias) {
         for (VertexAttribute vertexAttribute : vertexAttributes) {
-            if (vertexAttribute.alias.equals(alias))
-                return vertexAttribute.offset / 4;
+            String alias = vertexAttribute.alias;
+            if (alias.equals(ShaderProgram.TEXCOORD_ATTRIBUTE + 0))
+                uvOffset = vertexAttribute.offset / 4;
+            else if (alias.equalsIgnoreCase("a_birthTime"))
+                birthTimeOffset = vertexAttribute.offset / 4;
+            else if (alias.equalsIgnoreCase("a_deathTime"))
+                deathTimeOffset = vertexAttribute.offset / 4;
+            else if (alias.startsWith("a_property_")) {
+                int propertyIndex = Integer.parseInt(alias.substring(11));
+                String propertyName = attributeIndexNames.get(propertyIndex);
+                customAttributeOffsets.put(vertexAttribute.offset / 4, propertyName);
+            }
         }
-        return -1;
     }
 
     private void initBuffers(VertexAttributes vertexAttributes) {
@@ -132,8 +133,8 @@ public class ParticlesDataContainer implements Disposable {
         for (IntMap.Entry<String> customAttributeEntry : customAttributeOffsets.entries()) {
             String attributeName = customAttributeEntry.value;
             Object attributeValue = tempGenerateInfo.particleAttributes.get(attributeName);
-            AttributeDefinition attributeDefinition = additionalAttributes.get(attributeName);
-            Object value = attributeDefinition.getFieldType().convert((attributeValue != null) ? attributeValue : attributeDefinition.getDefaultValue());
+            PropertySource propertySource = properties.get(attributeName);
+            Object value = propertySource.getValueToUse(attributeValue);
             for (int i = 0; i < 4; i++) {
                 int vertexIndex = getVertexIndex(nextParticleIndex, i);
                 setParticleValue(vertexIndex + customAttributeEntry.key, value);

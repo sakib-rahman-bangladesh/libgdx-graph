@@ -50,7 +50,8 @@ public class GraphParticleEffectImpl implements GraphParticleEffect, Disposable 
         while (particlesToCreate > 0) {
             int containerCount = Math.min(particlesToCreate, MAX_NUMBER_OF_PARTICLES_PER_CONTAINER);
             particlesData.add(new ParticlesDataContainer(particleEffectConfiguration.getVertexAttributes(),
-                    particleEffectConfiguration.getAdditionalAttributes(), containerCount, storeParticleData));
+                    particleEffectConfiguration.getProperties(),
+                    containerCount, storeParticleData));
             particlesToCreate -= containerCount;
         }
     }

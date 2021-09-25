@@ -8,12 +8,10 @@ import com.gempukku.libgdx.graph.ui.graph.GraphType;
 import com.gempukku.libgdx.graph.ui.graph.ShaderGraphBoxPart;
 import com.gempukku.libgdx.graph.ui.pipeline.producer.shader.registry.GraphShaderTemplate;
 import com.gempukku.libgdx.graph.ui.shader.UICommonShaderConfiguration;
-import com.gempukku.libgdx.graph.ui.shader.producer.attribute.UIAttributeShaderConfiguration;
 
 public class ParticlesShadersBoxPart extends ShaderGraphBoxPart {
     private static UIGraphConfiguration[] graphConfigurations = new UIGraphConfiguration[]{
             new UIParticlesShaderConfiguration(),
-            new UIAttributeShaderConfiguration(),
             new UICommonShaderConfiguration()
     };
 

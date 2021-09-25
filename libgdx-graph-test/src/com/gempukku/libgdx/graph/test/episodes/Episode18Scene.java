@@ -128,10 +128,15 @@ public class Episode18Scene implements LibgdxGraphTestScene {
         final LinePositionGenerator positionGenerator = new LinePositionGenerator();
         positionGenerator.getPoint1().set(point1);
         positionGenerator.getPoint2().set(point2);
-        DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(0.5f);
+        DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(0.5f) {
+            @Override
+            protected void generateAttributes(ParticleGenerateInfo particle) {
+                particle.particleAttributes.put("Move X", MathUtils.random(-0.05f, 0.05f));
+                particle.particleAttributes.put("Move Y", MathUtils.random(-0.05f, 0.05f));
+            }
+        };
         particleGenerator.setPositionGenerator(positionGenerator);
         GraphParticleEffect effect = effects.createEffect("exhaust", particleGenerator);
-        effects.setProperty(effect, "Move Distance", new Vector3(0, 0, -0.5f));
         effects.startEffect(effect);
     }
 

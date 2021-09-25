@@ -14,7 +14,6 @@ import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderCont
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.common.attribute.AttributeShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.util.WhitePixel;
@@ -22,7 +21,7 @@ import com.gempukku.libgdx.graph.util.WhitePixel;
 public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     private static GraphConfiguration[] configurations = new GraphConfiguration[]{
             new CommonShaderConfiguration(), new PropertyShaderConfiguration(),
-            new AttributeShaderConfiguration(), new ParticlesShaderConfiguration()};
+            new ParticlesShaderConfiguration()};
     private PluginPrivateDataSource pluginPrivateDataSource;
 
     public ParticlesShaderRendererPipelineNodeProducer(PluginPrivateDataSource pluginPrivateDataSource) {
@@ -109,15 +108,16 @@ public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodePro
 
                     GraphParticleEffectsImpl particleEffects = pipelineRenderingContext.getPrivatePluginData(GraphParticleEffectsImpl.class);
                     for (ParticlesGraphShader particleShader : particleShaders) {
-                        particleShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
                         String tag = particleShader.getTag();
-                        for (GraphParticleEffectImpl particleEffect : particleEffects.getParticleEffects()) {
-                            if (particleEffect.getTag().equals(tag)) {
+                        if (particleEffects.hasEffects(tag)) {
+                            shaderContext.setGlobalPropertyContainer(particleEffects.getGlobalPropertyContainer(tag));
+                            particleShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
+                            for (GraphParticleEffectImpl particleEffect : particleEffects.getParticleEffects(tag)) {
                                 shaderContext.setLocalPropertyContainer(particleEffect.getPropertyContainer());
                                 particleEffect.render(particleShader, shaderContext);
                             }
+                            particleShader.end();
                         }
-                        particleShader.end();
                     }
 
                     currentBuffer.endColor();

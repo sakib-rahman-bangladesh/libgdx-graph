@@ -103,4 +103,10 @@ public interface GraphParticleEffects {
      * @return Value of the property.
      */
     Object getProperty(GraphParticleEffect effect, String name);
+
+    void setGlobalProperty(String tag, String name, Object value);
+
+    void unsetGlobalProperty(String tag, String name);
+
+    Object getGlobalProperty(String tag, String name);
 }

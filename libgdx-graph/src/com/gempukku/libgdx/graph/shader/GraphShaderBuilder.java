@@ -23,7 +23,6 @@ import com.gempukku.libgdx.graph.shader.builder.GLSLFragmentReader;
 import com.gempukku.libgdx.graph.shader.builder.VertexShaderBuilder;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyShaderConfiguration;
-import com.gempukku.libgdx.graph.shader.common.attribute.AttributeShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.node.DefaultFieldOutput;
@@ -36,7 +35,7 @@ public class GraphShaderBuilder {
     private static GraphConfiguration[] screenConfigurations = new GraphConfiguration[]{
             new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new ScreenShaderConfiguration()};
     private static GraphConfiguration[] particleConfigurations = new GraphConfiguration[]{
-            new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new AttributeShaderConfiguration(), new ParticlesShaderConfiguration()};
+            new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new ParticlesShaderConfiguration()};
     private static GraphConfiguration[] spriteConfigurations = new GraphConfiguration[]{
             new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new SpriteShaderConfiguration()};
 
