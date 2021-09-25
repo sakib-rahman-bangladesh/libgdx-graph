@@ -24,7 +24,7 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, RuntimePi
         if (effectsConfiguration.containsKey(tag))
             throw new IllegalStateException("Duplicate particle effect with tag - " + tag);
         effectsConfiguration.put(tag, new ParticleEffectConfiguration(shader.getVertexAttributes(), shader.getProperties(),
-                shader.getMaxNumberOfParticles(), shader.getInitialParticles(), 1f / shader.getPerSecondParticles()));
+                shader.getMaxNumberOfParticles()));
         globalProperties.put(tag, new PropertyContainerImpl());
         effectsByTag.put(tag, new ObjectSet<GraphParticleEffectImpl>());
     }

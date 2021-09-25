@@ -1,8 +1,8 @@
 package com.gempukku.libgdx.graph.plugin.particles;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.plugin.particles.generator.ParticleGenerator;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
@@ -16,12 +16,13 @@ public class GraphParticleEffectImpl implements GraphParticleEffect, Disposable 
     private ParticleEffectConfiguration particleEffectConfiguration;
     private ParticleGenerator particleGenerator;
     private PropertyContainerImpl propertyContainer = new PropertyContainerImpl();
+    private ParticleCreateCallbackImpl callback = new ParticleCreateCallbackImpl();
     private boolean running = false;
 
     private Array<ParticlesDataContainer> particlesData = new Array<>();
     private int nextParticleIndex = 0;
 
-    private float lastParticleGenerated;
+    private boolean initialParticles;
 
     public GraphParticleEffectImpl(String tag, ParticleEffectConfiguration particleEffectConfiguration, ParticleGenerator particleGenerator,
                                    boolean storeParticleData) {
@@ -58,38 +59,11 @@ public class GraphParticleEffectImpl implements GraphParticleEffect, Disposable 
 
     public void generateParticles(TimeProvider timeProvider) {
         if (running) {
-            float currentTime = timeProvider.getTime();
-            if (lastParticleGenerated == -1) {
-                // This is first invocation after start
-                int particlesToGenerate = Math.min(particleEffectConfiguration.getInitialParticles(), particleEffectConfiguration.getMaxNumberOfParticles());
-
-                for (ParticlesDataContainer particlesDatum : particlesData) {
-                    int numberOfParticles = particlesDatum.getNumberOfParticles();
-                    int toGenerate = Math.min(particlesToGenerate, numberOfParticles);
-                    for (int i = 0; i < toGenerate; i++) {
-                        particlesDatum.generateParticle(currentTime, particleGenerator);
-                    }
-                    particlesToGenerate -= toGenerate;
-                    if (particlesToGenerate == 0)
-                        break;
-                }
-                nextParticleIndex = (nextParticleIndex + particlesToGenerate) % particleEffectConfiguration.getMaxNumberOfParticles();
-                lastParticleGenerated = currentTime;
+            if (initialParticles) {
+                particleGenerator.initialCreateParticles(callback);
+                initialParticles = false;
             } else {
-                float timeElapsed = currentTime - lastParticleGenerated;
-                float particleDelay = particleEffectConfiguration.getParticleDelay();
-                int particleCount = MathUtils.floor(timeElapsed / particleDelay);
-                while (particleCount > 0) {
-                    ParticlesDataContainer container = findContainerForIndex(nextParticleIndex);
-                    int remainingCapacity = container.getRemainingCapacity();
-                    int createCount = Math.min(remainingCapacity, particleCount);
-                    for (int i = 0; i < createCount; i++) {
-                        container.generateParticle(lastParticleGenerated + particleDelay * (i + 1), particleGenerator);
-                    }
-                    particleCount -= createCount;
-                    nextParticleIndex = (nextParticleIndex + createCount) % particleEffectConfiguration.getMaxNumberOfParticles();
-                    lastParticleGenerated += particleDelay * createCount;
-                }
+                particleGenerator.createParticles(callback);
             }
         }
     }
@@ -121,7 +95,7 @@ public class GraphParticleEffectImpl implements GraphParticleEffect, Disposable 
         if (running)
             throw new IllegalStateException("Already started");
         running = true;
-        lastParticleGenerated = -1f;
+        initialParticles = true;
     }
 
     public void update(TimeProvider timeProvider, ParticleUpdater particleUpdater, boolean accessToData) {
@@ -153,6 +127,21 @@ public class GraphParticleEffectImpl implements GraphParticleEffect, Disposable 
     public void dispose() {
         for (ParticlesDataContainer particlesDatum : particlesData) {
             particlesDatum.dispose();
+        }
+    }
+
+    private class ParticleCreateCallbackImpl<T> implements ParticleGenerator.ParticleCreateCallback<T> {
+        @Override
+        public void createParticle(float particleBirth, float lifeLength, ObjectMap<String, Object> attributes) {
+            createParticle(particleBirth, lifeLength, null, attributes);
+        }
+
+        @Override
+        public void createParticle(float particleBirth, float lifeLength, T particleData, ObjectMap<String, Object> attributes) {
+            ParticlesDataContainer container = findContainerForIndex(nextParticleIndex);
+            container.generateParticle(particleBirth, lifeLength, particleData, attributes);
+
+            nextParticleIndex = (nextParticleIndex + 1) % particleEffectConfiguration.getMaxNumberOfParticles();
         }
     }
 }

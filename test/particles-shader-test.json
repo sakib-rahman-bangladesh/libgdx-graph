@@ -35,8 +35,8 @@
                 {
                   "id": "b82ff2c9bfec4e1894fd5b7c55d89761",
                   "type": "Property",
-                  "x": 229.0,
-                  "y": 205.0,
+                  "x": 309.0,
+                  "y": 422.0,
                   "data": {
                     "name": "Color",
                     "type": "Vector4"
@@ -45,36 +45,34 @@
                 {
                   "id": "548e5b44a98a453087452ecd10724c59",
                   "type": "BillboardSprite",
-                  "x": 319.0,
-                  "y": 479.0
+                  "x": 372.0,
+                  "y": 488.0
                 },
                 {
                   "id": "2f6d98db11f144bdba5c86e5ff888e1b",
                   "type": "DotShape",
-                  "x": 234.0,
-                  "y": 361.0
+                  "x": 267.0,
+                  "y": 164.0
                 },
                 {
                   "id": "999da9e7646e40368c5ebb699ad8e2a5",
                   "type": "ParticleUV",
                   "x": 50.0,
-                  "y": 503.0
+                  "y": 362.0
                 },
                 {
                   "id": "e7453eb299d04cf590c66daa74b926b4",
                   "type": "Multiply",
-                  "x": 415.0,
-                  "y": 342.0
+                  "x": 624.0,
+                  "y": 169.0
                 },
                 {
                   "id": "end",
                   "type": "BillboardParticlesShaderEnd",
-                  "x": 686.0,
+                  "x": 927.0,
                   "y": 50.0,
                   "data": {
                     "maxParticles": 100,
-                    "initialParticles": 0,
-                    "perSecondParticles": 10.0,
                     "blending": "additive",
                     "depthTest": "less"
                   }
@@ -82,8 +80,8 @@
                 {
                   "id": "ee35420f4b3b44d28093bde2fe03f368",
                   "type": "Property",
-                  "x": 61.0,
-                  "y": 563.0,
+                  "x": 114.0,
+                  "y": 572.0,
                   "data": {
                     "name": "Position",
                     "type": "Vector3"
@@ -92,8 +90,8 @@
                 {
                   "id": "5315b106f07e44be97af785f1bec761a",
                   "type": "Property",
-                  "x": 53.0,
-                  "y": 425.0,
+                  "x": 72.0,
+                  "y": 433.0,
                   "data": {
                     "name": "Size",
                     "type": "Float"
@@ -148,6 +146,12 @@
                   "fromField": "output",
                   "toNode": "end",
                   "toField": "color"
+                },
+                {
+                  "fromNode": "2f6d98db11f144bdba5c86e5ff888e1b",
+                  "fromField": "output",
+                  "toNode": "end",
+                  "toField": "alpha"
                 }
               ],
               "properties": [

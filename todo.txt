@@ -25,9 +25,6 @@ Particle shader:
 Priority: 2, Difficulty: 6
 - Add support for line particles.
 Priority: 2, Difficulty: 5
-- Remove the particle generation from the libgdx-graph itself, this should be a job for the library user. Instead provide
-default implementation for a generic particle generator.
-Priority: 5, Difficulty: 5
 
 Model shader:
 - Redesign how models are added, they should be added with a tag and an interface that returns all the info required to render.

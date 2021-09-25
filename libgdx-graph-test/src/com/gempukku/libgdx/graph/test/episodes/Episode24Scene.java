@@ -14,10 +14,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gempukku.libgdx.graph.entity.EntityLoader;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
@@ -126,15 +123,14 @@ public class Episode24Scene implements LibgdxGraphTestScene {
         positionGenerator.getOrigin().set(0, 0, -10);
         positionGenerator.getDirection1().set(1, 0, 0);
         positionGenerator.getDirection2().set(0, 1, 0);
-        DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(5) {
+        DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(timeKeeper, 5, 0, 20) {
             @Override
-            protected void generateAttributes(ParticleGenerateInfo particle) {
-                particle.particleAttributes.put("X movement", MathUtils.random(-50f, 50f));
-                particle.particleAttributes.put("Y movement", MathUtils.random(-50f, 50f));
-                particle.particleAttributes.put("Parallax layer", MathUtils.random(0.8f, 0.99f));
-                particle.particleAttributes.put("Size", MathUtils.random(5f, 15f));
-                particle.particleAttributes.put("Color", MathUtils.random(0f, 1f));
-
+            protected void generateAttributes(ObjectMap attributes) {
+                attributes.put("X movement", MathUtils.random(-50f, 50f));
+                attributes.put("Y movement", MathUtils.random(-50f, 50f));
+                attributes.put("Parallax layer", MathUtils.random(0.8f, 0.99f));
+                attributes.put("Size", MathUtils.random(5f, 15f));
+                attributes.put("Color", MathUtils.random(0f, 1f));
             }
         };
         particleGenerator.setPositionGenerator(positionGenerator);

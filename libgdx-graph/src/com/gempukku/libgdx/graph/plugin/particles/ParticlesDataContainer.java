@@ -10,13 +10,11 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.plugin.particles.generator.ParticleGenerator;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
 import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
 public class ParticlesDataContainer implements Disposable {
-    private final static ParticleGenerator.ParticleGenerateInfo tempGenerateInfo = new ParticleGenerator.ParticleGenerateInfo();
     private final static ParticleUpdater.ParticleUpdateInfo tempUpdateInfo = new ParticleUpdater.ParticleUpdateInfo();
 
     private Object[] particleDataStorage;
@@ -115,24 +113,23 @@ public class ParticlesDataContainer implements Disposable {
         return numberOfParticles - nextParticleIndex;
     }
 
-    public void generateParticle(float particleTime, ParticleGenerator particleGenerator) {
-        tempGenerateInfo.particleAttributes.clear();
-        particleGenerator.generateParticle(tempGenerateInfo);
+    public void generateParticle(float particleTime, float lifeLength, Object particleData, ObjectMap<String, Object> attributes) {
         if (particleDataStorage != null)
-            particleDataStorage[nextParticleIndex] = tempGenerateInfo.particleData;
+            particleDataStorage[nextParticleIndex] = particleData;
 
-        float particleDeath = particleTime + tempGenerateInfo.lifeLength;
+        float particleBirth = particleTime;
+        float particleDeath = particleTime + lifeLength;
         for (int i = 0; i < 4; i++) {
             int vertexIndex = getVertexIndex(nextParticleIndex, i);
             if (birthTimeOffset != -1)
-                particlesData[vertexIndex + birthTimeOffset] = particleTime;
+                particlesData[vertexIndex + birthTimeOffset] = particleBirth;
             if (deathTimeOffset != -1)
                 particlesData[vertexIndex + deathTimeOffset] = particleDeath;
         }
 
         for (IntMap.Entry<String> customAttributeEntry : customAttributeOffsets.entries()) {
             String attributeName = customAttributeEntry.value;
-            Object attributeValue = tempGenerateInfo.particleAttributes.get(attributeName);
+            Object attributeValue = attributes.get(attributeName);
             PropertySource propertySource = properties.get(attributeName);
             Object value = propertySource.getValueToUse(attributeValue);
             for (int i = 0; i < 4; i++) {
@@ -206,7 +203,7 @@ public class ParticlesDataContainer implements Disposable {
                 particleUpdater.updateParticle(tempUpdateInfo);
 
                 if (accessToData && particleDataStorage != null)
-                    particleDataStorage[i] = tempGenerateInfo.particleData;
+                    particleDataStorage[i] = tempUpdateInfo.particleData;
 
                 firstDirtyParticle = Math.min(firstDirtyParticle, i);
                 lastDirtyParticle = Math.max(lastDirtyParticle, i);

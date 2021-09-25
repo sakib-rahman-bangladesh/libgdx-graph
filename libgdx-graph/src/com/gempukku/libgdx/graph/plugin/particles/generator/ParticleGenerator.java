@@ -1,14 +1,15 @@
 package com.gempukku.libgdx.graph.plugin.particles.generator;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.badlogic.gdx.utils.ObjectMap;
 
 public interface ParticleGenerator<T> {
-    void generateParticle(ParticleGenerateInfo<T> particle);
+    void initialCreateParticles(ParticleCreateCallback<T> createCallback);
 
-    class ParticleGenerateInfo<T> {
-        public float lifeLength;
-        public T particleData;
-        public Map<String, Object> particleAttributes = new HashMap<>();
+    void createParticles(ParticleCreateCallback<T> createCallback);
+
+    interface ParticleCreateCallback<T> {
+        void createParticle(float particleBirth, float lifeLength, ObjectMap<String, Object> attributes);
+
+        void createParticle(float particleBirth, float lifeLength, T particleData, ObjectMap<String, Object> attributes);
     }
 }

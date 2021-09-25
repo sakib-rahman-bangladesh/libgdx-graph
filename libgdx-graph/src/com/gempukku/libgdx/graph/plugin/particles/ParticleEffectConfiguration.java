@@ -8,16 +8,12 @@ public class ParticleEffectConfiguration {
     private VertexAttributes vertexAttributes;
     private ObjectMap<String, PropertySource> properties;
     private int maxNumberOfParticles;
-    private int initialParticles;
-    private float particleDelay;
 
     public ParticleEffectConfiguration(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> properties,
-                                       int maxNumberOfParticles, int initialParticles, float particleDelay) {
+                                       int maxNumberOfParticles) {
         this.vertexAttributes = vertexAttributes;
         this.properties = properties;
         this.maxNumberOfParticles = maxNumberOfParticles;
-        this.initialParticles = initialParticles;
-        this.particleDelay = particleDelay;
     }
 
     public VertexAttributes getVertexAttributes() {
@@ -30,13 +26,5 @@ public class ParticleEffectConfiguration {
 
     public int getMaxNumberOfParticles() {
         return maxNumberOfParticles;
-    }
-
-    public int getInitialParticles() {
-        return initialParticles;
-    }
-
-    public float getParticleDelay() {
-        return particleDelay;
     }
 }

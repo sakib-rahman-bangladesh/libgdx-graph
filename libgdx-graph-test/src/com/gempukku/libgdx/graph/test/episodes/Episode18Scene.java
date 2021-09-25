@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.UBJsonReader;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
@@ -128,11 +129,11 @@ public class Episode18Scene implements LibgdxGraphTestScene {
         final LinePositionGenerator positionGenerator = new LinePositionGenerator();
         positionGenerator.getPoint1().set(point1);
         positionGenerator.getPoint2().set(point2);
-        DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(0.5f) {
+        DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(timeKeeper, 0.5f, 0, 1000) {
             @Override
-            protected void generateAttributes(ParticleGenerateInfo particle) {
-                particle.particleAttributes.put("Move X", MathUtils.random(-0.05f, 0.05f));
-                particle.particleAttributes.put("Move Y", MathUtils.random(-0.05f, 0.05f));
+            protected void generateAttributes(ObjectMap attributes) {
+                attributes.put("Move X", MathUtils.random(-0.05f, 0.05f));
+                attributes.put("Move Y", MathUtils.random(-0.05f, 0.05f));
             }
         };
         particleGenerator.setPositionGenerator(positionGenerator);
