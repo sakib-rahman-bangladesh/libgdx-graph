@@ -11,7 +11,6 @@ import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
-import com.gempukku.libgdx.graph.ui.part.FloatBoxPart;
 import com.gempukku.libgdx.graph.ui.part.IntegerBoxPart;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
@@ -45,16 +44,6 @@ public class EndBillboardParticlesShaderBoxProducer extends GraphBoxProducerImpl
                 new Validators.GreaterThanValidator(0, false));
         particleCountBox.initialize(data);
         result.addGraphBoxPart(particleCountBox);
-
-        IntegerBoxPart initialCountBox = new IntegerBoxPart("Initial particles ", "initialParticles", 0,
-                new Validators.GreaterThanValidator(0, true));
-        initialCountBox.initialize(data);
-        result.addGraphBoxPart(initialCountBox);
-
-        FloatBoxPart perSecondCountBox = new FloatBoxPart("Particles/second ", "perSecondParticles", 1f,
-                new Validators.GreaterThanValidator(0, false));
-        perSecondCountBox.initialize(data);
-        result.addGraphBoxPart(perSecondCountBox);
 
         addConfigurationInputsAndOutputs(result);
 

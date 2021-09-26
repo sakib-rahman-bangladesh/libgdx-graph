@@ -20,12 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.gempukku.libgdx.graph.data.GraphConnection;
-import com.gempukku.libgdx.graph.data.GraphNodeInput;
-import com.gempukku.libgdx.graph.data.GraphNodeOutput;
-import com.gempukku.libgdx.graph.data.GraphValidator;
-import com.gempukku.libgdx.graph.data.NodeConnector;
-import com.gempukku.libgdx.graph.data.NodeGroup;
+import com.gempukku.libgdx.graph.data.*;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBox;
 import com.gempukku.libgdx.graph.ui.preview.NavigableCanvas;
 import com.kotcrab.vis.ui.VisUI;
@@ -37,16 +32,11 @@ import com.kotcrab.vis.ui.widget.PopupMenu;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
-import java.awt.BasicStroke;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GraphContainer extends VisTable implements NavigableCanvas {
     private static final float CANVAS_GAP = 50f;
@@ -618,6 +608,8 @@ public class GraphContainer extends VisTable implements NavigableCanvas {
             NodeGroupImpl nodeGroupImpl = nodeGroupEntry.getKey();
             for (String nodeId : nodeGroupImpl.getNodeIds()) {
                 VisWindow window = boxWindows.get(nodeId);
+                if (window == null)
+                    System.out.println(nodeId);
                 float windowX = window.getX();
                 float windowY = window.getY();
                 float windowWidth = window.getWidth();

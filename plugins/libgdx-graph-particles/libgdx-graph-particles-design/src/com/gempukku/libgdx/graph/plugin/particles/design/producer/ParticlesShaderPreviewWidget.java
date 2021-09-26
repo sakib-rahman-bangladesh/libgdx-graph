@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultTextureBinder;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
@@ -29,6 +30,7 @@ import com.gempukku.libgdx.graph.plugin.particles.generator.*;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
+import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.WhitePixel;
@@ -54,6 +56,8 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     private GraphParticleEffectImpl particleEffect;
     private ShaderPreviewModel model = ShaderPreviewModel.Point;
     private float lifetime = 3f;
+    private float initialCount = 1f;
+    private float perSecondCount = 10f;
 
     public ParticlesShaderPreviewWidget(int width, int height) {
         this.width = width;
@@ -94,6 +98,20 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
 
     public void setLifetime(float lifetime) {
         this.lifetime = lifetime;
+        if (particleEffect != null) {
+            particleEffect.setParticleGenerator(createGenerator());
+        }
+    }
+
+    public void setInitialCount(float initialCount) {
+        this.initialCount = initialCount;
+        if (particleEffect != null) {
+            particleEffect.setParticleGenerator(createGenerator());
+        }
+    }
+
+    public void setPerSecondCount(float perSecondCount) {
+        this.perSecondCount = perSecondCount;
         if (particleEffect != null) {
             particleEffect.setParticleGenerator(createGenerator());
         }
@@ -149,12 +167,26 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
             createModel(graphShader.getVertexAttributes());
 
             shaderContext.setTimeProvider(timeKeeper);
+            shaderContext.setGlobalPropertyContainer(
+                    new PropertyContainer() {
+                        @Override
+                        public Object getValue(String name) {
+                            for (GraphProperty property : graph.getProperties()) {
+                                if (property.getName().equals(name) && property.getLocation() == PropertyLocation.Global_Uniform) {
+                                    ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(property.getType());
+                                    return propertyType.convertFromJson(property.getData());
+                                }
+                            }
+
+                            return null;
+                        }
+                    });
             shaderContext.setLocalPropertyContainer(
                     new PropertyContainer() {
                         @Override
                         public Object getValue(String name) {
                             for (GraphProperty property : graph.getProperties()) {
-                                if (property.getName().equals(name)) {
+                                if (property.getName().equals(name) && property.getLocation() != PropertyLocation.Global_Uniform) {
                                     ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(property.getType());
                                     Object value = propertyType.convertFromJson(property.getData());
                                     if (propertyType.isTexture()) {
@@ -188,15 +220,15 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     }
 
     private void createModel(VertexAttributes vertexAttributes) {
-        particleEffect = new GraphParticleEffectImpl("tag", new ParticleEffectConfiguration(vertexAttributes, graphShader.getAdditionalAttributes(),
-                graphShader.getMaxNumberOfParticles(), graphShader.getInitialParticles(), 1f / graphShader.getPerSecondParticles()),
+        particleEffect = new GraphParticleEffectImpl("tag", new ParticleEffectConfiguration(vertexAttributes, graphShader.getProperties(),
+                graphShader.getMaxNumberOfParticles()),
                 createGenerator(), false);
         if (running)
             particleEffect.start();
     }
 
     private ParticleGenerator createGenerator() {
-        DefaultParticleGenerator generator = new DefaultParticleGenerator(lifetime);
+        DefaultParticleGenerator generator = new DefaultParticleGenerator(timeKeeper, lifetime, MathUtils.floor(initialCount), perSecondCount);
         switch (model) {
             case Point:
                 generator.setPositionGenerator(new PointPositionGenerator());

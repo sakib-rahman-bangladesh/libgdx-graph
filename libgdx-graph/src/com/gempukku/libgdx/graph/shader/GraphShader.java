@@ -7,16 +7,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class GraphShader extends UniformCachingShader implements GraphShaderContext {
     private Array<Disposable> disposableList = new Array<>();
     protected ObjectMap<String, PropertySource> propertySourceMap = new ObjectMap<>();
-    private Map<String, AttributeDefinition> additionalAttributes = new HashMap<>();
     private ShaderProgram shaderProgram;
     private VertexAttributes vertexAttributes;
     private int[] attributeLocations;
@@ -44,22 +39,6 @@ public abstract class GraphShader extends UniformCachingShader implements GraphS
 
     public VertexAttributes getVertexAttributes() {
         return vertexAttributes;
-    }
-
-    public String addAdditionalAttribute(String name, String suggestedAlias, ShaderFieldType fieldType, Object value) {
-        if (additionalAttributes.containsKey(name)) {
-            AttributeDefinition attributeDefinition = additionalAttributes.get(name);
-            if (attributeDefinition.getFieldType() != fieldType)
-                throw new IllegalArgumentException("Shader already has attribute with this name, and type does not match");
-            return attributeDefinition.getAlias();
-        } else {
-            additionalAttributes.put(name, new AttributeDefinition(suggestedAlias, fieldType, value));
-            return suggestedAlias;
-        }
-    }
-
-    public Map<String, AttributeDefinition> getAdditionalAttributes() {
-        return additionalAttributes;
     }
 
     public int[] getAttributeLocations() {

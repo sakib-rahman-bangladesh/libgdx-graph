@@ -4,16 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
+import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
 public class ParticlesGraphShader extends GraphShader {
     private int maxNumberOfParticles;
-    private int initialParticles;
-    private float perSecondParticles;
 
     public ParticlesGraphShader(Texture defaultTexture) {
         super(defaultTexture);
+    }
+
+    public ObjectMap<String, PropertySource> getProperties() {
+        return propertySourceMap;
     }
 
     public int getMaxNumberOfParticles() {
@@ -22,22 +26,6 @@ public class ParticlesGraphShader extends GraphShader {
 
     public void setMaxNumberOfParticles(int maxNumberOfParticles) {
         this.maxNumberOfParticles = maxNumberOfParticles;
-    }
-
-    public int getInitialParticles() {
-        return initialParticles;
-    }
-
-    public void setInitialParticles(int initialParticles) {
-        this.initialParticles = initialParticles;
-    }
-
-    public float getPerSecondParticles() {
-        return perSecondParticles;
-    }
-
-    public void setPerSecondParticles(float perSecondParticles) {
-        this.perSecondParticles = perSecondParticles;
     }
 
     public void renderParticles(ShaderContext shaderContext, Mesh mesh) {
