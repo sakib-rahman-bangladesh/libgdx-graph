@@ -1,4 +1,4 @@
-include 'desktop', 'core', 'libgdx-graph', 'libgdx-graph-test'
+include 'desktop', 'core', 'gdx-graph', 'gdx-graph-test'
 
 new File(rootDir, "plugins").listFiles().each {plugin->
     if (plugin.directory) {

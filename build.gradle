@@ -20,7 +20,7 @@ allprojects {
     group = "com.gempukku.libgdx.graph"
     version = '0.6.2-SNAPSHOT'
     ext {
-        appName = "Libgdx Graph"
+        appName = "Gdx Graph"
         gdxVersion = '1.9.13'
         roboVMVersion = '2.3.8'
         box2DLightsVersion = '1.4'
@@ -55,11 +55,11 @@ project(":desktop") {
         implementation project(":core")
 
         // Plugins
-        implementation project(":libgdx-graph-particles-design")
-        implementation project(":libgdx-graph-sprites-design")
-        implementation project(":libgdx-graph-screen-design")
-        implementation project(":libgdx-graph-models-design")
-        implementation project(":libgdx-graph-lighting3d-design")
+        implementation project(":gdx-graph-particles-design")
+        implementation project(":gdx-graph-sprites-design")
+        implementation project(":gdx-graph-screen-design")
+        implementation project(":gdx-graph-models-design")
+        implementation project(":gdx-graph-lighting3d-design")
 
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
@@ -70,18 +70,18 @@ project(":core") {
     apply plugin: "java-library"
 
     dependencies {
-        implementation project(":libgdx-graph")
+        implementation project(":gdx-graph")
         // https://mvnrepository.com/artifact/com.kotcrab.vis/vis-ui
         //api "com.kotcrab.vis:vis-ui:$visUiVersion"
         api 'com.github.kotcrab:vis-ui:aa0184c'
     }
 }
 
-project(":libgdx-graph-test") {
+project(":gdx-graph-test") {
     apply plugin: "java-library"
 
     dependencies {
-        implementation project(":libgdx-graph")
+        implementation project(":gdx-graph")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
@@ -90,7 +90,7 @@ project(":libgdx-graph-test") {
     }
 }
 
-project(":libgdx-graph") {
+project(":gdx-graph") {
     apply plugin: "java-library"
 
     dependencies {
@@ -98,47 +98,47 @@ project(":libgdx-graph") {
     }
 }
 
-project(":libgdx-graph-particles-design") {
+project(":gdx-graph-particles-design") {
     apply plugin: "java-library"
 
     dependencies {
         implementation project(":core")
-        implementation project(":libgdx-graph")
+        implementation project(":gdx-graph")
     }
 }
 
-project(":libgdx-graph-sprites-design") {
+project(":gdx-graph-sprites-design") {
     apply plugin: "java-library"
 
     dependencies {
         implementation project(":core")
-        implementation project(":libgdx-graph")
+        implementation project(":gdx-graph")
     }
 }
 
-project(":libgdx-graph-screen-design") {
+project(":gdx-graph-screen-design") {
     apply plugin: "java-library"
 
     dependencies {
         implementation project(":core")
-        implementation project(":libgdx-graph")
+        implementation project(":gdx-graph")
     }
 }
 
-project(":libgdx-graph-models-design") {
+project(":gdx-graph-models-design") {
     apply plugin: "java-library"
 
     dependencies {
         implementation project(":core")
-        implementation project(":libgdx-graph")
+        implementation project(":gdx-graph")
     }
 }
 
-project(":libgdx-graph-lighting3d-design") {
+project(":gdx-graph-lighting3d-design") {
     apply plugin: "java-library"
 
     dependencies {
         implementation project(":core")
-        implementation project(":libgdx-graph")
+        implementation project(":gdx-graph")
     }
 }
