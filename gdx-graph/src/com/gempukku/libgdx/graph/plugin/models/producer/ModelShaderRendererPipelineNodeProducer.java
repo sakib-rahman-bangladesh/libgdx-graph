@@ -206,13 +206,13 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             case Shader_Unordered:
                 return new ShaderUnorderedModelRenderingStrategy();
             case Shader_Back_To_Front:
-                return new ShaderBackToFrontRenderingStrategy();
+                return new ShaderBackToFrontModelRenderingStrategy();
             case Shader_Front_To_Back:
-                return new ShaderFrontToBackRenderingStrategy();
+                return new ShaderFrontToBackModelRenderingStrategy();
             case Back_To_Front:
-                return new BackToFrontRenderingStrategy();
+                return new BackToFrontModelRenderingStrategy();
             case Front_To_Back:
-                return new FrontToBackRenderingStrategy();
+                return new FrontToBackModelRenderingStrategy();
         }
         throw new IllegalStateException("Unrecognized RenderOrder: " + renderOrder.name());
     }

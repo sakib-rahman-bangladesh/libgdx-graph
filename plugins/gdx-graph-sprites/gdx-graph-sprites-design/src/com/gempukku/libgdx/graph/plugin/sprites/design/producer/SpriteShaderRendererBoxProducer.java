@@ -2,9 +2,12 @@ package com.gempukku.libgdx.graph.plugin.sprites.design.producer;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonValue;
+import com.gempukku.libgdx.graph.pipeline.RenderOrder;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteShaderRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
+import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
+import com.gempukku.libgdx.graph.ui.part.ToStringEnum;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 
 public class SpriteShaderRendererBoxProducer extends GraphBoxProducerImpl {
@@ -16,6 +19,12 @@ public class SpriteShaderRendererBoxProducer extends GraphBoxProducerImpl {
     public GraphBox createPipelineGraphBox(Skin skin, String id, JsonValue data) {
         GraphBoxImpl result = createGraphBox(id);
         addConfigurationInputsAndOutputs(result);
+
+        SelectBoxPart renderOrderSelect = new SelectBoxPart("Render order", "renderOrder",
+                new ToStringEnum<RenderOrder>(), RenderOrder.values());
+        renderOrderSelect.initialize(data);
+        result.addGraphBoxPart(renderOrderSelect);
+
         SpriteShadersBoxPart graphBoxPart = new SpriteShadersBoxPart();
         graphBoxPart.initialize(data);
         result.addGraphBoxPart(graphBoxPart);

@@ -8,6 +8,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.gempukku.libgdx.graph.component.OutlineComponent;
 import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
+import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
 import com.gempukku.libgdx.graph.plugin.sprites.GraphSprites;
 
 public class OutlineSystem extends EntitySystem {
@@ -36,12 +37,17 @@ public class OutlineSystem extends EntitySystem {
                 boolean outline = outlineComponent.hasOutline();
                 if (type.equals("asTag")) {
                     if (outline) {
-                        graphSprites.addTag(spriteComponent.getGraphSprite(), "Outline");
+                        GraphSprite outlineSprite = graphSprites.addSprite("Outline", spriteComponent.getSprite());
+                        spriteComponent.getGraphSprites().put("Outline", outlineSprite);
                     } else {
-                        graphSprites.removeTag(spriteComponent.getGraphSprite(), "Outline");
+                        GraphSprite outlineSprite = spriteComponent.getGraphSprites().get("Outline");
+                        if (outlineSprite != null)
+                            graphSprites.removeSprite(outlineSprite);
                     }
                 } else if (type.equals("asProperty")) {
-                    graphSprites.setProperty(spriteComponent.getGraphSprite(), "Outline", outline ? 1 : 0);
+                    spriteComponent.getSprite().setOutline(outline ? 1 : 0);
+//
+//                    graphSprites.setProperty(spriteComponent.getGraphSprite(), "Outline", outline ? 1 : 0);
                 }
 
                 outlineComponent.clean();

@@ -16,7 +16,7 @@ import com.gempukku.libgdx.graph.plugin.sprites.ValuePerVertex;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
-public class CachedSpriteData implements SpriteData {
+public class BatchedSpriteData implements SpriteData {
     private final int spriteCapacity;
     private final int floatCountPerVertex;
     private final VertexAttributes vertexAttributes;
@@ -33,9 +33,9 @@ public class CachedSpriteData implements SpriteData {
 
     private ObjectSet<GraphSpriteImpl> updatedSprites = new ObjectSet<>();
 
-    public CachedSpriteData(boolean staticCache, int spriteCapacity, int floatCountPerVertex,
-                            VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties,
-                            IntMap<String> propertyIndexNames) {
+    public BatchedSpriteData(boolean staticCache, int spriteCapacity, int floatCountPerVertex,
+                             VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties,
+                             IntMap<String> propertyIndexNames) {
         this.spriteCapacity = spriteCapacity;
         this.floatCountPerVertex = floatCountPerVertex;
         this.vertexAttributes = vertexAttributes;
@@ -111,7 +111,7 @@ public class CachedSpriteData implements SpriteData {
             for (VertexAttribute vertexAttribute : vertexAttributes) {
                 String alias = vertexAttribute.alias;
                 if (alias.equals("a_position")) {
-                    Vector3 position = sprite.getPosition();
+                    Vector3 position = sprite.getRenderableSprite().getPosition();
                     vertexData[vertexOffset + floatIndex + 0] = position.x;
                     vertexData[vertexOffset + floatIndex + 1] = position.y;
                     vertexData[vertexOffset + floatIndex + 2] = position.z;
@@ -126,7 +126,7 @@ public class CachedSpriteData implements SpriteData {
                     PropertySource propertySource = shaderProperties.get(propertyName);
 
                     ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
-                    Object value = sprite.getPropertyContainer().getValue(propertyName);
+                    Object value = sprite.getRenderableSprite().getPropertyContainer().getValue(propertyName);
                     if (value instanceof ValuePerVertex) {
                         value = ((ValuePerVertex) value).getValue(vertexIndex);
                         value = propertySource.getValueToUse(value);
@@ -152,7 +152,7 @@ public class CachedSpriteData implements SpriteData {
         }
         updatedSprites.clear();
 
-        shaderContext.setLocalPropertyContainer(graphSpritesPosition[0].getPropertyContainer());
+        shaderContext.setLocalPropertyContainer(graphSpritesPosition[0].getRenderableSprite().getPropertyContainer());
         if (minUpdatedIndex != Integer.MAX_VALUE) {
             if (debug)
                 Gdx.app.debug("Sprite", "Updating vertex array - float count: " + (maxUpdatedIndex - minUpdatedIndex));

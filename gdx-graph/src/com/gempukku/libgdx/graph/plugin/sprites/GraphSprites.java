@@ -1,23 +1,11 @@
 package com.gempukku.libgdx.graph.plugin.sprites;
 
-import com.badlogic.gdx.math.Vector3;
-
 public interface GraphSprites {
-    GraphSprite createSprite(Vector3 position);
+    GraphSprite addSprite(String tag, RenderableSprite renderableSprite);
 
-    void updateSprite(GraphSprite sprite, SpriteUpdater spriteUpdater);
+    void updateSprite(GraphSprite sprite);
 
-    void destroySprite(GraphSprite sprite);
-
-    void addTag(GraphSprite sprite, String tag);
-
-    void removeTag(GraphSprite sprite, String tag);
-
-    void setProperty(GraphSprite sprite, String name, Object value);
-
-    void unsetProperty(GraphSprite sprite, String name);
-
-    Object getProperty(GraphSprite sprite, String name);
+    void removeSprite(GraphSprite sprite);
 
     void setGlobalProperty(String tag, String name, Object value);
 

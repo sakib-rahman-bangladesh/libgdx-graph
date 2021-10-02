@@ -20,9 +20,10 @@ import com.gempukku.libgdx.graph.data.GraphProperty;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
+import com.gempukku.libgdx.graph.plugin.sprites.RenderableSprite;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteGraphShader;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.GraphSpriteImpl;
-import com.gempukku.libgdx.graph.plugin.sprites.impl.NonCachedTagSpriteData;
+import com.gempukku.libgdx.graph.plugin.sprites.impl.NonBatchedTagSpriteData;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
@@ -45,7 +46,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
     private DefaultTimeKeeper timeKeeper;
     private ShaderContextImpl shaderContext;
     private GraphSpriteImpl graphSprite;
-    private NonCachedTagSpriteData spriteData;
+    private NonBatchedTagSpriteData spriteData;
 
     public SpriteShaderPreviewWidget(int width, int height) {
         this.width = width;
@@ -72,7 +73,19 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
         shaderContext.setRenderHeight(height);
         shaderContext.setColorTexture(PatternTextures.sharedInstance.texture);
 
-        graphSprite = new GraphSpriteImpl(new Vector3(0, 0, 2f));
+        final Vector3 position = new Vector3(0, 0, 2);
+        graphSprite = new GraphSpriteImpl("Test",
+                new RenderableSprite() {
+                    @Override
+                    public Vector3 getPosition() {
+                        return position;
+                    }
+
+                    @Override
+                    public PropertyContainer getPropertyContainer() {
+                        return null;
+                    }
+                });
     }
 
     @Override
@@ -173,7 +186,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
     }
 
     private void createModel(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> properties) {
-        spriteData = new NonCachedTagSpriteData(vertexAttributes, properties);
+        spriteData = new NonBatchedTagSpriteData(vertexAttributes, properties);
         spriteData.setSprite(graphSprite);
     }
 

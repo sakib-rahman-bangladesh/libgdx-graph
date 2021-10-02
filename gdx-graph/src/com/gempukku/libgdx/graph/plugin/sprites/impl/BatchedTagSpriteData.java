@@ -11,7 +11,7 @@ import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderCont
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteGraphShader;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
-public class CachedTagSpriteData implements Disposable {
+public class BatchedTagSpriteData implements Disposable {
     private final VertexAttributes vertexAttributes;
     private final int numberOfSpritesPerBatch;
     private final ObjectMap<String, PropertySource> shaderProperties;
@@ -19,10 +19,10 @@ public class CachedTagSpriteData implements Disposable {
     private final IntMap<String> propertyIndexNames = new IntMap<>();
     private final int floatCount;
 
-    private ObjectMap<String, Array<CachedSpriteData>> dynamicCachedSpritesPerTextureSet = new ObjectMap<>();
+    private ObjectMap<String, Array<BatchedSpriteData>> dynamicCachedSpritesPerTextureSet = new ObjectMap<>();
 
-    public CachedTagSpriteData(VertexAttributes vertexAttributes, int numberOfSpritesPerBatch, ObjectMap<String, PropertySource> shaderProperties,
-                               Array<String> textureUniformNames) {
+    public BatchedTagSpriteData(VertexAttributes vertexAttributes, int numberOfSpritesPerBatch, ObjectMap<String, PropertySource> shaderProperties,
+                                Array<String> textureUniformNames) {
         this.vertexAttributes = vertexAttributes;
         this.numberOfSpritesPerBatch = numberOfSpritesPerBatch;
         this.shaderProperties = shaderProperties;
@@ -41,36 +41,36 @@ public class CachedTagSpriteData implements Disposable {
 
     public void addSprite(GraphSpriteImpl sprite) {
         String textureSignature = getTextureSignature(sprite);
-        Array<CachedSpriteData> dynamicCachedSpriteData = dynamicCachedSpritesPerTextureSet.get(textureSignature);
+        Array<BatchedSpriteData> dynamicCachedSpriteData = dynamicCachedSpritesPerTextureSet.get(textureSignature);
         if (dynamicCachedSpriteData == null) {
             dynamicCachedSpriteData = new Array<>();
             dynamicCachedSpritesPerTextureSet.put(textureSignature, dynamicCachedSpriteData);
         }
 
-        for (CachedSpriteData dynamicCachedSprite : dynamicCachedSpriteData) {
+        for (BatchedSpriteData dynamicCachedSprite : dynamicCachedSpriteData) {
             if (dynamicCachedSprite.addGraphSprite(sprite))
                 return;
         }
-        CachedSpriteData cachedSpriteData = new CachedSpriteData(false, numberOfSpritesPerBatch, floatCount,
+        BatchedSpriteData batchedSpriteData = new BatchedSpriteData(false, numberOfSpritesPerBatch, floatCount,
                 vertexAttributes, shaderProperties, propertyIndexNames);
-        dynamicCachedSpriteData.add(cachedSpriteData);
-        cachedSpriteData.addGraphSprite(sprite);
+        dynamicCachedSpriteData.add(batchedSpriteData);
+        batchedSpriteData.addGraphSprite(sprite);
     }
 
     public void spriteUpdated(GraphSpriteImpl graphSprite) {
-        CachedSpriteData cachedSpriteData = findCachedSpriteDataContainingSprite(graphSprite);
-        if (cachedSpriteData == null) {
+        BatchedSpriteData batchedSpriteData = findCachedSpriteDataContainingSprite(graphSprite);
+        if (batchedSpriteData == null) {
             // Texture change
             removeRegardlessOfTexture(graphSprite);
             addSprite(graphSprite);
         } else {
-            cachedSpriteData.updateGraphSprite(graphSprite);
+            batchedSpriteData.updateGraphSprite(graphSprite);
         }
     }
 
     private void removeRegardlessOfTexture(GraphSpriteImpl graphSprite) {
-        for (ObjectMap.Entry<String, Array<CachedSpriteData>> dynamicCachedSprites : new ObjectMap.Entries<>(dynamicCachedSpritesPerTextureSet)) {
-            for (CachedSpriteData dynamicCachedSprite : dynamicCachedSprites.value) {
+        for (ObjectMap.Entry<String, Array<BatchedSpriteData>> dynamicCachedSprites : new ObjectMap.Entries<>(dynamicCachedSpritesPerTextureSet)) {
+            for (BatchedSpriteData dynamicCachedSprite : dynamicCachedSprites.value) {
                 if (dynamicCachedSprite.removeGraphSprite(graphSprite)) {
                     // Cleanup unneeded collections
                     if (!dynamicCachedSprite.hasSprites()) {
@@ -87,13 +87,13 @@ public class CachedTagSpriteData implements Disposable {
         }
     }
 
-    private CachedSpriteData findCachedSpriteDataContainingSprite(GraphSpriteImpl graphSprite) {
+    private BatchedSpriteData findCachedSpriteDataContainingSprite(GraphSpriteImpl graphSprite) {
         String textureSignature = getTextureSignature(graphSprite);
-        Array<CachedSpriteData> array = dynamicCachedSpritesPerTextureSet.get(textureSignature);
+        Array<BatchedSpriteData> array = dynamicCachedSpritesPerTextureSet.get(textureSignature);
         if (array != null) {
-            for (CachedSpriteData cachedSpriteData : array) {
-                if (cachedSpriteData.hasSprite(graphSprite))
-                    return cachedSpriteData;
+            for (BatchedSpriteData batchedSpriteData : array) {
+                if (batchedSpriteData.hasSprite(graphSprite))
+                    return batchedSpriteData;
             }
         }
 
@@ -102,9 +102,9 @@ public class CachedTagSpriteData implements Disposable {
 
     public void removeSprite(GraphSpriteImpl sprite) {
         String textureSignature = getTextureSignature(sprite);
-        Array<CachedSpriteData> dynamicCachedSprites = dynamicCachedSpritesPerTextureSet.get(textureSignature);
+        Array<BatchedSpriteData> dynamicCachedSprites = dynamicCachedSpritesPerTextureSet.get(textureSignature);
         if (dynamicCachedSprites != null) {
-            for (CachedSpriteData dynamicCachedSprite : dynamicCachedSprites) {
+            for (BatchedSpriteData dynamicCachedSprite : dynamicCachedSprites) {
                 if (dynamicCachedSprite.removeGraphSprite(sprite)) {
                     // Cleanup unneeded collections
                     if (!dynamicCachedSprite.hasSprites()) {
@@ -122,9 +122,9 @@ public class CachedTagSpriteData implements Disposable {
     }
 
     public boolean hasSprites() {
-        for (Array<CachedSpriteData> array : dynamicCachedSpritesPerTextureSet.values()) {
-            for (CachedSpriteData cachedSpriteData : array) {
-                if (cachedSpriteData.hasSprites())
+        for (Array<BatchedSpriteData> array : dynamicCachedSpritesPerTextureSet.values()) {
+            for (BatchedSpriteData batchedSpriteData : array) {
+                if (batchedSpriteData.hasSprites())
                     return true;
             }
         }
@@ -132,20 +132,24 @@ public class CachedTagSpriteData implements Disposable {
         return false;
     }
 
+    public Iterable<Array<BatchedSpriteData>> getSpriteData() {
+        return dynamicCachedSpritesPerTextureSet.values();
+    }
+
     public void render(SpriteGraphShader shader, ShaderContextImpl shaderContext) {
-        for (Array<CachedSpriteData> array : dynamicCachedSpritesPerTextureSet.values()) {
-            for (CachedSpriteData cachedSpriteData : array) {
-                cachedSpriteData.prepareForRender(shaderContext);
-                shader.renderSprites(shaderContext, cachedSpriteData);
+        for (Array<BatchedSpriteData> array : dynamicCachedSpritesPerTextureSet.values()) {
+            for (BatchedSpriteData batchedSpriteData : array) {
+                batchedSpriteData.prepareForRender(shaderContext);
+                shader.renderSprites(shaderContext, batchedSpriteData);
             }
         }
     }
 
     @Override
     public void dispose() {
-        for (Array<CachedSpriteData> array : dynamicCachedSpritesPerTextureSet.values()) {
-            for (CachedSpriteData cachedSpriteData : array) {
-                cachedSpriteData.dispose();
+        for (Array<BatchedSpriteData> array : dynamicCachedSpritesPerTextureSet.values()) {
+            for (BatchedSpriteData batchedSpriteData : array) {
+                batchedSpriteData.dispose();
             }
         }
     }
@@ -158,7 +162,7 @@ public class CachedTagSpriteData implements Disposable {
         for (int i = 0; i < textureUniformNames.size; i++) {
             String propertyName = textureUniformNames.get(i);
             PropertySource propertySource = shaderProperties.get(propertyName);
-            Object region = graphSprite.getPropertyContainer().getValue(propertyName);
+            Object region = graphSprite.getRenderableSprite().getPropertyContainer().getValue(propertyName);
             region = propertySource.getValueToUse(region);
             sb.append(((TextureRegion) region).getTexture().getTextureObjectHandle()).append(",");
         }

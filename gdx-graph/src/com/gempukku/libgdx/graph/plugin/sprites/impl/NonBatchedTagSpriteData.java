@@ -10,12 +10,14 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteData;
+import com.gempukku.libgdx.graph.plugin.sprites.ValuePerVertex;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
-public class NonCachedTagSpriteData implements SpriteData, Disposable {
+public class NonBatchedTagSpriteData implements SpriteData, Disposable {
     private VertexAttributes vertexAttributes;
     private ObjectMap<String, PropertySource> shaderProperties;
     private IntMap<String> propertyIndexNames = new IntMap<>();
@@ -23,8 +25,9 @@ public class NonCachedTagSpriteData implements SpriteData, Disposable {
 
     private float[] tempVertices;
     private final int floatCount;
+    private PropertyContainer propertyContainer;
 
-    public NonCachedTagSpriteData(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
+    public NonBatchedTagSpriteData(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
         this.vertexAttributes = vertexAttributes;
         this.shaderProperties = shaderProperties;
 
@@ -60,17 +63,18 @@ public class NonCachedTagSpriteData implements SpriteData, Disposable {
     public void setSprite(GraphSpriteImpl sprite) {
         for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
             int floatIndex = 0;
+            int vertexOffset = vertexIndex * floatCount;
             for (VertexAttribute vertexAttribute : vertexAttributes) {
                 String alias = vertexAttribute.alias;
                 if (alias.equals("a_position")) {
-                    Vector3 position = sprite.getPosition();
-                    tempVertices[vertexIndex * floatCount + floatIndex + 0] = position.x;
-                    tempVertices[vertexIndex * floatCount + floatIndex + 1] = position.y;
-                    tempVertices[vertexIndex * floatCount + floatIndex + 2] = position.z;
+                    Vector3 position = sprite.getRenderableSprite().getPosition();
+                    tempVertices[vertexOffset + floatIndex + 0] = position.x;
+                    tempVertices[vertexOffset + floatIndex + 1] = position.y;
+                    tempVertices[vertexOffset + floatIndex + 2] = position.z;
                     floatIndex += 3;
                 } else if (alias.equals(ShaderProgram.TEXCOORD_ATTRIBUTE + 0)) {
-                    tempVertices[vertexIndex * floatCount + floatIndex + 0] = vertexIndex % 2;
-                    tempVertices[vertexIndex * floatCount + floatIndex + 1] = (float) (vertexIndex / 2);
+                    tempVertices[vertexOffset + floatIndex + 0] = vertexIndex % 2;
+                    tempVertices[vertexOffset + floatIndex + 1] = (float) (vertexIndex / 2);
                     floatIndex += 2;
                 } else if (alias.startsWith("a_property_")) {
                     int propertyIndex = Integer.parseInt(alias.substring(11));
@@ -78,14 +82,26 @@ public class NonCachedTagSpriteData implements SpriteData, Disposable {
                     PropertySource propertySource = shaderProperties.get(propertyName);
 
                     ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
-                    Object value = sprite.getPropertyContainer().getValue(propertyName);
-                    value = propertySource.getValueToUse(value);
+                    Object value = sprite.getRenderableSprite().getPropertyContainer().getValue(propertyName);
+                    if (value instanceof ValuePerVertex) {
+                        value = ((ValuePerVertex) value).getValue(vertexIndex);
+                        value = propertySource.getValueToUse(value);
+                    } else {
+                        value = propertySource.getValueToUse(value);
+                    }
 
-                    floatIndex += shaderFieldType.setValueInAttributesArray(tempVertices, vertexIndex * floatCount + floatIndex, value);
+                    floatIndex += shaderFieldType.setValueInAttributesArray(tempVertices, vertexOffset + floatIndex, value);
                 }
             }
         }
+
         mesh.updateVertices(0, tempVertices, 0, 4 * floatCount);
+        propertyContainer = sprite.getRenderableSprite().getPropertyContainer();
+    }
+
+    @Override
+    public void prepareForRender(ShaderContextImpl shaderContext) {
+        shaderContext.setLocalPropertyContainer(propertyContainer);
     }
 
     @Override

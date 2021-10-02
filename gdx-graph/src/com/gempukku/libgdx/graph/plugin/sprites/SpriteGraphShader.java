@@ -28,6 +28,7 @@ public class SpriteGraphShader extends GraphShader {
     }
 
     public void renderSprites(ShaderContextImpl shaderContext, SpriteData spriteData) {
+        spriteData.prepareForRender(shaderContext);
         for (Uniform uniform : localUniforms.values()) {
             uniform.getSetter().set(this, uniform.getLocation(), shaderContext);
         }
