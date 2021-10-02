@@ -14,7 +14,6 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.*;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.GraphSpritesImpl;
-import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
@@ -42,7 +41,7 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
         final JsonValue shaderDefinitions = data.get("shaders");
         for (JsonValue shaderDefinition : shaderDefinitions) {
             SpriteGraphShader shader = createColorShader(shaderDefinition, whitePixel.texture);
-            if (shader.getBlending() == BasicShader.Blending.opaque)
+            if (shader.getBlending().getDepthMask())
                 opaqueShaders.add(shader);
             else
                 translucentShaders.add(shader);

@@ -44,6 +44,10 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
             this.destinationFactor = destinationFactor;
         }
 
+        public boolean getDepthMask() {
+            return depthMask;
+        }
+
         public void setDepthMask(RenderContext renderContext) {
             renderContext.setDepthMask(depthMask);
         }

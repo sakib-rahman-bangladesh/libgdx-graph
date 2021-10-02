@@ -14,7 +14,6 @@ import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
 import com.gempukku.libgdx.graph.plugin.sprites.GraphSprites;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteGraphShader;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteUpdater;
-import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
@@ -257,7 +256,10 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
     }
 
     public void registerTag(String tag, SpriteGraphShader shader) {
-        boolean opaque = (shader.getBlending() == BasicShader.Blending.opaque);
+        if (tagPropertyContainers.containsKey(tag))
+            throw new IllegalStateException("There is already a shader with tag: " + tag);
+
+        boolean opaque = shader.getBlending().getDepthMask();
         VertexAttributes vertexAttributes = shader.getVertexAttributes();
         ObjectMap<String, PropertySource> shaderProperties = shader.getProperties();
         Array<String> textureUniformNames = shader.getTextureUniformNames();
