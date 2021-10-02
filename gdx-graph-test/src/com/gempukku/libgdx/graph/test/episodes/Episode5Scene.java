@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
@@ -23,10 +24,9 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
-import com.gempukku.libgdx.graph.plugin.models.GraphModel;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.TagOptimizationHint;
+import com.gempukku.libgdx.graph.plugin.models.impl.ModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -45,6 +45,7 @@ public class Episode5Scene implements LibgdxGraphTestScene {
     private Stage stage;
     private Skin skin;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
+    private ModelInstanceRenderableModelAdapter sphereAdapter;
 
     @Override
     public void initializeScene() {
@@ -78,9 +79,8 @@ public class Episode5Scene implements LibgdxGraphTestScene {
     }
 
     private void createModels(GraphModels models) {
-        GraphModel modelId = models.registerModel(sphereModel);
-        sphereModelInstance = models.createModelInstance(modelId);
-        models.addTag(sphereModelInstance, "Cover", TagOptimizationHint.Always);
+        sphereAdapter = new ModelInstanceRenderableModelAdapter(new ModelInstance(sphereModel), models);
+        sphereAdapter.register("Cover");
     }
 
     private Stage createStage() {
@@ -92,7 +92,7 @@ public class Episode5Scene implements LibgdxGraphTestScene {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        pipelineRenderer.getPluginData(GraphModels.class).setProperty(sphereModelInstance, "Amount", amount.getValue());
+                        sphereAdapter.setProperty("Amount", amount.getValue());
                     }
                 });
         final Slider scale = new Slider(1, 50, 1f, false, skin);
@@ -101,7 +101,7 @@ public class Episode5Scene implements LibgdxGraphTestScene {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        pipelineRenderer.getPluginData(GraphModels.class).setProperty(sphereModelInstance, "Scale", scale.getValue());
+                        sphereAdapter.setProperty("Scale", scale.getValue());
                     }
                 });
         final Slider x = new Slider(-1, 1, 0.01f, false, skin);
@@ -113,7 +113,7 @@ public class Episode5Scene implements LibgdxGraphTestScene {
         ChangeListener directionListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                pipelineRenderer.getPluginData(GraphModels.class).setProperty(sphereModelInstance, "Direction", new Vector3(x.getValue(), y.getValue(), z.getValue()));
+                sphereAdapter.setProperty("Direction", new Vector3(x.getValue(), y.getValue(), z.getValue()));
             }
         };
         x.addListener(directionListener);

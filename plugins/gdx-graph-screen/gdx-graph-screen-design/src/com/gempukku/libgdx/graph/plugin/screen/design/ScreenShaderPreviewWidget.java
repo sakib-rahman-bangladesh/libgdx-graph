@@ -137,8 +137,7 @@ public class ScreenShaderPreviewWidget extends Widget implements Disposable {
 
                             return null;
                         }
-                    }
-            );
+                    });
 
             shaderInitialized = true;
         } catch (Exception exp) {

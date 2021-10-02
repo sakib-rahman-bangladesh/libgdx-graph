@@ -33,6 +33,10 @@ public abstract class GraphShader extends UniformCachingShader implements GraphS
         this.shaderProgram = shaderProgram;
     }
 
+    public ShaderProgram getShaderProgram() {
+        return shaderProgram;
+    }
+
     public void setVertexAttributes(VertexAttributes vertexAttributes) {
         this.vertexAttributes = vertexAttributes;
     }
@@ -63,6 +67,10 @@ public abstract class GraphShader extends UniformCachingShader implements GraphS
 
     public void addPropertySource(String name, PropertySource propertySource) {
         propertySourceMap.put(name, propertySource);
+    }
+
+    public ObjectMap<String, PropertySource> getProperties() {
+        return propertySourceMap;
     }
 
     @Override

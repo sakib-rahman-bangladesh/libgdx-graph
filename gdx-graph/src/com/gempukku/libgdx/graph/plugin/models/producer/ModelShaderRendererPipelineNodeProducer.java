@@ -15,8 +15,8 @@ import com.gempukku.libgdx.graph.plugin.models.ModelGraphShader;
 import com.gempukku.libgdx.graph.plugin.models.ModelShaderConfiguration;
 import com.gempukku.libgdx.graph.plugin.models.ModelShaderLoaderCallback;
 import com.gempukku.libgdx.graph.plugin.models.config.ModelShaderRendererPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.plugin.models.impl.GraphModelImpl;
 import com.gempukku.libgdx.graph.plugin.models.impl.GraphModelsImpl;
-import com.gempukku.libgdx.graph.plugin.models.impl.IGraphModelInstance;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
@@ -28,14 +28,10 @@ import com.gempukku.libgdx.graph.util.WhitePixel;
 public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProducerImpl {
     private static GraphConfiguration[] configurations = new GraphConfiguration[]{new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new ModelShaderConfiguration()};
     private PluginPrivateDataSource pluginPrivateDataSource;
-    private int maxBoneCount;
-    private int maxBoneWeightCount;
 
-    public ModelShaderRendererPipelineNodeProducer(PluginPrivateDataSource pluginPrivateDataSource, int maxBoneCount, int maxBoneWeightCount) {
+    public ModelShaderRendererPipelineNodeProducer(PluginPrivateDataSource pluginPrivateDataSource) {
         super(new ModelShaderRendererPipelineNodeConfiguration());
         this.pluginPrivateDataSource = pluginPrivateDataSource;
-        this.maxBoneCount = maxBoneCount;
-        this.maxBoneWeightCount = maxBoneWeightCount;
     }
 
     @Override
@@ -51,7 +47,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
         final JsonValue shaderDefinitions = data.get("shaders");
         for (JsonValue shaderDefinition : shaderDefinitions) {
-            ShaderGroup shaderGroup = new ShaderGroup(shaderDefinition, whitePixel, maxBoneCount, maxBoneWeightCount);
+            ShaderGroup shaderGroup = new ShaderGroup(shaderDefinition, whitePixel);
             shaderGroup.initialize();
 
             if (shaderGroup.getColorShader().getBlending() == BasicShader.Blending.opaque) {
@@ -187,18 +183,20 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
                     models.prepareForRendering(camera, translucentShaderTags);
                     models.orderBackToFront();
                     GraphShader lastShader = null;
-                    for (IGraphModelInstance graphModelInstance : models.getModels()) {
+                    for (GraphModelImpl graphModel : models.getModels()) {
                         for (ShaderGroup shaderGroup : translucentShaderGroups) {
                             ModelGraphShader colorShader = shaderGroup.getColorShader();
                             String tag = colorShader.getTag();
-                            if (graphModelInstance.hasTag(tag)) {
+                            if (graphModel.getTag().equals(tag) &&
+                                    graphModel.getRenderableModel().isRendered(shaderContext.getCamera())) {
                                 if (lastShader != colorShader) {
                                     if (lastShader != null)
                                         lastShader.end();
+                                    shaderContext.setGlobalPropertyContainer(models.getGlobalProperties(tag));
                                     colorShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
                                     lastShader = colorShader;
                                 }
-                                colorShader.render(shaderContext, graphModelInstance);
+                                colorShader.render(shaderContext, graphModel);
                             }
                         }
                     }
@@ -227,13 +225,15 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
             private void renderWithShaderOpaquePass(String tag, ModelGraphShader shader, GraphModelsImpl models, ModelShaderContextImpl shaderContext,
                                                     RenderContext renderContext) {
                 boolean begun = false;
-                for (IGraphModelInstance graphModelInstance : models.getModels()) {
-                    if (graphModelInstance.hasTag(tag)) {
+                for (GraphModelImpl graphModel : models.getModels()) {
+                    if (graphModel.getTag().equals(tag) &&
+                            graphModel.getRenderableModel().isRendered(shaderContext.getCamera())) {
                         if (!begun) {
+                            shaderContext.setGlobalPropertyContainer(models.getGlobalProperties(tag));
                             shader.begin(shaderContext, renderContext);
                             begun = true;
                         }
-                        shader.render(shaderContext, graphModelInstance);
+                        shader.render(shaderContext, graphModel);
                     }
                 }
                 if (begun)
@@ -253,20 +253,20 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         };
     }
 
-    private static ModelGraphShader createColorShader(JsonValue shaderDefinition, Texture defaultTexture, int maxBoneCount, int maxBoneWeightCount) {
+    private static ModelGraphShader createColorShader(JsonValue shaderDefinition, Texture defaultTexture) {
         JsonValue shaderGraph = shaderDefinition.get("shader");
         String tag = shaderDefinition.getString("tag");
         Gdx.app.debug("Shader", "Building shader with tag: " + tag);
-        ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, maxBoneCount, maxBoneWeightCount, false, configurations), PropertyLocation.Uniform);
+        ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, false, configurations), PropertyLocation.Uniform);
         modelGraphShader.setTag(tag);
         return modelGraphShader;
     }
 
-    private static ModelGraphShader createDepthShader(JsonValue shaderDefinition, Texture defaultTexture, int maxBoneCount, int maxBoneWeightCount) {
+    private static ModelGraphShader createDepthShader(JsonValue shaderDefinition, Texture defaultTexture) {
         JsonValue shaderGraph = shaderDefinition.get("shader");
         String tag = shaderDefinition.getString("tag");
         Gdx.app.debug("Shader", "Building shader with tag: " + tag);
-        ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, maxBoneCount, maxBoneWeightCount, true, configurations), PropertyLocation.Uniform);
+        ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, true, configurations), PropertyLocation.Uniform);
         modelGraphShader.setTag(tag);
         return modelGraphShader;
     }
@@ -274,25 +274,23 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
     private class ShaderGroup implements Disposable {
         private JsonValue shaderDefinition;
         private WhitePixel whitePixel;
-        private int maxBoneCount;
-        private int maxBoneWeightCount;
         private ModelGraphShader colorShader;
         private ModelGraphShader depthShader;
+        private IntArray colorShaderAttributeLocations = new IntArray();
+        private IntArray depthShaderAttributeLocations = new IntArray();
 
-        public ShaderGroup(JsonValue shaderDefinition, WhitePixel whitePixel, int maxBoneCount, int maxBoneWeightCount) {
+        public ShaderGroup(JsonValue shaderDefinition, WhitePixel whitePixel) {
             this.shaderDefinition = shaderDefinition;
             this.whitePixel = whitePixel;
-            this.maxBoneCount = maxBoneCount;
-            this.maxBoneWeightCount = maxBoneWeightCount;
         }
 
         public void initialize() {
-            colorShader = ModelShaderRendererPipelineNodeProducer.createColorShader(shaderDefinition, whitePixel.texture, maxBoneCount, maxBoneWeightCount);
+            colorShader = ModelShaderRendererPipelineNodeProducer.createColorShader(shaderDefinition, whitePixel.texture);
         }
 
         public void initializeDepthShader() {
             if (depthShader == null && colorShader.getBlending() == BasicShader.Blending.opaque) {
-                depthShader = ModelShaderRendererPipelineNodeProducer.createDepthShader(shaderDefinition, whitePixel.texture, maxBoneCount, maxBoneWeightCount);
+                depthShader = ModelShaderRendererPipelineNodeProducer.createDepthShader(shaderDefinition, whitePixel.texture);
             }
         }
 

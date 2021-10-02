@@ -33,11 +33,14 @@ public class MathCommonOutputTypeFunction implements Function<ObjectMap<String, 
             Array<String> type = map.get(maybeFloat);
             if (type == null || type.size == 0)
                 return null;
-            if (!type.get(0).equals(floatType) && !type.get(0).equals(resolvedType))
+            String type0 = type.get(0);
+            if (type0 == null)
                 return null;
-            if (floatResolvedType != null && !floatResolvedType.equals(type.get(0)))
+            if (!type0.equals(floatType) && !type0.equals(resolvedType))
                 return null;
-            floatResolvedType = type.get(0);
+            if (floatResolvedType != null && !floatResolvedType.equals(type0))
+                return null;
+            floatResolvedType = type0;
         }
 
         return resolvedType;

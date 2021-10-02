@@ -1,5 +1,6 @@
 {
   "version": "0.5.0",
+  "type": "Render_Pipeline",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -23,50 +24,58 @@
             "tag": "force-field",
             "shader": {
               "version": "0.5.0",
+              "type": "Model_Shader",
               "nodes": [
                 {
-                  "id": "a0a55f8b6fa54e09b8525bbce1a72c6f",
-                  "type": "AttributePosition",
+                  "id": "9e7a455d026040488d1d2d9397668a3a",
+                  "type": "WorldPosition",
                   "x": 50.0,
-                  "y": 249.0,
-                  "data": {
-                    "coordinates": "world"
-                  }
+                  "y": 233.0
                 },
                 {
                   "id": "82db704d472b4b87b373d41ded46735c",
                   "type": "Distance",
-                  "x": 258.0,
+                  "x": 254.0,
                   "y": 249.0
+                },
+                {
+                  "id": "596766ffe2984c7a9dc9894aa20ca02f",
+                  "type": "Property",
+                  "x": 1025.0,
+                  "y": 513.0,
+                  "data": {
+                    "name": "Position",
+                    "type": "Vector3"
+                  }
                 },
                 {
                   "id": "97e84e49609c4cb2b45e936365d4d1d2",
                   "type": "CameraPosition",
-                  "x": 60.0,
+                  "x": 56.0,
                   "y": 148.0
                 },
                 {
                   "id": "3ba2b32874f14d02a026ca9f4b35b28d",
                   "type": "ScreenPosition",
-                  "x": 60.0,
+                  "x": 56.0,
                   "y": 344.0
                 },
                 {
                   "id": "791d0bf3fbd449b6bb34a6fb2535a064",
                   "type": "Subtract",
-                  "x": 857.0,
+                  "x": 853.0,
                   "y": 311.0
                 },
                 {
                   "id": "438865ad077748ddaed7719a211393ec",
                   "type": "Subtract",
-                  "x": 473.0,
+                  "x": 469.0,
                   "y": 326.0
                 },
                 {
                   "id": "91d80c47af354974a5280fea0b5dc67a",
                   "type": "ValueFloat",
-                  "x": 474.0,
+                  "x": 470.0,
                   "y": 50.0,
                   "data": {
                     "v1": 0.5
@@ -75,13 +84,13 @@
                 {
                   "id": "a0a9ef5bd5be45f0929322240598196b",
                   "type": "Divide",
-                  "x": 667.0,
+                  "x": 663.0,
                   "y": 229.0
                 },
                 {
                   "id": "980ea652f1164fc98bc42962aa87ce4b",
                   "type": "ValueFloat",
-                  "x": 844.0,
+                  "x": 840.0,
                   "y": 124.0,
                   "data": {
                     "v1": 0.20000000298023224
@@ -90,13 +99,13 @@
                 {
                   "id": "3850e67ed1ca4a04a220a7b2ffbba745",
                   "type": "SceneDepth",
-                  "x": 257.0,
+                  "x": 253.0,
                   "y": 343.0
                 },
                 {
                   "id": "0e03ee2be4e643ba9ab526bd60de4b1e",
                   "type": "ValueFloat",
-                  "x": 660.0,
+                  "x": 656.0,
                   "y": 350.0,
                   "data": {
                     "v1": 1.0
@@ -105,7 +114,7 @@
                 {
                   "id": "a9e83b9dd6b84ea4a6642a7e913ad51d",
                   "type": "ValueColor",
-                  "x": 1030.0,
+                  "x": 1026.0,
                   "y": 446.0,
                   "data": {
                     "color": "295699ff"
@@ -114,11 +123,11 @@
                 {
                   "id": "end",
                   "type": "ShaderEnd",
-                  "x": 1265.0,
+                  "x": 1261.0,
                   "y": 85.0,
                   "data": {
+                    "positionType": "Object space",
                     "culling": "none",
-                    "transparency": "transparent",
                     "blending": "alpha",
                     "depthTest": "less"
                   }
@@ -126,7 +135,7 @@
                 {
                   "id": "52eb9bca533341bd91819aa270dfd348",
                   "type": "Maximum",
-                  "x": 1059.0,
+                  "x": 1055.0,
                   "y": 250.0
                 }
               ],
@@ -142,12 +151,6 @@
                   "fromField": "output",
                   "toNode": "3850e67ed1ca4a04a220a7b2ffbba745",
                   "toField": "screenPosition"
-                },
-                {
-                  "fromNode": "a0a55f8b6fa54e09b8525bbce1a72c6f",
-                  "fromField": "position",
-                  "toNode": "82db704d472b4b87b373d41ded46735c",
-                  "toField": "p0"
                 },
                 {
                   "fromNode": "97e84e49609c4cb2b45e936365d4d1d2",
@@ -208,16 +211,33 @@
                   "fromField": "output",
                   "toNode": "791d0bf3fbd449b6bb34a6fb2535a064",
                   "toField": "b"
+                },
+                {
+                  "fromNode": "596766ffe2984c7a9dc9894aa20ca02f",
+                  "fromField": "value",
+                  "toNode": "end",
+                  "toField": "position"
+                },
+                {
+                  "fromNode": "9e7a455d026040488d1d2d9397668a3a",
+                  "fromField": "output",
+                  "toNode": "82db704d472b4b87b373d41ded46735c",
+                  "toField": "p0"
                 }
               ],
-              "properties": [],
-              "groups": [
+              "properties": [
                 {
-                  "name": "Default alpha",
-                  "nodes": [
-                    "980ea652f1164fc98bc42962aa87ce4b"
-                  ]
-                },
+                  "name": "Position",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                }
+              ],
+              "groups": [
                 {
                   "name": "Field sensitivity",
                   "nodes": [
@@ -225,11 +245,16 @@
                   ]
                 },
                 {
+                  "name": "Default alpha",
+                  "nodes": [
+                    "980ea652f1164fc98bc42962aa87ce4b"
+                  ]
+                },
+                {
                   "name": "Pixel distance from scene",
                   "nodes": [
                     "438865ad077748ddaed7719a211393ec",
                     "82db704d472b4b87b373d41ded46735c",
-                    "a0a55f8b6fa54e09b8525bbce1a72c6f",
                     "3850e67ed1ca4a04a220a7b2ffbba745",
                     "97e84e49609c4cb2b45e936365d4d1d2",
                     "3ba2b32874f14d02a026ca9f4b35b28d"
@@ -245,7 +270,10 @@
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
       "x": 386.0,
-      "y": 136.0
+      "y": 136.0,
+      "data": {
+        "id": ""
+      }
     },
     {
       "id": "end",
@@ -274,6 +302,7 @@
             "tag": "default",
             "shader": {
               "version": "0.5.0",
+              "type": "Model_Shader",
               "nodes": [
                 {
                   "id": "f5ef97f386a44afda8f88a7cdc09147d",
@@ -290,9 +319,20 @@
                   "x": 458.0,
                   "y": 50.0,
                   "data": {
+                    "positionType": "Object space",
                     "culling": "back",
                     "blending": "opaque",
                     "depthTest": "less"
+                  }
+                },
+                {
+                  "id": "5fa73489866d43b994f85fbbc26bbcc2",
+                  "type": "Property",
+                  "x": 68.0,
+                  "y": 486.0,
+                  "data": {
+                    "name": "Position",
+                    "type": "Vector3"
                   }
                 }
               ],
@@ -302,9 +342,26 @@
                   "fromField": "value",
                   "toNode": "end",
                   "toField": "color"
+                },
+                {
+                  "fromNode": "5fa73489866d43b994f85fbbc26bbcc2",
+                  "fromField": "value",
+                  "toNode": "end",
+                  "toField": "position"
                 }
               ],
-              "properties": [],
+              "properties": [
+                {
+                  "name": "Position",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                }
+              ],
               "groups": []
             }
           }

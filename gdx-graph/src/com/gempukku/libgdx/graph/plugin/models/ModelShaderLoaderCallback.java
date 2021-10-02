@@ -11,16 +11,12 @@ import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 
 public class ModelShaderLoaderCallback extends GraphDataLoaderCallback<ModelGraphShader, ShaderFieldType> {
     private Texture defaultTexture;
-    private int maxBoneCount;
-    private int maxBoneWeightCount;
     private boolean depthShader;
     private GraphConfiguration[] graphConfigurations;
 
-    public ModelShaderLoaderCallback(Texture defaultTexture, int maxBoneCount, int maxBoneWeightCount,
+    public ModelShaderLoaderCallback(Texture defaultTexture,
                                      boolean depthShader, GraphConfiguration... graphConfiguration) {
         this.defaultTexture = defaultTexture;
-        this.maxBoneCount = maxBoneCount;
-        this.maxBoneWeightCount = maxBoneWeightCount;
         this.depthShader = depthShader;
         graphConfigurations = graphConfiguration;
     }
@@ -38,9 +34,9 @@ public class ModelShaderLoaderCallback extends GraphDataLoaderCallback<ModelGrap
             throw new IllegalStateException("The graph contains errors, open it in the graph designer and correct them");
 
         if (depthShader)
-            return GraphShaderBuilder.buildModelDepthShader(defaultTexture, maxBoneCount, maxBoneWeightCount, this, false);
+            return GraphShaderBuilder.buildModelDepthShader(defaultTexture, this, false);
         else
-            return GraphShaderBuilder.buildModelShader(defaultTexture, maxBoneCount, maxBoneWeightCount, this, false);
+            return GraphShaderBuilder.buildModelShader(defaultTexture, this, false);
     }
 
     @Override

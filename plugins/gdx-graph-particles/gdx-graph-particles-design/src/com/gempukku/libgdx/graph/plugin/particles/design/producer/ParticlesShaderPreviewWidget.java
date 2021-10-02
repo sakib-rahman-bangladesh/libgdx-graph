@@ -208,8 +208,7 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
 
                             return null;
                         }
-                    }
-            );
+                    });
 
             shaderInitialized = true;
         } catch (Exception exp) {

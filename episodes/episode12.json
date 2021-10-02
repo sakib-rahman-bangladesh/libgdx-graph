@@ -1,5 +1,6 @@
 {
   "version": "0.5.0",
+  "type": "Render_Pipeline",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -15,7 +16,10 @@
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
       "x": 385.0,
-      "y": 126.0
+      "y": 126.0,
+      "data": {
+        "id": ""
+      }
     },
     {
       "id": "end",
@@ -44,21 +48,13 @@
             "tag": "dissolve",
             "shader": {
               "version": "0.5.0",
+              "type": "Model_Shader",
               "nodes": [
-                {
-                  "id": "b0ea32e7073243b0bbda2e05a5671f26",
-                  "type": "AttributeUV",
-                  "x": 744.0,
-                  "y": 721.0,
-                  "data": {
-                    "channel": "UV0"
-                  }
-                },
                 {
                   "id": "896753d12f084299a6bed612cf50f018",
                   "type": "ValueFloat",
                   "x": 50.0,
-                  "y": 310.0,
+                  "y": 269.0,
                   "data": {
                     "v1": -1.0
                   }
@@ -66,8 +62,8 @@
                 {
                   "id": "8e59fdbf22804a7a8309425a89d39cb0",
                   "type": "Property",
-                  "x": 466.0,
-                  "y": 342.0,
+                  "x": 465.0,
+                  "y": 343.0,
                   "data": {
                     "name": "Noise Scale",
                     "type": "Float"
@@ -77,7 +73,7 @@
                   "id": "beb28fd8fc204fd9b61b1fd771a51b37",
                   "type": "Property",
                   "x": 76.0,
-                  "y": 209.0,
+                  "y": 168.0,
                   "data": {
                     "name": "Noise Value",
                     "type": "Float"
@@ -87,7 +83,7 @@
                   "id": "2332d4f623294847be9af2b2dda39ce3",
                   "type": "ValueFloat",
                   "x": 1104.0,
-                  "y": 438.0,
+                  "y": 397.0,
                   "data": {
                     "v1": 1.0
                   }
@@ -95,8 +91,8 @@
                 {
                   "id": "a6ba5b6f2f1b494aa5055c20b790f5f4",
                   "type": "ValueVector3",
-                  "x": 445.0,
-                  "y": 114.0,
+                  "x": 438.0,
+                  "y": 119.0,
                   "data": {
                     "v1": 0.0,
                     "v2": 0.0,
@@ -104,19 +100,10 @@
                   }
                 },
                 {
-                  "id": "f2013845405c4eb3a09ad5e615974e8b",
-                  "type": "AttributePosition",
-                  "x": 457.0,
-                  "y": 429.0,
-                  "data": {
-                    "coordinates": "world"
-                  }
-                },
-                {
                   "id": "3e4bcbd818ee47a0af0d324d2470033e",
                   "type": "ValueColor",
                   "x": 1240.0,
-                  "y": 831.0,
+                  "y": 790.0,
                   "data": {
                     "color": "04ff00ff"
                   }
@@ -125,28 +112,48 @@
                   "id": "d4e0de396f3642af8f81bf1ec1661966",
                   "type": "SimplexNoise3D",
                   "x": 722.0,
-                  "y": 261.0
+                  "y": 220.0
+                },
+                {
+                  "id": "d071ac1c4ee84c89b170fc0bbf811df8",
+                  "type": "Property",
+                  "x": 1476.0,
+                  "y": 837.0,
+                  "data": {
+                    "name": "Position",
+                    "type": "Vector3"
+                  }
                 },
                 {
                   "id": "94f4e130302f466f8273c55b7a7a5db7",
                   "type": "Add",
                   "x": 924.0,
-                  "y": 289.0
+                  "y": 248.0
                 },
                 {
                   "id": "d9dfd7c6981141288c70534bf3313ac9",
                   "type": "Property",
                   "x": 771.0,
-                  "y": 419.0,
+                  "y": 378.0,
                   "data": {
                     "name": "Dissolve",
                     "type": "Float"
                   }
                 },
                 {
+                  "id": "acd47eca88b44b509dbe4f1575bde8fb",
+                  "type": "Property",
+                  "x": 766.0,
+                  "y": 687.0,
+                  "data": {
+                    "name": "UV",
+                    "type": "Vector2"
+                  }
+                },
+                {
                   "id": "292e9535d7404a6ba429d68bcd7b4276",
                   "type": "ValueVector3",
-                  "x": 445.0,
+                  "x": 439.0,
                   "y": 50.0,
                   "data": {
                     "v1": 0.0,
@@ -157,27 +164,28 @@
                 {
                   "id": "a7fe933d2be841c19be8ccd8ae26e2d1",
                   "type": "Merge",
-                  "x": 460.0,
-                  "y": 195.0
+                  "x": 469.0,
+                  "y": 188.0
                 },
                 {
                   "id": "8cca6a4a19dc4e5a9b1274e3bb88384b",
                   "type": "Subtract",
                   "x": 1284.0,
-                  "y": 374.0
+                  "y": 333.0
                 },
                 {
                   "id": "931baa0d64204f0d90c57c75a2479d48",
                   "type": "Step",
                   "x": 1096.0,
-                  "y": 337.0
+                  "y": 296.0
                 },
                 {
                   "id": "end",
                   "type": "ShaderEnd",
                   "x": 1712.0,
-                  "y": 217.0,
+                  "y": 176.0,
                   "data": {
+                    "positionType": "Object space",
                     "culling": "none",
                     "blending": "opaque",
                     "depthTest": "less"
@@ -187,19 +195,25 @@
                   "id": "7705b76e9848414e969ad00552ad4742",
                   "type": "Split",
                   "x": 985.0,
-                  "y": 679.0
+                  "y": 638.0
+                },
+                {
+                  "id": "f257af81b9bf41a482a65e890adff4b2",
+                  "type": "WorldPosition",
+                  "x": 404.0,
+                  "y": 408.0
                 },
                 {
                   "id": "f3f25cea4f214a819bc26553fa0e2d9f",
                   "type": "Multiply",
                   "x": 249.0,
-                  "y": 287.0
+                  "y": 246.0
                 },
                 {
                   "id": "494b1edf290a476189ff919f304d4074",
                   "type": "ValueColor",
                   "x": 1240.0,
-                  "y": 771.0,
+                  "y": 730.0,
                   "data": {
                     "color": "150bd6ff"
                   }
@@ -208,22 +222,16 @@
                   "id": "3017f12525b847fa928ac5e9d84ab884",
                   "type": "Mix",
                   "x": 1475.0,
-                  "y": 748.0
+                  "y": 707.0
                 },
                 {
                   "id": "eb4d5a5e3a0f4a68988a3556c83cc1c7",
                   "type": "DistancePlane",
                   "x": 707.0,
-                  "y": 155.0
+                  "y": 114.0
                 }
               ],
               "connections": [
-                {
-                  "fromNode": "f2013845405c4eb3a09ad5e615974e8b",
-                  "fromField": "position",
-                  "toNode": "eb4d5a5e3a0f4a68988a3556c83cc1c7",
-                  "toField": "point"
-                },
                 {
                   "fromNode": "a6ba5b6f2f1b494aa5055c20b790f5f4",
                   "fromField": "value",
@@ -235,12 +243,6 @@
                   "fromField": "value",
                   "toNode": "eb4d5a5e3a0f4a68988a3556c83cc1c7",
                   "toField": "planeNormal"
-                },
-                {
-                  "fromNode": "f2013845405c4eb3a09ad5e615974e8b",
-                  "fromField": "position",
-                  "toNode": "d4e0de396f3642af8f81bf1ec1661966",
-                  "toField": "point"
                 },
                 {
                   "fromNode": "d4e0de396f3642af8f81bf1ec1661966",
@@ -277,12 +279,6 @@
                   "fromField": "value",
                   "toNode": "931baa0d64204f0d90c57c75a2479d48",
                   "toField": "edge"
-                },
-                {
-                  "fromNode": "b0ea32e7073243b0bbda2e05a5671f26",
-                  "fromField": "uv",
-                  "toNode": "7705b76e9848414e969ad00552ad4742",
-                  "toField": "input"
                 },
                 {
                   "fromNode": "494b1edf290a476189ff919f304d4074",
@@ -349,12 +345,37 @@
                   "fromField": "v2",
                   "toNode": "d4e0de396f3642af8f81bf1ec1661966",
                   "toField": "range"
+                },
+                {
+                  "fromNode": "d071ac1c4ee84c89b170fc0bbf811df8",
+                  "fromField": "value",
+                  "toNode": "end",
+                  "toField": "position"
+                },
+                {
+                  "fromNode": "acd47eca88b44b509dbe4f1575bde8fb",
+                  "fromField": "value",
+                  "toNode": "7705b76e9848414e969ad00552ad4742",
+                  "toField": "input"
+                },
+                {
+                  "fromNode": "f257af81b9bf41a482a65e890adff4b2",
+                  "fromField": "output",
+                  "toNode": "eb4d5a5e3a0f4a68988a3556c83cc1c7",
+                  "toField": "point"
+                },
+                {
+                  "fromNode": "f257af81b9bf41a482a65e890adff4b2",
+                  "fromField": "output",
+                  "toNode": "d4e0de396f3642af8f81bf1ec1661966",
+                  "toField": "point"
                 }
               ],
               "properties": [
                 {
                   "name": "Dissolve",
                   "type": "Float",
+                  "location": "Uniform",
                   "data": {
                     "x": 0.0
                   }
@@ -362,6 +383,7 @@
                 {
                   "name": "Noise Scale",
                   "type": "Float",
+                  "location": "Uniform",
                   "data": {
                     "x": 3.0
                   }
@@ -369,8 +391,28 @@
                 {
                   "name": "Noise Value",
                   "type": "Float",
+                  "location": "Uniform",
                   "data": {
                     "x": 1.5
+                  }
+                },
+                {
+                  "name": "Position",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                },
+                {
+                  "name": "UV",
+                  "type": "Vector2",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0
                   }
                 }
               ],

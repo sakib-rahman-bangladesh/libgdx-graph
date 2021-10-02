@@ -12,6 +12,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
+import com.gempukku.libgdx.graph.ui.part.StringifyEnum;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 
 public class EndModelShaderBoxProducer extends GraphBoxProducerImpl {
@@ -38,14 +39,19 @@ public class EndModelShaderBoxProducer extends GraphBoxProducerImpl {
             }
         };
 
+        SelectBoxPart positionType = new SelectBoxPart("Position", "positionType",
+                "Object space", "World space");
+        positionType.initialize(data);
+        result.addGraphBoxPart(positionType);
+
         addConfigurationInputsAndOutputs(result);
-        SelectBoxPart cullingBox = new SelectBoxPart("Culling", "culling", BasicShader.Culling.values());
+        SelectBoxPart cullingBox = new SelectBoxPart("Culling", "culling", new StringifyEnum<BasicShader.Culling>(), BasicShader.Culling.values());
         cullingBox.initialize(data);
         result.addGraphBoxPart(cullingBox);
-        SelectBoxPart blendingBox = new SelectBoxPart("Blending", "blending", BasicShader.Blending.values());
+        SelectBoxPart blendingBox = new SelectBoxPart("Blending", "blending", new StringifyEnum<BasicShader.Blending>(), BasicShader.Blending.values());
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);
-        SelectBoxPart depthTestBox = new SelectBoxPart("DepthTest", "depthTest", BasicShader.DepthTesting.values());
+        SelectBoxPart depthTestBox = new SelectBoxPart("DepthTest", "depthTest", new StringifyEnum<BasicShader.DepthTesting>(), BasicShader.DepthTesting.values());
         depthTestBox.initialize(data);
         result.addGraphBoxPart(depthTestBox);
 

@@ -1,5 +1,6 @@
 {
   "version": "0.5.0",
+  "type": "Render_Pipeline",
   "nodes": [
     {
       "id": "72be9695e45949ccb5f449dbacdfd619",
@@ -15,7 +16,10 @@
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
       "x": 464.0,
-      "y": 126.0
+      "y": 126.0,
+      "data": {
+        "id": ""
+      }
     },
     {
       "id": "end",
@@ -44,100 +48,105 @@
             "tag": "Cover",
             "shader": {
               "version": "0.5.0",
+              "type": "Model_Shader",
               "nodes": [
                 {
-                  "id": "e6ffa810e40c42c78b618dfc70d1ee7b",
-                  "type": "AttributePosition",
-                  "x": 193.0,
-                  "y": 329.0,
+                  "id": "ee99b056e0c34133b9e59e7171f73053",
+                  "type": "Property",
+                  "x": 1064.0,
+                  "y": 600.0,
                   "data": {
-                    "coordinates": "object"
+                    "name": "Position",
+                    "type": "Vector3"
                   }
                 },
                 {
                   "id": "5f68a527dee54d6980ed3f57137e535b",
                   "type": "Property",
-                  "x": 265.0,
-                  "y": 52.0,
+                  "x": 251.0,
+                  "y": 50.0,
                   "data": {
                     "name": "Amount",
                     "type": "Float"
                   }
                 },
                 {
-                  "id": "73b44f61bfe04eb0a4d225c29f4bde8f",
-                  "type": "DiffuseTexture",
-                  "x": 528.0,
-                  "y": 537.0,
+                  "id": "2c0c21a382a94ede8fae3d2a1646adba",
+                  "type": "Property",
+                  "x": 56.0,
+                  "y": 60.0,
                   "data": {
-                    "previewPath": null
-                  }
-                },
-                {
-                  "id": "602161bfe5df473b84741044e6788cd5",
-                  "type": "AttributeUV",
-                  "x": 587.0,
-                  "y": 451.0,
-                  "data": {
-                    "channel": "UV0"
+                    "name": "Normal",
+                    "type": "Vector3"
                   }
                 },
                 {
                   "id": "f7c346acdfa5462a9065e532180b664d",
                   "type": "Mix",
-                  "x": 1080.0,
-                  "y": 481.0
+                  "x": 1066.0,
+                  "y": 479.0
                 },
                 {
                   "id": "97663392c66d45f48ed35b74f92e9b3d",
                   "type": "SimplexNoise3D",
-                  "x": 443.0,
-                  "y": 289.0
+                  "x": 429.0,
+                  "y": 287.0
                 },
                 {
                   "id": "4892150f3824440aaa55336d61f20af4",
                   "type": "Sampler2D",
-                  "x": 805.0,
-                  "y": 527.0
+                  "x": 791.0,
+                  "y": 525.0
                 },
                 {
                   "id": "ace06f23aa9e4a758c5ebbf281f3241d",
                   "type": "DotProduct",
-                  "x": 263.0,
-                  "y": 114.0
-                },
-                {
-                  "id": "58ef638558d942a9938b975d98afc46b",
-                  "type": "AttributeNormal",
-                  "x": 50.0,
-                  "y": 50.0,
-                  "data": {
-                    "coordinates": "world"
-                  }
+                  "x": 249.0,
+                  "y": 112.0
                 },
                 {
                   "id": "17b77d783a4a4b0f8383f73f3772e9d8",
                   "type": "Multiply",
-                  "x": 458.0,
-                  "y": 114.0
+                  "x": 444.0,
+                  "y": 112.0
+                },
+                {
+                  "id": "413d240fb406431d842b587840e194f6",
+                  "type": "Property",
+                  "x": 196.0,
+                  "y": 355.0,
+                  "data": {
+                    "name": "Position",
+                    "type": "Vector3"
+                  }
                 },
                 {
                   "id": "end",
                   "type": "ShaderEnd",
-                  "x": 1284.0,
-                  "y": 208.0,
+                  "x": 1270.0,
+                  "y": 206.0,
                   "data": {
+                    "positionType": "Object space",
                     "culling": "back",
-                    "transparency": "opaque",
                     "blending": "alpha",
                     "depthTest": "less"
                   }
                 },
                 {
+                  "id": "fc19a96f9fd849cda3e1273550fcb476",
+                  "type": "Property",
+                  "x": 497.0,
+                  "y": 612.0,
+                  "data": {
+                    "name": "Diffuse Texture",
+                    "type": "TextureRegion"
+                  }
+                },
+                {
                   "id": "751f97ecaa0b403b89bd5afe69f09a2e",
                   "type": "Property",
-                  "x": 64.0,
-                  "y": 137.0,
+                  "x": 50.0,
+                  "y": 135.0,
                   "data": {
                     "name": "Direction",
                     "type": "Vector3"
@@ -146,18 +155,28 @@
                 {
                   "id": "f92fbab69d69450281723a1b046cd798",
                   "type": "ValueVector2",
-                  "x": 207.0,
-                  "y": 210.0,
+                  "x": 193.0,
+                  "y": 208.0,
                   "data": {
                     "v1": 0.0,
                     "v2": 5.0
                   }
                 },
                 {
+                  "id": "0b575628a5464f759220157955177a6c",
+                  "type": "Property",
+                  "x": 493.0,
+                  "y": 507.0,
+                  "data": {
+                    "name": "UV",
+                    "type": "Vector2"
+                  }
+                },
+                {
                   "id": "4ca3d69fd5cc4edebf5ffd867693da23",
                   "type": "Property",
-                  "x": 209.0,
-                  "y": 271.0,
+                  "x": 195.0,
+                  "y": 269.0,
                   "data": {
                     "name": "Scale",
                     "type": "Float"
@@ -166,14 +185,14 @@
                 {
                   "id": "02fe5b8afc2d4193ad7533dfb9b6b6f2",
                   "type": "Multiply",
-                  "x": 665.0,
-                  "y": 312.0
+                  "x": 651.0,
+                  "y": 310.0
                 },
                 {
                   "id": "93a8f5f745494849a269626ee5395b6b",
                   "type": "ValueColor",
-                  "x": 807.0,
-                  "y": 453.0,
+                  "x": 793.0,
+                  "y": 451.0,
                   "data": {
                     "color": "d42c2cff"
                   }
@@ -181,34 +200,16 @@
                 {
                   "id": "61b3feef85d2430b849c526ff23b569d",
                   "type": "Saturate",
-                  "x": 856.0,
-                  "y": 335.0
+                  "x": 842.0,
+                  "y": 333.0
                 }
               ],
               "connections": [
-                {
-                  "fromNode": "73b44f61bfe04eb0a4d225c29f4bde8f",
-                  "fromField": "texture",
-                  "toNode": "4892150f3824440aaa55336d61f20af4",
-                  "toField": "texture"
-                },
                 {
                   "fromNode": "4892150f3824440aaa55336d61f20af4",
                   "fromField": "color",
                   "toNode": "f7c346acdfa5462a9065e532180b664d",
                   "toField": "a"
-                },
-                {
-                  "fromNode": "58ef638558d942a9938b975d98afc46b",
-                  "fromField": "normal",
-                  "toNode": "ace06f23aa9e4a758c5ebbf281f3241d",
-                  "toField": "b"
-                },
-                {
-                  "fromNode": "602161bfe5df473b84741044e6788cd5",
-                  "fromField": "uv",
-                  "toNode": "4892150f3824440aaa55336d61f20af4",
-                  "toField": "uv"
                 },
                 {
                   "fromNode": "93a8f5f745494849a269626ee5395b6b",
@@ -233,12 +234,6 @@
                   "fromField": "value",
                   "toNode": "17b77d783a4a4b0f8383f73f3772e9d8",
                   "toField": "inputs"
-                },
-                {
-                  "fromNode": "e6ffa810e40c42c78b618dfc70d1ee7b",
-                  "fromField": "position",
-                  "toNode": "97663392c66d45f48ed35b74f92e9b3d",
-                  "toField": "point"
                 },
                 {
                   "fromNode": "4ca3d69fd5cc4edebf5ffd867693da23",
@@ -281,12 +276,43 @@
                   "fromField": "output",
                   "toNode": "f7c346acdfa5462a9065e532180b664d",
                   "toField": "t"
+                },
+                {
+                  "fromNode": "413d240fb406431d842b587840e194f6",
+                  "fromField": "value",
+                  "toNode": "97663392c66d45f48ed35b74f92e9b3d",
+                  "toField": "point"
+                },
+                {
+                  "fromNode": "2c0c21a382a94ede8fae3d2a1646adba",
+                  "fromField": "value",
+                  "toNode": "ace06f23aa9e4a758c5ebbf281f3241d",
+                  "toField": "b"
+                },
+                {
+                  "fromNode": "0b575628a5464f759220157955177a6c",
+                  "fromField": "value",
+                  "toNode": "4892150f3824440aaa55336d61f20af4",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "fc19a96f9fd849cda3e1273550fcb476",
+                  "fromField": "value",
+                  "toNode": "4892150f3824440aaa55336d61f20af4",
+                  "toField": "texture"
+                },
+                {
+                  "fromNode": "ee99b056e0c34133b9e59e7171f73053",
+                  "fromField": "value",
+                  "toNode": "end",
+                  "toField": "position"
                 }
               ],
               "properties": [
                 {
                   "name": "Direction",
                   "type": "Vector3",
+                  "location": "Uniform",
                   "data": {
                     "x": 0.0,
                     "y": 1.0,
@@ -296,6 +322,7 @@
                 {
                   "name": "Amount",
                   "type": "Float",
+                  "location": "Uniform",
                   "data": {
                     "x": 1.0
                   }
@@ -303,8 +330,46 @@
                 {
                   "name": "Scale",
                   "type": "Float",
+                  "location": "Uniform",
                   "data": {
                     "x": 10.0
+                  }
+                },
+                {
+                  "name": "Position",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                },
+                {
+                  "name": "Normal",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                },
+                {
+                  "name": "UV",
+                  "type": "Vector2",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0
+                  }
+                },
+                {
+                  "name": "Diffuse Texture",
+                  "type": "TextureRegion",
+                  "location": "Uniform",
+                  "data": {
+                    "previewPath": "D:/dev/libgdx-graph/gdx-graph-test/resources/image/seamless_rock_face_texture_by_hhh316.jpg"
                   }
                 }
               ],
@@ -312,7 +377,6 @@
                 {
                   "name": "Cover amount",
                   "nodes": [
-                    "e6ffa810e40c42c78b618dfc70d1ee7b",
                     "4ca3d69fd5cc4edebf5ffd867693da23",
                     "751f97ecaa0b403b89bd5afe69f09a2e",
                     "17b77d783a4a4b0f8383f73f3772e9d8",
@@ -321,8 +385,7 @@
                     "97663392c66d45f48ed35b74f92e9b3d",
                     "f92fbab69d69450281723a1b046cd798",
                     "ace06f23aa9e4a758c5ebbf281f3241d",
-                    "61b3feef85d2430b849c526ff23b569d",
-                    "58ef638558d942a9938b975d98afc46b"
+                    "61b3feef85d2430b849c526ff23b569d"
                   ]
                 }
               ]
@@ -368,7 +431,7 @@
       "fromField": "output",
       "toNode": "end",
       "toField": "input"
-    },
+    }
   ],
   "properties": [
     {

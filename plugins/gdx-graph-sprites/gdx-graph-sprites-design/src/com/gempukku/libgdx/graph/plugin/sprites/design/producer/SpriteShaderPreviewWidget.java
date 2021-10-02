@@ -17,6 +17,7 @@ import com.gempukku.libgdx.graph.data.Graph;
 import com.gempukku.libgdx.graph.data.GraphConnection;
 import com.gempukku.libgdx.graph.data.GraphNode;
 import com.gempukku.libgdx.graph.data.GraphProperty;
+import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteGraphShader;
@@ -25,7 +26,6 @@ import com.gempukku.libgdx.graph.plugin.sprites.impl.NonCachedTagSpriteData;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -46,7 +46,6 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
     private ShaderContextImpl shaderContext;
     private GraphSpriteImpl graphSprite;
     private NonCachedTagSpriteData spriteData;
-    private PropertyContainerImpl globalUniforms;
 
     public SpriteShaderPreviewWidget(int width, int height) {
         this.width = width;
@@ -99,19 +98,52 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
             timeKeeper = new DefaultTimeKeeper();
             graphShader = GraphShaderBuilder.buildSpriteShader(WhitePixel.sharedInstance.texture, graph, true);
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
-            globalUniforms = new PropertyContainerImpl();
-
-            for (GraphProperty property : graph.getProperties()) {
-                if (property.getLocation() == PropertyLocation.Attribute)
-                    graphSprite.getPropertyContainer().setValue(property.getName(), getPropertyValue(property));
-                else if (property.getLocation() == PropertyLocation.Global_Uniform)
-                    globalUniforms.setValue(property.getName(), getPropertyValue(property));
-            }
 
             createModel(graphShader.getVertexAttributes(), graphShader.getProperties());
+            shaderContext.setGlobalPropertyContainer(
+                    new PropertyContainer() {
+                        @Override
+                        public Object getValue(String name) {
+                            for (GraphProperty property : graph.getProperties()) {
+                                if (property.getName().equals(name) && property.getLocation() == PropertyLocation.Global_Uniform) {
+                                    ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(property.getType());
+                                    return propertyType.convertFromJson(property.getData());
+                                }
+                            }
+
+                            return null;
+                        }
+                    });
+            shaderContext.setLocalPropertyContainer(
+                    new PropertyContainer() {
+                        @Override
+                        public Object getValue(String name) {
+                            for (GraphProperty property : graph.getProperties()) {
+                                if (property.getName().equals(name) && property.getLocation() != PropertyLocation.Global_Uniform) {
+                                    ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(property.getType());
+                                    Object value = propertyType.convertFromJson(property.getData());
+                                    if (propertyType.isTexture()) {
+                                        if (value != null) {
+                                            try {
+                                                Texture texture = new Texture(Gdx.files.absolute((String) value));
+                                                graphShader.addManagedResource(texture);
+                                                return new TextureRegion(texture);
+                                            } catch (Exception exp) {
+
+                                            }
+                                        }
+                                        return WhitePixel.sharedInstance.textureRegion;
+                                    } else {
+                                        return value;
+                                    }
+                                }
+                            }
+
+                            return null;
+                        }
+                    });
 
             shaderContext.setTimeProvider(timeKeeper);
-            shaderContext.setLocalPropertyContainer(graphSprite.getPropertyContainer());
 
             shaderInitialized = true;
         } catch (Exception exp) {
@@ -176,7 +208,6 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
                 renderContext.begin();
                 Gdx.gl.glClearColor(0, 0, 0, 1);
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-                shaderContext.setGlobalPropertyContainer(globalUniforms);
                 graphShader.begin(shaderContext, renderContext);
                 graphShader.renderSprites(shaderContext, spriteData);
                 graphShader.end();
