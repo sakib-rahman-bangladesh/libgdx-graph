@@ -27,7 +27,7 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.impl.ModelInstanceRenderableModelAdapter;
+import com.gempukku.libgdx.graph.plugin.models.impl.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -93,7 +93,7 @@ public class Episode15Scene implements LibgdxGraphTestScene {
         final float scale = 0.025f;
         modelInstance.transform.idt().translate(-0.3f, 0.11f, 0).scale(scale, scale, scale);
 
-        ModelInstanceRenderableModelAdapter modelAdapter = new ModelInstanceRenderableModelAdapter(modelInstance, models);
+        MaterialModelInstanceRenderableModelAdapter modelAdapter = new MaterialModelInstanceRenderableModelAdapter(modelInstance, models);
         modelAdapter.register("Default");
     }
 

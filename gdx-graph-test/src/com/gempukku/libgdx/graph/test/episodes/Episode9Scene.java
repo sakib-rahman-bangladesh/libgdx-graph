@@ -25,7 +25,7 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.impl.ModelInstanceRenderableModelAdapter;
+import com.gempukku.libgdx.graph.plugin.models.impl.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -104,14 +104,14 @@ public class Episode9Scene implements LibgdxGraphTestScene {
         final float shipScale = 0.0008f;
         shipModelInstance.transform.idt().scale(shipScale, shipScale, shipScale).rotate(-1, 0, 0f, 90);
 
-        ModelInstanceRenderableModelAdapter shipAdapter = new ModelInstanceRenderableModelAdapter(shipModelInstance, models);
+        MaterialModelInstanceRenderableModelAdapter shipAdapter = new MaterialModelInstanceRenderableModelAdapter(shipModelInstance, models);
         shipAdapter.register("Environment");
 
         robot1Instance = new ModelInstance(robotModel);
         robot1Animation = new AnimationController(robot1Instance);
         robot1Animation.animate("Root|jog", -1, null, 0f);
 
-        ModelInstanceRenderableModelAdapter robot1Adapter = new ModelInstanceRenderableModelAdapter(robot1Instance, models);
+        MaterialModelInstanceRenderableModelAdapter robot1Adapter = new MaterialModelInstanceRenderableModelAdapter(robot1Instance, models);
         robot1Adapter.register("Seen-through");
         robot1Adapter.register("Seen-through-silhouette");
 
@@ -120,7 +120,7 @@ public class Episode9Scene implements LibgdxGraphTestScene {
         robot2Animation = new AnimationController(robot2Instance);
         robot2Animation.animate("Root|idle", -1, null, 0f);
 
-        ModelInstanceRenderableModelAdapter robot2Adapter = new ModelInstanceRenderableModelAdapter(robot2Instance, models);
+        MaterialModelInstanceRenderableModelAdapter robot2Adapter = new MaterialModelInstanceRenderableModelAdapter(robot2Instance, models);
         robot2Adapter.register("Seen-through");
         robot2Adapter.register("Seen-through-silhouette");
     }

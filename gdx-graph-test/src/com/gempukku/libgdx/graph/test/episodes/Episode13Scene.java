@@ -25,7 +25,7 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.impl.ModelInstanceRenderableModelAdapter;
+import com.gempukku.libgdx.graph.plugin.models.impl.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -125,16 +125,16 @@ public class Episode13Scene implements LibgdxGraphTestScene {
         float cylinderHeight = 8f;
 
         ModelInstance wallInstance = new ModelInstance(tiledWall);
-        ModelInstanceRenderableModelAdapter wallAdapter = new ModelInstanceRenderableModelAdapter(wallInstance, models);
+        MaterialModelInstanceRenderableModelAdapter wallAdapter = new MaterialModelInstanceRenderableModelAdapter(wallInstance, models);
         wallAdapter.register("tiled-wall");
 
         ModelInstance burnerInstance = new ModelInstance(burner);
-        ModelInstanceRenderableModelAdapter burnerAdapter = new ModelInstanceRenderableModelAdapter(burnerInstance, models);
+        MaterialModelInstanceRenderableModelAdapter burnerAdapter = new MaterialModelInstanceRenderableModelAdapter(burnerInstance, models);
         burnerAdapter.register("burner");
 
         ModelInstance cylinderInstance = new ModelInstance(cylinder);
         cylinderInstance.transform.idt().translate(0, 0.05f + cylinderHeight / 2f, 0f);
-        ModelInstanceRenderableModelAdapter cylinderAdapter = new ModelInstanceRenderableModelAdapter(cylinderInstance, models);
+        MaterialModelInstanceRenderableModelAdapter cylinderAdapter = new MaterialModelInstanceRenderableModelAdapter(cylinderInstance, models);
         cylinderAdapter.register("heat-displacement");
     }
 

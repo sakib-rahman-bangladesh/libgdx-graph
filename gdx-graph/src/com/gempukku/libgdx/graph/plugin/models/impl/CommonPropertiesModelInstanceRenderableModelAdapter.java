@@ -1,12 +1,10 @@
 package com.gempukku.libgdx.graph.plugin.models.impl;
 
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.Material;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.model.NodePart;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -24,62 +22,17 @@ import com.gempukku.libgdx.graph.plugin.models.RenderableModel;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
-public class ModelInstanceRenderableModelAdapter {
+public class CommonPropertiesModelInstanceRenderableModelAdapter {
     private ModelInstance modelInstance;
     private GraphModels graphModels;
     private ObjectMap<String, ObjectSet<GraphModel>> graphModelsByTag = new ObjectMap<>();
-
     private WritablePropertyContainer propertyContainer;
-    private ObjectMap<Material, PropertyContainerImpl> materialProperties;
 
-    public ModelInstanceRenderableModelAdapter(ModelInstance modelInstance, GraphModels graphModels) {
-        this.modelInstance = modelInstance;
-        this.graphModels = graphModels;
-
-        materialProperties = new ObjectMap<>();
-        for (Material material : modelInstance.materials) {
-            PropertyContainerImpl properties = new PropertyContainerImpl();
-            properties.setValue("Diffuse Color", getColor(material, ColorAttribute.Diffuse));
-            properties.setValue("Ambient Color", getColor(material, ColorAttribute.Ambient));
-            properties.setValue("Emissive Color", getColor(material, ColorAttribute.Emissive));
-            properties.setValue("Reflection Color", getColor(material, ColorAttribute.Reflection));
-            properties.setValue("Shininess", getFloat(material, FloatAttribute.Shininess));
-            properties.setValue("Alpha Test", getFloat(material, FloatAttribute.AlphaTest));
-            properties.setValue("Diffuse Texture", getTexture(material, TextureAttribute.Diffuse));
-            properties.setValue("Ambient Texture", getTexture(material, TextureAttribute.Ambient));
-            properties.setValue("Emissive Texture", getTexture(material, TextureAttribute.Emissive));
-            properties.setValue("Normal Texture", getTexture(material, TextureAttribute.Normal));
-            properties.setValue("Bump Texture", getTexture(material, TextureAttribute.Bump));
-            properties.setValue("Reflection Texture", getTexture(material, TextureAttribute.Reflection));
-            properties.setValue("Specular Texture", getTexture(material, TextureAttribute.Specular));
-            materialProperties.put(material, properties);
-        }
+    public CommonPropertiesModelInstanceRenderableModelAdapter(ModelInstance modelInstance, GraphModels graphModels) {
+        this(modelInstance, graphModels, new PropertyContainerImpl());
     }
 
-    private Color getColor(Material material, long type) {
-        ColorAttribute attribute = (ColorAttribute) material.get(type);
-        if (attribute != null)
-            return attribute.color;
-        return null;
-    }
-
-    private Float getFloat(Material material, long type) {
-        FloatAttribute attribute = (FloatAttribute) material.get(type);
-        if (attribute != null)
-            return attribute.value;
-        return null;
-    }
-
-    private TextureRegion getTexture(Material material, long type) {
-        TextureAttribute attribute = (TextureAttribute) material.get(type);
-        if (attribute != null)
-            return new TextureRegion(
-                    attribute.textureDescription.texture,
-                    attribute.offsetU, attribute.offsetV, attribute.scaleU + attribute.offsetU, attribute.scaleV + attribute.offsetV);
-        return null;
-    }
-
-    public ModelInstanceRenderableModelAdapter(ModelInstance modelInstance, GraphModels graphModels, WritablePropertyContainer propertyContainer) {
+    public CommonPropertiesModelInstanceRenderableModelAdapter(ModelInstance modelInstance, GraphModels graphModels, WritablePropertyContainer propertyContainer) {
         this.modelInstance = modelInstance;
         this.graphModels = graphModels;
         this.propertyContainer = propertyContainer;
@@ -129,24 +82,8 @@ public class ModelInstanceRenderableModelAdapter {
         graphModelsByTag.remove(tag);
     }
 
-    public void setProperty(String name, Object value) {
-        if (propertyContainer != null) {
-            propertyContainer.setValue(name, value);
-        } else {
-            for (PropertyContainerImpl container : materialProperties.values()) {
-                container.setValue(name, value);
-            }
-        }
-    }
-
-    public void resetProperty(String name) {
-        if (propertyContainer != null) {
-            propertyContainer.remove(name);
-        } else {
-            for (PropertyContainerImpl container : materialProperties.values()) {
-                container.remove(name);
-            }
-        }
+    public WritablePropertyContainer getPropertyContainer() {
+        return propertyContainer;
     }
 
     private class NodePartRenderableModel implements RenderableModel {
@@ -163,10 +100,7 @@ public class ModelInstanceRenderableModelAdapter {
 
         @Override
         public PropertyContainer getPropertyContainer(String tag) {
-            if (propertyContainer != null)
-                return propertyContainer;
-            else
-                return materialProperties.get(nodePart.material);
+            return propertyContainer;
         }
 
         @Override

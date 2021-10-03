@@ -31,12 +31,12 @@ public class SpriteShaderTestScene implements LibgdxGraphTestScene {
 
         GraphSprites graphSprites = pipelineRenderer.getPluginData(GraphSprites.class);
 
-        DefaultRenderableSprite renderableSprite1 = new DefaultRenderableSprite(new Vector3(0, 0, -10));
+        CommonPropertiesRenderableSprite renderableSprite1 = new CommonPropertiesRenderableSprite(new Vector3(0, 0, -10));
         ValuePerVertex colorPerVertex = new ValuePerVertex(
                 new Vector2(0, 1), new Vector2(1, 0), new Vector2(0, 0), new Vector2(1, 1));
         renderableSprite1.getPropertyContainer("Test").setValue("Vertex Color", colorPerVertex);
 
-        DefaultRenderableSprite renderableSprite2 = new DefaultRenderableSprite(new Vector3(150, 0, -10));
+        CommonPropertiesRenderableSprite renderableSprite2 = new CommonPropertiesRenderableSprite(new Vector3(150, 0, -10));
 
 
         GraphSprite sprite1 = graphSprites.addSprite("Test", renderableSprite1);

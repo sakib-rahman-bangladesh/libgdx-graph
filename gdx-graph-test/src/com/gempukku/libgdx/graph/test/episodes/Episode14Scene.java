@@ -31,7 +31,7 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.impl.ModelInstanceRenderableModelAdapter;
+import com.gempukku.libgdx.graph.plugin.models.impl.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -62,8 +62,8 @@ public class Episode14Scene implements LibgdxGraphTestScene {
     private float cameraPositionAngle;
     private float cameraAngle;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
-    private ModelInstanceRenderableModelAdapter starAdapter;
-    private ModelInstanceRenderableModelAdapter starCoronaAdapter;
+    private MaterialModelInstanceRenderableModelAdapter starAdapter;
+    private MaterialModelInstanceRenderableModelAdapter starCoronaAdapter;
 
     @Override
     public void initializeScene() {
@@ -130,20 +130,20 @@ public class Episode14Scene implements LibgdxGraphTestScene {
 
     private void registerModels(GraphModels models) {
         ModelInstance starfieldInstance = new ModelInstance(starfield);
-        ModelInstanceRenderableModelAdapter starfieldAdapter = new ModelInstanceRenderableModelAdapter(starfieldInstance, models);
+        MaterialModelInstanceRenderableModelAdapter starfieldAdapter = new MaterialModelInstanceRenderableModelAdapter(starfieldInstance, models);
         starfieldAdapter.register("starfield");
 
         ModelInstance blackHoleInstance = new ModelInstance(blackHole);
-        ModelInstanceRenderableModelAdapter blackHoleAdapter = new ModelInstanceRenderableModelAdapter(blackHoleInstance, models);
+        MaterialModelInstanceRenderableModelAdapter blackHoleAdapter = new MaterialModelInstanceRenderableModelAdapter(blackHoleInstance, models);
         blackHoleAdapter.register("black-hole");
 
         ModelInstance starInstance = new ModelInstance(star);
         starInstance.transform.idt().translate(starPosition.x, starPosition.y, starPosition.z);
-        starAdapter = new ModelInstanceRenderableModelAdapter(starInstance, models);
+        starAdapter = new MaterialModelInstanceRenderableModelAdapter(starInstance, models);
 
         ModelInstance starCoronaInstance = new ModelInstance(starCorona);
         starCoronaInstance.transform.idt().translate(starPosition.x, starPosition.y, starPosition.z);
-        starCoronaAdapter = new ModelInstanceRenderableModelAdapter(starCoronaInstance, models);
+        starCoronaAdapter = new MaterialModelInstanceRenderableModelAdapter(starCoronaInstance, models);
     }
 
     private Stage createStage() {

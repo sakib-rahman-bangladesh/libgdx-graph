@@ -29,7 +29,7 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.impl.ModelInstanceRenderableModelAdapter;
+import com.gempukku.libgdx.graph.plugin.models.impl.CommonPropertiesModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
@@ -110,10 +110,10 @@ public class Episode11Scene implements LibgdxGraphTestScene {
         ModelInstance forceFieldInstance = new ModelInstance(forceField);
         sphereInstance = new ModelInstance(sphere);
 
-        ModelInstanceRenderableModelAdapter forceFieldAdapter = new ModelInstanceRenderableModelAdapter(forceFieldInstance, models, new PropertyContainerImpl());
+        CommonPropertiesModelInstanceRenderableModelAdapter forceFieldAdapter = new CommonPropertiesModelInstanceRenderableModelAdapter(forceFieldInstance, models, new PropertyContainerImpl());
         forceFieldAdapter.register("force-field");
 
-        ModelInstanceRenderableModelAdapter sphereAdapter = new ModelInstanceRenderableModelAdapter(sphereInstance, models, new PropertyContainerImpl());
+        CommonPropertiesModelInstanceRenderableModelAdapter sphereAdapter = new CommonPropertiesModelInstanceRenderableModelAdapter(sphereInstance, models, new PropertyContainerImpl());
         sphereAdapter.register("default");
 
         sphereInstance.transform.idt().translate(-3f, 0, 0);

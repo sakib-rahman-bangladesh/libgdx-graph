@@ -21,7 +21,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.impl.ModelInstanceRenderableModelAdapter;
+import com.gempukku.libgdx.graph.plugin.models.impl.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -39,7 +39,7 @@ public class Episode6Scene implements LibgdxGraphTestScene {
     private GraphModelInstance shipInstance;
     private Skin skin;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
-    private ModelInstanceRenderableModelAdapter modelAdapter;
+    private MaterialModelInstanceRenderableModelAdapter modelAdapter;
 
     @Override
     public void initializeScene() {
@@ -75,7 +75,7 @@ public class Episode6Scene implements LibgdxGraphTestScene {
         final float scale = 0.0008f;
         modelInstance.transform.idt().scale(scale, scale, scale).rotate(-1, 0, 0f, 90);
 
-        modelAdapter = new ModelInstanceRenderableModelAdapter(modelInstance, models);
+        modelAdapter = new MaterialModelInstanceRenderableModelAdapter(modelInstance, models);
         modelAdapter.register("Default");
     }
 

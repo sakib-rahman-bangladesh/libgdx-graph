@@ -26,7 +26,7 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.impl.ModelInstanceRenderableModelAdapter;
+import com.gempukku.libgdx.graph.plugin.models.impl.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -45,7 +45,7 @@ public class Episode5Scene implements LibgdxGraphTestScene {
     private Stage stage;
     private Skin skin;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
-    private ModelInstanceRenderableModelAdapter sphereAdapter;
+    private MaterialModelInstanceRenderableModelAdapter sphereAdapter;
 
     @Override
     public void initializeScene() {
@@ -79,7 +79,7 @@ public class Episode5Scene implements LibgdxGraphTestScene {
     }
 
     private void createModels(GraphModels models) {
-        sphereAdapter = new ModelInstanceRenderableModelAdapter(new ModelInstance(sphereModel), models);
+        sphereAdapter = new MaterialModelInstanceRenderableModelAdapter(new ModelInstance(sphereModel), models);
         sphereAdapter.register("Cover");
     }
 

@@ -29,7 +29,7 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.impl.ModelInstanceRenderableModelAdapter;
+import com.gempukku.libgdx.graph.plugin.models.impl.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -53,7 +53,7 @@ public class Episode17Scene implements LibgdxGraphTestScene {
     private Model model;
     private GraphModelInstance mainRobot;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
-    private ModelInstanceRenderableModelAdapter mainRobotAdapter;
+    private MaterialModelInstanceRenderableModelAdapter mainRobotAdapter;
 
     @Override
     public void initializeScene() {
@@ -100,13 +100,13 @@ public class Episode17Scene implements LibgdxGraphTestScene {
         animationController = new AnimationController(mainRobotInstance);
         animationController.animate("Root|jog", -1, null, 0f);
 
-        mainRobotAdapter = new ModelInstanceRenderableModelAdapter(mainRobotInstance, models);
+        mainRobotAdapter = new MaterialModelInstanceRenderableModelAdapter(mainRobotInstance, models);
         mainRobotAdapter.register("Default");
 
         ModelInstance secondRobotInstance = new ModelInstance(model);
         secondRobotInstance.transform.idt().translate(1.5f, 0, 0).scale(scale, scale, scale);
 
-        ModelInstanceRenderableModelAdapter secondRobotAdapter = new ModelInstanceRenderableModelAdapter(secondRobotInstance, models);
+        MaterialModelInstanceRenderableModelAdapter secondRobotAdapter = new MaterialModelInstanceRenderableModelAdapter(secondRobotInstance, models);
         secondRobotAdapter.register("Default");
     }
 

@@ -28,7 +28,7 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.impl.ModelInstanceRenderableModelAdapter;
+import com.gempukku.libgdx.graph.plugin.models.impl.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.plugin.particles.generator.DefaultParticleGenerator;
@@ -103,7 +103,7 @@ public class Episode18Scene implements LibgdxGraphTestScene {
         final float scale = 0.0008f;
         modelInstance.transform.idt().scale(scale, scale, scale).rotate(-1, 0, 0f, 90);
 
-        ModelInstanceRenderableModelAdapter modelAdapter = new ModelInstanceRenderableModelAdapter(modelInstance, models);
+        MaterialModelInstanceRenderableModelAdapter modelAdapter = new MaterialModelInstanceRenderableModelAdapter(modelInstance, models);
         modelAdapter.register("Default");
 
         float height = 0.22f;
