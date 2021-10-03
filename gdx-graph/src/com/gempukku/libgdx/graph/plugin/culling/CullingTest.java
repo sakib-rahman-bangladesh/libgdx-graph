@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.plugin.models.adapter.culling;
+package com.gempukku.libgdx.graph.plugin.culling;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;

@@ -22,7 +22,8 @@ public class ShaderBackToFrontSpriteRenderingStrategy implements SpriteRendering
         for (String tag : tags) {
             orderingArray.clear();
             for (GraphSpriteImpl nonBatchedSprite : sprites.getNonBatchedSprites(tag)) {
-                orderingArray.add(nonBatchedSprite);
+                if (nonBatchedSprite.getRenderableSprite().isRendered(camera))
+                    orderingArray.add(nonBatchedSprite);
             }
             spriteSorter.sort(camera.position, orderingArray);
 

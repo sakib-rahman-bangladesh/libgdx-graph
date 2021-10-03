@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.sprite;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -50,6 +51,11 @@ public class StateBasedSprite implements Sprite, PropertyContainer {
     public Vector3 getPosition() {
         final PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
         return positionComponent.getPosition(StateBasedSprite.tmpVec3);
+    }
+
+    @Override
+    public boolean isRendered(Camera camera) {
+        return true;
     }
 
     @Override
