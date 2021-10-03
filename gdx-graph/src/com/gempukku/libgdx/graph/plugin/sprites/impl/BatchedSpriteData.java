@@ -110,7 +110,7 @@ public class BatchedSpriteData implements SpriteData {
 
             for (VertexAttribute vertexAttribute : vertexAttributes) {
                 String alias = vertexAttribute.alias;
-                if (alias.equals("a_position")) {
+                if (alias.equals(ShaderProgram.POSITION_ATTRIBUTE)) {
                     Vector3 position = sprite.getRenderableSprite().getPosition();
                     vertexData[vertexOffset + floatIndex + 0] = position.x;
                     vertexData[vertexOffset + floatIndex + 1] = position.y;

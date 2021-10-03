@@ -66,7 +66,7 @@ public class NonBatchedTagSpriteData implements SpriteData, Disposable {
             int vertexOffset = vertexIndex * floatCount;
             for (VertexAttribute vertexAttribute : vertexAttributes) {
                 String alias = vertexAttribute.alias;
-                if (alias.equals("a_position")) {
+                if (alias.equals(ShaderProgram.POSITION_ATTRIBUTE)) {
                     Vector3 position = sprite.getRenderableSprite().getPosition();
                     tempVertices[vertexOffset + floatIndex + 0] = position.x;
                     tempVertices[vertexOffset + floatIndex + 1] = position.y;
