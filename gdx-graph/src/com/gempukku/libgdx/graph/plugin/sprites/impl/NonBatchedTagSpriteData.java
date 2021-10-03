@@ -18,6 +18,7 @@ import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
 public class NonBatchedTagSpriteData implements SpriteData, Disposable {
+    private String tag;
     private VertexAttributes vertexAttributes;
     private ObjectMap<String, PropertySource> shaderProperties;
     private IntMap<String> propertyIndexNames = new IntMap<>();
@@ -27,7 +28,8 @@ public class NonBatchedTagSpriteData implements SpriteData, Disposable {
     private final int floatCount;
     private PropertyContainer propertyContainer;
 
-    public NonBatchedTagSpriteData(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
+    public NonBatchedTagSpriteData(String tag, VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties) {
+        this.tag = tag;
         this.vertexAttributes = vertexAttributes;
         this.shaderProperties = shaderProperties;
 
@@ -82,7 +84,7 @@ public class NonBatchedTagSpriteData implements SpriteData, Disposable {
                     PropertySource propertySource = shaderProperties.get(propertyName);
 
                     ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
-                    Object value = sprite.getRenderableSprite().getPropertyContainer().getValue(propertyName);
+                    Object value = sprite.getRenderableSprite().getPropertyContainer(tag).getValue(propertyName);
                     if (value instanceof ValuePerVertex) {
                         value = ((ValuePerVertex) value).getValue(vertexIndex);
                         value = propertySource.getValueToUse(value);
@@ -96,7 +98,7 @@ public class NonBatchedTagSpriteData implements SpriteData, Disposable {
         }
 
         mesh.updateVertices(0, tempVertices, 0, 4 * floatCount);
-        propertyContainer = sprite.getRenderableSprite().getPropertyContainer();
+        propertyContainer = sprite.getRenderableSprite().getPropertyContainer(tag);
     }
 
     @Override

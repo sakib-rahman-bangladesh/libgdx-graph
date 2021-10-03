@@ -10,12 +10,14 @@ import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 
 public class ModelShaderLoaderCallback extends GraphDataLoaderCallback<ModelGraphShader, ShaderFieldType> {
+    private String tag;
     private Texture defaultTexture;
     private boolean depthShader;
     private GraphConfiguration[] graphConfigurations;
 
-    public ModelShaderLoaderCallback(Texture defaultTexture,
+    public ModelShaderLoaderCallback(String tag, Texture defaultTexture,
                                      boolean depthShader, GraphConfiguration... graphConfiguration) {
+        this.tag = tag;
         this.defaultTexture = defaultTexture;
         this.depthShader = depthShader;
         graphConfigurations = graphConfiguration;
@@ -34,9 +36,9 @@ public class ModelShaderLoaderCallback extends GraphDataLoaderCallback<ModelGrap
             throw new IllegalStateException("The graph contains errors, open it in the graph designer and correct them");
 
         if (depthShader)
-            return GraphShaderBuilder.buildModelDepthShader(defaultTexture, this, false);
+            return GraphShaderBuilder.buildModelDepthShader(tag, defaultTexture, this, false);
         else
-            return GraphShaderBuilder.buildModelShader(defaultTexture, this, false);
+            return GraphShaderBuilder.buildModelShader(tag, defaultTexture, this, false);
     }
 
     @Override

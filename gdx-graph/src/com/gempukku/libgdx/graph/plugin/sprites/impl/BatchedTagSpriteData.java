@@ -12,6 +12,7 @@ import com.gempukku.libgdx.graph.plugin.sprites.SpriteGraphShader;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
 public class BatchedTagSpriteData implements Disposable {
+    private String tag;
     private final VertexAttributes vertexAttributes;
     private final int numberOfSpritesPerBatch;
     private final ObjectMap<String, PropertySource> shaderProperties;
@@ -21,8 +22,9 @@ public class BatchedTagSpriteData implements Disposable {
 
     private ObjectMap<String, Array<BatchedSpriteData>> dynamicCachedSpritesPerTextureSet = new ObjectMap<>();
 
-    public BatchedTagSpriteData(VertexAttributes vertexAttributes, int numberOfSpritesPerBatch, ObjectMap<String, PropertySource> shaderProperties,
+    public BatchedTagSpriteData(String tag, VertexAttributes vertexAttributes, int numberOfSpritesPerBatch, ObjectMap<String, PropertySource> shaderProperties,
                                 Array<String> textureUniformNames) {
+        this.tag = tag;
         this.vertexAttributes = vertexAttributes;
         this.numberOfSpritesPerBatch = numberOfSpritesPerBatch;
         this.shaderProperties = shaderProperties;
@@ -52,7 +54,7 @@ public class BatchedTagSpriteData implements Disposable {
                 return;
         }
         BatchedSpriteData batchedSpriteData = new BatchedSpriteData(false, numberOfSpritesPerBatch, floatCount,
-                vertexAttributes, shaderProperties, propertyIndexNames);
+                tag, vertexAttributes, shaderProperties, propertyIndexNames);
         dynamicCachedSpriteData.add(batchedSpriteData);
         batchedSpriteData.addGraphSprite(sprite);
     }
@@ -162,7 +164,7 @@ public class BatchedTagSpriteData implements Disposable {
         for (int i = 0; i < textureUniformNames.size; i++) {
             String propertyName = textureUniformNames.get(i);
             PropertySource propertySource = shaderProperties.get(propertyName);
-            Object region = graphSprite.getRenderableSprite().getPropertyContainer().getValue(propertyName);
+            Object region = graphSprite.getRenderableSprite().getPropertyContainer(tag).getValue(propertyName);
             region = propertySource.getValueToUse(region);
             sb.append(((TextureRegion) region).getTexture().getTextureObjectHandle()).append(",");
         }

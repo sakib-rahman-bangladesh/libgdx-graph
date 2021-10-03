@@ -6,5 +6,5 @@ import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyCo
 public interface RenderableSprite {
     Vector3 getPosition();
 
-    PropertyContainer getPropertyContainer();
+    PropertyContainer getPropertyContainer(String tag);
 }

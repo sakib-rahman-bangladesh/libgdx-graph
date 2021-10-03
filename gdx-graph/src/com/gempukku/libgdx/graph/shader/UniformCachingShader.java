@@ -13,8 +13,8 @@ import com.badlogic.gdx.utils.ObjectMap;
 public abstract class UniformCachingShader extends BasicShader {
     private ObjectMap<Integer, Object> uniformCache = new ObjectMap<Integer, Object>();
 
-    public UniformCachingShader(Texture defaultTexture) {
-        super(defaultTexture);
+    public UniformCachingShader(String tag, Texture defaultTexture) {
+        super(tag, defaultTexture);
     }
 
     private boolean shouldSet(int location, Object value) {

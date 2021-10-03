@@ -19,6 +19,7 @@ import com.gempukku.libgdx.graph.shader.property.PropertySource;
 public class BatchedSpriteData implements SpriteData {
     private final int spriteCapacity;
     private final int floatCountPerVertex;
+    private String tag;
     private final VertexAttributes vertexAttributes;
     private final ObjectMap<String, PropertySource> shaderProperties;
     private final IntMap<String> propertyIndexNames;
@@ -34,10 +35,12 @@ public class BatchedSpriteData implements SpriteData {
     private ObjectSet<GraphSpriteImpl> updatedSprites = new ObjectSet<>();
 
     public BatchedSpriteData(boolean staticCache, int spriteCapacity, int floatCountPerVertex,
+                             String tag,
                              VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> shaderProperties,
                              IntMap<String> propertyIndexNames) {
         this.spriteCapacity = spriteCapacity;
         this.floatCountPerVertex = floatCountPerVertex;
+        this.tag = tag;
         this.vertexAttributes = vertexAttributes;
         this.shaderProperties = shaderProperties;
         this.propertyIndexNames = propertyIndexNames;
@@ -126,7 +129,7 @@ public class BatchedSpriteData implements SpriteData {
                     PropertySource propertySource = shaderProperties.get(propertyName);
 
                     ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
-                    Object value = sprite.getRenderableSprite().getPropertyContainer().getValue(propertyName);
+                    Object value = sprite.getRenderableSprite().getPropertyContainer(tag).getValue(propertyName);
                     if (value instanceof ValuePerVertex) {
                         value = ((ValuePerVertex) value).getValue(vertexIndex);
                         value = propertySource.getValueToUse(value);
@@ -142,6 +145,7 @@ public class BatchedSpriteData implements SpriteData {
         markSpriteUpdated(spriteIndex);
     }
 
+    @Override
     public void prepareForRender(ShaderContextImpl shaderContext) {
         boolean debug = Gdx.app.getLogLevel() >= Gdx.app.LOG_DEBUG;
         if (debug && !updatedSprites.isEmpty())
@@ -152,7 +156,7 @@ public class BatchedSpriteData implements SpriteData {
         }
         updatedSprites.clear();
 
-        shaderContext.setLocalPropertyContainer(graphSpritesPosition[0].getRenderableSprite().getPropertyContainer());
+        shaderContext.setLocalPropertyContainer(graphSpritesPosition[0].getRenderableSprite().getPropertyContainer(tag));
         if (minUpdatedIndex != Integer.MAX_VALUE) {
             if (debug)
                 Gdx.app.debug("Sprite", "Updating vertex array - float count: " + (maxUpdatedIndex - minUpdatedIndex));

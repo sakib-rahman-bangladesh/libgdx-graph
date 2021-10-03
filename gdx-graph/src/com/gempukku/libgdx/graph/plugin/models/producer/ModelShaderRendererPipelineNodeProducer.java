@@ -221,18 +221,14 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         JsonValue shaderGraph = shaderDefinition.get("shader");
         String tag = shaderDefinition.getString("tag");
         Gdx.app.debug("Shader", "Building shader with tag: " + tag);
-        ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, false, configurations), PropertyLocation.Uniform);
-        modelGraphShader.setTag(tag);
-        return modelGraphShader;
+        return GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(tag, defaultTexture, false, configurations), PropertyLocation.Uniform);
     }
 
     private static ModelGraphShader createDepthShader(JsonValue shaderDefinition, Texture defaultTexture) {
         JsonValue shaderGraph = shaderDefinition.get("shader");
         String tag = shaderDefinition.getString("tag");
         Gdx.app.debug("Shader", "Building shader with tag: " + tag);
-        ModelGraphShader modelGraphShader = GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(defaultTexture, true, configurations), PropertyLocation.Uniform);
-        modelGraphShader.setTag(tag);
-        return modelGraphShader;
+        return GraphLoader.loadGraph(shaderGraph, new ModelShaderLoaderCallback(tag, defaultTexture, true, configurations), PropertyLocation.Uniform);
     }
 
     private static class ShaderGroup implements Disposable {

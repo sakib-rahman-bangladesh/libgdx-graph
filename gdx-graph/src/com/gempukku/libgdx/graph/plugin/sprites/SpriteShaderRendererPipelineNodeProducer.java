@@ -177,8 +177,7 @@ public class SpriteShaderRendererPipelineNodeProducer extends PipelineNodeProduc
         JsonValue shaderGraph = shaderDefinition.get("shader");
         String tag = shaderDefinition.getString("tag");
         Gdx.app.debug("Shader", "Building shader with tag: " + tag);
-        SpriteGraphShader spriteGraphShader = GraphLoader.loadGraph(shaderGraph, new SpriteShaderLoaderCallback(defaultTexture, configurations), PropertyLocation.Attribute);
-        spriteGraphShader.setTag(tag);
+        SpriteGraphShader spriteGraphShader = GraphLoader.loadGraph(shaderGraph, new SpriteShaderLoaderCallback(tag, defaultTexture, configurations), PropertyLocation.Attribute);
         return spriteGraphShader;
     }
 

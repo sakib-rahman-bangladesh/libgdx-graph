@@ -41,8 +41,7 @@ public class ScreenShaderRendererPipelineNodeProducer extends PipelineNodeProduc
             JsonValue shaderGraph = shaderDefinition.get("shader");
             String tag = shaderDefinition.getString("tag");
             Gdx.app.debug("Shader", "Building shader with tag: " + tag);
-            final ScreenGraphShader shader = GraphLoader.loadGraph(shaderGraph, new ScreenShaderLoaderCallback(whitePixel.texture, configurations), PropertyLocation.Global_Uniform);
-            shader.setTag(tag);
+            final ScreenGraphShader shader = GraphLoader.loadGraph(shaderGraph, new ScreenShaderLoaderCallback(tag, whitePixel.texture, configurations), PropertyLocation.Global_Uniform);
             shaderArray.add(shader);
         }
 

@@ -87,7 +87,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
                     }
 
                     @Override
-                    public PropertyContainer getPropertyContainer() {
+                    public PropertyContainer getPropertyContainer(String tag) {
                         return propertyContainer;
                     }
                 });
@@ -114,7 +114,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
     private void createShader(final Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph) {
         try {
             timeKeeper = new DefaultTimeKeeper();
-            graphShader = GraphShaderBuilder.buildSpriteShader(WhitePixel.sharedInstance.texture, graph, true);
+            graphShader = GraphShaderBuilder.buildSpriteShader("Test", WhitePixel.sharedInstance.texture, graph, true);
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
 
             createModel(graphShader.getVertexAttributes(), graphShader.getProperties());
@@ -185,7 +185,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
     }
 
     private void createModel(VertexAttributes vertexAttributes, ObjectMap<String, PropertySource> properties) {
-        spriteData = new NonBatchedTagSpriteData(vertexAttributes, properties);
+        spriteData = new NonBatchedTagSpriteData("Test", vertexAttributes, properties);
         spriteData.setSprite(graphSprite);
     }
 

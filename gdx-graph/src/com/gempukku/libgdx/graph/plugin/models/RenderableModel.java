@@ -8,13 +8,13 @@ import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyCo
 public interface RenderableModel {
     Vector3 getPosition();
 
-    Matrix4 getWorldTransform();
-
-    Matrix4[] getBones();
-
     boolean isRendered(Camera camera);
 
-    PropertyContainer getPropertyContainer();
+    Matrix4 getWorldTransform(String tag);
+
+    Matrix4[] getBones(String tag);
+
+    PropertyContainer getPropertyContainer(String tag);
 
     void render(Camera camera, ModelGraphShader shader);
 }

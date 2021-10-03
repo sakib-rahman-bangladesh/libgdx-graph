@@ -6,14 +6,14 @@ import com.gempukku.libgdx.graph.plugin.models.producer.ModelShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 
 public class ModelGraphShader extends GraphShader {
-    public ModelGraphShader(Texture defaultTexture) {
-        super(defaultTexture);
+    public ModelGraphShader(String tag, Texture defaultTexture) {
+        super(tag, defaultTexture);
     }
 
     public void render(ModelShaderContextImpl shaderContext, GraphModelImpl graphModel) {
         RenderableModel renderableModel = graphModel.getRenderableModel();
 
-        shaderContext.setLocalPropertyContainer(renderableModel.getPropertyContainer());
+        shaderContext.setLocalPropertyContainer(renderableModel.getPropertyContainer(getTag()));
         shaderContext.setRenderableModel(renderableModel);
 
         for (Uniform uniform : localUniforms.values()) {

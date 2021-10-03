@@ -41,8 +41,7 @@ public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodePro
             String tag = shaderDefinition.getString("tag");
             JsonValue shaderGraph = shaderDefinition.get("shader");
             Gdx.app.debug("Shader", "Building shader with tag: " + tag);
-            final ParticlesGraphShader graphShader = GraphLoader.loadGraph(shaderGraph, new ParticlesShaderLoaderCallback(whitePixel.texture, configurations), PropertyLocation.Uniform);
-            graphShader.setTag(tag);
+            final ParticlesGraphShader graphShader = GraphLoader.loadGraph(shaderGraph, new ParticlesShaderLoaderCallback(tag, whitePixel.texture, configurations), PropertyLocation.Uniform);
             particleShaders.add(graphShader);
         }
 

@@ -11,8 +11,8 @@ import com.gempukku.libgdx.graph.shader.property.PropertySource;
 public class SpriteGraphShader extends GraphShader {
     private Array<String> textureUniformNames;
 
-    public SpriteGraphShader(Texture defaultTexture) {
-        super(defaultTexture);
+    public SpriteGraphShader(String tag, Texture defaultTexture) {
+        super(tag, defaultTexture);
         setCulling(BasicShader.Culling.none);
     }
 

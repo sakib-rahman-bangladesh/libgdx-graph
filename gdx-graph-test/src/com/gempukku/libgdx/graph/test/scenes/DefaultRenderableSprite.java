@@ -18,7 +18,7 @@ public class DefaultRenderableSprite implements RenderableSprite {
     }
 
     @Override
-    public PropertyContainerImpl getPropertyContainer() {
+    public PropertyContainerImpl getPropertyContainer(String tag) {
         return propertyContainer;
     }
 }

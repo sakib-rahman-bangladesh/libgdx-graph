@@ -38,10 +38,11 @@ public class GraphShaderBuilder {
     private static GraphConfiguration[] spriteConfigurations = new GraphConfiguration[]{
             new CommonShaderConfiguration(), new PropertyShaderConfiguration(), new SpriteShaderConfiguration()};
 
-    public static SpriteGraphShader buildSpriteShader(Texture defaultTexture, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph,
+    public static SpriteGraphShader buildSpriteShader(String tag, Texture defaultTexture,
+                                                      Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph,
                                                       boolean designTime) {
 
-        SpriteGraphShader graphShader = new SpriteGraphShader(defaultTexture);
+        SpriteGraphShader graphShader = new SpriteGraphShader(tag, defaultTexture);
 
         VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
         FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);
@@ -63,9 +64,9 @@ public class GraphShaderBuilder {
         return graphShader;
     }
 
-    public static ParticlesGraphShader buildParticlesShader(Texture defaultTexture, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph,
+    public static ParticlesGraphShader buildParticlesShader(String tag, Texture defaultTexture, Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph,
                                                             boolean designTime) {
-        ParticlesGraphShader graphShader = new ParticlesGraphShader(defaultTexture);
+        ParticlesGraphShader graphShader = new ParticlesGraphShader(tag, defaultTexture);
 
         GraphNode endNode = graph.getNodeById("end");
         JsonValue data = endNode.getData();
@@ -93,10 +94,10 @@ public class GraphShaderBuilder {
         return graphShader;
     }
 
-    public static ScreenGraphShader buildScreenShader(Texture defaultTexture,
+    public static ScreenGraphShader buildScreenShader(String tag, Texture defaultTexture,
                                                       Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph,
                                                       boolean designTime) {
-        ScreenGraphShader graphShader = new ScreenGraphShader(defaultTexture);
+        ScreenGraphShader graphShader = new ScreenGraphShader(tag, defaultTexture);
 
         VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
         FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);
@@ -118,10 +119,10 @@ public class GraphShaderBuilder {
         return graphShader;
     }
 
-    public static ModelGraphShader buildModelShader(Texture defaultTexture,
+    public static ModelGraphShader buildModelShader(String tag, Texture defaultTexture,
                                                     Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph,
                                                     boolean designTime) {
-        ModelGraphShader graphShader = new ModelGraphShader(defaultTexture);
+        ModelGraphShader graphShader = new ModelGraphShader(tag, defaultTexture);
 
         VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
         FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);
@@ -143,10 +144,10 @@ public class GraphShaderBuilder {
         return graphShader;
     }
 
-    public static ModelGraphShader buildModelDepthShader(Texture defaultTexture,
+    public static ModelGraphShader buildModelDepthShader(String tag, Texture defaultTexture,
                                                          Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph,
                                                          boolean designTime) {
-        ModelGraphShader graphShader = new ModelGraphShader(defaultTexture);
+        ModelGraphShader graphShader = new ModelGraphShader(tag, defaultTexture);
 
         VertexShaderBuilder vertexShaderBuilder = new VertexShaderBuilder(graphShader);
         FragmentShaderBuilder fragmentShaderBuilder = new FragmentShaderBuilder(graphShader);

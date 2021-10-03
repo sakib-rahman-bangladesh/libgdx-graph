@@ -15,18 +15,9 @@ public abstract class GraphShader extends UniformCachingShader implements GraphS
     private ShaderProgram shaderProgram;
     private VertexAttributes vertexAttributes;
     private int[] attributeLocations;
-    private String tag;
 
-    public GraphShader(Texture defaultTexture) {
-        super(defaultTexture);
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
+    public GraphShader(String tag, Texture defaultTexture) {
+        super(tag, defaultTexture);
     }
 
     public void setProgram(ShaderProgram shaderProgram) {

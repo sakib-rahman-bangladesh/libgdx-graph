@@ -41,7 +41,7 @@ public class TiledSprite implements Sprite, PropertyContainer {
     }
 
     @Override
-    public PropertyContainer getPropertyContainer() {
+    public PropertyContainer getPropertyContainer(String tag) {
         return this;
     }
 

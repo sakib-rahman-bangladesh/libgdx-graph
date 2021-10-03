@@ -162,7 +162,7 @@ public class ModelInstanceRenderableModelAdapter {
         }
 
         @Override
-        public PropertyContainer getPropertyContainer() {
+        public PropertyContainer getPropertyContainer(String tag) {
             if (propertyContainer != null)
                 return propertyContainer;
             else
@@ -171,11 +171,11 @@ public class ModelInstanceRenderableModelAdapter {
 
         @Override
         public Vector3 getPosition() {
-            return getWorldTransform().getTranslation(tmpVector);
+            return getWorldTransform(null).getTranslation(tmpVector);
         }
 
         @Override
-        public Matrix4 getWorldTransform() {
+        public Matrix4 getWorldTransform(String tag) {
             if (nodePart.bones == null && modelInstance.transform != null)
                 worldTransform.set(modelInstance.transform).mul(node.globalTransform);
             else if (modelInstance.transform != null)
@@ -186,7 +186,7 @@ public class ModelInstanceRenderableModelAdapter {
         }
 
         @Override
-        public Matrix4[] getBones() {
+        public Matrix4[] getBones(String tag) {
             return nodePart.bones;
         }
 

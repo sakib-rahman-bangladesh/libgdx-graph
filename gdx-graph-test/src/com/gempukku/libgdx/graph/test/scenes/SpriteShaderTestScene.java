@@ -34,7 +34,7 @@ public class SpriteShaderTestScene implements LibgdxGraphTestScene {
         DefaultRenderableSprite renderableSprite1 = new DefaultRenderableSprite(new Vector3(0, 0, -10));
         ValuePerVertex colorPerVertex = new ValuePerVertex(
                 new Vector2(0, 1), new Vector2(1, 0), new Vector2(0, 0), new Vector2(1, 1));
-        renderableSprite1.getPropertyContainer().setValue("Vertex Color", colorPerVertex);
+        renderableSprite1.getPropertyContainer("Test").setValue("Vertex Color", colorPerVertex);
 
         DefaultRenderableSprite renderableSprite2 = new DefaultRenderableSprite(new Vector3(150, 0, -10));
 

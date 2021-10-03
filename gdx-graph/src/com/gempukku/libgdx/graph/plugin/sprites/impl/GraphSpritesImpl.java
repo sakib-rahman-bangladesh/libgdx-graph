@@ -216,9 +216,9 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
         Array<String> textureUniformNames = shader.getTextureUniformNames();
 
         if (batched)
-            batchedTagSpriteData.put(tag, new BatchedTagSpriteData(vertexAttributes, spriteBatchSize, shaderProperties, textureUniformNames));
+            batchedTagSpriteData.put(tag, new BatchedTagSpriteData(tag, vertexAttributes, spriteBatchSize, shaderProperties, textureUniformNames));
         else {
-            nonBatchedTagSpriteData.put(tag, new NonBatchedTagSpriteData(vertexAttributes, shaderProperties));
+            nonBatchedTagSpriteData.put(tag, new NonBatchedTagSpriteData(tag, vertexAttributes, shaderProperties));
             nonBatchedSpritesByTag.put(tag, new ObjectSet<GraphSpriteImpl>());
         }
 

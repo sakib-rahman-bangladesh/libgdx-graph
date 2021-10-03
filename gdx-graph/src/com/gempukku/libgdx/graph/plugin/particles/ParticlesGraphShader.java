@@ -10,8 +10,8 @@ import com.gempukku.libgdx.graph.shader.ShaderContext;
 public class ParticlesGraphShader extends GraphShader {
     private int maxNumberOfParticles;
 
-    public ParticlesGraphShader(Texture defaultTexture) {
-        super(defaultTexture);
+    public ParticlesGraphShader(String tag, Texture defaultTexture) {
+        super(tag, defaultTexture);
     }
 
     public int getMaxNumberOfParticles() {
