@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.test.scenes;
+package com.gempukku.libgdx.graph.plugin.sprites.impl;
 
 import com.badlogic.gdx.math.Vector3;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.WritablePropertyContainer;
