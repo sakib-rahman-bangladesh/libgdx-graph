@@ -29,7 +29,7 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.impl.CommonPropertiesModelInstanceRenderableModelAdapter;
+import com.gempukku.libgdx.graph.plugin.models.adapter.CommonPropertiesModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;

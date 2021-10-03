@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.plugin.models.impl;
+package com.gempukku.libgdx.graph.plugin.models.adapter;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Mesh;
@@ -19,6 +19,7 @@ import com.gempukku.libgdx.graph.plugin.models.GraphModel;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
 import com.gempukku.libgdx.graph.plugin.models.ModelGraphShader;
 import com.gempukku.libgdx.graph.plugin.models.RenderableModel;
+import com.gempukku.libgdx.graph.plugin.models.adapter.culling.CullingTest;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
@@ -27,6 +28,7 @@ public class CommonPropertiesModelInstanceRenderableModelAdapter {
     private GraphModels graphModels;
     private ObjectMap<String, ObjectSet<GraphModel>> graphModelsByTag = new ObjectMap<>();
     private WritablePropertyContainer propertyContainer;
+    private CullingTest cullingTest;
 
     public CommonPropertiesModelInstanceRenderableModelAdapter(ModelInstance modelInstance, GraphModels graphModels) {
         this(modelInstance, graphModels, new PropertyContainerImpl());
@@ -36,6 +38,10 @@ public class CommonPropertiesModelInstanceRenderableModelAdapter {
         this.modelInstance = modelInstance;
         this.graphModels = graphModels;
         this.propertyContainer = propertyContainer;
+    }
+
+    public void setCullingTest(CullingTest cullingTest) {
+        this.cullingTest = cullingTest;
     }
 
     public boolean hasTag(String tag) {
@@ -126,7 +132,7 @@ public class CommonPropertiesModelInstanceRenderableModelAdapter {
 
         @Override
         public boolean isRendered(Camera camera) {
-            return nodePart.enabled;
+            return nodePart.enabled && (cullingTest == null || !cullingTest.isCulled(camera, getPosition()));
         }
 
         @Override

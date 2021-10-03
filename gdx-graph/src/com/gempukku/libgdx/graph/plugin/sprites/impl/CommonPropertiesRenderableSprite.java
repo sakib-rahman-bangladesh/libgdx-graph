@@ -9,6 +9,10 @@ public class CommonPropertiesRenderableSprite implements RenderableSprite {
     private Vector3 position;
     private WritablePropertyContainer propertyContainer;
 
+    public CommonPropertiesRenderableSprite() {
+        this(new Vector3());
+    }
+
     public CommonPropertiesRenderableSprite(Vector3 position) {
         this(position, new PropertyContainerImpl());
     }
