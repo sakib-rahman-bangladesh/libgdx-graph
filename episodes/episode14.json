@@ -6,7 +6,7 @@
       "id": "72be9695e45949ccb5f449dbacdfd619",
       "type": "Property",
       "x": 50.0,
-      "y": 1221.0,
+      "y": 1222.0,
       "data": {
         "name": "Camera",
         "type": "Camera"
@@ -15,7 +15,7 @@
     {
       "id": "c7274c8066104f9fae86cba6bb9a45dd",
       "type": "ValueFloat",
-      "x": 166.0,
+      "x": 169.99993896484375,
       "y": 399.0,
       "data": {
         "v1": 10.0
@@ -24,13 +24,13 @@
     {
       "id": "a2deec2f5b4448f2bc89fdba9045c0b4",
       "type": "Bloom",
-      "x": 391.0,
+      "x": 394.99993896484375,
       "y": 304.0
     },
     {
       "id": "cb119de851e54b0f941dd857cdd8e7a4",
       "type": "ValueFloat",
-      "x": 166.0,
+      "x": 169.99993896484375,
       "y": 336.0,
       "data": {
         "v1": 0.800000011920929
@@ -39,7 +39,7 @@
     {
       "id": "3002a2f144b94b2083e2374c3990478d",
       "type": "ValueFloat",
-      "x": 167.0,
+      "x": 170.99993896484375,
       "y": 274.0,
       "data": {
         "v1": 3.0
@@ -48,9 +48,10 @@
     {
       "id": "0f6f63af3181472da525343236652acd",
       "type": "GraphShaderRenderer",
-      "x": 307.0,
-      "y": 829.0,
+      "x": 308.0,
+      "y": 847.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "bc4c1b5279584f5cbf7a2a9fe31bda61",
@@ -62,44 +63,44 @@
                 {
                   "id": "728664a885e048ed8a2754e2c94eb214",
                   "type": "Mix",
-                  "x": 1514.0,
-                  "y": 371.0
+                  "x": 1855.0,
+                  "y": 451.0
                 },
                 {
                   "id": "93573dd2a66d40b0acb3d2da20755fd5",
                   "type": "SceneColor",
-                  "x": 927.0,
-                  "y": 643.0
+                  "x": 1240.0,
+                  "y": 645.0
                 },
                 {
                   "id": "edb6b54228cf4551821efb4f3e7cfa0e",
                   "type": "Multiply",
-                  "x": 884.0,
-                  "y": 569.0
+                  "x": 1221.0,
+                  "y": 567.0
                 },
                 {
                   "id": "e8f50c4adad14199ba7e1b6f68aa7990",
                   "type": "ObjectNormalToWorld",
-                  "x": 252.0,
-                  "y": 382.0
+                  "x": 300.0,
+                  "y": 231.0
                 },
                 {
                   "id": "d307a81b92ce422c8582f87f5dfb4e40",
                   "type": "Step",
-                  "x": 1026.0,
-                  "y": 189.0
+                  "x": 1339.0,
+                  "y": 191.0
                 },
                 {
                   "id": "270bdc955ea2426da124e8f025d3daf4",
                   "type": "ScreenPosition",
-                  "x": 883.0,
-                  "y": 506.0
+                  "x": 1220.0,
+                  "y": 504.0
                 },
                 {
                   "id": "7c84a08395c04215be02753a4526efac",
                   "type": "Property",
                   "x": 50.0,
-                  "y": 348.0,
+                  "y": 219.0,
                   "data": {
                     "name": "Normal",
                     "type": "Vector3"
@@ -108,7 +109,7 @@
                 {
                   "id": "a9466cdddd8d4f95a47db13718f6c821",
                   "type": "ValueFloat",
-                  "x": 411.0,
+                  "x": 392.0,
                   "y": 50.0,
                   "data": {
                     "v1": 1.0
@@ -117,14 +118,14 @@
                 {
                   "id": "672456b565ca4d7b90b6b67bdfdab3ef",
                   "type": "Mix",
-                  "x": 1074.0,
-                  "y": 498.0
+                  "x": 1425.0,
+                  "y": 490.0
                 },
                 {
                   "id": "ab8c77d2247b476ba2ea0f1248a046cc",
                   "type": "ValueVector2",
-                  "x": 702.0,
-                  "y": 344.0,
+                  "x": 1011.0,
+                  "y": 246.0,
                   "data": {
                     "v1": 0.0,
                     "v2": 1.0
@@ -133,26 +134,26 @@
                 {
                   "id": "286c649ad9574805aefa1ea812723748",
                   "type": "ModelFragmentCoordinate",
-                  "x": 591.0,
-                  "y": 606.0
+                  "x": 928.0,
+                  "y": 604.0
                 },
                 {
                   "id": "06f70cfdeff84a2682c406587b3d130a",
                   "type": "CameraPosition",
-                  "x": 226.0,
+                  "x": 207.0,
                   "y": 146.0
                 },
                 {
                   "id": "e0604dc260f84729ae66a2374c40aaf1",
                   "type": "Subtract",
-                  "x": 413.0,
+                  "x": 394.0,
                   "y": 118.0
                 },
                 {
                   "id": "8a4b644f979345669e5d025f48c4f47b",
                   "type": "ValueFloat",
-                  "x": 837.0,
-                  "y": 236.0,
+                  "x": 1147.0,
+                  "y": 150.0,
                   "data": {
                     "v1": 0.20000000298023224
                   }
@@ -160,26 +161,26 @@
                 {
                   "id": "367b5a313dc14b64b600f0e8b303d7d4",
                   "type": "PixelSize",
-                  "x": 666.0,
-                  "y": 501.0
+                  "x": 1003.0,
+                  "y": 499.0
                 },
                 {
                   "id": "33f08354a9f44ceb8ecdf3c3bce8eb37",
                   "type": "Remap",
-                  "x": 923.0,
-                  "y": 360.0
+                  "x": 1220.0,
+                  "y": 378.0
                 },
                 {
                   "id": "67637093ec714a12b6df3097868302d5",
                   "type": "WorldPosition",
-                  "x": 169.0,
+                  "x": 153.0,
                   "y": 76.0
                 },
                 {
                   "id": "end",
                   "type": "ShaderEnd",
-                  "x": 1745.0,
-                  "y": 154.0,
+                  "x": 2058.0,
+                  "y": 156.0,
                   "data": {
                     "positionType": "Object space",
                     "culling": "back",
@@ -190,8 +191,8 @@
                 {
                   "id": "9213ab0189774c20a00bbef146c3667f",
                   "type": "ValueVector2",
-                  "x": 711.0,
-                  "y": 410.0,
+                  "x": 1014.0,
+                  "y": 312.0,
                   "data": {
                     "v1": 0.20000000298023224,
                     "v2": 1.0
@@ -200,8 +201,8 @@
                 {
                   "id": "ede17779665747188d256ec4875d99df",
                   "type": "Property",
-                  "x": 1507.0,
-                  "y": 617.0,
+                  "x": 1855.0,
+                  "y": 593.0,
                   "data": {
                     "name": "Position",
                     "type": "Vector3"
@@ -210,8 +211,8 @@
                 {
                   "id": "6503700c40c145da832c6e9b68a816d2",
                   "type": "ValueColor",
-                  "x": 1281.0,
-                  "y": 721.0,
+                  "x": 1594.0,
+                  "y": 723.0,
                   "data": {
                     "color": "000000ff"
                   }
@@ -219,13 +220,13 @@
                 {
                   "id": "6c04a1de247146deb8a713cfab9c486a",
                   "type": "Sampler2D",
-                  "x": 1254.0,
-                  "y": 531.0
+                  "x": 1607.0,
+                  "y": 514.0
                 },
                 {
                   "id": "87b0b5f230044c48af05f8ea204e217b",
                   "type": "FresnelEffect",
-                  "x": 624.0,
+                  "x": 605.0,
                   "y": 184.0
                 }
               ],
@@ -395,10 +396,13 @@
                 {
                   "name": "Fresnel",
                   "nodes": [
+                    "e8f50c4adad14199ba7e1b6f68aa7990",
                     "87b0b5f230044c48af05f8ea204e217b",
                     "06f70cfdeff84a2682c406587b3d130a",
                     "a9466cdddd8d4f95a47db13718f6c821",
-                    "e0604dc260f84729ae66a2374c40aaf1"
+                    "e0604dc260f84729ae66a2374c40aaf1",
+                    "7c84a08395c04215be02753a4526efac",
+                    "67637093ec714a12b6df3097868302d5"
                   ]
                 }
               ]
@@ -411,8 +415,9 @@
       "id": "1f6f63af3181472da525343236652acd",
       "type": "GraphShaderRenderer",
       "x": 308.0,
-      "y": 508.0,
+      "y": 501.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "9a7ca5b51dd3474c9d28ff71859b6a02",
@@ -589,14 +594,14 @@
                 {
                   "id": "992f17f6fbab4d9881fb42b5e1753f78",
                   "type": "Split",
-                  "x": 482.0,
-                  "y": 652.0
+                  "x": 489.99993896484375,
+                  "y": 659.0
                 },
                 {
                   "id": "dbd7b455c9454fe0966633bf1d0df718",
                   "type": "ValueVector2",
-                  "x": 1211.0,
-                  "y": 444.0,
+                  "x": 1169.0,
+                  "y": 424.0,
                   "data": {
                     "v1": 0.0,
                     "v2": 1.7999999523162842
@@ -605,31 +610,31 @@
                 {
                   "id": "7b2200e7254a4a36895b0bf77600a97a",
                   "type": "Subtract",
-                  "x": 1171.0,
-                  "y": 589.0
+                  "x": 1173.0,
+                  "y": 548.0
                 },
                 {
                   "id": "92387152295d4f239106b56a57064374",
                   "type": "Power",
-                  "x": 1328.0,
-                  "y": 102.0
+                  "x": 1375.0,
+                  "y": 172.0
                 },
                 {
                   "id": "41a7aedacd064de3a4309208cf81b87e",
                   "type": "SimplexNoise2D",
-                  "x": 1405.0,
+                  "x": 1389.0,
                   "y": 603.0
                 },
                 {
                   "id": "5fd768d21678434d9cb7e0635efc1cbd",
                   "type": "WorldPosition",
-                  "x": 147.0,
-                  "y": 55.0
+                  "x": 132.0,
+                  "y": 56.0
                 },
                 {
                   "id": "end",
                   "type": "ShaderEnd",
-                  "x": 1822.0,
+                  "x": 1806.0,
                   "y": 104.0,
                   "data": {
                     "positionType": "Object space",
@@ -641,8 +646,8 @@
                 {
                   "id": "f5243eb0bb094fc99123918043933cd0",
                   "type": "ValueColor",
-                  "x": 909.0,
-                  "y": 412.0,
+                  "x": 1601.0,
+                  "y": 466.0,
                   "data": {
                     "color": "e3f23aff"
                   }
@@ -650,50 +655,50 @@
                 {
                   "id": "51510b8dce1f4e50b322fa88ba31bc68",
                   "type": "Subtract",
-                  "x": 942.0,
+                  "x": 926.0,
                   "y": 708.0
                 },
                 {
                   "id": "d9dba081a7f7489ab654397d0780884a",
                   "type": "FresnelEffect",
-                  "x": 591.0,
+                  "x": 576.0,
                   "y": 176.0
                 },
                 {
                   "id": "0d10bc355aab4e07a1ae4ddd9254bd17",
                   "type": "FragmentCoordinate",
-                  "x": 261.0,
-                  "y": 721.0
+                  "x": 268.99993896484375,
+                  "y": 728.0
                 },
                 {
                   "id": "915bb1eae53d46a096530991ece24bdb",
                   "type": "Subtract",
-                  "x": 397.0,
+                  "x": 382.0,
                   "y": 116.0
                 },
                 {
                   "id": "3a554e96c9524a4b8a43569b7101a6dc",
                   "type": "ModelFragmentCoordinate",
-                  "x": 608.0,
-                  "y": 493.0
+                  "x": 630.0,
+                  "y": 582.0
                 },
                 {
                   "id": "b29d2c1df2d74acaa2a6e8a2fe9a4364",
                   "type": "Step",
-                  "x": 921.0,
-                  "y": 284.0
+                  "x": 1217.0,
+                  "y": 339.0
                 },
                 {
                   "id": "f0a39c500b2e4af19c3648a182a6c14b",
                   "type": "Normalize",
-                  "x": 1151.0,
+                  "x": 1135.0,
                   "y": 711.0
                 },
                 {
                   "id": "758e3cd09d104e00a8bb177933c96221",
                   "type": "Property",
                   "x": 50.0,
-                  "y": 350.0,
+                  "y": 203.0,
                   "data": {
                     "name": "Normal",
                     "type": "Vector3"
@@ -702,14 +707,14 @@
                 {
                   "id": "8b95a11c34224622859f0a62c7a23e0c",
                   "type": "Subtract",
-                  "x": 1079.0,
-                  "y": 144.0
+                  "x": 1154.0,
+                  "y": 160.0
                 },
                 {
                   "id": "f6937fe50fe7421bb453a586eb69445d",
                   "type": "ValueFloat",
-                  "x": 687.0,
-                  "y": 392.0,
+                  "x": 1029.0,
+                  "y": 276.0,
                   "data": {
                     "v1": 0.25
                   }
@@ -717,7 +722,7 @@
                 {
                   "id": "afe28f0b8e0143a6add29260d6a84437",
                   "type": "Property",
-                  "x": 1617.0,
+                  "x": 1601.0,
                   "y": 537.0,
                   "data": {
                     "name": "Position",
@@ -727,20 +732,20 @@
                 {
                   "id": "acbec64e42a3460bba58a7338f7b1b79",
                   "type": "ObjectNormalToWorld",
-                  "x": 246.0,
-                  "y": 373.0
+                  "x": 271.0,
+                  "y": 217.0
                 },
                 {
                   "id": "7f77a88758544128a609740dce2a5adc",
                   "type": "Multiply",
-                  "x": 1618.0,
+                  "x": 1602.0,
                   "y": 392.0
                 },
                 {
                   "id": "42f48b8652f94d3caca9dac24e485547",
                   "type": "ValueFloat",
-                  "x": 1135.0,
-                  "y": 61.0,
+                  "x": 1158.0,
+                  "y": 89.0,
                   "data": {
                     "v1": 2.5
                   }
@@ -748,7 +753,7 @@
                 {
                   "id": "d2a4d9ffadd34e0a9bbe413b06faec5c",
                   "type": "Time",
-                  "x": 947.0,
+                  "x": 931.0,
                   "y": 549.0,
                   "data": {
                     "multiplier": 0.20000000298023224
@@ -757,7 +762,7 @@
                 {
                   "id": "89442224b6ea43248b304665992529dd",
                   "type": "ValueFloat",
-                  "x": 397.0,
+                  "x": 382.0,
                   "y": 50.0,
                   "data": {
                     "v1": 1.0
@@ -766,20 +771,20 @@
                 {
                   "id": "d9822ccf4c88463cbd20b4c89dae3661",
                   "type": "Merge",
-                  "x": 684.0,
-                  "y": 653.0
+                  "x": 691.9999389648438,
+                  "y": 660.0
                 },
                 {
                   "id": "ecda9d43b40d41fa879c31428c130a59",
                   "type": "CameraPosition",
-                  "x": 200.0,
-                  "y": 139.0
+                  "x": 185.0,
+                  "y": 140.0
                 },
                 {
                   "id": "761b74e8f7f542eca650b3a0e2bf089f",
                   "type": "ValueFloat",
-                  "x": 860.0,
-                  "y": 217.0,
+                  "x": 958.0,
+                  "y": 209.0,
                   "data": {
                     "v1": 1.0
                   }
@@ -787,8 +792,8 @@
                 {
                   "id": "4caf2273f34344579b8f01ba63a94739",
                   "type": "ValueFloat",
-                  "x": 1211.0,
-                  "y": 505.0,
+                  "x": 1171.0,
+                  "y": 487.0,
                   "data": {
                     "v1": 3.0
                   }
@@ -1002,7 +1007,10 @@
                 {
                   "name": "Fresnel",
                   "nodes": [
+                    "758e3cd09d104e00a8bb177933c96221",
                     "d9dba081a7f7489ab654397d0780884a",
+                    "5fd768d21678434d9cb7e0635efc1cbd",
+                    "acbec64e42a3460bba58a7338f7b1b79",
                     "89442224b6ea43248b304665992529dd",
                     "ecda9d43b40d41fa879c31428c130a59",
                     "915bb1eae53d46a096530991ece24bdb"
@@ -1025,8 +1033,8 @@
     {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
-      "x": 376.0,
-      "y": 135.0,
+      "x": 379.0,
+      "y": 136.0,
       "data": {
         "id": ""
       }
@@ -1034,14 +1042,14 @@
     {
       "id": "end",
       "type": "PipelineEnd",
-      "x": 411.0,
+      "x": 414.0,
       "y": 50.0
     },
     {
       "id": "d54b356d4a1242cab5e6cb3f836b1930",
       "type": "ValueColor",
       "x": 174.0,
-      "y": 1500.0,
+      "y": 1501.0,
       "data": {
         "color": "383838ff"
       }
@@ -1049,9 +1057,10 @@
     {
       "id": "ff6f63af3181472da525343236652acd",
       "type": "GraphShaderRenderer",
-      "x": 307.0,
-      "y": 1150.0,
+      "x": 308.0,
+      "y": 1188.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "5c80f2ba63ff4509a9e35f34d673c88b",
@@ -1098,7 +1107,7 @@
                   "id": "57ef2877fd1c498d8b21397c50f0b1c1",
                   "type": "WorldPosition",
                   "x": 50.0,
-                  "y": 274.0
+                  "y": 275.0
                 },
                 {
                   "id": "66d11c08208840fbbf0c41a59f70871d",
@@ -1137,7 +1146,7 @@
                   "id": "a68f990d858143d7b97ed39b7c0b87c1",
                   "type": "CameraPosition",
                   "x": 102.0,
-                  "y": 190.0
+                  "y": 191.0
                 },
                 {
                   "id": "36eb8253f9304286a04cf7135f0f961c",
@@ -1152,7 +1161,7 @@
                   "id": "4226fa04b5f047b4ba45088bc53cc52c",
                   "type": "Subtract",
                   "x": 300.0,
-                  "y": 255.0
+                  "y": 256.0
                 },
                 {
                   "id": "308855cce04b41dcad85159ae1923d4f",
@@ -1267,8 +1276,9 @@
                 {
                   "name": "Sky direction",
                   "nodes": [
-                    "308855cce04b41dcad85159ae1923d4f",
+                    "57ef2877fd1c498d8b21397c50f0b1c1",
                     "4226fa04b5f047b4ba45088bc53cc52c",
+                    "308855cce04b41dcad85159ae1923d4f",
                     "a68f990d858143d7b97ed39b7c0b87c1"
                   ]
                 }
@@ -1450,14 +1460,14 @@
                 {
                   "id": "992f17f6fbab4d9881fb42b5e1753f78",
                   "type": "Split",
-                  "x": 476.0,
-                  "y": 652.0
+                  "x": 405.99993896484375,
+                  "y": 665.0
                 },
                 {
                   "id": "dbd7b455c9454fe0966633bf1d0df718",
                   "type": "ValueVector2",
-                  "x": 1205.0,
-                  "y": 444.0,
+                  "x": 1072.0,
+                  "y": 388.0,
                   "data": {
                     "v1": 0.0,
                     "v2": 1.7999999523162842
@@ -1466,32 +1476,32 @@
                 {
                   "id": "7b2200e7254a4a36895b0bf77600a97a",
                   "type": "Subtract",
-                  "x": 1165.0,
-                  "y": 589.0
+                  "x": 1071.0,
+                  "y": 527.0
                 },
                 {
                   "id": "92387152295d4f239106b56a57064374",
                   "type": "Power",
-                  "x": 1322.0,
-                  "y": 102.0
+                  "x": 1293.0,
+                  "y": 145.0
                 },
                 {
                   "id": "41a7aedacd064de3a4309208cf81b87e",
                   "type": "SimplexNoise2D",
-                  "x": 1399.0,
-                  "y": 603.0
+                  "x": 1292.0,
+                  "y": 520.0
                 },
                 {
                   "id": "e9a07c81008646beb73f685fc2a6fec2",
                   "type": "ObjectNormalToWorld",
-                  "x": 290.0,
-                  "y": 386.0
+                  "x": 269.0,
+                  "y": 258.0
                 },
                 {
                   "id": "end",
                   "type": "ShaderEnd",
-                  "x": 1772.0,
-                  "y": 79.0,
+                  "x": 1782.0,
+                  "y": 116.0,
                   "data": {
                     "positionType": "Object space",
                     "culling": "back",
@@ -1502,8 +1512,8 @@
                 {
                   "id": "f5243eb0bb094fc99123918043933cd0",
                   "type": "ValueColor",
-                  "x": 903.0,
-                  "y": 412.0,
+                  "x": 1576.0,
+                  "y": 529.0,
                   "data": {
                     "color": "e3f23aff"
                   }
@@ -1511,50 +1521,50 @@
                 {
                   "id": "51510b8dce1f4e50b322fa88ba31bc68",
                   "type": "Subtract",
-                  "x": 936.0,
-                  "y": 708.0
+                  "x": 869.9999389648438,
+                  "y": 718.0
                 },
                 {
                   "id": "d9dba081a7f7489ab654397d0780884a",
                   "type": "FresnelEffect",
-                  "x": 585.0,
-                  "y": 176.0
+                  "x": 561.0,
+                  "y": 189.0
                 },
                 {
                   "id": "0d10bc355aab4e07a1ae4ddd9254bd17",
                   "type": "FragmentCoordinate",
-                  "x": 255.0,
-                  "y": 721.0
+                  "x": 184.99993896484375,
+                  "y": 734.0
                 },
                 {
                   "id": "915bb1eae53d46a096530991ece24bdb",
                   "type": "Subtract",
-                  "x": 391.0,
-                  "y": 116.0
+                  "x": 368.0,
+                  "y": 129.0
                 },
                 {
                   "id": "3a554e96c9524a4b8a43569b7101a6dc",
                   "type": "ModelFragmentCoordinate",
-                  "x": 602.0,
-                  "y": 493.0
+                  "x": 542.9999389648438,
+                  "y": 583.0
                 },
                 {
                   "id": "b29d2c1df2d74acaa2a6e8a2fe9a4364",
                   "type": "Step",
-                  "x": 915.0,
-                  "y": 284.0
+                  "x": 1292.0,
+                  "y": 342.0
                 },
                 {
                   "id": "f0a39c500b2e4af19c3648a182a6c14b",
                   "type": "Normalize",
-                  "x": 1145.0,
-                  "y": 711.0
+                  "x": 1079.0,
+                  "y": 721.0
                 },
                 {
                   "id": "4d1c7f93fbf24dfe8a4fe1048321ce81",
                   "type": "Property",
-                  "x": 1582.0,
-                  "y": 570.0,
+                  "x": 1576.0,
+                  "y": 600.0,
                   "data": {
                     "name": "Position",
                     "type": "Vector3"
@@ -1563,20 +1573,20 @@
                 {
                   "id": "8b95a11c34224622859f0a62c7a23e0c",
                   "type": "Subtract",
-                  "x": 1073.0,
-                  "y": 144.0
+                  "x": 1106.0,
+                  "y": 116.0
                 },
                 {
                   "id": "7ebb2cc186cb420ab7f6d802e0465bb5",
                   "type": "WorldPosition",
-                  "x": 130.0,
-                  "y": 62.0
+                  "x": 115.0,
+                  "y": 76.0
                 },
                 {
                   "id": "f6937fe50fe7421bb453a586eb69445d",
                   "type": "ValueFloat",
-                  "x": 681.0,
-                  "y": 392.0,
+                  "x": 1085.0,
+                  "y": 287.0,
                   "data": {
                     "v1": 0.25
                   }
@@ -1584,14 +1594,14 @@
                 {
                   "id": "7f77a88758544128a609740dce2a5adc",
                   "type": "Multiply",
-                  "x": 1575.0,
-                  "y": 377.0
+                  "x": 1509.0,
+                  "y": 387.0
                 },
                 {
                   "id": "42f48b8652f94d3caca9dac24e485547",
                   "type": "ValueFloat",
-                  "x": 1129.0,
-                  "y": 61.0,
+                  "x": 1110.0,
+                  "y": 50.0,
                   "data": {
                     "v1": 2.5
                   }
@@ -1599,8 +1609,8 @@
                 {
                   "id": "d2a4d9ffadd34e0a9bbe413b06faec5c",
                   "type": "Time",
-                  "x": 941.0,
-                  "y": 549.0,
+                  "x": 856.9999389648438,
+                  "y": 553.0,
                   "data": {
                     "multiplier": 0.20000000298023224
                   }
@@ -1609,7 +1619,7 @@
                   "id": "e9e5bb92683a4ce3a64f2e55bea550de",
                   "type": "Property",
                   "x": 50.0,
-                  "y": 430.0,
+                  "y": 233.0,
                   "data": {
                     "name": "Normal",
                     "type": "Vector3"
@@ -1618,8 +1628,8 @@
                 {
                   "id": "89442224b6ea43248b304665992529dd",
                   "type": "ValueFloat",
-                  "x": 391.0,
-                  "y": 50.0,
+                  "x": 368.0,
+                  "y": 63.0,
                   "data": {
                     "v1": 1.0
                   }
@@ -1627,20 +1637,20 @@
                 {
                   "id": "d9822ccf4c88463cbd20b4c89dae3661",
                   "type": "Merge",
-                  "x": 678.0,
-                  "y": 653.0
+                  "x": 607.9999389648438,
+                  "y": 666.0
                 },
                 {
                   "id": "ecda9d43b40d41fa879c31428c130a59",
                   "type": "CameraPosition",
-                  "x": 194.0,
-                  "y": 139.0
+                  "x": 171.0,
+                  "y": 152.0
                 },
                 {
                   "id": "761b74e8f7f542eca650b3a0e2bf089f",
                   "type": "ValueFloat",
-                  "x": 854.0,
-                  "y": 217.0,
+                  "x": 908.9999389648438,
+                  "y": 196.0,
                   "data": {
                     "v1": 1.0
                   }
@@ -1648,8 +1658,8 @@
                 {
                   "id": "4caf2273f34344579b8f01ba63a94739",
                   "type": "ValueFloat",
-                  "x": 1205.0,
-                  "y": 505.0,
+                  "x": 1070.0,
+                  "y": 454.0,
                   "data": {
                     "v1": 3.0
                   }
@@ -1871,7 +1881,10 @@
                 {
                   "name": "Fresnel",
                   "nodes": [
+                    "e9a07c81008646beb73f685fc2a6fec2",
+                    "e9e5bb92683a4ce3a64f2e55bea550de",
                     "d9dba081a7f7489ab654397d0780884a",
+                    "7ebb2cc186cb420ab7f6d802e0465bb5",
                     "89442224b6ea43248b304665992529dd",
                     "ecda9d43b40d41fa879c31428c130a59",
                     "915bb1eae53d46a096530991ece24bdb"
@@ -1887,7 +1900,7 @@
       "id": "746da9b276d442f0bc74ed9847a26a4b",
       "type": "PipelineStart",
       "x": 413.0,
-      "y": 1477.0
+      "y": 1535.0
     }
   ],
   "connections": [

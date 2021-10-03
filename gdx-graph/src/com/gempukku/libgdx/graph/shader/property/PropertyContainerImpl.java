@@ -20,4 +20,8 @@ public class PropertyContainerImpl implements WritablePropertyContainer {
     public Object getValue(String name) {
         return properties.get(name);
     }
+
+    public void clear() {
+        properties.clear();
+    }
 }

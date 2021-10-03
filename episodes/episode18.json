@@ -18,6 +18,7 @@
       "x": 312.0,
       "y": 625.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "d1c8d69e0ba54495a56ad6d13476fc2e",
@@ -216,8 +217,6 @@
                   "y": 137.0,
                   "data": {
                     "maxParticles": 500,
-                    "initialParticles": 0,
-                    "perSecondParticles": 1000.0,
                     "blending": "additive",
                     "depthTest": "less"
                   }
@@ -249,7 +248,7 @@
                 {
                   "id": "687ace6129d44991b591abb9b9a2107e",
                   "type": "Property",
-                  "x": 50.000030517578125,
+                  "x": 50.0,
                   "y": 607.0,
                   "data": {
                     "name": "Move Y",
@@ -299,7 +298,7 @@
                 {
                   "id": "86b94de693e04b0a8f68435b325b9c7f",
                   "type": "Property",
-                  "x": 50.000030517578125,
+                  "x": 50.0,
                   "y": 667.0,
                   "data": {
                     "name": "Move X",

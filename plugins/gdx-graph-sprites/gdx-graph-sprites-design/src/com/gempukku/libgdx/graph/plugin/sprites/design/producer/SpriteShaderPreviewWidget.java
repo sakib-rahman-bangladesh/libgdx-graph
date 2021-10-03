@@ -27,6 +27,7 @@ import com.gempukku.libgdx.graph.plugin.sprites.impl.NonBatchedTagSpriteData;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
+import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -34,6 +35,7 @@ import com.gempukku.libgdx.graph.ui.PatternTextures;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class SpriteShaderPreviewWidget extends Widget implements Disposable {
+    private final PropertyContainerImpl propertyContainer;
     private boolean shaderInitialized;
     private int width;
     private int height;
@@ -74,6 +76,9 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
         shaderContext.setColorTexture(PatternTextures.sharedInstance.texture);
 
         final Vector3 position = new Vector3(0, 0, 2);
+
+        propertyContainer = new PropertyContainerImpl();
+
         graphSprite = new GraphSpriteImpl("Test",
                 new RenderableSprite() {
                     @Override
@@ -83,7 +88,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
 
                     @Override
                     public PropertyContainer getPropertyContainer() {
-                        return null;
+                        return propertyContainer;
                     }
                 });
     }
@@ -127,34 +132,28 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
                             return null;
                         }
                     });
-            shaderContext.setLocalPropertyContainer(
-                    new PropertyContainer() {
-                        @Override
-                        public Object getValue(String name) {
-                            for (GraphProperty property : graph.getProperties()) {
-                                if (property.getName().equals(name) && property.getLocation() != PropertyLocation.Global_Uniform) {
-                                    ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(property.getType());
-                                    Object value = propertyType.convertFromJson(property.getData());
-                                    if (propertyType.isTexture()) {
-                                        if (value != null) {
-                                            try {
-                                                Texture texture = new Texture(Gdx.files.absolute((String) value));
-                                                graphShader.addManagedResource(texture);
-                                                return new TextureRegion(texture);
-                                            } catch (Exception exp) {
-
-                                            }
-                                        }
-                                        return WhitePixel.sharedInstance.textureRegion;
-                                    } else {
-                                        return value;
-                                    }
-                                }
+            propertyContainer.clear();
+            for (GraphProperty property : graph.getProperties()) {
+                if (property.getLocation() != PropertyLocation.Global_Uniform) {
+                    ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(property.getType());
+                    Object value = propertyType.convertFromJson(property.getData());
+                    if (propertyType.isTexture()) {
+                        if (value != null) {
+                            try {
+                                Texture texture = new Texture(Gdx.files.absolute((String) value));
+                                graphShader.addManagedResource(texture);
+                                propertyContainer.setValue(property.getName(), new TextureRegion(texture));
+                            } catch (Exception exp) {
+                                propertyContainer.setValue(property.getName(), WhitePixel.sharedInstance.textureRegion);
                             }
-
-                            return null;
+                        } else {
+                            propertyContainer.setValue(property.getName(), WhitePixel.sharedInstance.textureRegion);
                         }
-                    });
+                    } else {
+                        propertyContainer.setValue(property.getName(), value);
+                    }
+                }
+            }
 
             shaderContext.setTimeProvider(timeKeeper);
 

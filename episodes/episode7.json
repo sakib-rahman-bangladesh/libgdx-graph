@@ -6,7 +6,7 @@
       "id": "72be9695e45949ccb5f449dbacdfd619",
       "type": "Property",
       "x": 50.0,
-      "y": 408.0,
+      "y": 427.0,
       "data": {
         "name": "Camera",
         "type": "Camera"
@@ -15,8 +15,8 @@
     {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
-      "x": 385.0,
-      "y": 126.0,
+      "x": 377.0,
+      "y": 125.0,
       "data": {
         "id": ""
       }
@@ -24,14 +24,14 @@
     {
       "id": "end",
       "type": "PipelineEnd",
-      "x": 385.0,
+      "x": 412.0,
       "y": 50.0
     },
     {
       "id": "d54b356d4a1242cab5e6cb3f836b1930",
       "type": "ValueColor",
       "x": 163.0,
-      "y": 601.0,
+      "y": 620.0,
       "data": {
         "color": "000000ff"
       }
@@ -40,8 +40,9 @@
       "id": "ff6f63af3181472da525343236652acd",
       "type": "GraphShaderRenderer",
       "x": 306.0,
-      "y": 225.0,
+      "y": 244.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "728c1b5a29f94be991cf761219dfef75",
@@ -64,7 +65,7 @@
                   "id": "c67e9085f7dc47e9b6f9ef315742a10e",
                   "type": "Property",
                   "x": 508.0,
-                  "y": 258.0,
+                  "y": 260.0,
                   "data": {
                     "name": "Specular Texture",
                     "type": "TextureRegion"
@@ -73,7 +74,7 @@
                 {
                   "id": "c2deac23337148a9b5a8c786e00478dd",
                   "type": "Property",
-                  "x": 711.0000610351562,
+                  "x": 711.0,
                   "y": 548.0,
                   "data": {
                     "name": "Emissive Color",
@@ -84,7 +85,7 @@
                   "id": "36e710d2263e4b998bf404930b8db882",
                   "type": "Multiply",
                   "x": 903.0,
-                  "y": 282.0
+                  "y": 284.0
                 },
                 {
                   "id": "f65c7c94d7ab401893c75a81faeee776",
@@ -99,7 +100,7 @@
                 {
                   "id": "456cdc704f4e49e8b7b6115b5804473d",
                   "type": "Sampler2D",
-                  "x": 712.0000610351562,
+                  "x": 712.0,
                   "y": 395.0
                 },
                 {
@@ -128,7 +129,7 @@
                   "id": "bce87c9decab4914abd6a172d851c514",
                   "type": "Property",
                   "x": 710.0,
-                  "y": 282.0,
+                  "y": 284.0,
                   "data": {
                     "name": "Specular Color",
                     "type": "Vector4"
@@ -164,7 +165,7 @@
                   "id": "af7e7313f5424b55954d6a16eafcb27f",
                   "type": "Sampler2D",
                   "x": 714.0,
-                  "y": 125.0
+                  "y": 127.0
                 },
                 {
                   "id": "26c315a4d2424e4e953d5263fa0f75d4",
@@ -236,8 +237,8 @@
                 {
                   "id": "567f85b4e38846b4905e982ae023d960",
                   "type": "WorldPosition",
-                  "x": 952.0,
-                  "y": 1000.0
+                  "x": 894.0,
+                  "y": 1006.0
                 }
               ],
               "connections": [
@@ -489,15 +490,6 @@
               ],
               "groups": [
                 {
-                  "name": "Diffuse",
-                  "nodes": [
-                    "ffd366ddd51246b29171086b39f91ace",
-                    "1dfd95b1cc7f49298240115710714c93",
-                    "26c315a4d2424e4e953d5263fa0f75d4",
-                    "ed1d588e101a40fb953a3f2efe70abca"
-                  ]
-                },
-                {
                   "name": "Specular",
                   "nodes": [
                     "c67e9085f7dc47e9b6f9ef315742a10e",
@@ -514,6 +506,15 @@
                     "2019351e62264cd6b45ad8c3781eb2d2",
                     "6726d27a0d914f6caaba01534d231163"
                   ]
+                },
+                {
+                  "name": "Diffuse",
+                  "nodes": [
+                    "ffd366ddd51246b29171086b39f91ace",
+                    "1dfd95b1cc7f49298240115710714c93",
+                    "26c315a4d2424e4e953d5263fa0f75d4",
+                    "ed1d588e101a40fb953a3f2efe70abca"
+                  ]
                 }
               ]
             }
@@ -528,8 +529,8 @@
                 {
                   "id": "71a4b8b843f64757855d64183ede30d8",
                   "type": "Skinning",
-                  "x": 346.0,
-                  "y": 1029.0,
+                  "x": 376.0,
+                  "y": 1144.0,
                   "data": {
                     "boneCount": 12,
                     "boneWeightCount": 4
@@ -538,7 +539,7 @@
                 {
                   "id": "b418bbc608dc4b67a96fa293dc0ce5ed",
                   "type": "ValueFloat",
-                  "x": 1248.0,
+                  "x": 1252.0,
                   "y": 315.0,
                   "data": {
                     "v1": 0.20000000298023224
@@ -553,8 +554,8 @@
                 {
                   "id": "9c390700cf564dcf813ce98f2705e293",
                   "type": "Multiply",
-                  "x": 2163.0,
-                  "y": 488.0
+                  "x": 2151.0,
+                  "y": 461.0
                 },
                 {
                   "id": "64cd39b3cbda437ba3edd269c8918624",
@@ -569,19 +570,19 @@
                 {
                   "id": "0a160173eee84e39bac8755301d7fc51",
                   "type": "Remap",
-                  "x": 1645.0,
+                  "x": 1647.0,
                   "y": 609.0
                 },
                 {
                   "id": "6202135db877465e8405f3d74b8d3a61",
                   "type": "Intensity",
-                  "x": 1248.0,
+                  "x": 1252.0,
                   "y": 254.0
                 },
                 {
                   "id": "c953ec4a360742dc97d0f72bec4d2f8f",
                   "type": "ValueVector2",
-                  "x": 1447.0,
+                  "x": 1449.0,
                   "y": 482.0,
                   "data": {
                     "v1": 0.0,
@@ -591,14 +592,14 @@
                 {
                   "id": "63e8f2f3f3434cd1a9f71a6fe5711562",
                   "type": "Smoothstep",
-                  "x": 1428.0,
+                  "x": 1432.0,
                   "y": 330.0
                 },
                 {
                   "id": "515dd9be3f4f42248e8e137228486d36",
                   "type": "ObjectNormalToWorld",
-                  "x": 574.0,
-                  "y": 805.0
+                  "x": 619.0,
+                  "y": 745.0
                 },
                 {
                   "id": "01ad6bcbf35b4dfdb60ebc84a11137ba",
@@ -612,8 +613,8 @@
                 {
                   "id": "fa77402d63be464187e20046c79e4e8c",
                   "type": "AmbientLight",
-                  "x": 1429.0,
-                  "y": 762.0,
+                  "x": 1390.0,
+                  "y": 909.0,
                   "data": {
                     "id": ""
                   }
@@ -633,20 +634,20 @@
                 {
                   "id": "72fbfc1b408146ec842185e243d51bc4",
                   "type": "Smoothstep",
-                  "x": 1446.0,
+                  "x": 1448.0,
                   "y": 609.0
                 },
                 {
                   "id": "da94bc99b65e44b2b6490064ba210d2f",
                   "type": "Intensity",
                   "x": 1645.0,
-                  "y": 762.0
+                  "y": 909.0
                 },
                 {
                   "id": "02320ce52706433e8e8b2b4fecca7eb4",
                   "type": "Add",
-                  "x": 1972.0,
-                  "y": 506.0
+                  "x": 1952.0,
+                  "y": 491.0
                 },
                 {
                   "id": "146ca684107a45b0ae273243e0403f6d",
@@ -671,13 +672,13 @@
                 {
                   "id": "15924b9d061841dfa0e40f9f1217163a",
                   "type": "WorldPosition",
-                  "x": 591.0,
-                  "y": 918.0
+                  "x": 659.0,
+                  "y": 812.0
                 },
                 {
                   "id": "3f3d045e866c4d9a962d8b0294dfaa96",
                   "type": "ValueVector2",
-                  "x": 1448.0,
+                  "x": 1450.0,
                   "y": 545.0,
                   "data": {
                     "v1": 0.0,
@@ -697,7 +698,7 @@
                 {
                   "id": "063a647eb2d0465ca18db7fba690d7d6",
                   "type": "ValueFloat",
-                  "x": 1251.0,
+                  "x": 1253.0,
                   "y": 654.0,
                   "data": {
                     "v1": 0.25
@@ -706,13 +707,13 @@
                 {
                   "id": "b5eec827755c4271b161c6214ce63ec4",
                   "type": "Intensity",
-                  "x": 1249.0,
+                  "x": 1251.0,
                   "y": 537.0
                 },
                 {
                   "id": "7001f58b833a42849e42c1fab99ea758",
                   "type": "ValueFloat",
-                  "x": 1248.0,
+                  "x": 1252.0,
                   "y": 375.0,
                   "data": {
                     "v1": 0.014999999664723873
@@ -731,7 +732,7 @@
                 {
                   "id": "8a08efac54a740eabf38bcf394b08b4b",
                   "type": "ValueFloat",
-                  "x": 1252.0,
+                  "x": 1254.0,
                   "y": 594.0,
                   "data": {
                     "v1": 0.2549999952316284
@@ -959,6 +960,18 @@
               ],
               "groups": [
                 {
+                  "name": "Diffuse lighting",
+                  "nodes": [
+                    "b5eec827755c4271b161c6214ce63ec4",
+                    "063a647eb2d0465ca18db7fba690d7d6",
+                    "3f3d045e866c4d9a962d8b0294dfaa96",
+                    "c953ec4a360742dc97d0f72bec4d2f8f",
+                    "72fbfc1b408146ec842185e243d51bc4",
+                    "8a08efac54a740eabf38bcf394b08b4b",
+                    "0a160173eee84e39bac8755301d7fc51"
+                  ]
+                },
+                {
                   "name": "Ambient lighting",
                   "nodes": [
                     "fa77402d63be464187e20046c79e4e8c",
@@ -972,18 +985,6 @@
                     "7001f58b833a42849e42c1fab99ea758",
                     "6202135db877465e8405f3d74b8d3a61",
                     "63e8f2f3f3434cd1a9f71a6fe5711562"
-                  ]
-                },
-                {
-                  "name": "Diffuse lighting",
-                  "nodes": [
-                    "b5eec827755c4271b161c6214ce63ec4",
-                    "063a647eb2d0465ca18db7fba690d7d6",
-                    "3f3d045e866c4d9a962d8b0294dfaa96",
-                    "c953ec4a360742dc97d0f72bec4d2f8f",
-                    "72fbfc1b408146ec842185e243d51bc4",
-                    "8a08efac54a740eabf38bcf394b08b4b",
-                    "0a160173eee84e39bac8755301d7fc51"
                   ]
                 },
                 {
@@ -1001,8 +1002,8 @@
     {
       "id": "746da9b276d442f0bc74ed9847a26a4b",
       "type": "PipelineStart",
-      "x": 385.0,
-      "y": 576.0
+      "x": 412.0,
+      "y": 593.0
     }
   ],
   "connections": [

@@ -18,6 +18,7 @@
       "x": 397.0,
       "y": 767.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "01d1f6dce1e548769420cec52e5249a8",
@@ -118,6 +119,7 @@
                   "x": 2373.0,
                   "y": 50.0,
                   "data": {
+                    "positionType": "World space",
                     "blending": "opaque",
                     "depthTest": "less"
                   }
@@ -391,6 +393,7 @@
                 {
                   "name": "Texture",
                   "type": "TextureRegion",
+                  "location": "Attribute",
                   "data": {
                     "previewPath": null
                   }
@@ -398,6 +401,7 @@
                 {
                   "name": "Anchor",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.5,
                     "y": 0.5
@@ -406,6 +410,7 @@
                 {
                   "name": "Size",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 50.0,
                     "y": 50.0
@@ -414,18 +419,18 @@
               ],
               "groups": [
                 {
+                  "name": "Parallax factor",
+                  "nodes": [
+                    "29b664b17e3747e4a3fb05f02f3a812f",
+                    "cb9c0c5cb1784d1daf91e97f5973e68b"
+                  ]
+                },
+                {
                   "name": "Camera XY",
                   "nodes": [
                     "1474f3282cf54105ac5ae44a1c6b7079",
                     "46f737d07f7c4778931657561edadc26",
                     "7475fa5707d3431699bcb86dfa9744b3"
-                  ]
-                },
-                {
-                  "name": "Parallax factor",
-                  "nodes": [
-                    "29b664b17e3747e4a3fb05f02f3a812f",
-                    "cb9c0c5cb1784d1daf91e97f5973e68b"
                   ]
                 }
               ]
@@ -479,6 +484,7 @@
       "x": 399.0,
       "y": 252.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "655a2dce015649fab9dbbde01974d0e9",
@@ -598,6 +604,7 @@
                   "x": 1489.0,
                   "y": 125.0,
                   "data": {
+                    "positionType": "World space",
                     "blending": "opaque",
                     "depthTest": "less"
                   }
@@ -737,6 +744,7 @@
                 {
                   "name": "Texture",
                   "type": "TextureRegion",
+                  "location": "Attribute",
                   "data": {
                     "previewPath": null
                   }
@@ -744,6 +752,7 @@
                 {
                   "name": "Animation Start",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.0
                   }
@@ -751,6 +760,7 @@
                 {
                   "name": "Animation Speed",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0
                   }
@@ -758,6 +768,7 @@
                 {
                   "name": "Animation Looping",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0
                   }
@@ -765,6 +776,7 @@
                 {
                   "name": "Sprite Count",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0,
                     "y": 1.0
@@ -773,6 +785,7 @@
                 {
                   "name": "Size",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 20.0,
                     "y": 20.0
@@ -781,6 +794,7 @@
                 {
                   "name": "Anchor",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.5,
                     "y": 0.5
@@ -886,6 +900,7 @@
                   "x": 925.0,
                   "y": 50.0,
                   "data": {
+                    "positionType": "World space",
                     "blending": "opaque",
                     "depthTest": "less"
                   }
@@ -985,6 +1000,7 @@
                 {
                   "name": "Tile Repeat",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0,
                     "y": 1.0
@@ -993,6 +1009,7 @@
                 {
                   "name": "Tile Texture",
                   "type": "TextureRegion",
+                  "location": "Attribute",
                   "data": {
                     "previewPath": "/Users/marcin.sciesinski/private/libgdx-graph/libgdx-graph-test/resources/image/MossyHill1.png"
                   }
@@ -1000,6 +1017,7 @@
                 {
                   "name": "Tile Offset",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.0,
                     "y": 0.0
@@ -1008,6 +1026,7 @@
                 {
                   "name": "Anchor",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.5,
                     "y": 0.5
@@ -1016,6 +1035,7 @@
                 {
                   "name": "Size",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 50.0,
                     "y": 50.0
@@ -1132,6 +1152,7 @@
                   "x": 1611.0,
                   "y": 353.0,
                   "data": {
+                    "positionType": "World space",
                     "blending": "opaque",
                     "depthTest": "less"
                   }
@@ -1409,6 +1430,7 @@
                 {
                   "name": "Texture",
                   "type": "TextureRegion",
+                  "location": "Attribute",
                   "data": {
                     "previewPath": "/Users/marcin.sciesinski/Downloads/Plant Animations/PlantJump2/JumpPlant 2_00000.png"
                   }
@@ -1416,6 +1438,7 @@
                 {
                   "name": "Animation Start",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.0
                   }
@@ -1423,6 +1446,7 @@
                 {
                   "name": "Animation Speed",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0
                   }
@@ -1430,6 +1454,7 @@
                 {
                   "name": "Animation Looping",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0
                   }
@@ -1437,6 +1462,7 @@
                 {
                   "name": "Sprite Count",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0,
                     "y": 1.0
@@ -1445,6 +1471,7 @@
                 {
                   "name": "Outline Width",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 3.0
                   }
@@ -1452,6 +1479,7 @@
                 {
                   "name": "Anchor",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.5,
                     "y": 0.5
@@ -1460,6 +1488,7 @@
                 {
                   "name": "Size",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 50.0,
                     "y": 50.0
@@ -1667,6 +1696,7 @@
                   "x": 1638.0,
                   "y": 150.0,
                   "data": {
+                    "positionType": "World space",
                     "blending": "alpha",
                     "depthTest": "less"
                   }
@@ -1826,6 +1856,7 @@
                 {
                   "name": "Texture",
                   "type": "TextureRegion",
+                  "location": "Attribute",
                   "data": {
                     "previewPath": "/Users/marcin.sciesinski/private/libgdx-graph/libgdx-graph-test/resources/image/SlimeOrange-outline.png"
                   }
@@ -1833,6 +1864,7 @@
                 {
                   "name": "Animation Start",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.0
                   }
@@ -1840,6 +1872,7 @@
                 {
                   "name": "Animation Speed",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0
                   }
@@ -1847,6 +1880,7 @@
                 {
                   "name": "Animation Looping",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0
                   }
@@ -1854,6 +1888,7 @@
                 {
                   "name": "Sprite Count",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0,
                     "y": 1.0
@@ -1862,6 +1897,7 @@
                 {
                   "name": "Outline",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.0
                   }
@@ -1869,6 +1905,7 @@
                 {
                   "name": "Anchor",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.5,
                     "y": 0.5
@@ -1877,6 +1914,7 @@
                 {
                   "name": "Size",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 50.0,
                     "y": 50.0

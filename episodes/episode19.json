@@ -6,7 +6,7 @@
       "id": "72be9695e45949ccb5f449dbacdfd619",
       "type": "Property",
       "x": 50.0,
-      "y": 478.0,
+      "y": 479.0,
       "data": {
         "name": "Camera",
         "type": "Camera"
@@ -15,8 +15,8 @@
     {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
-      "x": 383.0,
-      "y": 132.0,
+      "x": 409.0,
+      "y": 134.0,
       "data": {
         "id": ""
       }
@@ -24,14 +24,14 @@
     {
       "id": "end",
       "type": "PipelineEnd",
-      "x": 418.0,
+      "x": 444.0,
       "y": 50.0
     },
     {
       "id": "d54b356d4a1242cab5e6cb3f836b1930",
       "type": "ValueColor",
       "x": 218.0,
-      "y": 636.0,
+      "y": 637.0,
       "data": {
         "color": "638c99ff"
       }
@@ -40,8 +40,9 @@
       "id": "ce7263bb711843b590f125cc3f49f1e9",
       "type": "SpriteShaderRenderer",
       "x": 338.0,
-      "y": 252.0,
+      "y": 253.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "655a2dce015649fab9dbbde01974d0e9",
@@ -161,6 +162,7 @@
                   "x": 1489.0,
                   "y": 125.0,
                   "data": {
+                    "positionType": "World space",
                     "blending": "opaque",
                     "depthTest": "less"
                   }
@@ -300,6 +302,7 @@
                 {
                   "name": "Texture",
                   "type": "TextureRegion",
+                  "location": "Attribute",
                   "data": {
                     "previewPath": null
                   }
@@ -307,6 +310,7 @@
                 {
                   "name": "Animation Start",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.0
                   }
@@ -314,6 +318,7 @@
                 {
                   "name": "Animation Speed",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0
                   }
@@ -321,6 +326,7 @@
                 {
                   "name": "Animation Looping",
                   "type": "Float",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0
                   }
@@ -328,6 +334,7 @@
                 {
                   "name": "Sprite Count",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0,
                     "y": 1.0
@@ -336,6 +343,7 @@
                 {
                   "name": "Size",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 20.0,
                     "y": 20.0
@@ -344,6 +352,7 @@
                 {
                   "name": "Anchor",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.5,
                     "y": 0.5
@@ -449,6 +458,7 @@
                   "x": 925.0,
                   "y": 50.0,
                   "data": {
+                    "positionType": "World space",
                     "blending": "opaque",
                     "depthTest": "less"
                   }
@@ -548,6 +558,7 @@
                 {
                   "name": "Tile Repeat",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 1.0,
                     "y": 1.0
@@ -556,6 +567,7 @@
                 {
                   "name": "Tile Texture",
                   "type": "TextureRegion",
+                  "location": "Attribute",
                   "data": {
                     "previewPath": "/Users/marcin.sciesinski/private/libgdx-graph/libgdx-graph-test/resources/image/MossyHill1.png"
                   }
@@ -563,6 +575,7 @@
                 {
                   "name": "Tile Offset",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.0,
                     "y": 0.0
@@ -571,6 +584,7 @@
                 {
                   "name": "Anchor",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 0.5,
                     "y": 0.5
@@ -579,6 +593,7 @@
                 {
                   "name": "Size",
                   "type": "Vector2",
+                  "location": "Attribute",
                   "data": {
                     "x": 50.0,
                     "y": 50.0
@@ -594,8 +609,8 @@
     {
       "id": "746da9b276d442f0bc74ed9847a26a4b",
       "type": "PipelineStart",
-      "x": 417.0,
-      "y": 610.0
+      "x": 444.0,
+      "y": 614.0
     }
   ],
   "connections": [

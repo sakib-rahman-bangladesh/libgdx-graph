@@ -6,7 +6,7 @@
       "id": "72be9695e45949ccb5f449dbacdfd619",
       "type": "Property",
       "x": 50.0,
-      "y": 797.0,
+      "y": 816.0,
       "data": {
         "name": "Camera",
         "type": "Camera"
@@ -15,9 +15,10 @@
     {
       "id": "0f6f63af3181472da525343236652acd",
       "type": "GraphShaderRenderer",
-      "x": 306.0,
-      "y": 245.0,
+      "x": 276.0,
+      "y": 251.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "6f24d928d2a34b0086660402de7da94a",
@@ -30,18 +31,18 @@
                   "id": "9e7a455d026040488d1d2d9397668a3a",
                   "type": "WorldPosition",
                   "x": 50.0,
-                  "y": 233.0
+                  "y": 277.9999694824219
                 },
                 {
                   "id": "82db704d472b4b87b373d41ded46735c",
                   "type": "Distance",
-                  "x": 254.0,
-                  "y": 249.0
+                  "x": 304.99993896484375,
+                  "y": 259.0
                 },
                 {
                   "id": "596766ffe2984c7a9dc9894aa20ca02f",
                   "type": "Property",
-                  "x": 1025.0,
+                  "x": 1079.0,
                   "y": 513.0,
                   "data": {
                     "name": "Position",
@@ -51,31 +52,31 @@
                 {
                   "id": "97e84e49609c4cb2b45e936365d4d1d2",
                   "type": "CameraPosition",
-                  "x": 56.0,
-                  "y": 148.0
+                  "x": 107.0,
+                  "y": 207.99996948242188
                 },
                 {
                   "id": "3ba2b32874f14d02a026ca9f4b35b28d",
                   "type": "ScreenPosition",
-                  "x": 56.0,
-                  "y": 344.0
+                  "x": 107.0,
+                  "y": 355.9999694824219
                 },
                 {
                   "id": "791d0bf3fbd449b6bb34a6fb2535a064",
                   "type": "Subtract",
-                  "x": 853.0,
+                  "x": 907.0,
                   "y": 311.0
                 },
                 {
                   "id": "438865ad077748ddaed7719a211393ec",
                   "type": "Subtract",
-                  "x": 469.0,
-                  "y": 326.0
+                  "x": 519.9999389648438,
+                  "y": 336.0
                 },
                 {
                   "id": "91d80c47af354974a5280fea0b5dc67a",
                   "type": "ValueFloat",
-                  "x": 470.0,
+                  "x": 524.0,
                   "y": 50.0,
                   "data": {
                     "v1": 0.5
@@ -84,13 +85,13 @@
                 {
                   "id": "a0a9ef5bd5be45f0929322240598196b",
                   "type": "Divide",
-                  "x": 663.0,
+                  "x": 717.0,
                   "y": 229.0
                 },
                 {
                   "id": "980ea652f1164fc98bc42962aa87ce4b",
                   "type": "ValueFloat",
-                  "x": 840.0,
+                  "x": 894.0,
                   "y": 124.0,
                   "data": {
                     "v1": 0.20000000298023224
@@ -99,13 +100,13 @@
                 {
                   "id": "3850e67ed1ca4a04a220a7b2ffbba745",
                   "type": "SceneDepth",
-                  "x": 253.0,
-                  "y": 343.0
+                  "x": 303.99993896484375,
+                  "y": 353.0
                 },
                 {
                   "id": "0e03ee2be4e643ba9ab526bd60de4b1e",
                   "type": "ValueFloat",
-                  "x": 656.0,
+                  "x": 710.0,
                   "y": 350.0,
                   "data": {
                     "v1": 1.0
@@ -114,7 +115,7 @@
                 {
                   "id": "a9e83b9dd6b84ea4a6642a7e913ad51d",
                   "type": "ValueColor",
-                  "x": 1026.0,
+                  "x": 1080.0,
                   "y": 446.0,
                   "data": {
                     "color": "295699ff"
@@ -123,7 +124,7 @@
                 {
                   "id": "end",
                   "type": "ShaderEnd",
-                  "x": 1261.0,
+                  "x": 1315.0,
                   "y": 85.0,
                   "data": {
                     "positionType": "Object space",
@@ -135,7 +136,7 @@
                 {
                   "id": "52eb9bca533341bd91819aa270dfd348",
                   "type": "Maximum",
-                  "x": 1055.0,
+                  "x": 1109.0,
                   "y": 250.0
                 }
               ],
@@ -245,19 +246,20 @@
                   ]
                 },
                 {
-                  "name": "Default alpha",
-                  "nodes": [
-                    "980ea652f1164fc98bc42962aa87ce4b"
-                  ]
-                },
-                {
                   "name": "Pixel distance from scene",
                   "nodes": [
                     "438865ad077748ddaed7719a211393ec",
                     "82db704d472b4b87b373d41ded46735c",
                     "3850e67ed1ca4a04a220a7b2ffbba745",
+                    "9e7a455d026040488d1d2d9397668a3a",
                     "97e84e49609c4cb2b45e936365d4d1d2",
                     "3ba2b32874f14d02a026ca9f4b35b28d"
+                  ]
+                },
+                {
+                  "name": "Default alpha",
+                  "nodes": [
+                    "980ea652f1164fc98bc42962aa87ce4b"
                   ]
                 }
               ]
@@ -269,8 +271,8 @@
     {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
-      "x": 386.0,
-      "y": 136.0,
+      "x": 347.0,
+      "y": 127.0,
       "data": {
         "id": ""
       }
@@ -278,14 +280,14 @@
     {
       "id": "end",
       "type": "PipelineEnd",
-      "x": 386.0,
+      "x": 382.0,
       "y": 50.0
     },
     {
       "id": "d54b356d4a1242cab5e6cb3f836b1930",
       "type": "ValueColor",
       "x": 158.0,
-      "y": 948.0,
+      "y": 967.0,
       "data": {
         "color": "000000ff"
       }
@@ -293,9 +295,10 @@
     {
       "id": "ff6f63af3181472da525343236652acd",
       "type": "GraphShaderRenderer",
-      "x": 305.0,
-      "y": 574.0,
+      "x": 276.0,
+      "y": 596.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "e5fdf60cf0b748f1a7e7c6fe434a459b",
@@ -372,7 +375,7 @@
       "id": "746da9b276d442f0bc74ed9847a26a4b",
       "type": "PipelineStart",
       "x": 384.0,
-      "y": 925.0
+      "y": 944.0
     }
   ],
   "connections": [

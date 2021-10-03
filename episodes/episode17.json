@@ -6,8 +6,9 @@
       "id": "ab9169f2cec74938876cc48202e635a1",
       "type": "GraphShaderRenderer",
       "x": 304.0,
-      "y": 293.0,
+      "y": 289.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "8629233c7ee440bdba5ae52f1c27443e",
@@ -334,7 +335,7 @@
       "id": "72be9695e45949ccb5f449dbacdfd619",
       "type": "Property",
       "x": 50.0,
-      "y": 517.0,
+      "y": 513.0,
       "data": {
         "name": "Camera",
         "type": "Camera"
@@ -343,8 +344,8 @@
     {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
-      "x": 383.0,
-      "y": 136.0,
+      "x": 374.0,
+      "y": 137.0,
       "data": {
         "id": ""
       }
@@ -352,14 +353,14 @@
     {
       "id": "end",
       "type": "PipelineEnd",
-      "x": 383.0,
+      "x": 409.0,
       "y": 50.0
     },
     {
       "id": "d54b356d4a1242cab5e6cb3f836b1930",
       "type": "ValueColor",
       "x": 162.0,
-      "y": 648.0,
+      "y": 644.0,
       "data": {
         "color": "000000ff"
       }
@@ -367,8 +368,8 @@
     {
       "id": "746da9b276d442f0bc74ed9847a26a4b",
       "type": "PipelineStart",
-      "x": 383.0,
-      "y": 625.0
+      "x": 410.0,
+      "y": 632.0
     }
   ],
   "connections": [

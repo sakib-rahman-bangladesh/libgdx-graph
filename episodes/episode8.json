@@ -6,7 +6,7 @@
       "id": "72be9695e45949ccb5f449dbacdfd619",
       "type": "Property",
       "x": 50.0,
-      "y": 408.0,
+      "y": 424.0,
       "data": {
         "name": "Camera",
         "type": "Camera"
@@ -15,8 +15,8 @@
     {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
-      "x": 366.0,
-      "y": 125.0,
+      "x": 341.0,
+      "y": 133.0,
       "data": {
         "id": ""
       }
@@ -24,14 +24,14 @@
     {
       "id": "end",
       "type": "PipelineEnd",
-      "x": 385.0,
+      "x": 376.0,
       "y": 50.0
     },
     {
       "id": "d54b356d4a1242cab5e6cb3f836b1930",
       "type": "ValueColor",
-      "x": 163.0,
-      "y": 601.0,
+      "x": 110.0,
+      "y": 614.0,
       "data": {
         "color": "000000ff"
       }
@@ -39,9 +39,10 @@
     {
       "id": "ff6f63af3181472da525343236652acd",
       "type": "GraphShaderRenderer",
-      "x": 323.0,
-      "y": 243.0,
+      "x": 270.0,
+      "y": 256.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "c9834e7f9b834ae7a2603aa5f483db77",
@@ -54,7 +55,7 @@
                   "id": "c67e9085f7dc47e9b6f9ef315742a10e",
                   "type": "Property",
                   "x": 508.0,
-                  "y": 258.0,
+                  "y": 260.0,
                   "data": {
                     "name": "Specular Texture",
                     "type": "TextureRegion"
@@ -84,7 +85,7 @@
                   "id": "36e710d2263e4b998bf404930b8db882",
                   "type": "Multiply",
                   "x": 903.0,
-                  "y": 282.0
+                  "y": 284.0
                 },
                 {
                   "id": "f65c7c94d7ab401893c75a81faeee776",
@@ -206,7 +207,7 @@
                   "id": "bce87c9decab4914abd6a172d851c514",
                   "type": "Property",
                   "x": 710.0,
-                  "y": 282.0,
+                  "y": 284.0,
                   "data": {
                     "name": "Specular Color",
                     "type": "Vector4"
@@ -232,7 +233,7 @@
                   "id": "af7e7313f5424b55954d6a16eafcb27f",
                   "type": "Sampler2D",
                   "x": 714.0,
-                  "y": 125.0
+                  "y": 127.0
                 },
                 {
                   "id": "26c315a4d2424e4e953d5263fa0f75d4",
@@ -606,8 +607,8 @@
     {
       "id": "746da9b276d442f0bc74ed9847a26a4b",
       "type": "PipelineStart",
-      "x": 385.0,
-      "y": 576.0
+      "x": 376.0,
+      "y": 599.0
     }
   ],
   "connections": [
