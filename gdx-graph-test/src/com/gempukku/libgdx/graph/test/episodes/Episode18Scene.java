@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -27,16 +27,13 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
-import com.gempukku.libgdx.graph.plugin.models.GraphModel;
-import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.TagOptimizationHint;
+import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.plugin.particles.generator.DefaultParticleGenerator;
 import com.gempukku.libgdx.graph.plugin.particles.generator.LinePositionGenerator;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
-import com.gempukku.libgdx.graph.shader.TransformUpdate;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -102,17 +99,12 @@ public class Episode18Scene implements LibgdxGraphTestScene {
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.classpath("model/fighter/fighter.g3db"));
 
-        GraphModel modelId = models.registerModel(model);
+        ModelInstance modelInstance = new ModelInstance(model);
         final float scale = 0.0008f;
-        GraphModelInstance shipInstance = models.createModelInstance(modelId);
-        models.updateTransform(shipInstance,
-                new TransformUpdate() {
-                    @Override
-                    public void updateTransform(Matrix4 transform) {
-                        transform.scale(scale, scale, scale).rotate(-1, 0, 0f, 90);
-                    }
-                });
-        models.addTag(shipInstance, "Default", TagOptimizationHint.Temporary);
+        modelInstance.transform.idt().scale(scale, scale, scale).rotate(-1, 0, 0f, 90);
+
+        MaterialModelInstanceRenderableModelAdapter modelAdapter = new MaterialModelInstanceRenderableModelAdapter(modelInstance, models);
+        modelAdapter.register("Default");
 
         float height = 0.22f;
         float distance = -1f;

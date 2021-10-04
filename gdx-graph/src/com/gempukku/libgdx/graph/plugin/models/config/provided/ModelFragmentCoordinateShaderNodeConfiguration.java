@@ -6,7 +6,7 @@ import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
 public class ModelFragmentCoordinateShaderNodeConfiguration extends NodeConfigurationImpl {
     public ModelFragmentCoordinateShaderNodeConfiguration() {
-        super("ModelFragmentCoordinate", "Model fragment coordinate", "Provided");
+        super("ModelFragmentCoordinate", "Model fragment coordinate", "Model");
         addNodeOutput(
                 new GraphNodeOutputImpl("output", "Output", ShaderFieldType.Vector2));
     }

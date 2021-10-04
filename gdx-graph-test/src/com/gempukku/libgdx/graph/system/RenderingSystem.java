@@ -5,6 +5,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
@@ -39,16 +40,16 @@ public class RenderingSystem extends EntitySystem implements SpriteProducer.Text
     public void entityAdded(Entity entity) {
         SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
 
-        GraphSprites graphSprites = pipelineRenderer.getPluginData(GraphSprites.class);
-        GraphSprite graphSprite = graphSprites.createSprite(tmpPosition);
-        spriteComponent.setGraphSprite(graphSprite);
+        Sprite sprite = SpriteProducer.createSprite(entity, this, spriteComponent);
 
-        Sprite sprite = SpriteProducer.createSprite(entity, this, graphSprite, spriteComponent);
-        sprite.updateSprite(timeProvider, pipelineRenderer);
+        ObjectMap<String, GraphSprite> spriteObjectMap = new ObjectMap<>();
+        spriteComponent.setGraphSprites(spriteObjectMap);
         spriteComponent.setSprite(sprite);
 
+        GraphSprites graphSprites = pipelineRenderer.getPluginData(GraphSprites.class);
         for (String tag : spriteComponent.getTags()) {
-            graphSprites.addTag(graphSprite, tag);
+            GraphSprite graphSprite = graphSprites.addSprite(tag, sprite);
+            spriteObjectMap.put(tag, graphSprite);
         }
     }
 
@@ -59,9 +60,15 @@ public class RenderingSystem extends EntitySystem implements SpriteProducer.Text
 
     @Override
     public void update(float delta) {
+        GraphSprites graphSprites = pipelineRenderer.getPluginData(GraphSprites.class);
         for (Entity spriteEntity : spriteEntities) {
             SpriteComponent sprite = spriteEntity.getComponent(SpriteComponent.class);
-            sprite.getSprite().updateSprite(timeProvider, pipelineRenderer);
+            boolean wasDirty = sprite.getSprite().cleanup(timeProvider, pipelineRenderer);
+            if (wasDirty) {
+                for (GraphSprite graphSprite : sprite.getGraphSprites().values()) {
+                    graphSprites.updateSprite(graphSprite);
+                }
+            }
         }
     }
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,11 +24,9 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
-import com.gempukku.libgdx.graph.plugin.models.GraphModel;
-import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
+import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
-import com.gempukku.libgdx.graph.shader.Transforms;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -124,18 +123,19 @@ public class Episode13Scene implements LibgdxGraphTestScene {
 
     private void registerModels(GraphModels models) {
         float cylinderHeight = 8f;
-        GraphModel tiledWallId = models.registerModel(tiledWall);
-        models.addModelDefaultTag(tiledWallId, "tiled-wall");
-        models.createModelInstance(tiledWallId);
 
-        GraphModel burnerId = models.registerModel(burner);
-        models.addModelDefaultTag(burnerId, "burner");
-        models.createModelInstance(burnerId);
+        ModelInstance wallInstance = new ModelInstance(tiledWall);
+        MaterialModelInstanceRenderableModelAdapter wallAdapter = new MaterialModelInstanceRenderableModelAdapter(wallInstance, models);
+        wallAdapter.register("tiled-wall");
 
-        GraphModel cylinderId = models.registerModel(cylinder);
-        models.addModelDefaultTag(cylinderId, "heat-displacement");
-        GraphModelInstance cylinderInstanceId = models.createModelInstance(cylinderId);
-        models.updateTransform(cylinderInstanceId, Transforms.create().translate(0, 0.05f + cylinderHeight / 2f, 0f));
+        ModelInstance burnerInstance = new ModelInstance(burner);
+        MaterialModelInstanceRenderableModelAdapter burnerAdapter = new MaterialModelInstanceRenderableModelAdapter(burnerInstance, models);
+        burnerAdapter.register("burner");
+
+        ModelInstance cylinderInstance = new ModelInstance(cylinder);
+        cylinderInstance.transform.idt().translate(0, 0.05f + cylinderHeight / 2f, 0f);
+        MaterialModelInstanceRenderableModelAdapter cylinderAdapter = new MaterialModelInstanceRenderableModelAdapter(cylinderInstance, models);
+        cylinderAdapter.register("heat-displacement");
     }
 
     private Stage createStage() {

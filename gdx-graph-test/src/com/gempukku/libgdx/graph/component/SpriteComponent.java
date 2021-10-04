@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.component;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.entity.def.SimpleSpriteDef;
 import com.gempukku.libgdx.graph.entity.def.StateBasedSpriteDef;
 import com.gempukku.libgdx.graph.entity.def.TiledSpriteDef;
@@ -16,7 +17,7 @@ public class SpriteComponent implements Component {
     private SimpleSpriteDef simpleSprite;
 
     private Sprite sprite;
-    private GraphSprite graphSprite;
+    private ObjectMap<String, GraphSprite> graphSprites;
 
     public Sprite getSprite() {
         return sprite;
@@ -26,12 +27,12 @@ public class SpriteComponent implements Component {
         this.sprite = sprite;
     }
 
-    public GraphSprite getGraphSprite() {
-        return graphSprite;
+    public ObjectMap<String, GraphSprite> getGraphSprites() {
+        return graphSprites;
     }
 
-    public void setGraphSprite(GraphSprite graphSprite) {
-        this.graphSprite = graphSprite;
+    public void setGraphSprites(ObjectMap<String, GraphSprite> graphSprites) {
+        this.graphSprites = graphSprites;
     }
 
     public String[] getTags() {

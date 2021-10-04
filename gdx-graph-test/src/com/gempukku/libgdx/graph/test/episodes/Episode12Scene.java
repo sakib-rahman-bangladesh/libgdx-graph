@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -26,9 +27,9 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
-import com.gempukku.libgdx.graph.plugin.models.GraphModel;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
+import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -48,6 +49,7 @@ public class Episode12Scene implements LibgdxGraphTestScene {
     private Lighting3DEnvironment lights;
     private GraphModelInstance sphereInstanceId;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
+    private MaterialModelInstanceRenderableModelAdapter sphereModel;
 
     @Override
     public void initializeScene() {
@@ -97,11 +99,8 @@ public class Episode12Scene implements LibgdxGraphTestScene {
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
         disposables.add(sphere);
 
-        GraphModel sphereId = models.registerModel(sphere);
-
-        models.addModelDefaultTag(sphereId, "dissolve");
-
-        sphereInstanceId = models.createModelInstance(sphereId);
+        sphereModel = new MaterialModelInstanceRenderableModelAdapter(new ModelInstance(sphere), models);
+        sphereModel.register("dissolve");
     }
 
     private Stage createStage() {
@@ -194,8 +193,7 @@ public class Episode12Scene implements LibgdxGraphTestScene {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        GraphModels models = pipelineRenderer.getPluginData(GraphModels.class);
-                        models.setProperty(sphereInstanceId, propertyName, slider.getValue());
+                        sphereModel.setProperty(propertyName, slider.getValue());
                     }
                 });
     }

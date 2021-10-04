@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -26,13 +26,11 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
-import com.gempukku.libgdx.graph.plugin.models.GraphModel;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.TagOptimizationHint;
+import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.screen.GraphScreenShaders;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
-import com.gempukku.libgdx.graph.shader.TransformUpdate;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -93,18 +91,12 @@ public class Episode16Scene implements LibgdxGraphTestScene {
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.classpath("model/luminaris/luminaris.g3dj"));
 
-        GraphModel modelId = models.registerModel(model);
+        ModelInstance modelInstance = new ModelInstance(model);
         final float scale = 0.025f;
-        modelInstance = models.createModelInstance(modelId);
-        models.updateTransform(modelInstance,
-                new TransformUpdate() {
-                    @Override
-                    public void updateTransform(Matrix4 transform) {
-                        transform.translate(-0.3f, 0.11f, 0).scale(scale, scale, scale);//.rotate(-1, 0, 0f, 90);
-                    }
-                }
-        );
-        models.addTag(modelInstance, "Default", TagOptimizationHint.Always);
+        modelInstance.transform.idt().translate(-0.3f, 0.11f, 0).scale(scale, scale, scale);
+
+        MaterialModelInstanceRenderableModelAdapter modelAdapter = new MaterialModelInstanceRenderableModelAdapter(modelInstance, models);
+        modelAdapter.register("Default");
     }
 
     private Stage createStage() {

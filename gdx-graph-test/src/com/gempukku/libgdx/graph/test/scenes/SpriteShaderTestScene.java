@@ -12,6 +12,7 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
 import com.gempukku.libgdx.graph.plugin.sprites.GraphSprites;
 import com.gempukku.libgdx.graph.plugin.sprites.ValuePerVertex;
+import com.gempukku.libgdx.graph.plugin.sprites.impl.CommonPropertiesRenderableSprite;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
@@ -31,15 +32,16 @@ public class SpriteShaderTestScene implements LibgdxGraphTestScene {
 
         GraphSprites graphSprites = pipelineRenderer.getPluginData(GraphSprites.class);
 
-        GraphSprite sprite1 = graphSprites.createSprite(new Vector3(0, 0, -10));
+        CommonPropertiesRenderableSprite renderableSprite1 = new CommonPropertiesRenderableSprite(new Vector3(0, 0, -10));
         ValuePerVertex colorPerVertex = new ValuePerVertex(
                 new Vector2(0, 1), new Vector2(1, 0), new Vector2(0, 0), new Vector2(1, 1));
+        renderableSprite1.getPropertyContainer("Test").setValue("Vertex Color", colorPerVertex);
 
-        graphSprites.setProperty(sprite1, "Vertex Color", colorPerVertex);
-        graphSprites.addTag(sprite1, "Test");
+        CommonPropertiesRenderableSprite renderableSprite2 = new CommonPropertiesRenderableSprite(new Vector3(150, 0, -10));
 
-        GraphSprite sprite2 = graphSprites.createSprite(new Vector3(150, 0, -10));
-        graphSprites.addTag(sprite2, "Test");
+
+        GraphSprite sprite1 = graphSprites.addSprite("Test", renderableSprite1);
+        GraphSprite sprite2 = graphSprites.addSprite("Test", renderableSprite2);
 
         graphSprites.setGlobalProperty("Test", "Color", new Vector2(1f, 1f));
     }

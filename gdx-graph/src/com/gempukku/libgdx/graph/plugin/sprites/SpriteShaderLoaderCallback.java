@@ -10,10 +10,12 @@ import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
 
 public class SpriteShaderLoaderCallback extends GraphDataLoaderCallback<SpriteGraphShader, ShaderFieldType> {
+    private String tag;
     private Texture defaultTexture;
     private GraphConfiguration[] graphConfigurations;
 
-    public SpriteShaderLoaderCallback(Texture defaultTexture, GraphConfiguration... graphConfiguration) {
+    public SpriteShaderLoaderCallback(String tag, Texture defaultTexture, GraphConfiguration... graphConfiguration) {
+        this.tag = tag;
         this.defaultTexture = defaultTexture;
         graphConfigurations = graphConfiguration;
     }
@@ -30,7 +32,7 @@ public class SpriteShaderLoaderCallback extends GraphDataLoaderCallback<SpriteGr
         if (result.hasErrors())
             throw new IllegalStateException("The graph contains errors, open it in the graph designer and correct them");
 
-        return GraphShaderBuilder.buildSpriteShader(defaultTexture, this, false);
+        return GraphShaderBuilder.buildSpriteShader(tag, defaultTexture, this, false);
     }
 
     @Override

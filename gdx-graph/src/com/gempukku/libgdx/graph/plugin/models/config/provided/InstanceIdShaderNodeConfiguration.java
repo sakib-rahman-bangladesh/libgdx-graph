@@ -6,7 +6,7 @@ import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 
 public class InstanceIdShaderNodeConfiguration extends NodeConfigurationImpl {
     public InstanceIdShaderNodeConfiguration() {
-        super("InstanceID", "Instance ID", "Provided");
+        super("InstanceID", "Instance ID", "Model");
         addNodeOutput(
                 new GraphNodeOutputImpl("id", "Id", ShaderFieldType.Float));
     }

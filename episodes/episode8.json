@@ -6,7 +6,7 @@
       "id": "72be9695e45949ccb5f449dbacdfd619",
       "type": "Property",
       "x": 50.0,
-      "y": 408.0,
+      "y": 424.0,
       "data": {
         "name": "Camera",
         "type": "Camera"
@@ -15,8 +15,8 @@
     {
       "id": "dffb152d405a49d38792e850749129b2",
       "type": "UIRenderer",
-      "x": 366.0,
-      "y": 125.0,
+      "x": 341.0,
+      "y": 133.0,
       "data": {
         "id": ""
       }
@@ -24,14 +24,14 @@
     {
       "id": "end",
       "type": "PipelineEnd",
-      "x": 385.0,
+      "x": 376.0,
       "y": 50.0
     },
     {
       "id": "d54b356d4a1242cab5e6cb3f836b1930",
       "type": "ValueColor",
-      "x": 163.0,
-      "y": 601.0,
+      "x": 110.0,
+      "y": 614.0,
       "data": {
         "color": "000000ff"
       }
@@ -39,237 +39,246 @@
     {
       "id": "ff6f63af3181472da525343236652acd",
       "type": "GraphShaderRenderer",
-      "x": 323.0,
-      "y": 243.0,
+      "x": 270.0,
+      "y": 256.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
-            "id": "728c1b5a29f94be991cf761219dfef75",
+            "id": "c9834e7f9b834ae7a2603aa5f483db77",
             "tag": "Default",
             "shader": {
               "version": "0.5.0",
               "type": "Model_Shader",
               "nodes": [
                 {
-                  "id": "7dd083b41fc045a692c535c8728abba2",
-                  "type": "DiffuseColor",
-                  "x": 488.0,
-                  "y": 989.0,
-                  "data": {
-                    "default": "ffffffff"
-                  }
-                },
-                {
-                  "id": "8bffcef66bb5498ea570e3f43f7f34b7",
-                  "type": "SpecularColor",
-                  "x": 497.0,
-                  "y": 357.0,
-                  "data": {
-                    "default": "ffffffff"
-                  }
-                },
-                {
-                  "id": "7c6e9274127b4d79a6c5638420ad5b8c",
+                  "id": "c67e9085f7dc47e9b6f9ef315742a10e",
                   "type": "Property",
-                  "x": 457.0,
-                  "y": 1137.0,
+                  "x": 508.0,
+                  "y": 260.0,
+                  "data": {
+                    "name": "Specular Texture",
+                    "type": "TextureRegion"
+                  }
+                },
+                {
+                  "id": "c2deac23337148a9b5a8c786e00478dd",
+                  "type": "Property",
+                  "x": 711.0,
+                  "y": 548.0,
+                  "data": {
+                    "name": "Emissive Color",
+                    "type": "Vector4"
+                  }
+                },
+                {
+                  "id": "253d682646454a9082780d0e56801059",
+                  "type": "Property",
+                  "x": 497.0,
+                  "y": 1147.0,
+                  "data": {
+                    "name": "Tangent",
+                    "type": "Vector3"
+                  }
+                },
+                {
+                  "id": "36e710d2263e4b998bf404930b8db882",
+                  "type": "Multiply",
+                  "x": 903.0,
+                  "y": 284.0
+                },
+                {
+                  "id": "f65c7c94d7ab401893c75a81faeee776",
+                  "type": "Property",
+                  "x": 50.0,
+                  "y": 520.0,
+                  "data": {
+                    "name": "UV",
+                    "type": "Vector2"
+                  }
+                },
+                {
+                  "id": "3da90edd5e4d44eaa31e588534077eda",
+                  "type": "Sampler2D",
+                  "x": 497.0,
+                  "y": 981.0
+                },
+                {
+                  "id": "456cdc704f4e49e8b7b6115b5804473d",
+                  "type": "Sampler2D",
+                  "x": 712.0,
+                  "y": 395.0
+                },
+                {
+                  "id": "031d723ecadc449e8cb1d13ea2e905b0",
+                  "type": "Property",
+                  "x": 1329.0,
+                  "y": 642.0,
+                  "data": {
+                    "name": "Alpha Test",
+                    "type": "Float"
+                  }
+                },
+                {
+                  "id": "111e1c0987654d45bbc5d1ee263e5c61",
+                  "type": "Property",
+                  "x": 491.0,
+                  "y": 922.0,
                   "data": {
                     "name": "Normal Map Strength",
                     "type": "Float"
                   }
                 },
                 {
-                  "id": "1a26e8744893420da9de04121b4b8dbd",
-                  "type": "BumpTexture",
-                  "x": 215.0,
-                  "y": 1183.0,
+                  "id": "5df03da164b046af872b5a6db4eaffb6",
+                  "type": "Property",
+                  "x": 913.0,
+                  "y": 50.0,
                   "data": {
-                    "previewPath": null
+                    "name": "Shininess",
+                    "type": "Float"
                   }
                 },
                 {
-                  "id": "36e710d2263e4b998bf404930b8db882",
-                  "type": "Multiply",
-                  "x": 680.0,
-                  "y": 319.0
-                },
-                {
-                  "id": "d96277ecf114425aadcf84b428477745",
-                  "type": "AttributeUV",
-                  "x": 50.0,
-                  "y": 739.0,
+                  "id": "ee7e01f6f2bd46a8aba56812e3506aa0",
+                  "type": "Property",
+                  "x": 1059.0,
+                  "y": 1189.0,
                   "data": {
-                    "channel": "UV0"
-                  }
-                },
-                {
-                  "id": "20f3d9b5646a42f28870b4f25456f6df",
-                  "type": "AttributePosition",
-                  "x": 854.0,
-                  "y": 1395.0,
-                  "data": {
-                    "coordinates": "world"
-                  }
-                },
-                {
-                  "id": "456cdc704f4e49e8b7b6115b5804473d",
-                  "type": "Sampler2D",
-                  "x": 490.0,
-                  "y": 531.0
-                },
-                {
-                  "id": "2019351e62264cd6b45ad8c3781eb2d2",
-                  "type": "Multiply",
-                  "x": 680.0,
-                  "y": 637.0
-                },
-                {
-                  "id": "9fc3c389ad8f4a6f8096313ada4b52d3",
-                  "type": "AttributeTangent",
-                  "x": 448.0,
-                  "y": 1342.0,
-                  "data": {
-                    "coordinates": "world"
-                  }
-                },
-                {
-                  "id": "95d14973e49b4795a859c183ea4a687c",
-                  "type": "AttributeNormal",
-                  "x": 448.0,
-                  "y": 1423.0,
-                  "data": {
-                    "coordinates": "world"
-                  }
-                },
-                {
-                  "id": "e12ee5febbba4d2fa88ea5fb7ac58e10",
-                  "type": "DiffuseTexture",
-                  "x": 241.0,
-                  "y": 809.0,
-                  "data": {
-                    "previewPath": null
-                  }
-                },
-                {
-                  "id": "6e54b6963f8a432181881991f96deea0",
-                  "type": "Sampler2D",
-                  "x": 463.0,
-                  "y": 1193.0
-                },
-                {
-                  "id": "a00c7ff2f6cc4168a14f53cb403d8d72",
-                  "type": "SpecularTexture",
-                  "x": 236.0,
-                  "y": 154.0,
-                  "data": {
-                    "previewPath": null
-                  }
-                },
-                {
-                  "id": "365430c0b60c48de8c626869b6bc563b",
-                  "type": "ApplyNormalMap",
-                  "x": 667.0,
-                  "y": 1293.0
-                },
-                {
-                  "id": "ed1d588e101a40fb953a3f2efe70abca",
-                  "type": "Multiply",
-                  "x": 681.0,
-                  "y": 963.0
-                },
-                {
-                  "id": "af7e7313f5424b55954d6a16eafcb27f",
-                  "type": "Sampler2D",
-                  "x": 494.0,
-                  "y": 198.0
-                },
-                {
-                  "id": "ffd366ddd51246b29171086b39f91ace",
-                  "type": "Sampler2D",
-                  "x": 487.0,
-                  "y": 837.0
-                },
-                {
-                  "id": "4e7271158c61419786d1884080ccba41",
-                  "type": "EmissiveColor",
-                  "x": 489.0,
-                  "y": 680.0,
-                  "data": {
-                    "default": "000000ff"
+                    "name": "Position",
+                    "type": "Vector3"
                   }
                 },
                 {
                   "id": "end",
                   "type": "ShaderEnd",
-                  "x": 1395.0,
-                  "y": 831.0,
+                  "x": 1539.0,
+                  "y": 682.0,
                   "data": {
+                    "positionType": "Object space",
                     "culling": "back",
                     "blending": "opaque",
                     "depthTest": "less"
                   }
                 },
                 {
+                  "id": "1d7c936918584771afd33f58c3da9dab",
+                  "type": "Property",
+                  "x": 497.0,
+                  "y": 1213.0,
+                  "data": {
+                    "name": "Normal",
+                    "type": "Vector3"
+                  }
+                },
+                {
+                  "id": "6726d27a0d914f6caaba01534d231163",
+                  "type": "Property",
+                  "x": 507.0,
+                  "y": 499.0,
+                  "data": {
+                    "name": "Emissive Texture",
+                    "type": "TextureRegion"
+                  }
+                },
+                {
+                  "id": "f237e24622d74fb6becad0a40a0cf7bf",
+                  "type": "ObjectNormalToWorld",
+                  "x": 944.0,
+                  "y": 949.0
+                },
+                {
+                  "id": "584cf201eea24f0abfa6226d8031d742",
+                  "type": "Property",
+                  "x": 235.0,
+                  "y": 1081.0,
+                  "data": {
+                    "name": "Bump Texture",
+                    "type": "TextureRegion"
+                  }
+                },
+                {
+                  "id": "2019351e62264cd6b45ad8c3781eb2d2",
+                  "type": "Multiply",
+                  "x": 903.0,
+                  "y": 548.0
+                },
+                {
+                  "id": "bce87c9decab4914abd6a172d851c514",
+                  "type": "Property",
+                  "x": 710.0,
+                  "y": 284.0,
+                  "data": {
+                    "name": "Specular Color",
+                    "type": "Vector4"
+                  }
+                },
+                {
+                  "id": "1dfd95b1cc7f49298240115710714c93",
+                  "type": "Property",
+                  "x": 502.0,
+                  "y": 760.0,
+                  "data": {
+                    "name": "Diffuse Texture",
+                    "type": "TextureRegion"
+                  }
+                },
+                {
+                  "id": "ed1d588e101a40fb953a3f2efe70abca",
+                  "type": "Multiply",
+                  "x": 899.0,
+                  "y": 833.0
+                },
+                {
+                  "id": "af7e7313f5424b55954d6a16eafcb27f",
+                  "type": "Sampler2D",
+                  "x": 714.0,
+                  "y": 127.0
+                },
+                {
+                  "id": "26c315a4d2424e4e953d5263fa0f75d4",
+                  "type": "Property",
+                  "x": 705.0,
+                  "y": 833.0,
+                  "data": {
+                    "name": "Diffuse Color",
+                    "type": "Vector4"
+                  }
+                },
+                {
+                  "id": "ffd366ddd51246b29171086b39f91ace",
+                  "type": "Sampler2D",
+                  "x": 705.0,
+                  "y": 675.0
+                },
+                {
+                  "id": "5d9400cc908e45399955719ebc7fd5c7",
+                  "type": "ApplyNormalMap",
+                  "x": 726.0,
+                  "y": 1096.0
+                },
+                {
                   "id": "49ad39d6e184499ebec92228552e5873",
                   "type": "PhongLighting",
-                  "x": 1098.0,
-                  "y": 1208.0,
+                  "x": 1271.0,
+                  "y": 705.0,
                   "data": {
                     "id": ""
                   }
                 },
                 {
-                  "id": "04a099c60cc8431ead655c88a3744884",
-                  "type": "EmissiveTexture",
-                  "x": 235.0,
-                  "y": 480.0,
-                  "data": {
-                    "previewPath": null
-                  }
-                },
-                {
-                  "id": "7dd098c55c264fcdbb2a91168e6f0215",
-                  "type": "Shininess",
-                  "x": 690.0,
-                  "y": 50.0,
-                  "data": {
-                    "default": 128.0
-                  }
-                },
-                {
-                  "id": "3f45d18ca6b24459acd5bfc680c8d34c",
-                  "type": "AlphaTest",
-                  "x": 1036.0,
-                  "y": 817.0,
-                  "data": {
-                    "default": 0.0
-                  }
+                  "id": "567f85b4e38846b4905e982ae023d960",
+                  "type": "WorldPosition",
+                  "x": 1032.0,
+                  "y": 1012.0
                 }
               ],
               "connections": [
                 {
-                  "fromNode": "d96277ecf114425aadcf84b428477745",
-                  "fromField": "uv",
-                  "toNode": "ffd366ddd51246b29171086b39f91ace",
-                  "toField": "uv"
-                },
-                {
-                  "fromNode": "20f3d9b5646a42f28870b4f25456f6df",
-                  "fromField": "position",
-                  "toNode": "49ad39d6e184499ebec92228552e5873",
-                  "toField": "position"
-                },
-                {
-                  "fromNode": "e12ee5febbba4d2fa88ea5fb7ac58e10",
-                  "fromField": "texture",
-                  "toNode": "ffd366ddd51246b29171086b39f91ace",
-                  "toField": "texture"
-                },
-                {
-                  "fromNode": "7dd083b41fc045a692c535c8728abba2",
-                  "fromField": "color",
-                  "toNode": "ed1d588e101a40fb953a3f2efe70abca",
-                  "toField": "inputs"
+                  "fromNode": "49ad39d6e184499ebec92228552e5873",
+                  "fromField": "output",
+                  "toNode": "end",
+                  "toField": "color"
                 },
                 {
                   "fromNode": "ffd366ddd51246b29171086b39f91ace",
@@ -284,24 +293,6 @@
                   "toField": "albedo"
                 },
                 {
-                  "fromNode": "04a099c60cc8431ead655c88a3744884",
-                  "fromField": "texture",
-                  "toNode": "456cdc704f4e49e8b7b6115b5804473d",
-                  "toField": "texture"
-                },
-                {
-                  "fromNode": "d96277ecf114425aadcf84b428477745",
-                  "fromField": "uv",
-                  "toNode": "456cdc704f4e49e8b7b6115b5804473d",
-                  "toField": "uv"
-                },
-                {
-                  "fromNode": "4e7271158c61419786d1884080ccba41",
-                  "fromField": "color",
-                  "toNode": "2019351e62264cd6b45ad8c3781eb2d2",
-                  "toField": "inputs"
-                },
-                {
                   "fromNode": "456cdc704f4e49e8b7b6115b5804473d",
                   "fromField": "color",
                   "toNode": "2019351e62264cd6b45ad8c3781eb2d2",
@@ -312,24 +303,6 @@
                   "fromField": "output",
                   "toNode": "49ad39d6e184499ebec92228552e5873",
                   "toField": "emission"
-                },
-                {
-                  "fromNode": "a00c7ff2f6cc4168a14f53cb403d8d72",
-                  "fromField": "texture",
-                  "toNode": "af7e7313f5424b55954d6a16eafcb27f",
-                  "toField": "texture"
-                },
-                {
-                  "fromNode": "d96277ecf114425aadcf84b428477745",
-                  "fromField": "uv",
-                  "toNode": "af7e7313f5424b55954d6a16eafcb27f",
-                  "toField": "uv"
-                },
-                {
-                  "fromNode": "8bffcef66bb5498ea570e3f43f7f34b7",
-                  "fromField": "color",
-                  "toNode": "36e710d2263e4b998bf404930b8db882",
-                  "toField": "inputs"
                 },
                 {
                   "fromNode": "af7e7313f5424b55954d6a16eafcb27f",
@@ -350,70 +323,248 @@
                   "toField": "alpha"
                 },
                 {
-                  "fromNode": "7dd098c55c264fcdbb2a91168e6f0215",
-                  "fromField": "value",
+                  "fromNode": "567f85b4e38846b4905e982ae023d960",
+                  "fromField": "output",
                   "toNode": "49ad39d6e184499ebec92228552e5873",
-                  "toField": "shininess"
+                  "toField": "position"
                 },
                 {
-                  "fromNode": "3f45d18ca6b24459acd5bfc680c8d34c",
+                  "fromNode": "f65c7c94d7ab401893c75a81faeee776",
+                  "fromField": "value",
+                  "toNode": "ffd366ddd51246b29171086b39f91ace",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "1dfd95b1cc7f49298240115710714c93",
+                  "fromField": "value",
+                  "toNode": "ffd366ddd51246b29171086b39f91ace",
+                  "toField": "texture"
+                },
+                {
+                  "fromNode": "031d723ecadc449e8cb1d13ea2e905b0",
                   "fromField": "value",
                   "toNode": "end",
                   "toField": "alphaClip"
                 },
                 {
-                  "fromNode": "95d14973e49b4795a859c183ea4a687c",
-                  "fromField": "normal",
-                  "toNode": "365430c0b60c48de8c626869b6bc563b",
-                  "toField": "normal"
+                  "fromNode": "5df03da164b046af872b5a6db4eaffb6",
+                  "fromField": "value",
+                  "toNode": "49ad39d6e184499ebec92228552e5873",
+                  "toField": "shininess"
                 },
                 {
-                  "fromNode": "9fc3c389ad8f4a6f8096313ada4b52d3",
-                  "fromField": "tangent",
-                  "toNode": "365430c0b60c48de8c626869b6bc563b",
-                  "toField": "tangent"
+                  "fromNode": "26c315a4d2424e4e953d5263fa0f75d4",
+                  "fromField": "value",
+                  "toNode": "ed1d588e101a40fb953a3f2efe70abca",
+                  "toField": "inputs"
                 },
                 {
-                  "fromNode": "d96277ecf114425aadcf84b428477745",
-                  "fromField": "uv",
-                  "toNode": "6e54b6963f8a432181881991f96deea0",
-                  "toField": "uv"
-                },
-                {
-                  "fromNode": "1a26e8744893420da9de04121b4b8dbd",
-                  "fromField": "texture",
-                  "toNode": "6e54b6963f8a432181881991f96deea0",
+                  "fromNode": "6726d27a0d914f6caaba01534d231163",
+                  "fromField": "value",
+                  "toNode": "456cdc704f4e49e8b7b6115b5804473d",
                   "toField": "texture"
                 },
                 {
-                  "fromNode": "6e54b6963f8a432181881991f96deea0",
-                  "fromField": "color",
-                  "toNode": "365430c0b60c48de8c626869b6bc563b",
-                  "toField": "normalMap"
+                  "fromNode": "c67e9085f7dc47e9b6f9ef315742a10e",
+                  "fromField": "value",
+                  "toNode": "af7e7313f5424b55954d6a16eafcb27f",
+                  "toField": "texture"
                 },
                 {
-                  "fromNode": "49ad39d6e184499ebec92228552e5873",
-                  "fromField": "output",
-                  "toNode": "end",
-                  "toField": "color"
+                  "fromNode": "c2deac23337148a9b5a8c786e00478dd",
+                  "fromField": "value",
+                  "toNode": "2019351e62264cd6b45ad8c3781eb2d2",
+                  "toField": "inputs"
                 },
                 {
-                  "fromNode": "365430c0b60c48de8c626869b6bc563b",
+                  "fromNode": "bce87c9decab4914abd6a172d851c514",
+                  "fromField": "value",
+                  "toNode": "36e710d2263e4b998bf404930b8db882",
+                  "toField": "inputs"
+                },
+                {
+                  "fromNode": "f237e24622d74fb6becad0a40a0cf7bf",
                   "fromField": "output",
                   "toNode": "49ad39d6e184499ebec92228552e5873",
                   "toField": "normal"
                 },
                 {
-                  "fromNode": "7c6e9274127b4d79a6c5638420ad5b8c",
+                  "fromNode": "f65c7c94d7ab401893c75a81faeee776",
                   "fromField": "value",
-                  "toNode": "365430c0b60c48de8c626869b6bc563b",
+                  "toNode": "456cdc704f4e49e8b7b6115b5804473d",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "f65c7c94d7ab401893c75a81faeee776",
+                  "fromField": "value",
+                  "toNode": "af7e7313f5424b55954d6a16eafcb27f",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "584cf201eea24f0abfa6226d8031d742",
+                  "fromField": "value",
+                  "toNode": "3da90edd5e4d44eaa31e588534077eda",
+                  "toField": "texture"
+                },
+                {
+                  "fromNode": "f65c7c94d7ab401893c75a81faeee776",
+                  "fromField": "value",
+                  "toNode": "3da90edd5e4d44eaa31e588534077eda",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "253d682646454a9082780d0e56801059",
+                  "fromField": "value",
+                  "toNode": "5d9400cc908e45399955719ebc7fd5c7",
+                  "toField": "tangent"
+                },
+                {
+                  "fromNode": "3da90edd5e4d44eaa31e588534077eda",
+                  "fromField": "color",
+                  "toNode": "5d9400cc908e45399955719ebc7fd5c7",
+                  "toField": "normalMap"
+                },
+                {
+                  "fromNode": "111e1c0987654d45bbc5d1ee263e5c61",
+                  "fromField": "value",
+                  "toNode": "5d9400cc908e45399955719ebc7fd5c7",
                   "toField": "strength"
+                },
+                {
+                  "fromNode": "5d9400cc908e45399955719ebc7fd5c7",
+                  "fromField": "output",
+                  "toNode": "f237e24622d74fb6becad0a40a0cf7bf",
+                  "toField": "input"
+                },
+                {
+                  "fromNode": "1d7c936918584771afd33f58c3da9dab",
+                  "fromField": "value",
+                  "toNode": "5d9400cc908e45399955719ebc7fd5c7",
+                  "toField": "normal"
+                },
+                {
+                  "fromNode": "ee7e01f6f2bd46a8aba56812e3506aa0",
+                  "fromField": "value",
+                  "toNode": "end",
+                  "toField": "position"
                 }
               ],
               "properties": [
                 {
+                  "name": "Position",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                },
+                {
+                  "name": "Normal",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                },
+                {
+                  "name": "UV",
+                  "type": "Vector2",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0
+                  }
+                },
+                {
+                  "name": "Alpha Test",
+                  "type": "Float",
+                  "location": "Uniform",
+                  "data": {
+                    "x": 0.0
+                  }
+                },
+                {
+                  "name": "Shininess",
+                  "type": "Float",
+                  "location": "Uniform",
+                  "data": {
+                    "x": 32.0
+                  }
+                },
+                {
+                  "name": "Diffuse Texture",
+                  "type": "TextureRegion",
+                  "location": "Uniform",
+                  "data": {
+                    "previewPath": null
+                  }
+                },
+                {
+                  "name": "Diffuse Color",
+                  "type": "Vector4",
+                  "location": "Uniform",
+                  "data": {
+                    "color": "ffffffff"
+                  }
+                },
+                {
+                  "name": "Emissive Texture",
+                  "type": "TextureRegion",
+                  "location": "Uniform",
+                  "data": {
+                    "previewPath": null
+                  }
+                },
+                {
+                  "name": "Emissive Color",
+                  "type": "Vector4",
+                  "location": "Uniform",
+                  "data": {
+                    "color": "000000ff"
+                  }
+                },
+                {
+                  "name": "Specular Texture",
+                  "type": "TextureRegion",
+                  "location": "Uniform",
+                  "data": {
+                    "previewPath": null
+                  }
+                },
+                {
+                  "name": "Specular Color",
+                  "type": "Vector4",
+                  "location": "Uniform",
+                  "data": {
+                    "color": "ffffffff"
+                  }
+                },
+                {
+                  "name": "Bump Texture",
+                  "type": "TextureRegion",
+                  "location": "Uniform",
+                  "data": {
+                    "previewPath": null
+                  }
+                },
+                {
+                  "name": "Tangent",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                },
+                {
                   "name": "Normal Map Strength",
                   "type": "Float",
+                  "location": "Uniform",
                   "data": {
                     "x": 1.0
                   }
@@ -424,38 +575,27 @@
                   "name": "Diffuse",
                   "nodes": [
                     "ffd366ddd51246b29171086b39f91ace",
-                    "7dd083b41fc045a692c535c8728abba2",
-                    "ed1d588e101a40fb953a3f2efe70abca",
-                    "e12ee5febbba4d2fa88ea5fb7ac58e10"
-                  ]
-                },
-                {
-                  "name": "Normal",
-                  "nodes": [
-                    "6e54b6963f8a432181881991f96deea0",
-                    "9fc3c389ad8f4a6f8096313ada4b52d3",
-                    "7c6e9274127b4d79a6c5638420ad5b8c",
-                    "365430c0b60c48de8c626869b6bc563b",
-                    "1a26e8744893420da9de04121b4b8dbd",
-                    "95d14973e49b4795a859c183ea4a687c"
+                    "1dfd95b1cc7f49298240115710714c93",
+                    "26c315a4d2424e4e953d5263fa0f75d4",
+                    "ed1d588e101a40fb953a3f2efe70abca"
                   ]
                 },
                 {
                   "name": "Specular",
                   "nodes": [
-                    "a00c7ff2f6cc4168a14f53cb403d8d72",
+                    "c67e9085f7dc47e9b6f9ef315742a10e",
                     "36e710d2263e4b998bf404930b8db882",
                     "af7e7313f5424b55954d6a16eafcb27f",
-                    "8bffcef66bb5498ea570e3f43f7f34b7"
+                    "bce87c9decab4914abd6a172d851c514"
                   ]
                 },
                 {
                   "name": "Emissive",
                   "nodes": [
                     "456cdc704f4e49e8b7b6115b5804473d",
-                    "4e7271158c61419786d1884080ccba41",
-                    "04a099c60cc8431ead655c88a3744884",
-                    "2019351e62264cd6b45ad8c3781eb2d2"
+                    "c2deac23337148a9b5a8c786e00478dd",
+                    "2019351e62264cd6b45ad8c3781eb2d2",
+                    "6726d27a0d914f6caaba01534d231163"
                   ]
                 }
               ]
@@ -467,8 +607,8 @@
     {
       "id": "746da9b276d442f0bc74ed9847a26a4b",
       "type": "PipelineStart",
-      "x": 385.0,
-      "y": 576.0
+      "x": 376.0,
+      "y": 599.0
     }
   ],
   "connections": [

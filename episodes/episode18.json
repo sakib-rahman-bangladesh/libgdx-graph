@@ -18,43 +18,58 @@
       "x": 312.0,
       "y": 625.0,
       "data": {
+        "renderOrder": "Shader_Unordered",
         "shaders": [
           {
             "id": "d1c8d69e0ba54495a56ad6d13476fc2e",
             "tag": "Default",
             "shader": {
               "version": "0.5.0",
+              "type": "Model_Shader",
               "nodes": [
                 {
-                  "id": "5729fe78109c49c1b91ec0fb31c22e83",
-                  "type": "AttributeUV",
-                  "x": 109.0,
-                  "y": 396.0,
+                  "id": "7f5d769d181f41699d13e754dab18f9c",
+                  "type": "Property",
+                  "x": 303.0,
+                  "y": 591.0,
                   "data": {
-                    "channel": "UV0"
+                    "name": "Position",
+                    "type": "Vector3"
                   }
                 },
                 {
-                  "id": "493943d6bccf4f46b6370df948ebd8c3",
-                  "type": "DiffuseTexture",
+                  "id": "b19b16ee98e142a0ab262738f80461ba",
+                  "type": "Property",
                   "x": 50.0,
-                  "y": 483.0,
+                  "y": 453.0,
                   "data": {
-                    "previewPath": null
+                    "name": "Diffuse Texture",
+                    "type": "TextureRegion"
+                  }
+                },
+                {
+                  "id": "42d16dd8e5274e27b7981df9b5cb7d48",
+                  "type": "Property",
+                  "x": 52.0,
+                  "y": 374.0,
+                  "data": {
+                    "name": "UV",
+                    "type": "Vector2"
                   }
                 },
                 {
                   "id": "aa4a1c592eb0466ba51cf271272a1ce8",
                   "type": "Sampler2D",
-                  "x": 302.0000305175781,
-                  "y": 351.0
+                  "x": 306.9999694824219,
+                  "y": 353.0
                 },
                 {
                   "id": "end",
                   "type": "ShaderEnd",
-                  "x": 701.0,
+                  "x": 594.0,
                   "y": 50.0,
                   "data": {
+                    "positionType": "Object space",
                     "culling": "back",
                     "blending": "opaque",
                     "depthTest": "less"
@@ -63,25 +78,59 @@
               ],
               "connections": [
                 {
-                  "fromNode": "5729fe78109c49c1b91ec0fb31c22e83",
-                  "fromField": "uv",
-                  "toNode": "aa4a1c592eb0466ba51cf271272a1ce8",
-                  "toField": "uv"
-                },
-                {
-                  "fromNode": "493943d6bccf4f46b6370df948ebd8c3",
-                  "fromField": "texture",
-                  "toNode": "aa4a1c592eb0466ba51cf271272a1ce8",
-                  "toField": "texture"
-                },
-                {
                   "fromNode": "aa4a1c592eb0466ba51cf271272a1ce8",
                   "fromField": "color",
                   "toNode": "end",
                   "toField": "color"
+                },
+                {
+                  "fromNode": "7f5d769d181f41699d13e754dab18f9c",
+                  "fromField": "value",
+                  "toNode": "end",
+                  "toField": "position"
+                },
+                {
+                  "fromNode": "42d16dd8e5274e27b7981df9b5cb7d48",
+                  "fromField": "value",
+                  "toNode": "aa4a1c592eb0466ba51cf271272a1ce8",
+                  "toField": "uv"
+                },
+                {
+                  "fromNode": "b19b16ee98e142a0ab262738f80461ba",
+                  "fromField": "value",
+                  "toNode": "aa4a1c592eb0466ba51cf271272a1ce8",
+                  "toField": "texture"
                 }
               ],
-              "properties": [],
+              "properties": [
+                {
+                  "name": "Position",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                },
+                {
+                  "name": "UV",
+                  "type": "Vector2",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0
+                  }
+                },
+                {
+                  "name": "Diffuse Texture",
+                  "type": "TextureRegion",
+                  "location": "Uniform",
+                  "data": {
+                    "previewPath": null
+                  }
+                }
+              ],
               "groups": []
             }
           }
@@ -168,8 +217,6 @@
                   "y": 137.0,
                   "data": {
                     "maxParticles": 500,
-                    "initialParticles": 0,
-                    "perSecondParticles": 1000.0,
                     "blending": "additive",
                     "depthTest": "less"
                   }
@@ -201,7 +248,7 @@
                 {
                   "id": "687ace6129d44991b591abb9b9a2107e",
                   "type": "Property",
-                  "x": 50.000030517578125,
+                  "x": 50.0,
                   "y": 607.0,
                   "data": {
                     "name": "Move Y",
@@ -251,7 +298,7 @@
                 {
                   "id": "86b94de693e04b0a8f68435b325b9c7f",
                   "type": "Property",
-                  "x": 50.000030517578125,
+                  "x": 50.0,
                   "y": 667.0,
                   "data": {
                     "name": "Move X",

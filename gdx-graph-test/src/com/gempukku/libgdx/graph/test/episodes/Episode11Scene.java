@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -26,11 +27,11 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
-import com.gempukku.libgdx.graph.plugin.models.GraphModel;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
+import com.gempukku.libgdx.graph.plugin.models.adapter.CommonPropertiesModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
-import com.gempukku.libgdx.graph.shader.Transforms;
+import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -49,6 +50,7 @@ public class Episode11Scene implements LibgdxGraphTestScene {
     private Lighting3DEnvironment lights;
     private GraphModelInstance sphereInstanceId;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
+    private ModelInstance sphereInstance;
 
     @Override
     public void initializeScene() {
@@ -105,15 +107,16 @@ public class Episode11Scene implements LibgdxGraphTestScene {
         Model sphere = modelBuilder.createSphere(4f, 4f, 4f, 50, 50, new Material(), VertexAttributes.Usage.Position);
         disposables.add(sphere);
 
-        GraphModel forceFieldId = models.registerModel(forceField);
-        GraphModel sphereId = models.registerModel(sphere);
+        ModelInstance forceFieldInstance = new ModelInstance(forceField);
+        sphereInstance = new ModelInstance(sphere);
 
-        models.addModelDefaultTag(forceFieldId, "force-field");
-        models.addModelDefaultTag(sphereId, "default");
+        CommonPropertiesModelInstanceRenderableModelAdapter forceFieldAdapter = new CommonPropertiesModelInstanceRenderableModelAdapter(forceFieldInstance, models, new PropertyContainerImpl());
+        forceFieldAdapter.register("force-field");
 
-        models.createModelInstance(forceFieldId);
-        sphereInstanceId = models.createModelInstance(sphereId);
-        models.updateTransform(sphereInstanceId, Transforms.create().idt().translate(-3f, 0, 0));
+        CommonPropertiesModelInstanceRenderableModelAdapter sphereAdapter = new CommonPropertiesModelInstanceRenderableModelAdapter(sphereInstance, models, new PropertyContainerImpl());
+        sphereAdapter.register("default");
+
+        sphereInstance.transform.idt().translate(-3f, 0, 0);
     }
 
     private Stage createStage() {
@@ -132,9 +135,7 @@ public class Episode11Scene implements LibgdxGraphTestScene {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        GraphModels models = pipelineRenderer.getPluginData(GraphModels.class);
-                        models.updateTransform(sphereInstanceId,
-                                Transforms.create().idt().translate(slider.getValue(), 0, 0));
+                        sphereInstance.transform.idt().translate(slider.getValue(), 0, 0);
                     }
                 });
         tbl.add("Sphere translation").padRight(5f);

@@ -2,7 +2,6 @@ package com.gempukku.libgdx.graph.plugin.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
@@ -12,13 +11,9 @@ import com.gempukku.libgdx.graph.shader.property.PropertySource;
 public class SpriteGraphShader extends GraphShader {
     private Array<String> textureUniformNames;
 
-    public SpriteGraphShader(Texture defaultTexture) {
-        super(defaultTexture);
+    public SpriteGraphShader(String tag, Texture defaultTexture) {
+        super(tag, defaultTexture);
         setCulling(BasicShader.Culling.none);
-    }
-
-    public ObjectMap<String, PropertySource> getProperties() {
-        return propertySourceMap;
     }
 
     public Array<String> getTextureUniformNames() {
@@ -33,6 +28,7 @@ public class SpriteGraphShader extends GraphShader {
     }
 
     public void renderSprites(ShaderContextImpl shaderContext, SpriteData spriteData) {
+        spriteData.prepareForRender(shaderContext);
         for (Uniform uniform : localUniforms.values()) {
             uniform.getSetter().set(this, uniform.getLocation(), shaderContext);
         }

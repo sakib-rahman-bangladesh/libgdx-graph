@@ -8,7 +8,7 @@ public class EndModelShaderNodeConfiguration extends NodeConfigurationImpl {
     public EndModelShaderNodeConfiguration() {
         super("ShaderEnd", "Shader output", null);
         addNodeInput(
-                new GraphNodeInputImpl("position", "World position", false, false, ShaderFieldType.Vector3));
+                new GraphNodeInputImpl("position", "Position", true, false, ShaderFieldType.Vector3));
         addNodeInput(
                 new GraphNodeInputImpl("color", "Color", false, false, ShaderFieldType.Vector4, ShaderFieldType.Vector3, ShaderFieldType.Vector2, ShaderFieldType.Float));
         addNodeInput(

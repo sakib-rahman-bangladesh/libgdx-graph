@@ -13,6 +13,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.IntegerBoxPart;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
+import com.gempukku.libgdx.graph.ui.part.StringifyEnum;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 import com.kotcrab.vis.ui.util.Validators;
 
@@ -47,11 +48,11 @@ public class EndBillboardParticlesShaderBoxProducer extends GraphBoxProducerImpl
 
         addConfigurationInputsAndOutputs(result);
 
-        SelectBoxPart blendingBox = new SelectBoxPart("Blending", "blending", BasicShader.Blending.values());
+        SelectBoxPart blendingBox = new SelectBoxPart("Blending", "blending", new StringifyEnum<BasicShader.Blending>(), BasicShader.Blending.values());
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);
 
-        SelectBoxPart depthTestBox = new SelectBoxPart("DepthTest", "depthTest", BasicShader.DepthTesting.values());
+        SelectBoxPart depthTestBox = new SelectBoxPart("DepthTest", "depthTest", new StringifyEnum<BasicShader.DepthTesting>(), BasicShader.DepthTesting.values());
         depthTestBox.initialize(data);
         result.addGraphBoxPart(depthTestBox);
 

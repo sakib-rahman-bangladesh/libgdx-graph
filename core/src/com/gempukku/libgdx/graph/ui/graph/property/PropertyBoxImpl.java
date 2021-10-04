@@ -12,6 +12,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
+import com.gempukku.libgdx.graph.ui.part.StringifyEnum;
 import com.gempukku.libgdx.graph.ui.producer.ValueGraphNodeOutput;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
@@ -33,7 +34,7 @@ public class PropertyBoxImpl extends VisTable implements PropertyBox {
                            PropertyLocation... propertyLocations) {
         this.propertyType = propertyType;
 
-        locationPart = new SelectBoxPart("Location", "location", propertyLocations);
+        locationPart = new SelectBoxPart("Location", "location", new StringifyEnum<PropertyLocation>(), propertyLocations);
         if (selectedLocation != null)
             locationPart.setSelected(selectedLocation);
 

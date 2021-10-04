@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.plugin.sprites;
 
 import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -21,14 +22,14 @@ public class SpritePositionShaderNodeBuilder extends ConfigurationShaderNodeBuil
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildVertexNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 3, "a_position"), "vec3");
+        vertexShaderBuilder.addAttributeVariable(new VertexAttribute(512, 3, ShaderProgram.POSITION_ATTRIBUTE), "vec3");
 
-        return LibGDXCollections.singletonMap("position", new DefaultFieldOutput(ShaderFieldType.Vector3, "a_position"));
+        return LibGDXCollections.singletonMap("position", new DefaultFieldOutput(ShaderFieldType.Vector3, ShaderProgram.POSITION_ATTRIBUTE));
     }
 
     @Override
     public ObjectMap<String, ? extends FieldOutput> buildFragmentNodeSingleInputs(boolean designTime, String nodeId, JsonValue data, ObjectMap<String, FieldOutput> inputs, ObjectSet<String> producedOutputs, VertexShaderBuilder vertexShaderBuilder, FragmentShaderBuilder fragmentShaderBuilder, GraphShaderContext graphShaderContext, GraphShader graphShader) {
-        VertexAttribute attribute = new VertexAttribute(512, 3, "a_position");
+        VertexAttribute attribute = new VertexAttribute(512, 3, ShaderProgram.POSITION_ATTRIBUTE);
         copyAttributeToFragmentShader(attribute, "v_position", vertexShaderBuilder, fragmentShaderBuilder);
         return LibGDXCollections.singletonMap("position", new DefaultFieldOutput(ShaderFieldType.Vector3, "v_position"));
     }

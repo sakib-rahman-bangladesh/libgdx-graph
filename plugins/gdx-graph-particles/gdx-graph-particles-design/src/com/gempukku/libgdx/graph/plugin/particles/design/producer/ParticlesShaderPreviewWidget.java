@@ -162,7 +162,7 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     private void createShader(final Graph<? extends GraphNode, ? extends GraphConnection, ? extends GraphProperty> graph) {
         try {
             timeKeeper = new DefaultTimeKeeper();
-            graphShader = GraphShaderBuilder.buildParticlesShader(WhitePixel.sharedInstance.texture, graph, true);
+            graphShader = GraphShaderBuilder.buildParticlesShader("Test", WhitePixel.sharedInstance.texture, graph, true);
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
             createModel(graphShader.getVertexAttributes());
 
@@ -208,8 +208,7 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
 
                             return null;
                         }
-                    }
-            );
+                    });
 
             shaderInitialized = true;
         } catch (Exception exp) {

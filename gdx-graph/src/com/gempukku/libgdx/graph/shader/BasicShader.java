@@ -44,6 +44,10 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
             this.destinationFactor = destinationFactor;
         }
 
+        public boolean getDepthMask() {
+            return depthMask;
+        }
+
         public void setDepthMask(RenderContext renderContext) {
             renderContext.setDepthMask(depthMask);
         }
@@ -156,6 +160,7 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
     protected ShaderProgram program;
     private RenderContext context;
+    private String tag;
     private Texture defaultTexture;
     private Culling culling = Culling.back;
     private Blending blending = Blending.opaque;
@@ -166,8 +171,13 @@ public abstract class BasicShader implements UniformRegistry, Disposable {
 
     private boolean initialized = false;
 
-    public BasicShader(Texture defaultTexture) {
+    public BasicShader(String tag, Texture defaultTexture) {
+        this.tag = tag;
         this.defaultTexture = defaultTexture;
+    }
+
+    public String getTag() {
+        return tag;
     }
 
     public Texture getDefaultTexture() {

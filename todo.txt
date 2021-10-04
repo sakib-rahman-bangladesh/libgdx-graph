@@ -27,13 +27,5 @@ Priority: 2, Difficulty: 6
 Priority: 2, Difficulty: 5
 
 Model shader:
-- Redesign how models are added, they should be added with a tag and an interface that returns all the info required to render.
-Priority: 7, Difficulty: 5
-- Rewrite how default models can be added using an adapter, that registers all the models into the pipeline with the tag(s).
-Priority: 7, Difficulty: 3
-- Add support for custom attributes being specified explicitly.
-Priority: 7, Difficulty: 4
-- The shaders node should allow to define the order of rendering - shader by shader, models front-to-back, models back-to-front.
-Priority: 8, Difficulty: 5
 - Shadows support.
 Priority: 8, Difficulty: 10

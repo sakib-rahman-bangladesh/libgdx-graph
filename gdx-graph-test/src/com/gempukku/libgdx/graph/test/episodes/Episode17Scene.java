@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
@@ -26,11 +27,10 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
-import com.gempukku.libgdx.graph.plugin.models.GraphModel;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
+import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
-import com.gempukku.libgdx.graph.shader.Transforms;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -53,6 +53,7 @@ public class Episode17Scene implements LibgdxGraphTestScene {
     private Model model;
     private GraphModelInstance mainRobot;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
+    private MaterialModelInstanceRenderableModelAdapter mainRobotAdapter;
 
     @Override
     public void initializeScene() {
@@ -93,17 +94,20 @@ public class Episode17Scene implements LibgdxGraphTestScene {
         G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
         model = modelLoader.loadModel(Gdx.files.classpath("model/gold-robot/gold-robot.g3dj"));
 
-        GraphModel modelId = models.registerModel(model);
-        models.addModelDefaultTag(modelId, "Default");
+        ModelInstance mainRobotInstance = new ModelInstance(model);
         final float scale = 0.008f;
-
-        mainRobot = models.createModelInstance(modelId);
-        models.updateTransform(mainRobot, Transforms.create().idt().scale(scale, scale, scale));
-        animationController = models.createAnimationController(mainRobot);
+        mainRobotInstance.transform.idt().scale(scale, scale, scale);
+        animationController = new AnimationController(mainRobotInstance);
         animationController.animate("Root|jog", -1, null, 0f);
 
-        GraphModelInstance secondRobot = models.createModelInstance(modelId);
-        models.updateTransform(secondRobot, Transforms.create().idt().translate(1.5f, 0, 0).scale(scale, scale, scale));
+        mainRobotAdapter = new MaterialModelInstanceRenderableModelAdapter(mainRobotInstance, models);
+        mainRobotAdapter.register("Default");
+
+        ModelInstance secondRobotInstance = new ModelInstance(model);
+        secondRobotInstance.transform.idt().translate(1.5f, 0, 0).scale(scale, scale, scale);
+
+        MaterialModelInstanceRenderableModelAdapter secondRobotAdapter = new MaterialModelInstanceRenderableModelAdapter(secondRobotInstance, models);
+        secondRobotAdapter.register("Default");
     }
 
     private Stage createStage() {
@@ -114,11 +118,10 @@ public class Episode17Scene implements LibgdxGraphTestScene {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        GraphModels graphModels = pipelineRenderer.getPluginData(GraphModels.class);
                         if (selected.isChecked())
-                            graphModels.addTag(mainRobot, "Outline");
+                            mainRobotAdapter.register("Outline");
                         else
-                            graphModels.removeTag(mainRobot, "Outline");
+                            mainRobotAdapter.deregister("Outline");
                     }
                 });
 
@@ -128,7 +131,7 @@ public class Episode17Scene implements LibgdxGraphTestScene {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        pipelineRenderer.getPluginData(GraphModels.class).setProperty(mainRobot, "Outline Width", outlineWidth.getValue());
+                        mainRobotAdapter.setProperty("Outline Width", outlineWidth.getValue());
                     }
                 });
 

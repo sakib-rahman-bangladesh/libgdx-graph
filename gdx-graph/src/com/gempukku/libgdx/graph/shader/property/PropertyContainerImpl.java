@@ -1,15 +1,17 @@
 package com.gempukku.libgdx.graph.shader.property;
 
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyContainer;
+import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.WritablePropertyContainer;
 
-public class PropertyContainerImpl implements PropertyContainer {
+public class PropertyContainerImpl implements WritablePropertyContainer {
     private ObjectMap<String, Object> properties = new ObjectMap<>();
 
+    @Override
     public void setValue(String name, Object value) {
         properties.put(name, value);
     }
 
+    @Override
     public void remove(String name) {
         properties.remove(name);
     }
@@ -17,5 +19,9 @@ public class PropertyContainerImpl implements PropertyContainer {
     @Override
     public Object getValue(String name) {
         return properties.get(name);
+    }
+
+    public void clear() {
+        properties.clear();
     }
 }

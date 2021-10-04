@@ -10,8 +10,8 @@ import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 public class ScreenGraphShader extends GraphShader {
     private PropertyContainerImpl propertyContainer = new PropertyContainerImpl();
 
-    public ScreenGraphShader(Texture defaultTexture) {
-        super(defaultTexture);
+    public ScreenGraphShader(String tag, Texture defaultTexture) {
+        super(tag, defaultTexture);
         setCulling(BasicShader.Culling.back);
         setDepthTesting(BasicShader.DepthTesting.disabled);
     }

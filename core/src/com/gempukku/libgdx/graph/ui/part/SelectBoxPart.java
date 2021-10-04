@@ -11,6 +11,8 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSelectBox;
 import com.kotcrab.vis.ui.widget.VisTable;
 
+import java.util.function.Function;
+
 
 public class SelectBoxPart extends VisTable implements GraphBoxPart {
     private final VisSelectBox<String> selectBox;
@@ -18,21 +20,26 @@ public class SelectBoxPart extends VisTable implements GraphBoxPart {
 
     private String property;
 
-    private static String[] convertToStrings(Enum<?>[] values, boolean normalize) {
+    private static String[] convertToStrings(Enum<?>[] values) {
         String[] result = new String[values.length];
         for (int i = 0; i < values.length; i++) {
-            String value = values[i].name();
-            if (normalize)
-                result[i] = value.replace('_', ' ');
-            else
-                result[i] = value;
+            result[i] = values[i].name();
         }
         return result;
     }
 
-    public SelectBoxPart(String label, String property, Enum<?>... values) {
-        this(label, property, convertToStrings(values, true));
-        resultValues = convertToStrings(values, false);
+
+    private static <T extends Enum<T>> String[] convertToDisplayText(Function<T, String> displayTextFunction, T[] values) {
+        String[] result = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            result[i] = displayTextFunction.apply(values[i]);
+        }
+        return result;
+    }
+
+    public <T extends Enum<T>> SelectBoxPart(String label, String property, Function<T, String> displayTextFunction, T... values) {
+        this(label, property, convertToDisplayText(displayTextFunction, values));
+        resultValues = convertToStrings(values);
     }
 
     public SelectBoxPart(String label, String property, String... values) {

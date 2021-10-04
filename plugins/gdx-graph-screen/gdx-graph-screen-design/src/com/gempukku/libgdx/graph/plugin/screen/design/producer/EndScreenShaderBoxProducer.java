@@ -13,6 +13,7 @@ import com.gempukku.libgdx.graph.ui.graph.GraphBox;
 import com.gempukku.libgdx.graph.ui.graph.GraphBoxImpl;
 import com.gempukku.libgdx.graph.ui.graph.GraphChangedEvent;
 import com.gempukku.libgdx.graph.ui.part.SelectBoxPart;
+import com.gempukku.libgdx.graph.ui.part.StringifyEnum;
 import com.gempukku.libgdx.graph.ui.producer.GraphBoxProducerImpl;
 
 public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl {
@@ -40,7 +41,7 @@ public class EndScreenShaderBoxProducer extends GraphBoxProducerImpl {
         };
 
         addConfigurationInputsAndOutputs(result);
-        SelectBoxPart blendingBox = new SelectBoxPart("Blending", "blending", BasicShader.Blending.values());
+        SelectBoxPart blendingBox = new SelectBoxPart("Blending", "blending", new StringifyEnum<BasicShader.Blending>(), BasicShader.Blending.values());
         blendingBox.initialize(data);
         result.addGraphBoxPart(blendingBox);
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.MathUtils;
@@ -28,11 +29,10 @@ import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
-import com.gempukku.libgdx.graph.plugin.models.GraphModel;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
+import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
-import com.gempukku.libgdx.graph.shader.Transforms;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
@@ -62,6 +62,8 @@ public class Episode14Scene implements LibgdxGraphTestScene {
     private float cameraPositionAngle;
     private float cameraAngle;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
+    private MaterialModelInstanceRenderableModelAdapter starAdapter;
+    private MaterialModelInstanceRenderableModelAdapter starCoronaAdapter;
 
     @Override
     public void initializeScene() {
@@ -127,21 +129,21 @@ public class Episode14Scene implements LibgdxGraphTestScene {
     }
 
     private void registerModels(GraphModels models) {
-        GraphModel starfieldId = models.registerModel(starfield);
-        models.addModelDefaultTag(starfieldId, "starfield");
-        models.createModelInstance(starfieldId);
+        ModelInstance starfieldInstance = new ModelInstance(starfield);
+        MaterialModelInstanceRenderableModelAdapter starfieldAdapter = new MaterialModelInstanceRenderableModelAdapter(starfieldInstance, models);
+        starfieldAdapter.register("starfield");
 
-        GraphModel blackHoleId = models.registerModel(blackHole);
-        models.addModelDefaultTag(blackHoleId, "black-hole");
-        models.createModelInstance(blackHoleId);
+        ModelInstance blackHoleInstance = new ModelInstance(blackHole);
+        MaterialModelInstanceRenderableModelAdapter blackHoleAdapter = new MaterialModelInstanceRenderableModelAdapter(blackHoleInstance, models);
+        blackHoleAdapter.register("black-hole");
 
-        GraphModel starId = models.registerModel(star);
-        starInstance = models.createModelInstance(starId);
-        models.updateTransform(starInstance, Transforms.create().idt().translate(starPosition.x, starPosition.y, starPosition.z));
+        ModelInstance starInstance = new ModelInstance(star);
+        starInstance.transform.idt().translate(starPosition.x, starPosition.y, starPosition.z);
+        starAdapter = new MaterialModelInstanceRenderableModelAdapter(starInstance, models);
 
-        GraphModel starCoronaId = models.registerModel(starCorona);
-        starCoronaInstance = models.createModelInstance(starCoronaId);
-        models.updateTransform(starCoronaInstance, Transforms.create().idt().translate(starPosition.x, starPosition.y, starPosition.z));
+        ModelInstance starCoronaInstance = new ModelInstance(starCorona);
+        starCoronaInstance.transform.idt().translate(starPosition.x, starPosition.y, starPosition.z);
+        starCoronaAdapter = new MaterialModelInstanceRenderableModelAdapter(starCoronaInstance, models);
     }
 
     private Stage createStage() {
@@ -201,15 +203,23 @@ public class Episode14Scene implements LibgdxGraphTestScene {
         float distanceToBlackHole = blackHolePosition.dst2(camera.position);
         float distanceToStar = starPosition.dst2(camera.position);
         if (distanceToBlackHole < distanceToStar) {
-            models.addTag(starInstance, "star-surface-behind");
-            models.addTag(starCoronaInstance, "star-corona-behind");
-            models.removeTag(starInstance, "star-surface-in-front");
-            models.removeTag(starCoronaInstance, "star-corona-in-front");
+            if (!starAdapter.hasTag("star-surface-behind")) {
+                starAdapter.register("star-surface-behind");
+                starCoronaAdapter.register("star-corona-behind");
+            }
+            if (starAdapter.hasTag("star-surface-in-front")) {
+                starAdapter.deregister("star-surface-in-front");
+                starCoronaAdapter.deregister("star-corona-in-front");
+            }
         } else {
-            models.removeTag(starInstance, "star-surface-behind");
-            models.removeTag(starCoronaInstance, "star-corona-behind");
-            models.addTag(starInstance, "star-surface-in-front");
-            models.addTag(starCoronaInstance, "star-corona-in-front");
+            if (starAdapter.hasTag("star-surface-behind")) {
+                starAdapter.deregister("star-surface-behind");
+                starCoronaAdapter.deregister("star-corona-behind");
+            }
+            if (!starAdapter.hasTag("star-surface-in-front")) {
+                starAdapter.register("star-surface-in-front");
+                starCoronaAdapter.register("star-corona-in-front");
+            }
         }
     }
 

@@ -1,22 +1,27 @@
 package com.gempukku.libgdx.graph.sprite;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.component.*;
+import com.gempukku.libgdx.graph.component.AnchorComponent;
+import com.gempukku.libgdx.graph.component.FacingComponent;
+import com.gempukku.libgdx.graph.component.PositionComponent;
+import com.gempukku.libgdx.graph.component.SizeComponent;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
-import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
-import com.gempukku.libgdx.graph.plugin.sprites.GraphSprites;
-import com.gempukku.libgdx.graph.plugin.sprites.SpriteUpdater;
+import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
-public class StateBasedSprite implements Sprite {
-    private static Vector3 tmpPosition = new Vector3();
+public class StateBasedSprite implements Sprite, PropertyContainer {
+    private static Vector3 tmpVec3 = new Vector3();
+    private static Vector2 tmpVec2 = new Vector2();
     private String state;
     private ObjectMap<String, SpriteStateData> statesData;
-    private boolean animationDirty = true;
+    private boolean dirty = true;
     private Entity entity;
+    private float animationStart;
+    private float outline;
 
     public StateBasedSprite(Entity entity, String state, ObjectMap<String, SpriteStateData> statesData) {
         this.entity = entity;
@@ -28,52 +33,92 @@ public class StateBasedSprite implements Sprite {
         if (!statesData.containsKey(state))
             throw new IllegalArgumentException("Undefined state for the sprite");
         if (!this.state.equals(state)) {
-            animationDirty = true;
+            dirty = true;
             this.state = state;
         }
     }
 
+
     @Override
-    public void updateSprite(TimeProvider timeProvider, PipelineRenderer pipelineRenderer) {
-        SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
+    public void setOutline(float outline) {
+        if (this.outline != outline) {
+            this.outline = outline;
+            dirty = true;
+        }
+    }
+
+    @Override
+    public Vector3 getPosition() {
+        final PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
+        return positionComponent.getPosition(StateBasedSprite.tmpVec3);
+    }
+
+    @Override
+    public boolean isRendered(Camera camera) {
+        return true;
+    }
+
+    @Override
+    public PropertyContainer getPropertyContainer(String tag) {
+        return this;
+    }
+
+    @Override
+    public Object getValue(String name) {
+        if (name.equals("Size")) {
+            final SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);
+            final FacingComponent facingComponent = entity.getComponent(FacingComponent.class);
+            SpriteFaceDirection faceDirection = facingComponent.getFaceDirection();
+            return sizeComponent.getSize(StateBasedSprite.tmpVec2).scl(faceDirection.getX(), 1);
+        }
+        if (name.equals("Anchor")) {
+            final AnchorComponent anchorComponent = entity.getComponent(AnchorComponent.class);
+            return anchorComponent.getAnchor(StateBasedSprite.tmpVec2);
+        }
+        if (name.equals("Texture")) {
+            SpriteStateData spriteStateData = statesData.get(state);
+            return spriteStateData.sprites;
+        }
+        if (name.equals("Outline")) {
+            return outline;
+        }
+        if (name.equals("Animation Start")) {
+            return animationStart;
+        }
+        if (name.equals("Animation Speed")) {
+            SpriteStateData spriteStateData = statesData.get(state);
+            return spriteStateData.speed;
+        }
+        if (name.equals("Animation Looping")) {
+            SpriteStateData spriteStateData = statesData.get(state);
+            return spriteStateData.looping ? 1f : 0f;
+        }
+        if (name.equals("Sprite Count")) {
+            SpriteStateData spriteStateData = statesData.get(state);
+            StateBasedSprite.tmpVec2.set(spriteStateData.spriteWidth, spriteStateData.spriteHeight);
+            return StateBasedSprite.tmpVec2;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean cleanup(TimeProvider timeProvider, PipelineRenderer pipelineRenderer) {
         final PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
         final FacingComponent facingComponent = entity.getComponent(FacingComponent.class);
         boolean attributeDirty = positionComponent.isDirty() || facingComponent.isDirty();
 
-        GraphSprites graphSprites = pipelineRenderer.getPluginData(GraphSprites.class);
+        boolean result = attributeDirty || dirty;
 
-        SpriteStateData spriteStateData = statesData.get(state);
-
-        GraphSprite sprite = spriteComponent.getGraphSprite();
         if (attributeDirty) {
-            final SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);
-            final AnchorComponent anchorComponent = entity.getComponent(AnchorComponent.class);
-
-            graphSprites.updateSprite(sprite,
-                    new SpriteUpdater() {
-                        @Override
-                        public void processUpdate(Vector3 position) {
-                            Vector3 tmpPosition = positionComponent.getPosition(StateBasedSprite.tmpPosition);
-                            position.set(tmpPosition.x, tmpPosition.y, tmpPosition.z);
-                        }
-                    });
-            SpriteFaceDirection faceDirection = facingComponent.getFaceDirection();
-            graphSprites.setProperty(sprite, "Size", sizeComponent.getSize(new Vector2()).scl(faceDirection.getX(), 1));
-            graphSprites.setProperty(sprite, "Anchor", anchorComponent.getAnchor(new Vector2()));
-
             positionComponent.clean();
             facingComponent.clean();
         }
 
-        if (animationDirty) {
-            GraphSprite graphSprite = sprite;
-            graphSprites.setProperty(graphSprite, "Texture", spriteStateData.sprites);
-            graphSprites.setProperty(graphSprite, "Animation Start", timeProvider.getTime());
-            graphSprites.setProperty(graphSprite, "Animation Speed", spriteStateData.speed);
-            graphSprites.setProperty(graphSprite, "Animation Looping", spriteStateData.looping ? 1f : 0f);
-            graphSprites.setProperty(graphSprite, "Sprite Count", new Vector2(spriteStateData.spriteWidth, spriteStateData.spriteHeight));
+        if (dirty) {
+            animationStart = timeProvider.getTime();
         }
 
-        animationDirty = false;
+        dirty = false;
+        return result;
     }
 }

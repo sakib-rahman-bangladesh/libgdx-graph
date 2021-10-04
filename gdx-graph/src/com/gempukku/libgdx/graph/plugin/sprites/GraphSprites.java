@@ -1,27 +1,58 @@
 package com.gempukku.libgdx.graph.plugin.sprites;
 
-import com.badlogic.gdx.math.Vector3;
-
+/**
+ * Main interface for operating on sprites.
+ */
 public interface GraphSprites {
-    GraphSprite createSprite(Vector3 position);
+    /**
+     * Adds sprite to be rendered using the 'tag' (shader) provided.
+     *
+     * @param tag
+     * @param renderableSprite
+     * @return
+     */
+    GraphSprite addSprite(String tag, RenderableSprite renderableSprite);
 
-    void updateSprite(GraphSprite sprite, SpriteUpdater spriteUpdater);
+    /**
+     * Should be called after modifying properties of a sprite. This is necessary to
+     * update any information for batched sprites. It is not necessary (though advisable for future
+     * proofing) to call this method for sprites that are not batched.
+     *
+     * @param sprite
+     */
+    void updateSprite(GraphSprite sprite);
 
-    void destroySprite(GraphSprite sprite);
+    /**
+     * Removes sprite from rendering.
+     *
+     * @param sprite
+     */
+    void removeSprite(GraphSprite sprite);
 
-    void addTag(GraphSprite sprite, String tag);
-
-    void removeTag(GraphSprite sprite, String tag);
-
-    void setProperty(GraphSprite sprite, String name, Object value);
-
-    void unsetProperty(GraphSprite sprite, String name);
-
-    Object getProperty(GraphSprite sprite, String name);
-
+    /**
+     * Sets global property for a given 'tag' (shader).
+     *
+     * @param tag
+     * @param name
+     * @param value
+     */
     void setGlobalProperty(String tag, String name, Object value);
 
+    /**
+     * Unsets global property for a given 'tag' (shader), effectively resetting it to the default provided from the
+     * designer tool.
+     *
+     * @param tag
+     * @param name
+     */
     void unsetGlobalProperty(String tag, String name);
 
+    /**
+     * Returns a global property for a given 'tag' (shader).
+     *
+     * @param tag
+     * @param name
+     * @return
+     */
     Object getGlobalProperty(String tag, String name);
 }

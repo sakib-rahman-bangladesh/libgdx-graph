@@ -582,8 +582,10 @@ public class GraphContainer extends VisTable implements NavigableCanvas {
     public void addGraphConnection(String fromNode, String fromField, String toNode, String toField) {
         NodeConnector nodeFrom = getNodeInfo(fromNode, fromField);
         NodeConnector nodeTo = getNodeInfo(toNode, toField);
-        if (nodeFrom == null || nodeTo == null)
-            throw new IllegalArgumentException("Can't find node");
+        if (nodeFrom == null)
+            throw new IllegalArgumentException("Can't find connector, id: " + fromNode + ", field: " + fromField);
+        if (nodeTo == null)
+            throw new IllegalArgumentException("Can't find connector, id: " + toNode + ", field: " + toField);
         graphConnections.add(new GraphConnectionImpl(fromNode, fromField, toNode, toField));
         fire(new GraphChangedEvent(true, false));
         invalidate();
@@ -609,7 +611,7 @@ public class GraphContainer extends VisTable implements NavigableCanvas {
             for (String nodeId : nodeGroupImpl.getNodeIds()) {
                 VisWindow window = boxWindows.get(nodeId);
                 if (window == null)
-                    System.out.println(nodeId);
+                    throw new IllegalStateException("Unable to find node with id: " + nodeId);
                 float windowX = window.getX();
                 float windowY = window.getY();
                 float windowWidth = window.getWidth();
@@ -683,10 +685,10 @@ public class GraphContainer extends VisTable implements NavigableCanvas {
             GraphBoxInputConnector input = getGraphBoxById(toNode.getNodeId()).getInputs().get(toNode.getFieldId());
             calculateConnection(to, toWindow, input);
             Shape shape;
-            if(output.getSide()== GraphBoxOutputConnector.Side.Right){
-                shape = basicStroke.createStrokedShape(new CubicCurve2D.Float(from.x,from.y,((from.x+to.x)/2),from.y,((from.x+to.x)/2),to.y,to.x, to.y));
-            }else{
-                shape = basicStroke.createStrokedShape(new CubicCurve2D.Float(from.x,from.y,from.x,((from.y+to.y)/2),to.x,((from.y+to.y)/2),to.x, to.y));
+            if (output.getSide() == GraphBoxOutputConnector.Side.Right) {
+                shape = basicStroke.createStrokedShape(new CubicCurve2D.Float(from.x, from.y, ((from.x + to.x) / 2), from.y, ((from.x + to.x) / 2), to.y, to.x, to.y));
+            } else {
+                shape = basicStroke.createStrokedShape(new CubicCurve2D.Float(from.x, from.y, from.x, ((from.y + to.y) / 2), to.x, ((from.y + to.y) / 2), to.x, to.y));
             }
             connections.put(graphConnection, shape);
         }
@@ -790,10 +792,10 @@ public class GraphContainer extends VisTable implements NavigableCanvas {
 
             from.add(x, y);
             to.add(x, y);
-            if(output.getSide()== GraphBoxOutputConnector.Side.Right){
-                shapeRenderer.curve(from.x,from.y,((from.x+to.x)/2),from.y,((from.x+to.x)/2),to.y,to.x, to.y,100);
-            }else{
-                shapeRenderer.curve(from.x,from.y,from.x,((from.y+to.y)/2),to.x,((from.y+to.y)/2),to.x, to.y,100);
+            if (output.getSide() == GraphBoxOutputConnector.Side.Right) {
+                shapeRenderer.curve(from.x, from.y, ((from.x + to.x) / 2), from.y, ((from.x + to.x) / 2), to.y, to.x, to.y, 100);
+            } else {
+                shapeRenderer.curve(from.x, from.y, from.x, ((from.y + to.y) / 2), to.x, ((from.y + to.y) / 2), to.x, to.y, 100);
             }
 
         }
@@ -806,23 +808,23 @@ public class GraphContainer extends VisTable implements NavigableCanvas {
                 GraphBoxInputConnector input = drawingFromNode.getInputs().get(drawingFromConnector.getFieldId());
                 calculateConnection(from, fromWindow, input);
                 Vector2 mouseLocation = getStage().getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-                if(input.getSide()== GraphBoxInputConnector.Side.Left){
-                    shapeRenderer.curve(x+from.x,y+from.y,((x+from.x+mouseLocation.x)/2),y+from.y,
-                            ((x+from.x+mouseLocation.x)/2),mouseLocation.y,mouseLocation.x, mouseLocation.y,100);
-                }else{
-                    shapeRenderer.curve(x+from.x,y+from.y,x+from.x,((y+from.y+mouseLocation.y)/2),
-                            mouseLocation.x,((y+from.y+mouseLocation.y)/2),mouseLocation.x, mouseLocation.y,100);
+                if (input.getSide() == GraphBoxInputConnector.Side.Left) {
+                    shapeRenderer.curve(x + from.x, y + from.y, ((x + from.x + mouseLocation.x) / 2), y + from.y,
+                            ((x + from.x + mouseLocation.x) / 2), mouseLocation.y, mouseLocation.x, mouseLocation.y, 100);
+                } else {
+                    shapeRenderer.curve(x + from.x, y + from.y, x + from.x, ((y + from.y + mouseLocation.y) / 2),
+                            mouseLocation.x, ((y + from.y + mouseLocation.y) / 2), mouseLocation.x, mouseLocation.y, 100);
                 }
             } else {
                 GraphBoxOutputConnector output = drawingFromNode.getOutputs().get(drawingFromConnector.getFieldId());
                 calculateConnection(from, fromWindow, output);
                 Vector2 mouseLocation = getStage().getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-                if(output.getSide()== GraphBoxOutputConnector.Side.Right){
-                    shapeRenderer.curve(x+from.x,y+from.y,((x+from.x+mouseLocation.x)/2),y+from.y,
-                            ((x+from.x+mouseLocation.x)/2),mouseLocation.y,mouseLocation.x, mouseLocation.y,100);
-                }else{
-                    shapeRenderer.curve(x+from.x,y+from.y,x+from.x,((y+from.y+mouseLocation.y)/2),
-                            mouseLocation.x,((y+from.y+mouseLocation.y)/2),mouseLocation.x, mouseLocation.y,100);
+                if (output.getSide() == GraphBoxOutputConnector.Side.Right) {
+                    shapeRenderer.curve(x + from.x, y + from.y, ((x + from.x + mouseLocation.x) / 2), y + from.y,
+                            ((x + from.x + mouseLocation.x) / 2), mouseLocation.y, mouseLocation.x, mouseLocation.y, 100);
+                } else {
+                    shapeRenderer.curve(x + from.x, y + from.y, x + from.x, ((y + from.y + mouseLocation.y) / 2),
+                            mouseLocation.x, ((y + from.y + mouseLocation.y) / 2), mouseLocation.x, mouseLocation.y, 100);
                 }
             }
         }

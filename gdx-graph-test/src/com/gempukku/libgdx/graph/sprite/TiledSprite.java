@@ -1,25 +1,25 @@
 package com.gempukku.libgdx.graph.sprite;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.gempukku.libgdx.graph.component.AnchorComponent;
 import com.gempukku.libgdx.graph.component.PositionComponent;
 import com.gempukku.libgdx.graph.component.SizeComponent;
-import com.gempukku.libgdx.graph.component.SpriteComponent;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
-import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
-import com.gempukku.libgdx.graph.plugin.sprites.GraphSprites;
-import com.gempukku.libgdx.graph.plugin.sprites.SpriteUpdater;
+import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
-public class TiledSprite implements Sprite {
-    private static Vector3 tmpPosition = new Vector3();
+public class TiledSprite implements Sprite, PropertyContainer {
+    private static Vector3 tmpVec3 = new Vector3();
+    private static Vector2 tmpVec2 = new Vector2();
     private Entity entity;
     private TextureRegion textureRegion;
     private Vector2 tileRepeat = new Vector2();
-    private boolean textureDirty = true;
+    private boolean dirty = true;
+    private float outline;
 
     public TiledSprite(Entity entity, TextureRegion textureRegion, Vector2 tileRepeat) {
         this.entity = entity;
@@ -28,37 +28,64 @@ public class TiledSprite implements Sprite {
     }
 
     @Override
-    public void updateSprite(TimeProvider timeProvider, PipelineRenderer pipelineRenderer) {
-        SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
+    public void setOutline(float outline) {
+        if (this.outline != outline) {
+            this.outline = outline;
+            dirty = true;
+        }
+    }
+
+    @Override
+    public Vector3 getPosition() {
+        final PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
+        return positionComponent.getPosition(TiledSprite.tmpVec3);
+    }
+
+    @Override
+    public boolean isRendered(Camera camera) {
+        return true;
+    }
+
+    @Override
+    public PropertyContainer getPropertyContainer(String tag) {
+        return this;
+    }
+
+    @Override
+    public Object getValue(String name) {
+        if (name.equals("Size")) {
+            final SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);
+            return sizeComponent.getSize(TiledSprite.tmpVec2);
+        }
+        if (name.equals("Anchor")) {
+            final AnchorComponent anchorComponent = entity.getComponent(AnchorComponent.class);
+            return anchorComponent.getAnchor(TiledSprite.tmpVec2);
+        }
+        if (name.equals("Outline")) {
+            return outline;
+        }
+        if (name.equals("Tile Texture")) {
+            return textureRegion;
+        }
+        if (name.equals("Tile Repeat")) {
+            return tileRepeat;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean cleanup(TimeProvider timeProvider, PipelineRenderer pipelineRenderer) {
         final PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
         boolean positionDirty = positionComponent.isDirty();
 
-        GraphSprites graphSprites = pipelineRenderer.getPluginData(GraphSprites.class);
+        boolean result = positionDirty || dirty;
 
-        GraphSprite sprite = spriteComponent.getGraphSprite();
         if (positionDirty) {
-            final SizeComponent sizeComponent = entity.getComponent(SizeComponent.class);
-            final AnchorComponent anchorComponent = entity.getComponent(AnchorComponent.class);
-
-            graphSprites.updateSprite(sprite,
-                    new SpriteUpdater() {
-                        @Override
-                        public void processUpdate(Vector3 position) {
-                            Vector3 tmpPosition = positionComponent.getPosition(TiledSprite.tmpPosition);
-                            position.set(tmpPosition.x, tmpPosition.y, tmpPosition.z);
-                        }
-                    });
-            graphSprites.setProperty(sprite, "Size", sizeComponent.getSize(new Vector2()));
-            graphSprites.setProperty(sprite, "Anchor", anchorComponent.getAnchor(new Vector2()));
-
             positionComponent.clean();
         }
 
-        if (textureDirty) {
-            GraphSprite graphSprite = sprite;
-            graphSprites.setProperty(graphSprite, "Tile Texture", textureRegion);
-            graphSprites.setProperty(graphSprite, "Tile Repeat", tileRepeat);
-        }
-        textureDirty = false;
+        dirty = false;
+
+        return result;
     }
 }
