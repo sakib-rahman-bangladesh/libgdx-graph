@@ -6,7 +6,10 @@ import com.gempukku.libgdx.graph.field.BooleanFieldType;
 import com.gempukku.libgdx.graph.field.FloatFieldType;
 import com.gempukku.libgdx.graph.field.Vector2FieldType;
 import com.gempukku.libgdx.graph.field.Vector3FieldType;
-import com.gempukku.libgdx.graph.pipeline.field.*;
+import com.gempukku.libgdx.graph.pipeline.field.CameraPipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.ColorPipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldTypeRegistry;
 import com.gempukku.libgdx.graph.pipeline.producer.math.arithmetic.*;
 import com.gempukku.libgdx.graph.pipeline.producer.math.common.*;
 import com.gempukku.libgdx.graph.pipeline.producer.math.exponential.*;
@@ -22,12 +25,12 @@ import com.gempukku.libgdx.graph.pipeline.producer.postprocessor.GaussianBlurPip
 import com.gempukku.libgdx.graph.pipeline.producer.property.PropertyPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.provided.RenderSizePipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.provided.TimePipelineNodeProducer;
-import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.CustomRendererPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.EndPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PipelineRendererNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.StartPipelineNodeProducer;
 import com.gempukku.libgdx.graph.pipeline.producer.value.producer.*;
 import com.gempukku.libgdx.graph.pipeline.property.*;
+import com.gempukku.libgdx.graph.plugin.callback.producer.RenderCallbackPipelineNodeProducer;
 
 public class RendererPipelineConfiguration {
     private static ObjectMap<String, PipelineNodeProducer> pipelineNodeProducers = new ObjectMap<>();
@@ -40,7 +43,7 @@ public class RendererPipelineConfiguration {
     static {
         register(new StartPipelineNodeProducer());
         register(new EndPipelineNodeProducer());
-        register(new CustomRendererPipelineNodeProducer());
+        register(new RenderCallbackPipelineNodeProducer());
         register(new PipelineRendererNodeProducer());
 
         register(new ValueFloatPipelineNodeProducer());
@@ -112,7 +115,6 @@ public class RendererPipelineConfiguration {
         registerPropertyProducer(new ColorPipelinePropertyProducer(), new ColorPipelineFieldType());
         registerPropertyProducer(new BooleanPipelinePropertyProducer(), new BooleanFieldType());
         registerPropertyProducer(new CameraPipelinePropertyProducer(), new CameraPipelineFieldType());
-        registerPropertyProducer(new CallbackPipelinePropertyProducer(), new CallbackPipelineFieldType());
     }
 
     public static void registerPropertyProducer(PipelinePropertyProducer pipelinePropertyProducer, PipelineFieldType pipelineFieldType) {

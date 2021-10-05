@@ -1,19 +1,16 @@
-package com.gempukku.libgdx.graph.pipeline.config.rendering;
+package com.gempukku.libgdx.graph.plugin.callback.producer;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
-import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
 import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.RenderPipeline;
 
-public class CustomRendererPipelineNodeConfiguration extends NodeConfigurationImpl {
-    public CustomRendererPipelineNodeConfiguration() {
-        super("CustomRenderer", "Custom renderer", "Pipeline");
+public class RenderCallbackPipelineNodeConfiguration extends NodeConfigurationImpl {
+    public RenderCallbackPipelineNodeConfiguration() {
+        super("RenderCallback", "Render callback", "Pipeline");
         addNodeInput(
                 new GraphNodeInputImpl("enabled", "Enabled", false, "Boolean"));
-        addNodeInput(
-                new GraphNodeInputImpl("callback", "Callback", true, PipelineFieldType.Callback));
         addNodeInput(
                 new GraphNodeInputImpl("input", "Input", true, true, RenderPipeline));
         addNodeOutput(

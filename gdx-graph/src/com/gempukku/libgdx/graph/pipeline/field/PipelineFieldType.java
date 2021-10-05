@@ -10,5 +10,4 @@ public interface PipelineFieldType extends FieldType {
     String Boolean = "Boolean";
     String Camera = "Camera";
     String RenderPipeline = "RenderPipeline";
-    String Callback = "Callback";
 }
