@@ -1,7 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.models;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.gempukku.libgdx.graph.plugin.models.impl.GraphModelImpl;
 import com.gempukku.libgdx.graph.plugin.models.producer.ModelShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 
@@ -10,7 +9,7 @@ public class ModelGraphShader extends GraphShader {
         super(tag, defaultTexture);
     }
 
-    public void render(ModelShaderContextImpl shaderContext, GraphModelImpl graphModel) {
+    public void render(ModelShaderContextImpl shaderContext, GraphModel graphModel) {
         RenderableModel renderableModel = graphModel.getRenderableModel();
 
         shaderContext.setLocalPropertyContainer(renderableModel.getPropertyContainer(getTag()));

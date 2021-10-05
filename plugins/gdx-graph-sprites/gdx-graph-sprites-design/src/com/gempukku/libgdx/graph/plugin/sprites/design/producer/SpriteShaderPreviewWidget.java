@@ -87,6 +87,11 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
                     }
 
                     @Override
+                    public boolean isRendered(Camera camera) {
+                        return true;
+                    }
+
+                    @Override
                     public PropertyContainer getPropertyContainer(String tag) {
                         return propertyContainer;
                     }

@@ -12,10 +12,12 @@ public class GraphSpriteImpl implements GraphSprite {
         this.renderableSprite = renderableSprite;
     }
 
+    @Override
     public String getTag() {
         return tag;
     }
 
+    @Override
     public RenderableSprite getRenderableSprite() {
         return renderableSprite;
     }

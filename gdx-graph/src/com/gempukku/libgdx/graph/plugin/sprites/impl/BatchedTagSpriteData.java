@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
+import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteGraphShader;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 
@@ -41,7 +42,7 @@ public class BatchedTagSpriteData implements Disposable {
         floatCount = fCount;
     }
 
-    public void addSprite(GraphSpriteImpl sprite) {
+    public void addSprite(GraphSprite sprite) {
         String textureSignature = getTextureSignature(sprite);
         Array<BatchedSpriteData> dynamicCachedSpriteData = dynamicCachedSpritesPerTextureSet.get(textureSignature);
         if (dynamicCachedSpriteData == null) {
@@ -59,7 +60,7 @@ public class BatchedTagSpriteData implements Disposable {
         batchedSpriteData.addGraphSprite(sprite);
     }
 
-    public void spriteUpdated(GraphSpriteImpl graphSprite) {
+    public void spriteUpdated(GraphSprite graphSprite) {
         BatchedSpriteData batchedSpriteData = findCachedSpriteDataContainingSprite(graphSprite);
         if (batchedSpriteData == null) {
             // Texture change
@@ -70,7 +71,7 @@ public class BatchedTagSpriteData implements Disposable {
         }
     }
 
-    private void removeRegardlessOfTexture(GraphSpriteImpl graphSprite) {
+    private void removeRegardlessOfTexture(GraphSprite graphSprite) {
         for (ObjectMap.Entry<String, Array<BatchedSpriteData>> dynamicCachedSprites : new ObjectMap.Entries<>(dynamicCachedSpritesPerTextureSet)) {
             for (BatchedSpriteData dynamicCachedSprite : dynamicCachedSprites.value) {
                 if (dynamicCachedSprite.removeGraphSprite(graphSprite)) {
@@ -89,7 +90,7 @@ public class BatchedTagSpriteData implements Disposable {
         }
     }
 
-    private BatchedSpriteData findCachedSpriteDataContainingSprite(GraphSpriteImpl graphSprite) {
+    private BatchedSpriteData findCachedSpriteDataContainingSprite(GraphSprite graphSprite) {
         String textureSignature = getTextureSignature(graphSprite);
         Array<BatchedSpriteData> array = dynamicCachedSpritesPerTextureSet.get(textureSignature);
         if (array != null) {
@@ -102,7 +103,7 @@ public class BatchedTagSpriteData implements Disposable {
         return null;
     }
 
-    public void removeSprite(GraphSpriteImpl sprite) {
+    public void removeSprite(GraphSprite sprite) {
         String textureSignature = getTextureSignature(sprite);
         Array<BatchedSpriteData> dynamicCachedSprites = dynamicCachedSpritesPerTextureSet.get(textureSignature);
         if (dynamicCachedSprites != null) {
@@ -156,7 +157,7 @@ public class BatchedTagSpriteData implements Disposable {
         }
     }
 
-    private String getTextureSignature(GraphSpriteImpl graphSprite) {
+    private String getTextureSignature(GraphSprite graphSprite) {
         if (textureUniformNames.size == 0)
             return "";
 

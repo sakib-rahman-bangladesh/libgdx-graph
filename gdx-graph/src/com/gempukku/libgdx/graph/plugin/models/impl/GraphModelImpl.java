@@ -12,10 +12,12 @@ public class GraphModelImpl implements GraphModel {
         this.renderableModel = renderableModel;
     }
 
+    @Override
     public String getTag() {
         return tag;
     }
 
+    @Override
     public RenderableModel getRenderableModel() {
         return renderableModel;
     }

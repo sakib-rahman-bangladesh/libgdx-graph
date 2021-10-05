@@ -14,11 +14,11 @@ import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.producer.node.*;
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
+import com.gempukku.libgdx.graph.plugin.models.GraphModel;
 import com.gempukku.libgdx.graph.plugin.models.ModelGraphShader;
 import com.gempukku.libgdx.graph.plugin.models.ModelShaderConfiguration;
 import com.gempukku.libgdx.graph.plugin.models.ModelShaderLoaderCallback;
 import com.gempukku.libgdx.graph.plugin.models.config.ModelShaderRendererPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.plugin.models.impl.GraphModelImpl;
 import com.gempukku.libgdx.graph.plugin.models.impl.GraphModelsImpl;
 import com.gempukku.libgdx.graph.plugin.models.producer.strategy.*;
 import com.gempukku.libgdx.graph.shader.GraphShader;
@@ -296,7 +296,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
         }
 
         @Override
-        public void process(GraphModelImpl graphModel, String tag) {
+        public void process(GraphModel graphModel, String tag) {
             ModelGraphShader shader = shaderResolver.apply(tag);
             if (runningShader != shader) {
                 endCurrentShader();

@@ -13,19 +13,19 @@ import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class GraphModelsImpl implements GraphModels, RuntimePipelinePlugin {
-    private ObjectMap<String, ObjectSet<GraphModelImpl>> modelsByTag = new ObjectMap<>();
+    private ObjectMap<String, ObjectSet<GraphModel>> modelsByTag = new ObjectMap<>();
     private ObjectMap<String, ObjectMap<String, PropertySource>> propertiesByTag = new ObjectMap<>();
     private ObjectMap<String, PropertyContainerImpl> propertiesForTag = new ObjectMap<>();
 
     public void registerTag(String tag, ModelGraphShader shader) {
         if (modelsByTag.containsKey(tag))
             throw new IllegalStateException("There is already a shader with tag: " + tag);
-        modelsByTag.put(tag, new ObjectSet<GraphModelImpl>());
+        modelsByTag.put(tag, new ObjectSet<GraphModel>());
         propertiesByTag.put(tag, shader.getProperties());
         propertiesForTag.put(tag, new PropertyContainerImpl());
     }
 
-    public Iterable<? extends GraphModelImpl> getModels(String tag) {
+    public Iterable<? extends GraphModel> getModels(String tag) {
         return modelsByTag.get(tag);
     }
 
