@@ -9,9 +9,9 @@ sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = ["src/"]
 sourceSets.main.resources.srcDirs = ["resources/"]
 
-archivesBaseName = "libgdx-graph"
+archivesBaseName = "gdx-graph"
 
-eclipse.project.name = "libgdx-graph"
+eclipse.project.name = "gdx-graph"
 
 task javadocJar(type: Jar) {
     classifier 'javadoc'
@@ -31,8 +31,8 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             pom {
-                name = "libgdx-graph"
-                description = "libGDX-graph runtime library for pipeline rendering"
+                name = "gdx-graph"
+                description = "gdx-graph runtime library for pipeline rendering"
                 url = "https://github.com/MarcinSc/libgdx-graph"
                 licenses {
                     license {

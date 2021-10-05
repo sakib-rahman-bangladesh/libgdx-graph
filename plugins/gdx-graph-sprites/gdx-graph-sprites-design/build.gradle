@@ -6,4 +6,4 @@ sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = [ "resources/" ]
 
-eclipse.project.name = "libgdx-graph-sprites-design"
+eclipse.project.name = "gdx-graph-sprites-design"
