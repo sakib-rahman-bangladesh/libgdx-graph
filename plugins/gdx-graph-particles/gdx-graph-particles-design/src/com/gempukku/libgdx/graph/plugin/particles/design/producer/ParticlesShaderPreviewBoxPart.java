@@ -36,7 +36,7 @@ public class ParticlesShaderPreviewBoxPart extends VisTable implements GraphBoxP
         final VisSlider perSecondCount = new VisSlider(0, 100f, 0.1f, false);
         perSecondCount.setValue(10f);
 
-        shaderPreviewWidget = new ParticlesShaderPreviewWidget(200, 200);
+        shaderPreviewWidget = new ParticlesShaderPreviewWidget(300, 300);
         shaderPreviewWidget.setRunning(true);
         shaderPreviewWidget.setCameraDistance(1f);
         shaderPreviewWidget.setLifetime(3f);

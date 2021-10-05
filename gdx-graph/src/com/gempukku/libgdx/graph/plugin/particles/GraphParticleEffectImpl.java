@@ -57,7 +57,7 @@ public class GraphParticleEffectImpl implements GraphParticleEffect, Disposable 
         }
     }
 
-    public void generateParticles(TimeProvider timeProvider) {
+    public void generateParticles() {
         if (running) {
             if (initialParticles) {
                 particleGenerator.initialCreateParticles(callback);

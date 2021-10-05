@@ -5,8 +5,6 @@ Priority: 1, Difficulty: 2
 Priority: 2, Difficulty: 7
 - Advanced control of OpenGL settings in shaders.
 Priority: 2, Difficulty: 5
-- Larger shader preview popup.
-Priority: 2, Difficulty :2
 - Previews for some shader nodes.
 Priority: 3, Difficulty: 8
 - Shortcut to create and connect a property, when clicking on node circle in graph.
@@ -17,6 +15,8 @@ Priority: 2, Difficulty: 6
 Priority: 1, Difficulty: 7
 - Pipeline transitions (i.e. between scenes).
 Priority: 2, Difficulty: 8
+- Renaming property should update all the nodes that use that property.
+Priority: 3, Difficulty: 3
 
 Sprite shader:
 
