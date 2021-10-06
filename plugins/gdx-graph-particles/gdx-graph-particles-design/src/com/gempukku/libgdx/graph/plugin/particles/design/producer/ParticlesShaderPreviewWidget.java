@@ -26,7 +26,7 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Point3DLight;
 import com.gempukku.libgdx.graph.plugin.particles.ParticleEffectConfiguration;
 import com.gempukku.libgdx.graph.plugin.particles.ParticlesGraphShader;
 import com.gempukku.libgdx.graph.plugin.particles.generator.*;
-import com.gempukku.libgdx.graph.plugin.particles.impl.DefaultRenderableParticleEffect;
+import com.gempukku.libgdx.graph.plugin.particles.impl.CommonPropertiesRenderableParticleEffect;
 import com.gempukku.libgdx.graph.plugin.particles.impl.GraphParticleEffectImpl;
 import com.gempukku.libgdx.graph.plugin.particles.model.QuadParticleModel;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
@@ -55,7 +55,7 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     private DefaultTimeKeeper timeKeeper;
     private Lighting3DEnvironment graphShaderEnvironment;
     private ShaderContextImpl shaderContext;
-    private DefaultRenderableParticleEffect renderableParticleEffect;
+    private CommonPropertiesRenderableParticleEffect renderableParticleEffect;
     private GraphParticleEffectImpl particleEffect;
     private ShaderPreviewModel model = ShaderPreviewModel.Point;
     private float lifetime = 3f;
@@ -222,7 +222,7 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     }
 
     private void createModel(VertexAttributes vertexAttributes) {
-        renderableParticleEffect = new DefaultRenderableParticleEffect(createGenerator());
+        renderableParticleEffect = new CommonPropertiesRenderableParticleEffect(createGenerator());
         particleEffect = new GraphParticleEffectImpl("tag", new ParticleEffectConfiguration(vertexAttributes, graphShader.getProperties(),
                 graphShader.getMaxNumberOfParticles()),
                 renderableParticleEffect, new QuadParticleModel(), false);
