@@ -33,6 +33,7 @@ import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.plugin.particles.generator.DefaultParticleGenerator;
 import com.gempukku.libgdx.graph.plugin.particles.generator.LinePositionGenerator;
+import com.gempukku.libgdx.graph.plugin.particles.impl.DefaultRenderableParticleEffect;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -129,7 +130,8 @@ public class Episode18Scene implements LibgdxGraphTestScene {
             }
         };
         particleGenerator.setPositionGenerator(positionGenerator);
-        GraphParticleEffect effect = effects.createEffect("exhaust", particleGenerator);
+
+        GraphParticleEffect effect = effects.createEffect("exhaust", new DefaultRenderableParticleEffect(particleGenerator));
         effects.startEffect(effect);
     }
 

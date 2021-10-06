@@ -1,13 +1,13 @@
-package com.gempukku.libgdx.graph.plugin.models.producer.strategy;
+package com.gempukku.libgdx.graph.plugin.models.strategy;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.graph.plugin.models.GraphModel;
 import com.gempukku.libgdx.graph.plugin.models.impl.GraphModelsImpl;
 
-public class ShaderFrontToBackModelRenderingStrategy implements ModelRenderingStrategy {
+public class ShaderBackToFrontModelRenderingStrategy implements ModelRenderingStrategy {
     private Array<GraphModel> orderingArray = new Array<>();
-    private DistanceModelSorter modelSorter = new DistanceModelSorter(DistanceModelSorter.Order.Front_To_Back);
+    private DistanceModelSorter modelSorter = new DistanceModelSorter(DistanceModelSorter.Order.Back_To_Front);
 
     @Override
     public void processModels(GraphModelsImpl models, Array<String> tags, Camera camera, StrategyCallback callback) {

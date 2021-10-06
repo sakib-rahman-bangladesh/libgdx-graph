@@ -106,11 +106,10 @@ public class Vector3FieldType implements ShaderFieldType, PipelineFieldType {
     }
 
     @Override
-    public int setValueInAttributesArray(float[] vertices, int startIndex, Object value) {
+    public void setValueInAttributesArray(float[] vertices, int startIndex, Object value) {
         vertices[startIndex + 0] = ((Vector3) value).x;
         vertices[startIndex + 1] = ((Vector3) value).y;
         vertices[startIndex + 2] = ((Vector3) value).z;
-        return 3;
     }
 
     @Override

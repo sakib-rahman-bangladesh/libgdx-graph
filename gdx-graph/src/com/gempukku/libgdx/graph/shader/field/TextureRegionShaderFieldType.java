@@ -203,13 +203,12 @@ public class TextureRegionShaderFieldType implements ShaderFieldType {
     }
 
     @Override
-    public int setValueInAttributesArray(float[] vertices, int startIndex, Object value) {
+    public void setValueInAttributesArray(float[] vertices, int startIndex, Object value) {
         TextureRegion region = (TextureRegion) value;
         vertices[startIndex + 0] = region.getU();
         vertices[startIndex + 1] = region.getV();
         vertices[startIndex + 2] = region.getU2() - region.getU();
         vertices[startIndex + 3] = region.getV2() - region.getV();
-        return 4;
     }
 
     @Override

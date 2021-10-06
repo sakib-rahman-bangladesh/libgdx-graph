@@ -12,6 +12,8 @@ import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.producer.node.*;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
+import com.gempukku.libgdx.graph.plugin.particles.impl.GraphParticleEffectImpl;
+import com.gempukku.libgdx.graph.plugin.particles.impl.GraphParticleEffectsImpl;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
@@ -112,8 +114,10 @@ public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodePro
                             shaderContext.setGlobalPropertyContainer(particleEffects.getGlobalPropertyContainer(tag));
                             particleShader.begin(shaderContext, pipelineRenderingContext.getRenderContext());
                             for (GraphParticleEffectImpl particleEffect : particleEffects.getParticleEffects(tag)) {
-                                shaderContext.setLocalPropertyContainer(particleEffect.getPropertyContainer());
-                                particleEffect.render(particleShader, shaderContext);
+                                if (particleEffect.getRenderableParticleEffect().isRendered(shaderContext.getCamera(), tag)) {
+                                    shaderContext.setLocalPropertyContainer(particleEffect.getPropertyContainer());
+                                    particleEffect.render(particleShader, shaderContext);
+                                }
                             }
                             particleShader.end();
                         }

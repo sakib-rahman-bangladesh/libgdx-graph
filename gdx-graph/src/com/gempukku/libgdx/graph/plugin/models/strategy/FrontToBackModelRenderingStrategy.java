@@ -1,16 +1,16 @@
-package com.gempukku.libgdx.graph.plugin.models.producer.strategy;
+package com.gempukku.libgdx.graph.plugin.models.strategy;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.Array;
 import com.gempukku.libgdx.graph.plugin.models.GraphModel;
 import com.gempukku.libgdx.graph.plugin.models.impl.GraphModelsImpl;
 
-public class BackToFrontModelRenderingStrategy implements ModelRenderingStrategy {
+public class FrontToBackModelRenderingStrategy implements ModelRenderingStrategy {
     private Array<GraphModel> orderingArray = new Array<>();
-    private DistanceModelSorter modelSorter = new DistanceModelSorter(DistanceModelSorter.Order.Back_To_Front);
+    private DistanceModelSorter modelSorter = new DistanceModelSorter(DistanceModelSorter.Order.Front_To_Back);
 
     @Override
-    public void processModels(GraphModelsImpl models, Array<String> tags, Camera camera, StrategyCallback callback) {
+    public void processModels(GraphModelsImpl models, Array<String> tags, Camera camera, ModelRenderingStrategy.StrategyCallback callback) {
         callback.begin();
         orderingArray.clear();
         for (String tag : tags) {

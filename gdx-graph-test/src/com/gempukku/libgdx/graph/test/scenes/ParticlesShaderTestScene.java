@@ -13,6 +13,8 @@ import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.plugin.particles.generator.DefaultParticleGenerator;
 import com.gempukku.libgdx.graph.plugin.particles.generator.SpherePositionGenerator;
+import com.gempukku.libgdx.graph.plugin.particles.impl.DefaultRenderableParticleEffect;
+import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
@@ -54,8 +56,9 @@ public class ParticlesShaderTestScene implements LibgdxGraphTestScene {
         DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(timeKeeper, 1f, 10, 10);
         particleGenerator.setPositionGenerator(positionGenerator);
 
-        GraphParticleEffect particleEffect = particleEffects.createEffect("Test", particleGenerator);
-        particleEffects.setProperty(particleEffect, "Size", size);
+        PropertyContainerImpl properties = new PropertyContainerImpl();
+        GraphParticleEffect particleEffect = particleEffects.createEffect("Test", new DefaultRenderableParticleEffect(particleGenerator, properties));
+        properties.setValue("Size", size);
         return particleEffect;
     }
 

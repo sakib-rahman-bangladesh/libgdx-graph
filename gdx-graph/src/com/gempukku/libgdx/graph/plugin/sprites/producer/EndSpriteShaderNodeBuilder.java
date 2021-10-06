@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.plugin.sprites;
+package com.gempukku.libgdx.graph.plugin.sprites.producer;
 
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;

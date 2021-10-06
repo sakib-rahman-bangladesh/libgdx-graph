@@ -27,6 +27,7 @@ import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
 import com.gempukku.libgdx.graph.plugin.particles.generator.DefaultParticleGenerator;
 import com.gempukku.libgdx.graph.plugin.particles.generator.ParallelogramPositionGenerator;
+import com.gempukku.libgdx.graph.plugin.particles.impl.DefaultRenderableParticleEffect;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.system.*;
 import com.gempukku.libgdx.graph.system.camera.FocusCameraController;
@@ -125,7 +126,7 @@ public class TestScene implements LibgdxGraphTestScene {
         positionGenerator.getDirection2().set(0, 1, 0);
         DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(timeKeeper, 5, 10, 10);
         particleGenerator.setPositionGenerator(positionGenerator);
-        GraphParticleEffect dustEffect = particleEffects.createEffect("Dust", particleGenerator);
+        GraphParticleEffect dustEffect = particleEffects.createEffect("Dust", new DefaultRenderableParticleEffect(particleGenerator));
         particleEffects.startEffect(dustEffect);
     }
 

@@ -1,11 +1,13 @@
-package com.gempukku.libgdx.graph.plugin.particles;
+package com.gempukku.libgdx.graph.plugin.particles.impl;
 
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.plugin.RuntimePipelinePlugin;
-import com.gempukku.libgdx.graph.plugin.particles.generator.ParticleGenerator;
+import com.gempukku.libgdx.graph.plugin.particles.*;
+import com.gempukku.libgdx.graph.plugin.particles.model.ParticleModel;
+import com.gempukku.libgdx.graph.plugin.particles.model.QuadParticleModel;
 import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
@@ -42,30 +44,31 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, RuntimePi
     }
 
     @Override
-    public GraphParticleEffect createEffect(String tag, ParticleGenerator particleGenerator) {
-        return createEffect(tag, particleGenerator, null);
+    public GraphParticleEffect createEffect(String tag, RenderableParticleEffect particleEffect) {
+        return createEffect(tag, particleEffect, null, new QuadParticleModel());
     }
 
     @Override
-    public <T> GraphParticleEffect createEffect(String tag, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass) {
+    public GraphParticleEffect createEffect(String tag, RenderableParticleEffect particleEffect, ParticleModel particleModel) {
+        return createEffect(tag, particleEffect, null, particleModel);
+    }
+
+    @Override
+    public <T> GraphParticleEffect createEffect(String tag, RenderableParticleEffect<T> particleEffect, Class<T> particleDataClass) {
+        return createEffect(tag, particleEffect, particleDataClass, new QuadParticleModel());
+    }
+
+    @Override
+    public <T> GraphParticleEffect createEffect(String tag, RenderableParticleEffect<T> particleEffect, Class<T> particleDataClass,
+                                                ParticleModel particleModel) {
         ParticleEffectConfiguration configuration = effectsConfiguration.get(tag);
         if (configuration == null)
             throw new IllegalArgumentException("Unable to find particle effect with tag - " + tag);
 
-        GraphParticleEffectImpl particleEffect = new GraphParticleEffectImpl(tag, configuration, particleGenerator, particleDataClass != null);
-        particleEffects.add(particleEffect);
-        effectsByTag.get(tag).add(particleEffect);
-        return particleEffect;
-    }
-
-    @Override
-    public void setGenerator(GraphParticleEffect effect, ParticleGenerator particleGenerator) {
-        setGenerator(effect, particleGenerator, null);
-    }
-
-    @Override
-    public <T> void setGenerator(GraphParticleEffect effect, ParticleGenerator<T> particleGenerator, Class<T> particleDataClass) {
-        getEffect(effect).setParticleGenerator(particleGenerator);
+        GraphParticleEffectImpl result = new GraphParticleEffectImpl(tag, configuration, particleEffect, particleModel, particleDataClass != null);
+        particleEffects.add(result);
+        effectsByTag.get(tag).add(result);
+        return result;
     }
 
     @Override
@@ -94,21 +97,6 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, RuntimePi
         particleEffects.remove(effectImpl);
         effectsByTag.get(effect.getTag()).remove(effectImpl);
         effectImpl.dispose();
-    }
-
-    @Override
-    public void setProperty(GraphParticleEffect effect, String name, Object value) {
-        getEffect(effect).setProperty(name, value);
-    }
-
-    @Override
-    public void unsetProperty(GraphParticleEffect effect, String name) {
-        getEffect(effect).unsetProperty(name);
-    }
-
-    @Override
-    public Object getProperty(GraphParticleEffect effect, String name) {
-        return getEffect(effect).getProperty(name);
     }
 
     @Override

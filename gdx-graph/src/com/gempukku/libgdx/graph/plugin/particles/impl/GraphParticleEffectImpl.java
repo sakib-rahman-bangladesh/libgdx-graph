@@ -1,21 +1,20 @@
-package com.gempukku.libgdx.graph.plugin.particles;
+package com.gempukku.libgdx.graph.plugin.particles.impl;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyContainer;
+import com.gempukku.libgdx.graph.plugin.particles.*;
 import com.gempukku.libgdx.graph.plugin.particles.generator.ParticleGenerator;
+import com.gempukku.libgdx.graph.plugin.particles.model.ParticleModel;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class GraphParticleEffectImpl implements GraphParticleEffect, Disposable {
-    private final static int MAX_NUMBER_OF_PARTICLES_PER_CONTAINER = 256 * 256 / 4 - 1;
-
     private String tag;
     private ParticleEffectConfiguration particleEffectConfiguration;
-    private ParticleGenerator particleGenerator;
-    private PropertyContainerImpl propertyContainer = new PropertyContainerImpl();
+    private RenderableParticleEffect renderableParticleEffect;
+    private ParticleModel particleModel;
     private ParticleCreateCallbackImpl callback = new ParticleCreateCallbackImpl();
     private boolean running = false;
 
@@ -24,21 +23,19 @@ public class GraphParticleEffectImpl implements GraphParticleEffect, Disposable 
 
     private boolean initialParticles;
 
-    public GraphParticleEffectImpl(String tag, ParticleEffectConfiguration particleEffectConfiguration, ParticleGenerator particleGenerator,
+    public GraphParticleEffectImpl(String tag, ParticleEffectConfiguration particleEffectConfiguration,
+                                   RenderableParticleEffect renderableParticleEffect, ParticleModel particleModel,
                                    boolean storeParticleData) {
         this.tag = tag;
         this.particleEffectConfiguration = particleEffectConfiguration;
-        this.particleGenerator = particleGenerator;
+        this.renderableParticleEffect = renderableParticleEffect;
+        this.particleModel = particleModel;
 
         initializeBuffers(particleEffectConfiguration, storeParticleData);
     }
 
-    public void setParticleGenerator(ParticleGenerator particleGenerator) {
-        this.particleGenerator = particleGenerator;
-    }
-
     public PropertyContainer getPropertyContainer() {
-        return propertyContainer;
+        return renderableParticleEffect.getPropertyContainer(tag);
     }
 
     @Override
@@ -46,12 +43,23 @@ public class GraphParticleEffectImpl implements GraphParticleEffect, Disposable 
         return tag;
     }
 
+    @Override
+    public RenderableParticleEffect getRenderableParticleEffect() {
+        return renderableParticleEffect;
+    }
+
+    @Override
+    public boolean isRunning() {
+        return running;
+    }
+
     private void initializeBuffers(ParticleEffectConfiguration particleEffectConfiguration, boolean storeParticleData) {
+        int maxNumberOfParticlesPerContainer = ((256 * 256) / particleModel.getVertexCount()) - 1;
         int particlesToCreate = particleEffectConfiguration.getMaxNumberOfParticles();
         while (particlesToCreate > 0) {
-            int containerCount = Math.min(particlesToCreate, MAX_NUMBER_OF_PARTICLES_PER_CONTAINER);
+            int containerCount = Math.min(particlesToCreate, maxNumberOfParticlesPerContainer);
             particlesData.add(new ParticlesDataContainer(particleEffectConfiguration.getVertexAttributes(),
-                    particleEffectConfiguration.getProperties(),
+                    particleModel, particleEffectConfiguration.getProperties(),
                     containerCount, storeParticleData));
             particlesToCreate -= containerCount;
         }
@@ -60,10 +68,10 @@ public class GraphParticleEffectImpl implements GraphParticleEffect, Disposable 
     public void generateParticles() {
         if (running) {
             if (initialParticles) {
-                particleGenerator.initialCreateParticles(callback);
+                renderableParticleEffect.getParticleGenerator(tag).initialCreateParticles(callback);
                 initialParticles = false;
             } else {
-                particleGenerator.createParticles(callback);
+                renderableParticleEffect.getParticleGenerator(tag).createParticles(callback);
             }
         }
     }
@@ -109,18 +117,6 @@ public class GraphParticleEffectImpl implements GraphParticleEffect, Disposable 
         if (!running)
             throw new IllegalStateException("Not started");
         running = false;
-    }
-
-    public void setProperty(String name, Object value) {
-        propertyContainer.setValue(name, value);
-    }
-
-    public void unsetProperty(String name) {
-        propertyContainer.remove(name);
-    }
-
-    public Object getProperty(String name) {
-        return propertyContainer.getValue(name);
     }
 
     @Override

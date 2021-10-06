@@ -4,6 +4,7 @@ import com.gempukku.libgdx.graph.pipeline.RendererPipelineConfiguration;
 import com.gempukku.libgdx.graph.plugin.PluginRegistry;
 import com.gempukku.libgdx.graph.plugin.PluginRegistryImpl;
 import com.gempukku.libgdx.graph.plugin.PluginRuntimeInitializer;
+import com.gempukku.libgdx.graph.plugin.particles.impl.GraphParticleEffectsImpl;
 
 public class ParticlesPluginRuntimeInitializer implements PluginRuntimeInitializer {
     private GraphParticleEffectsImpl effects = new GraphParticleEffectsImpl();

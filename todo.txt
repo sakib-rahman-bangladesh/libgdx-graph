@@ -17,12 +17,11 @@ Priority: 1, Difficulty: 7
 Priority: 2, Difficulty: 8
 - Renaming property should update all the nodes that use that property.
 Priority: 3, Difficulty: 3
+- Add Vector4 class to allow specifying vec4 uniforms/attributes without using Color class.
 
 Sprite shader:
 
 Particle shader:
-- Add support for defining geometry of the particles.
-Priority: 2, Difficulty: 6
 - Add support for line particles.
 Priority: 2, Difficulty: 5
 
