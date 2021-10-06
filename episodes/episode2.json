@@ -1,17 +1,24 @@
 {
   "version": "0.5.0",
+  "type": "Render_Pipeline",
   "nodes": [
     {
       "id": "7bd6a2015adf4fdd9a1f75ed60398ced",
       "type": "UIRenderer",
       "x": 272.0,
-      "y": 148.0
+      "y": 148.0,
+      "data": {
+        "id": ""
+      }
     },
     {
-      "id": "d7873a60368647b2ba76e0cae7d1f00a",
-      "type": "CustomRenderer",
-      "x": 270.0,
-      "y": 286.0
+      "id": "29c6afc57c094a63b96f052ac1df8942",
+      "type": "RenderCallback",
+      "x": 242.0,
+      "y": 301.0,
+      "data": {
+        "callbackId": "Callback"
+      }
     },
     {
       "id": "end",
@@ -24,16 +31,6 @@
       "type": "PipelineStart",
       "x": 272.0,
       "y": 436.0
-    },
-    {
-      "id": "7eee64071f54441baac480aa5ddf6b90",
-      "type": "Property",
-      "x": 50.0,
-      "y": 286.0,
-      "data": {
-        "name": "Callback",
-        "type": "Callback"
-      }
     }
   ],
   "connections": [
@@ -46,27 +43,16 @@
     {
       "fromNode": "78f632288a564ce6a0bcde6f9dc1940f",
       "fromField": "output",
-      "toNode": "d7873a60368647b2ba76e0cae7d1f00a",
+      "toNode": "29c6afc57c094a63b96f052ac1df8942",
       "toField": "input"
     },
     {
-      "fromNode": "d7873a60368647b2ba76e0cae7d1f00a",
+      "fromNode": "29c6afc57c094a63b96f052ac1df8942",
       "fromField": "output",
       "toNode": "7bd6a2015adf4fdd9a1f75ed60398ced",
       "toField": "input"
-    },
-    {
-      "fromNode": "7eee64071f54441baac480aa5ddf6b90",
-      "fromField": "value",
-      "toNode": "d7873a60368647b2ba76e0cae7d1f00a",
-      "toField": "callback"
     }
   ],
-  "properties": [
-    {
-      "name": "Callback",
-      "type": "Callback"
-    }
-  ],
+  "properties": [],
   "groups": []
 }

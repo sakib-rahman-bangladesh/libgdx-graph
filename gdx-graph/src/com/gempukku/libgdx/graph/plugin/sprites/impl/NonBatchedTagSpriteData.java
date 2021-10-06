@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.PropertyContainer;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
+import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
+import com.gempukku.libgdx.graph.plugin.sprites.RenderableSprite;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteData;
 import com.gempukku.libgdx.graph.plugin.sprites.ValuePerVertex;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
@@ -62,14 +64,15 @@ public class NonBatchedTagSpriteData implements SpriteData, Disposable {
         mesh.setIndices(indices);
     }
 
-    public void setSprite(GraphSpriteImpl sprite) {
+    public void setSprite(GraphSprite sprite) {
+        RenderableSprite renderableSprite = sprite.getRenderableSprite();
         for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
             int floatIndex = 0;
             int vertexOffset = vertexIndex * floatCount;
             for (VertexAttribute vertexAttribute : vertexAttributes) {
                 String alias = vertexAttribute.alias;
                 if (alias.equals(ShaderProgram.POSITION_ATTRIBUTE)) {
-                    Vector3 position = sprite.getRenderableSprite().getPosition();
+                    Vector3 position = renderableSprite.getPosition();
                     tempVertices[vertexOffset + floatIndex + 0] = position.x;
                     tempVertices[vertexOffset + floatIndex + 1] = position.y;
                     tempVertices[vertexOffset + floatIndex + 2] = position.z;
@@ -84,7 +87,7 @@ public class NonBatchedTagSpriteData implements SpriteData, Disposable {
                     PropertySource propertySource = shaderProperties.get(propertyName);
 
                     ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
-                    Object value = sprite.getRenderableSprite().getPropertyContainer(tag).getValue(propertyName);
+                    Object value = renderableSprite.getPropertyContainer(tag).getValue(propertyName);
                     if (value instanceof ValuePerVertex) {
                         value = ((ValuePerVertex) value).getValue(vertexIndex);
                         value = propertySource.getValueToUse(value);
@@ -98,7 +101,7 @@ public class NonBatchedTagSpriteData implements SpriteData, Disposable {
         }
 
         mesh.updateVertices(0, tempVertices, 0, 4 * floatCount);
-        propertyContainer = sprite.getRenderableSprite().getPropertyContainer(tag);
+        propertyContainer = renderableSprite.getPropertyContainer(tag);
     }
 
     @Override

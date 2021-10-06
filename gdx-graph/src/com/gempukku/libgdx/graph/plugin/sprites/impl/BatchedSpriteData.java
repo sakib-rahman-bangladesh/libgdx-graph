@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
+import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
+import com.gempukku.libgdx.graph.plugin.sprites.RenderableSprite;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteData;
 import com.gempukku.libgdx.graph.plugin.sprites.ValuePerVertex;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
@@ -24,7 +26,7 @@ public class BatchedSpriteData implements SpriteData {
     private final ObjectMap<String, PropertySource> shaderProperties;
     private final IntMap<String> propertyIndexNames;
 
-    private final GraphSpriteImpl[] graphSpritesPosition;
+    private final GraphSprite[] graphSpritesPosition;
     private Mesh mesh;
 
     private float[] vertexData;
@@ -32,7 +34,7 @@ public class BatchedSpriteData implements SpriteData {
     private int minUpdatedIndex = Integer.MAX_VALUE;
     private int maxUpdatedIndex = -1;
 
-    private ObjectSet<GraphSpriteImpl> updatedSprites = new ObjectSet<>();
+    private ObjectSet<GraphSprite> updatedSprites = new ObjectSet<>();
 
     public BatchedSpriteData(boolean staticCache, int spriteCapacity, int floatCountPerVertex,
                              String tag,
@@ -65,7 +67,7 @@ public class BatchedSpriteData implements SpriteData {
         mesh.setIndices(indices, 0, indices.length);
     }
 
-    public boolean addGraphSprite(GraphSpriteImpl sprite) {
+    public boolean addGraphSprite(GraphSprite sprite) {
         if (spriteCount == spriteCapacity)
             return false;
 
@@ -78,11 +80,11 @@ public class BatchedSpriteData implements SpriteData {
         return true;
     }
 
-    public void updateGraphSprite(GraphSpriteImpl sprite) {
+    public void updateGraphSprite(GraphSprite sprite) {
         updatedSprites.add(sprite);
     }
 
-    public boolean removeGraphSprite(GraphSpriteImpl sprite) {
+    public boolean removeGraphSprite(GraphSprite sprite) {
         int position = findSpriteIndex(sprite);
         if (position == -1)
             return false;
@@ -104,7 +106,9 @@ public class BatchedSpriteData implements SpriteData {
         return true;
     }
 
-    private void updateSpriteData(GraphSpriteImpl sprite, int spriteIndex) {
+    private void updateSpriteData(GraphSprite sprite, int spriteIndex) {
+        RenderableSprite renderableSprite = sprite.getRenderableSprite();
+
         int spriteDataStart = getSpriteDataStart(spriteIndex);
 
         for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
@@ -114,7 +118,7 @@ public class BatchedSpriteData implements SpriteData {
             for (VertexAttribute vertexAttribute : vertexAttributes) {
                 String alias = vertexAttribute.alias;
                 if (alias.equals(ShaderProgram.POSITION_ATTRIBUTE)) {
-                    Vector3 position = sprite.getRenderableSprite().getPosition();
+                    Vector3 position = renderableSprite.getPosition();
                     vertexData[vertexOffset + floatIndex + 0] = position.x;
                     vertexData[vertexOffset + floatIndex + 1] = position.y;
                     vertexData[vertexOffset + floatIndex + 2] = position.z;
@@ -129,7 +133,7 @@ public class BatchedSpriteData implements SpriteData {
                     PropertySource propertySource = shaderProperties.get(propertyName);
 
                     ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
-                    Object value = sprite.getRenderableSprite().getPropertyContainer(tag).getValue(propertyName);
+                    Object value = renderableSprite.getPropertyContainer(tag).getValue(propertyName);
                     if (value instanceof ValuePerVertex) {
                         value = ((ValuePerVertex) value).getValue(vertexIndex);
                         value = propertySource.getValueToUse(value);
@@ -151,7 +155,7 @@ public class BatchedSpriteData implements SpriteData {
         if (debug && !updatedSprites.isEmpty())
             Gdx.app.debug("Sprite", "Updating info of " + updatedSprites.size + " sprite(s)");
 
-        for (GraphSpriteImpl updatedSprite : updatedSprites) {
+        for (GraphSprite updatedSprite : updatedSprites) {
             updateSpriteData(updatedSprite, findSpriteIndex(updatedSprite));
         }
         updatedSprites.clear();
@@ -192,7 +196,7 @@ public class BatchedSpriteData implements SpriteData {
         return spriteIndex * floatCountPerVertex * 4;
     }
 
-    private int findSpriteIndex(GraphSpriteImpl sprite) {
+    private int findSpriteIndex(GraphSprite sprite) {
         for (int i = 0; i < spriteCount; i++) {
             if (graphSpritesPosition[i] == sprite)
                 return i;
@@ -200,7 +204,7 @@ public class BatchedSpriteData implements SpriteData {
         return -1;
     }
 
-    public boolean hasSprite(GraphSpriteImpl graphSprite) {
+    public boolean hasSprite(GraphSprite graphSprite) {
         return findSpriteIndex(graphSprite) != -1;
     }
 }

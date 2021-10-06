@@ -22,6 +22,8 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.*;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineRequirements;
+import com.gempukku.libgdx.graph.plugin.callback.RenderCallback;
+import com.gempukku.libgdx.graph.plugin.callback.RenderCallbackPublicData;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -166,11 +168,12 @@ public class Episode4Scene implements LibgdxGraphTestScene {
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
         pipelineRenderer.getPluginData(UIPluginPublicData.class).setStage("", stage);
-        pipelineRenderer.setPipelineProperty("Callback1", new ModelsRenderCallback(camera1));
-        pipelineRenderer.setPipelineProperty("Callback2", new ModelsRenderCallback(camera2));
+        RenderCallbackPublicData renderCallbacks = pipelineRenderer.getPluginData(RenderCallbackPublicData.class);
+        renderCallbacks.setRenderCallback("Callback1", new ModelsRenderCallback(camera1));
+        renderCallbacks.setRenderCallback("Callback2", new ModelsRenderCallback(camera2));
     }
 
-    private class ModelsRenderCallback implements CustomRenderCallback {
+    private class ModelsRenderCallback implements RenderCallback {
         private Camera camera;
 
         public ModelsRenderCallback(Camera camera) {

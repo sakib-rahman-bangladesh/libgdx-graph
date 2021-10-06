@@ -19,7 +19,7 @@ public class ModelShaderPreviewBoxPart extends VisTable implements GraphBoxPart 
     private final VisSelectBox<ModelShaderPreviewWidget.ShaderPreviewModel> selectBox;
 
     public ModelShaderPreviewBoxPart() {
-        shaderPreviewWidget = new ModelShaderPreviewWidget(200, 200);
+        shaderPreviewWidget = new ModelShaderPreviewWidget(300, 300);
         selectBox = new VisSelectBox<ModelShaderPreviewWidget.ShaderPreviewModel>();
         selectBox.setItems(ModelShaderPreviewWidget.ShaderPreviewModel.values());
 

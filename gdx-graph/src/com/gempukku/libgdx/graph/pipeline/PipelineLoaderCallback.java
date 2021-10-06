@@ -60,7 +60,10 @@ public class PipelineLoaderCallback extends GraphDataLoaderCallback<PipelineRend
 
     @Override
     protected NodeConfiguration getNodeConfiguration(String type, JsonValue data) {
-        return RendererPipelineConfiguration.findProducer(type).getConfiguration(data);
+        PipelineNodeProducer producer = RendererPipelineConfiguration.findProducer(type);
+        if (producer == null)
+            throw new IllegalArgumentException("Unknown type of producer: " + type);
+        return producer.getConfiguration(data);
     }
 
     private PipelineNode populatePipelineNodes(String nodeId, ObjectMap<String, PipelineNode> pipelineNodeMap) {

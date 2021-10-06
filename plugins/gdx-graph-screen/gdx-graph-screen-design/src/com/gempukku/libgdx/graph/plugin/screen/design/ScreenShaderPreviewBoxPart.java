@@ -16,7 +16,7 @@ public class ScreenShaderPreviewBoxPart extends VisTable implements GraphBoxPart
     private final ScreenShaderPreviewWidget shaderPreviewWidget;
 
     public ScreenShaderPreviewBoxPart() {
-        shaderPreviewWidget = new ScreenShaderPreviewWidget(200, 200);
+        shaderPreviewWidget = new ScreenShaderPreviewWidget(300, 300);
 
         add(new Separator()).pad(5).growX().row();
         add(shaderPreviewWidget).grow().row();

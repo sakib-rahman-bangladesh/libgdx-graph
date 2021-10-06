@@ -19,6 +19,8 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.*;
 import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineRequirements;
+import com.gempukku.libgdx.graph.plugin.callback.RenderCallback;
+import com.gempukku.libgdx.graph.plugin.callback.RenderCallbackPublicData;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
@@ -138,30 +140,30 @@ public class Episode2Scene implements LibgdxGraphTestScene {
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
         pipelineRenderer.getPluginData(UIPluginPublicData.class).setStage("", stage);
+        pipelineRenderer.getPluginData(RenderCallbackPublicData.class).setRenderCallback(
+                "Callback", new RenderCallback() {
+                    @Override
+                    public void renderCallback(RenderPipeline renderPipeline, PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements) {
+                        RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
 
-        pipelineRenderer.setPipelineProperty("Callback", new CustomRenderCallback() {
-            @Override
-            public void renderCallback(RenderPipeline renderPipeline, PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements) {
-                RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
+                        int width = currentBuffer.getWidth();
+                        int height = currentBuffer.getHeight();
+                        float viewportWidth = camera.viewportWidth;
+                        float viewportHeight = camera.viewportHeight;
+                        if (width != viewportWidth || height != viewportHeight) {
+                            camera.viewportWidth = width;
+                            camera.viewportHeight = height;
+                            camera.update();
+                        }
 
-                int width = currentBuffer.getWidth();
-                int height = currentBuffer.getHeight();
-                float viewportWidth = camera.viewportWidth;
-                float viewportHeight = camera.viewportHeight;
-                if (width != viewportWidth || height != viewportHeight) {
-                    camera.viewportWidth = width;
-                    camera.viewportHeight = height;
-                    camera.update();
-                }
+                        currentBuffer.beginColor();
 
-                currentBuffer.beginColor();
+                        modelBatch.begin(camera);
+                        modelBatch.render(renderableProviders, environment);
+                        modelBatch.end();
 
-                modelBatch.begin(camera);
-                modelBatch.render(renderableProviders, environment);
-                modelBatch.end();
-
-                currentBuffer.endColor();
-            }
-        });
+                        currentBuffer.endColor();
+                    }
+                });
     }
 }

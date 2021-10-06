@@ -2,13 +2,13 @@ package com.gempukku.libgdx.graph.plugin.sprites.strategy;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.Array;
+import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.DistanceSpriteSorter;
-import com.gempukku.libgdx.graph.plugin.sprites.impl.GraphSpriteImpl;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.GraphSpritesImpl;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.NonBatchedTagSpriteData;
 
 public class FrontToBackSpriteRenderingStrategy implements SpriteRenderingStrategy {
-    private Array<GraphSpriteImpl> orderingArray = new Array<>();
+    private Array<GraphSprite> orderingArray = new Array<>();
     private DistanceSpriteSorter spriteSorter = new DistanceSpriteSorter(DistanceSpriteSorter.Order.Front_To_Back);
 
     @Override
@@ -22,14 +22,14 @@ public class FrontToBackSpriteRenderingStrategy implements SpriteRenderingStrate
         orderingArray.clear();
         for (String tag : tags) {
             orderingArray.clear();
-            for (GraphSpriteImpl nonBatchedSprite : sprites.getNonBatchedSprites(tag)) {
+            for (GraphSprite nonBatchedSprite : sprites.getNonBatchedSprites(tag)) {
                 if (nonBatchedSprite.getRenderableSprite().isRendered(camera))
                     orderingArray.add(nonBatchedSprite);
             }
         }
         spriteSorter.sort(camera.position, orderingArray);
 
-        for (GraphSpriteImpl graphSprite : orderingArray) {
+        for (GraphSprite graphSprite : orderingArray) {
             String tag = graphSprite.getTag();
             NonBatchedTagSpriteData nonBatchedSpriteData = sprites.getNonBatchedSpriteData(tag);
             nonBatchedSpriteData.setSprite(graphSprite);

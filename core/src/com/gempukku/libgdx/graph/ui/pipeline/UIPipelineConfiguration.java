@@ -1,44 +1,10 @@
 package com.gempukku.libgdx.graph.ui.pipeline;
 
-import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.AddPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.DividePipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.MultiplyPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.OneMinusPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.ReciprocalPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.SubtractPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.AbsPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.CeilingPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.ClampPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.FloorPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.FractionalPartPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.LerpPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.MaximumPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.MinimumPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.ModuloPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.SaturatePipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.SignPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.SmoothstepPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.common.StepPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.exponential.ExponentialBase2PipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.exponential.ExponentialPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.exponential.InverseSquareRootPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.exponential.LogarithmBase2PipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.exponential.NaturalLogarithmPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.exponential.PowerPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.exponential.SquareRootPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.geometric.CrossProductPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.geometric.DistancePipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.geometric.DotProductPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.geometric.LengthPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.geometric.NormalizePipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.ArccosPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.ArcsinPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.ArctanPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.CosPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.DegreesPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.RadiansPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.SinPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.TanPipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.math.arithmetic.*;
+import com.gempukku.libgdx.graph.pipeline.config.math.common.*;
+import com.gempukku.libgdx.graph.pipeline.config.math.exponential.*;
+import com.gempukku.libgdx.graph.pipeline.config.math.geometric.*;
+import com.gempukku.libgdx.graph.pipeline.config.math.trigonometry.*;
 import com.gempukku.libgdx.graph.pipeline.config.math.value.MergePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.math.value.SplitPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.BloomPipelineNodeConfiguration;
@@ -46,15 +12,10 @@ import com.gempukku.libgdx.graph.pipeline.config.postprocessor.GammaCorrectionPi
 import com.gempukku.libgdx.graph.pipeline.config.postprocessor.GaussianBlurPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.provided.RenderSizePipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.provided.TimePipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.rendering.CustomRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.EndPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.PipelineRendererNodeConfiguration;
 import com.gempukku.libgdx.graph.pipeline.config.rendering.StartPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.value.ValueBooleanPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.value.ValueColorPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.value.ValueFloatPipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.value.ValueVector2PipelineNodeConfiguration;
-import com.gempukku.libgdx.graph.pipeline.config.value.ValueVector3PipelineNodeConfiguration;
+import com.gempukku.libgdx.graph.pipeline.config.value.*;
 import com.gempukku.libgdx.graph.ui.UIGraphConfiguration;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxPart;
 import com.gempukku.libgdx.graph.ui.graph.property.PropertyBoxProducer;
@@ -68,11 +29,7 @@ import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyColorBoxPro
 import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyFloatBoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyVector2BoxProducer;
 import com.gempukku.libgdx.graph.ui.shader.producer.property.PropertyVector3BoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueBooleanBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueColorBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueFloatBoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueVector2BoxProducer;
-import com.gempukku.libgdx.graph.ui.shader.producer.value.ValueVector3BoxProducer;
+import com.gempukku.libgdx.graph.ui.shader.producer.value.*;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -162,7 +119,6 @@ public class UIPipelineConfiguration implements UIGraphConfiguration {
 
         register(new GraphBoxProducerImpl(new StartPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl(new PipelineRendererNodeConfiguration()));
-        register(new GraphBoxProducerImpl(new CustomRendererPipelineNodeConfiguration()));
 
         register(new GraphBoxProducerImpl(new BloomPipelineNodeConfiguration()));
         register(new GraphBoxProducerImpl(new GaussianBlurPipelineNodeConfiguration()));

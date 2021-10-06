@@ -5,6 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
+import com.gempukku.libgdx.graph.plugin.callback.design.RenderCallbackPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.lighting3d.design.Lighting3DPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.models.design.ModelsPluginDesignInitializer;
 import com.gempukku.libgdx.graph.plugin.particles.design.ParticlesPluginDesignInitializer;
@@ -35,6 +36,9 @@ public class DesktopLauncher {
         setupPluginClassLoader();
 
         // Built-in plugins
+        PluginRegistry.addPluginDefinition(
+                new PluginDefinition("internal", RenderCallbackPluginDesignInitializer.class,
+                        "Render callback", "latest", false, false));
         PluginRegistry.addPluginDefinition(
                 new PluginDefinition("internal", new InternalFileHandleResolver(), "config/plugin-ui-config.json",
                         "UI rendering", "latest", false, false));

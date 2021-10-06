@@ -37,7 +37,7 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, RuntimePi
     public void update(TimeProvider timeProvider) {
         setTimeProvider(timeProvider);
         for (GraphParticleEffectImpl particleEffect : particleEffects) {
-            particleEffect.generateParticles(timeProvider);
+            particleEffect.generateParticles();
         }
     }
 

@@ -27,7 +27,6 @@ task debug(dependsOn: classes, type: JavaExec) {
 task dist(type: Jar) {
     manifest {
         attributes 'Main-Class': project.mainClassName
-        attributes 'Premain-Class': 'com.gempukku.libgdx.graph.desktop.PluginJarInclusionAgent'
     }
     dependsOn configurations.runtimeClasspath
     from {
