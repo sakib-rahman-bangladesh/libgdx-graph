@@ -141,6 +141,7 @@ project(":gdx-graph-lighting3d-design") {
     dependencies {
         implementation project(":core")
         implementation project(":gdx-graph")
+        implementation project(":gdx-graph-models-design")
     }
 }
 

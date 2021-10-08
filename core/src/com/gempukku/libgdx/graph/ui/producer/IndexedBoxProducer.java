@@ -18,7 +18,6 @@ public class IndexedBoxProducer extends GraphBoxProducerImpl {
         GraphBoxImpl result = createGraphBox(id);
         addConfigurationInputsAndOutputs(result);
         IndexBoxPart indexPart = new IndexBoxPart("Index", "index");
-        if (data != null)
             indexPart.initialize(data);
         result.addGraphBoxPart(indexPart);
         return result;

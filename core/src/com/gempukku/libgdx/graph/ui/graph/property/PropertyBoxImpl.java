@@ -86,10 +86,8 @@ public class PropertyBoxImpl extends VisTable implements PropertyBox {
     }
 
     public void initialize(JsonValue value) {
-        if (value != null) {
-            for (PropertyBoxPart propertyBoxPart : propertyBoxParts) {
-                propertyBoxPart.initialize(value);
-            }
+        for (PropertyBoxPart propertyBoxPart : propertyBoxParts) {
+            propertyBoxPart.initialize(value);
         }
     }
 

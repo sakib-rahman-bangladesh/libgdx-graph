@@ -88,14 +88,16 @@ public class Vector4BoxPart extends VisTable implements GraphBoxPart {
     }
 
     public void initialize(JsonValue data) {
-        float valueX = data.getFloat(propertyX);
-        float valueY = data.getFloat(propertyY);
-        float valueZ = data.getFloat(propertyZ);
-        float valueW = data.getFloat(propertyW);
-        xInput.setText(String.valueOf(valueX));
-        yInput.setText(String.valueOf(valueY));
-        zInput.setText(String.valueOf(valueZ));
-        wInput.setText(String.valueOf(valueW));
+        if (data != null) {
+            float valueX = data.getFloat(propertyX);
+            float valueY = data.getFloat(propertyY);
+            float valueZ = data.getFloat(propertyZ);
+            float valueW = data.getFloat(propertyW);
+            xInput.setText(String.valueOf(valueX));
+            yInput.setText(String.valueOf(valueY));
+            zInput.setText(String.valueOf(valueZ));
+            wInput.setText(String.valueOf(valueW));
+        }
     }
 
     public void setValue(float x, float y, float z, float w) {

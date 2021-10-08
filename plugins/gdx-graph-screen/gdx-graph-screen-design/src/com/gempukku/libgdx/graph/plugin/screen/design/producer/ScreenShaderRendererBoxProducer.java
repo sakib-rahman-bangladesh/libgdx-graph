@@ -18,7 +18,6 @@ public class ScreenShaderRendererBoxProducer extends GraphBoxProducerImpl {
         addConfigurationInputsAndOutputs(result);
 
         ScreenShaderBoxPart screenShaderBoxPart = new ScreenShaderBoxPart();
-        if (data != null)
             screenShaderBoxPart.initialize(data);
         result.addGraphBoxPart(screenShaderBoxPart);
 

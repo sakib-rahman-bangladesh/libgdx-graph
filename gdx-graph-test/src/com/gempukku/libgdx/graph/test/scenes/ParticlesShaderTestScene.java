@@ -53,7 +53,7 @@ public class ParticlesShaderTestScene implements LibgdxGraphTestScene {
         SpherePositionGenerator positionGenerator = new SpherePositionGenerator();
         positionGenerator.getCenter().set(center);
         positionGenerator.setRadius(0.3f);
-        DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(timeKeeper, 1f, 10, 10);
+        DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(timeKeeper, 1f, 0, 10);
         particleGenerator.setPositionGenerator(positionGenerator);
 
         PropertyContainerImpl properties = new PropertyContainerImpl();

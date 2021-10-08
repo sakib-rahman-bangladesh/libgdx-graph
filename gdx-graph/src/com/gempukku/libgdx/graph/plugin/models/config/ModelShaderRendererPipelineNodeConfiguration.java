@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.plugin.models.config;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
@@ -11,7 +12,7 @@ public class ModelShaderRendererPipelineNodeConfiguration extends NodeConfigurat
     public ModelShaderRendererPipelineNodeConfiguration() {
         super("GraphShaderRenderer", "Model Shaders", "Shaders");
         addNodeInput(
-                new GraphNodeInputImpl("enabled", "Enabled", false, "Boolean"));
+                new GraphNodeInputImpl("enabled", "Enabled", false, PipelineFieldType.Boolean));
         addNodeInput(
                 new GraphNodeInputImpl("camera", "Camera", true, Camera));
         addNodeInput(

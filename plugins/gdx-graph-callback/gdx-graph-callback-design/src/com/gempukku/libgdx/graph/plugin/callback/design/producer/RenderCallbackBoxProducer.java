@@ -18,7 +18,6 @@ public class RenderCallbackBoxProducer extends GraphBoxProducerImpl {
         GraphBoxImpl result = createGraphBox(id);
 
         StringBoxPart callbackId = new StringBoxPart("Callback id: ", "callbackId");
-        if (data != null)
             callbackId.initialize(data, "");
         result.addGraphBoxPart(callbackId);
 

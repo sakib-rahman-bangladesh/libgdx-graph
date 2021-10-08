@@ -52,14 +52,16 @@ public class TextureSettingsGraphBoxPart extends VisTable implements GraphBoxPar
     }
 
     public void initialize(JsonValue data) {
-        if (data.has("minFilter"))
-            textureDescriptor.minFilter = Texture.TextureFilter.valueOf(data.getString("minFilter"));
-        if (data.has("magFilter"))
-            textureDescriptor.magFilter = Texture.TextureFilter.valueOf(data.getString("magFilter"));
-        if (data.has("uWrap"))
-            textureDescriptor.uWrap = Texture.TextureWrap.valueOf(data.getString("uWrap"));
-        if (data.has("vWrap"))
-            textureDescriptor.vWrap = Texture.TextureWrap.valueOf(data.getString("vWrap"));
+        if (data != null) {
+            if (data.has("minFilter"))
+                textureDescriptor.minFilter = Texture.TextureFilter.valueOf(data.getString("minFilter"));
+            if (data.has("magFilter"))
+                textureDescriptor.magFilter = Texture.TextureFilter.valueOf(data.getString("magFilter"));
+            if (data.has("uWrap"))
+                textureDescriptor.uWrap = Texture.TextureWrap.valueOf(data.getString("uWrap"));
+            if (data.has("vWrap"))
+                textureDescriptor.vWrap = Texture.TextureWrap.valueOf(data.getString("vWrap"));
+        }
     }
 
     @Override

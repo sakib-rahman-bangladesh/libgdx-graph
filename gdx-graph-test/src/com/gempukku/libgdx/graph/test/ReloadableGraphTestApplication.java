@@ -21,6 +21,7 @@ import com.gempukku.libgdx.graph.plugin.sprites.SpritesPluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.test.episodes.*;
 import com.gempukku.libgdx.graph.test.scenes.ParticlesShaderTestScene;
+import com.gempukku.libgdx.graph.test.scenes.ShadowShaderTestScene;
 import com.gempukku.libgdx.graph.test.scenes.SpriteShaderTestScene;
 import com.gempukku.libgdx.graph.util.SimpleNumberFormatter;
 
@@ -74,7 +75,8 @@ public class ReloadableGraphTestApplication extends ApplicationAdapter {
                 new Episode23Scene(),
                 new Episode24Scene(),
                 new SpriteShaderTestScene(),
-                new ParticlesShaderTestScene()
+                new ParticlesShaderTestScene(),
+                new ShadowShaderTestScene()
         };
         loadedIndex = scenes.length - 1;
 

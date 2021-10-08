@@ -1,0 +1,250 @@
+{
+  "version": "0.5.0",
+  "type": "Render_Pipeline",
+  "nodes": [
+    {
+      "id": "c9ef57a330554c3f84100178cefda237",
+      "type": "GraphShaderRenderer",
+      "x": 407.0,
+      "y": 407.0,
+      "data": {
+        "renderOrder": "Shader_Unordered",
+        "shaders": [
+          {
+            "id": "3e8e2cd9f4234a248c7afbe16ae58ef8",
+            "tag": "Color",
+            "shader": {
+              "version": "0.5.0",
+              "type": "Model_Shader",
+              "nodes": [
+                {
+                  "id": "da68953f0bb1488fb6c3d48d2a554e83",
+                  "type": "Property",
+                  "x": 162.0,
+                  "y": 487.0,
+                  "data": {
+                    "name": "Color",
+                    "type": "Vector4"
+                  }
+                },
+                {
+                  "id": "92f911e732334b488cd99702a8cd8ec4",
+                  "type": "ObjectToWorld",
+                  "x": 307.0,
+                  "y": 836.0
+                },
+                {
+                  "id": "4df119a5ff92459994155eb1765aff0f",
+                  "type": "ObjectNormalToWorld",
+                  "x": 255.0,
+                  "y": 671.0
+                },
+                {
+                  "id": "57b66ae3730b4fbe80c115e0d6f39482",
+                  "type": "BlinnPhongLighting",
+                  "x": 592.0,
+                  "y": 388.0,
+                  "data": {
+                    "id": "Scene"
+                  }
+                },
+                {
+                  "id": "end",
+                  "type": "ShaderEnd",
+                  "x": 1014.0,
+                  "y": 50.0,
+                  "data": {
+                    "positionType": "World space",
+                    "culling": "back",
+                    "blending": "opaque",
+                    "depthTest": "less"
+                  }
+                },
+                {
+                  "id": "b993c895c86048d59ae5183d57aab6d7",
+                  "type": "Property",
+                  "x": 50.0,
+                  "y": 677.0,
+                  "data": {
+                    "name": "Normal",
+                    "type": "Vector3"
+                  }
+                },
+                {
+                  "id": "cec620b87e844d4c957d895a1c1e22dc",
+                  "type": "Property",
+                  "x": 60.0,
+                  "y": 770.0,
+                  "data": {
+                    "name": "Position",
+                    "type": "Vector3"
+                  }
+                },
+                {
+                  "id": "14be32b74e974c668dc0d19640041993",
+                  "type": "ValueFloat",
+                  "x": 346.0,
+                  "y": 349.0,
+                  "data": {
+                    "v1": 32.0
+                  }
+                }
+              ],
+              "connections": [
+                {
+                  "fromNode": "cec620b87e844d4c957d895a1c1e22dc",
+                  "fromField": "value",
+                  "toNode": "92f911e732334b488cd99702a8cd8ec4",
+                  "toField": "input"
+                },
+                {
+                  "fromNode": "92f911e732334b488cd99702a8cd8ec4",
+                  "fromField": "output",
+                  "toNode": "57b66ae3730b4fbe80c115e0d6f39482",
+                  "toField": "position"
+                },
+                {
+                  "fromNode": "b993c895c86048d59ae5183d57aab6d7",
+                  "fromField": "value",
+                  "toNode": "4df119a5ff92459994155eb1765aff0f",
+                  "toField": "input"
+                },
+                {
+                  "fromNode": "4df119a5ff92459994155eb1765aff0f",
+                  "fromField": "output",
+                  "toNode": "57b66ae3730b4fbe80c115e0d6f39482",
+                  "toField": "normal"
+                },
+                {
+                  "fromNode": "92f911e732334b488cd99702a8cd8ec4",
+                  "fromField": "output",
+                  "toNode": "end",
+                  "toField": "position"
+                },
+                {
+                  "fromNode": "da68953f0bb1488fb6c3d48d2a554e83",
+                  "fromField": "value",
+                  "toNode": "57b66ae3730b4fbe80c115e0d6f39482",
+                  "toField": "albedo"
+                },
+                {
+                  "fromNode": "da68953f0bb1488fb6c3d48d2a554e83",
+                  "fromField": "value",
+                  "toNode": "57b66ae3730b4fbe80c115e0d6f39482",
+                  "toField": "specular"
+                },
+                {
+                  "fromNode": "14be32b74e974c668dc0d19640041993",
+                  "fromField": "value",
+                  "toNode": "57b66ae3730b4fbe80c115e0d6f39482",
+                  "toField": "shininess"
+                },
+                {
+                  "fromNode": "57b66ae3730b4fbe80c115e0d6f39482",
+                  "fromField": "output",
+                  "toNode": "end",
+                  "toField": "color"
+                }
+              ],
+              "properties": [
+                {
+                  "name": "Position",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                },
+                {
+                  "name": "Color",
+                  "type": "Vector4",
+                  "location": "Uniform",
+                  "data": {
+                    "color": "ffffffff"
+                  }
+                },
+                {
+                  "name": "Normal",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                }
+              ],
+              "groups": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "5096ed346e1a47b29731c0cfb25aa50c",
+      "type": "PipelineStart",
+      "x": 525.0,
+      "y": 759.0
+    },
+    {
+      "id": "50d2766eadca4cdfbffd10c0ded5eb03",
+      "type": "Property",
+      "x": 50.0,
+      "y": 694.0,
+      "data": {
+        "name": "Camera",
+        "type": "Camera"
+      }
+    },
+    {
+      "id": "end",
+      "type": "PipelineEnd",
+      "x": 525.0,
+      "y": 50.0
+    },
+    {
+      "id": "2438eb24ec664bb08ee09413fb8af6f5",
+      "type": "UIRenderer",
+      "x": 480.0,
+      "y": 216.0,
+      "data": {
+        "id": "Stage"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "fromNode": "5096ed346e1a47b29731c0cfb25aa50c",
+      "fromField": "output",
+      "toNode": "c9ef57a330554c3f84100178cefda237",
+      "toField": "input"
+    },
+    {
+      "fromNode": "50d2766eadca4cdfbffd10c0ded5eb03",
+      "fromField": "value",
+      "toNode": "c9ef57a330554c3f84100178cefda237",
+      "toField": "camera"
+    },
+    {
+      "fromNode": "c9ef57a330554c3f84100178cefda237",
+      "fromField": "output",
+      "toNode": "2438eb24ec664bb08ee09413fb8af6f5",
+      "toField": "input"
+    },
+    {
+      "fromNode": "2438eb24ec664bb08ee09413fb8af6f5",
+      "fromField": "output",
+      "toNode": "end",
+      "toField": "input"
+    }
+  ],
+  "properties": [
+    {
+      "name": "Camera",
+      "type": "Camera"
+    }
+  ],
+  "groups": []
+}

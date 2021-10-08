@@ -67,7 +67,9 @@ public class FileSelectorBoxPart extends VisTable implements GraphBoxPart {
     }
 
     public void initialize(JsonValue data) {
-        selectedPath = data.getString(property);
+        if (data != null) {
+            selectedPath = data.getString(property);
+        }
     }
 
     @Override

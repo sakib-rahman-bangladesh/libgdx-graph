@@ -54,8 +54,10 @@ public class StringBoxPart extends VisTable implements GraphBoxPart {
     }
 
     public void initialize(JsonValue data, String defaultValue) {
-        String value = data.getString(property, defaultValue);
-        input.setText(value);
+        if (data != null) {
+            String value = data.getString(property, defaultValue);
+            input.setText(value);
+        }
     }
 
     public void setValue(String value) {

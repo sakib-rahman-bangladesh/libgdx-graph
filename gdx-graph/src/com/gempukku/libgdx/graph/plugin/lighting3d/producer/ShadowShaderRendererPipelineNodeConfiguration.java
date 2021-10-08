@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.plugin.callback.producer;
+package com.gempukku.libgdx.graph.plugin.lighting3d.producer;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
 import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
@@ -7,9 +7,9 @@ import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
 import static com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType.RenderPipeline;
 
-public class RenderCallbackPipelineNodeConfiguration extends NodeConfigurationImpl {
-    public RenderCallbackPipelineNodeConfiguration() {
-        super("RenderCallback", "Render callback", "Pipeline");
+public class ShadowShaderRendererPipelineNodeConfiguration extends NodeConfigurationImpl {
+    public ShadowShaderRendererPipelineNodeConfiguration() {
+        super("ShadowShaderRenderer", "Shadow Shaders", "Shaders");
         addNodeInput(
                 new GraphNodeInputImpl("enabled", "Enabled", false, PipelineFieldType.Boolean));
         addNodeInput(
