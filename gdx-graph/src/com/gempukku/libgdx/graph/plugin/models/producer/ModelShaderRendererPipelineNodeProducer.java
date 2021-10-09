@@ -20,7 +20,7 @@ import com.gempukku.libgdx.graph.plugin.models.ModelShaderConfiguration;
 import com.gempukku.libgdx.graph.plugin.models.ModelShaderLoaderCallback;
 import com.gempukku.libgdx.graph.plugin.models.config.ModelShaderRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.plugin.models.impl.GraphModelsImpl;
-import com.gempukku.libgdx.graph.plugin.models.producer.strategy.*;
+import com.gempukku.libgdx.graph.plugin.models.strategy.*;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.common.CommonShaderConfiguration;
 import com.gempukku.libgdx.graph.shader.common.PropertyShaderConfiguration;

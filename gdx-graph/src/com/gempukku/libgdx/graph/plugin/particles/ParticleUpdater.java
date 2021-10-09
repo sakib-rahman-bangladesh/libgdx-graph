@@ -1,9 +1,11 @@
 package com.gempukku.libgdx.graph.plugin.particles;
 
-public interface ParticleUpdater<T> {
-    void updateParticle(ParticleUpdateInfo<T> particleUpdateInfo);
+import com.badlogic.gdx.utils.ObjectMap;
 
-    class ParticleUpdateInfo<T> {
-        public T particleData;
+public interface ParticleUpdater<T> {
+    void updateParticle(T particleData, ParticleUpdateCallback callback);
+
+    interface ParticleUpdateCallback {
+        void updateParticle(ObjectMap<String, Object> attributes);
     }
 }

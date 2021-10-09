@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.plugin.callback.producer;
 
 import com.gempukku.libgdx.graph.data.NodeConfigurationImpl;
+import com.gempukku.libgdx.graph.pipeline.field.PipelineFieldType;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeInputImpl;
 import com.gempukku.libgdx.graph.pipeline.producer.node.GraphNodeOutputImpl;
 
@@ -10,7 +11,7 @@ public class RenderCallbackPipelineNodeConfiguration extends NodeConfigurationIm
     public RenderCallbackPipelineNodeConfiguration() {
         super("RenderCallback", "Render callback", "Pipeline");
         addNodeInput(
-                new GraphNodeInputImpl("enabled", "Enabled", false, "Boolean"));
+                new GraphNodeInputImpl("enabled", "Enabled", false, PipelineFieldType.Boolean));
         addNodeInput(
                 new GraphNodeInputImpl("input", "Input", true, true, RenderPipeline));
         addNodeOutput(

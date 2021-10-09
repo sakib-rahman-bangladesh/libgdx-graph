@@ -23,10 +23,12 @@ import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPrivateData;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Point3DLight;
-import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffectImpl;
 import com.gempukku.libgdx.graph.plugin.particles.ParticleEffectConfiguration;
 import com.gempukku.libgdx.graph.plugin.particles.ParticlesGraphShader;
 import com.gempukku.libgdx.graph.plugin.particles.generator.*;
+import com.gempukku.libgdx.graph.plugin.particles.impl.CommonPropertiesRenderableParticleEffect;
+import com.gempukku.libgdx.graph.plugin.particles.impl.GraphParticleEffectImpl;
+import com.gempukku.libgdx.graph.plugin.particles.model.QuadParticleModel;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
@@ -53,6 +55,7 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     private DefaultTimeKeeper timeKeeper;
     private Lighting3DEnvironment graphShaderEnvironment;
     private ShaderContextImpl shaderContext;
+    private CommonPropertiesRenderableParticleEffect renderableParticleEffect;
     private GraphParticleEffectImpl particleEffect;
     private ShaderPreviewModel model = ShaderPreviewModel.Point;
     private float lifetime = 3f;
@@ -99,28 +102,28 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     public void setLifetime(float lifetime) {
         this.lifetime = lifetime;
         if (particleEffect != null) {
-            particleEffect.setParticleGenerator(createGenerator());
+            renderableParticleEffect.setParticleGenerator(createGenerator());
         }
     }
 
     public void setInitialCount(float initialCount) {
         this.initialCount = initialCount;
         if (particleEffect != null) {
-            particleEffect.setParticleGenerator(createGenerator());
+            renderableParticleEffect.setParticleGenerator(createGenerator());
         }
     }
 
     public void setPerSecondCount(float perSecondCount) {
         this.perSecondCount = perSecondCount;
         if (particleEffect != null) {
-            particleEffect.setParticleGenerator(createGenerator());
+            renderableParticleEffect.setParticleGenerator(createGenerator());
         }
     }
 
     public void setModel(ShaderPreviewModel model) {
         this.model = model;
         if (particleEffect != null) {
-            particleEffect.setParticleGenerator(createGenerator());
+            renderableParticleEffect.setParticleGenerator(createGenerator());
         }
     }
 
@@ -219,9 +222,10 @@ public class ParticlesShaderPreviewWidget extends Widget implements Disposable {
     }
 
     private void createModel(VertexAttributes vertexAttributes) {
+        renderableParticleEffect = new CommonPropertiesRenderableParticleEffect(createGenerator());
         particleEffect = new GraphParticleEffectImpl("tag", new ParticleEffectConfiguration(vertexAttributes, graphShader.getProperties(),
                 graphShader.getMaxNumberOfParticles()),
-                createGenerator(), false);
+                renderableParticleEffect, new QuadParticleModel(), false);
         if (running)
             particleEffect.start();
     }

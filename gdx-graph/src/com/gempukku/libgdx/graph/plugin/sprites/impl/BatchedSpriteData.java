@@ -110,38 +110,46 @@ public class BatchedSpriteData implements SpriteData {
         RenderableSprite renderableSprite = sprite.getRenderableSprite();
 
         int spriteDataStart = getSpriteDataStart(spriteIndex);
+        for (VertexAttribute vertexAttribute : vertexAttributes) {
+            String alias = vertexAttribute.alias;
+            int attributeOffset = vertexAttribute.offset / 4;
+            if (alias.equals(ShaderProgram.POSITION_ATTRIBUTE)) {
+                Vector3 position = renderableSprite.getPosition();
+                for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
+                    int vertexOffset = spriteDataStart + vertexIndex * floatCountPerVertex;
 
-        for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
-            int floatIndex = 0;
-            int vertexOffset = spriteDataStart + vertexIndex * floatCountPerVertex;
+                    vertexData[vertexOffset + attributeOffset + 0] = position.x;
+                    vertexData[vertexOffset + attributeOffset + 1] = position.y;
+                    vertexData[vertexOffset + attributeOffset + 2] = position.z;
+                }
+            } else if (alias.equals(ShaderProgram.TEXCOORD_ATTRIBUTE + 0)) {
+                for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
+                    int vertexOffset = spriteDataStart + vertexIndex * floatCountPerVertex;
 
-            for (VertexAttribute vertexAttribute : vertexAttributes) {
-                String alias = vertexAttribute.alias;
-                if (alias.equals(ShaderProgram.POSITION_ATTRIBUTE)) {
-                    Vector3 position = renderableSprite.getPosition();
-                    vertexData[vertexOffset + floatIndex + 0] = position.x;
-                    vertexData[vertexOffset + floatIndex + 1] = position.y;
-                    vertexData[vertexOffset + floatIndex + 2] = position.z;
-                    floatIndex += 3;
-                } else if (alias.equals(ShaderProgram.TEXCOORD_ATTRIBUTE + 0)) {
-                    vertexData[vertexOffset + floatIndex + 0] = vertexIndex % 2;
-                    vertexData[vertexOffset + floatIndex + 1] = (float) (vertexIndex / 2);
-                    floatIndex += 2;
-                } else if (alias.startsWith("a_property_")) {
-                    int propertyIndex = Integer.parseInt(alias.substring(11));
-                    String propertyName = propertyIndexNames.get(propertyIndex);
-                    PropertySource propertySource = shaderProperties.get(propertyName);
+                    vertexData[vertexOffset + attributeOffset + 0] = vertexIndex % 2;
+                    vertexData[vertexOffset + attributeOffset + 1] = (float) (vertexIndex / 2);
+                }
+            } else if (alias.startsWith("a_property_")) {
+                int propertyIndex = Integer.parseInt(alias.substring(11));
+                String propertyName = propertyIndexNames.get(propertyIndex);
+                PropertySource propertySource = shaderProperties.get(propertyName);
 
-                    ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
-                    Object value = renderableSprite.getPropertyContainer(tag).getValue(propertyName);
-                    if (value instanceof ValuePerVertex) {
-                        value = ((ValuePerVertex) value).getValue(vertexIndex);
-                        value = propertySource.getValueToUse(value);
-                    } else {
-                        value = propertySource.getValueToUse(value);
+                ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
+                Object attributeValue = renderableSprite.getPropertyContainer(tag).getValue(propertyName);
+                if (attributeValue instanceof ValuePerVertex) {
+                    for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
+                        int vertexOffset = spriteDataStart + vertexIndex * floatCountPerVertex;
+
+                        Object vertexValue = ((ValuePerVertex) attributeValue).getValue(vertexIndex);
+                        shaderFieldType.setValueInAttributesArray(vertexData, vertexOffset + attributeOffset, propertySource.getValueToUse(vertexValue));
                     }
+                } else {
+                    attributeValue = propertySource.getValueToUse(attributeValue);
+                    for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
+                        int vertexOffset = spriteDataStart + vertexIndex * floatCountPerVertex;
 
-                    floatIndex += shaderFieldType.setValueInAttributesArray(vertexData, vertexOffset + floatIndex, value);
+                        shaderFieldType.setValueInAttributesArray(vertexData, vertexOffset + attributeOffset, attributeValue);
+                    }
                 }
             }
         }

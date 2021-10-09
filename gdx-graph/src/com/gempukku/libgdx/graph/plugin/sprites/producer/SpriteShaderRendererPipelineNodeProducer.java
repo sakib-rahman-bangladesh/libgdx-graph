@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.plugin.sprites;
+package com.gempukku.libgdx.graph.plugin.sprites.producer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -14,6 +14,11 @@ import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
 import com.gempukku.libgdx.graph.pipeline.producer.node.*;
 import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.ShaderContextImpl;
 import com.gempukku.libgdx.graph.plugin.PluginPrivateDataSource;
+import com.gempukku.libgdx.graph.plugin.sprites.SpriteData;
+import com.gempukku.libgdx.graph.plugin.sprites.SpriteGraphShader;
+import com.gempukku.libgdx.graph.plugin.sprites.SpriteShaderConfiguration;
+import com.gempukku.libgdx.graph.plugin.sprites.SpriteShaderLoaderCallback;
+import com.gempukku.libgdx.graph.plugin.sprites.config.SpriteShaderRendererPipelineNodeConfiguration;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.GraphSpritesImpl;
 import com.gempukku.libgdx.graph.plugin.sprites.strategy.*;
 import com.gempukku.libgdx.graph.shader.GraphShader;

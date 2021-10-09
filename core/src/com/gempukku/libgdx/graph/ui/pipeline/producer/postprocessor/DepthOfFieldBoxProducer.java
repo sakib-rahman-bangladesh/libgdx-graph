@@ -21,8 +21,7 @@ public class DepthOfFieldBoxProducer extends GraphBoxProducerImpl {
 
         FloatBoxPart maxBlurPart = new FloatBoxPart("Max blur", "maxBlur", 10, new Validators.GreaterThanValidator(0, false));
         maxBlurPart.setValue(10f);
-        if (data != null)
-            maxBlurPart.initialize(data);
+        maxBlurPart.initialize(data);
         result.addGraphBoxPart(maxBlurPart);
 
         CheckboxBoxPart blurBackground = new CheckboxBoxPart("Blur background", "blurBackground");

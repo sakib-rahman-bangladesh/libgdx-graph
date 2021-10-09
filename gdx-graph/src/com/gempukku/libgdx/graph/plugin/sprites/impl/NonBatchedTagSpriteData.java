@@ -66,36 +66,47 @@ public class NonBatchedTagSpriteData implements SpriteData, Disposable {
 
     public void setSprite(GraphSprite sprite) {
         RenderableSprite renderableSprite = sprite.getRenderableSprite();
-        for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
-            int floatIndex = 0;
-            int vertexOffset = vertexIndex * floatCount;
-            for (VertexAttribute vertexAttribute : vertexAttributes) {
-                String alias = vertexAttribute.alias;
-                if (alias.equals(ShaderProgram.POSITION_ATTRIBUTE)) {
-                    Vector3 position = renderableSprite.getPosition();
-                    tempVertices[vertexOffset + floatIndex + 0] = position.x;
-                    tempVertices[vertexOffset + floatIndex + 1] = position.y;
-                    tempVertices[vertexOffset + floatIndex + 2] = position.z;
-                    floatIndex += 3;
-                } else if (alias.equals(ShaderProgram.TEXCOORD_ATTRIBUTE + 0)) {
-                    tempVertices[vertexOffset + floatIndex + 0] = vertexIndex % 2;
-                    tempVertices[vertexOffset + floatIndex + 1] = (float) (vertexIndex / 2);
-                    floatIndex += 2;
-                } else if (alias.startsWith("a_property_")) {
-                    int propertyIndex = Integer.parseInt(alias.substring(11));
-                    String propertyName = propertyIndexNames.get(propertyIndex);
-                    PropertySource propertySource = shaderProperties.get(propertyName);
+        for (VertexAttribute vertexAttribute : vertexAttributes) {
+            String alias = vertexAttribute.alias;
+            int attributeOffset = vertexAttribute.offset / 4;
+            if (alias.equals(ShaderProgram.POSITION_ATTRIBUTE)) {
+                Vector3 position = renderableSprite.getPosition();
+                for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
+                    int vertexOffset = vertexIndex * floatCount;
 
-                    ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
-                    Object value = renderableSprite.getPropertyContainer(tag).getValue(propertyName);
-                    if (value instanceof ValuePerVertex) {
-                        value = ((ValuePerVertex) value).getValue(vertexIndex);
-                        value = propertySource.getValueToUse(value);
-                    } else {
-                        value = propertySource.getValueToUse(value);
+                    tempVertices[vertexOffset + attributeOffset + 0] = position.x;
+                    tempVertices[vertexOffset + attributeOffset + 1] = position.y;
+                    tempVertices[vertexOffset + attributeOffset + 2] = position.z;
+                }
+            } else if (alias.equals(ShaderProgram.TEXCOORD_ATTRIBUTE + 0)) {
+                for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
+                    int vertexOffset = vertexIndex * floatCount;
+
+                    tempVertices[vertexOffset + attributeOffset + 0] = vertexIndex % 2;
+                    tempVertices[vertexOffset + attributeOffset + 1] = (float) (vertexIndex / 2);
+                }
+            } else if (alias.startsWith("a_property_")) {
+                int propertyIndex = Integer.parseInt(alias.substring(11));
+                String propertyName = propertyIndexNames.get(propertyIndex);
+                PropertySource propertySource = shaderProperties.get(propertyName);
+
+                ShaderFieldType shaderFieldType = propertySource.getShaderFieldType();
+                Object value = renderableSprite.getPropertyContainer(tag).getValue(propertyName);
+                if (value instanceof ValuePerVertex) {
+                    for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
+                        int vertexOffset = vertexIndex * floatCount;
+
+                        Object vertexValue = ((ValuePerVertex) value).getValue(vertexIndex);
+                        vertexValue = propertySource.getValueToUse(vertexValue);
+                        shaderFieldType.setValueInAttributesArray(tempVertices, vertexOffset + attributeOffset, vertexValue);
                     }
+                } else {
+                    value = propertySource.getValueToUse(value);
+                    for (int vertexIndex = 0; vertexIndex < 4; vertexIndex++) {
+                        int vertexOffset = vertexIndex * floatCount;
 
-                    floatIndex += shaderFieldType.setValueInAttributesArray(tempVertices, vertexOffset + floatIndex, value);
+                        shaderFieldType.setValueInAttributesArray(tempVertices, vertexOffset + attributeOffset, value);
+                    }
                 }
             }
         }

@@ -20,10 +20,8 @@ public class SkinningShaderBoxProducer extends GraphBoxProducerImpl {
 
         IntegerBoxPart boneCount = new IntegerBoxPart("Bone count", "boneCount", 12, new Validators.GreaterThanValidator(0));
         IntegerBoxPart boneWeightCount = new IntegerBoxPart("Weight count", "boneWeightCount", 5, new Validators.GreaterThanValidator(0));
-        if (data != null) {
             boneCount.initialize(data);
             boneWeightCount.initialize(data);
-        }
         result.addGraphBoxPart(boneCount);
         result.addGraphBoxPart(boneWeightCount);
 

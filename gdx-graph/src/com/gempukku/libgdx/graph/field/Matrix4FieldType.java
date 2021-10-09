@@ -109,10 +109,9 @@ public class Matrix4FieldType implements ShaderFieldType, PipelineFieldType {
     }
 
     @Override
-    public int setValueInAttributesArray(float[] vertices, int startIndex, Object value) {
+    public void setValueInAttributesArray(float[] vertices, int startIndex, Object value) {
         com.badlogic.gdx.math.Matrix4 matrix = (Matrix4) value;
         System.arraycopy(matrix.val, 0, vertices, startIndex, 16);
-        return 16;
     }
 
     @Override

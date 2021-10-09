@@ -19,7 +19,6 @@ public class PointLightBoxProducer extends GraphBoxProducerImpl {
         GraphBoxImpl result = createGraphBox(id);
 
         StringBoxPart envId = new StringBoxPart("Env id: ", "id");
-        if (data != null)
             envId.initialize(data, "");
         result.addGraphBoxPart(envId);
 

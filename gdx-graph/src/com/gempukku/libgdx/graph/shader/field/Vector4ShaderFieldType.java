@@ -95,12 +95,11 @@ public class Vector4ShaderFieldType implements ShaderFieldType {
     }
 
     @Override
-    public int setValueInAttributesArray(float[] vertices, int startIndex, Object value) {
+    public void setValueInAttributesArray(float[] vertices, int startIndex, Object value) {
         vertices[startIndex + 0] = ((Color) value).r;
         vertices[startIndex + 1] = ((Color) value).g;
         vertices[startIndex + 2] = ((Color) value).b;
         vertices[startIndex + 3] = ((Color) value).a;
-        return 4;
     }
 
     @Override

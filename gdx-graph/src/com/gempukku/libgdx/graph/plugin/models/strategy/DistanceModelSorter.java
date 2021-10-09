@@ -1,4 +1,4 @@
-package com.gempukku.libgdx.graph.plugin.models.producer.strategy;
+package com.gempukku.libgdx.graph.plugin.models.strategy;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;

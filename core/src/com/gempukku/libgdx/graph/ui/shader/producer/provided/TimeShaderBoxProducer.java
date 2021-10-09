@@ -15,12 +15,9 @@ public class TimeShaderBoxProducer extends GraphBoxProducerImpl {
 
     @Override
     public GraphBox createPipelineGraphBox(Skin skin, String id, JsonValue data) {
-        float multiplier = 1f;
-        if (data != null && data.has("multiplier"))
-            multiplier = data.getFloat("multiplier");
-
         GraphBoxImpl result = createGraphBox(id);
-        FloatBoxPart multiplierPart = new FloatBoxPart("Multiplier", "multiplier", multiplier, null);
+        FloatBoxPart multiplierPart = new FloatBoxPart("Multiplier", "multiplier", 1f, null);
+        multiplierPart.initialize(data);
         result.addGraphBoxPart(multiplierPart);
 
         addConfigurationInputsAndOutputs(result);

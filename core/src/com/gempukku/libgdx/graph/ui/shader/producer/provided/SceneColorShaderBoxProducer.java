@@ -18,7 +18,6 @@ public class SceneColorShaderBoxProducer extends GraphBoxProducerImpl {
         GraphBoxImpl result = createGraphBox(id);
         addConfigurationInputsAndOutputs(result);
         TextureSettingsGraphBoxPart textureSettingsPart = new TextureSettingsGraphBoxPart();
-        if (data != null)
             textureSettingsPart.initialize(data);
         result.addGraphBoxPart(textureSettingsPart);
 

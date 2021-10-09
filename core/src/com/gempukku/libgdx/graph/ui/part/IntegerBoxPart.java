@@ -59,8 +59,10 @@ public class IntegerBoxPart extends VisTable implements GraphBoxPart {
     }
 
     public void initialize(JsonValue data) {
-        int value = data.getInt(property);
-        v1Input.setText(String.valueOf(value));
+        if (data != null) {
+            int value = data.getInt(property);
+            v1Input.setText(String.valueOf(value));
+        }
     }
 
     public void setValue(float value) {

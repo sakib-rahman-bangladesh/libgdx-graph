@@ -5,6 +5,7 @@ import com.gempukku.libgdx.graph.plugin.PluginRegistry;
 import com.gempukku.libgdx.graph.plugin.PluginRegistryImpl;
 import com.gempukku.libgdx.graph.plugin.PluginRuntimeInitializer;
 import com.gempukku.libgdx.graph.plugin.sprites.impl.GraphSpritesImpl;
+import com.gempukku.libgdx.graph.plugin.sprites.producer.SpriteShaderRendererPipelineNodeProducer;
 
 public class SpritesPluginRuntimeInitializer implements PluginRuntimeInitializer {
     private static int spriteBatchSize;

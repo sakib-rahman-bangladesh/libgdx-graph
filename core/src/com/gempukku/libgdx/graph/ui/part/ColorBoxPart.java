@@ -86,9 +86,11 @@ public class ColorBoxPart extends VisTable implements GraphBoxPart {
     }
 
     public void initialize(JsonValue data) {
-        String value = data.getString(property);
-        Color color = Color.valueOf(value);
-        image.setColor(color);
+        if (data != null) {
+            String value = data.getString(property);
+            Color color = Color.valueOf(value);
+            image.setColor(color);
+        }
     }
 
     @Override

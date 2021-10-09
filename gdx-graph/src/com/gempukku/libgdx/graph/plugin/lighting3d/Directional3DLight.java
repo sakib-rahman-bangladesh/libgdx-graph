@@ -36,6 +36,7 @@ public class Directional3DLight {
     public void updateCamera(Vector3 sceneCenter, float sceneDiameter) {
         shadowCamera.viewportWidth = sceneDiameter;
         shadowCamera.viewportHeight = sceneDiameter;
+        shadowCamera.near = 0;
         shadowCamera.far = sceneDiameter;
         shadowCamera.position.set(sceneCenter.x - sceneDiameter / 2f, sceneCenter.y, sceneCenter.z);
         shadowCamera.update();
