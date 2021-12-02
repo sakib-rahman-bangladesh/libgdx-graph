@@ -35,11 +35,11 @@ import com.gempukku.libgdx.graph.plugin.models.producer.ModelShaderContextImpl;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.property.MapWritablePropertyContainer;
 import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class ModelShaderPreviewWidget extends Widget implements Disposable {
@@ -66,7 +66,7 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
     private ModelShaderContextImpl shaderContext;
     private ShaderPreviewModel model = ShaderPreviewModel.Sphere;
 
-    private PropertyContainerImpl localPropertyContainer;
+    private MapWritablePropertyContainer localPropertyContainer;
 
     public ModelShaderPreviewWidget(int width, int height) {
         this.width = width;
@@ -134,7 +134,7 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
             frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
             createModel(graphShader.getVertexAttributes());
 
-            PropertyContainerImpl globalPropertyContainer = new PropertyContainerImpl();
+            MapWritablePropertyContainer globalPropertyContainer = new MapWritablePropertyContainer();
             for (GraphProperty property : graph.getProperties()) {
                 if (property.getLocation() == PropertyLocation.Global_Uniform) {
                     ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(property.getType());
@@ -143,7 +143,7 @@ public class ModelShaderPreviewWidget extends Widget implements Disposable {
             }
             shaderContext.setGlobalPropertyContainer(globalPropertyContainer);
 
-            localPropertyContainer = new PropertyContainerImpl();
+            localPropertyContainer = new MapWritablePropertyContainer();
             for (GraphProperty property : graph.getProperties()) {
                 if (property.getLocation() == PropertyLocation.Uniform) {
                     ShaderFieldType propertyType = ShaderFieldTypeRegistry.findShaderFieldType(property.getType());

@@ -1,0 +1,18 @@
+{
+  "version": "0.5.0",
+  "nodes": [
+    {
+      "id": "end",
+      "type": "ShadowShaderEnd",
+      "x": 50.0,
+      "y": 50.0,
+      "data": {
+        "culling": "back",
+        "blending": "opaque",
+        "depthTest": "less"
+      }
+    }
+  ],
+  "connections": [],
+  "properties": []
+}

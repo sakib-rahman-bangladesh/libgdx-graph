@@ -1,17 +1,23 @@
 package com.gempukku.libgdx.graph.pipeline;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
 public class RenderPipelineBufferImpl implements RenderPipelineBuffer {
     private TextureFrameBuffer colorBuffer;
+    private Color colorBgColor;
     private TextureFrameBuffer depthBuffer;
+    private Color depthBgColor;
 
     public TextureFrameBuffer getDepthBuffer() {
         return depthBuffer;
     }
 
-    public void setDepthBuffer(TextureFrameBuffer depthBuffer) {
+    public void setDepthBuffer(TextureFrameBuffer depthBuffer, Color depthBgColor) {
         this.depthBuffer = depthBuffer;
+        this.depthBgColor = depthBgColor;
     }
 
     public Texture getDepthBufferTexture() {
@@ -22,8 +28,9 @@ public class RenderPipelineBufferImpl implements RenderPipelineBuffer {
         return colorBuffer;
     }
 
-    public void setColorBuffer(TextureFrameBuffer colorBuffer) {
+    public void setColorBuffer(TextureFrameBuffer colorBuffer, Color colorBgColor) {
         this.colorBuffer = colorBuffer;
+        this.colorBgColor = colorBgColor;
     }
 
     public Texture getColorBufferTexture() {
@@ -32,6 +39,11 @@ public class RenderPipelineBufferImpl implements RenderPipelineBuffer {
 
     public void beginColor() {
         colorBuffer.begin();
+        if (colorBgColor != null) {
+            Gdx.gl.glClearColor(colorBgColor.r, colorBgColor.g, colorBgColor.b, colorBgColor.a);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+            colorBgColor = null;
+        }
     }
 
     public void endColor() {
@@ -40,6 +52,11 @@ public class RenderPipelineBufferImpl implements RenderPipelineBuffer {
 
     public void beginDepth() {
         depthBuffer.begin();
+        if (depthBgColor != null) {
+            Gdx.gl.glClearColor(depthBgColor.r, depthBgColor.g, depthBgColor.b, depthBgColor.a);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+            depthBgColor = null;
+        }
     }
 
     public void endDepth() {

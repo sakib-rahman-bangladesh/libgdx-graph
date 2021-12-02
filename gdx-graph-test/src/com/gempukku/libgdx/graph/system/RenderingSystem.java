@@ -3,7 +3,6 @@ package com.gempukku.libgdx.graph.system;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.component.SpriteComponent;
@@ -19,7 +18,6 @@ public class RenderingSystem extends EntitySystem implements SpriteProducer.Text
     private PipelineRenderer pipelineRenderer;
     private SpriteProducer.TextureLoader textureLoader;
     private ImmutableArray<Entity> spriteEntities;
-    private Vector3 tmpPosition = new Vector3();
 
     public RenderingSystem(int priority, TimeProvider timeProvider, PipelineRenderer pipelineRenderer,
                            SpriteProducer.TextureLoader textureLoader) {

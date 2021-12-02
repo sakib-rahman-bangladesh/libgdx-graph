@@ -1,8 +1,6 @@
 package com.gempukku.libgdx.graph.pipeline.producer.rendering.node;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -44,10 +42,9 @@ public class StartPipelineNode extends OncePerFrameJobPipelineNode {
         int width = MathUtils.round(bufferX);
         int height = MathUtils.round(bufferY);
 
-        RenderPipelineBuffer frameBuffer = renderPipeline.initializeDefaultBuffer(width, height, Pixmap.Format.RGB888);
+        RenderPipelineBuffer frameBuffer = renderPipeline.initializeDefaultBuffer(width, height, Pixmap.Format.RGB888, backgroundColor);
+        // Dummy call to make sure frame buffer is drawn
         frameBuffer.beginColor();
-        Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | GL20.GL_STENCIL_BUFFER_BIT);
         frameBuffer.endColor();
 
         OutputValue<RenderPipeline> output = outputValues.get("output");

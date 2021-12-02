@@ -9,15 +9,14 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
-import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
-import com.gempukku.libgdx.graph.plugin.particles.generator.DefaultParticleGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.generator.SpherePositionGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.impl.CommonPropertiesRenderableParticleEffect;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.property.MapWritablePropertyContainer;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.util.particles.CommonPropertiesParticleEffectAdapter;
+import com.gempukku.libgdx.graph.util.particles.generator.DefaultParticleGenerator;
+import com.gempukku.libgdx.graph.util.particles.generator.SpherePositionGenerator;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,24 +41,23 @@ public class ParticlesShaderTestScene implements LibgdxGraphTestScene {
         GraphParticleEffects particleEffects = pipelineRenderer.getPluginData(GraphParticleEffects.class);
         particleEffects.setGlobalProperty("Test", "Color", Color.RED);
 
-        GraphParticleEffect effect1 = createEffect(particleEffects, new Vector3(0, 0, 0), 0.1f);
-        GraphParticleEffect effect2 = createEffect(particleEffects, new Vector3(2, 0, 0), 0.2f);
-
-        particleEffects.startEffect(effect1);
-        particleEffects.startEffect(effect2);
+        createEffect(particleEffects, new Vector3(0, 0, 0), 0.1f);
+        createEffect(particleEffects, new Vector3(2, 0, 0), 0.2f);
     }
 
-    private GraphParticleEffect createEffect(GraphParticleEffects particleEffects, Vector3 center, float size) {
+    private void createEffect(GraphParticleEffects particleEffects, Vector3 center, float size) {
         SpherePositionGenerator positionGenerator = new SpherePositionGenerator();
         positionGenerator.getCenter().set(center);
         positionGenerator.setRadius(0.3f);
         DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(timeKeeper, 1f, 0, 10);
         particleGenerator.setPositionGenerator(positionGenerator);
 
-        PropertyContainerImpl properties = new PropertyContainerImpl();
-        GraphParticleEffect particleEffect = particleEffects.createEffect("Test", new CommonPropertiesRenderableParticleEffect(particleGenerator, properties));
+        MapWritablePropertyContainer properties = new MapWritablePropertyContainer();
         properties.setValue("Size", size);
-        return particleEffect;
+
+        CommonPropertiesParticleEffectAdapter particleEffectAdapter = new CommonPropertiesParticleEffectAdapter(particleEffects, Vector3.Zero, null, properties);
+        particleEffectAdapter.addTag("Test", particleGenerator);
+        particleEffectAdapter.startEffect("Test");
     }
 
     @Override

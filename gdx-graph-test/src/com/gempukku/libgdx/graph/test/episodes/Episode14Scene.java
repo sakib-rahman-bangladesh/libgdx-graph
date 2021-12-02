@@ -31,12 +31,12 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.util.model.MaterialModelInstanceModelAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,8 +62,8 @@ public class Episode14Scene implements LibgdxGraphTestScene {
     private float cameraPositionAngle;
     private float cameraAngle;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
-    private MaterialModelInstanceRenderableModelAdapter starAdapter;
-    private MaterialModelInstanceRenderableModelAdapter starCoronaAdapter;
+    private MaterialModelInstanceModelAdapter starAdapter;
+    private MaterialModelInstanceModelAdapter starCoronaAdapter;
 
     @Override
     public void initializeScene() {
@@ -130,20 +130,20 @@ public class Episode14Scene implements LibgdxGraphTestScene {
 
     private void registerModels(GraphModels models) {
         ModelInstance starfieldInstance = new ModelInstance(starfield);
-        MaterialModelInstanceRenderableModelAdapter starfieldAdapter = new MaterialModelInstanceRenderableModelAdapter(starfieldInstance, models);
-        starfieldAdapter.register("starfield");
+        MaterialModelInstanceModelAdapter starfieldAdapter = new MaterialModelInstanceModelAdapter(starfieldInstance, models);
+        starfieldAdapter.addTag("starfield");
 
         ModelInstance blackHoleInstance = new ModelInstance(blackHole);
-        MaterialModelInstanceRenderableModelAdapter blackHoleAdapter = new MaterialModelInstanceRenderableModelAdapter(blackHoleInstance, models);
-        blackHoleAdapter.register("black-hole");
+        MaterialModelInstanceModelAdapter blackHoleAdapter = new MaterialModelInstanceModelAdapter(blackHoleInstance, models);
+        blackHoleAdapter.addTag("black-hole");
 
         ModelInstance starInstance = new ModelInstance(star);
         starInstance.transform.idt().translate(starPosition.x, starPosition.y, starPosition.z);
-        starAdapter = new MaterialModelInstanceRenderableModelAdapter(starInstance, models);
+        starAdapter = new MaterialModelInstanceModelAdapter(starInstance, models);
 
         ModelInstance starCoronaInstance = new ModelInstance(starCorona);
         starCoronaInstance.transform.idt().translate(starPosition.x, starPosition.y, starPosition.z);
-        starCoronaAdapter = new MaterialModelInstanceRenderableModelAdapter(starCoronaInstance, models);
+        starCoronaAdapter = new MaterialModelInstanceModelAdapter(starCoronaInstance, models);
     }
 
     private Stage createStage() {
@@ -204,21 +204,21 @@ public class Episode14Scene implements LibgdxGraphTestScene {
         float distanceToStar = starPosition.dst2(camera.position);
         if (distanceToBlackHole < distanceToStar) {
             if (!starAdapter.hasTag("star-surface-behind")) {
-                starAdapter.register("star-surface-behind");
-                starCoronaAdapter.register("star-corona-behind");
+                starAdapter.addTag("star-surface-behind");
+                starCoronaAdapter.addTag("star-corona-behind");
             }
             if (starAdapter.hasTag("star-surface-in-front")) {
-                starAdapter.deregister("star-surface-in-front");
-                starCoronaAdapter.deregister("star-corona-in-front");
+                starAdapter.removeTag("star-surface-in-front");
+                starCoronaAdapter.removeTag("star-corona-in-front");
             }
         } else {
             if (starAdapter.hasTag("star-surface-behind")) {
-                starAdapter.deregister("star-surface-behind");
-                starCoronaAdapter.deregister("star-corona-behind");
+                starAdapter.removeTag("star-surface-behind");
+                starCoronaAdapter.removeTag("star-corona-behind");
             }
             if (!starAdapter.hasTag("star-surface-in-front")) {
-                starAdapter.register("star-surface-in-front");
-                starCoronaAdapter.register("star-corona-in-front");
+                starAdapter.addTag("star-surface-in-front");
+                starCoronaAdapter.addTag("star-corona-in-front");
             }
         }
     }

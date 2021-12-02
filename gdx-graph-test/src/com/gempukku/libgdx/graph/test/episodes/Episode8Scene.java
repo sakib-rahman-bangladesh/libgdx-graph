@@ -27,12 +27,12 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.util.model.MaterialModelInstanceModelAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,7 +49,7 @@ public class Episode8Scene implements LibgdxGraphTestScene {
     private float cameraAngle = 0f;
     private float cameraDistance = 1.7f;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
-    private MaterialModelInstanceRenderableModelAdapter modelAdapter;
+    private MaterialModelInstanceModelAdapter modelAdapter;
 
     @Override
     public void initializeScene() {
@@ -95,8 +95,8 @@ public class Episode8Scene implements LibgdxGraphTestScene {
         final float scale = 0.025f;
         modelInstance.transform.idt().scale(scale, scale, scale);
 
-        modelAdapter = new MaterialModelInstanceRenderableModelAdapter(modelInstance, models);
-        modelAdapter.register("Default");
+        modelAdapter = new MaterialModelInstanceModelAdapter(modelInstance, models);
+        modelAdapter.addTag("Default");
     }
 
     private Stage createStage() {

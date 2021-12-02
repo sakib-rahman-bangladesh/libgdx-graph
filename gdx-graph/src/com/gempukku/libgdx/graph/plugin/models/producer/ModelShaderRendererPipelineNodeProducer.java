@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.plugin.models.producer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -174,8 +175,6 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
                     if (sceneColorBuffer != null)
                         renderPipeline.returnFrameBuffer(sceneColorBuffer);
-
-                    currentBuffer.endColor();
                 }
 
                 OutputValue<RenderPipeline> output = outputValues.get("output");
@@ -185,7 +184,7 @@ public class ModelShaderRendererPipelineNodeProducer extends PipelineNodeProduce
 
             private RenderPipelineBuffer setupColorTexture(final RenderPipeline renderPipeline, final RenderPipelineBuffer currentBuffer,
                                                            PipelineRenderingContext pipelineRenderingContext) {
-                RenderPipelineBuffer sceneColorBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
+                RenderPipelineBuffer sceneColorBuffer = renderPipeline.getNewFrameBuffer(currentBuffer, Color.BLACK);
                 shaderContext.setColorTexture(sceneColorBuffer.getColorBufferTexture());
                 renderPipeline.drawTexture(currentBuffer, sceneColorBuffer, pipelineRenderingContext);
                 return sceneColorBuffer;

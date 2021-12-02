@@ -8,14 +8,14 @@ import com.gempukku.libgdx.graph.plugin.RuntimePipelinePlugin;
 import com.gempukku.libgdx.graph.plugin.particles.*;
 import com.gempukku.libgdx.graph.plugin.particles.model.ParticleModel;
 import com.gempukku.libgdx.graph.plugin.particles.model.QuadParticleModel;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.property.MapWritablePropertyContainer;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class GraphParticleEffectsImpl implements GraphParticleEffects, RuntimePipelinePlugin, Disposable {
     private ObjectSet<GraphParticleEffectImpl> particleEffects = new ObjectSet<>();
     private ObjectMap<String, ObjectSet<GraphParticleEffectImpl>> effectsByTag = new ObjectMap<>();
     private ObjectMap<String, ParticleEffectConfiguration> effectsConfiguration = new ObjectMap<>();
-    private ObjectMap<String, PropertyContainerImpl> globalProperties = new ObjectMap<>();
+    private ObjectMap<String, MapWritablePropertyContainer> globalProperties = new ObjectMap<>();
     private TimeProvider timeProvider;
 
     public void setTimeProvider(TimeProvider timeProvider) {
@@ -27,7 +27,7 @@ public class GraphParticleEffectsImpl implements GraphParticleEffects, RuntimePi
             throw new IllegalStateException("Duplicate particle effect with tag - " + tag);
         effectsConfiguration.put(tag, new ParticleEffectConfiguration(shader.getVertexAttributes(), shader.getProperties(),
                 shader.getMaxNumberOfParticles()));
-        globalProperties.put(tag, new PropertyContainerImpl());
+        globalProperties.put(tag, new MapWritablePropertyContainer());
         effectsByTag.put(tag, new ObjectSet<GraphParticleEffectImpl>());
     }
 

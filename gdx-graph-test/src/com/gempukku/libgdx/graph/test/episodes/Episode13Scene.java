@@ -25,12 +25,12 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.util.model.MaterialModelInstanceModelAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -125,17 +125,17 @@ public class Episode13Scene implements LibgdxGraphTestScene {
         float cylinderHeight = 8f;
 
         ModelInstance wallInstance = new ModelInstance(tiledWall);
-        MaterialModelInstanceRenderableModelAdapter wallAdapter = new MaterialModelInstanceRenderableModelAdapter(wallInstance, models);
-        wallAdapter.register("tiled-wall");
+        MaterialModelInstanceModelAdapter wallAdapter = new MaterialModelInstanceModelAdapter(wallInstance, models);
+        wallAdapter.addTag("tiled-wall");
 
         ModelInstance burnerInstance = new ModelInstance(burner);
-        MaterialModelInstanceRenderableModelAdapter burnerAdapter = new MaterialModelInstanceRenderableModelAdapter(burnerInstance, models);
-        burnerAdapter.register("burner");
+        MaterialModelInstanceModelAdapter burnerAdapter = new MaterialModelInstanceModelAdapter(burnerInstance, models);
+        burnerAdapter.addTag("burner");
 
         ModelInstance cylinderInstance = new ModelInstance(cylinder);
         cylinderInstance.transform.idt().translate(0, 0.05f + cylinderHeight / 2f, 0f);
-        MaterialModelInstanceRenderableModelAdapter cylinderAdapter = new MaterialModelInstanceRenderableModelAdapter(cylinderInstance, models);
-        cylinderAdapter.register("heat-displacement");
+        MaterialModelInstanceModelAdapter cylinderAdapter = new MaterialModelInstanceModelAdapter(cylinderInstance, models);
+        cylinderAdapter.addTag("heat-displacement");
     }
 
     private Stage createStage() {

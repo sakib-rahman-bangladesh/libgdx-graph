@@ -23,11 +23,7 @@ import com.gempukku.libgdx.graph.loader.GraphLoader;
 import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
 import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
-import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
-import com.gempukku.libgdx.graph.plugin.particles.generator.DefaultParticleGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.generator.ParallelogramPositionGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.impl.CommonPropertiesRenderableParticleEffect;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.system.*;
 import com.gempukku.libgdx.graph.system.camera.FocusCameraController;
@@ -38,8 +34,11 @@ import com.gempukku.libgdx.graph.system.camera.constraint.focus.SnapToWindowCame
 import com.gempukku.libgdx.graph.system.camera.focus.SpriteAdvanceFocus;
 import com.gempukku.libgdx.graph.system.sensor.FootSensorContactListener;
 import com.gempukku.libgdx.graph.system.sensor.InteractSensorContactListener;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.util.particles.CommonPropertiesParticleEffectAdapter;
+import com.gempukku.libgdx.graph.util.particles.generator.DefaultParticleGenerator;
+import com.gempukku.libgdx.graph.util.particles.generator.ParallelogramPositionGenerator;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -126,8 +125,9 @@ public class TestScene implements LibgdxGraphTestScene {
         positionGenerator.getDirection2().set(0, 1, 0);
         DefaultParticleGenerator particleGenerator = new DefaultParticleGenerator(timeKeeper, 5, 10, 10);
         particleGenerator.setPositionGenerator(positionGenerator);
-        GraphParticleEffect dustEffect = particleEffects.createEffect("Dust", new CommonPropertiesRenderableParticleEffect(particleGenerator));
-        particleEffects.startEffect(dustEffect);
+        CommonPropertiesParticleEffectAdapter particleEffectAdapter = new CommonPropertiesParticleEffectAdapter(particleEffects);
+        particleEffectAdapter.addTag("Dust", particleGenerator);
+        particleEffectAdapter.startEffect("Dust");
     }
 
     private void createSystems() {

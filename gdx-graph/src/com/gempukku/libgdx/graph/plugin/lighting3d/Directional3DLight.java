@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.math.Vector3;
-import com.gempukku.libgdx.graph.pipeline.TextureFrameBuffer;
+import com.gempukku.libgdx.graph.pipeline.RenderPipelineBuffer;
 
 public class Directional3DLight {
     private Vector3 direction = new Vector3(0, 0, 0);
@@ -13,7 +13,7 @@ public class Directional3DLight {
     private boolean shadowsEnabled = false;
 
     private OrthographicCamera shadowCamera = new OrthographicCamera();
-    private TextureFrameBuffer shadowTextureFrameBuffer;
+    private RenderPipelineBuffer shadowFrameBuffer;
 
     public Directional3DLight() {
 
@@ -38,20 +38,22 @@ public class Directional3DLight {
         shadowCamera.viewportHeight = sceneDiameter;
         shadowCamera.near = 0;
         shadowCamera.far = sceneDiameter;
-        shadowCamera.position.set(sceneCenter.x - sceneDiameter / 2f, sceneCenter.y, sceneCenter.z);
-        shadowCamera.update();
+        // Position the camera based on scene center and half of the diameter away in the negative direction
+        shadowCamera.position.set(direction).nor().scl(-sceneDiameter / 2f).add(sceneCenter);
+        shadowCamera.direction.set(direction);
+        shadowCamera.update(true);
     }
 
     public OrthographicCamera getShadowCamera() {
         return shadowCamera;
     }
 
-    public TextureFrameBuffer getShadowTextureFrameBuffer() {
-        return shadowTextureFrameBuffer;
+    public RenderPipelineBuffer getShadowFrameBuffer() {
+        return shadowFrameBuffer;
     }
 
-    public void setShadowTextureFrameBuffer(TextureFrameBuffer shadowTextureFrameBuffer) {
-        this.shadowTextureFrameBuffer = shadowTextureFrameBuffer;
+    public void setShadowFrameBuffer(RenderPipelineBuffer shadowFrameBuffer) {
+        this.shadowFrameBuffer = shadowFrameBuffer;
     }
 
     public Directional3DLight setDirection(Vector3 direction) {

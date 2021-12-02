@@ -27,15 +27,15 @@ import com.gempukku.libgdx.graph.plugin.sprites.impl.NonBatchedTagSpriteData;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.property.MapWritablePropertyContainer;
 import com.gempukku.libgdx.graph.shader.property.PropertyLocation;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 
 public class SpriteShaderPreviewWidget extends Widget implements Disposable {
-    private final PropertyContainerImpl propertyContainer;
+    private final MapWritablePropertyContainer propertyContainer;
     private boolean shaderInitialized;
     private int width;
     private int height;
@@ -77,7 +77,7 @@ public class SpriteShaderPreviewWidget extends Widget implements Disposable {
 
         final Vector3 position = new Vector3(0, 0, 2);
 
-        propertyContainer = new PropertyContainerImpl();
+        propertyContainer = new MapWritablePropertyContainer();
 
         graphSprite = new GraphSpriteImpl("Test",
                 new RenderableSprite() {

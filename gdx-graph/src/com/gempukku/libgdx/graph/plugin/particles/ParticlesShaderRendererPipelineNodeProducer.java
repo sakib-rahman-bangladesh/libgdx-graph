@@ -2,6 +2,7 @@ package com.gempukku.libgdx.graph.plugin.particles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -136,7 +137,7 @@ public class ParticlesShaderRendererPipelineNodeProducer extends PipelineNodePro
 
             private RenderPipelineBuffer setupColorTexture(final RenderPipeline renderPipeline, final RenderPipelineBuffer currentBuffer,
                                                            PipelineRenderingContext pipelineRenderingContext) {
-                RenderPipelineBuffer sceneColorBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
+                RenderPipelineBuffer sceneColorBuffer = renderPipeline.getNewFrameBuffer(currentBuffer, Color.BLACK);
                 shaderContext.setColorTexture(sceneColorBuffer.getColorBufferTexture());
                 renderPipeline.drawTexture(currentBuffer, sceneColorBuffer, pipelineRenderingContext);
                 return sceneColorBuffer;

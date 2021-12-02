@@ -29,12 +29,12 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.util.model.MaterialModelInstanceModelAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,7 +53,7 @@ public class Episode17Scene implements LibgdxGraphTestScene {
     private Model model;
     private GraphModelInstance mainRobot;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
-    private MaterialModelInstanceRenderableModelAdapter mainRobotAdapter;
+    private MaterialModelInstanceModelAdapter mainRobotAdapter;
 
     @Override
     public void initializeScene() {
@@ -100,14 +100,14 @@ public class Episode17Scene implements LibgdxGraphTestScene {
         animationController = new AnimationController(mainRobotInstance);
         animationController.animate("Root|jog", -1, null, 0f);
 
-        mainRobotAdapter = new MaterialModelInstanceRenderableModelAdapter(mainRobotInstance, models);
-        mainRobotAdapter.register("Default");
+        mainRobotAdapter = new MaterialModelInstanceModelAdapter(mainRobotInstance, models);
+        mainRobotAdapter.addTag("Default");
 
         ModelInstance secondRobotInstance = new ModelInstance(model);
         secondRobotInstance.transform.idt().translate(1.5f, 0, 0).scale(scale, scale, scale);
 
-        MaterialModelInstanceRenderableModelAdapter secondRobotAdapter = new MaterialModelInstanceRenderableModelAdapter(secondRobotInstance, models);
-        secondRobotAdapter.register("Default");
+        MaterialModelInstanceModelAdapter secondRobotAdapter = new MaterialModelInstanceModelAdapter(secondRobotInstance, models);
+        secondRobotAdapter.addTag("Default");
     }
 
     private Stage createStage() {
@@ -119,9 +119,9 @@ public class Episode17Scene implements LibgdxGraphTestScene {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         if (selected.isChecked())
-                            mainRobotAdapter.register("Outline");
+                            mainRobotAdapter.addTag("Outline");
                         else
-                            mainRobotAdapter.deregister("Outline");
+                            mainRobotAdapter.removeTag("Outline");
                     }
                 });
 

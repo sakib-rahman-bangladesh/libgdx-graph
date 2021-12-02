@@ -17,6 +17,10 @@ public class Lighting3DEnvironment {
         updateScene(new Vector3(0, 0, 0), 1f);
     }
 
+    public Lighting3DEnvironment(Vector3 sceneCenter, float sceneDiameter) {
+        updateScene(sceneCenter, sceneDiameter);
+    }
+
     public void updateScene(Vector3 sceneCenter, float sceneDiameter) {
         this.sceneCenter.set(sceneCenter);
         this.sceneDiameter = sceneDiameter;

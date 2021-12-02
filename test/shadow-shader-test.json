@@ -5,8 +5,8 @@
     {
       "id": "c9ef57a330554c3f84100178cefda237",
       "type": "GraphShaderRenderer",
-      "x": 407.0,
-      "y": 407.0,
+      "x": 751.0,
+      "y": 408.0,
       "data": {
         "renderOrder": "Shader_Unordered",
         "shaders": [
@@ -183,10 +183,74 @@
       }
     },
     {
+      "id": "3b905d68bdf64e2185c7491d9e64ea9d",
+      "type": "ShadowShaderRenderer",
+      "x": 403.0,
+      "y": 765.0,
+      "data": {
+        "renderOrder": "Shader_Unordered",
+        "id": "Scene",
+        "shaders": [
+          {
+            "id": "7f9fbb66e1ec4c4d8c4c70c8d524ea4e",
+            "tag": "Color Shadow",
+            "shader": {
+              "version": "0.5.0",
+              "type": "Shadow_Shader",
+              "nodes": [
+                {
+                  "id": "cce4c75f53f849aca6970a7991023eae",
+                  "type": "Property",
+                  "x": 50.0,
+                  "y": 514.0,
+                  "data": {
+                    "name": "Position",
+                    "type": "Vector3"
+                  }
+                },
+                {
+                  "id": "end",
+                  "type": "ShadowShaderEnd",
+                  "x": 487.0,
+                  "y": 50.0,
+                  "data": {
+                    "positionType": "Object space",
+                    "culling": "back",
+                    "depthTest": "less"
+                  }
+                }
+              ],
+              "connections": [
+                {
+                  "fromNode": "cce4c75f53f849aca6970a7991023eae",
+                  "fromField": "value",
+                  "toNode": "end",
+                  "toField": "position"
+                }
+              ],
+              "properties": [
+                {
+                  "name": "Position",
+                  "type": "Vector3",
+                  "location": "Attribute",
+                  "data": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                  }
+                }
+              ],
+              "groups": []
+            }
+          }
+        ]
+      }
+    },
+    {
       "id": "5096ed346e1a47b29731c0cfb25aa50c",
       "type": "PipelineStart",
-      "x": 525.0,
-      "y": 759.0
+      "x": 509.0,
+      "y": 1119.0
     },
     {
       "id": "50d2766eadca4cdfbffd10c0ded5eb03",
@@ -207,20 +271,23 @@
     {
       "id": "2438eb24ec664bb08ee09413fb8af6f5",
       "type": "UIRenderer",
-      "x": 480.0,
-      "y": 216.0,
+      "x": 492.0,
+      "y": 132.0,
       "data": {
-        "id": "Stage"
+        "id": ""
+      }
+    },
+    {
+      "id": "6164baa9f30e470d8d43ed8307b10981",
+      "type": "RenderCallback",
+      "x": 293.0,
+      "y": 372.0,
+      "data": {
+        "callbackId": "Draw Shadows"
       }
     }
   ],
   "connections": [
-    {
-      "fromNode": "5096ed346e1a47b29731c0cfb25aa50c",
-      "fromField": "output",
-      "toNode": "c9ef57a330554c3f84100178cefda237",
-      "toField": "input"
-    },
     {
       "fromNode": "50d2766eadca4cdfbffd10c0ded5eb03",
       "fromField": "value",
@@ -228,15 +295,27 @@
       "toField": "camera"
     },
     {
-      "fromNode": "c9ef57a330554c3f84100178cefda237",
+      "fromNode": "2438eb24ec664bb08ee09413fb8af6f5",
+      "fromField": "output",
+      "toNode": "end",
+      "toField": "input"
+    },
+    {
+      "fromNode": "5096ed346e1a47b29731c0cfb25aa50c",
+      "fromField": "output",
+      "toNode": "3b905d68bdf64e2185c7491d9e64ea9d",
+      "toField": "input"
+    },
+    {
+      "fromNode": "6164baa9f30e470d8d43ed8307b10981",
       "fromField": "output",
       "toNode": "2438eb24ec664bb08ee09413fb8af6f5",
       "toField": "input"
     },
     {
-      "fromNode": "2438eb24ec664bb08ee09413fb8af6f5",
+      "fromNode": "3b905d68bdf64e2185c7491d9e64ea9d",
       "fromField": "output",
-      "toNode": "end",
+      "toNode": "6164baa9f30e470d8d43ed8307b10981",
       "toField": "input"
     }
   ],

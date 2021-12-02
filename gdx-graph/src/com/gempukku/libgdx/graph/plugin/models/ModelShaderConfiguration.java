@@ -2,7 +2,8 @@ package com.gempukku.libgdx.graph.plugin.models;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.gempukku.libgdx.graph.plugin.models.producer.EndGraphShaderNodeBuilder;
+import com.gempukku.libgdx.graph.plugin.lighting3d.producer.EndShadowShaderNodeBuilder;
+import com.gempukku.libgdx.graph.plugin.models.producer.EndModelShaderNodeBuilder;
 import com.gempukku.libgdx.graph.plugin.models.provided.*;
 import com.gempukku.libgdx.graph.shader.config.GraphConfiguration;
 import com.gempukku.libgdx.graph.shader.node.GraphShaderNodeBuilder;
@@ -14,7 +15,8 @@ public class ModelShaderConfiguration implements GraphConfiguration {
 
     static {
         // End
-        addGraphShaderNodeBuilder(new EndGraphShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new EndModelShaderNodeBuilder());
+        addGraphShaderNodeBuilder(new EndShadowShaderNodeBuilder());
 
         // Provided
         addGraphShaderNodeBuilder(new WorldPositionShaderNodeBuilder());

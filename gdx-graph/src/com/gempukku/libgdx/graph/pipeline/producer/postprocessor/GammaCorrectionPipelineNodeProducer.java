@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.pipeline.producer.postprocessor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -47,7 +48,7 @@ public class GammaCorrectionPipelineNodeProducer extends PipelineNodeProducerImp
                 if (enabled && gamma != 1) {
                     RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
 
-                    RenderPipelineBuffer newBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
+                    RenderPipelineBuffer newBuffer = renderPipeline.getNewFrameBuffer(currentBuffer, Color.BLACK);
 
                     RenderContext renderContext = pipelineRenderingContext.getRenderContext();
                     renderContext.setDepthTest(0);

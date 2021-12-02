@@ -1,6 +1,7 @@
 package com.gempukku.libgdx.graph.pipeline.producer.postprocessor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -110,7 +111,7 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
 
     private RenderPipelineBuffer applyTheBloom(float bloomStrength, RenderPipeline renderPipeline, RenderPipelineBuffer sourceBuffer, RenderPipelineBuffer gaussianBlur,
                                                ShaderProgram bloomSumProgram, RenderContext renderContext, FullScreenRender fullScreenRender) {
-        RenderPipelineBuffer result = renderPipeline.getNewFrameBuffer(sourceBuffer);
+        RenderPipelineBuffer result = renderPipeline.getNewFrameBuffer(sourceBuffer, Color.BLACK);
 
         result.beginColor();
 
@@ -147,7 +148,7 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
 
     private RenderPipelineBuffer executeBlur(ShaderProgram blurProgram, RenderPipeline renderPipeline, RenderPipelineBuffer sourceBuffer,
                                              RenderContext renderContext, FullScreenRender fullScreenRender) {
-        RenderPipelineBuffer resultBuffer = renderPipeline.getNewFrameBuffer(sourceBuffer);
+        RenderPipelineBuffer resultBuffer = renderPipeline.getNewFrameBuffer(sourceBuffer, Color.BLACK);
         resultBuffer.beginColor();
 
         blurProgram.setUniformi("u_sourceTexture", renderContext.textureBinder.bind(sourceBuffer.getColorBufferTexture()));
@@ -161,7 +162,7 @@ public class BloomPipelineNodeProducer extends PipelineNodeProducerImpl {
 
     private RenderPipelineBuffer runBrightnessPass(float minimalBrightnessValue, RenderPipeline renderPipeline, RenderPipelineBuffer currentBuffer, ShaderProgram brightnessFilterPassProgram,
                                                    RenderContext renderContext, FullScreenRender fullScreenRender) {
-        RenderPipelineBuffer brightnessFilterBuffer = renderPipeline.getNewFrameBuffer(currentBuffer);
+        RenderPipelineBuffer brightnessFilterBuffer = renderPipeline.getNewFrameBuffer(currentBuffer, Color.BLACK);
 
         brightnessFilterBuffer.beginColor();
 
