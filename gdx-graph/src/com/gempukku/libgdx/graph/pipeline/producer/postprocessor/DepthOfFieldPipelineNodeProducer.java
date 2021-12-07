@@ -3,6 +3,7 @@ package com.gempukku.libgdx.graph.pipeline.producer.postprocessor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -110,7 +111,7 @@ public class DepthOfFieldPipelineNodeProducer extends PipelineNodeProducerImpl {
 
     private RenderPipelineBuffer executeBlur(ShaderProgram shaderProgram, RenderPipeline renderPipeline, RenderPipelineBuffer depthBuffer, RenderPipelineBuffer sourceBuffer,
                                              RenderContext renderContext, FullScreenRender fullScreenRender) {
-        RenderPipelineBuffer resultBuffer = renderPipeline.getNewFrameBuffer(sourceBuffer);
+        RenderPipelineBuffer resultBuffer = renderPipeline.getNewFrameBuffer(sourceBuffer, Color.BLACK);
         resultBuffer.beginColor();
 
         shaderProgram.setUniformi("u_sourceTexture", renderContext.textureBinder.bind(sourceBuffer.getColorBufferTexture()));

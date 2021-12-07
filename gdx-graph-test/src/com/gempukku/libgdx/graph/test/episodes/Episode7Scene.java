@@ -28,12 +28,12 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.util.model.MaterialModelInstanceModelAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,7 +51,7 @@ public class Episode7Scene implements LibgdxGraphTestScene {
     private float cameraDistance = 1.7f;
     private AnimationController animationController;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
-    private MaterialModelInstanceRenderableModelAdapter modelAdapter;
+    private MaterialModelInstanceModelAdapter modelAdapter;
 
     @Override
     public void initializeScene() {
@@ -98,8 +98,8 @@ public class Episode7Scene implements LibgdxGraphTestScene {
         animationController = new AnimationController(modelInstance);
         animationController.animate("Root|jog", -1, null, 0f);
 
-        modelAdapter = new MaterialModelInstanceRenderableModelAdapter(modelInstance, models);
-        modelAdapter.register("Default");
+        modelAdapter = new MaterialModelInstanceModelAdapter(modelInstance, models);
+        modelAdapter.addTag("Default");
     }
 
     private Stage createStage() {
@@ -114,8 +114,8 @@ public class Episode7Scene implements LibgdxGraphTestScene {
                         String removeTag = checked ? "Default" : "Toon";
                         String tag = checked ? "Toon" : "Default";
                         GraphModels graphModels = pipelineRenderer.getPluginData(GraphModels.class);
-                        modelAdapter.deregister(removeTag);
-                        modelAdapter.register(tag);
+                        modelAdapter.removeTag(removeTag);
+                        modelAdapter.addTag(tag);
                     }
                 });
 

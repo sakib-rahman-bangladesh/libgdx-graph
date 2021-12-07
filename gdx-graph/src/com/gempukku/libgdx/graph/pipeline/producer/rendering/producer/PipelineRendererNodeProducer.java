@@ -45,7 +45,7 @@ public class PipelineRendererNodeProducer extends PipelineNodeProducerImpl {
 
                 canvasPipeline.drawTexture(paintBuffer, canvasBuffer, pipelineRenderingContext, position.x, position.y, size.x, size.y);
 
-                paintPipeline.returnFrameBuffer(paintBuffer);
+                paintPipeline.destroyDefaultBuffer();
 
                 OutputValue output = outputValues.get("output");
                 if (output != null)

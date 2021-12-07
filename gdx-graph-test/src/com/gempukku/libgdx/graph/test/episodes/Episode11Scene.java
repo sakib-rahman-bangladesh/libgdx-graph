@@ -29,13 +29,13 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.adapter.CommonPropertiesModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.property.MapWritablePropertyContainer;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.util.model.CommonPropertiesModelInstanceModelAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -110,11 +110,11 @@ public class Episode11Scene implements LibgdxGraphTestScene {
         ModelInstance forceFieldInstance = new ModelInstance(forceField);
         sphereInstance = new ModelInstance(sphere);
 
-        CommonPropertiesModelInstanceRenderableModelAdapter forceFieldAdapter = new CommonPropertiesModelInstanceRenderableModelAdapter(forceFieldInstance, models, new PropertyContainerImpl());
-        forceFieldAdapter.register("force-field");
+        CommonPropertiesModelInstanceModelAdapter forceFieldAdapter = new CommonPropertiesModelInstanceModelAdapter(forceFieldInstance, models, new MapWritablePropertyContainer());
+        forceFieldAdapter.addTag("force-field");
 
-        CommonPropertiesModelInstanceRenderableModelAdapter sphereAdapter = new CommonPropertiesModelInstanceRenderableModelAdapter(sphereInstance, models, new PropertyContainerImpl());
-        sphereAdapter.register("default");
+        CommonPropertiesModelInstanceModelAdapter sphereAdapter = new CommonPropertiesModelInstanceModelAdapter(sphereInstance, models, new MapWritablePropertyContainer());
+        sphereAdapter.addTag("default");
 
         sphereInstance.transform.idt().translate(-3f, 0, 0);
     }

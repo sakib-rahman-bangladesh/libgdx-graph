@@ -71,7 +71,8 @@ project(":core") {
     apply plugin: "java-library"
 
     dependencies {
-        implementation project(":gdx-graph")
+        api project(":gdx-graph")
+        api project(":gdx-graph-util")
         // https://mvnrepository.com/artifact/com.kotcrab.vis/vis-ui
         //api "com.kotcrab.vis:vis-ui:$visUiVersion"
         api 'com.github.kotcrab:vis-ui:aa0184c'
@@ -82,12 +83,20 @@ project(":gdx-graph-test") {
     apply plugin: "java-library"
 
     dependencies {
-        implementation project(":gdx-graph")
+        implementation project(":gdx-graph-util")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.ashley:ashley:1.7.3"
+    }
+}
+
+project(":gdx-graph-util") {
+    apply plugin: "java-library"
+
+    dependencies {
+        api project(":gdx-graph")
     }
 }
 
@@ -104,7 +113,6 @@ project(":gdx-graph-particles-design") {
 
     dependencies {
         implementation project(":core")
-        implementation project(":gdx-graph")
     }
 }
 
@@ -113,7 +121,6 @@ project(":gdx-graph-sprites-design") {
 
     dependencies {
         implementation project(":core")
-        implementation project(":gdx-graph")
     }
 }
 
@@ -122,7 +129,6 @@ project(":gdx-graph-screen-design") {
 
     dependencies {
         implementation project(":core")
-        implementation project(":gdx-graph")
     }
 }
 
@@ -131,7 +137,6 @@ project(":gdx-graph-models-design") {
 
     dependencies {
         implementation project(":core")
-        implementation project(":gdx-graph")
     }
 }
 
@@ -140,7 +145,6 @@ project(":gdx-graph-lighting3d-design") {
 
     dependencies {
         implementation project(":core")
-        implementation project(":gdx-graph")
         implementation project(":gdx-graph-models-design")
     }
 }
@@ -150,6 +154,5 @@ project(":gdx-graph-callback-design") {
 
     dependencies {
         implementation project(":core")
-        implementation project(":gdx-graph")
     }
 }

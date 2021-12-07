@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -27,8 +28,8 @@ import com.gempukku.libgdx.graph.plugin.callback.RenderCallbackPublicData;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -184,6 +185,8 @@ public class Episode4Scene implements LibgdxGraphTestScene {
         public void renderCallback(RenderPipeline renderPipeline, PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements) {
             RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
 
+            RenderContext renderContext = pipelineRenderingContext.getRenderContext();
+            renderContext.end();
             currentBuffer.beginColor();
 
             // No idea, why I need to call this
@@ -194,6 +197,7 @@ public class Episode4Scene implements LibgdxGraphTestScene {
             modelBatch.end();
 
             currentBuffer.endColor();
+            renderContext.begin();
         }
     }
 }

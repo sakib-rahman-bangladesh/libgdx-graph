@@ -26,8 +26,8 @@ public class BufferCopyHelper {
             to.begin();
         }
 
-        int bufferWidth = getBufferWidth(to);
-        int bufferHeight = getBufferHeight(to);
+        float bufferWidth = getBufferWidth(to);
+        float bufferHeight = getBufferHeight(to);
 
         renderContext.setDepthTest(0);
         renderContext.setDepthMask(false);
@@ -42,6 +42,7 @@ public class BufferCopyHelper {
         shaderProgram.setUniformf("u_targetSize", width / bufferWidth, height / bufferHeight);
 
         fullScreenRender.renderFullScreen(shaderProgram);
+        shaderProgram.end();
 
         if (to != null) {
             to.end();

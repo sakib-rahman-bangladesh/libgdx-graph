@@ -28,17 +28,16 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
-import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffect;
 import com.gempukku.libgdx.graph.plugin.particles.GraphParticleEffects;
-import com.gempukku.libgdx.graph.plugin.particles.generator.DefaultParticleGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.generator.LinePositionGenerator;
-import com.gempukku.libgdx.graph.plugin.particles.impl.CommonPropertiesRenderableParticleEffect;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.util.model.MaterialModelInstanceModelAdapter;
+import com.gempukku.libgdx.graph.util.particles.CommonPropertiesParticleEffectAdapter;
+import com.gempukku.libgdx.graph.util.particles.generator.DefaultParticleGenerator;
+import com.gempukku.libgdx.graph.util.particles.generator.LinePositionGenerator;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -104,8 +103,8 @@ public class Episode18Scene implements LibgdxGraphTestScene {
         final float scale = 0.0008f;
         modelInstance.transform.idt().scale(scale, scale, scale).rotate(-1, 0, 0f, 90);
 
-        MaterialModelInstanceRenderableModelAdapter modelAdapter = new MaterialModelInstanceRenderableModelAdapter(modelInstance, models);
-        modelAdapter.register("Default");
+        MaterialModelInstanceModelAdapter modelAdapter = new MaterialModelInstanceModelAdapter(modelInstance, models);
+        modelAdapter.addTag("Default");
 
         float height = 0.22f;
         float distance = -1f;
@@ -131,8 +130,9 @@ public class Episode18Scene implements LibgdxGraphTestScene {
         };
         particleGenerator.setPositionGenerator(positionGenerator);
 
-        GraphParticleEffect effect = effects.createEffect("exhaust", new CommonPropertiesRenderableParticleEffect(particleGenerator));
-        effects.startEffect(effect);
+        CommonPropertiesParticleEffectAdapter particleEffectAdapter = new CommonPropertiesParticleEffectAdapter(effects);
+        particleEffectAdapter.addTag("exhaust", particleGenerator);
+        particleEffectAdapter.startEffect("exhaust");
     }
 
     private Stage createStage() {

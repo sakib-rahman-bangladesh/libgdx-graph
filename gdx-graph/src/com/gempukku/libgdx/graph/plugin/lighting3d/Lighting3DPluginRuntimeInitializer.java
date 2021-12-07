@@ -1,5 +1,6 @@
 package com.gempukku.libgdx.graph.plugin.lighting3d;
 
+import com.gempukku.libgdx.graph.pipeline.RendererPipelineConfiguration;
 import com.gempukku.libgdx.graph.plugin.PluginRegistry;
 import com.gempukku.libgdx.graph.plugin.PluginRegistryImpl;
 import com.gempukku.libgdx.graph.plugin.PluginRuntimeInitializer;
@@ -26,6 +27,8 @@ public class Lighting3DPluginRuntimeInitializer implements PluginRuntimeInitiali
 
     @Override
     public void initialize(PluginRegistry pluginRegistry) {
+        RendererPipelineConfiguration.register(new ShadowShaderRendererPipelineNodeProducer(pluginRegistry));
+
         CommonShaderConfiguration.register(new BlinnPhongLightingShaderNodeBuilder(maxNumberOfDirectionalLights, maxNumberOfPointLights, maxNumberOfSpotlights));
         CommonShaderConfiguration.register(new PhongLightingShaderNodeBuilder(maxNumberOfDirectionalLights, maxNumberOfPointLights, maxNumberOfSpotlights));
         CommonShaderConfiguration.register(new ApplyNormalMapShaderNodeBuilder());

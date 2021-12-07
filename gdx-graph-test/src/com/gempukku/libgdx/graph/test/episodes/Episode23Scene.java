@@ -35,8 +35,8 @@ import com.gempukku.libgdx.graph.system.sensor.FootSensorContactListener;
 import com.gempukku.libgdx.graph.system.sensor.InteractSensorContactListener;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
 
 import java.io.IOException;
 import java.io.InputStream;

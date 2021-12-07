@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -21,18 +22,20 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gempukku.libgdx.graph.loader.GraphLoader;
-import com.gempukku.libgdx.graph.pipeline.PipelineLoaderCallback;
-import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
-import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
+import com.gempukku.libgdx.graph.pipeline.*;
+import com.gempukku.libgdx.graph.pipeline.producer.PipelineRenderingContext;
+import com.gempukku.libgdx.graph.pipeline.producer.node.PipelineRequirements;
+import com.gempukku.libgdx.graph.plugin.callback.RenderCallback;
+import com.gempukku.libgdx.graph.plugin.callback.RenderCallbackPublicData;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.adapter.CommonPropertiesModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.util.model.CommonPropertiesModelInstanceModelAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +47,7 @@ public class ShadowShaderTestScene implements LibgdxGraphTestScene {
     private Array<Disposable> disposables = new Array<>();
     private float cameraPositionAngle = MathUtils.PI;
     private Stage stage;
+    private Lighting3DEnvironment environment;
 
     @Override
     public void initializeScene() {
@@ -67,26 +71,29 @@ public class ShadowShaderTestScene implements LibgdxGraphTestScene {
         disposables.add(sphere);
 
         ModelInstance wallInstance = new ModelInstance(wall);
-        wallInstance.transform.trn(0, 0, -3);
+        wallInstance.transform.translate(0, 0, -3);
         ModelInstance sphereInstance = new ModelInstance(sphere);
 
         GraphModels graphModels = pipelineRenderer.getPluginData(GraphModels.class);
 
-        CommonPropertiesModelInstanceRenderableModelAdapter wallAdapter = new CommonPropertiesModelInstanceRenderableModelAdapter(wallInstance, graphModels);
+        CommonPropertiesModelInstanceModelAdapter wallAdapter = new CommonPropertiesModelInstanceModelAdapter(wallInstance, graphModels);
         wallAdapter.getPropertyContainer().setValue("Color", Color.LIGHT_GRAY);
-        CommonPropertiesModelInstanceRenderableModelAdapter sphereAdapter = new CommonPropertiesModelInstanceRenderableModelAdapter(sphereInstance, graphModels);
+        CommonPropertiesModelInstanceModelAdapter sphereAdapter = new CommonPropertiesModelInstanceModelAdapter(sphereInstance, graphModels);
         sphereAdapter.getPropertyContainer().setValue("Color", Color.RED);
 
-        wallAdapter.register("Color");
-        sphereAdapter.register("Color");
+        //wallAdapter.register("Color");
+        wallAdapter.addTag("Color Shadow");
+        //sphereAdapter.register("Color");
+        sphereAdapter.addTag("Color Shadow");
 
         Lighting3DPublicData lighting = pipelineRenderer.getPluginData(Lighting3DPublicData.class);
-        Lighting3DEnvironment environment = new Lighting3DEnvironment();
+        environment = new Lighting3DEnvironment(new Vector3(), 20f);
         environment.setAmbientColor(new Color(0.2f, 0.2f, 0.2f, 1f));
         Directional3DLight directionalLight = new Directional3DLight();
         directionalLight.setColor(Color.WHITE);
         directionalLight.setIntensity(0.3f);
         directionalLight.setDirection(0, 0, -1);
+        directionalLight.setShadowsEnabled(true);
         environment.addDirectionalLight(directionalLight);
         lighting.setEnvironment("Scene", environment);
 
@@ -177,5 +184,16 @@ public class ShadowShaderTestScene implements LibgdxGraphTestScene {
 
     private void setupPipeline(PipelineRenderer pipelineRenderer) {
         pipelineRenderer.setPipelineProperty("Camera", camera);
+        pipelineRenderer.getPluginData(RenderCallbackPublicData.class).setRenderCallback(
+                "Draw Shadows", new RenderCallback() {
+                    @Override
+                    public void renderCallback(RenderPipeline renderPipeline, PipelineRenderingContext pipelineRenderingContext, PipelineRequirements pipelineRequirements) {
+                        RenderPipelineBuffer currentBuffer = renderPipeline.getDefaultBuffer();
+
+                        Directional3DLight firstLight = environment.getDirectionalLights().get(0);
+                        RenderPipelineBuffer shadowFrameBuffer = firstLight.getShadowFrameBuffer();
+                        renderPipeline.drawTexture(shadowFrameBuffer, currentBuffer, pipelineRenderingContext);
+                    }
+                });
     }
 }

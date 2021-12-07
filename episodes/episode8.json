@@ -259,7 +259,7 @@
                 },
                 {
                   "id": "49ad39d6e184499ebec92228552e5873",
-                  "type": "PhongLighting",
+                  "type": "BlinnPhongLighting",
                   "x": 1271.0,
                   "y": 705.0,
                   "data": {

@@ -1,6 +1,5 @@
 package com.gempukku.libgdx.graph.plugin.callback.producer;
 
-import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gempukku.libgdx.graph.pipeline.RenderPipeline;
@@ -32,14 +31,9 @@ public class RenderCallbackPipelineNodeProducer extends PipelineNodeProducerImpl
                 if (enabled) {
                     RenderCallbackPrivateData renderCallbackData = pipelineRenderingContext.getPrivatePluginData(RenderCallbackPrivateData.class);
 
-                    RenderContext renderContext = pipelineRenderingContext.getRenderContext();
                     RenderCallback callback = renderCallbackData.getRenderCallback(callbackId);
 
-                    renderContext.end();
-
                     callback.renderCallback(renderPipeline, pipelineRenderingContext, pipelineRequirements);
-
-                    renderContext.begin();
                 }
 
                 OutputValue<RenderPipeline> output = outputValues.get("output");

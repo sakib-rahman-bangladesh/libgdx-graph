@@ -2,13 +2,14 @@ package com.gempukku.libgdx.graph.plugin.screen;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.gempukku.libgdx.graph.pipeline.producer.FullScreenRender;
+import com.gempukku.libgdx.graph.pipeline.producer.rendering.producer.WritablePropertyContainer;
 import com.gempukku.libgdx.graph.shader.BasicShader;
 import com.gempukku.libgdx.graph.shader.GraphShader;
 import com.gempukku.libgdx.graph.shader.ShaderContext;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.property.MapWritablePropertyContainer;
 
 public class ScreenGraphShader extends GraphShader {
-    private PropertyContainerImpl propertyContainer = new PropertyContainerImpl();
+    private MapWritablePropertyContainer propertyContainer = new MapWritablePropertyContainer();
 
     public ScreenGraphShader(String tag, Texture defaultTexture) {
         super(tag, defaultTexture);
@@ -26,7 +27,7 @@ public class ScreenGraphShader extends GraphShader {
         fullScreenRender.renderFullScreen(program);
     }
 
-    public PropertyContainerImpl getPropertyContainer() {
+    public WritablePropertyContainer getPropertyContainer() {
         return propertyContainer;
     }
 }

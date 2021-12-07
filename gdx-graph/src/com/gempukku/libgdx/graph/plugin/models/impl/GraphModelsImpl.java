@@ -8,21 +8,21 @@ import com.gempukku.libgdx.graph.plugin.models.GraphModel;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
 import com.gempukku.libgdx.graph.plugin.models.ModelGraphShader;
 import com.gempukku.libgdx.graph.plugin.models.RenderableModel;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.property.MapWritablePropertyContainer;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
 public class GraphModelsImpl implements GraphModels, RuntimePipelinePlugin {
     private ObjectMap<String, ObjectSet<GraphModel>> modelsByTag = new ObjectMap<>();
     private ObjectMap<String, ObjectMap<String, PropertySource>> propertiesByTag = new ObjectMap<>();
-    private ObjectMap<String, PropertyContainerImpl> propertiesForTag = new ObjectMap<>();
+    private ObjectMap<String, MapWritablePropertyContainer> propertiesForTag = new ObjectMap<>();
 
     public void registerTag(String tag, ModelGraphShader shader) {
         if (modelsByTag.containsKey(tag))
             throw new IllegalStateException("There is already a shader with tag: " + tag);
         modelsByTag.put(tag, new ObjectSet<GraphModel>());
         propertiesByTag.put(tag, shader.getProperties());
-        propertiesForTag.put(tag, new PropertyContainerImpl());
+        propertiesForTag.put(tag, new MapWritablePropertyContainer());
     }
 
     public Iterable<? extends GraphModel> getModels(String tag) {

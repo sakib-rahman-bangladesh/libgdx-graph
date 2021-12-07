@@ -106,6 +106,7 @@ public class PipelineRendererImpl implements PipelineRenderer {
         pipelineRenderingContext.getRenderContext().begin();
         RenderPipeline renderPipeline = endNode.executePipeline(pipelineRenderingContext);
         renderOutput.output(renderPipeline, pipelineRenderingContext);
+        renderPipeline.destroyDefaultBuffer();
         pipelineRenderingContext.getRenderContext().end();
 
         for (PipelineNode node : nodes) {

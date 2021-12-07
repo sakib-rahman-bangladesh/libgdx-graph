@@ -25,12 +25,12 @@ import com.gempukku.libgdx.graph.plugin.lighting3d.Directional3DLight;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DEnvironment;
 import com.gempukku.libgdx.graph.plugin.lighting3d.Lighting3DPublicData;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.util.model.MaterialModelInstanceModelAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -104,25 +104,25 @@ public class Episode9Scene implements LibgdxGraphTestScene {
         final float shipScale = 0.0008f;
         shipModelInstance.transform.idt().scale(shipScale, shipScale, shipScale).rotate(-1, 0, 0f, 90);
 
-        MaterialModelInstanceRenderableModelAdapter shipAdapter = new MaterialModelInstanceRenderableModelAdapter(shipModelInstance, models);
-        shipAdapter.register("Environment");
+        MaterialModelInstanceModelAdapter shipAdapter = new MaterialModelInstanceModelAdapter(shipModelInstance, models);
+        shipAdapter.addTag("Environment");
 
         robot1Instance = new ModelInstance(robotModel);
         robot1Animation = new AnimationController(robot1Instance);
         robot1Animation.animate("Root|jog", -1, null, 0f);
 
-        MaterialModelInstanceRenderableModelAdapter robot1Adapter = new MaterialModelInstanceRenderableModelAdapter(robot1Instance, models);
-        robot1Adapter.register("Seen-through");
-        robot1Adapter.register("Seen-through-silhouette");
+        MaterialModelInstanceModelAdapter robot1Adapter = new MaterialModelInstanceModelAdapter(robot1Instance, models);
+        robot1Adapter.addTag("Seen-through");
+        robot1Adapter.addTag("Seen-through-silhouette");
 
         ModelInstance robot2Instance = new ModelInstance(robotModel);
         robot2Instance.transform.idt().translate(0.25f, 0, 0.9f).scale(robotScale, robotScale, robotScale);
         robot2Animation = new AnimationController(robot2Instance);
         robot2Animation.animate("Root|idle", -1, null, 0f);
 
-        MaterialModelInstanceRenderableModelAdapter robot2Adapter = new MaterialModelInstanceRenderableModelAdapter(robot2Instance, models);
-        robot2Adapter.register("Seen-through");
-        robot2Adapter.register("Seen-through-silhouette");
+        MaterialModelInstanceModelAdapter robot2Adapter = new MaterialModelInstanceModelAdapter(robot2Instance, models);
+        robot2Adapter.addTag("Seen-through");
+        robot2Adapter.addTag("Seen-through-silhouette");
     }
 
     private Model loadRobotModel() {

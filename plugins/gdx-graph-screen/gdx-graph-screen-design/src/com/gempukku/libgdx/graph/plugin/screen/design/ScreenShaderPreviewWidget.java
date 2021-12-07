@@ -26,8 +26,8 @@ import com.gempukku.libgdx.graph.plugin.screen.ScreenGraphShader;
 import com.gempukku.libgdx.graph.shader.GraphShaderBuilder;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldType;
 import com.gempukku.libgdx.graph.shader.field.ShaderFieldTypeRegistry;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.ui.PatternTextures;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.util.FullScreenRenderImpl;
 import com.gempukku.libgdx.graph.util.WhitePixel;
 

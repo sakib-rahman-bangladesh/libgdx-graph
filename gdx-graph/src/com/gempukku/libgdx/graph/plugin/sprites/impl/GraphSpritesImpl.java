@@ -11,7 +11,7 @@ import com.gempukku.libgdx.graph.plugin.sprites.GraphSprite;
 import com.gempukku.libgdx.graph.plugin.sprites.GraphSprites;
 import com.gempukku.libgdx.graph.plugin.sprites.RenderableSprite;
 import com.gempukku.libgdx.graph.plugin.sprites.SpriteGraphShader;
-import com.gempukku.libgdx.graph.shader.property.PropertyContainerImpl;
+import com.gempukku.libgdx.graph.shader.property.MapWritablePropertyContainer;
 import com.gempukku.libgdx.graph.shader.property.PropertySource;
 import com.gempukku.libgdx.graph.time.TimeProvider;
 
@@ -23,7 +23,7 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
 
     private ObjectMap<String, ObjectSet<GraphSprite>> nonBatchedSpritesByTag = new ObjectMap<>();
 
-    private ObjectMap<String, PropertyContainerImpl> tagPropertyContainers = new ObjectMap<>();
+    private ObjectMap<String, MapWritablePropertyContainer> tagPropertyContainers = new ObjectMap<>();
 
     public GraphSpritesImpl(int spriteBatchSize) {
         this.spriteBatchSize = spriteBatchSize;
@@ -60,19 +60,19 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
 
     @Override
     public void setGlobalProperty(String tag, String name, Object value) {
-        PropertyContainerImpl propertyContainer = tagPropertyContainers.get(tag);
+        MapWritablePropertyContainer propertyContainer = tagPropertyContainers.get(tag);
         propertyContainer.setValue(name, value);
     }
 
     @Override
     public void unsetGlobalProperty(String tag, String name) {
-        PropertyContainerImpl propertyContainer = tagPropertyContainers.get(tag);
+        MapWritablePropertyContainer propertyContainer = tagPropertyContainers.get(tag);
         propertyContainer.remove(name);
     }
 
     @Override
     public Object getGlobalProperty(String tag, String name) {
-        PropertyContainerImpl propertyContainer = tagPropertyContainers.get(tag);
+        MapWritablePropertyContainer propertyContainer = tagPropertyContainers.get(tag);
         return propertyContainer.getValue(name);
     }
 
@@ -115,7 +115,7 @@ public class GraphSpritesImpl implements GraphSprites, RuntimePipelinePlugin, Di
             nonBatchedSpritesByTag.put(tag, new ObjectSet<GraphSprite>());
         }
 
-        tagPropertyContainers.put(tag, new PropertyContainerImpl());
+        tagPropertyContainers.put(tag, new MapWritablePropertyContainer());
     }
 
     @Override

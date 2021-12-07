@@ -21,12 +21,12 @@ import com.gempukku.libgdx.graph.pipeline.PipelineRenderer;
 import com.gempukku.libgdx.graph.pipeline.RenderOutputs;
 import com.gempukku.libgdx.graph.plugin.models.GraphModelInstance;
 import com.gempukku.libgdx.graph.plugin.models.GraphModels;
-import com.gempukku.libgdx.graph.plugin.models.adapter.MaterialModelInstanceRenderableModelAdapter;
 import com.gempukku.libgdx.graph.plugin.ui.UIPluginPublicData;
 import com.gempukku.libgdx.graph.test.LibgdxGraphTestScene;
 import com.gempukku.libgdx.graph.test.WhitePixel;
-import com.gempukku.libgdx.graph.time.DefaultTimeKeeper;
 import com.gempukku.libgdx.graph.time.TimeKeeper;
+import com.gempukku.libgdx.graph.util.DefaultTimeKeeper;
+import com.gempukku.libgdx.graph.util.model.MaterialModelInstanceModelAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +39,7 @@ public class Episode6Scene implements LibgdxGraphTestScene {
     private GraphModelInstance shipInstance;
     private Skin skin;
     private TimeKeeper timeKeeper = new DefaultTimeKeeper();
-    private MaterialModelInstanceRenderableModelAdapter modelAdapter;
+    private MaterialModelInstanceModelAdapter modelAdapter;
 
     @Override
     public void initializeScene() {
@@ -75,8 +75,8 @@ public class Episode6Scene implements LibgdxGraphTestScene {
         final float scale = 0.0008f;
         modelInstance.transform.idt().scale(scale, scale, scale).rotate(-1, 0, 0f, 90);
 
-        modelAdapter = new MaterialModelInstanceRenderableModelAdapter(modelInstance, models);
-        modelAdapter.register("Default");
+        modelAdapter = new MaterialModelInstanceModelAdapter(modelInstance, models);
+        modelAdapter.addTag("Default");
     }
 
     private Stage createStage() {
@@ -90,8 +90,8 @@ public class Episode6Scene implements LibgdxGraphTestScene {
                         boolean checked = switchButton.isChecked();
                         String removeTag = checked ? "Default" : "Hologram";
                         String tag = checked ? "Hologram" : "Default";
-                        modelAdapter.deregister(removeTag);
-                        modelAdapter.register(tag);
+                        modelAdapter.removeTag(removeTag);
+                        modelAdapter.addTag(tag);
                     }
                 });
 
